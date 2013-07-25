@@ -22,12 +22,12 @@ Teraz repozytorium Gita zawiera już 5 obiektów: jeden blob dla zawartości ka�
 Insert 18333fig0301.png 
 Figure 3-1. Dane repozytorium z jedną zatwierdzoną zmianą.
 
-Jeśli dokonasz zmian i je również zatwierdzisz, kolejne zatwierdzenie zachowa wskaźnik do zestawu zmian, który został utworzony bezpośrednio przed właśnie dodawanym. Po dwóch kolejnych zatwierdzeniach, twoja historia może wyglądać podobnie do przedstawionej na Rysunku 3-2:
+Jeśli dokonasz zmian i je również zatwierdzisz, kolejne zatwierdzenie zachowa wskaźnik do zestawu zmian, który został utworzony bezpośrednio przed właśnie dodawanym. Po dwóch kolejnych zatwierdzeniach, Twoja historia może wyglądać podobnie do przedstawionej na Rysunku 3-2:
 
 Insert 18333fig0302.png 
 Figure 3-2. Dane Gita dla wielu zestawów zmian.
 
-Gałąź w Gicie jest po prostu lekkim, przesuwalnym wskaźnikiem na któryś z owych zestawów zmian. Domyślna nazwa gałęzi Gita to master. Kiedy zatwierdzasz pierwsze zmiany, otrzymujesz gałąź master, która wskazuje na ostatni zatwierdzony przez ciebie zestaw. Z każdym zatwierdzeniem automatycznie przesuwa się ona do przodu.
+Gałąź w Gicie jest po prostu lekkim, przesuwalnym wskaźnikiem na któryś z owych zestawów zmian. Domyślna nazwa gałęzi Gita to master. Kiedy zatwierdzasz pierwsze zmiany, otrzymujesz gałąź master, która wskazuje na ostatni zatwierdzony przez Ciebie zestaw. Z każdym zatwierdzeniem automatycznie przesuwa się ona do przodu.
 
 Insert 18333fig0303.png 
 Figure 3-3. Gałąź wskazująca na dane zestawu zmian w historii.
@@ -65,7 +65,7 @@ Figure 3-7 ilustruje wynik operacji.
 Insert 18333fig0307.png 
 Figure 3-7. Gałąź wskazywana przez HEAD przesuwa się naprzód po każdym zatwierdzeniu zmian.
 
-To interesujące, bo teraz twoja gałąź testing przesunęła się do przodu, jednak gałąź master ciągle wskazuje ten sam zestaw zmian, co w momencie użycia `git checkout` do zmiany aktywnej gałęzi. Przełączmy się zatem z powrotem na gałąź master:
+To interesujące, bo teraz Twoja gałąź testing przesunęła się do przodu, jednak gałąź master ciągle wskazuje ten sam zestaw zmian, co w momencie użycia `git checkout` do zmiany aktywnej gałęzi. Przełączmy się zatem z powrotem na gałąź master:
 
 	$ git checkout master
 
@@ -81,7 +81,7 @@ Wykonajmy teraz kilka zmian i zatwierdźmy je:
 	$ vim test.rb
 	$ git commit -a -m 'inna zmiana'
 
-Teraz historia twojego projektu została rozszczepiona (porównaj Rysunek 3-9). Stworzyłeś i przełączyłeś się na gałąź, wykonałeś na niej pracę, a następnie powróciłeś na gałąź główną i wykonałeś inną pracę. Oba zestawy zmian są od siebie odizolowane w odrębnych gałęziach: możesz przełączać się pomiędzy nimi oraz scalić je razem, kiedy będziesz na to gotowy. A wszystko to wykonałeś za pomocą dwóch prostych poleceń `branch` i `checkout`.
+Teraz historia Twojego projektu została rozszczepiona (porównaj Rysunek 3-9). Stworzyłeś i przełączyłeś się na gałąź, wykonałeś na niej pracę, a następnie powróciłeś na gałąź główną i wykonałeś inną pracę. Oba zestawy zmian są od siebie odizolowane w odrębnych gałęziach: możesz przełączać się pomiędzy nimi oraz scalić je razem, kiedy będziesz na to gotowy. A wszystko to wykonałeś za pomocą dwóch prostych poleceń `branch` i `checkout`.
 
 Insert 18333fig0309.png 
 Figure 3-9. Rozwidlona historia gałęzi.
@@ -114,7 +114,7 @@ Na początek załóżmy, że pracujesz nad swoim projektem i masz już zatwierdz
 Insert 18333fig0310.png 
 Figure 3-10. Krótka i prosta historia zmian.
 
-Zdecydowałeś się zająć problemem #53 z systemu śledzenia zgłoszeń, którego używa twoja firma, czymkolwiek by on nie był. Dla ścisłości, Git nie jest powiązany z żadnym konkretnym systemem tego typu; tym niemniej ponieważ problem #53 to dość konkretny temat, utworzysz nową gałąź by się nim zająć. Aby utworzyć gałąź i jednocześnie się na nią przełączyć, możesz wykonać polecenie `git checkout` z przełącznikiem `-b`:
+Zdecydowałeś się zająć problemem #53 z systemu śledzenia zgłoszeń, którego używa Twoja firma, czymkolwiek by on nie był. Dla ścisłości, Git nie jest powiązany z żadnym konkretnym systemem tego typu; tym niemniej ponieważ problem #53 to dość konkretny temat, utworzysz nową gałąź by się nim zająć. Aby utworzyć gałąź i jednocześnie się na nią przełączyć, możesz wykonać polecenie `git checkout` z przełącznikiem `-b`:
 
 	$ git checkout -b iss53
 	Switched to a new branch "iss53"
@@ -135,16 +135,16 @@ Pracujesz nad swoim serwisem WWW i zatwierdzasz kolejne zmiany. Każdorazowo nap
 	$ git commit -a -m 'nowa stopka [#53]'
 
 Insert 18333fig0312.png 
-Figure 3-12. Gałąź iss53 przesunęła się do przodu wraz z postępami w twojej pracy.
+Figure 3-12. Gałąź iss53 przesunęła się do przodu wraz z postępami w Twojej pracy.
 
 Teraz właśnie otrzymujesz telefon, że na stronie wykryto błąd i musisz go natychmiast poprawić. Z Gitem nie musisz wprowadzać poprawki razem ze zmianami wykonanymi w ramach pracy nad `iss35`. Co więcej, nie będzie cię również kosztować wiele wysiłku przywrócenie katalogu roboczego do stanu sprzed tych zmian, tak, by nanieść poprawki na kod, który używany jest na serwerze produkcyjnym. Wszystko, co musisz teraz zrobić, to przełączyć się z powrotem na gałąź master.
 
-Jednakże, nim to zrobisz, zauważ, że, jeśli twój katalog roboczy lub poczekalnia zawierają niezatwierdzone zmiany, które są w konflikcie z gałęzią, do której chcesz się teraz przełączyć, Git nie pozwoli ci zmienić gałęzi. Przed przełączeniem gałęzi najlepiej jest doprowadzić katalog roboczy do czystego stanu. Istnieją sposoby pozwalające obejść to ograniczenie (mianowicie schowek oraz poprawianie zatwierdzonych już zmian) i zajmiemy się nimi później. Póki co zatwierdziłeś wszystkie swoje zmiany, więc możesz przełączyć się na swoją gałąź master:
+Jednakże, nim to zrobisz, zauważ, że, jeśli Twój katalog roboczy lub poczekalnia zawierają niezatwierdzone zmiany, które są w konflikcie z gałęzią, do której chcesz się teraz przełączyć, Git nie pozwoli ci zmienić gałęzi. Przed przełączeniem gałęzi najlepiej jest doprowadzić katalog roboczy do czystego stanu. Istnieją sposoby pozwalające obejść to ograniczenie (mianowicie schowek oraz poprawianie zatwierdzonych już zmian) i zajmiemy się nimi później. Póki co zatwierdziłeś wszystkie swoje zmiany, więc możesz przełączyć się na swoją gałąź master:
 
 	$ git checkout master
 	Switched to branch "master"
 
-W tym momencie twój katalog roboczy projektu jest dokładnie w takim stanie, w jakim był zanim zacząłeś pracę nad problemem #53, więc możesz skoncentrować się na swojej poprawce. Jest to ważna informacja do zapamiętania: Git resetuje katalog roboczy, by wyglądał dokładnie jak migawka zestawu zmian wskazywanego przez aktywną gałąź. Automatycznie dodaje, usuwa i modyfikuje pliki, by upewnić się, że kopia robocza wygląda tak, jak po ostatnich zatwierdzonych w niej zmianach.
+W tym momencie Twój katalog roboczy projektu jest dokładnie w takim stanie, w jakim był zanim zacząłeś pracę nad problemem #53, więc możesz skoncentrować się na swojej poprawce. Jest to ważna informacja do zapamiętania: Git resetuje katalog roboczy, by wyglądał dokładnie jak migawka zestawu zmian wskazywanego przez aktywną gałąź. Automatycznie dodaje, usuwa i modyfikuje pliki, by upewnić się, że kopia robocza wygląda tak, jak po ostatnich zatwierdzonych w niej zmianach.
 
 Masz jednak teraz do wykonania ważną poprawkę. Stwórzmy zatem gałąź, na której będziesz pracował do momentu poprawienia błędu (patrz Rysunek 3-13):
 
@@ -172,9 +172,9 @@ Rezultat polecenia scalenia zawiera frazę „Fast forward”. Ponieważ zestaw 
 Twoja zmiana jest teraz częścią migawki zestawu zmian wskazywanego przez gałąź `master` i możesz zaktualizować kod na serwerze produkcyjnym (zobacz Rysunek 3-14).
 
 Insert 18333fig0314.png 
-Figure 3-14. Po scaleniu twoja gałąź master wskazuje to samo miejsce, co gałąź hotfix.
+Figure 3-14. Po scaleniu Twoja gałąź master wskazuje to samo miejsce, co gałąź hotfix.
 
-Po tym, jak twoje niezwykle istotne poprawki trafią na serwer, jesteś gotowy powrócić do uprzednio przerwanej pracy. Najpierw jednak usuniesz gałąź hotfix, gdyż nie jest już ci potrzebna — gałąź `master` wskazuje to samo miejsce. Możesz ją usunąć używając opcji `-d` polecenia `git branch`:
+Po tym, jak Twoje niezwykle istotne poprawki trafią na serwer, jesteś gotowy powrócić do uprzednio przerwanej pracy. Najpierw jednak usuniesz gałąź hotfix, gdyż nie jest już ci potrzebna — gałąź `master` wskazuje to samo miejsce. Możesz ją usunąć używając opcji `-d` polecenia `git branch`:
 
 	$ git branch -d hotfix
 	Deleted branch hotfix (3a0874c).
@@ -203,7 +203,7 @@ Załóżmy, że zdecydowałeś, że praca nad problemem #53 dobiegła końca i j
 	 README |    1 +
 	 1 files changed, 1 insertions(+), 0 deletions(-)
 
-Wygląda to odrobinę inaczej, niż w przypadku wcześniejszego scalenia gałęzi `hotfix`. W tym wypadku twoja historia rozwoju została rozszczepiona na wcześniejszym etapie. Ponieważ zestaw zmian z gałęzi, na której obecnie jesteś, nie jest bezpośrednim potomkiem gałęzi, którą scalasz, Git musi w końcu popracować. W tym przypadku Git przeprowadza scalenie trójstronne (ang. three-way merge), używając dwóch migawek wskazywanych przez końcówki gałęzi oraz ich wspólnego przodka. Rysunek 3-16 pokazuje trzy migawki, których w tym przypadku Git używa do scalania.
+Wygląda to odrobinę inaczej, niż w przypadku wcześniejszego scalenia gałęzi `hotfix`. W tym wypadku Twoja historia rozwoju została rozszczepiona na wcześniejszym etapie. Ponieważ zestaw zmian z gałęzi, na której obecnie jesteś, nie jest bezpośrednim potomkiem gałęzi, którą scalasz, Git musi w końcu popracować. W tym przypadku Git przeprowadza scalenie trójstronne (ang. three-way merge), używając dwóch migawek wskazywanych przez końcówki gałęzi oraz ich wspólnego przodka. Rysunek 3-16 pokazuje trzy migawki, których w tym przypadku Git używa do scalania.
 
 Insert 18333fig0316.png 
 Figure 3-16. Git automatycznie odnajduje najlepszego wspólnego przodka, który będzie punktem wyjściowym do scalenia gałęzi.
@@ -215,20 +215,20 @@ Warto zaznaczyć, że Git sam określa najlepszego wspólnego przodka do wykorzy
 Insert 18333fig0317.png 
 Figure 3-17. Git automatycznie tworzy nowy zestaw zmian zawierający scaloną pracę.
 
-Teraz, kiedy twoja praca jest już scalona, nie potrzebujesz dłużej gałęzi `iss53`. Możesz ją usunąć, a następnie ręcznie zamknąć zgłoszenie w swoim systemie śledzenia zadań:
+Teraz, kiedy Twoja praca jest już scalona, nie potrzebujesz dłużej gałęzi `iss53`. Możesz ją usunąć, a następnie ręcznie zamknąć zgłoszenie w swoim systemie śledzenia zadań:
 
 	$ git branch -d iss53
 
 ### Podstawowe konflikty scalania ###
 
-Od czasu do czasu proces scalania nie przebiega tak gładko. Jeśli ten sam plik zmieniłeś w różny sposób w obu scalanych gałęziach, Git nie będzie w stanie scalić ich samodzielnie. Jeśli twoja poprawka problemu #53 zmieniła tę samą część pliku, co zmiana w gałęzi `hotfix`, podczas scalania otrzymasz komunikat o konflikcie, wyglądający jak poniżej:
+Od czasu do czasu proces scalania nie przebiega tak gładko. Jeśli ten sam plik zmieniłeś w różny sposób w obu scalanych gałęziach, Git nie będzie w stanie scalić ich samodzielnie. Jeśli Twoja poprawka problemu #53 zmieniła tę samą część pliku, co zmiana w gałęzi `hotfix`, podczas scalania otrzymasz komunikat o konflikcie, wyglądający jak poniżej:
 
 	$ git merge iss53
 	Auto-merging index.html
 	CONFLICT (content): Merge conflict in index.html
 	Automatic merge failed; fix conflicts and then commit the result.
 
-Git nie zatwierdził automatycznie zmiany scalającej. Wstrzymał on cały proces do czasu rozwiązania konfliktu przez ciebie. Jeśli chcesz zobaczyć, które pliki pozostałe niescalone w dowolnym momencie po wystąpieniu konfliktu, możesz uruchomić `git status`:
+Git nie zatwierdził automatycznie zmiany scalającej. Wstrzymał on cały proces do czasu rozwiązania konfliktu przez Ciebie. Jeśli chcesz zobaczyć, które pliki pozostałe niescalone w dowolnym momencie po wystąpieniu konfliktu, możesz uruchomić `git status`:
 
 	[master*]$ git status
 	index.html: needs merge
@@ -250,7 +250,7 @@ Cokolwiek spowodowało konflikty i nie zostało automatycznie rozstrzygnięte, j
 	</div>
 	>>>>>>> iss53:index.html
 
-Oznacza to, że wersja wskazywana przez HEAD (twoja gałąź master, ponieważ tam właśnie byłeś podczas uruchamiania polecenia scalania) znajduje się w górnej części bloku (wszystko powyżej `======`), a wersja z gałęzi `iss53` to wszystko poniżej. Aby rozwiązać konflikt, musisz wybrać jedną lub druga wersję albo własnoręcznie połączyć zawartość obu. Dla przykładu możesz rozwiązać konflikt, zastępując cały blok poniższą zawartością: 
+Oznacza to, że wersja wskazywana przez HEAD (Twoja gałąź master, ponieważ tam właśnie byłeś podczas uruchamiania polecenia scalania) znajduje się w górnej części bloku (wszystko powyżej `======`), a wersja z gałęzi `iss53` to wszystko poniżej. Aby rozwiązać konflikt, musisz wybrać jedną lub druga wersję albo własnoręcznie połączyć zawartość obu. Dla przykładu możesz rozwiązać konflikt, zastępując cały blok poniższą zawartością: 
 
 	<div id="footer">
 	please contact us at email.support@github.com
@@ -268,7 +268,7 @@ Jeśli chcesz do rozwiązania tych problemów użyć narzędzia graficznego, mo�
 	  {remote}: modified
 	Hit return to start merge resolution tool (opendiff):
 
-Jeśli chcesz użyć narzędzia innego niż domyślne (Git w tym przypadku wybrał dla mnie `opendiff`, ponieważ pracuję na Maku), możesz zobaczyć wszystkie wspierane narzędzia wymienione na samej górze, zaraz za „merge tool candidates”. Wpisz nazwę narzędzia, którego wolałbyś użyć. W Rozdziale 7 dowiemy się, jak zmienić domyślną wartość dla twojego środowiska pracy.
+Jeśli chcesz użyć narzędzia innego niż domyślne (Git w tym przypadku wybrał dla mnie `opendiff`, ponieważ pracuję na Maku), możesz zobaczyć wszystkie wspierane narzędzia wymienione na samej górze, zaraz za „merge tool candidates”. Wpisz nazwę narzędzia, którego wolałbyś użyć. W Rozdziale 7 dowiemy się, jak zmienić domyślną wartość dla Twojego środowiska pracy.
 
 Po opuszczeniu narzędzia do scalania, Git zapyta, czy wszystko przebiegło pomyślnie. Jeśli odpowiesz skryptowi, że tak właśnie było, plik zostanie umieszczony w poczekalni, by konflikt oznaczyć jako rozwiązany.
 
@@ -321,14 +321,14 @@ Kolejna przydatna opcja pozwalająca na sprawdzenie stanu gałęzi to przefiltro
 	  iss53
 	* master
 
-Ponieważ gałąź `iss53` została już scalona, znalazła się ona na twojej liście. Gałęzie znajdujące się na tej liście a niepoprzedzone znakiem `*` można właściwie bez większego ryzyka usunąć poleceniem `git branch -d`; wykonana na nich praca została już scalona do innej gałęzi, więc niczego nie stracisz.
+Ponieważ gałąź `iss53` została już scalona, znalazła się ona na Twojej liście. Gałęzie znajdujące się na tej liście a niepoprzedzone znakiem `*` można właściwie bez większego ryzyka usunąć poleceniem `git branch -d`; wykonana na nich praca została już scalona do innej gałęzi, więc niczego nie stracisz.
 
 Aby zobaczyć wszystkie gałęzie zawierające zmiany, których jeszcze nie scaliłeś, możesz uruchomić polecenie `git branch --no-merged`:
 
 	$ git branch --no-merged
 	  testing
 
-Pokazuje to twoją drugą gałąź. Ponieważ zawiera ona zmiany, które nie zostały jeszcze scalona, próba usunięcia jej poleceniem `git branch -d` nie powiedzie się:
+Pokazuje to Twoją drugą gałąź. Ponieważ zawiera ona zmiany, które nie zostały jeszcze scalona, próba usunięcia jej poleceniem `git branch -d` nie powiedzie się:
 
 	$ git branch -d testing
 	error: The branch 'testing' is not an ancestor of your current HEAD.
@@ -346,7 +346,7 @@ Ponieważ Git używa prostego scalania trójstronnego, scalanie zmian z jednej g
 
 Wielu programistów pracuje z Gitem wykorzystując to podejście, trzymając w gałęzi `master` jedynie stabilny kod — możliwe, że jedynie kod, który już został albo w najbliższej przyszłości zostanie wydany. Równolegle utrzymują oni inną gałąź o nazwie `develop` lub `next`, na której pracują lub używają jej do stabilizacji przyszłych wersji — zawarta w niej praca nie musi być zawsze stabilna, lecz po stabilizacji może być scalona do gałęzi `master`. Taką gałąź wykorzystuje się także do wciągania zmian z gałęzi tematycznych (gałęzi krótkodystansowych, takich jak wcześniejsza `iss53`), kiedy są gotowe, aby przetestować je i upewnić się, że nie wprowadzają nowych błędów.
 
-W rzeczywistości mówimy o wskaźnikach przesuwających się w przód po zatwierdzanych przez ciebie zestawach zmian. Stabilne gałęzie znajdują się wcześniej w historii, a gałęzie robocze na jej końcu (patrz Rysunek 3-18).
+W rzeczywistości mówimy o wskaźnikach przesuwających się w przód po zatwierdzanych przez Ciebie zestawach zmian. Stabilne gałęzie znajdują się wcześniej w historii, a gałęzie robocze na jej końcu (patrz Rysunek 3-18).
 
 Insert 18333fig0318.png 
 Figure 3-18. Stabilniejsze gałęzie z reguły znajdują się wcześniej w historii zmian.
@@ -356,21 +356,21 @@ Ogólnie łatwiej jest myśleć o nich jak o silosach na zmiany, gdzie grupy zmi
 Insert 18333fig0319.png 
 Figure 3-19. Może być ci łatwiej myśleć o swoich gałęziach jak o silosach.
 
-Możesz powielić ten schemat na kilka poziomów stabilności. Niektóre większe projekty posiadają dodatkowo gałąź `proposed` albo `pu` („proposed updates” — proponowane zmiany), scalającą gałęzie, które nie są jeszcze gotowe trafić do gałęzi `next` czy `master`. Zamysł jest taki, że twoje gałęzie reprezentują różne poziomy stabilności; kiedy osiągają wyższy stopień stabilności, są scalane do gałęzi powyżej.
+Możesz powielić ten schemat na kilka poziomów stabilności. Niektóre większe projekty posiadają dodatkowo gałąź `proposed` albo `pu` („proposed updates” — proponowane zmiany), scalającą gałęzie, które nie są jeszcze gotowe trafić do gałęzi `next` czy `master`. Zamysł jest taki, że Twoje gałęzie reprezentują różne poziomy stabilności; kiedy osiągają wyższy stopień stabilności, są scalane do gałęzi powyżej.
 Podobnie jak poprzednio, posiadanie takich długodystansowych gałęzi nie jest konieczne, ale często bardzo pomocne, zwłaszcza jeśli pracujesz przy dużych, złożonych projektach.
 
 ### Gałęzie tematyczne ###
 
 Gałęzie tematyczne, dla odmiany, przydadzą się w każdym projekcie, niezależnie od jego rozmiarów. Gałąź tematyczna to gałąź krótkodystansowa, którą tworzysz i używasz w celu stworzenia pojedynczej funkcji lub innych tego rodzaju zmian. Z całą pewnością nie jest to coś czego chciałbyś używać pracując z wieloma innymi systemami kontroli wersji, ponieważ scalanie i tworzenie nowych gałęzi jest w nich ogólnie mówiąc zbyt kosztowne. W Gicie tworzenie, praca wewnątrz jak i scalanie gałęzi kilkukrotnie w ciągu dnia jest powszechnie stosowane i naturalne.
 
-Widziałeś to w poprzedniej sekcji, kiedy pracowaliśmy z gałęziami `iss53` i `hotfix`. Stworzyłeś wewnątrz nich kilka rewizji, po czym usunąłeś je zaraz po scaleniu zmian z gałęzią główną. Ta technika pozwala na szybkie i efektywne przełączanie kontekstu - ponieważ twój kod jest wyizolowany w osobnych silosach, w których wszystkie zmiany są związane z pracą do jakiej została stworzona gałąź, znacznie łatwiej jest połapać się w kodzie podczas jego przeglądu, recenzowania i temu podobnych. Możesz przechowywać tam swoje zmiany przez kilka minut, dni, miesięcy i scalać je dopiero kiedy są gotowe, bez znaczenia w jakiej kolejności zostały stworzone oraz w jaki sposób przebiegała praca nad nimi.
+Widziałeś to w poprzedniej sekcji, kiedy pracowaliśmy z gałęziami `iss53` i `hotfix`. Stworzyłeś wewnątrz nich kilka rewizji, po czym usunąłeś je zaraz po scaleniu zmian z gałęzią główną. Ta technika pozwala na szybkie i efektywne przełączanie kontekstu - ponieważ Twój kod jest wyizolowany w osobnych silosach, w których wszystkie zmiany są związane z pracą do jakiej została stworzona gałąź, znacznie łatwiej jest połapać się w kodzie podczas jego przeglądu, recenzowania i temu podobnych. Możesz przechowywać tam swoje zmiany przez kilka minut, dni, miesięcy i scalać je dopiero kiedy są gotowe, bez znaczenia w jakiej kolejności zostały stworzone oraz w jaki sposób przebiegała praca nad nimi.
 
 Rozważ przykład wykonywania pewnego zadania (na gałęzi głównej), stworzenia gałęzi w celu rozwiązania konkretnego problemu (`iss91`), pracy na niej przez chwilę, stworzenia drugiej gałęzi w celu wypróbowania innego sposobu rozwiązania tego samego problemu (`iss91v2`), powrotu do gałęzi głównej i pracy z nią przez kolejną chwilę, a następnie stworzenia tam kolejnej gałęzi do sprawdzenia pomysłu, co do którego nie jesteś pewny, czy ma on sens (gałąź `dumbidea`). Twoja historia rewizji będzie wygląda mniej więcej tak:
 
 Insert 18333fig0320.png 
 Figure 3-20. Twoja historia rewizji zawierająca kilka gałęzi tematycznych.
 
-Teraz, powiedzmy, że decydujesz się, że najbardziej podoba ci się drugie rozwiązanie twojego problemu (`iss91v2`); zdecydowałeś się także pokazać gałąź `dumbidea` swoim współpracownikom i okazało się, że pomysł jest genialny. Możesz wyrzucić oryginalne rozwiązanie problemu znajdujące się w gałęzi `iss91` (tracąc rewizje C5 i C6) i scalić dwie pozostałe gałęzie. Twoja historia będzie wyglądać tak, jak na Rysunku 3-21.
+Teraz, powiedzmy, że decydujesz się, że najbardziej podoba ci się drugie rozwiązanie Twojego problemu (`iss91v2`); zdecydowałeś się także pokazać gałąź `dumbidea` swoim współpracownikom i okazało się, że pomysł jest genialny. Możesz wyrzucić oryginalne rozwiązanie problemu znajdujące się w gałęzi `iss91` (tracąc rewizje C5 i C6) i scalić dwie pozostałe gałęzie. Twoja historia będzie wyglądać tak, jak na Rysunku 3-21.
 
 Insert 18333fig0321.png 
 Figure 3-21. Historia zmian po scaleniu gałęzi dumbidea i iss91v2.
@@ -383,17 +383,17 @@ Zdalne gałęzie są odnośnikami do stanu gałęzi w zdalnym repozytorium. Są 
 
 Ich nazwy przybierają następującą formę: `(nazwa zdalnego repozytorium)/(nazwa gałęzi)`. Na przykład, gdybyś chciał zobaczyć, jak wygląda gałąź master w zdalnym repozytorium `origin` z chwili, kiedy po raz ostatni się z nim komunikowałeś, musiałbyś sprawdzić gałąź `origin/master`. Jeśli na przykład pracowałeś nad zmianą wraz z partnerem który wypchnął gałąź `iss53`, możesz mieć lokalną gałąź `iss53`, ale gałąź na serwerze będzie wskazywała rewizję znajdującą się pod `origin/iss53`.
 
-Może być to nieco mylące, więc przyjrzyjmy się dokładniej przykładowi. Powiedzmy, że w swojej sieci masz serwer Git pod adresem `git.ourcompany.com`. Po sklonowaniu z niego repozytorium, Git automatycznie nazwie je jako `origin`, pobierze wszystkie dane, stworzy wskaźnik do miejsca gdzie znajduje się gałąź `master` i nazwie ją lokalnie `origin/master`; nie będziesz mógł jej przesuwać. Git da ci także do pracy twoją własną gałąź `master` zaczynającą się w tym samym miejscu, co zdalna (zobacz Rysunek 3-22).
+Może być to nieco mylące, więc przyjrzyjmy się dokładniej przykładowi. Powiedzmy, że w swojej sieci masz serwer Git pod adresem `git.ourcompany.com`. Po sklonowaniu z niego repozytorium, Git automatycznie nazwie je jako `origin`, pobierze wszystkie dane, stworzy wskaźnik do miejsca gdzie znajduje się gałąź `master` i nazwie ją lokalnie `origin/master`; nie będziesz mógł jej przesuwać. Git da ci także do pracy Twoją własną gałąź `master` zaczynającą się w tym samym miejscu, co zdalna (zobacz Rysunek 3-22).
 
 Insert 18333fig0322.png
 Figure 3-22. Po sklonowaniu otrzymasz własną gałąź główną oraz zdalną origin/master wskazującą na gałąź w zdalnym repozytorium.
 
-Jeśli wykonasz jakąś pracę na gałęzi głównej, a w międzyczasie ktoś inny wypchnie zmiany na `git.ourcompany.com` i zaktualizuje jego gałąź główną, wówczas wasze historie przesuną się do przodu w różny sposób. Co więcej, dopóki nie skontaktujesz się z serwerem zdalnym, twój wskaźnik `origin/master` nie przesunie się (Rysunek 3-23).
+Jeśli wykonasz jakąś pracę na gałęzi głównej, a w międzyczasie ktoś inny wypchnie zmiany na `git.ourcompany.com` i zaktualizuje jego gałąź główną, wówczas wasze historie przesuną się do przodu w różny sposób. Co więcej, dopóki nie skontaktujesz się z serwerem zdalnym, Twój wskaźnik `origin/master` nie przesunie się (Rysunek 3-23).
 
 Insert 18333fig0323.png 
 Figure 3-23. Kiedy pracujesz lokalnie, wypchnięcie przez kogoś zmian na serwer powoduje, że obie historie zaczynają przesuwać się do przodu w odmienny sposób.
 
-Aby zsynchronizować zmiany uruchom polecenie `git fetch origin`. Polecenie to zajrzy na serwer, na który wskazuje nazwa origin (w tym wypadku `git.ourcompany.com`), pobierze z niego wszystkie dane, których jeszcze nie masz u siebie, i zaktualizuje twoją lokalną bazę danych przesuwając jednocześnie wskaźnik `origin/master` do nowej, aktualniejszej pozycji (zobacz Rysunek 3-24).
+Aby zsynchronizować zmiany uruchom polecenie `git fetch origin`. Polecenie to zajrzy na serwer, na który wskazuje nazwa origin (w tym wypadku `git.ourcompany.com`), pobierze z niego wszystkie dane, których jeszcze nie masz u siebie, i zaktualizuje Twoją lokalną bazę danych przesuwając jednocześnie wskaźnik `origin/master` do nowej, aktualniejszej pozycji (zobacz Rysunek 3-24).
 
 Insert 18333fig0324.png 
 Figure 3-24. Polecenie git fetch aktualizuje zdalne referencje.
@@ -424,7 +424,7 @@ Jeśli posiadasz gałąź o nazwie `serverfix`, w której chcesz współpracowa�
 
 Posłużyłem się pewnym skrótem. Git automatycznie sam rozwija nazwę `serverfix` do pełnej `refs/heads/serverfix:refs/heads/serverfix`, co oznacza "Weź moją lokalną gałąź serverfix i wypchnij zmiany, aktualizując zdalną gałąź serverfix". Zajmiemy się szczegółowo częścią `refs/heads/` w rozdziale 9, ale ogólnie nie powinieneś się tym przejmować. Możesz także wykonać `git push origin serverfix:serverfix` co przyniesie ten sam efekt - dla Gita znaczy to "Weź moją gałąź serverfix i uaktualnij nią zdalną gałąź serverfix". Możesz używać tego formatu do wypychania lokalnych gałęzi do zdalnych o innej nazwie. Gdybyś nie chciał żeby gałąź na serwerze nazywała się `serverfix` mógłbyś uruchomić polecenie w formie `git push origin serverfix:innanazwagałęzi` co spowodowałoby wypchnięcie gałęzi `serverfix` do `innanazwagałęzi` w zdalnym repozytorium.
 
-Następnym razem kiedy twoi współpracownicy pobiorą dane z serwera, uzyskają referencję do miejsca, w którym została zapisana twoja wersja `serverfix` pod zdalną gałęzią `origin/serverfix`:
+Następnym razem kiedy twoi współpracownicy pobiorą dane z serwera, uzyskają referencję do miejsca, w którym została zapisana Twoja wersja `serverfix` pod zdalną gałęzią `origin/serverfix`:
 
 	$ git fetch origin
 	remote: Counting objects: 20, done.
@@ -460,7 +460,7 @@ Po sklonowaniu repozytorium automatycznie tworzona jest gałąź `master`, któr
 	Branch sf set up to track remote branch refs/remotes/origin/serverfix.
 	Switched to a new branch "sf"
 
-Teraz twoja lokalna gałąź sf będzie pozawalała na automatyczne wypychanie zmian jak i ich pobieranie z origin/serverfix.
+Teraz Twoja lokalna gałąź sf będzie pozawalała na automatyczne wypychanie zmian jak i ich pobieranie z origin/serverfix.
 
 ### Usuwanie zdalnych gałęzi ###
 
@@ -589,7 +589,7 @@ W tym momencie musisz raz jeszcze scalać tę pracę mimo tego, że już to wcze
 Insert 18333fig0339.png 
 Figure 3-39. Scalasz tą samą pracę raz jeszcze tworząc nową rewizję scalającą.
 
-Musisz scalić swoją pracę w pewnym momencie po to, żeby dotrzymywać kroku innym programistom. Kiedy już to zrobisz, twoja historia zmian będzie zawierać zarówno rewizje C4 jak i C4', które mają różne sumy SHA-1, ale zawierają te same zmiany i mają ten sam komentarz. Jeśli uruchomisz `git log` dla takiej historii, zobaczysz dwie rewizje mające tego samego autora, datę oraz komentarz, co będzie mylące. Co więcej, jeśli wypchniesz tę historię z powrotem na serwer, raz jeszcze wprowadzisz wszystkie rewizje powstałe w wyniku operacji zmiany bazy na serwer centralny, co może dalej mylić i denerwować ludzi.
+Musisz scalić swoją pracę w pewnym momencie po to, żeby dotrzymywać kroku innym programistom. Kiedy już to zrobisz, Twoja historia zmian będzie zawierać zarówno rewizje C4 jak i C4', które mają różne sumy SHA-1, ale zawierają te same zmiany i mają ten sam komentarz. Jeśli uruchomisz `git log` dla takiej historii, zobaczysz dwie rewizje mające tego samego autora, datę oraz komentarz, co będzie mylące. Co więcej, jeśli wypchniesz tę historię z powrotem na serwer, raz jeszcze wprowadzisz wszystkie rewizje powstałe w wyniku operacji zmiany bazy na serwer centralny, co może dalej mylić i denerwować ludzi.
 
 Jeśli traktujesz zmianę bazy jako sposób na porządkowanie historii i sposób pracy z rewizjami przed wypchnięciem ich na serwer oraz jeśli zmieniasz bazę tylko tym rewizjom, które nigdy wcześniej nie były dostępne publicznie, wówczas wszystko będzie w porządku. Jeśli zaczniesz zmieniać bazę rewizjom, które były już publicznie dostępne, a ludzie mogą na nich bazować swoje zmiany, wówczas możesz wpaść w naprawdę frustrujące tarapaty.
 

@@ -14,11 +14,11 @@ W pewnym momencie, możesz chcieć przekonwertować swoje repozytorium do Gita. 
 
 <!-- ## Git and Subversion ## -->
 
-Obecnie, większość projektów open-source i duża ilość projektów korporacyjnych używaja Subversion do zarządzania kodem źródłowym. Jest to najpopularniejszy system kontroli wersji i jest w użyciu od prawie dekady. Jest również bardzo podobny do CVS, który przed nim, był najczęściej na świecie używanym systemem kontroli wersji. 
+Obecnie, większość projektów open-source i duża ilość projektów korporacyjnych używają Subversion do zarządzania kodem źródłowym. Jest to najpopularniejszy system kontroli wersji i jest w użyciu od prawie dekady. Jest również bardzo podobny do CVS, który przed nim, był najczęściej na świecie używanym systemem kontroli wersji. 
 
 <!-- Currently, the majority of open source development projects and a large number of corporate projects use Subversion to manage their source code. It’s the most popular open source VCS and has been around for nearly a decade. It’s also very similar in many ways to CVS, which was the big boy of the source-control world before that. -->
 
-Jedną z świetnych funkcjonalności Gita jest dwukierunkowa bramka do Subversion, nazywana `git svn`. To narzędzie pozwala Ci na używanie Gita jak normalnego klienta do serwera Subversion, możesz więc używać wszystkich lokalnych funkcjonalności Gita, aby potem wypchnąć zmianyu do Subversion, tak jakbyś używał go lokalnie. Oznacza to, że możesz lokalnie tworzyć gałęzie i łączyć je, używać przechowalni, używać zmiany bazy i wybiórczego pobierania zmian itd, w czasie gdy inni programiści będą kontynuowali swoją pracę po staremu. Jest to dobry sposób na wprowadzenie Gita do środowiska korporacyjnego, zwiększając w ten sposób wydajność pracy, w czasie gdy będziesz lobbował za przeniesienem infrastruktury na Gita w całości. Bramka Subversion, jest świetnym wprowadzeniem do świata DVCS.
+Jedną z świetnych funkcjonalności Gita jest dwukierunkowa bramka do Subversion, nazywana `git svn`. To narzędzie pozwala Ci na używanie Gita jak normalnego klienta do serwera Subversion, możesz więc używać wszystkich lokalnych funkcjonalności Gita, aby potem wypchnąć zmiany do Subversion, tak jakbyś używał go lokalnie. Oznacza to, że możesz lokalnie tworzyć gałęzie i łączyć je, używać przechowalni, używać zmiany bazy i wybiórczego pobierania zmian itd, w czasie gdy inni programiści będą kontynuowali swoją pracę po staremu. Jest to dobry sposób na wprowadzenie Gita do środowiska korporacyjnego, zwiększając w ten sposób wydajność pracy, w czasie gdy będziesz lobbował za przeniesieniem infrastruktury na Gita w całości. Bramka Subversion, jest świetnym wprowadzeniem do świata DVCS.
 
 <!-- One of Git’s great features is a bidirectional bridge to Subversion called `git svn`. This tool allows you to use Git as a valid client to a Subversion server, so you can use all the local features of Git and then push to a Subversion server as if you were using Subversion locally. This means you can do local branching and merging, use the staging area, use rebasing and cherry-picking, and so on, while your collaborators continue to work in their dark and ancient ways. It’s a good way to sneak Git into the corporate environment and help your fellow developers become more efficient while you lobby to get the infrastructure changed to support Git fully. The Subversion bridge is the gateway drug to the DVCS world. -->
 
@@ -208,7 +208,7 @@ Widać również, że suma SHA która oryginalnie rozpoczynała się od `97031e5
 
 <!-- ### Pulling in New Changes ### -->
 
-Jeżeli współpracujesz z innymi programistami, a jeden z Was w pewnym momencie wypchnie jakieś zmiany, drugi może napotkać konflikt podczas próby wypychnęcia swoich zmian. Ta zmiana będzie odrzucona, do czasu włączenia tamtych. W `git svn`, wygląda to tak: 
+Jeżeli współpracujesz z innymi programistami, a jeden z Was w pewnym momencie wypchnie jakieś zmiany, drugi może napotkać konflikt podczas próby wypchnęcia swoich zmian. Ta zmiana będzie odrzucona, do czasu włączenia tamtych. W `git svn`, wygląda to tak: 
 
 <!-- If you’re working with other developers, then at some point one of you will push, and then the other one will try to push a change that conflicts. That change will be rejected until you merge in their work. In `git svn`, it looks like this: -->
 
@@ -283,7 +283,7 @@ Uruchamianie `git svn rebase` co jakiś czas, pozwoli Ci upewnić się, że masz
 
 <!-- ### Git Branching Issues ### -->
 
-Jak już przyzwyczaisz się do pracy z Gitem, z pewnością bedziesz tworzył gałezie tematyczne, pracował na nich, a następnie włączał je. Jeżeli wypychasz zmiany do serwera Subversion za pomocą komendy `git svn`, możesz chcieć wykonać "rebase" na wszystkich swoich zmianach włączając je do jednej gałęzi, zamiast łączyć gałezie razem. Powodem takiego sposobu działania jest to, że Subversion ma liniową historię i nie obsługuje łączenia zmian w taki sposób jak Git, więc `git svn` będzie podążał tylko za pierwszym rodzicem podczas konwertowania migawki do commitu Subversion.
+Jak już przyzwyczaisz się do pracy z Gitem, z pewnością będziesz tworzył gałęzie tematyczne, pracował na nich, a następnie włączał je. Jeżeli wypychasz zmiany do serwera Subversion za pomocą komendy `git svn`, możesz chcieć wykonać "rebase" na wszystkich swoich zmianach włączając je do jednej gałęzi, zamiast łączyć gałezie razem. Powodem takiego sposobu działania jest to, że Subversion ma liniową historię i nie obsługuje łączenia zmian w taki sposób jak Git, więc `git svn` będzie podążał tylko za pierwszym rodzicem podczas konwertowania migawki do commitu Subversion.
 
 <!-- When you’ve become comfortable with a Git workflow, you’ll likely create topic branches, do work on them, and then merge them in. If you’re pushing to a Subversion server via git svn, you may want to rebase your work onto a single branch each time instead of merging branches together. The reason to prefer rebasing is that Subversion has a linear history and doesn’t deal with merges like Git does, so git svn follows only the first parent when converting the snapshots into Subversion commits. -->
 
@@ -351,11 +351,11 @@ Jest to odpowiednik komendy `svn copy trunk branches/opera` z Subversion, która
 
 <!-- ### Switching Active Branches ### -->
 
-Git znajduje gałąź do której idą dane z dcommit, poprzez sprawdzenie ostatniej zmiany w każdej z gałęzi Subversion w Twojej historii - powinieneś mieć tylko jedną i powinna ona być tą ostatnią, zawierącą `git-svn-id` w historii obecnej gałęzi.
+Git znajduje gałąź do której idą dane z dcommit, poprzez sprawdzenie ostatniej zmiany w każdej z gałęzi Subversion w Twojej historii - powinieneś mieć tylko jedną i powinna ona być tą ostatnią, zawierającą `git-svn-id` w historii obecnej gałęzi.
 
 <!-- Git figures out what branch your dcommits go to by looking for the tip of any of your Subversion branches in your history — you should have only one, and it should be the last one with a `git-svn-id` in your current branch history. -->
 
-Jeżeli chcesz pracować na więcej niż jednej gałęzi jednocześnie, możesz ustawić lokalne gałęzie dla `dcommit` na konkretne gałęzie Subversion poprzez utworzenie ich z pierwszego commita Subversion dla tej gałęzi. Jeżeli chcesz stworzyć gałąż `opera` na której będziesz mógł oddzielnie pracować, uruchom:
+Jeżeli chcesz pracować na więcej niż jednej gałęzi jednocześnie, możesz ustawić lokalne gałęzie dla `dcommit` na konkretne gałęzie Subversion poprzez utworzenie ich z pierwszego commita Subversion dla tej gałęzi. Jeżeli chcesz stworzyć gałąź `opera` na której będziesz mógł oddzielnie pracować, uruchom:
 
 <!-- If you want to work on more than one branch simultaneously, you can set up local branches to `dcommit` to specific Subversion branches by starting them at the imported Subversion commit for that branch. If you want an `opera` branch that you can work on separately, you can run -->
 
@@ -504,7 +504,7 @@ Jeżeli masz obecny kod projektu w innym systemie VCS, ale zdecydowałeś się n
 
 <!-- ### Importing ### -->
 
-Nauczysz się w jaki sposób zaimportować dane z dwóch największych produkcyjnych systemów SCM - Subversion i Perforce - ponieważ oba generują większość użytkowników o których słyszę, że się przenoszą, oraz ze wzgledu na to, że dla nich Git posiada dopracowane narzędzia. 
+Nauczysz się w jaki sposób zaimportować dane z dwóch największych produkcyjnych systemów SCM - Subversion i Perforce - ponieważ oba generują większość użytkowników o których słyszę, że się przenoszą, oraz ze względu na to, że dla nich Git posiada dopracowane narzędzia. 
 
 <!-- You’ll learn how to import data from two of the bigger professionally used SCM systems — Subversion and Perforce — both because they make up the majority of users I hear of who are currently switching, and because high-quality tools for both systems are distributed with Git. -->
 
@@ -713,7 +713,7 @@ Jak robiłeś już to w sekcji "Przykładowa polityka wymuszająca Gita" w rozdz
 
 <!-- As you did in the "An Example Git Enforced Policy" section of Chapter 7, we’ll write this in Ruby, because it’s what I generally work with and it tends to be easy to read. You can write this example pretty easily in anything you’re familiar with — it just needs to print the appropriate information to stdout. And, if you are running on Windows, this means you’ll need to take special care to not introduce carriage returns at the end your lines — git fast-import is very particular about just wanting line feeds (LF) not the carriage return line feeds (CRLF) that Windows uses. -->
 
-Aby rozpocząć, przejdziesz do docelowego katalogu i znajdziesz wszystkie podakatalogi, z których znajdują się migawki które chcesz zaimportować. Następnie wejdziesz do każdego podkatalogu i wypiszesz komendy konieczne do eksportu. Twoja pętla główna w programie wygląda tak:
+Aby rozpocząć, przejdziesz do docelowego katalogu i znajdziesz wszystkie podkatalogi, z których znajdują się migawki które chcesz zaimportować. Następnie wejdziesz do każdego podkatalogu i wypiszesz komendy konieczne do eksportu. Twoja pętla główna w programie wygląda tak:
 
 <!-- To begin, you’ll change into the target directory and identify every subdirectory, each of which is a snapshot that you want to import as a commit. You’ll change into each subdirectory and print the commands necessary to export it. Your basic main loop looks like this: -->
 
@@ -731,7 +731,7 @@ Aby rozpocząć, przejdziesz do docelowego katalogu i znajdziesz wszystkie podak
 	  end
 	end
 
-Uruchamiasz `print_export` w każdym katalogu, która przyjmuje jako parametry nazwę katalogu oraz znacznik poprzedniej migawki, a zwraca znacznik obecnej; w ten sposób możesz połączyć je poprawnie ze sobą. "Znacznik" jest terminem używanym przez `fast-import`, dla identyfikatora który przypisujesz do commita; podczas tworzenia kolejnych commitów, nadajesz każdemu z nich znacznik, który będzie użyty do połączenia go z innymi commitami. Dlatego pierwszą rzeczą ktorą robisz w metodzie `print_export` jest wygenerowanie znacznika pobranego z nazwy katalogu:
+Uruchamiasz `print_export` w każdym katalogu, która przyjmuje jako parametry nazwę katalogu oraz znacznik poprzedniej migawki, a zwraca znacznik obecnej; w ten sposób możesz połączyć je poprawnie ze sobą. "Znacznik" jest terminem używanym przez `fast-import`, dla identyfikatora który przypisujesz do commita; podczas tworzenia kolejnych commitów, nadajesz każdemu z nich znacznik, który będzie użyty do połączenia go z innymi commitami. Dlatego pierwszą rzeczą którą robisz w metodzie `print_export` jest wygenerowanie znacznika pobranego z nazwy katalogu:
 
 <!-- You run `print_export` inside each directory, which takes the manifest and mark of the previous snapshot and returns the manifest and mark of this one; that way, you can link them properly. "Mark" is the `fast-import` term for an identifier you give to a commit; as you create commits, you give each one a mark that you can use to link to it from other commits. So, the first thing to do in your `print_export` method is generate a mark from the directory name: -->
 
@@ -749,7 +749,7 @@ Zrobisz to poprzez wygenerowanie tablicy z nazwami katalogów, która używa jak
 	  ($marks.index(dir) + 1).to_s
 	end
 
-Teraz, gdy masz już liczbę reprezentującą Twój commit, potrzebujesz daty do zamieszczeenia w meta-danych commita. Ponieważ data jest użyta w nazwie katalogu, pobierzesz ją z nazwy. Następną linią w pliku `print_export` jest
+Teraz, gdy masz już liczbę reprezentującą Twój commit, potrzebujesz daty do zamieszczenia w meta-danych commita. Ponieważ data jest użyta w nazwie katalogu, pobierzesz ją z nazwy. Następną linią w pliku `print_export` jest
 
 <!-- Now that you have an integer representation of your commit, you need a date for the commit metadata. Because the date is expressed in the name of the directory, you’ll parse it out. The next line in your `print_export` file is -->
 
@@ -769,7 +769,7 @@ gdzie `convert_dir_to_date` jest zdefiniowana jako
 	  end
 	end
 
-Zwraca ona liczbę całkowitą dla daty z katalogu. Ostatnią rzeczą potrzebną do zapisania meta-danych są informacje o osobie wprowdzającej zmiany, którą zapisujesz na stałe w zmiennej globalnej:
+Zwraca ona liczbę całkowitą dla daty z katalogu. Ostatnią rzeczą potrzebną do zapisania meta-danych są informacje o osobie wprowadzającej zmiany, którą zapisujesz na stałe w zmiennej globalnej:
 
 <!-- That returns an integer value for the date of each directory. The last piece of meta-information you need for each commit is the committer data, which you hardcode in a global variable: -->
 
@@ -786,7 +786,7 @@ Teraz możesz rozpocząć wypisywanie danych dotyczących commitów dla swojego 
 	export_data('imported from ' + dir)
 	puts 'from :' + last_mark if last_mark
 
-Wpisujesz na sztywno strefę czasową (-0700), ponieważ jest to najprostsze podejście. Jeżeli importujesz z innego systemu, musisz wskazać strefę czasową jako różnicę (ang. offset). Treść komentarza do zmiany musi być wyrażona w specjanym formacie:
+Wpisujesz na sztywno strefę czasową (-0700), ponieważ jest to najprostsze podejście. Jeżeli importujesz z innego systemu, musisz wskazać strefę czasową jako różnicę (ang. offset). Treść komentarza do zmiany musi być wyrażona w specjalnym formacie:
 
 <!-- You hardcode the time zone (-0700) because doing so is easy. If you’re importing from another system, you must specify the time zone as an offset.
 The commit message must be expressed in a special format: -->

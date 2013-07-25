@@ -406,7 +406,7 @@ Teraz musi podzielić się swoją pracę z Johnem, więc wypycha zmiany z gałę
     To jessica@githost:simplegit.git
      * [new branch]      featureA -> featureA
 
-Jessica powiadamia Johna przez wiadomość email, że wysłała swoje zmiany w gałęzi `featureA` i on może je zweryfikować. W czasie gdy czeka na informację zwrotną od Johna, Jessica rozpoczyna pracę nad `featureB` z Josie. Na początku, tworzy nową gałąź przeznaczoną dla nowej funkcjonalności, podając jako gałąź źródłową gałąź `master` na serwerze.
+Jessica powiadamia Johna przez wiadomość e-mail, że wysłała swoje zmiany w gałęzi `featureA` i on może je zweryfikować. W czasie gdy czeka na informację zwrotną od Johna, Jessica rozpoczyna pracę nad `featureB` z Josie. Na początku, tworzy nową gałąź przeznaczoną dla nowej funkcjonalności, podając jako gałąź źródłową gałąź `master` na serwerze.
 
 <!-- Jessica e-mails John to tell him that she’s pushed some work into a branch named `featureA` and he can look at it now. While she waits for feedback from John, Jessica decides to start working on `featureB` with Josie. To begin, she starts a new feature branch, basing it off the server’s `master` branch: -->
 
@@ -437,7 +437,7 @@ Figure 5-12. Początkowa historia zmian u Jessici.
 
 <!-- Figure 5-12. Jessica’s initial commit history. -->
 
-Jest gotowa do wypchnięcia swoich zmian, ale dostaje wiadomość email od Josie, że gałąź z pierwszymi zmianami została już udostępniona na serwerze jako `featureBee`. Jessica najpierw musi połączyć te zmiany ze swoimi, zanim będzie mogła wysłać je na serwer. Może więc pobrać zmiany Jose za pomocą komendy `git fetch`:
+Jest gotowa do wypchnięcia swoich zmian, ale dostaje wiadomość e-mail od Josie, że gałąź z pierwszymi zmianami została już udostępniona na serwerze jako `featureBee`. Jessica najpierw musi połączyć te zmiany ze swoimi, zanim będzie mogła wysłać je na serwer. Może więc pobrać zmiany Jose za pomocą komendy `git fetch`:
 
 <!-- She’s ready to push up her work, but gets an e-mail from Josie that a branch with some initial work on it was already pushed to the server as `featureBee`. Jessica first needs to merge those changes in with her own before she can push to the server. She can then fetch Josie’s changes down with `git fetch`: -->
 
@@ -675,7 +675,7 @@ Duża ilość większych projektów ma ustalone reguły dotyczące akceptowania 
 
 <!-- Many larger projects have established procedures for accepting patches — you’ll need to check the specific rules for each project, because they will differ. However, many larger public projects accept patches via a developer mailing list, so I’ll go over an example of that now. -->
 
-Przepływ pracy jest podobny do poprzedniego - tworzysz tematyczne gałęzie dla każdej grupy zmian nad którymi pracujesz. Różnica polega na tym, w jaki sposób wysyłasz je do projektu. Zamiast tworzyć rozwidlenie i wypychać do niego zmiany, tworzysz wiadomość email dla każdego zestawu zmian i wysyłasz je na listę dyskusyjną:
+Przepływ pracy jest podobny do poprzedniego - tworzysz tematyczne gałęzie dla każdej grupy zmian nad którymi pracujesz. Różnica polega na tym, w jaki sposób wysyłasz je do projektu. Zamiast tworzyć rozwidlenie i wypychać do niego zmiany, tworzysz wiadomość e-mail dla każdego zestawu zmian i wysyłasz je na listę dyskusyjną:
 
 <!-- The workflow is similar to the previous use case — you create topic branches for each patch series you work on. The difference is how you submit them to the project. Instead of forking the project and pushing to your own writable version, you generate e-mail versions of each commit series and e-mail them to the developer mailing list: -->
 
@@ -685,7 +685,7 @@ Przepływ pracy jest podobny do poprzedniego - tworzysz tematyczne gałęzie dla
     $ (work)
     $ git commit
 
-Teraz masz dwa commity, które chcesz wysłać na listę dyskusyjną. Uzyj `git format-patch` do wygenerowania plików w formacie mbox, które możesz wysłać na listę - zamieni to każdy commit w osobną wiadomość, z pierwszą linią komentarza ("commit message") jako tematem, jego pozostałą częścią w treści, dołączając jednoczenie zawartość wprowadzanej zmiany. Fajną rzeczą jest to, że aplikowanie łatki przesłanej przez email i wygenerowanej za pomocą `format-patch` zachowuje wszystkie informacje o commit-cie, co zobaczysz w kolejnej sekcji kiedy zaaplikujesz te zmiany:
+Teraz masz dwa commity, które chcesz wysłać na listę dyskusyjną. Uzyj `git format-patch` do wygenerowania plików w formacie mbox, które możesz wysłać na listę - zamieni to każdy commit w osobną wiadomość, z pierwszą linią komentarza ("commit message") jako tematem, jego pozostałą częścią w treści, dołączając jednoczenie zawartość wprowadzanej zmiany. Fajną rzeczą jest to, że aplikowanie łatki przesłanej przez e-mail i wygenerowanej za pomocą `format-patch` zachowuje wszystkie informacje o commit-cie, co zobaczysz w kolejnej sekcji kiedy zaaplikujesz te zmiany:
 
 <!-- Now you have two commits that you want to send to the mailing list. You use `git format-patch` to generate the mbox-formatted files that you can e-mail to the list — it turns each commit into an e-mail message with the first line of the commit message as the subject and the rest of the message plus the patch that the commit introduces as the body. The nice thing about this is that applying a patch from an e-mail generated with `format-patch` preserves all the commit information properly, as you’ll see more of in the next section when you apply these patches: -->
 
@@ -815,7 +815,7 @@ Teraz jesteś gotowy do tego, aby dodać do niej udostępnione zmiany i zdecydow
 
 ### Aplikowanie łat przychodzących e-mailem ###
 
-Jeżeli otrzymasz łatę poprzez wiadomość email, którą musisz włączyć do swojego projektu, musisz zaaplikować ją do gałęzi tematycznej w celu przetestowania. Istnieją dwa sposoby aby włączyć takie zmiany: przy użyciu `git apply` lub `git am`.
+Jeżeli otrzymasz łatę poprzez wiadomość e-mail, którą musisz włączyć do swojego projektu, musisz zaaplikować ją do gałęzi tematycznej w celu przetestowania. Istnieją dwa sposoby aby włączyć takie zmiany: przy użyciu `git apply` lub `git am`.
 
 <!-- If you receive a patch over e-mail that you need to integrate into your project, you need to apply the patch in your topic branch to evaluate it. There are two ways to apply an e-mailed patch: with `git apply` or with `git am`. -->
 
@@ -849,7 +849,7 @@ Jeżeli otrzymałeś łatę wygenerowaną przez użytkownika używającego Gita,
 
 <!-- If the contributor is a Git user and was good enough to use the `format-patch` command to generate their patch, then your job is easier because the patch contains author information and a commit message for you. If you can, encourage your contributors to use `format-patch` instead of `diff` to generate patches for you. You should only have to use `git apply` for legacy patches and things like that. -->
 
-Aby zaaplikować łatę wygenerowaną przez `format-patch`, użyj `git am`. Technicznie rzecz biorąc, `git am` został stworzony, aby odczytywać plik w formacie mbox, który jest prostym, tekstowym formatem zawierającym jedną lub więcej wiadomości email w jednym pliku. Wygląda on podobnie do:
+Aby zaaplikować łatę wygenerowaną przez `format-patch`, użyj `git am`. Technicznie rzecz biorąc, `git am` został stworzony, aby odczytywać plik w formacie mbox, który jest prostym, tekstowym formatem zawierającym jedną lub więcej wiadomości e-mail w jednym pliku. Wygląda on podobnie do:
 
 <!-- To apply a patch generated by `format-patch`, you use `git am`. Technically, `git am` is built to read an mbox file, which is a simple, plain-text format for storing one or more e-mail messages in one text file. It looks something like this: -->
 

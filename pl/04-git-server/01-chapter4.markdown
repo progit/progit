@@ -149,7 +149,7 @@ Warto zaznaczyć, że to właściwie wszystko czego potrzeba, aby utworzyć dzia
 
 W następnych sekcjach zobaczysz jak przeprowadzić bardziej zaawansowaną konfigurację. Sprawdzimy jak uniknąć konieczności tworzenia kont użytkowników dla każdej osoby, jak dodać publiczny dostęp tylko do odczytu, jak skonfigurować interfejs WWW, jak wykorzystać narzędzie Gitosis i inne. Miej jednak na uwadzę, że do pracy nad prywatnym projektem w kilka osób, _wszystko_, czego potrzeba to serwer z dostępem SSH i czyste repozytorium.
 
-### Prosta konfuguracja ###
+### Prosta konfiguracja ###
 
 Jeśli pracujesz w niewielkim zespole, albo testujesz Git w firmie i nie masz wielu programistów, wszystko jest proste. Jednym z najbardziej skomplikowanych aspektów konfiguracji serwera Git jest zarządzanie użytkownikami. Jeśli chcesz udostępnić niektóre repozytoria tylko do odczytu dla wybranych użytkowników, a pozwolić innym na zapis do nich, mogą pojawić się problemy z poprawną konfiguracją uprawnień.
 
@@ -233,7 +233,7 @@ Od tego momentu możesz ustawić puste repozytorium poprzez komendę 'git init' 
     $ cd project.git
     $ git --bare init
 
-Teraz John, Josie lub Jessica ma możliwość wykonania komedy push (wysłania) pierwszej wersji projektu do repozytorium poprzez dodanie go (projektu) jako zdalny (remote) oraz wysłanie całej gałęzi projektu. Aby tego dokonać należy połączyć sie poprzez shell z maszyną i utworzyć nowe repozytorium za każdym razem kiedy chcemy dodać projekt. Użyjmy `gitserver` jako nazwę serwera, na którym ustawisz użytkownika `git` oraz repozytorium. Jeżeli odpalasz je lokalnie i ustawiasz DNS jako `gitserver` do połączenia z tym serwerem, wtedy będziesz mógł użyć poniższych komend:
+Teraz John, Josie lub Jessica ma możliwość wykonania komendy push (wysłania) pierwszej wersji projektu do repozytorium poprzez dodanie go (projektu) jako zdalny (remote) oraz wysłanie całej gałęzi projektu. Aby tego dokonać należy połączyć sie poprzez shell z maszyną i utworzyć nowe repozytorium za każdym razem kiedy chcemy dodać projekt. Użyjmy `gitserver` jako nazwę serwera, na którym ustawisz użytkownika `git` oraz repozytorium. Jeżeli odpalasz je lokalnie i ustawiasz DNS jako `gitserver` do połączenia z tym serwerem, wtedy będziesz mógł użyć poniższych komend:
 
     # on Johns computer
     $ cd myproject
@@ -559,7 +559,7 @@ Aby sklonować te same repozytoria z jakiegokolwiek innego konta:
 
 ### Dostosowywanie procesu instalacji ###
 
-Podczas gdy domyślna szybka instalacja działa dla większości osób jest kilka sposobów na dostosowanie jej do naszych potrzeb. Jeżeli pominiesz argument `-q` przejdziesz w tryb instalacji "verbose" -- są to szczegółowe informacje krok po kroku co wykonuje instalator. Tryb "verbose" pozwala również na zmianę pewnych parametrów po stronie serwera, takich jak lokalizacja aktualnego repozytorium, poprzez edytowanie pliku "rc" który jest używany przez server. Ten plik jest obficie zakomentowany wiec powinieneś w prosty sposób dokonywać różnych zmian, zapisywać i kontynuować. Plik ten zawiera też różne ustawienia które pozwolą Ci na włączanie i wyłączanie niektórych zaawansowanych możliwości gitolite.
+Podczas gdy domyślna szybka instalacja działa dla większości osób jest kilka sposobów na dostosowanie jej do naszych potrzeb. Jeżeli pominiesz argument `-q` przejdziesz w tryb instalacji "verbose" -- są to szczegółowe informacje krok po kroku co wykonuje instalator. Tryb "verbose" pozwala również na zmianę pewnych parametrów po stronie serwera, takich jak lokalizacja aktualnego repozytorium, poprzez edytowanie pliku "rc" który jest używany przez serwer. Ten plik jest obficie zakomentowany wiec powinieneś w prosty sposób dokonywać różnych zmian, zapisywać i kontynuować. Plik ten zawiera też różne ustawienia które pozwolą Ci na włączanie i wyłączanie niektórych zaawansowanych możliwości gitolite.
 
 ### Plik konfiguracyjny i Kontrola Praw Dostępu ###
 
@@ -756,7 +756,7 @@ Teraz, jeśli zatwierdzisz i wyślesz projekt, GitWeb automatycznie zacznie poka
 
 ## Hosting Gita ##
 
-Jeśli nie chcesz przechodzić przez wszystkie prace związane z tworzeniem własnego serwera Gita, masz do wyboru kilka opcji hostingu swojego projektu na zewnętrznej stronie hostingowej. Sposób ten oferuje szereg zalet: strony hostingowe są zazwyczaj szybkie w konfiguracji i łatwe do uruchomienia projektu, nie masz własnego zaangażowania w monitorowanie i obsługę serwerów. Nawet jeśli założysz swój własny wewnętrzny serwer to nadal możesz kożystać w publicznej witryny, gdzie dużo łatwiej znaleźć pomoc.
+Jeśli nie chcesz przechodzić przez wszystkie prace związane z tworzeniem własnego serwera Gita, masz do wyboru kilka opcji hostingu swojego projektu na zewnętrznej stronie hostingowej. Sposób ten oferuje szereg zalet: strony hostingowe są zazwyczaj szybkie w konfiguracji i łatwe do uruchomienia projektu, nie masz własnego zaangażowania w monitorowanie i obsługę serwerów. Nawet jeśli założysz swój własny wewnętrzny serwer to nadal możesz korzystać w publicznej witryny, gdzie dużo łatwiej znaleźć pomoc.
 
 Na dzień dzisiejszy masz do wyboru bardzo dużo stron hostingowych. Każda z nich posiada swoje wady i zalety. Aby zobaczyć aktualną listę takich stron odwiedź adres:
 
@@ -764,11 +764,11 @@ Na dzień dzisiejszy masz do wyboru bardzo dużo stron hostingowych. Każda z ni
 
 Ponieważ nie możemy opisać wszystkich z nich, a zdarza mi się na jednej z nich pracować, w tym rozdziale przejdziemy przez założenie konta i utworzenie nowego projektu w GitHubie. Da nam to wyobrażenie o tym co jest potrzebne.
 
-GitHub jest zdecydowanie największą stroną hostingową Gita. Jako jedna z nielicznych oferuje zarówno publiczne, jak i prywatne opcje hostingu, dzięki czemy można przechowywać kod otwarty i prywatny w jednym miejscu. GitHub został prywatnie użyty do tworzenia tej właśnie książki.
+GitHub jest zdecydowanie największą stroną hostingową Gita. Jako jedna z nielicznych oferuje zarówno publiczne, jak i prywatne opcje hostingu, dzięki czemu można przechowywać kod otwarty i prywatny w jednym miejscu. GitHub został prywatnie użyty do tworzenia tej właśnie książki.
 
 ### GitHub ###
 
-GitHub jest nieco inny od reszty stron hostingowych ze względu na przestrzenie nazw projektów. Zamist być w oparciu o projekt, GitHub jest głównie w oparciu o użytkownika. Oznacza to, że np. mój projekt `grit` na GitHubie nie znajduje się w `github.com/grit`, lecz w `github.com/schacon/grit`. Nie ma dzięki temu konieczności tworzenia wersji każdego projektu i pozwala na płynne przejście z jednego użytkownika na drugiego, jeśli któryś porzuca projekt.
+GitHub jest nieco inny od reszty stron hostingowych ze względu na przestrzenie nazw projektów. Zamiast być w oparciu o projekt, GitHub jest głównie w oparciu o użytkownika. Oznacza to, że np. mój projekt `grit` na GitHubie nie znajduje się w `github.com/grit`, lecz w `github.com/schacon/grit`. Nie ma dzięki temu konieczności tworzenia wersji każdego projektu i pozwala na płynne przejście z jednego użytkownika na drugiego, jeśli któryś porzuca projekt.
 
 GitHub jest również spółką handlową, która pobiera opłaty za utrzymanie prywatnych repozytoriów, lecz każdy może bez problemu dostać darmowe konto gościa dla darmowych projektów. Przejdziemy szybko przez ten proces.
 
@@ -785,7 +785,7 @@ Insert 18333fig0403.png
 Figure 4-3. Rejestracja użytkownika GitHub.
 
 Jeśli jest to możliwe to jest to dobry moment aby dodać swój publiczny klucz SSH. W rozdziale "Simple Setups" wyjaśniliśmy już jak wygenerować nowy klucz. Skopiuj zawartość klucza i wklej go w polu "SSH Public Key". Kliknięcie "explain ssh keys" przeniesie Cię do szczegółowych informacji jak zrobić to na poszczególnych systemach operacyjnych.
-Kliknięcie "I agree, sign me up" powoduje przeniesienie do nowego panelu użytkowika (patrz rysunek 4-4).
+Kliknięcie "I agree, sign me up" powoduje przeniesienie do nowego panelu użytkownika (patrz rysunek 4-4).
 
 Insert 18333fig0404.png 
 Figure 4-4. Panel użytkowinia GitHub.
@@ -799,7 +799,7 @@ Zacznij klikając na link "create a new one" obok Twoich repozytoriów na panelu
 Insert 18333fig0405.png 
 Figure 4-5. Tworzenie nowego repozytorium na GitHubie.
 
-Wszystko co tak naprawde musisz zrobić to podać nazwę projektu. Możesz też podać dodatkowy opis. Kiedy to zrobisz klikasz przycisk "Create Repository". Masz już nowe repozytorium na GitHubie (patrz rysunek 4-6).
+Wszystko co tak naprawdę musisz zrobić to podać nazwę projektu. Możesz też podać dodatkowy opis. Kiedy to zrobisz klikasz przycisk "Create Repository". Masz już nowe repozytorium na GitHubie (patrz rysunek 4-6).
 
 Insert 18333fig0406.png 
 Figure 4-6. Główne informacje o projekcie.
@@ -857,7 +857,7 @@ Kiedy skończysz dodawanie współpracowników, powinieneś zobaczyć ich listę
 Insert 18333fig0412.png 
 Figure 4-12. Lista współpracowników w Twoim projekcie.
 
-Jeśli musisz zablokować dostęp poszczególnym osobom, możesz kliknąć link "revoke", w ten sposób usuniesz możliwość użycia komendy "push". Dla przyszłych projektów, możesz skopiować grupę współpracowników kopiując ich dane dostepowe w istniejącym projekcie.
+Jeśli musisz zablokować dostęp poszczególnym osobom, możesz kliknąć link "revoke", w ten sposób usuniesz możliwość użycia komendy "push". Dla przyszłych projektów, możesz skopiować grupę współpracowników kopiując ich dane dostępowe w istniejącym projekcie.
 
 ### Twój projekt ###
 
@@ -870,11 +870,11 @@ Kiedy ludzie będą odwiedzali Twój projekt, zobaczą tą stronę. Zawiera ona 
 
 ### Rozwidlanie projektu ###
 
-Jeśli chcesz przyczynić się do rozwoju istniejącego projektu, w którym nie masz możliwości wysyłania, GitHub zachęca do rozwidlania projektu. Kiedy znajdziesz się na stronie która wydaje się interesujaca i chcesz pogrzebać w niej trochę, możesz nacisnąć przycisk "fork" w nagłówku projektu aby GitHub skopiował projekt do Twojego użytkownika tak abyś mógł do niego wprowadzać zmiany.
+Jeśli chcesz przyczynić się do rozwoju istniejącego projektu, w którym nie masz możliwości wysyłania, GitHub zachęca do rozwidlania projektu. Kiedy znajdziesz się na stronie która wydaje się interesująca i chcesz pogrzebać w niej trochę, możesz nacisnąć przycisk "fork" w nagłówku projektu aby GitHub skopiował projekt do Twojego użytkownika tak abyś mógł do niego wprowadzać zmiany.
 
 W tego typu projektach nie musimy martwić się o dodawanie współpracowników aby nadać im prawo do wysyłania. Ludzie moga rozwidlić projekt i swobodnie wysyłać do niego, a głowny opiekun projektu może pobrać te zmiany dodając gałąź jako zdalną i połączyć go z głównym projektem.
 
-Aby rozwidlić projekt, odwiedź stronę projektu (w tym przykładzie, mojombo/chronic) i naciśnij przycisk "fork" w nagłowku (zobacz Rysunek 4-14).
+Aby rozwidlić projekt, odwiedź stronę projektu (w tym przykładzie, mojombo/chronic) i naciśnij przycisk "fork" w nagłówku (zobacz Rysunek 4-14).
 
 Insert 18333fig0414.png 
 Figure 4-14. Pozyskanie zapisywalnej wersji projektu poprzez użycie "fork".

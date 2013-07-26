@@ -10,7 +10,7 @@ W tym rozdziale, zobaczysz jak pracować z Gitem w rozproszonym środowisku jako
 
 ## Rozproszone przepływy pracy ##
 
-Odmiennie do scentralizowanych systemów kontroli wersji (CVCS), rozproszona natura systemu Git pozwala na dużo bardziej elastyczne podejście do tego w jaki sposób przebiega współpraca między programistami. W scentralizowanych systemach każdy programista jest osobnym elementem pracującym na centralnym serwerze. W Gitcie każdy programista posiada zarówno swoje oddzielne repozytorium, które może zostać udostępnione dla innych, jak również centralny serwer do którego inni mogą wgrywać swoje zmiany. To umożliwia szerokie możliwości współpracy dla twojego projektu i/lub zespołu, dlatego opiszę kilka często używanych zachować które z tego korzystają. Pokażę zalety i wady każdego z rozwiązań; możesz wybrać jeden odpowiadający tobie, lub możesz je połączyć i zmieszać ze sobą.
+Odmiennie do scentralizowanych systemów kontroli wersji (CVCS), rozproszona natura systemu Git pozwala na dużo bardziej elastyczne podejście do tego w jaki sposób przebiega współpraca między programistami. W scentralizowanych systemach każdy programista jest osobnym elementem pracującym na centralnym serwerze. W Gitcie każdy programista posiada zarówno swoje oddzielne repozytorium, które może zostać udostępnione dla innych, jak również centralny serwer do którego inni mogą wgrywać swoje zmiany. To umożliwia szerokie możliwości współpracy dla Twojego projektu i/lub zespołu, dlatego opiszę kilka często używanych zachować które z tego korzystają. Pokażę zalety i wady każdego z rozwiązań; możesz wybrać jeden odpowiadający tobie, lub możesz je połączyć i zmieszać ze sobą.
 
 ### Scentralizowany przepływ pracy ###
 
@@ -31,7 +31,7 @@ This workflow is attractive to a lot of people because it’s a paradigm that ma
 ### Przepływ pracy z osobą integrującą zmiany ###
 
 
-Ponieważ Git powala na posiadanie wielu zdalnych repozytoriów, możliwy jest schemat pracy w którym każdy programista ma uprawnienia do zapisu do swojego własnego repozytorium oraz uprawnienia do odczytu do repozytorium innych osób w zespole. Ten scenariusz często zawiera jedno centralne - "oficjalne" repozytorium projektu. Aby wgrać zmiany do projektu, należy stworzyć publiczną kopię tego repozytorium i wgrać ("push") zmiany do niego. Następnie należy wysłać prośbę do opiekuna aby pobrał zmiany do głównego repozytorium. Może on dodać twoje repozytorium jako zdalne, przetestować twoje zmiany lokalnie, włączyć je do nowej gałęzi i następnie wgrać do repozytorium. Proces ten wygląda następująco (rys. 5-2):
+Ponieważ Git powala na posiadanie wielu zdalnych repozytoriów, możliwy jest schemat pracy w którym każdy programista ma uprawnienia do zapisu do swojego własnego repozytorium oraz uprawnienia do odczytu do repozytorium innych osób w zespole. Ten scenariusz często zawiera jedno centralne - "oficjalne" repozytorium projektu. Aby wgrać zmiany do projektu, należy stworzyć publiczną kopię tego repozytorium i wgrać ("push") zmiany do niego. Następnie należy wysłać prośbę do opiekuna aby pobrał zmiany do głównego repozytorium. Może on dodać Twoje repozytorium jako zdalne, przetestować Twoje zmiany lokalnie, włączyć je do nowej gałęzi i następnie wgrać do repozytorium. Proces ten wygląda następująco (rys. 5-2):
 
 <!-- Because Git allows you to have multiple remote repositories, it’s possible to have a workflow where each developer has write access to their own public repository and read access to everyone else’s. This scenario often includes a canonical repository that represents the "official" project. To contribute to that project, you create your own public clone of the project and push your changes to it. Then, you can send a request to the maintainer of the main project to pull in your changes. They can add your repository as a remote, test your changes locally, merge them into their branch, and push back to their repository. The process works as follow (see Figure 5-2): -->
 
@@ -54,7 +54,7 @@ Ponieważ Git powala na posiadanie wielu zdalnych repozytoriów, możliwy jest s
 Insert 18333fig0502.png
 Figure 5-2. Przepływ pracy z osobą integrującą zmiany.
 
-To jest bardzo popularne podejście podczas współpracy przy pomocy stron takich jak GitHub, gdzie bardzo łatwo można stworzyć kopię repozytorium i wgrywać zmiany do niego aby każdy mógł je zobaczyć. jedną z głównych zalet takiego podejścia jest to, że możesz kontynuować pracę, a opiekun może pobrać twoje zmiany w dowolnym czasie. Programiści nie muszą czekać na opiekuna, aż ten włączy ich zmiany, każdy z nich może pracować oddzielnie.
+To jest bardzo popularne podejście podczas współpracy przy pomocy stron takich jak GitHub, gdzie bardzo łatwo można stworzyć kopię repozytorium i wgrywać zmiany do niego aby każdy mógł je zobaczyć. jedną z głównych zalet takiego podejścia jest to, że możesz kontynuować pracę, a opiekun może pobrać Twoje zmiany w dowolnym czasie. Programiści nie muszą czekać na opiekuna, aż ten włączy ich zmiany, każdy z nich może pracować oddzielnie.
 
 <!-- This is a very common workflow with sites like GitHub, where it’s easy to fork a project and push your changes into your fork for everyone to see. One of the main advantages of this approach is that you can continue to work, and the maintainer of the main repository can pull in your changes at any time. Contributors don’t have to wait for the project to incorporate their changes — each party can work at their own pace. -->
 
@@ -84,7 +84,7 @@ Ten rodzaj współpracy nie jest częsty w użyciu, ale może być użyteczny w 
 
 <!-- This kind of workflow isn’t common but can be useful in very big projects or in highly hierarchical environments, as it allows the project leader (the dictator) to delegate much of the work and collect large subsets of code at multiple points before integrating them. -->
 
-To są najczęściej stosowane przepływy pracy możliwe przy użyciu rozproszonego systemu takiego jak Git, jednak możesz zauważyć że istnieje w tym względzie duża dowolność, tak abyś mógł dostosować go do używanego przez siebie tryby pracy. Teraz gdy (mam nadzieję) możesz już wybrać sposób pracy który jest dla ciebie odpowiedni, pokaże kilka konkretnych przykładów w jaki sposób osiągnąć odpowiedni podział ról dla każdego z opisanych przepływów.
+To są najczęściej stosowane przepływy pracy możliwe przy użyciu rozproszonego systemu takiego jak Git, jednak możesz zauważyć że istnieje w tym względzie duża dowolność, tak abyś mógł dostosować go do używanego przez siebie tryby pracy. Teraz gdy (mam nadzieję) możesz już wybrać sposób pracy który jest dla Ciebie odpowiedni, pokaże kilka konkretnych przykładów w jaki sposób osiągnąć odpowiedni podział ról dla każdego z opisanych przepływów.
 
 <!-- These are some commonly used workflows that are possible with a distributed system like Git, but you can see that many variations are possible to suit your particular real-world workflow. Now that you can (I hope) determine which workflow combination may work for you, I’ll cover some more specific examples of how to accomplish the main roles that make up the different flows. -->
 
@@ -137,7 +137,7 @@ Jeżeli uruchomisz tą komendę przed commit-em, dowiesz się czy zamierzasz wgr
 
 <!-- If you run that command before committing, you can tell if you’re about to commit whitespace issues that may annoy other developers. -->
 
-Następnie spróbuj w każdym commit-ie zawrzeć logicznie odrębny zestaw zmian. Jeżeli możesz, twórz nie za duże łatki - nie programuj cały weekend poprawiając pięć różnych błędów, aby następnie wszystkie je wypuścić w jednym dużym commit-cie w poniedziałek. Nawet jeżeli nie zatwierdzasz zmian w ciągu weekendu, użyj przechowalni ("stage"), aby w poniedziałek rozdzielić zmiany na przynajmniej jeden commit dla każdego błędu, dodając użyteczny komentarz do każdego commitu. Jeżeli niektóre ze zmian modyfikują ten sam plik, spróbuj użyć komendy `git add --patch`, aby częściowo dodać zmiany do przechowalni (dokładniej opisane to jest w rozdziale 6). Końcowa migawka projektu w gałęzi jest identyczna, nieważne czy zrobisz jeden czy pięć commitów, więc spróbuj ułatwić życie swoim współpracownikom kiedy będą musieli przeglądać twoje zmiany. Takie podejście ułatwia również pobranie lub przywrócenie pojedynczych zestawów zmian w razie potrzeby. Rozdział 6 opisuje kilka ciekawych trików dotyczących nadpisywania historii zmian i interaktywnego dodawania plików do przechowalni - używaj ich do utrzymania czystej i przejrzystej historii.
+Następnie spróbuj w każdym commit-ie zawrzeć logicznie odrębny zestaw zmian. Jeżeli możesz, twórz nie za duże łatki - nie programuj cały weekend poprawiając pięć różnych błędów, aby następnie wszystkie je wypuścić w jednym dużym commit-cie w poniedziałek. Nawet jeżeli nie zatwierdzasz zmian w ciągu weekendu, użyj przechowalni ("stage"), aby w poniedziałek rozdzielić zmiany na przynajmniej jeden commit dla każdego błędu, dodając użyteczny komentarz do każdego commitu. Jeżeli niektóre ze zmian modyfikują ten sam plik, spróbuj użyć komendy `git add --patch`, aby częściowo dodać zmiany do przechowalni (dokładniej opisane to jest w rozdziale 6). Końcowa migawka projektu w gałęzi jest identyczna, nieważne czy zrobisz jeden czy pięć commitów, więc spróbuj ułatwić życie swoim współpracownikom kiedy będą musieli przeglądać Twoje zmiany. Takie podejście ułatwia również pobranie lub przywrócenie pojedynczych zestawów zmian w razie potrzeby. Rozdział 6 opisuje kilka ciekawych trików dotyczących nadpisywania historii zmian i interaktywnego dodawania plików do przechowalni - używaj ich do utrzymania czystej i przejrzystej historii.
 
 <!-- Next, try to make each commit a logically separate changeset. If you can, try to make your changes digestible — don’t code for a whole weekend on five different issues and then submit them all as one massive commit on Monday. Even if you don’t commit during the weekend, use the staging area on Monday to split your work into at least one commit per issue, with a useful message per commit. If some of the changes modify the same file, try to use `git add --patch` to partially stage files (covered in detail in Chapter 6). The project snapshot at the tip of the branch is identical whether you do one commit or five, as long as all the changes are added at some point, so try to make things easier on your fellow developers when they have to review your changes. This approach also makes it easier to pull out or revert one of the changesets if you need to later. Chapter 6 describes a number of useful Git tricks for rewriting history and interactively staging files — use these tools to help craft a clean and understandable history. -->
 
@@ -165,7 +165,7 @@ Here is a template originally written by Tim Pope at tpope.net: -->
        jednak zwyczaje mogą się tutaj różnić.
 
 
-Jeżeli wszystkie twoje komentarz do zmian będą wyglądały jak ten, współpraca będzie dużo łatwiejsza dla ciebie i twoich współpracowników. Projekt Git ma poprawnie sformatowane komentarze, uruchom polecenie `git log --no-merges` na tym projekcie, aby zobaczyć jak wygląda ładnie sformatowana i prowadzona historia zmian.
+Jeżeli wszystkie Twoje komentarz do zmian będą wyglądały jak ten, współpraca będzie dużo łatwiejsza dla Ciebie i twoich współpracowników. Projekt Git ma poprawnie sformatowane komentarze, uruchom polecenie `git log --no-merges` na tym projekcie, aby zobaczyć jak wygląda ładnie sformatowana i prowadzona historia zmian.
 
 <!-- If all your commit messages look like this, things will be a lot easier for you and the developers you work with. The Git project has well-formatted commit messages — I encourage you to run `git log --no-merges` there to see what a nicely formatted project-commit history looks like. -->
 
@@ -406,7 +406,7 @@ Teraz musi podzielić się swoją pracę z Johnem, więc wypycha zmiany z gałę
     To jessica@githost:simplegit.git
      * [new branch]      featureA -> featureA
 
-Jessica powiadamia Johna przez wiadomość email, że wysłała swoje zmiany w gałęzi `featureA` i on może je zweryfikować. W czasie gdy czeka na informację zwrotną od Johna, Jessica rozpoczyna pracę nad `featureB` z Josie. Na początku, tworzy nową gałąź przeznaczoną dla nowej funkcjonalności, podając jako gałąź źródłową gałąź `master` na serwerze.
+Jessica powiadamia Johna przez wiadomość e-mail, że wysłała swoje zmiany w gałęzi `featureA` i on może je zweryfikować. W czasie gdy czeka na informację zwrotną od Johna, Jessica rozpoczyna pracę nad `featureB` z Josie. Na początku, tworzy nową gałąź przeznaczoną dla nowej funkcjonalności, podając jako gałąź źródłową gałąź `master` na serwerze.
 
 <!-- Jessica e-mails John to tell him that she’s pushed some work into a branch named `featureA` and he can look at it now. While she waits for feedback from John, Jessica decides to start working on `featureB` with Josie. To begin, she starts a new feature branch, basing it off the server’s `master` branch: -->
 
@@ -437,7 +437,7 @@ Figure 5-12. Początkowa historia zmian u Jessici.
 
 <!-- Figure 5-12. Jessica’s initial commit history. -->
 
-Jest gotowa do wypchnięcia swoich zmian, ale dostaje wiadomość email od Josie, że gałąź z pierwszymi zmianami została już udostępniona na serwerze jako `featureBee`. Jessica najpierw musi połączyć te zmiany ze swoimi, zanim będzie mogła wysłać je na serwer. Może więc pobrać zmiany Jose za pomocą komendy `git fetch`:
+Jest gotowa do wypchnięcia swoich zmian, ale dostaje wiadomość e-mail od Josie, że gałąź z pierwszymi zmianami została już udostępniona na serwerze jako `featureBee`. Jessica najpierw musi połączyć te zmiany ze swoimi, zanim będzie mogła wysłać je na serwer. Może więc pobrać zmiany Jose za pomocą komendy `git fetch`:
 
 <!-- She’s ready to push up her work, but gets an e-mail from Josie that a branch with some initial work on it was already pushed to the server as `featureBee`. Jessica first needs to merge those changes in with her own before she can push to the server. She can then fetch Josie’s changes down with `git fetch`: -->
 
@@ -563,13 +563,13 @@ Możesz chcieć użyć `rebase -i`, aby złączyć swoje zmiany do jednego commi
 
 <!-- You may want to use `rebase -i` to squash your work down to a single commit, or rearrange the work in the commits to make the patch easier for the maintainer to review — see Chapter 6 for more information about interactive rebasing. -->
 
-Kiedy zmiany w twojej gałęzi zostaną zakończone i jesteś gotowy do przekazania ich do opiekunów projektu, wejdź na stronę projektu i kliknij przycisk "Fork", tworząc w ten sposób swoją własną kopię projektu z uprawnieniami do zapisu. Następnie musisz dodać nowe zdalne repozytorium, w tym przykładzie nazwane `myfork`:
+Kiedy zmiany w Twojej gałęzi zostaną zakończone i jesteś gotowy do przekazania ich do opiekunów projektu, wejdź na stronę projektu i kliknij przycisk "Fork", tworząc w ten sposób swoją własną kopię projektu z uprawnieniami do zapisu. Następnie musisz dodać nowe zdalne repozytorium, w tym przykładzie nazwane `myfork`:
 
 <!-- When your branch work is finished and you’re ready to contribute it back to the maintainers, go to the original project page and click the "Fork" button, creating your own writable fork of the project. You then need to add in this new repository URL as a second remote, in this case named `myfork`: -->
 
     $ git remote add myfork (url)
 
-Musisz wysłać swoje zmiany do niego. Najprościej będzie wypchnąć lokalną gałąź na której pracujesz do zdalnego repozytorium, zamiast włączać zmiany do gałęzi master i je wysyłać. Warto zrobić tak dlatego, że w sytuacji w której twoje zmiany nie zostaną zaakceptowane, lub zostaną zaakceptowane tylko w części, nie będziesz musiał cofać swojej gałęzi master. Jeżeli opiekun włączy, zmieni bazę lub pobierze część twoich zmian, będziesz mógł je otrzymać zaciągając je z ich repozytorium:
+Musisz wysłać swoje zmiany do niego. Najprościej będzie wypchnąć lokalną gałąź na której pracujesz do zdalnego repozytorium, zamiast włączać zmiany do gałęzi master i je wysyłać. Warto zrobić tak dlatego, że w sytuacji w której Twoje zmiany nie zostaną zaakceptowane, lub zostaną zaakceptowane tylko w części, nie będziesz musiał cofać swojej gałęzi master. Jeżeli opiekun włączy, zmieni bazę lub pobierze część twoich zmian, będziesz mógł je otrzymać zaciągając je z ich repozytorium:
 
 <!-- You need to push your work up to it. It’s easiest to push the remote branch you’re working on up to your repository, rather than merging into your master branch and pushing that up. The reason is that if the work isn’t accepted or is cherry picked, you don’t have to rewind your master branch. If the maintainers merge, rebase, or cherry-pick your work, you’ll eventually get it back via pulling from their repository anyhow: -->
 
@@ -624,7 +624,7 @@ Figure 5-16. Początkowa historia ze zmianami featureB.
 
 <!-- Figure 5-16. Initial commit history with featureB work. -->
 
-Załóżmy, że opiekun projektu pobrał twoje zmiany i sprawdził twoją pierwszą gałąź, ale niestety nie aplikuje się ona czysto. W takiej sytuacji, możesz spróbować wykonać `rebase` na gałęzi `origin/master`, rozwiązać konflikty i ponownie wysłać zmiany:
+Załóżmy, że opiekun projektu pobrał Twoje zmiany i sprawdził twoją pierwszą gałąź, ale niestety nie aplikuje się ona czysto. W takiej sytuacji, możesz spróbować wykonać `rebase` na gałęzi `origin/master`, rozwiązać konflikty i ponownie wysłać zmiany:
 
 <!-- Let’s say the project maintainer has pulled in a bunch of other patches and tried your first branch, but it no longer cleanly merges. In this case, you can try to rebase that branch on top of `origin/master`, resolve the conflicts for the maintainer, and then resubmit your changes: -->
 
@@ -645,7 +645,7 @@ Z powodu zmiany bazy ("rebase") na gałęzi, musisz użyć przełącznika `-f` d
 
 <!-- Because you rebased the branch, you have to specify the `-f` to your push command in order to be able to replace the `featureA` branch on the server with a commit that isn’t a descendant of it. An alternative would be to push this new work to a different branch on the server (perhaps called `featureAv2`). -->
 
-Spójrzmy na jeszcze jeden scenariusz: opiekun spojrzał na zmiany w twojej drugiej gałęzi i spodobał mu się pomysł, ale chciałby abyś zmienił sposób w jaki je zaimplementowałeś. Wykorzystasz to również do tego, aby przenieść zmiany do obecnej gałęzi `master`. Tworzysz więc nową gałąź bazując na `origin/master`, złączasz zmiany z gałęzi `featureB` tam, rozwiązujesz ewentualne konflikty, wprowadzasz zmiany w implementacji i następnie wypychasz zmiany do nowej gałęzi:
+Spójrzmy na jeszcze jeden scenariusz: opiekun spojrzał na zmiany w Twojej drugiej gałęzi i spodobał mu się pomysł, ale chciałby abyś zmienił sposób w jaki je zaimplementowałeś. Wykorzystasz to również do tego, aby przenieść zmiany do obecnej gałęzi `master`. Tworzysz więc nową gałąź bazując na `origin/master`, złączasz zmiany z gałęzi `featureB` tam, rozwiązujesz ewentualne konflikty, wprowadzasz zmiany w implementacji i następnie wypychasz zmiany do nowej gałęzi:
 
 <!-- Let’s look at one more possible scenario: the maintainer has looked at work in your second branch and likes the concept but would like you to change an implementation detail. You’ll also take this opportunity to move the work to be based off the project’s current `master` branch. You start a new branch based off the current `origin/master` branch, squash the `featureB` changes there, resolve any conflicts, make the implementation change, and then push that up as a new branch: -->
 
@@ -675,7 +675,7 @@ Duża ilość większych projektów ma ustalone reguły dotyczące akceptowania 
 
 <!-- Many larger projects have established procedures for accepting patches — you’ll need to check the specific rules for each project, because they will differ. However, many larger public projects accept patches via a developer mailing list, so I’ll go over an example of that now. -->
 
-Przepływ pracy jest podobny do poprzedniego - tworzysz tematyczne gałęzie dla każdej grupy zmian nad którymi pracujesz. Różnica polega na tym, w jaki sposób wysyłasz je do projektu. Zamiast tworzyć rozwidlenie i wypychać do niego zmiany, tworzysz wiadomość email dla każdego zestawu zmian i wysyłasz je na listę dyskusyjną:
+Przepływ pracy jest podobny do poprzedniego - tworzysz tematyczne gałęzie dla każdej grupy zmian nad którymi pracujesz. Różnica polega na tym, w jaki sposób wysyłasz je do projektu. Zamiast tworzyć rozwidlenie i wypychać do niego zmiany, tworzysz wiadomość e-mail dla każdego zestawu zmian i wysyłasz je na listę dyskusyjną:
 
 <!-- The workflow is similar to the previous use case — you create topic branches for each patch series you work on. The difference is how you submit them to the project. Instead of forking the project and pushing to your own writable version, you generate e-mail versions of each commit series and e-mail them to the developer mailing list: -->
 
@@ -685,7 +685,7 @@ Przepływ pracy jest podobny do poprzedniego - tworzysz tematyczne gałęzie dla
     $ (work)
     $ git commit
 
-Teraz masz dwa commity, które chcesz wysłać na listę dyskusyjną. Uzyj `git format-patch` do wygenerowania plików w formacie mbox, które możesz wysłać na listę - zamieni to każdy commit w osobną wiadomość, z pierwszą linią komentarza ("commit message") jako tematem, jego pozostałą częścią w treści, dołączając jednoczenie zawartość wprowadzanej zmiany. Fajną rzeczą jest to, że aplikowanie łatki przesłanej przez email i wygenerowanej za pomocą `format-patch` zachowuje wszystkie informacje o commit-cie, co zobaczysz w kolejnej sekcji kiedy zaaplikujesz te zmiany:
+Teraz masz dwa commity, które chcesz wysłać na listę dyskusyjną. Uzyj `git format-patch` do wygenerowania plików w formacie mbox, które możesz wysłać na listę - zamieni to każdy commit w osobną wiadomość, z pierwszą linią komentarza ("commit message") jako tematem, jego pozostałą częścią w treści, dołączając jednoczenie zawartość wprowadzanej zmiany. Fajną rzeczą jest to, że aplikowanie łatki przesłanej przez e-mail i wygenerowanej za pomocą `format-patch` zachowuje wszystkie informacje o commit-cie, co zobaczysz w kolejnej sekcji kiedy zaaplikujesz te zmiany:
 
 <!-- Now you have two commits that you want to send to the mailing list. You use `git format-patch` to generate the mbox-formatted files that you can e-mail to the list — it turns each commit into an e-mail message with the first line of the commit message as the subject and the rest of the message plus the patch that the commit introduces as the body. The nice thing about this is that applying a patch from an e-mail generated with `format-patch` preserves all the commit information properly, as you’ll see more of in the next section when you apply these patches: -->
 
@@ -789,7 +789,7 @@ Ten rozdział opisywał kilka z najczęściej używanych sposobów przepływu pr
 
 ## Utrzymywanie projektu ##
 
-Ponad to co musisz wiedzieć, aby efektywnie uczestniczyć w projekcie, powinieneś również wiedzieć jak go utrzymywać. Składa się na to akceptowanie i nakładanie łat wygenerowanych przez `format-patch` i wysłanych do ciebie, lub łączenie zmian z zewnętrznych repozytoriów które dodałeś w projekcie. Nieważne czy prowadzisz zwykłe repozytorium, lub chcesz pomóc przy weryfikacji i integrowaniu łat, musisz wiedzieć w jaki sposób akceptować zmiany innych w taki sposób, który będzie przejrzysty dla innych i spójny w dłuższym okresie.
+Ponad to co musisz wiedzieć, aby efektywnie uczestniczyć w projekcie, powinieneś również wiedzieć jak go utrzymywać. Składa się na to akceptowanie i nakładanie łat wygenerowanych przez `format-patch` i wysłanych do Ciebie, lub łączenie zmian z zewnętrznych repozytoriów które dodałeś w projekcie. Nieważne czy prowadzisz zwykłe repozytorium, lub chcesz pomóc przy weryfikacji i integrowaniu łat, musisz wiedzieć w jaki sposób akceptować zmiany innych w taki sposób, który będzie przejrzysty dla innych i spójny w dłuższym okresie.
 
 <!-- In addition to knowing how to effectively contribute to a project, you’ll likely need to know how to maintain one. This can consist of accepting and applying patches generated via `format-patch` and e-mailed to you, or integrating changes in remote branches for repositories you’ve added as remotes to your project. Whether you maintain a canonical repository or want to help by verifying or approving patches, you need to know how to accept work in a way that is clearest for other contributors and sustainable by you over the long run. -->
 
@@ -815,7 +815,7 @@ Teraz jesteś gotowy do tego, aby dodać do niej udostępnione zmiany i zdecydow
 
 ### Aplikowanie łat przychodzących e-mailem ###
 
-Jeżeli otrzymasz łatę poprzez wiadomość email, którą musisz włączyć do swojego projektu, musisz zaaplikować ją do gałęzi tematycznej w celu przetestowania. Istnieją dwa sposoby aby włączyć takie zmiany: przy użyciu `git apply` lub `git am`.
+Jeżeli otrzymasz łatę poprzez wiadomość e-mail, którą musisz włączyć do swojego projektu, musisz zaaplikować ją do gałęzi tematycznej w celu przetestowania. Istnieją dwa sposoby aby włączyć takie zmiany: przy użyciu `git apply` lub `git am`.
 
 <!-- If you receive a patch over e-mail that you need to integrate into your project, you need to apply the patch in your topic branch to evaluate it. There are two ways to apply an e-mailed patch: with `git apply` or with `git am`. -->
 
@@ -827,7 +827,7 @@ Jeżeli otrzymałeś łatę od kogoś kto wygenerował ją za pomocą komendy `g
 
     $ git apply /tmp/patch-ruby-client.patch
 
-Ta komenda zmodyfikuje pliki znajdujące się w obecnym katalogu. Jest ona prawie identyczna do komendy `patch -p1` w celu nałożenia łaty, ale jest bardziej restrykcyjna pod względem akceptowanych zmian. Obsługuje również dodawanie plików, usuwanie, oraz zmiany nazw jeżeli zostały zapisane w formacie `git diff`, czego komenda `patch` nie zrobi. Wreszcie, `git apply` ma zasadę "zaakceptuj lub odrzuć wszystko", gdzie albo wszystko jest zaakceptowane albo nic, a `patch` może częściowo nałożyć zmiany zostawiając projekt z niespójnym stanem. Komenda `git apply` jest z zasady bardziej restrykcyjna niż `patch`. Nie stworzy za ciebie commita - po uruchomieniu, musisz zatwierdzić wprowadzone zmiany ręcznie.
+Ta komenda zmodyfikuje pliki znajdujące się w obecnym katalogu. Jest ona prawie identyczna do komendy `patch -p1` w celu nałożenia łaty, ale jest bardziej restrykcyjna pod względem akceptowanych zmian. Obsługuje również dodawanie plików, usuwanie, oraz zmiany nazw jeżeli zostały zapisane w formacie `git diff`, czego komenda `patch` nie zrobi. Wreszcie, `git apply` ma zasadę "zaakceptuj lub odrzuć wszystko", gdzie albo wszystko jest zaakceptowane albo nic, a `patch` może częściowo nałożyć zmiany zostawiając projekt z niespójnym stanem. Komenda `git apply` jest z zasady bardziej restrykcyjna niż `patch`. Nie stworzy za Ciebie commita - po uruchomieniu, musisz zatwierdzić wprowadzone zmiany ręcznie.
 
 <!-- This modifies the files in your working directory. It’s almost identical to running a `patch -p1` command to apply the patch, although it’s more paranoid and accepts fewer fuzzy matches than patch. It also handles file adds, deletes, and renames if they’re described in the `git diff` format, which `patch` won’t do. Finally, `git apply` is an "apply all or abort all" model where either everything is applied or nothing is, whereas `patch` can partially apply patchfiles, leaving your working directory in a weird state. `git apply` is overall much more paranoid than `patch`. It won’t create a commit for you — after running it, you must stage and commit the changes introduced manually. -->
 
@@ -849,7 +849,7 @@ Jeżeli otrzymałeś łatę wygenerowaną przez użytkownika używającego Gita,
 
 <!-- If the contributor is a Git user and was good enough to use the `format-patch` command to generate their patch, then your job is easier because the patch contains author information and a commit message for you. If you can, encourage your contributors to use `format-patch` instead of `diff` to generate patches for you. You should only have to use `git apply` for legacy patches and things like that. -->
 
-Aby zaaplikować łatę wygenerowaną przez `format-patch`, użyj `git am`. Technicznie rzecz biorąc, `git am` został stworzony, aby odczytywać plik w formacie mbox, który jest prostym, tekstowym formatem zawierającym jedną lub więcej wiadomości email w jednym pliku. Wygląda on podobnie do:
+Aby zaaplikować łatę wygenerowaną przez `format-patch`, użyj `git am`. Technicznie rzecz biorąc, `git am` został stworzony, aby odczytywać plik w formacie mbox, który jest prostym, tekstowym formatem zawierającym jedną lub więcej wiadomości e-mail w jednym pliku. Wygląda on podobnie do:
 
 <!-- To apply a patch generated by `format-patch`, you use `git am`. Technically, `git am` is built to read an mbox file, which is a simple, plain-text format for storing one or more e-mail messages in one text file. It looks something like this: -->
 
@@ -864,7 +864,7 @@ To są pierwsze linie z wyniku komendy format-patch którą zobaczyłeś w poprz
 
 <!-- This is the beginning of the output of the format-patch command that you saw in the previous section. This is also a valid mbox e-mail format. If someone has e-mailed you the patch properly using git send-email, and you download that into an mbox format, then you can point git am to that mbox file, and it will start applying all the patches it sees. If you run a mail client that can save several e-mails out in mbox format, you can save entire patch series into a file and then use git am to apply them one at a time. -->
 
-Również, jeżeli ktoś wgrał łatkę wygenerowaną poprzez `format-patch` do bugtrakera lub podobnego, możesz zapisać lokalnie ten plik i potem przekazać go do `git am` aby zaaplikować go:
+Również, jeżeli ktoś wgrał łatkę wygenerowaną poprzez `format-patch` do systemy rejestracji błędów lub czegoś podobnego, możesz zapisać lokalnie ten plik i potem przekazać go do `git am` aby zaaplikować go:
 
 <!-- However, if someone uploaded a patch file generated via `format-patch` to a ticketing system or something similar, you can save the file locally and then pass that file saved on your disk to `git am` to apply it: -->
 
@@ -904,7 +904,7 @@ Jednak możliwa jest również sytuacja, w której łatka nie zostanie bez probl
     If you would prefer to skip this patch, instead run "git am --skip".
     To restore the original branch and stop patching run "git am --abort".
 
-Ta komenda zaznacza pliku z którymi miała problemy, podobnie do konfliktów występujących podczas komend `merge` lub `rebase`. Rozwiązujesz takie sytuacja również analogicznie - wyedytuj plik w celu rozwiązania konfliktu, dodaj do przechowalni nowe pliki i następnie uruchom `git am --resolved` aby kontynuować działanie do następnej łatki:
+Ta komenda zaznacza pliku z którymi miała problemy, podobnie do konfliktów występujących podczas komend `merge` lub `rebase`. Rozwiązujesz takie sytuacja również analogicznie - zmień plik w celu rozwiązania konfliktu, dodaj do przechowalni nowe pliki i następnie uruchom `git am --resolved` aby kontynuować działanie do następnej łatki:
 
 <!-- This command puts conflict markers in any files it has issues with, much like a conflicted merge or rebase operation. You solve this issue much the same way — edit the file to resolve the conflict, stage the new file, and then run `git am --resolved` to continue to the next patch: -->
 
@@ -944,7 +944,7 @@ Jest to całkiem dobre jeżeli masz zapisaną większą liczbę łat, ponieważ 
 
 <!-- This is nice if you have a number of patches saved, because you can view the patch first if you don’t remember what it is, or not apply the patch if you’ve already done so. -->
 
-Kiedy wszystkie łatki zostaną wgrane i commitnięte w twojej gałęzi, możesz zastanowić się w jaki sposób i czy chcesz integrować je do jednej z głównych gałęzi.
+Kiedy wszystkie łatki zostaną wgrane i commitnięte w Twojej gałęzi, możesz zastanowić się w jaki sposób i czy chcesz integrować je do jednej z głównych gałęzi.
 
 <!-- When all the patches for your topic are applied and committed into your branch, you can choose whether and how to integrate them into a longer-running branch. -->
 
@@ -1020,7 +1020,7 @@ Ta komenda pokaże ci różnice w kodzie, ale może to być mylące. Jeżeli two
 
 <!-- This command gives you a diff, but it may be misleading. If your `master` branch has moved forward since you created the topic branch from it, then you’ll get seemingly strange results. This happens because Git directly compares the snapshots of the last commit of the topic branch you’re on and the snapshot of the last commit on the `master` branch. For example, if you’ve added a line in a file on the `master` branch, a direct comparison of the snapshots will look like the topic branch is going to remove that line. -->
 
-Jeżeli `master` jest bezpośrednim przodkiem twojej gałęzi tematycznej, nie stanowi to problemu; jeżeli jednak obie linie się rozjechały, wynik `diff` pokaże dodawane wszystkie zmiany z gałęzi tematycznej, a usuwane wszystkie unikalne z `master`.
+Jeżeli `master` jest bezpośrednim przodkiem Twojej gałęzi tematycznej, nie stanowi to problemu; jeżeli jednak obie linie się rozjechały, wynik `diff` pokaże dodawane wszystkie zmiany z gałęzi tematycznej, a usuwane wszystkie unikalne z `master`.
 
 <!-- If `master` is a direct ancestor of your topic branch, this isn’t a problem; but if the two histories have diverged, the diff will look like you’re adding all the new stuff in your topic branch and removing everything unique to the `master` branch. -->
 
@@ -1092,7 +1092,7 @@ Figure 5-23. Po utworzeniu kolejnej wersji.
 
 <!-- Figure 5-23. After a topic branch release. -->
 
-W ten sposób, kiedy ludzie klonują twoje repozytorium, mogą albo pobrać `master` aby zbudować najnowszą stabilną wersję i utrzymywać ją uaktualnioną, lub mogą pobrać `develop` która zawiera mniej stabilne zmiany.
+W ten sposób, kiedy ludzie klonują Twoje repozytorium, mogą albo pobrać `master` aby zbudować najnowszą stabilną wersję i utrzymywać ją uaktualnioną, lub mogą pobrać `develop` która zawiera mniej stabilne zmiany.
 Możesz rozbudować tą koncepcję, poprzez dodanie gałęzi służącej do integracji. Wtedy jeżeli kod w znajdujący się w niej jest stabilny i przechodzi wszystkie testy, scalasz ją do gałęzi `develop`; a jeżeli ta okaże się również stabilna, przesuwasz `master` za pomocą fast-forward.
 
 <!-- This way, when people clone your project’s repository, they can either check out master to build the latest stable version and keep up to date on that easily, or they can check out develop, which is the more cutting-edge stuff.
@@ -1273,6 +1273,6 @@ Możesz pobrać podsumowanie wszystkich zmian począwszy od wersji v1.0.1 pogrup
 
 ## Podsumowanie ##
 
-Powinieneś się teraz czuć całkiem swobodnie uczestnicząc w projekcie używając Gita, zarówno jako opiekun własnego projektu jak również, integrator zmian dostarczonych przez innych użytkowników. Gratulacje! Właśnie stałeś się skutecznym deweloperem używającym Gita! W kolejnym rozdziale, nauczysz się bardziej zaawansowanych narzędzi oraz rozwiązywania złożonych sytuacji, które uczynią z ciebie prawdziwego mistrza.
+Powinieneś się teraz czuć całkiem swobodnie uczestnicząc w projekcie używając Gita, zarówno jako opiekun własnego projektu jak również, integrator zmian dostarczonych przez innych użytkowników. Gratulacje! Właśnie stałeś się skutecznym deweloperem używającym Gita! W kolejnym rozdziale, nauczysz się bardziej zaawansowanych narzędzi oraz rozwiązywania złożonych sytuacji, które uczynią z Ciebie prawdziwego mistrza.
 
 <!-- You should feel fairly comfortable contributing to a project in Git as well as maintaining your own project or integrating other users’ contributions. Congratulations on being an effective Git developer! In the next chapter, you’ll learn more powerful tools and tips for dealing with complex situations, which will truly make you a Git master. -->

@@ -4,9 +4,9 @@ Tämä luku auttaa sinut pääsemään alkuun Gitin kanssa. Me aloitamme aluksi 
 
 ## Versionhallinnasta ##
 
-Mitä on versionhallinta ja miksi sinun pitäisi välittää siitä? Versionhallinta on järjestelmä, joka ajan kuluessa tallentaa muutoksia tiedostoon tai joukkoon tiedostoja, jotta sinä voit palata tiettyihin versioihin myöhemmin. Esimerkkeinä tässä kirjassa sinä käytät ohjelmiston lähdekoodia tiedostoina, jotka ovat versiohallittavana, vaikkakin todellisuudessa sinä voit tehdä tämän melkeinpä millä tahansa tiedostolla tietokoneellasi.
+Mitä on versionhallinta ja miksi sinun pitäisi välittää siitä? Versionhallinta on järjestelmä, joka ajan kuluessa tallentaa muutoksia tiedostoon tai joukkoon tiedostoja, jotta sinä voit palata tiettyihin versioihin myöhemmin. Vaikka esimerkit tässä kirjassa näyttävät ohjelmiston lähdekoodia versiohallittavina tiedostoina, todellisuudessa mikä tahansa tiedosto tietokoneellasi voidaan asettaa versiohallittavaksi.
 
-Jos sinä olet graafinen tai web suunnittelija ja haluat säilyttää jokaisen version kuvasta tai leiskasta (minkä sinä mitä varmimmin haluat), on erittäin viisasta käyttää versionhallintajärjestelmää (VCS). Se mahdollistaa sen, että voit palauttaa tiedoston takaisin edelliseen tilaan, palauttaa koko projektin takaisin edelliseen tilaan, vertailla muutoksia ajan kuluessa, nähdä kuka viimeksi muokkasi jotain, mikä voi olla ongelman aiheuttaja, kuka esitteli ongelman ja milloin, ja muuta. VCS:n käyttö tarkoittaa pääasiassa sitä, että jos sinä sotket jotain tai menetät tiedostoja, voit helposti palautua edelliseen toimivaan tilaan. Lisäksi saat kaiken tämän erittäin vähällä ylläpidolla.
+Jos sinä olet graafinen tai web suunnittelija ja haluat säilyttää jokaisen version kuvasta tai leiskasta (minkä sinä varmasti haluat), on erittäin viisasta käyttää versionhallintajärjestelmää (VCS). Se mahdollistaa sen, että voit palauttaa tiedoston takaisin edelliseen tilaan, palauttaa koko projektin takaisin edelliseen tilaan, katselmoida ajan kuluessa tehtyjä muutoksia, nähdä kuka viimeksi muokkasi jotain, mikä voi olla ongelman aiheuttaja, kuka esitteli ongelman ja milloin, ja muuta. VCS:n käyttö tarkoittaa pääasiassa sitä, että jos sinä sotket jotain tai menetät tiedostoja, voit helposti palautua edelliseen toimivaan tilaan. Lisäksi saat kaiken tämän erittäin vähällä ylläpidolla.
 
 ### Paikalliset versionhallintajärjestelmät ###
 
@@ -14,16 +14,16 @@ Monen ihmisen versionhallintaratkaisu on kopioida tiedostoja toiseen kansioon (e
 
 Tämän ongelman ratkaisemiksi ohjelmoijat kehittivät kauan sitten paikallisen VCS:n, jolla oli yksinkertainen tietokanta, joka piti kaikki tiedostojen muutokset muutostenhallinnan alla (katso Kuva 1-1).
 
-Insert 18333fig0101.png 
+Insert 18333fig0101.png
 Kuva 1-1. Paikallinen versionhallinta -diagrammi.
 
-Yksi suosituimmista VCS-työkaluista oli rcs:ksi kutsuttu järjestelmä, joka yhä tänä päivänä toimitetaan monen tietokoneen mukana. Jopa suosittu Mac OS X -käyttöjärjestelmä sisältää rcs-komennon Developer Tools -paketin asennuksen jälkeen. Tämä työkalu toimii periaatteessa pitämällä pätsikokoelmia (muutoksia tiedostojen välillä) yhdestä muutoksesta toiseen erikoisformaatissa kiintolevyllä; se voi täten luoda uudelleen sen, miltä mikä tahansa tiedosto näytti millä tahansa ajanhetkellä lisäämällä kaikki tarvittavat pätsit.
+Yksi suosituimmista VCS-työkaluista oli rcs:ksi kutsuttu järjestelmä, joka yhä tänä päivänä toimitetaan monen tietokoneen mukana. Jopa suosittu Mac OS X -käyttöjärjestelmä sisältää rcs-komennon Developer Tools -paketin asennuksen jälkeen. Tämä työkalu toimii periaatteessa pitämällä pätsikokoelmia (muutoksia tiedostojen välillä) yhdestä korjauksesta toiseen erikoisformaatissa kiintolevyllä; se voi täten luoda uudelleen sen, miltä mikä tahansa tiedosto näytti millä tahansa ajanhetkellä lisäämällä kaikki tarvittavat pätsit.
 
 ### Keskitetyt versionhallintajärjestelmät ###
 
 Seuraava suuri ongelma, mihin ihmiset törmäävät, on, että heillä on tarve tehdä yhteistyötä muissa järjestelmissä olevien kehittäjien kanssa. Tämän ongelman ratkaisemiseksi luotiin keskitetyt versionhallintajärjestelmät (CVCS). Nämä järjestelmät, kuten CVS, Subversion ja Perforce, omaavat yksittäisen palvelimen, joka sisältää kaikki versioidut tiedostot, ja asiakkaita, jotka hakevat tiedostot tästä keskitetystä paikasta. Monet vuodet tämä on ollut versionhallinnan standardi (katso Kuva 1-2).
 
-Insert 18333fig0102.png 
+Insert 18333fig0102.png
 Kuva 1-2. Keskitetty versionhallinta -diagrammi.
 
 Tämä asetelma tarjoaa monta etua, erityisesti paikalliseen VCS:n verrattuna. Esimerkiksi, jokainen tietää jossain määrin, mitä kukin projektissa oleva tekee. Järjestelmänvalvojilla on hienosäädetty kontrolli siihen, mitä kukin voi tehdä; ja on paljon helpompi valvoa CVCS:ää, kuin toimia jokaisen asiakkaan paikallisen tietokannan kanssa.
@@ -34,7 +34,7 @@ Tässä asetelmassa on kuitenkin myös muutama vakava haittapuoli. Kaikkein selv
 
 Tässä kohdassa hajautetut versionhallintajärjestelmät (DVCS) astuvat mukaan. DVCS:ssä (kuten Git, Mercurial, Bazaar tai Darcs) asiakkaat eivät vain hae viimeisintä tilannekuvaa tiedostoista: ne peilaavat täysin koko tietolähteen. Täten, jos mikä tahansa palvelin kuolee, ja nämä järjestelmät tekivät yhteistyötä sen kautta, mikä tahansa asiakastietolähde pystytään kopioimaan takaisin palvelimelle tiedon palauttamiseksi. Jokainen tiedonhaku on todellisuudessa täysi varmuuskopio kaikesta datasta (katso Kuva 1-3).
 
-Insert 18333fig0103.png 
+Insert 18333fig0103.png
 Kuva 1-3. Hajautettu versionhallinta -diagrammi.
 
 Lisäksi monet näistä järjestelmistä selviytyvät melko hyvin siitä, että niillä on monia etätietolähteitä, joiden kanssa ne voivat työskennellä, joten sinä voit tehdä monenlaista yhteistyötä monenlaisien ihmisryhmien kanssa samaan aikaan samassa projektissa. Tämä mahdollistaa sen, että voit aloittaa monenlaisia työnkulkuja, jotka eivät ole mahdollisia keskitetyissä järjestelmissä, kuten hierarkkiset mallit.
@@ -61,12 +61,12 @@ Joten, mitä Git on pähkinänkuoressa? Tämä on tärkeä osa-alue omaksua, kos
 
 Suurin eroavaisuus Gitin ja minkä tahansa muun VCS:n (Subversion ja kumppanit mukaan lukien) välillä on tapa, jolla Git ajattelee dataansa. Käsitteellisesti moni muu järjestelmä varastoi informaatiotansa listana tiedostopohjaisista muutoksista. Nämä järjestelmät (CVS, Subversion, Perforce, Bazaar, ja niin edelleen) ajattelevat informaatiota jota ne varastoivat kokoelmana tiedostoja ja ajan kuluessa jokaiseen tiedostoon tehtyinä muutoksina, kuten on kuvattu Kuvassa 1-4.
 
-Insert 18333fig0104.png 
+Insert 18333fig0104.png
 Kuva 1-4. Muut järjestelmät tapaavat varastoida dataa muutoksina, jokaisen tiedoston alkuperäiseen versioon.
 
 Git ei ajattele tai varastoi dataansa tällä tavalla. Sen sijaan Git ajattelee dataansa enemmän kokoelmana tilannekuvia pikkuruisesta tiedostojärjestelmästä. Joka kerta, kun sinä teet pysyvän muutoksen (commitin), tai tallennat projektisi tilan Gitissä, Git ottaa periaatteessa kuvan siitä, miltä sinun tiedostosi näyttävät kyseisellä hetkellä, ja varastoi viitteen tähän tilannekuvaan. Ollakseen tehokas, jos tiedostoa ei ole muutettu, Git ei varastoi sitä uudestaan - vaan linkittää sen edelliseen identtiseen tiedostoon, jonka se on jo varastoinut. Git ajattelee dataansa enemmän kuten Kuva 1-5 osoittaa.
 
-Insert 18333fig0105.png 
+Insert 18333fig0105.png
 Kuva 1-5. Git varastoi dataa projektin tilannekuvina ajan kuluessa.
 
 Tämä on tärkeä ero Gitin ja melkein minkä tahansa muun VCS:n välillä. Se laittaa Gitin harkitsemaan uudelleen melkein jokaista versionhallinnan aspektia, jotka monet muut järjestelmät kopioivat edeltäneestä sukupolvesta. Tämä tekee Gitistä kuin pikkuruisen tiedostojärjestelmän, jolla on muutamia uskomattoman tehokkaita työkaluja päälle rakennettuna, ennemmin kuin simppelin VCS:n. Me tutkimme joitain hyötyjä, joita saavutat ajattelemalla datastasi tällä tavoin, kun käsittelemme Gitin haarautumista Luvussa 3.
@@ -93,7 +93,7 @@ Voit nähdä nämä tarkistearvot joka puolella Gitissä, koska se käyttää ni
 
 Kun teet toimintoja Gitissä, melkein kaikki niistä ainoastaan lisäävät dataa Gitin tietokantaan. On erittäin vaikea saada järjestelmä tekemään mitään, mikä olisi kumoamaton, tai saada se poistamaan dataa millään tavoin. Kuten missä tahansa VCS:ssä, voit menettää tai sotkea muutoksia, joita ei ole vielä tehty pysyviksi; mutta sen jälkeen, kun teet pysyvän tilannekuvan muutoksen Gitiin, se on erittäin vaikeaa hävittää etenkin, jos sinä säännöllisesti työnnät tietokantasi toiseen tietolähteeseen.
 
-Tämä tekee Gitin käyttämisestä hauskaa, koska me tiedämme, että voimme kokeilla erilaisia asioita ilman vaaraa, että sotkisimme vakavasti versionhallintamme. Syväluotaavamman tarkastelun siihen, miten Git varastoi dataansa ja kuinka voit palauttaa datan, joka näyttää hävinneeltä, katso "Kuorien alla" Kappaleesta 9.
+Tämä tekee Gitin käyttämisestä hauskaa, koska me tiedämme, että voimme kokeilla erilaisia asioita ilman vaaraa, että sotkisimme vakavasti versionhallintamme. Syväluotaavamman tarkastelun siihen, miten Git varastoi dataansa ja kuinka voit palauttaa datan, joka näyttää hävinneeltä, katso Luku 9.
 
 ### Kolme tilaa ###
 
@@ -101,7 +101,7 @@ Lue nyt huolellisesti. Tämä on pääasia muistaa Gitistä, jos sinä haluat lo
 
 Tämä johdattaa meidät kolmeen seuraavaan osaan Git-projektia: Git-hakemisto, työskentelyhakemisto, ja lavastusalue.
 
-Insert 18333fig0106.png 
+Insert 18333fig0106.png
 Kuva 1-6. Työskentelyhakemisto, lavastusalue, ja Git-hakemisto.
 
 Git-hakemisto on paikka, johon Git varastoi metadatan ja oliotietokannan projektillesi. Tämä on kaikkein tärkein osa Gitiä, ja se sisältää sen, mitä kopioidaan, kun kloonaat tietovaraston toiselta tietokoneelta.
@@ -132,7 +132,7 @@ Asentaaksesi Gitin, tarvitset seuraavat kirjastot joista Git on riippuvainen: cu
 	  openssl-devel zlib-devel
 
 	$ apt-get install libcurl4-gnutls-dev libexpat1-dev gettext \
-	  libz-dev
+	  libz-dev libssl-dev
 
 Kun sinulla on kaikki tarvittavat riippuvuudet, voit mennä eteenpäin ja kiskaista uusimman tilannekuvan Gitin verkkosivuilta:
 
@@ -140,8 +140,8 @@ Kun sinulla on kaikki tarvittavat riippuvuudet, voit mennä eteenpäin ja kiskai
 
 Tämän jälkeen käännä ja asenna:
 
-	$ tar -zxf git-1.6.0.5.tar.gz
-	$ cd git-1.6.0.5
+	$ tar -zxf git-1.7.2.2.tar.gz
+	$ cd git-1.7.2.2
 	$ make prefix=/usr/local all
 	$ sudo make prefix=/usr/local install
 
@@ -157,7 +157,7 @@ Jos haluat asentaa Gitin Linuxissa binääriasennusohjelman kautta, voit yleens�
 
 Tai jos olet Debian-pohjaisessa julkaisussa kuten Ubuntussa, kokeile apt-getiä:
 
-	$ apt-get install git-core
+	$ apt-get install git
 
 ### Asennus Macissä ###
 
@@ -165,7 +165,7 @@ On olemassa kaksi helppoa tapaa asentaa Git Macissä. Helpoin on käyttää graa
 
 	http://code.google.com/p/git-osx-installer
 
-Insert 18333fig0107.png 
+Insert 18333fig0107.png
 Kuva 1-7. Git OS X -asennusohjelma.
 
 Toinen pääasiallinen tapa on asentaa Git MacPortsin kautta (`http://www.macports.org`). Jos sinulla on MacPorts asennettuna, asenna Git näin:
@@ -182,6 +182,8 @@ Gitin asennus Windowsissa on erittäin helppoa. MsysGit-projektilla on yksi help
 
 Asennuksen jälkeen sinulla on sekä komentoriviversio (sisältäen SSH-asiakasohjelman, joka osoittautuu hyödylliseksi myöhemmin) että standardi graafinen käyttöliittymä.
 
+Huomioitavaa Windowsin käytössä: sinun tulisi käyttää Gitiä tarjotulla msysGitin komentorivillä (Unix-tyylinen). Se sallii käytettävän tässä kirjassa annettuja monirivisiä komentoja. Jos sinun täytyy jostakin syystä käyttää natiivia Windows-komentoriviä tai konsolia, sinun täytyy käyttää lainausmerkkejä heittomerkkien sijaan (parametreille, joissa on välejä) ja ympäröidä lainausmerkeillä sirkumfleksiaksenttiin (^) päättyvät parametrit, jos ne ovat rivillä viimeisinä, koska se on jatkumissymboli Windowsissa.
+
 ## Ensikerran Git-asetukset ##
 
 Nyt, kun sinulla on Git järjestelmässäsi, haluat tehdä muutamia asioita räätälöidäksesi Git-ympäristöäsi. Sinun tulisi tehdä nämä asiat vain kerran; ne säilyvät Gitin päivitysten välissä. Voit myös muuttaa niitä minä tahansa hetkenä ajamalla komennot läpi uudestaan.
@@ -192,7 +194,7 @@ Gitin mukanaan tulee työkalu, jota kutsutaan git configiksi. Tämä työkalu an
 * `~/.gitconfig`-tiedosto: Tämä on erityisesti käyttäjällesi. Voit pakottaa Gitin lukemaan ja kirjoittamaan erityisesti tähän tiedostoon antamalla option `--global`.
 * config-tiedosto on Git-hakemistossa (tämä on, `.git/config`) missä tahansa tietolähteistä, jota juuri nyt käytät: Tämä on erityisesti kyseessä olevalle tietolähteelle. Jokainen taso ylikirjoittaa arvoja aikaisemmilta tasoilta, joten arvot `.git/config`issa päihittävät arvot `/etc/gitconfig`issa.
 
-Windows-järjestelmissä Git etsii `.gitconfig`-tiedostoa `$HOME`-hakemistosta (`C:\Documents and Settings\$USER` suurimmalle osalle ihmisistä). Se myös etsii yhä '/etc/gitconfig'ia, vaikkakin se on suhteellinen MSys-juureen, joka on missä tahansa minne päätät asentaa Gitin sinun Windows-järjestelmässäsi, kun suoritat asennusohjelman.
+Windows-järjestelmissä Git etsii `.gitconfig`-tiedostoa `$HOME`-hakemistosta (`%USERPROFILE%` Windowsin ympäristössä), joka on `C:\Documents and Settings\$USER` tai `C:\Users\$USER` suurimmalle osalle ihmisistä , riippuen versiosta (`$USER` on `%USERNAME%` Windowsin ympäristössä). Se myös etsii yhä '/etc/gitconfig'ia, vaikkakin se on suhteellinen MSys-juureen, joka on missä tahansa minne päätät asentaa Gitin sinun Windows-järjestelmässäsi, kun suoritat asennusohjelman.
 
 ### Identiteettisi ###
 

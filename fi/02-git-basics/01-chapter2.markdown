@@ -14,7 +14,7 @@ Jos aloitat jo olemassa olevan projektin jäljittämisen Gitillä, sinun täytyy
 
 Tämä luo uuden alihakemiston nimeltä `.git`, joka sisältää kaikki tarvittavat tietolähdetiedostot - luurangon Git-tietolähteelle. Tällä hetkellä mitään projektissasi ei vielä jäljitetä. (Katso *Luku 9* saadaksesi enemmän tietoa siitä, mitä tiedostoja tarkalleen ottaen juuri luomasi `.git`-hakemisto sisältää.)
 
-Jos haluat aloittaa versionhallinnan jo olemassa oleville tiedostoille (tyhjän kansion sijaan), sinun täytyy mitä luultavammin aloittaa näiden tiedostojen jäljittäminen ja tehdä alustava pysyvä muutos. Sinä saavutat tämän muutamalla `git add`-komennolla, joista ensimmäiset määrittävät, mitä tiedostoja haluat jäljittää, ja joita seuraa pysyvän muutoksen luonti:
+Jos haluat aloittaa versionhallinnan jo olemassa oleville tiedostoille (tyhjän kansion sijaan), sinun täytyy mitä luultavammin aloittaa näiden tiedostojen jäljittäminen ja tehdä alustava pysyvä muutos. Sinä saavutat tämän muutamalla `git add` -komennolla, joista ensimmäiset määrittävät, mitä tiedostoja haluat jäljittää, ja joita seuraa pysyvän muutoksen luonti:
 
 	$ git add *.c
 	$ git add README
@@ -24,9 +24,9 @@ Me käymme pian läpi mitä nämä komennot tekevät. Tällä hetkellä sinulla 
 
 ### Olemassa olevan tietolähteen kloonaus ###
 
-Jos haluat kopion olemassa olevasta tietolähteestä - esimerkiksi projektista, johon haluat olla osallisena - komento, jonka tarvitset, on `git clone`. Jos muut VCS-järjestelmät, kuten Subversion, ovat sinulle tuttuja, huomaat, että komento on `clone` eikä `checkout`. Tämä on tärkeä ero - Git saa kopion melkein kaikesta datasta mitä palvelimella on. Jokainen versio jokaisesta tiedostosta projektin historiassa tulee vedetyksi, kun suoritat `git clone`-komennon. Itse asiassa, jos palvelimesi levy korruptoituu, voit käyttää mitä tahansa klooneista, miltä tahansa asiakassovellukselta, asettaaksesi palvelimen takaisin tilaan, jossa se oli, kun se kloonattiin (voit menettää jotain palvelinpuolen sovelluskoukkuja ja muuta, mutta kaikki versioitu data on tallessa - katso *Luku 4* tarkempia yksityiskohtia varten).
+Jos haluat kopion olemassa olevasta tietolähteestä - esimerkiksi projektista, johon haluat olla osallisena - komento, jonka tarvitset, on `git clone`. Jos muut VCS-järjestelmät, kuten Subversion, ovat sinulle tuttuja, huomaat, että komento on `clone` eikä `checkout`. Tämä on tärkeä ero - Git saa kopion melkein kaikesta datasta mitä palvelimella on. Jokainen versio jokaisesta tiedostosta projektin historiassa tulee vedetyksi, kun suoritat `git clone` -komennon. Itse asiassa, jos palvelimesi levy korruptoituu, voit käyttää mitä tahansa klooneista, miltä tahansa asiakassovellukselta, asettaaksesi palvelimen takaisin tilaan, jossa se oli, kun se kloonattiin (voit menettää jotain palvelinpuolen sovelluskoukkuja ja muuta, mutta kaikki versioitu data on tallessa - katso *Luku 4* tarkempia yksityiskohtia varten).
 
-Kloonaat tietolähteen `git clone [url]`-komennolla. Esimerkiksi, jos haluat kloonata Gritiksi kutsutun Ruby Git -kirjaston, voit tehdä sen näin:
+Kloonaat tietolähteen `git clone [url]` -komennolla. Esimerkiksi, jos haluat kloonata Gritiksi kutsutun Ruby Git -kirjaston, voit tehdä sen näin:
 
 	$ git clone git://github.com/schacon/grit.git
 
@@ -51,7 +51,7 @@ Kuva 2-1. Tiedostojesi tilan elämänsykli.
 
 ### Tiedostojesi tilan tarkistaminen ###
 
-Päätyökalu tiedostojesi eri tilojen selvittämiseen on `git status`-komento. Jos suoritat tämän komennon suoraan kloonauksen jälkeen, sinun tulisi nähdä jotain vastaavaa:
+Päätyökalu tiedostojesi eri tilojen selvittämiseen on `git status` -komento. Jos suoritat tämän komennon suoraan kloonauksen jälkeen, sinun tulisi nähdä jotain vastaavaa:
 
 	$ git status
 	# On branch master
@@ -59,7 +59,7 @@ Päätyökalu tiedostojesi eri tilojen selvittämiseen on `git status`-komento. 
 
 Tämä tarkoittaa, että sinulla on puhdas työhakemisto - toisin sanoen, jäljitettyjä tiedostoja ei ole muutettu. Git ei myöskään näe yhtään jäljittämätöntä tiedostoa, muuten ne olisi listattu näkymään. Lopuksi komento kertoo sinulle missä haarassa olet. Tällä hetkellä se on aina `master`-haara, joka on oletusarvo; sinun ei tarvitse huolehtia siitä nyt. Seuraava luku käy läpi haarautumiset ja viittaukset yksityiskohtaisesti.
 
-Sanotaan vaikka, että lisäät uuden tiedoston projektiin, vaikka yksinkertaisen `README`-tiedoston. Jos tiedosto ei ollut olemassa ennen, ja ajat `git status`-komennon, näet jäljittämättömän tiedoston tällä tavoin:
+Sanotaan vaikka, että lisäät uuden tiedoston projektiin, vaikka yksinkertaisen `README`-tiedoston. Jos tiedosto ei ollut olemassa ennen, ja ajat `git status` -komennon, näet jäljittämättömän tiedoston tällä tavoin:
 
 	$ vim README
 	$ git status
@@ -74,7 +74,7 @@ Voit nähdä, että juuri luomasi `README`-tiedosto on jäljittämätön, koska 
 
 ### Uusien tiedostojen jäljitys ###
 
-Jotta voisit jäljittää uusia tiedostoja, sinun täytyy käyttää `git add`-komentoa. Aloittaaksesi `README`-tiedoston jäljittämisen, voit ajaa tämän:
+Jotta voisit jäljittää uusia tiedostoja, sinun täytyy käyttää `git add` -komentoa. Aloittaaksesi `README`-tiedoston jäljittämisen, voit ajaa tämän:
 
 	$ git add README
 
@@ -88,11 +88,11 @@ Jos ajat status-komennon uudestaan, näet että `README`-tiedostosi on nyt jälj
 	#	new file:   README
 	#
 
-Voit nähdä, että se on lavastettu, koska se on otsikon ”Changes to be committed” alla. Jos teet pysyvän muutoksen tässä kohtaa, versio tiedostosta sillä hetkellä kun ajoit `git add`-komennon on se, joka tulee olemaan historian tilannekuvassa. Voit palauttaa mieleen hetken, jolloin ajoit `git init`-komennon aikaisemmin, ajoit sen jälkeen `git add (tiedostot)`-komennon - tämä komento aloitti tiedostojen jäljittämisen hakemistossa. `Git add`-komento ottaa polun nimen joko tiedostolle tai hakemistolle; jos se on hakemisto, komento lisää kaikki tiedostot hakemiston alta rekursiivisesti.
+Voit nähdä, että se on lavastettu, koska se on otsikon ”Changes to be committed” alla. Jos teet pysyvän muutoksen tässä kohtaa, versio tiedostosta sillä hetkellä kun ajoit `git add` -komennon on se, joka tulee olemaan historian tilannekuvassa. Voit palauttaa mieleen hetken, jolloin ajoit `git init` -komennon aikaisemmin, ajoit sen jälkeen `git add (tiedostot)` -komennon - tämä komento aloitti tiedostojen jäljittämisen hakemistossa. `Git add` -komento ottaa polun nimen joko tiedostolle tai hakemistolle; jos se on hakemisto, komento lisää kaikki tiedostot hakemiston alta rekursiivisesti.
 
 ### Muutettujen tiedostojen lavastus ###
 
-Muutetaanpa tiedostoa, joka on jo jäljitetty. Jos muutat aikaisemmin jäljitettyä `benchmarks.rb`-tiedostoa ja sen jälkeen ajat `status` komennon uudestaan, saat suunnilleen tämän näköisen tulosteen:
+Muutetaanpa tiedostoa, joka on jo jäljitetty. Jos muutat aikaisemmin jäljitettyä `benchmarks.rb`-tiedostoa ja sen jälkeen ajat `status`-komennon uudestaan, saat suunnilleen tämän näköisen tulosteen:
 
 	$ git status
 	# On branch master
@@ -107,7 +107,7 @@ Muutetaanpa tiedostoa, joka on jo jäljitetty. Jos muutat aikaisemmin jäljitett
 	#	modified:   benchmarks.rb
 	#
 
-`Benchmarks.rb`-tiedosto näkyy kohdan ”Changes not staged for commit” alla - mikä tarkoittaa, että tiedostoa, jota jäljitetään, on muokattu työskentelyhakemistossa, mutta sitä ei vielä ole lavastettu. Lavastaaksesi sen, ajat `git add`-komennon (se on monitoimikomento - käytät sitä aloittaaksesi uusien tiedostojen jäljittämisen, lavastaaksesi tiedostoja, ja tehdäksesi muita asioita, kuten merkataksesi liitoskonfliktitiedostot ratkaistuksi). Ajetaanpa nyt `git add`-komento lavastaaksemme `benchmarks.rb`-tiedoston, ja ajetaan sitten `git status`-komento uudestaan:
+`Benchmarks.rb`-tiedosto näkyy kohdan ”Changes not staged for commit” alla - mikä tarkoittaa, että tiedostoa, jota jäljitetään, on muokattu työskentelyhakemistossa, mutta sitä ei vielä ole lavastettu. Lavastaaksesi sen, ajat `git add` -komennon (se on monitoimikomento - käytät sitä aloittaaksesi uusien tiedostojen jäljittämisen, lavastaaksesi tiedostoja, ja tehdäksesi muita asioita, kuten merkataksesi liitoskonfliktitiedostot ratkaistuksi). Ajetaanpa nyt `git add` -komento lavastaaksemme `benchmarks.rb`-tiedoston, ja ajetaan sitten `git status` -komento uudestaan:
 
 	$ git add benchmarks.rb
 	$ git status
@@ -119,7 +119,7 @@ Muutetaanpa tiedostoa, joka on jo jäljitetty. Jos muutat aikaisemmin jäljitett
 	#	modified:   benchmarks.rb
 	#
 
-Kummatkin tiedostot ovat lavastettuja ja tulevat menemään seuraavaan pysyvään muutokseen. Oletetaan, että tässä kohdassa muistat pienen muutoksen, jonka haluat tehdä `benchmarks.rb`-tiedostoon, ennen kuin teet pysyvää muutosta. Avaat tiedoston uudestaan ja muutat sitä, jonka jälkeen olet valmis tekemään pysyvän muutoksen. Ajetaan silti `git status`-komento vielä kerran:
+Kummatkin tiedostot ovat lavastettuja ja tulevat menemään seuraavaan pysyvään muutokseen. Oletetaan, että tässä kohdassa muistat pienen muutoksen, jonka haluat tehdä `benchmarks.rb`-tiedostoon, ennen kuin teet pysyvää muutosta. Avaat tiedoston uudestaan ja muutat sitä, jonka jälkeen olet valmis tekemään pysyvän muutoksen. Ajetaan silti `git status` -komento vielä kerran:
 
 	$ vim benchmarks.rb 
 	$ git status
@@ -136,7 +136,7 @@ Kummatkin tiedostot ovat lavastettuja ja tulevat menemään seuraavaan pysyvää
 	#	modified:   benchmarks.rb
 	#
 
-Mitä ihmettä? Nyt `benchmarks.rb` on listattu sekä lavastettuna että lavastamattomana. Miten se on mahdollista? Tapahtuu niin, että Git lavastaa tiedoston juuri sellaisena kuin se on, kun ajat `git add`-komennon. Jos teet pysyvän muutoksen nyt, `benchmark.rb`-tiedoston versio sillä hetkellä, kun ajoit `git add`-komennon, on se, joka menee tähän pysyvään muutokseen, eikä se tiedoston versio, joka on työskentelyhakemistossasi sillä hetkellä, kun ajat `git commit`-komennon. Jos muutat tiedostoa sen jälkeen, kun olet ajanut `git add`-komennon, sinun täytyy ajaa `git add` uudestaan lavastaaksesi uusimman version tiedostosta:
+Mitä ihmettä? Nyt `benchmarks.rb` on listattu sekä lavastettuna että lavastamattomana. Miten se on mahdollista? Tapahtuu niin, että Git lavastaa tiedoston juuri sellaisena kuin se on, kun ajat `git add` -komennon. Jos teet pysyvän muutoksen nyt, `benchmark.rb`-tiedoston versio sillä hetkellä, kun ajoit `git add` -komennon, on se, joka menee tähän pysyvään muutokseen, eikä se tiedoston versio, joka on työskentelyhakemistossasi sillä hetkellä, kun ajat `git commit` -komennon. Jos muutat tiedostoa sen jälkeen, kun olet ajanut `git add` -komennon, sinun täytyy ajaa `git add` uudestaan lavastaaksesi uusimman version tiedostosta:
 
 	$ git add benchmarks.rb
 	$ git status
@@ -187,7 +187,7 @@ Tässä toinen esimerkki .gitignore-tiedostosta:
 
 ### Lavastettujen ja lavastamattomien muutosten tarkastelu ###
 
-Jos `git status`-komento on liian epämääräinen sinulle - haluat tietää tarkalleen mitä on muutettu, et ainoastaan sitä, mitkä tiedostot ovat muuttuneet - voit käyttää `git diff`-komentoa. Me käsittelemme `git diff`-kommenon yksityiskohtaisesti myöhemmin; mutta sinä tulet mahdollisesti käyttämään sitä useasti, vastataksesi näihin kahteen kysymykseen: Mitä olet muuttanut, mutta et ole vielä lavastanut? Ja mitä sellaista olet lavastanut, josta olet tekemässä pysyvän muutoksen? Vaikkakin `git status` vastaa näihin kysymyksiin yleisesti, `git diff` näyttää sinulle tarkalleen ne rivit, jotka on lisätty ja poistettu - vähän niin kuin pätsi.
+Jos `git status` -komento on liian epämääräinen sinulle - haluat tietää tarkalleen mitä on muutettu, et ainoastaan sitä, mitkä tiedostot ovat muuttuneet - voit käyttää `git diff` -komentoa. Me käsittelemme `git diff` -kommenon yksityiskohtaisesti myöhemmin; mutta sinä tulet mahdollisesti käyttämään sitä useasti, vastataksesi näihin kahteen kysymykseen: Mitä olet muuttanut, mutta et ole vielä lavastanut? Ja mitä sellaista olet lavastanut, josta olet tekemässä pysyvän muutoksen? Vaikkakin `git status` vastaa näihin kysymyksiin yleisesti, `git diff` näyttää sinulle tarkalleen ne rivit, jotka on lisätty ja poistettu - vähän niin kuin pätsi.
 
 Sanotaan vaikka, että muokkaat ja lavastat `README`-tiedostoa uudestaan, jonka jälkeen muokkaat `benchmarks.rb`-tiedostoa, ilman että lavastat sitä. Jos ajat `status`-komennon, näet jälleen kerran jotain tällaista:
 
@@ -225,7 +225,7 @@ Nähdäksesi, mitä olet muuttanut, mutta et vielä lavastanut, kirjoita `git di
 
 Tämä komento vertailee sitä, mitä sinun työskentelyhakemistossa on verrattuna siihen, mitä sinun lavastusalueellasi on. Tulos kertoo tekemäsi muutokset, joita et ole vielä lavastanut.
 
-Jos haluat nähdä, mitä sellaista olet lavastanut, joka menee seuraavaan pysyvään muutokseen, voit käyttää `git diff --cached`-komentoa. (Gitin versiosta 1.6.1 lähtien voit käyttää myös `git diff --staged`-komentoa, joka on helpompi muistaa.) Tämä komento vertailee lavastettuja muutoksia viimeisimpään pysyvään muutokseen.
+Jos haluat nähdä, mitä sellaista olet lavastanut, joka menee seuraavaan pysyvään muutokseen, voit käyttää `git diff --cached` -komentoa. (Gitin versiosta 1.6.1 lähtien voit käyttää myös `git diff --staged` -komentoa, joka on helpompi muistaa.) Tämä komento vertailee lavastettuja muutoksia viimeisimpään pysyvään muutokseen.
 
 	$ git diff --cached
 	diff --git a/README b/README
@@ -242,7 +242,7 @@ Jos haluat nähdä, mitä sellaista olet lavastanut, joka menee seuraavaan pysyv
 
 On tärkeää ottaa huomioon, että `git diff` itsessään ei näytä kaikkia muutoksia viimeisimmästä pysyvästä muutoksesta lähtien - vain muutokset, jotka ovat yhä lavastamattomia. Tämä voi olla sekavaa, koska kun olet lavastanut kaikki muutoksesi, `git diff` ei anna ollenkaan tulostetta.
 
-Toisena esimerkkinä, jos lavastat `benchmarks.rb`-tiedoston ja sitten muokkaat sitä, voit käyttää `git diff`-komentoa nähdäksesi tiedoston lavastetut muutokset ja lavastamattomat muutokset:
+Toisena esimerkkinä, jos lavastat `benchmarks.rb`-tiedoston ja sitten muokkaat sitä, voit käyttää `git diff` -komentoa nähdäksesi tiedoston lavastetut muutokset ja lavastamattomat muutokset:
 
 	$ git add benchmarks.rb
 	$ echo '# test line' >> benchmarks.rb
@@ -258,7 +258,7 @@ Toisena esimerkkinä, jos lavastat `benchmarks.rb`-tiedoston ja sitten muokkaat 
 	#	modified:   benchmarks.rb
 	#
 
-Nyt voit käyttää `git diff`-komentoa nähdäksesi, mitä on yhä lavastamatta:
+Nyt voit käyttää `git diff` -komentoa nähdäksesi, mitä on yhä lavastamatta:
 
 	$ git diff 
 	diff --git a/benchmarks.rb b/benchmarks.rb
@@ -271,7 +271,7 @@ Nyt voit käyttää `git diff`-komentoa nähdäksesi, mitä on yhä lavastamatta
 	 ##pp Grit::GitRuby.cache_client.stats 
 	+# test line
 
-Ja `git diff --cached`-komentoa nähdäksesi, mitä olet lavastanut tähän mennessä:
+Ja `git diff --cached` -komentoa nähdäksesi, mitä olet lavastanut tähän mennessä:
 
 	$ git diff --cached
 	diff --git a/benchmarks.rb b/benchmarks.rb
@@ -292,12 +292,12 @@ Ja `git diff --cached`-komentoa nähdäksesi, mitä olet lavastanut tähän menn
 
 ### Pysyvien muutoksien tekeminen ###
 
-Nyt, kun lavastusalueesi on asetettu niin kuin sen haluat, voit tehdä muutoksistasi pysyviä. Muista, että kaikki, mikä vielä on lavastamatta - mitkä tahansa tiedostot, jotka olet luonut tai joita olet muokannut, joihin et ole ajanut `git add`-komentoa editoinnin jälkeen - eivät mene pysyvään muutokseen. Ne pysyvät muokattuina tiedostoina levylläsi.
-Tässä tapauksessa oletamme, että viime kerran, kun ajoit `git status`-komennon, näit, että kaikki oli lavastettu, joten olet valmis tekemään pysyvän muutoksen. Helpoin tapa pysyvän muutoksen tekoon on kirjoittaa `git commit`:
+Nyt, kun lavastusalueesi on asetettu niin kuin sen haluat, voit tehdä muutoksistasi pysyviä. Muista, että kaikki, mikä vielä on lavastamatta - mitkä tahansa tiedostot, jotka olet luonut tai joita olet muokannut, joihin et ole ajanut `git add` -komentoa editoinnin jälkeen - eivät mene pysyvään muutokseen. Ne pysyvät muokattuina tiedostoina levylläsi.
+Tässä tapauksessa oletamme, että viime kerran, kun ajoit `git status` -komennon, näit, että kaikki oli lavastettu, joten olet valmis tekemään pysyvän muutoksen. Helpoin tapa pysyvän muutoksen tekoon on kirjoittaa `git commit`:
 
 	$ git commit
 
-Tämän suorittaminen aukaisee editorisi. (Tämä on asetettu komentorivisi `$EDITOR` ympäristömuuttujalla - yleensä vim tai emacs, kuitenkin voit konfiguroida sen käyttämään mitä haluat, käyttäen `git config --global core.editor`-komentoa, kuten *Luvussa 1* näit).
+Tämän suorittaminen aukaisee editorisi. (Tämä on asetettu komentorivisi `$EDITOR` ympäristömuuttujalla - yleensä vim tai emacs, kuitenkin voit konfiguroida sen käyttämään mitä haluat, käyttäen `git config --global core.editor` -komentoa, kuten *Luvussa 1* näit).
 
 Editori näyttää seuraavanlaisen tekstin (tämä esimerkki on Vimistä):
 
@@ -314,7 +314,7 @@ Editori näyttää seuraavanlaisen tekstin (tämä esimerkki on Vimistä):
 	~
 	".git/COMMIT_EDITMSG" 10L, 283C
 
-Voit nähdä, että oletuksena pysyvän muutoksen viesti sisältää viimeisimmän `git status`-komennon tulosteen kommentoituna ja yhden tyhjän rivin ylhäällä. Voit poistaa nämä kommentit ja kirjoittaa pysyvän muutoksen viestisi, tai voit jättää kommentit viestiin auttamaan sinua muistamaan mihin olet pysyvää muutosta tekemässä. (Saadaksesi vieläkin tarkemman muistutukseen muutoksistasi, voit antaa `-v`-option `git commit`-komennolle. Tämä optio laittaa myös diff-muutostulosteen editoriin, jotta näet tarkalleen mitä teit.) Kun poistut editorista, Git luo pysyvän muutoksesi viestilläsi (kommentit ja diff pois lukien).
+Voit nähdä, että oletuksena pysyvän muutoksen viesti sisältää viimeisimmän `git status` -komennon tulosteen kommentoituna ja yhden tyhjän rivin ylhäällä. Voit poistaa nämä kommentit ja kirjoittaa pysyvän muutoksen viestisi, tai voit jättää kommentit viestiin auttamaan sinua muistamaan mihin olet pysyvää muutosta tekemässä. (Saadaksesi vieläkin tarkemman muistutukseen muutoksistasi, voit antaa `-v`-option `git commit` -komennolle. Tämä optio laittaa myös diff-muutostulosteen editoriin, jotta näet tarkalleen mitä teit.) Kun poistut editorista, Git luo pysyvän muutoksesi viestilläsi (kommentit ja diff pois lukien).
 
 Vaihtoehtoisesti, voit kirjoittaa pysyvän muutoksen viestin suoraan `commit`-kommennolla antamalla sen `-m`-lipun jälkeen, näin:
 
@@ -329,7 +329,7 @@ Muista, että pysyvä muutos tallentaa tilannekuvan lavastusalueestasi. Kaikki, 
 
 ### Lavastusalueen ohittaminen ###
 
-Vaikka lavastusalue voi olla uskomattoman hyödyllinen pysyvien muutoksien tekoon tarkalleen niin kuin ne haluat, on lavastusalue joskus hieman liian monimutkainen, kuin mitä työnkulussasi tarvitsisit. Jos haluat ohittaa lavastusalueen, Git tarjoaa siihen helpon oikoreitin. Antamalla `-a`-option `git commit`-komennolle, asettaa Gitin automaattisesti lavastamaan jokaisen jo jäljitetyn tiedoston ennen pysyvää muutosta, antaen sinun ohittaa `git add`-osan:
+Vaikka lavastusalue voi olla uskomattoman hyödyllinen pysyvien muutoksien tekoon tarkalleen niin kuin ne haluat, on lavastusalue joskus hieman liian monimutkainen, kuin mitä työnkulussasi tarvitsisit. Jos haluat ohittaa lavastusalueen, Git tarjoaa siihen helpon oikoreitin. Antamalla `-a`-option `git commit` -komennolle, asettaa Gitin automaattisesti lavastamaan jokaisen jo jäljitetyn tiedoston ennen pysyvää muutosta, antaen sinun ohittaa `git add` -osan:
 
 	$ git status
 	# On branch master
@@ -342,13 +342,13 @@ Vaikka lavastusalue voi olla uskomattoman hyödyllinen pysyvien muutoksien tekoo
 	[master 83e38c7] added new benchmarks
 	 1 files changed, 5 insertions(+), 0 deletions(-)
 
-Huomaa, miten sinun ei tarvitse ajaa `git add`-komentoa `benchmarks.rb`-tiedostolle tässä tapauksessa pysyvää muutosta tehdessäsi.
+Huomaa, miten sinun ei tarvitse ajaa `git add` -komentoa `benchmarks.rb`-tiedostolle tässä tapauksessa pysyvää muutosta tehdessäsi.
 
 ### Tiedostojen poistaminen ###
 
 Poistaaksesi tiedoston Gitistä, sinun täytyy poistaa se sinun jäljitetyistä tiedostoistasi (tarkemmin sanoen, poistaa se lavastusalueeltasi) ja sitten tehdä pysyvä muutos. Komento `git rm` tekee tämän ja myös poistaa tiedoston työskentelyhakemistostasi, joten et näe sitä enää jäljittämättömänä tiedostona.
 
-Jos yksinkertaisesti poistat tiedoston työskentelyhakemistostasi, näkyy se ”Changes not staged for commit” otsikon alla (se on, _lavastamaton_) `git status`-tulosteessasi:
+Jos yksinkertaisesti poistat tiedoston työskentelyhakemistostasi, näkyy se ”Changes not staged for commit” otsikon alla (se on, _lavastamaton_) `git status` -tulosteessasi:
 
 	$ rm grit.gemspec
 	$ git status
@@ -360,7 +360,7 @@ Jos yksinkertaisesti poistat tiedoston työskentelyhakemistostasi, näkyy se ”
 	#       deleted:    grit.gemspec
 	#
 
-Jos ajat tämän jälkeen `git rm`-komennon, se lavastaa tiedostot poistoon:
+Jos ajat tämän jälkeen `git rm` -komennon, se lavastaa tiedostot poistoon:
 
 	$ git rm grit.gemspec
 	rm 'grit.gemspec'
@@ -379,7 +379,7 @@ Toinen hyödyllinen asia, jonka saatat haluta tehdä, on tiedoston pitäminen ty
 
 	$ git rm --cached readme.txt
 
-Voit antaa tiedostoja, hakemistoja tai tiedoston keräysmalleja `git rm`-komennolle. Tämä tarkoittaa sitä, että voit tehdä asioita kuten:
+Voit antaa tiedostoja, hakemistoja tai tiedoston keräysmalleja `git rm` -komennolle. Tämä tarkoittaa sitä, että voit tehdä asioita kuten:
 
 	$ git rm log/\*.log
 

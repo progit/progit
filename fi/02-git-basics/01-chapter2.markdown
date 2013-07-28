@@ -389,15 +389,15 @@ Huomaa kenoviiva (`\`) `*`-merkin edessä. Windowsin järjestelmäkonsolissa ken
 
 Tämä komento poistaa kaikki tiedostot, jotka loppuvat `~`-merkkiin.
 
-### Moving Files ###
+### Tiedostojen siirtäminen ###
 
-Unlike many other VCS systems, Git doesn’t explicitly track file movement. If you rename a file in Git, no metadata is stored in Git that tells it you renamed the file. However, Git is pretty smart about figuring that out after the fact — we’ll deal with detecting file movement a bit later.
+Toisin kuin monet muut VCS-järjestelmät, Git ei jäljitä suoranaisesti tiedostojen siirtämistä. Jos nimeät tiedoston uudelleen Gitissä, Gitiin ei tallenneta metadataa, joka kertoo, että nimesit tiedoston uudelleen. Git on kuitenkin melko älykäs selvittämään sen myöhemmin — käsittelemme tiedostojen siirtämisen havaitsemista hieman myöhemmin.
 
-Thus it’s a bit confusing that Git has a `mv` command. If you want to rename a file in Git, you can run something like
+Siksi on hieman sekavaa, että Gitissä on `mv`-komento. Jos haluat nimetä tiedoston uudelleen Gitissä, voit ajaa jotakuinkin seuraavasti
 
-	$ git mv file_from file_to
+	$ git mv lähdetiedosto kohdetiedosto
 
-and it works fine. In fact, if you run something like this and look at the status, you’ll see that Git considers it a renamed file:
+ja se toimii hienosti. Itse asiassa, jos ajat jotakuinkin tällä tavalla ja katsot tilaa, näet Gitin pitävän sitä uudelleennimettynä tiedostona:
 
 	$ git mv README.txt README
 	$ git status
@@ -410,13 +410,13 @@ and it works fine. In fact, if you run something like this and look at the statu
 	#       renamed:    README.txt -> README
 	#
 
-However, this is equivalent to running something like this:
+Tämä on kuitenkin sama, kuin ajaisit seuraavasti:
 
 	$ mv README.txt README
 	$ git rm README.txt
 	$ git add README
 
-Git figures out that it’s a rename implicitly, so it doesn’t matter if you rename a file that way or with the `mv` command. The only real difference is that `mv` is one command instead of three — it’s a convenience function. More important, you can use any tool you like to rename a file, and address the add/rm later, before you commit.
+Git ymmärtää sen olevan uudelleennimeäminen epäsuorasti, joten ei ole väliä, nimeätkö tiedoston uudelleen tällä tavalla vai `mv`-komennolla. Ainoa todellinen ero on, että `mv` on yksi komento kolmen sijaan — se on helppokäyttötoiminto. Tärkeämpää, voit käyttää tiedoston uudelleennimeämiseen mitä työkalua haluat ja käsitellä add/rm myöhemmin, ennen kuin teet pysyvän muutoksen.
 
 ## Viewing the Commit History ##
 

@@ -180,8 +180,8 @@ Tässä toinen esimerkki .gitignore-tiedostosta:
 	build/
 	# sivuttaa doc/notes.txt, mutta ei doc/server/arch.txt
 	doc/*.txt
-  # sivuuttaa kaikki .txt-tiedostot doc/-hakemistosta
-  doc/**/*.txt
+	# sivuuttaa kaikki .txt-tiedostot doc/-hakemistosta
+	doc/**/*.txt
 
 `**/`-malli on saatavilla Gitin versiosta 1.8.2 lähtien.
 

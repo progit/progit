@@ -159,6 +159,15 @@ namespace :pdf do
         end
 end
 
+class StderrDecorator
+  def <<(x)
+    $stderr<< "#{x}"
+    if x.match /REXML/
+      raise ""
+    end
+  end
+end
+
 namespace :ci do
 
   desc "Continuous Integration"   
@@ -219,7 +228,7 @@ namespace :ci do
         end
       end
       begin
-        code = Maruku.new(mark, :on_error => :raise)
+        code = Maruku.new(mark, :on_error => :raise, :error_stream => StderrDecorator.new)
         print "OK\n"
       rescue
         print "KO\n"

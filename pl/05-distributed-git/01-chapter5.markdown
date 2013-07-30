@@ -122,7 +122,7 @@ Zanim spojrzysz na poszczególne przypadki użycia, najpierw szybka informacja o
 
 Po pierwsze, nie chcesz wgrywać żadnych błędów związanych z poprawkami pustych znaków (np. spacji). Git dostarcza łatwy sposób do tego - zanim wgrasz zmiany, uruchom `git diff --check`, komenda ta pokaże możliwe nadmiarowe spacje. Poniżej mamy przykład takiej sytuacji, zamieniłem kolor czerwony na terminalu znakami `X`:
 
-<!-- First, you don’t want to submit any whitespace errors. Git provides an easy way to check for this — before you commit, run `git diff --check`, which identifies possible whitespace errors and lists them for you. Here is an example, where I’ve replaced a red terminal color with `X`s: -->
+<!-- First, you don’t want to submit any whitespace errors. Git provides an easy way to check for this — before you commit, run `git diff -\-check`, which identifies possible whitespace errors and lists them for you. Here is an example, where I’ve replaced a red terminal color with `X`s: -->
 
     $ git diff --check
     lib/simplegit.rb:5: trailing whitespace.
@@ -139,7 +139,7 @@ Jeżeli uruchomisz tą komendę przed commit-em, dowiesz się czy zamierzasz wgr
 
 Następnie spróbuj w każdym commit-ie zawrzeć logicznie odrębny zestaw zmian. Jeżeli możesz, twórz nie za duże łatki - nie programuj cały weekend poprawiając pięć różnych błędów, aby następnie wszystkie je wypuścić w jednym dużym commit-cie w poniedziałek. Nawet jeżeli nie zatwierdzasz zmian w ciągu weekendu, użyj przechowalni ("stage"), aby w poniedziałek rozdzielić zmiany na przynajmniej jeden commit dla każdego błędu, dodając użyteczny komentarz do każdego commitu. Jeżeli niektóre ze zmian modyfikują ten sam plik, spróbuj użyć komendy `git add --patch`, aby częściowo dodać zmiany do przechowalni (dokładniej opisane to jest w rozdziale 6). Końcowa migawka projektu w gałęzi jest identyczna, nieważne czy zrobisz jeden czy pięć commitów, więc spróbuj ułatwić życie swoim współpracownikom kiedy będą musieli przeglądać Twoje zmiany. Takie podejście ułatwia również pobranie lub przywrócenie pojedynczych zestawów zmian w razie potrzeby. Rozdział 6 opisuje kilka ciekawych trików dotyczących nadpisywania historii zmian i interaktywnego dodawania plików do przechowalni - używaj ich do utrzymania czystej i przejrzystej historii.
 
-<!-- Next, try to make each commit a logically separate changeset. If you can, try to make your changes digestible — don’t code for a whole weekend on five different issues and then submit them all as one massive commit on Monday. Even if you don’t commit during the weekend, use the staging area on Monday to split your work into at least one commit per issue, with a useful message per commit. If some of the changes modify the same file, try to use `git add --patch` to partially stage files (covered in detail in Chapter 6). The project snapshot at the tip of the branch is identical whether you do one commit or five, as long as all the changes are added at some point, so try to make things easier on your fellow developers when they have to review your changes. This approach also makes it easier to pull out or revert one of the changesets if you need to later. Chapter 6 describes a number of useful Git tricks for rewriting history and interactively staging files — use these tools to help craft a clean and understandable history. -->
+<!-- Next, try to make each commit a logically separate changeset. If you can, try to make your changes digestible — don’t code for a whole weekend on five different issues and then submit them all as one massive commit on Monday. Even if you don’t commit during the weekend, use the staging area on Monday to split your work into at least one commit per issue, with a useful message per commit. If some of the changes modify the same file, try to use `git add -\-patch` to partially stage files (covered in detail in Chapter 6). The project snapshot at the tip of the branch is identical whether you do one commit or five, as long as all the changes are added at some point, so try to make things easier on your fellow developers when they have to review your changes. This approach also makes it easier to pull out or revert one of the changesets if you need to later. Chapter 6 describes a number of useful Git tricks for rewriting history and interactively staging files — use these tools to help craft a clean and understandable history. -->
 
 Ostatnią rzeczą na którą należy zwrócić uwagę są komentarze do zmian. Tworzenie dobrych komentarzy pozwala na łatwiejsze używanie i współpracę za pomocą Gita. Generalną zasadą powinno być to, że treść komentarza rozpoczyna się od pojedynczej linii nie dłuższej niż 50 znaków, która zwięźle opisuje zmianę, następnie powinna znaleźć się pusta linia, a poniżej niej szczegółowy opis zmiany. Projekt Git wymaga bardzo dokładnych wyjaśnień motywujących twoją zmianę w stosunku do poprzedniej implementacji - jest to dobra wskazówka do naśladowania. Dobrym pomysłem jest używania czasu teraźniejszego w trybie rozkazującym. Innymi słowy, używaj komend. Zamiast "Dodałem testy dla" lub "Dodawania testów dla", użyj "Dodaj testy do".
 Poniżej znajduje się szablon komentarza przygotowany przez Tima Pope z tpope.net:
@@ -167,7 +167,7 @@ Here is a template originally written by Tim Pope at tpope.net: -->
 
 Jeżeli wszystkie Twoje komentarz do zmian będą wyglądały jak ten, współpraca będzie dużo łatwiejsza dla Ciebie i twoich współpracowników. Projekt Git ma poprawnie sformatowane komentarze, uruchom polecenie `git log --no-merges` na tym projekcie, aby zobaczyć jak wygląda ładnie sformatowana i prowadzona historia zmian.
 
-<!-- If all your commit messages look like this, things will be a lot easier for you and the developers you work with. The Git project has well-formatted commit messages — I encourage you to run `git log --no-merges` there to see what a nicely formatted project-commit history looks like. -->
+<!-- If all your commit messages look like this, things will be a lot easier for you and the developers you work with. The Git project has well-formatted commit messages — I encourage you to run `git log -\-no-merges` there to see what a nicely formatted project-commit history looks like. -->
 
 W poniższych przykładach, i przez większość tej książki, ze względu na zwięzłość nie sformatowałem treści komentarzy tak ładnie; używam opcji `-m` do `git commit`. Rób tak jak mówię, nie tak jak robię.
 
@@ -658,7 +658,7 @@ Spójrzmy na jeszcze jeden scenariusz: opiekun spojrzał na zmiany w Twojej drug
 
 Opcja `--squash` pobiera wszystkie zmiany z gałęzi, oraz łączy je w jedną nie włączoną na gałęzi na której obecnie jesteś. Opcja `--no-commit` mówi Git aby nie zapisywał informacji o commit-cie. Pozwala to na zaimportowanie wszystkich zmian z innej gałęzi oraz wprowadzenie nowych przed ostatecznym zatwierdzeniem ich.
 
-<!-- The `--squash` option takes all the work on the merged branch and squashes it into one non-merge commit on top of the branch you’re on. The `--no-commit` option tells Git not to automatically record a commit. This allows you to introduce all the changes from another branch and then make more changes before recording the new commit. -->
+<!-- The `-\-squash` option takes all the work on the merged branch and squashes it into one non-merge commit on top of the branch you’re on. The `-\-no-commit` option tells Git not to automatically record a commit. This allows you to introduce all the changes from another branch and then make more changes before recording the new commit. -->
 
 Teraz możesz wysłać do opiekuna wiadomość, że wprowadziłeś wszystkie wymagane zmiany, które może znaleźć w gałęzi `featureBv2` (zob. rys. 5-18).
 
@@ -727,7 +727,7 @@ Komenda `format-patch` wypisuje nazwy plików które stworzyła. Opcja `-M` mów
 
 Możesz oczywiście zmienić te pliki i dodać większą ilość informacji w mailu, których nie chciałeś pokazywać w komentarzu do zmiany. Jeżeli dodasz tekst miedzy linię z `--`, oraz początkiem łaty (linia z `lin/simplegit.rb`), programiści będą mogli to przeczytać; ale podczas nakładania łaty zostanie do pominięte.
 
-<!-- You can also edit these patch files to add more information for the e-mail list that you don’t want to show up in the commit message. If you add text between the `--` line and the beginning of the patch (the `lib/simplegit.rb` line), then developers can read it; but applying the patch excludes it. -->
+<!-- You can also edit these patch files to add more information for the e-mail list that you don’t want to show up in the commit message. If you add text between the `-\-` line and the beginning of the patch (the `lib/simplegit.rb` line), then developers can read it; but applying the patch excludes it. -->
 
 Aby wysłać to na listę dyskusyjną, możesz albo wkleić zawartość plików w programie e-mail lub użyć programu uruchamianego z linii komend. Wklejanie tekstu często wprowadza problemy z zachowaniem formatowania, szczególnie przy użyciu tych "mądrzejszych" programów pocztowych, które nie zachowują poprawnie znaków nowej linii i spacji. Na szczęście Git udostępnia narzędzie, które pomoże Ci wysłać poprawnie sformatowane łaty poprzez protokół IMAP, może to być łatwiejsze dla Ciebie. Pokażę w jaki sposób wysyłać łaty przy pomocy Gmaila, którego używam; możesz znaleźć bardziej szczegółowe instrukcje dla różnych programów pocztowych na końcu wcześniej wymienionego pliku `Documentation/SubmittingPatches`, który znajduje się w kodzie źródłowym Gita.
 
@@ -833,7 +833,7 @@ Ta komenda zmodyfikuje pliki znajdujące się w obecnym katalogu. Jest ona prawi
 
 Możesz również użyć `git apply` aby zobaczyć, czy łata nałoży się czysto zanim ją zaaplikujesz - jeżeli uruchomiesz `git apply --check` z łatą:
 
-<!-- You can also use git apply to see if a patch applies cleanly before you try actually applying it — you can run `git apply --check` with the patch: -->
+<!-- You can also use git apply to see if a patch applies cleanly before you try actually applying it — you can run `git apply -\-check` with the patch: -->
 
     $ git apply --check 0001-seeing-if-this-helps-the-gem.patch
     error: patch failed: ticgit.gemspec:1
@@ -906,7 +906,7 @@ Jednak możliwa jest również sytuacja, w której łatka nie zostanie bez probl
 
 Ta komenda zaznacza pliku z którymi miała problemy, podobnie do konfliktów występujących podczas komend `merge` lub `rebase`. Rozwiązujesz takie sytuacja również analogicznie - zmień plik w celu rozwiązania konfliktu, dodaj do przechowalni nowe pliki i następnie uruchom `git am --resolved` aby kontynuować działanie do następnej łatki:
 
-<!-- This command puts conflict markers in any files it has issues with, much like a conflicted merge or rebase operation. You solve this issue much the same way — edit the file to resolve the conflict, stage the new file, and then run `git am --resolved` to continue to the next patch: -->
+<!-- This command puts conflict markers in any files it has issues with, much like a conflicted merge or rebase operation. You solve this issue much the same way — edit the file to resolve the conflict, stage the new file, and then run `git am -\-resolved` to continue to the next patch: -->
 
     $ (fix the file)
     $ git add ticgit.gemspec
@@ -991,7 +991,7 @@ Teraz posiadać gałąź tematyczną która zawiera otrzymane zmiany. W tym mome
 
 Często pomocne jest przejrzenie wszystkich zmian które są w tej gałęzi, ale nie ma ich w gałęzi master. Możesz wyłączyć zmiany z gałęzi master poprzez dodanie opcji `--not` przed jej nazwą. Na przykład, jeżeli twój współpracownik prześle ci dwie łaty, a ty stworzysz nową gałąź `contrib` i włączysz te łatki tam, możesz uruchomić:
 
-<!-- It’s often helpful to get a review of all the commits that are in this branch but that aren’t in your master branch. You can exclude commits in the master branch by adding the `--not` option before the branch name. For example, if your contributor sends you two patches and you create a branch called `contrib` and applied those patches there, you can run this: -->
+<!-- It’s often helpful to get a review of all the commits that are in this branch but that aren’t in your master branch. You can exclude commits in the master branch by adding the `-\-not` option before the branch name. For example, if your contributor sends you two patches and you create a branch called `contrib` and applied those patches there, you can run this: -->
 
     $ git log contrib --not master
     commit 5b6235bd297351589efc4d73316f0a68d484f118
@@ -1172,7 +1172,7 @@ Kiedy zdecydowałeś, że wydasz nową wersję, najprawdopodobniej będziesz chc
 
 Jeżeli podpisujesz swoje tagi, możesz mieć problem z dystrybucją swojego publicznego klucza PGP, który został użyty. Można rozwiązać ten problem poprzez dodanie obiektu binarnego (ang. blob) w repozytorium, a następnie stworzenie taga kierującego dokładnie na jego zawartość. Aby to zrobić, musisz wybrać klucz za pomocą komendy `gpg --list-keys`: 
 
-<!-- If you do sign your tags, you may have the problem of distributing the public PGP key used to sign your tags. The maintainer of the Git project has solved this issue by including their public key as a blob in the repository and then adding a tag that points directly to that content. To do this, you can figure out which key you want by running `gpg --list-keys`: -->
+<!-- If you do sign your tags, you may have the problem of distributing the public PGP key used to sign your tags. The maintainer of the Git project has solved this issue by including their public key as a blob in the repository and then adding a tag that points directly to that content. To do this, you can figure out which key you want by running `gpg -\-list-keys`: -->
 
     $ gpg --list-keys
     /Users/schacon/.gnupg/pubring.gpg
@@ -1197,7 +1197,7 @@ Teraz, gdy masz zawartość swojego klucza w Gitcie, możesz utworzyć taga wska
 
 Po uruchomieniu `git push --tags`, etykieta `maintainer-pgp-pub` zostanie udostępniona dla wszystkich. Jeżeli ktoś chciałby zweryfikować etykietę, może bezpośrednio zaimportować twój klucz PGP poprzez pobranie zawartości z gita i import do GPG:
 
-<!-- If you run `git push --tags`, the `maintainer-pgp-pub` tag will be shared with everyone. If anyone wants to verify a tag, they can directly import your PGP key by pulling the blob directly out of the database and importing it into GPG: -->
+<!-- If you run `git push -\-tags`, the `maintainer-pgp-pub` tag will be shared with everyone. If anyone wants to verify a tag, they can directly import your PGP key by pulling the blob directly out of the database and importing it into GPG: -->
 
     $ git show maintainer-pgp-pub | gpg --import
 
@@ -1218,7 +1218,7 @@ Ponieważ Git nie zwiększa stale numerów, np. 'v123' lub w podobny sposób, je
 
 W ten sposób, możesz udostępnić konkretną wersję lub kompilację pod nazwą łatwiejszą do użycia przez ludzi. W rzeczywistości, jeżeli masz Gita zbudowanego ze źródeł pobranych z jego repozytorium, komenda `git --version` pokaże wynik podobny do powyższego. Jeżeli zamierzasz opisać zmianę którą bezpośrednio zatagowałeś, pokaże ona nazwę taga.
 
-<!-- This way, you can export a snapshot or build and name it something understandable to people. In fact, if you build Git from source code cloned from the Git repository, `git --version` gives you something that looks like this. If you’re describing a commit that you have directly tagged, it gives you the tag name. -->
+<!-- This way, you can export a snapshot or build and name it something understandable to people. In fact, if you build Git from source code cloned from the Git repository, `git -\-version` gives you something that looks like this. If you’re describing a commit that you have directly tagged, it gives you the tag name. -->
 
 Komenda `git describe` faworyzuje etykiety stworzone przy użyciu opcji `-a` lub `-s`, więc etykiety dotyczące konkretnych wersji powinny być tworzone w ten sposób, jeżeli używasz `git describe` w celu zapewnienia poprawnych nazw commitów. Możesz również używać tej nazwy do komend "checkout" lub "show", choć polegają one na skróconej wartości SHA-1, mogą więc nie być wiecznie poprawne. Na przykład, projekt jądra Linuksa przeszedł ostatnio z 8 na 10 znaków aby zapewnić unikalność sum SHA-1, więc poprzednie nazwy wygenerowane za pomocą `git describe` zostały unieważnione. 
 
@@ -1238,7 +1238,7 @@ Teraz chcesz stworzyć nową wersję. Jedną z rzeczy które będziesz musiał z
 
 Jeżeli ktoś otworzy spakowany plik, otrzyma ostatnią wersję kodu w podkatalogu z nazwą projektu. Możesz również stworzyć archiwum zip w podobny sposób, dodając parametr `--format=zip` do `git archive`:
 
-<!-- If someone opens that tarball, they get the latest snapshot of your project under a project directory. You can also create a zip archive in much the same way, but by passing the `--format=zip` option to `git archive`: -->
+<!-- If someone opens that tarball, they get the latest snapshot of your project under a project directory. You can also create a zip archive in much the same way, but by passing the `-\-format=zip` option to `git archive`: -->
 
     $ git archive master --prefix='project/' --format=zip > `git describe master`.zip
 

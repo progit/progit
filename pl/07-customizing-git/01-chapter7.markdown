@@ -24,11 +24,11 @@ Teraz poznasz kilka bardziej interesujących opcji, które możesz ustawić w te
 
 Widziałeś już kilka przykładowych ustawień konfiguracyjnych w pierwszym rozdziale, ale przejdziemy przez nie szybko jeszcze raz. Git używa kilku plików konfiguracyjnych, aby odczytać niestandardowe ustawienia które możesz mieć ustawione. Pierwszym miejscem w którym Git sprawdzi te ustawienia jest plik `/etc/gitconfig`, który zawiera ustawienia dla wszystkich użytkowników znajdujących się w systemie, oraz dla ich wszystkich repozytoriów. Jeżeli dodasz opcję `--system` do `git config`, Git będzie zapisywał i odczytywał ustawienia właśnie z tego pliku.
 
-<!-- You saw some simple Git configuration details in the first chapter, but I’ll go over them again quickly here. Git uses a series of configuration files to determine non-default behavior that you may want. The first place Git looks for these values is in an `/etc/gitconfig` file, which contains values for every user on the system and all of their repositories. If you pass the option `--system` to `git config`, it reads and writes from this file specifically. -->
+<!-- You saw some simple Git configuration details in the first chapter, but I’ll go over them again quickly here. Git uses a series of configuration files to determine non-default behavior that you may want. The first place Git looks for these values is in an `/etc/gitconfig` file, which contains values for every user on the system and all of their repositories. If you pass the option `-\-system` to `git config`, it reads and writes from this file specifically. -->
 
 Następnym miejscem w które Git zajrzy jest plik `~/.gitconfig`, wskazujący na ustawienia dla konkretnych użytkowników. Dodając opcję `--global`, zmusisz Gita to odczytywania i zapisywania ustawień z tego pliku.
 
-<!-- The next place Git looks is the `~/.gitconfig` file, which is specific to each user. You can make Git read and write to this file by passing the `--global` option. -->
+<!-- The next place Git looks is the `~/.gitconfig` file, which is specific to each user. You can make Git read and write to this file by passing the `-\-global` option. -->
 
 Na końcu, Git szuka ustawień w pliku konfiguracyjnym znajdującym się z katalogu Git (`.git/config`) w każdym repozytorium którego obecnie uzywasz. Ustawienia te są specyficzne dla tego konkretnego repozytorium. Każdy z poziomów nadpisuje ustawienia poprzedniegi poziomy, więc na przykład ustawienia w `.git/config` napisują te z `/etc/gitconfig`. Możesz również ustawiać wartości ręcznie poprzez edycję i wprowadzenie danych w poprawnym formacie, ale generalnie dużo ławiej jest użyć komendy `git config`.
 
@@ -130,7 +130,6 @@ Teraz, możesz podpisywać tagi bez konieczności wskazywania za każdym razem k
 
 	$ git tag -s <tag-name>
 
-<!--
 #### core.excludesfile ####
 
 Możesz umieścić wzorce plików w pliku `.gitignore` w swoim projekcie 
@@ -981,4 +980,4 @@ The main drawback to this approach is that it can be very slow and is often unne
 ## Summary ##
 
 You’ve covered most of the major ways that you can customize your Git client and server to best fit your workflow and projects. You’ve learned about all sorts of configuration settings, file-based attributes, and event hooks, and you’ve built an example policy-enforcing server. You should now be able to make Git fit nearly any workflow you can dream up.
--->
+

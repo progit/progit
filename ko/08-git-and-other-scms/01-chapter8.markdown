@@ -29,14 +29,14 @@ Git과 Subversion을 이어주는 명령은 `git svn` 으로 시작한다. 이 �
 
 그리고 모든 사용자가 revprops 속성을 변경할 수 있도록 항상 0을 반환하는 pre-revprop-change 스크립트를 준비한다(역주: 파일이 없거나, 다른 이름으로 되어있을 수 있다. 이 경우 아래 내용으로 새로 파일을 만들고 실행 권한을 준다):
 
-	$ cat /tmp/test-svn/hooks/pre-revprop-change 
+	$ cat /tmp/test-svn/hooks/pre-revprop-change
 	#!/bin/sh
 	exit 0;
 	$ chmod +x /tmp/test-svn/hooks/pre-revprop-change
 
 이제 `svnsync init` 명령으로 다른 Subversion 저장소를 로컬로 복사할 수 있도록 지정한다:
 
-	$ svnsync init file:///tmp/test-svn http://progit-example.googlecode.com/svn/ 
+	$ svnsync init file:///tmp/test-svn http://progit-example.googlecode.com/svn/
 
 이렇게 다른 저장소의 주소를 설정하면 복사할 준비가 된다. 아래 명령으로 저장소를 실제로 복사한다:
 
@@ -281,7 +281,7 @@ Subversion에 익숙한 사람은 Git 히스토리를 SVN 형식으로 보고 �
 
 	------------------------------------------------------------------------
 	r85 | schacon | 2009-05-02 16:00:09 -0700 (Sat, 02 May 2009) | 2 lines
-	
+
 	updated the changelog
 
 `git svn log`명령에서 기억해야 할 것은 두 가지다. 우선 오프라인에서 동작한다는 점이다. SVN의 `svn log` 명령어는 히스토리 데이터를 조회할 때 서버가 필요하다. 둘째로 이미 서버로 전송한 커밋만 출력해준다. 아직 `dcommit` 명령으로 서버에 전송하지 않은 로컬 Git 커밋은 보여주지 않는다. Subversion 서버에는 있지만 아직 내려받지 않은 변경사항도 보여주지 않는다. 즉, 현재 알고있는 Subversion 서버의 상태만 보여준다.
@@ -290,19 +290,19 @@ Subversion에 익숙한 사람은 Git 히스토리를 SVN 형식으로 보고 �
 
 `git svn log` 명령이 `svn log` 명령을 흉내내는 것처럼 `git svn blame [FILE]` 명령으로 `svn annotate` 명령을 흉내낼 수 있다. 실행한 결과는 아래와 같다:
 
-	$ git svn blame README.txt 
+	$ git svn blame README.txt
 	 2   temporal Protocol Buffers - Google's data interchange format
 	 2   temporal Copyright 2008 Google Inc.
 	 2   temporal http://code.google.com/apis/protocolbuffers/
-	 2   temporal 
+	 2   temporal
 	22   temporal C++ Installation - Unix
 	22   temporal =======================
-	 2   temporal 
+	 2   temporal
 	79    schacon Committing in git-svn.
-	78    schacon 
+	78    schacon
 	 2   temporal To build and install the C++ Protocol Buffer runtime and the Protocol
 	 2   temporal Buffer compiler (protoc) execute the following:
-	 2   temporal 
+	 2   temporal
 
 다시 한번 말하지만 이 명령도 아직 서버로 전송하지 않은 커밋은 보여주지 않는다.
 
@@ -393,19 +393,17 @@ SVN에 기록된 Author 이름을 아래 명령으로 조회한다:
 
 Author 정보가 훨씬 Git답고 `git-svn-id` 항목도 기록되지 않았다.
 
-이제 뒷 정리를 해야 한다. `git svn`이 만들어 준 이상한 브랜치나 태그를 제거한다. 우선 이상한 리모트 태그를 모두 진짜 Git 태그로 옮긴다. 그리고 리모트 브랜치도 로컬 브랜치로 옮긴다. 
+이제 뒷 정리를 해야 한다. `git svn`이 만들어 준 이상한 브랜치나 태그를 제거한다. 우선 이상한 리모트 태그를 모두 진짜 Git 태그로 옮긴다. 그리고 리모트 브랜치도 로컬 브랜치로 옮긴다.
 
 아래와 같이 태그를 진정한 Git 태그로 만든다:
 
-	$ cp -Rf .git/refs/remotes/tags/* .git/refs/tags/
-	$ rm -Rf .git/refs/remotes/tags
+	$ git for-each-ref refs/remotes/tags | cut -d / -f 4- | grep -v @ | while read tagname; do git tag "$tagname" "tags/$tagname"; git branch -r -d "tags/$tagname"; done
 
 `tags/` 로 시작하는 리모트 브랜치를 가져다 (Lightweight) 태그로 만들었다.
 
 `refs/remotes` 밑에 있는 레퍼런스는 전부 로컬 브랜치로 만든다:
 
-	$ cp -Rf .git/refs/remotes/* .git/refs/heads/
-	$ rm -Rf .git/refs/remotes
+	$ git for-each-ref refs/remotes | cut -d / -f 3- | grep -v @ | while read branchname; do git branch "$branchname" "refs/remotes/$branchname"; git branch -r -d "$branchname"; done
 
 이제 모든 태그와 브랜치는 진짜 Git 태그와 브랜치가 됐다. Git 서버를 새로 추가를 하고 지금까지 작업한 것을 Push하는 일이 남았다. 아래처럼 리모트 서버를 추가한다:
 
@@ -419,7 +417,7 @@ Author 정보가 훨씬 Git답고 `git-svn-id` 항목도 기록되지 않았다.
 
 ### Perforce ###
 
-이제 Perforce 차례다. Preforce Importer도 Git에 들어 있지만 소스코드의 `contrib` 에 있기 때문에 `git svn` 처럼 바로 사용할 수 없다. Perforce Importer를 사용하려면 우선 git.kernel.org에서 Git 소스코드를 가져와야 한다:
+이제 Perforce 차례다. Preforce Importer도 Git에 들어 있다. Git 1.7.11 이전 버전을 사용한다면 소스코드의 `contrib` 에 포함되어 있다.이런 경우라면 Perforce Importer를 사용하기 위해 우선 git.kernel.org에서 Git 소스코드를 가져와야 한다:
 
 	$ git clone git://git.kernel.org/pub/scm/git/git.git
 	$ cd git/contrib/fast-import
@@ -513,7 +511,7 @@ Importer를 만들기 전에 우선 Git이 어떻게 데이터를 저장하는�
 	    next if File.file?(dir)
 
 	    # move into the target directory
-	    Dir.chdir(dir) do 
+	    Dir.chdir(dir) do
 	      last_mark = print_export(dir, last_mark)
 	    end
 	  end
@@ -631,7 +629,7 @@ Mark는 정수 값을 사용해야 하기 때문에 디렉토리를 배열에 �
 	new version one
 	(...)
 
-디렉토리를 하나 만들고 `git init` 명령을 실행해서 옮길 Git 프로젝트를 만든다. 그리고 그 프로젝트 디렉토리로 이동해서 이 명령의 표준출력을 `git fast-import` 명령의 표준입력으로 연결한다(pipe). 
+디렉토리를 하나 만들고 `git init` 명령을 실행해서 옮길 Git 프로젝트를 만든다. 그리고 그 프로젝트 디렉토리로 이동해서 이 명령의 표준출력을 `git fast-import` 명령의 표준입력으로 연결한다(pipe).
 
 	$ git init
 	Initialized empty Git repository in /opt/import_to/.git/

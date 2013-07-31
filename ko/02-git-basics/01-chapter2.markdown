@@ -57,7 +57,7 @@ Insert 18333fig0201.png
 	# On branch master
 	nothing to commit (working directory clean)
 
-위의 내용은 파일을 하나도 수정하지 않았다는 것을 말해준다. 즉, Tracked와 Modified 상태의 파일이 없다. Untracked 파일은 아직 없어서 목록에 나타나지 않는다. 그리고 현재 작업 중인 브랜치를 알려준다. 기본 브랜치가 master이기 때문에 현재 master로 나오는 것이다. 브랜치 관련 내용은 차차 알아가자. 다음 장에서 브랜치와 레퍼런스에 대해 자세히 다룬다.
+위의 내용은 파일을 하나도 수정하지 않았다는 것을 말해준다. Tracked나 Modified 상태인 파일이 없다는 의미다. Untracked 파일은 아직 없어서 목록에 나타나지 않는다. 그리고 현재 작업 중인 브랜치를 알려준다. 기본 브랜치가 master이기 때문에 현재 master로 나오는 것이다. 브랜치 관련 내용은 차차 알아가자. 다음 장에서 브랜치와 레퍼런스에 대해 자세히 다룬다.
 
 프로젝트에 `README` 파일을 만들어보자. `README` 파일은 새로 만든 파일이기 때문에 `git status`를 실행하면 'Untracked files'에 들어 있다:
 
@@ -180,6 +180,10 @@ Glob 패턴은 정규표현식을 단순하게 만든 것으로 생각하면 되
 	build/
 	# `doc/notes.txt`같은 파일은 무시하고 doc/server/arch.txt같은 파일은 무시하지 않는다.
 	doc/*.txt
+	# `doc` 디렉토리 아래의 모든 .txt 파일을 무시한다.
+	doc/**/*.txt
+
+`**/` 스타일의 문법은 Git 1.8.2 버전부터 사용할 수 있다.
 
 ### Staged와 Unstaged 상태의 변경 내용을 보기 ###
 
@@ -289,7 +293,6 @@ Staged 상태인 파일은 `git diff --cached` 옵션으로 확인한다:
 ### 변경사항 커밋하기 ###
 
 수정한 것을 커밋하기 위해 Staging Area에 파일을 정리했다. Unstaged 상태의 파일은 커밋되지 않는다는 것을 기억해야 한다. Git은 생성하거나 수정하고 나서 `git add` 명령으로 추가하지 않은 파일은 커밋하지 않는다. 그 파일은 여전히 Modified 상태로 남아 있다.
-
 커밋하기 전에 `git status` 명령으로 모든 것이 Staged 상태인지 확인할 수 있다. 그리고 `git commit`을 실행하여 커밋한다:
 
 	$ git commit
@@ -380,7 +383,7 @@ Git에서 파일을 제거하려면 `git rm` 명령으로 Tracked 상태의 파�
 
 	$ git rm log/\*.log
 
-`*`앞에 `\`을 사용한 것을 기억하자. 파일명 확장 기능은 쉘에만 있는 것이 아니라 Git 자체에도 있기 때문에 필요하다. 이 명령은 `log/` 디렉토리에 있는 `.log` 파일을 모두 삭제한다. 아래의 예제처럼 할 수도 있다:
+`*`앞에 `\`을 사용한 것을 기억하자. 파일명 확장 기능은 쉘에만 있는 것이 아니라 Git 자체에도 있기 때문에 필요하다. Windows 기본 쉘을 쓸 때는 `\` 기호를 붙이지 않는다. 이 명령은 `log/` 디렉토리에 있는 `.log` 파일을 모두 삭제한다. 아래의 예제처럼 할 수도 있다:
 
 	$ git rm \*~
 
@@ -461,11 +464,13 @@ Git은 다른 VCS 시스템과는 달리 파일 이름의 변경이나 파일의
 	index a874b73..8f94139 100644
 	--- a/Rakefile
 	+++ b/Rakefile
-	@@ -5,7 +5,7 @@ require 'rake/gempackagetask'
+	@@ -5,7 +5,5 @@ require 'rake/gempackagetask'
 	 spec = Gem::Specification.new do |s|
+	     s.name      =   "simplegit"
 	-    s.version   =   "0.1.0"
 	+    s.version   =   "0.1.1"
 	     s.author    =   "Scott Chacon"
+	     s.email     =   "schacon@gee-mail.com"
 
 	commit 085bb3bcb608e1e8451d4b2432f8ecbe6306e7e7
 	Author: Scott Chacon <schacon@gee-mail.com>
@@ -488,7 +493,27 @@ Git은 다른 VCS 시스템과는 달리 파일 이름의 변경이나 파일의
 	-end
 	\ No newline at end of file
 
-이 옵션은 직접 diff를 실행한 것과 같은 결과를 출력하기 때문에 동료가 무엇을 커밋했는지 리뷰하고 빨리 조회하는데 유용하다. 
+이 옵션은 직접 diff를 실행한 것과 같은 결과를 출력하기 때문에 동료가 무엇을 커밋했는지 리뷰하고 빨리 조회하는데 유용하다.
+
+가끔은 diff 결과를 줄 단위로 보기보다는 단어 단위로 보는 것이 좋을 때도 있다. `git log -p`와 같은 명령에 `--word-diff` 옵션을 사용하면 줄 단위 대신 단어 단위로 변경사항을 보여준다. 단어 단위로 다른 부분을 확인하는 것은 소스코드에는 별로 유용하지 않다. 책이나 에세이 같이 문장이 긴 글을 쓸 때는 단어 단위로 보는 것이 편하다. `--word-diff` 옵션은 다음과 같이 사용한다:
+
+	$ git log -U1 --word-diff
+	commit ca82a6dff817ec66f44342007202690a93763949
+	Author: Scott Chacon <schacon@gee-mail.com>
+	Date:   Mon Mar 17 21:52:11 2008 -0700
+
+	    changed the version number
+
+	diff --git a/Rakefile b/Rakefile
+	index a874b73..8f94139 100644
+	--- a/Rakefile
+	+++ b/Rakefile
+	@@ -7,3 +7,3 @@ spec = Gem::Specification.new do |s|
+	    s.name      =   "simplegit"
+	    s.version   =   [-"0.1.0"-]{+"0.1.1"+}
+	    s.author    =   "Scott Chacon"
+
+위의 예제는 줄 단위로 보여주는 일반적인 diff와 좀 다르다. 줄 안에서 변경한 부분을 단어 단위로 표시한다. 추가한 단어는 `{+ +}` 기호가 둘러싸고 삭제한 단어는 `[- -]` 기호가 둘러싼다. diff는 기본적으로 다른 줄과 위아래 줄을 포함해서 3줄을 보여준다. 줄 단위가 아니라 단어 단위로 비교해서 볼 때는 굳이 3줄을 다 볼 필요가 없다. 예제에서 처럼 `-U1` 옵션을 주면 해당 줄만 보여준다.
 
 또 `git log` 명령에는 히스토리의 통계를 보여주는 옵션도 있다. `--stat` 옵션으로 각 커밋의 통계 정보를 조회할 수 있다:
 
@@ -538,7 +563,12 @@ Git은 다른 VCS 시스템과는 달리 파일 이름의 변경이나 파일의
 	085bb3b - Scott Chacon, 11 months ago : removed unnecessary test code
 	a11bef0 - Scott Chacon, 11 months ago : first commit
 
-표 2-1 포맷에서 사용하는 유용한 옵션들.
+<!-- Attention to translators: this is a table declaration.
+The lines must be formatted as follows
+<TAB><First column text><TAB><Second column text>
+-->
+
+표 2-1 형식에서 사용하는 유용한 옵션들.
 
 	Option	Description of Output
 	%H	Commit hash
@@ -575,8 +605,14 @@ _저자(Author)_ 와 _커미터(Committer)_ 를 구분하는 것이 조금 이�
 
 `git log` 명령의 기본적인 옵션과 출력물의 형식에 관련된 옵션을 살펴보았다. `git log` 명령은 앞서 살펴본 것보다 더 많은 옵션을 지원한다. 표 2-2 는 지금 설명한 것과 함께 유용하게 사용할 수 있는 옵션이다. 각 옵션으로 어떻게 `log` 명령을 제어할 수 있는지 보여준다.
 
+<!-- Attention to translators: this is a table declaration.
+The lines must be formatted as follows
+<TAB><First column text><TAB><Second column text>
+-->
+
 	옵션  설명
 	-p	각 커밋에 적용된 패치를 보여준다.
+	--word-diff	diff 결과를 단어 단위로 보여준다.
 	--stat	각 커밋에서 수정된 파일의 통계정보를 보여준다.
 	--shortstat	 `--stat` 명령의 결과 중에서 수정한 파일, 추가된 줄, 삭제된 줄만 보여준다.
 	--name-only	 커밋 정보중에서 수정된 파일의 목록만 보여준다.
@@ -585,6 +621,7 @@ _저자(Author)_ 와 _커미터(Committer)_ 를 구분하는 것이 조금 이�
 	--relative-date	 정확한 시간을 보여주는 것이 아니라 `2 주전`처럼 상대적인 형식으로 보여준다.
 	--graph	브랜치와 머지 히스토리 정보까지 아스키 그래프로 보여준다.
 	--pretty	지정한 형식으로 보여준다. 이 옵션에는 oneline, short, full, fuller, format이 있다. format은 원하는 형식으로 출력하고자 할 때 사용한다.
+	--oneline	`--pretty=oneline --abbrev-commit` 옵션을 함께 사용한 것과 동일하다.
 
 ### 조회 제한조건 ###
 
@@ -601,6 +638,11 @@ _저자(Author)_ 와 _커미터(Committer)_ 를 구분하는 것이 조금 이�
 마지막으로 파일 경로로 검색하는 옵션이 있는데 이것도 정말 유용하다. 디렉토리나 파일 이름을 사용하여 그 파일이 변경된 log의 결과를 검색할 수 있다. 이 옵션은 `--`와 함께 경로 이름을 사용하는데 명령어 끝 부분에 쓴다(역주, `git log -- path1 path2`).
 
 표 2-3은 조회 범위를 제한하는 옵션들이다.
+
+<!-- Attention to translators: this is a table declaration.
+The lines must be formatted as follows
+<TAB><First column text><TAB><Second column text>
+-->
 
 	옵션	설명
 	-(n)	최근 n 개의 커밋만 조회한다.
@@ -761,7 +803,7 @@ Git으로 커밋한 모든 것은 언제나 복구할 수 있다. 삭제한 브�
 	origin	git://github.com/schacon/ticgit.git
 	pb	git://github.com/paulboone/ticgit.git
 
-이제 URL 대신에 스트링 pb를 사용할 수 있다. 예를 들어 로컬 저장소에는 없지만 Paul의 저장소에 있는 것을 가져오려면 아래와 같이 실행한다:
+이제 URL 대신에 스트링 `pb`를 사용할 수 있다. 예를 들어 로컬 저장소에는 없지만 Paul의 저장소에 있는 것을 가져오려면 아래과 같이 실행한다:
 
 	$ git fetch pb
 	remote: Counting objects: 58, done.
@@ -1006,7 +1048,7 @@ Lightweight 태그는 기본적으로 파일에 커밋 체크섬을 저장하는
 
 "updated rakefile" 커밋을 v1.2로 태그하지 못했다고 해도 차후에 태그를 붙일 수 있다. 특정 커밋에 태그하기 위해서 명령의 끝에 커밋 체크섬을 명시한다(긴 체크섬을 전부 사용할 필요는 없다):
 
-	$ git tag -a v1.2 9fceb02
+	$ git tag -a v1.2 -m 'version 1.2' 9fceb02
 
 이제 아래와 같이 만든 태그를 확인한다:
 

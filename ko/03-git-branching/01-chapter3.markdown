@@ -150,7 +150,7 @@ Insert 18333fig0312.png
 
 hotfix라는 브랜치를 만들고 새로운 이슈를 해결할 때까지 사용한다:
 
-	$ git checkout -b 'hotfix'
+	$ git checkout -b hotfix
 	Switched to a new branch 'hotfix'
 	$ vim index.html
 	$ git commit -a -m 'fixed the broken email address'
@@ -316,7 +316,7 @@ Merge 도구를 종료하면 Git은 잘 Merge했는지 물어본다. 잘 마쳤�
 	* master  7a98805 Merge branch 'iss53'
 	  testing 782fd34 add scott to the author list in the readmes
 
-각 브랜치가 지금 어떤 상태인지 확인하기에 좋은 옵션도 있다. 현재 Checkout한 브랜치를 기준으로 Merge된 브랜치인지 그렇지 않은지 필터링해 볼 수 있다. `--merged`와 `--no-merged` 옵션을 사용하여 해당 목록을 볼 수 있는데, Git 1.5.6 이후 버전부터 사용할 수 있다. `git branch --merged` 명령으로 이미 Merge한 브랜치 목록을 확인한다:
+각 브랜치가 지금 어떤 상태인지 확인하기에 좋은 옵션도 있다. 현재 Checkout한 브랜치를 기준으로 Merge된 브랜치인지 그렇지 않은지 필터링해 볼 수 있다. `--merged`와 `--no-merged` 옵션을 사용하여 해당 목록을 볼 수 있다. `git branch --merged` 명령으로 이미 Merge한 브랜치 목록을 확인한다:
 
 	$ git branch --merged
 	  iss53

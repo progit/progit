@@ -432,7 +432,7 @@ Linux Kernel 저장소에도 커밋이 아닌 다른 개체를 가리키는 태�
 
 Git은 zlib으로 파일 내용을 압축하기 때문에 저장 공간이 많이 필요하지 않다. 그래서 이 데이터베이스에 저장된 파일은 겨우 925바이트밖에 되지 않는다. 크기가 큰 파일을 추가해서 이 기능의 효과를 좀 더 살펴보자. 앞 장에서 사용했던 Grit 라이브러리에 들어 있는 repo.rb 파일을 추가한다. 이 파일의 크기는 약 12K이다.
 
-	$ curl http://github.com/mojombo/grit/raw/master/lib/grit/repo.rb > repo.rb
+	$ curl https://raw.github.com/mojombo/grit/master/lib/grit/repo.rb > repo.rb
 	$ git add repo.rb
 	$ git commit -m 'added repo.rb'
 	[master 484a592] added repo.rb
@@ -448,10 +448,10 @@ Git은 zlib으로 파일 내용을 압축하기 때문에 저장 공간이 많�
 	100644 blob 9bc1dc421dcd51b4ac296e3e5b6e2a99cf44391e      repo.rb
 	100644 blob e3f094f522629ae358806b17daf78246c27c007b      test.txt
 
-개체의 크기도 `git cat-file` 명령으로 확인할 수 있다:
+개체의 크기는 아래와 같이 확인한다:
 
-	$ git cat-file -s 9bc1dc421dcd51b4ac296e3e5b6e2a99cf44391e
-	12898
+	$ du -b .git/objects/9b/c1dc421dcd51b4ac296e3e5b6e2a99cf44391e
+	4102	.git/objects/9b/c1dc421dcd51b4ac296e3e5b6e2a99cf44391e
 
 피일을 수정하면 어떻게 되는지 살펴보자:
 
@@ -469,10 +469,10 @@ Git은 zlib으로 파일 내용을 압축하기 때문에 저장 공간이 많�
 
 이 Blob 개체는 다른 개체다. 새 Blob 개체는 400줄 이후에 한 줄을 더 추가한 새 개체이다. Git은 완전히 새로운 Blob 개체를 만들어 저장한다:
 
-	$ git cat-file -s 05408d195263d853f09dca71d55116663690c27c
-	12908
+	$ du -b .git/objects/05/408d195263d853f09dca71d55116663690c27c
+	4109	.git/objects/05/408d195263d853f09dca71d55116663690c27c
 
-그럼 약 12K짜리 파일이 두 개나 생긴다. 거의 같은 파일이 두 개나 있는 것이 좀 못마땅하다. 처음 것과 두 번째 것 사이의 차이만 저장할 수 없을까?
+그럼 약 4K짜리 파일을 두 개 가지게 된다. 거의 같은 파일을 두 개나 가지게 되는 것이 못마땅할 수도 있다. 처음 것과 두 번째 것 사이의 차이점만 저장할 수 없을까?
 
 가능하다. Git이 처음 개체를 저장하는 형식은 Loose 개체 포멧이라고 부른다. 하지만 나중에 이 개체를 파일 하나로 압축(Pack)할 수 있다. 그래서 공간을 절약하고 효율을 높일 수 있다. Git이 이렇게 압축하는 때는 Loose 개체가 너무 많거나, `git gc` 명령을 실행했을 때, 그리고 리모트 서버로 Push할 때 압축한다. `git gc` 명령을 실행해서 어떻게 압축하는지 살펴보자:
 
@@ -494,7 +494,7 @@ Git은 zlib으로 파일 내용을 압축하기 때문에 저장 공간이 많�
 
 압축되지 않은 Blob 개체는 어떤 커밋도 가리키지 않는 개체다. 즉, "what is up, doc?"과 "test content" 예제에서 만들었던 개체이다. 어떤 커밋에도 추가돼 있지 않으면 이 개체는 `dangling` 개체로 취급되고 Packfile에 추가되지 않는다.
 
-새로 생긴 파일은 Packfile과 그 Index이다. 파일 시스템에서 삭제된 개체가 전부 이 Packfile에 저장된다. Index 파일은 빠르게 찾을 수 있도록 Packfile의 오프셋이 들어 있다. `git gc` 명령을 실행하기 전에 있던 파일 크기는 약 12K 정도였었는데 새로 만들어진 Packfile은 겨우 6K에 불과하다. 짱이다. 개체를 압축해서 디스크 사용량을 절반으로 줄였다.
+새로 생긴 파일은 Packfile과 그 Index이다. 파일 시스템에서 삭제된 개체가 전부 이 Packfile에 저장된다. Index 파일은 빠르게 찾을 수 있도록 Packfile의 오프셋이 들어 있다. `git gc` 명령을 실행하기 전에 있던 파일 크기는 약 8K 정도였었는데 새로 만들어진 Packfile은 겨우 4K에 불과하다. 짱이다. 개체를 압축하면 디스크 사용량은 절반으로 줄었다.
 
 어떻게 이런 일이 가능할까? 개체를 압축하면 Git은 먼저 이름이나 크기가 비슷한 파일을 찾는다. 그리고 두 파일을 비교해서 한 파일은 다른 부분만 저장한다. Git이 얼마나 공간을 절약해 주는지 Packfile을 열어 확인할 수 있다. `git verify-pack` 명령어는 압축한 내용을 보여준다:
 

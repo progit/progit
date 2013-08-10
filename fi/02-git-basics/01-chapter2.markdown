@@ -678,7 +678,7 @@ Saatat haluta kumota jotain missä tahansa työvaiheessa. Esittelemme tässä mu
 
 ### Viimeisimmän pysyvän muutoksen muuttaminen ###
 
-Yksi yleinen kumoaminen tapahtuu, kun teet pysyvän muutoksen liian aikaisin ja mahdollisesti unohdat lisätä joitakin tiedostoja tai sähläät pysyvän muutoksen viestin kanssa. Jos haluat yrittää pysyvää muutosta uudestaan, voit tehdä pysyvän muutoksen `--amend`-optiolla:
+Yksi yleinen kumoaminen tapahtuu, kun teet pysyvän muutoksen liian aikaisin ja mahdollisesti unohdat lisätä joitakin tiedostoja tai sähläät pysyvän muutoksen viestin kanssa. Jos haluat yrittää tehdä pysyvää muutosta uudestaan, voit tehdä sen `--amend`-optiolla:
 
 	$ git commit --amend
 
@@ -730,7 +730,7 @@ Komento on hieman kummallinen, mutta se toimii. `Benchmarks.rb`-tiedosto on muok
 
 ### Muutetun tiedoston muutosten kumoaminen ###
 
-Mitä, jos tajuat, ettet halua säilyttää muutoksiasi `benchmarks.rb`-tiedostoon? Kuinka voit helposti kumota sen muutokset — palauttaa sen takaisin sellaiseksi, miltä se näytti, kun teit viimeksi pysyvän muutoksen (tai alun perin kloonasit tai miten saitkaan sen työskentelyhakemistoosi)? Onneksi `git status` kertoo sinulle myös, miten tämä tehdään. Jälkimmäisessä esimerkkitulosteessa lavastamaton alue näyttää tältä:
+Mitä, jos tajuat, ettet halua säilyttää muutoksiasi `benchmarks.rb`-tiedostoon? Kuinka voit helposti kumota sen muutokset — palauttaa sen takaisin sellaiseksi, miltä se näytti, kun teit viimeksi pysyvän muutoksen (tai alun perin kloonasit tai miten saitkaan sen työskentelyhakemistoosi)? Onneksi `git status` kertoo sinulle myös, miten tämä tehdään. Edellisessä esimerkkitulosteessa lavastamaton alue näyttää tältä:
 
 	# Changes not staged for commit:
 	#   (use "git add <file>..." to update what will be committed)

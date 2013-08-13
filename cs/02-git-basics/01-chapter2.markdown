@@ -47,7 +47,7 @@ Nezapomeňte, že každý soubor ve vašem pracovním adresáři může být ve 
 Jakmile začnete soubory upravovat, Git je bude považovat za „změněné“, protože jste v nich od poslední revize provedli změny. Poté všechny tyto změněné soubory připravíte k zapsání a následně všechny připravené změny zapíšete. Cyklus může začít od začátku. Pracovní cyklus je znázorněn na obrázku 2-1.
 
 Insert 18333fig0201.png
-Figure 2-1. Cyklus stavů vašich souborů
+Obrázek 2-1. Cyklus stavů vašich souborů
 
 ### Kontrola stavu souborů ###
 
@@ -625,7 +625,7 @@ Z téměř 20 000 revizí v historii zdrojového kódu Git zobrazí tento přík
 Chcete-li použít graficky výrazněji zpracovaný nástroj k procházení historie revizí, možná oceníte Tcl/Tk program nazvaný `gitk`, který je distribuován spolu se systémem Git. Gitk je v zásadě grafická verze příkazu `git log` a umožňuje téměř všechny možnosti filtrování jako `git log`. Pokud do příkazového řádku ve svém projektu zadáte příkaz `gitk`, otevře se okno podobné jako na obrázku 2-2.
 
 Insert 18333fig0202.png
-Figure 2-2. Graficky zpracovaná historie v nástroji „gitk“
+Obrázek 2-2. Graficky zpracovaná historie v nástroji „gitk“
 
 V horní polovině okna vidíte historii revizí, doplněnou názorným hierarchickým grafem. Prohlížeč rozdílů v dolní polovině okna zobrazuje změny provedené v každé revizi, na niž kliknete.
 

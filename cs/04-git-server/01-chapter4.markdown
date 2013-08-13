@@ -319,7 +319,7 @@ Tímto způsobem můžete během pár minut nastavit oprávnění pro čtení za
 Nyní, když máte ke svému projektu nastavena základní oprávnění pro čtení/zápis a pouze pro čtení, možná budete chtít nastavit jednoduchou online vizualizaci. Git vám nabízí CGI skript s názvem GitWeb, který slouží k tomuto účelu. Jak GitWeb funguje, na to se můžete podívat např. na stránkách `http://git.kernel.org` (viz obrázek 4-1).
 
 Insert 18333fig0401.png
-Figure 4-1. Online uživatelské rozhraní GitWeb
+Obrázek 4-1. Online uživatelské rozhraní GitWeb
 
 Pokud vás zajímá, jak by GitWeb vypadal pro váš projekt, nabízí Git příkaz, jímž lze spustit dočasnou instanci. V systému je třeba mít lehký server typu `lighttpd` nebo `webrick`. V počítačích se systémem Linux je často nainstalován `lighttpd`. Spustit ho lze zadáním příkazu `git instaweb` v adresáři vašeho projektu. Pokud používáte OS Mac, v systému Leopard je předinstalován jazyk Ruby, a proto pro vás bude nejlepší variantou zřejmě server `webrick`. Chcete-li spustit `instaweb` s jiným správcem než `lighttpd`, použijte parametr `--httpd`:
 
@@ -741,18 +741,18 @@ GitHub je zároveň komerční společnost, jejíž finanční příjmy plynou z
 První věcí, kterou budete muset udělat, je vytvoření bezplatného uživatelské účtu. Jestliže na stránce „Pricing and Signup“ (`http://github.com/plans`) kliknete u bezplatného účtu (Free) na tlačítko „Sign Up“ (viz obrázek 4-2), přejdete na registrační stránku.
 
 Insert 18333fig0402.png
-Figure 4-2. Výběr typu účtu na serveru GitHub
+Obrázek 4-2. Výběr typu účtu na serveru GitHub
 
 Tady si budete muset zvolit uživatelské jméno, které zatím není v systému obsazeno, a zadat e-mailovou adresu, která bude přiřazena k účtu a heslu (viz obrázek 4-3).
 
 Insert 18333fig0403.png
-Figure 4-3. Registrační formulář na serveru GitHub
+Obrázek 4-3. Registrační formulář na serveru GitHub
 
 Po vyplnění osobních údajů nadešel vhodný čas k vložení vašeho veřejného klíče SSH. Jak vygenerovat nový klíč, jsme popsali výše, v části 4.3. Vezměte obsah veřejného klíče z daného páru a vložte ho do textového pole „SSH Public Key“. Kliknutím na odkaz „explain ssh keys“ přejdete na stránku s podrobnými instrukcemi, jak klíč vložit ve všech hlavních operačních systémech.
 Kliknutím na tlačítko „I agree, sign me up“ přejdete na svůj nový uživatelský ovládací panel (viz obrázek 4-4).
 
 Insert 18333fig0404.png
-Figure 4-4. Uživatelský ovládací panel na serveru GitHub
+Obrázek 4-4. Uživatelský ovládací panel na serveru GitHub
 
 Jako další krok následuje vytvoření nového repozitáře.
 
@@ -761,17 +761,17 @@ Jako další krok následuje vytvoření nového repozitáře.
 Začněte kliknutím na odkaz „create a new one“ (vytvořit nový) vedle nadpisu „Your Repositories“ na ovládacím panelu. Přejdete tím na formulář „Create a New Repository“ (viz obrázek 4-5).
 
 Insert 18333fig0405.png
-Figure 4-5. Vytvoření nového repozitáře na serveru GitHub
+Obrázek 4-5. Vytvoření nového repozitáře na serveru GitHub
 
 Vše, co tu bezpodmínečně musíte udělat, je zadat název projektu. Kromě toho můžete přidat i jeho popis. Poté klikněte na tlačítko „Create Repository“ (Vytvořit repozitář). Nyní máte na serveru GitHub vytvořen nový repozitář (viz obrázek 4-6).
 
 Insert 18333fig0406.png
-Figure 4-6. Záhlaví s informacemi o projektu na serveru GitHub
+Obrázek 4-6. Záhlaví s informacemi o projektu na serveru GitHub
 
 Protože v něm ještě nemáte uložen žádný kód, GitHub vám nabízí instrukce, jak vytvořit zcela nový projekt, odeslat sem existující projekt Git nebo naimportovat projekt z veřejného repozitáře Subversion (viz obrázek 4-7).
 
 Insert 18333fig0407.png
-Figure 4-7. Instrukce k novému repozitáři
+Obrázek 4-7. Instrukce k novému repozitáři
 
 Tyto instrukce jsou podobné těm, které jsme už uváděli. K inicializaci projektu, pokud to ještě není projekt Git, použijte příkaz:
 
@@ -787,7 +787,7 @@ Pokud už máte lokální repozitář Git, přidejte GitHub jako vzdálený serv
 Nyní je váš projekt hostován na serveru GitHub a vy můžete dát adresu URL komukoli, s kým chcete svůj projekt sdílet. V tomto případě je adresa `http://github.com/testinguser/iphone_project`. V záhlaví na stránce všech vašich projektů si můžete všimnout, že máte dvě adresy URL (viz obrázek 4-8).
 
 Insert 18333fig0408.png
-Figure 4-8. Záhlaví projektu s veřejnou a soukromou adresou URL
+Obrázek 4-8. Záhlaví projektu s veřejnou a soukromou adresou URL
 
 „Public Clone URL“ je veřejná adresa Git pouze pro čtení, na níž si může váš projekt kdokoli naklonovat. Nemusíte se bát poskytnout tuto adresu ostatním nebo ji třeba zveřejnit na svých webových stránkách.
 
@@ -798,7 +798,7 @@ Figure 4-8. Záhlaví projektu s veřejnou a soukromou adresou URL
 Máte-li existující veřejný projekt Subversion, který byste rádi importovali do systému Git, GitHub vám s tím často ochotně pomůže. Dole na stránce s instrukcemi najdete odkaz na import ze systému Subversion. Pokud na něj kliknete, zobrazí se formulář s informacemi o importu a textové pole, kam můžete vložit adresu URL svého veřejného projektu Subversion (viz obrázek 4-9).
 
 Insert 18333fig0409.png
-Figure 4-9. Rozhraní importu ze systému Subversion
+Obrázek 4-9. Rozhraní importu ze systému Subversion
 
 Proces nejspíš nebude fungovat, pokud je váš projekt příliš velký, nestandardní nebo soukromý. V kapitole 7 se dostaneme k tomu, jak lze ručně importovat složitější projekty.
 
@@ -809,17 +809,17 @@ Nyní přidáme zbytek vašeho týmu. Pokud si John, Josie i Jessica zaregistruj
 Kliknutím na tlačítko „edit“ v záhlaví projektu nebo na záložce „Admin“ v horní části projektu se dostanete na stránku správy vašeho projektu na serveru GitHub (viz obrázek 4-10).
 
 Insert 18333fig0410.png
-Figure 4-10. Stránka správy na serveru GitHub
+Obrázek 4-10. Stránka správy na serveru GitHub
 
 Chcete-li k svému projektu poskytnout oprávnění pro zápis ještě dalším uživatelům, klikněte na odkaz „Add another collaborator“ (Přidat dalšího spolupracovníka). Zobrazí se nové textové pole, do nějž můžete zadat jméno uživatele. Během psaní se zobrazuje pomocník, který vám navrhuje možná dokončení uživatelského jména. Poté, co najdete správného uživatele, klikněte na tlačítko „Add“. Tím uživatele přidáte jako spolupracovníka na svém projektu (viz obrázek 4-11).
 
 Insert 18333fig0411.png
-Figure 4-11. Přidání spolupracovníka do projektu
+Obrázek 4-11. Přidání spolupracovníka do projektu
 
 Po přidání všech spolupracovníků byste měli vidět jejich seznam v poli „Repository Collaborators“ (viz obrázek 4-12).
 
 Insert 18333fig0412.png
-Figure 4-12. Seznam spolupracovníků na projektu
+Obrázek 4-12. Seznam spolupracovníků na projektu
 
 Pokud potřebujete oprávnění pro některého z uživatelů zrušit, klikněte na odkaz „revoke“. Tím odstraníte jeho oprávnění k odesílání dat. U budoucích projektů budete také moci zkopírovat skupinu spolupracovníků zkopírováním oprávnění z existujícího projektu.
 
@@ -828,7 +828,7 @@ Pokud potřebujete oprávnění pro některého z uživatelů zrušit, klikněte
 Po odeslání projektu nebo jeho naimportování ze systému Subversion budete mít hlavní stránku projektu, která bude vypadat přibližně jako na obrázku 4-13.
 
 Insert 18333fig0413.png
-Figure 4-13. Hlavní stránka projektu na serveru GitHub
+Obrázek 4-13. Hlavní stránka projektu na serveru GitHub
 
 Navštíví-li váš projekt ostatní uživatelé, tuto stránku uvidí. Obsahuje několik záložek k různým aspektům vašich projektů. Záložka „Commits“ zobrazuje seznam revizí v obráceném chronologickém pořadí, podobně jako výstup příkazu `git log`. Záložka „Network“ zobrazuje všechny uživatele, kteří rozštěpili váš projekt a přispěli do něj. Záložka „Downloads“ umožňuje nahrávat binární soubory k projektu a přidávat odkazy na tarbally a komprimované verze všech míst ve vašem projektu, které jsou označeny značkou (tagem). Záložka „Wiki“ vám nabízí stránku wiki, kam můžete napsat dokumentaci nebo jiné informace ke svému projektu. Záložka „Graphs“ graficky zobrazuje některé příspěvky a statistiky k vašemu projektu. Hlavní záložka „Source“, na níž se stránka otvírá, zobrazuje hlavní adresář vašeho projektu, a máte-li soubor README, automaticky ho zařadí na konec seznamu. Tato záložka obsahuje rovněž pole s informacemi o poslední zapsané revizi.
 
@@ -841,12 +841,12 @@ Díky tomu se projekty nemusí starat o přidávání uživatelů do role spolup
 Chcete-li projekt rozštěpit, přejděte na stránku projektu (v tomto případě mojombo/chronic) a klikněte na tlačítko „fork“ v záhlaví (viz obrázek 4-14).
 
 Insert 18333fig0414.png
-Figure 4-14. Zapisovatelnou kopii jakéhokoli repozitáře získáte kliknutím na tlačítko „fork“.
+Obrázek 4-14. Zapisovatelnou kopii jakéhokoli repozitáře získáte kliknutím na tlačítko „fork“.
 
 Po několika sekundách přejdete na novou stránku svého projektu, která oznamuje, že je tento projekt rozštěpením (fork) jiného projektu (viz obrázek 4-15).
 
 Insert 18333fig0415.png
-Figure 4-15. Vaše rozštěpení projektu
+Obrázek 4-15. Vaše rozštěpení projektu
 
 ### Shrnutí k serveru GitHub ###
 

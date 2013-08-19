@@ -132,13 +132,15 @@ Teraz, możesz podpisywać tagi bez konieczności wskazywania za każdym razem k
 
 #### core.excludesfile ####
 
-Możesz umieścić wzorce plików w pliku `.gitignore` w swoim projekcie 
+Możesz umieścić wzorce plików w pliku `.gitignore` w swoim projekcie, tak aby Git pomijał je i nie próbował dodawać ich do przechowalni, gdy uruchomisz `git add`, zgodnie z tym ja opisano w rozdziale 2. Jednakże, jeżeli chcesz aby inny plik poza projektem przechowywał te informacje, lub miał jakieś dodatkowe, możesz wskazać Gitowi gdzie ten plik się znajduje za pomocą ustawienia `core.excludesfile`. Po prostu ustaw w nim ścieżkę do pliku, który zawiera wpisu analogiczne do tych które byłyby w pliku `.gitignore`.
 
 <!-- You can put patterns in your project’s `.gitignore` file to have Git not see them as untracked files or try to stage them when you run `git add` on them, as discussed in Chapter 2. However, if you want another file outside of your project to hold those values or have extra values, you can tell Git where that file is with the `core.excludesfile` setting. Simply set it to the path of a file that has content similar to what a `.gitignore` file would have. -->
 
 #### help.autocorrect ####
 
-This option is available only in Git 1.6.1 and later. If you mistype a command in Git, it shows you something like this:
+Opcja ta jest dostępna od wersji Gita 1.6.1 lub późniejszej. Jeżeli zrobisz błąd podczas wpisywania komendy Gita, pokaże Ci się coś podobnego do:
+
+<!-- This option is available only in Git 1.6.1 and later. If you mistype a command in Git, it shows you something like this: -->
 
 	$ git com
 	git: 'com' is not a git-command. See 'git --help'.
@@ -146,71 +148,110 @@ This option is available only in Git 1.6.1 and later. If you mistype a command i
 	Did you mean this?
 	     commit
 
-If you set `help.autocorrect` to 1, Git will automatically run the command if it has only one match under this scenario.
+Po ustawieniu `help.autocorrect` na 1, Git automatycznie uruchomi komendę, jeżeli będzie w stanie dopasować ją do dokładnie jednego wyniku.
+
+<!-- If you set `help.autocorrect` to 1, Git will automatically run the command if it has only one match under this scenario. -->
 
 ### Colors in Git ###
 
-Git can color its output to your terminal, which can help you visually parse the output quickly and easily. A number of options can help you set the coloring to your preference.
+Git może również pokazywać wyniki swojego działania w kolorze, co ułatwi Ci ich odczytanie w szybszy i łatwiejszy sposób. Liczne opcje pozwalają na dostosowanie kolorowania do Twoich preferencji.
+
+<!-- Git can color its output to your terminal, which can help you visually parse the output quickly and easily. A number of options can help you set the coloring to your preference. -->
 
 #### color.ui ####
 
-Git automatically colors most of its output if you ask it to. You can get very specific about what you want colored and how; but to turn on all the default terminal coloring, set `color.ui` to true:
+Git może automatycznie pokazywać w kolorze większość wyników swojego działania. Możesz bardzo dokładnie ustawić to co ma być pokazywane w kolorze, oraz w jaki sposób; ale aby włączyć wszystkie domyślne ustawienia dotyczące kolorowania, ustaw `color.ui` na true:
+
+<!-- Git automatically colors most of its output if you ask it to. You can get very specific about what you want colored and how; but to turn on all the default terminal coloring, set `color.ui` to true: -->
 
 	$ git config --global color.ui true
 
-When that value is set, Git colors its output if the output goes to a terminal. Other possible settings are false, which never colors the output, and always, which sets colors all the time, even if you’re redirecting Git commands to a file or piping them to another command.
+Gdy ta wartość jest ustawiona, Git będzie pokazywał w kolorze wyniki swojego działania na terminalu. Inne możliwe ustawienia to "false", które nigdy nie będzie pokazywało w kolorze wyników działania, oraz "always", które zawsze ustawi kolory, nawet w przypadku gdy będziesz chciał zapisać wyniki do pliku lub przekazać do innej komendy.
 
-You’ll rarely want `color.ui = always`. In most scenarios, if you want color codes in your redirected output, you can instead pass a `--color` flag to the Git command to force it to use color codes. The `color.ui = true` setting is almost always what you’ll want to use.
+<!-- When that value is set, Git colors its output if the output goes to a terminal. Other possible settings are false, which never colors the output, and always, which sets colors all the time, even if you’re redirecting Git commands to a file or piping them to another command. -->
+
+Bardzo rzadko będziesz potrzebował `color.ui = always`. Najczęściej, jeżeli będziesz chciał kolory w wynik działania Gita, użyjesz opcji `--color` do komendy Gita, aby wymisić na nim użycie kolorów. Ustawienie `color.ui = true` jest najczęściej tym, które będziesz chciał użyć.
+
+<!-- You’ll rarely want `color.ui = always`. In most scenarios, if you want color codes in your redirected output, you can instead pass a `-\-color` flag to the Git command to force it to use color codes. The `color.ui = true` setting is almost always what you’ll want to use. -->
 
 #### `color.*` ####
 
-If you want to be more specific about which commands are colored and how, Git provides verb-specific coloring settings. Each of these can be set to `true`, `false`, or `always`:
+Jeżeli chciałbyś móc bardziej dokładnie ustalać co i w jaki sposób jest pokazywane w kolorze, Git dostarcza odpowiednie ustawienia. Każde z nich może mieć wartość `true`, `false` lub `always`:
+
+<!-- If you want to be more specific about which commands are colored and how, Git provides verb-specific coloring settings. Each of these can be set to `true`, `false`, or `always`: -->
 
 	color.branch
 	color.diff
 	color.interactive
 	color.status
 
-In addition, each of these has subsettings you can use to set specific colors for parts of the output, if you want to override each color. For example, to set the meta information in your diff output to blue foreground, black background, and bold text, you can run
+Dodatkowo, każde z nich ma dodatkowe ustawienia, których możesz użyć, aby zmienić konkretne kolory dla części z wyświetlanego wyniku, jeżeli chciałbyś nadpisać jakiś z kolorów. Na przykład, aby pokazać w kolorze wynik komendy diff z niebieskim kolorem pierwszoplanowym, czarnym tłem i pogrubioną czcionką, uruchom:
+
+<!-- In addition, each of these has subsettings you can use to set specific colors for parts of the output, if you want to override each color. For example, to set the meta information in your diff output to blue foreground, black background, and bold text, you can run -->
 
 	$ git config --global color.diff.meta "blue black bold"
 
-You can set the color to any of the following values: normal, black, red, green, yellow, blue, magenta, cyan, or white. If you want an attribute like bold in the previous example, you can choose from bold, dim, ul, blink, and reverse.
+Możesz ustawić kolor na wartość jedną z: normal, black, red, green, yellow, blue, magenta, cyan lub white. Jeżeli chciałbyś użyć dodatkowego atrybutu takiego jak pogrubienie z poprzedniego przykładu, możesz wykorzystać bold, dim, ul, blink oraz reverse.
 
-See the `git config` manpage for all the subsettings you can configure, if you want to do that.
+<!-- You can set the color to any of the following values: normal, black, red, green, yellow, blue, magenta, cyan, or white. If you want an attribute like bold in the previous example, you can choose from bold, dim, ul, blink, and reverse. -->
 
-### External Merge and Diff Tools ###
+Zobacz podręcznik systemowy do komendy `git config`, aby poznać wszystkie ustawienia których możesz użyć podczas zmiany tych ustawień.
 
-Although Git has an internal implementation of diff, which is what you’ve been using, you can set up an external tool instead. You can also set up a graphical merge conflict-resolution tool instead of having to resolve conflicts manually. I’ll demonstrate setting up the Perforce Visual Merge Tool (P4Merge) to do your diffs and merge resolutions, because it’s a nice graphical tool and it’s free.
+<!-- See the `git config` manpage for all the subsettings you can configure, if you want to do that. -->
 
-If you want to try this out, P4Merge works on all major platforms, so you should be able to do so. I’ll use path names in the examples that work on Mac and Linux systems; for Windows, you’ll have to change `/usr/local/bin` to an executable path in your environment.
+### Zewnętrzne narzędzia do łączenia i pokazywania różnic ###
 
-You can download P4Merge here:
+<!-- ### External Merge and Diff Tools ### -->
+
+Chociaż Git posiada wbudowaną obsługę narzedzia diff, którego dotychczas używałeś, możesz ustawić inny zewnętrzny program zamiast niego. Możesz również ustawić graficzny program pozwalający na łączenie zmian i rozwiązywanie konfliktów, bez konieczności robienia tego ręcznie. Zaprezentuję na przykładzie Perforce Visual Merge Tool (P4Merge) w jaki sposób ustawić do obsługi łączenia i pokazywania różnic zewnętrzny program, ponieważ ma on prosty graficzny interfejs i jest darmowy.
+
+<!-- Although Git has an internal implementation of diff, which is what you’ve been using, you can set up an external tool instead. You can also set up a graphical merge conflict-resolution tool instead of having to resolve conflicts manually. I’ll demonstrate setting up the Perforce Visual Merge Tool (P4Merge) to do your diffs and merge resolutions, because it’s a nice graphical tool and it’s free. -->
+
+Jeżeli chcesz tego również spróbować, P4Merge działa na wszystkich głównych platformach, więc prawdopodobnie będziesz mogł to zrobić. Będę używał nazw ścieżek w przykładach które działają na systemach Mac i Linux; dla systemu Windows bedziesz musiał zmienić `/usr/local/bin` na odpowiednią ścieżkę w Twoim środowisku.
+
+<!-- If you want to try this out, P4Merge works on all major platforms, so you should be able to do so. I’ll use path names in the examples that work on Mac and Linux systems; for Windows, you’ll have to change `/usr/local/bin` to an executable path in your environment. -->
+
+Możesz pobrać P4Merge stąd:
+
+<!-- You can download P4Merge here: -->
 
 	http://www.perforce.com/perforce/downloads/component.html
 
-To begin, you’ll set up external wrapper scripts to run your commands. I’ll use the Mac path for the executable; in other systems, it will be where your `p4merge` binary is installed. Set up a merge wrapper script named `extMerge` that calls your binary with all the arguments provided:
+Na początek, ustawimy zewnętrzny skrypt do uruchamiania komend. Użyję ścieżki z systemu Mac wskazującej na program; w innych systemach, będzie ona musiała wskazywać na miejscej w którym program `p4merge` został zainstalowany. Stwórz skrypt o nazwie `extMerge`, który bedzie przyjmował wszystkie podane parametry i uruchamiał program:
+
+<!-- To begin, you’ll set up external wrapper scripts to run your commands. I’ll use the Mac path for the executable; in other systems, it will be where your `p4merge` binary is installed. Set up a merge wrapper script named `extMerge` that calls your binary with all the arguments provided: -->
 
 	$ cat /usr/local/bin/extMerge
 	#!/bin/sh
 	/Applications/p4merge.app/Contents/MacOS/p4merge $*
 
-The diff wrapper checks to make sure seven arguments are provided and passes two of them to your merge script. By default, Git passes the following arguments to the diff program:
 
-	path old-file old-hex old-mode new-file new-hex new-mode
+Skrypt do obsługi diff sprawdza czy zostało podanych 7 argumentów i przekazuje dwa z nicg do skryptu obsłiugującego merge. Domyślnie, Git przekazuje te argumenty do programu obsługującego pokazywanie różnic:
 
-Because you only want the `old-file` and `new-file` arguments, you use the wrapper script to pass the ones you need.
+<!-- The diff wrapper checks to make sure seven arguments are provided and passes two of them to your merge script. By default, Git passes the following arguments to the diff program: -->
+
+	ścieżka stary-plik stara-wartość-hex stary-tryb nowy-plik nowa-wartość-hex nowy-tryb
+
+<!-- 	path old-file old-hex old-mode new-file new-hex new-mode -->
+
+Ponieważ potrzebujesz tylko argumentów `stary-plik` i `nowy-plik`, w skrypcie przekazujesz tylko te które potrzebujesz.
+
+<!-- Because you only want the `old-file` and `new-file` arguments, you use the wrapper script to pass the ones you need. -->
 
 	$ cat /usr/local/bin/extDiff
 	#!/bin/sh
 	[ $# -eq 7 ] && /usr/local/bin/extMerge "$2" "$5"
 
-You also need to make sure these tools are executable:
+Musisz zwrócić uwagę, czy te narzędzia mają poprawne uprawnienia:
+
+<!-- You also need to make sure these tools are executable: -->
 
 	$ sudo chmod +x /usr/local/bin/extMerge
 	$ sudo chmod +x /usr/local/bin/extDiff
 
-Now you can set up your config file to use your custom merge resolution and diff tools. This takes a number of custom settings: `merge.tool` to tell Git what strategy to use, `mergetool.*.cmd` to specify how to run the command, `mergetool.trustExitCode` to tell Git if the exit code of that program indicates a successful merge resolution or not, and `diff.external` to tell Git what command to run for diffs. So, you can either run four config commands
+Teraz możesz zmienić ustawienia, 
+
+<!-- Now you can set up your config file to use your custom merge resolution and diff tools. This takes a number of custom settings: `merge.tool` to tell Git what strategy to use, `mergetool.*.cmd` to specify how to run the command, `mergetool.trustExitCode` to tell Git if the exit code of that program indicates a successful merge resolution or not, and `diff.external` to tell Git what command to run for diffs. So, you can either run four config commands -->
 
 	$ git config --global merge.tool extMerge
 	$ git config --global mergetool.extMerge.cmd \

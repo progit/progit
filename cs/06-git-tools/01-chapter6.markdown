@@ -191,7 +191,7 @@ Nyní, když umíte určit jednotlivé revize, podíváme se, jak lze určovat c
 Nejčastěji se při označení intervalu používá dvojtečková syntax. Pomocí ní systému Git v podstatě říkáte, aby uvažoval celý interval revizí, které jsou dostupné z jedné revize, ale nejsou dostupné z jiné. Předpokládejme tedy, že máte historii revizí jako na obrázku 6-1.
 
 Insert 18333fig0601.png
-Figure 6-1. Příklad historie revizí pro výběr intervalu
+Obrázek 6-1. Příklad historie revizí pro výběr intervalu
 
 Vy chcete vidět, co všechno obsahuje vaše experimentální větev, kterou jste ještě nezačlenili do hlavní větve. Pomocí výrazu `master..experiment` můžete systému Git zadat příkaz, aby vám zobrazil log právě s těmito revizemi, doslova „všemi revizemi dostupnými z větve experiment a nedostupnými z hlavní větve“. V zájmu stručnosti a názornosti použiji v těchto příkladech místo skutečného výstupu logu písmena objektů revizí z diagramu v pořadí, jak by se zobrazily:
 

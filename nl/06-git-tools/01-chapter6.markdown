@@ -403,7 +403,6 @@ Over het algemeen zul je `y` of `n` typen als je ieder stuk wilt stagen, maar ze
 
 De status van het simplegit.rb bestand is interessant. Het laat zien dat een paar regels gestaged zijn, en een paar niet. Je hebt dit bestand deels gestaged. Op dit punt kun je het interactieve toevoeg script verlaten en het `git commit` commando uitvoeren om de gedeeltelijk gestagede bestanden te committen.
 
-Finally, you don’t need to be in interactive add mode to do the partial-file staging — you can start the same script by using `git add -p` or `git add --patch` on the command line.
 Tot slot hoef je niet in de interactieve toevoeg modus te zijn om het gedeeltelijke bestands-stagen te doen – je kunt hetzelfde script starten door `git add -p` of `git add --patch` op de commando regel te gebruiken.
 
 ## Stashen ##

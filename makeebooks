@@ -99,7 +99,16 @@ ARGV.each do |lang|
       output.write(book_content)
     end
 
-    system('ebook-convert', "progit.#{lang}.html", "progit.#{lang}.#{format}",
+    $ebook_convert_cmd = ENV['ebook_convert_path'].to_s
+    if $ebook_convert_cmd.empty?
+      $ebook_convert_cmd = `which ebook-convert`.chomp
+    end
+    if $ebook_convert_cmd.empty?
+      mac_osx_path = '/Applications/calibre.app/Contents/MacOS/ebook-convert'
+      $ebook_convert_cmd = mac_osx_path
+    end
+
+    system($ebook_convert_cmd, "progit.#{lang}.html", "progit.#{lang}.#{format}",
            '--cover', 'ebooks/cover.png',
            '--authors', authors,
            '--comments', comments,

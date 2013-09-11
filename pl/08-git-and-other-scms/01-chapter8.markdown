@@ -208,7 +208,7 @@ Widać również, że suma SHA która oryginalnie rozpoczynała się od `97031e5
 
 <!-- ### Pulling in New Changes ### -->
 
-Jeżeli współpracujesz z innymi programistami, a jeden z Was w pewnym momencie wypchnie jakieś zmiany, drugi może napotkać konflikt podczas próby wypchnęcia swoich zmian. Ta zmiana będzie odrzucona, do czasu włączenia tamtych. W `git svn`, wygląda to tak: 
+Jeżeli współpracujesz z innymi programistami, a jeden z Was w pewnym momencie wypchnie jakieś zmiany, drugi może napotkać konflikt podczas próby wypchnięcia swoich zmian. Ta zmiana będzie odrzucona, do czasu włączenia tamtych. W `git svn`, wygląda to tak: 
 
 <!-- If you’re working with other developers, then at some point one of you will push, and then the other one will try to push a change that conflicts. That change will be rejected until you merge in their work. In `git svn`, it looks like this: -->
 
@@ -283,7 +283,7 @@ Uruchamianie `git svn rebase` co jakiś czas, pozwoli Ci upewnić się, że masz
 
 <!-- ### Git Branching Issues ### -->
 
-Jak już przyzwyczaisz się do pracy z Gitem, z pewnością będziesz tworzył gałęzie tematyczne, pracował na nich, a następnie włączał je. Jeżeli wypychasz zmiany do serwera Subversion za pomocą komendy `git svn`, możesz chcieć wykonać "rebase" na wszystkich swoich zmianach włączając je do jednej gałęzi, zamiast łączyć gałezie razem. Powodem takiego sposobu działania jest to, że Subversion ma liniową historię i nie obsługuje łączenia zmian w taki sposób jak Git, więc `git svn` będzie podążał tylko za pierwszym rodzicem podczas konwertowania migawki do commitu Subversion.
+Jak już przyzwyczaisz się do pracy z Gitem, z pewnością będziesz tworzył gałęzie tematyczne, pracował na nich, a następnie włączał je. Jeżeli wypychasz zmiany do serwera Subversion za pomocą komendy `git svn`, możesz chcieć wykonać "rebase" na wszystkich swoich zmianach włączając je do jednej gałęzi, zamiast łączyć gałęzie razem. Powodem takiego sposobu działania jest to, że Subversion ma liniową historię i nie obsługuje łączenia zmian w taki sposób jak Git, więc `git svn` będzie podążał tylko za pierwszym rodzicem podczas konwertowania migawki do commitu Subversion.
 
 <!-- When you’ve become comfortable with a Git workflow, you’ll likely create topic branches, do work on them, and then merge them in. If you’re pushing to a Subversion server via git svn, you may want to rebase your work onto a single branch each time instead of merging branches together. The reason to prefer rebasing is that Subversion has a linear history and doesn’t deal with merges like Git does, so git svn follows only the first parent when converting the snapshots into Subversion commits. -->
 
@@ -488,7 +488,7 @@ Narzędzia dostarczane przez `git svn` są przydatne, jeżeli musisz używać se
 * Keep a linear Git history that doesn’t contain merge commits made by `git merge`. Rebase any work you do outside of your mainline branch back onto it; don’t merge it in.
 * Don’t set up and collaborate on a separate Git server. Possibly have one to speed up clones for new developers, but don’t push anything to it that doesn’t have a `git-svn-id` entry. You may even want to add a `pre-receive` hook that checks each commit message for a `git-svn-id` and rejects pushes that contain commits without it. -->
 
-Jeżeli będziesz postępował zgodnie z tymi wskazówkami, praca z repozytoriami Subersion będzie bardziej znośna. Jednak, jeżeli możliwe jest przeniesienie się na prawdziwy serwer Gita, powinieneś to zrobić, a cały zespół jeszcze więcej na tym skorzysta.
+Jeżeli będziesz postępował zgodnie z tymi wskazówkami, praca z repozytoriami Subversion będzie bardziej znośna. Jednak, jeżeli możliwe jest przeniesienie się na prawdziwy serwer Gita, powinieneś to zrobić, a cały zespół jeszcze więcej na tym skorzysta.
 
 <!-- If you follow those guidelines, working with a Subversion server can be more bearable. However, if it’s possible to move to a real Git server, doing so can gain your team a lot more. -->
 

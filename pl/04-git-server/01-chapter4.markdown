@@ -10,7 +10,7 @@ Zdalne repozytorium to nic innego jak samo repozytorium bez kopii roboczej (ang.
 
 ## Protokoły ##
 
-Git potrafi korzystać z czterech podstawowych protokołów sieciowych do przesyłu danych: lokalnego, Secure Shell (SSH), Git, oraz HTTP. Poniżej opiszemy czym się charakteryzują i w jakich sytuacjach wartko korzystać (lub wręcz przeciwnie) z jednego z nich.
+Git potrafi korzystać z czterech podstawowych protokołów sieciowych do przesyłu danych: lokalnego, Secure Shell (SSH), Git, oraz HTTP. Poniżej opiszemy czym się charakteryzują i w jakich sytuacjach warto korzystać (lub wręcz przeciwnie) z jednego z nich.
 
 Istotne jest, że z wyjątkiem protokołu HTTP, wszystkie pozostałe wymagają by na serwerze został zainstalowany Git.
 
@@ -119,7 +119,7 @@ Aby sklonować repozytorium jako nowe, czyste repozytorium, należy uruchomić p
     $ git clone --bare my_project my_project.git
     Initialized empty Git repository in /opt/projects/my_project.git/
 
-Informacje wyświetlane przez to polecenia mogą być mylące. Ponieważ `clone` to tak naprawdę `git init` + `git fetch`, można zobaczyć informacje wyświetlane przez część związaną z `git init`, która powoduje utworzenie pustego katalogu. Ma miejsce rzeczywiste kopiowanie obiektów, ale nie powoduje to wyświetlenia jakiejkolwiek informacji. Teraz powinieneś mieć kopię katalogu Git w katalogu `my_project.git`.
+Informacje wyświetlane przez to polecenie mogą być mylące. Ponieważ `clone` to tak naprawdę `git init` + `git fetch`, można zobaczyć informacje wyświetlane przez część związaną z `git init`, która powoduje utworzenie pustego katalogu. Ma miejsce rzeczywiste kopiowanie obiektów, ale nie powoduje to wyświetlenia jakiejkolwiek informacji. Teraz powinieneś mieć kopię katalogu Git w katalogu `my_project.git`.
 
 Ogólnie rzecz biorąc odpowiada to następującemu poleceniu:
 
@@ -147,7 +147,7 @@ Widać zatem, że bardzo prosto jest wziąć repozytorium Git, utworzyć jego cz
 
 Warto zaznaczyć, że to właściwie wszystko czego potrzeba, aby utworzyć działający serwer Git, do którego dostęp ma kilka osób - wystarczy utworzyć dla nich konta SSH i wstawić czyste repozytorium gdzieś, gdzie osoby te mają dostęp i uprawnienia do zapisu i odczytu. Więcej nie trzeba - można działać.
 
-W następnych sekcjach zobaczysz jak przeprowadzić bardziej zaawansowaną konfigurację. Sprawdzimy jak uniknąć konieczności tworzenia kont użytkowników dla każdej osoby, jak dodać publiczny dostęp tylko do odczytu, jak skonfigurować interfejs WWW, jak wykorzystać narzędzie Gitosis i inne. Miej jednak na uwadzę, że do pracy nad prywatnym projektem w kilka osób, _wszystko_, czego potrzeba to serwer z dostępem SSH i czyste repozytorium.
+W następnych sekcjach zobaczysz jak przeprowadzić bardziej zaawansowaną konfigurację. Sprawdzimy jak uniknąć konieczności tworzenia kont użytkowników dla każdej osoby, jak dodać publiczny dostęp tylko do odczytu, jak skonfigurować interfejs WWW, jak wykorzystać narzędzie Gitosis i inne. Miej jednak na uwadze, że do pracy nad prywatnym projektem w kilka osób, _wszystko_, czego potrzeba to serwer z dostępem SSH i czyste repozytorium.
 
 ### Prosta konfiguracja ###
 
@@ -233,7 +233,7 @@ Od tego momentu możesz ustawić puste repozytorium poprzez komendę 'git init' 
     $ cd project.git
     $ git --bare init
 
-Teraz John, Josie lub Jessica ma możliwość wykonania komendy push (wysłania) pierwszej wersji projektu do repozytorium poprzez dodanie go (projektu) jako zdalny (remote) oraz wysłanie całej gałęzi projektu. Aby tego dokonać należy połączyć sie poprzez shell z maszyną i utworzyć nowe repozytorium za każdym razem kiedy chcemy dodać projekt. Użyjmy `gitserver` jako nazwę serwera, na którym ustawisz użytkownika `git` oraz repozytorium. Jeżeli odpalasz je lokalnie i ustawiasz DNS jako `gitserver` do połączenia z tym serwerem, wtedy będziesz mógł użyć poniższych komend:
+Teraz John, Josie lub Jessica ma możliwość wykonania komendy push (wysłania) pierwszej wersji projektu do repozytorium poprzez dodanie go (projektu) jako zdalny (remote) oraz wysłanie całej gałęzi projektu. Aby tego dokonać należy połączyć się poprzez shell z maszyną i utworzyć nowe repozytorium za każdym razem kiedy chcemy dodać projekt. Użyjmy `gitserver` jako nazwę serwera, na którym ustawisz użytkownika `git` oraz repozytorium. Jeżeli odpalasz je lokalnie i ustawiasz DNS jako `gitserver` do połączenia z tym serwerem, wtedy będziesz mógł użyć poniższych komend:
 
     # on Johns computer
     $ cd myproject
@@ -290,7 +290,7 @@ Co robi to podpięcie `post-update`? Generalnie wygląda ono tak:
 	#!/bin/sh
 	exec git-update-server-info
 
-To oznacza ze kiedy wysyłasz do serwera przez SSH, Git uruchomi tę komendę, aby uaktualnić pliki potrzebne do ściągania przez HTTP.
+To oznacza, że kiedy wysyłasz do serwera przez SSH, Git uruchomi tę komendę, aby uaktualnić pliki potrzebne do ściągania przez HTTP.
 
 Następnie do ustawień swojego serwera Apache musisz dodać pozycję VirtualHost z głównym dokumentem jako główny katalog twoich projektów Git. Tutaj zakładamy, ze masz ustawiony wildcard DNS do wysyłania `*.gitserver` do jakiegokolwiek pudła, którego używasz do uruchamiania tego wszystkiego:
 
@@ -657,7 +657,7 @@ Wiele wymiany kodu w świecie gita zdarza się jako żądania pobrania zmian "pl
 
 Takie podejście spowodowałoby takie samo zamieszanie z gałęziami jak w scentralizowanych systemach VCS, dodatkowo ustawianie uprawnień jest harówką dla administratora.
 
-Gitolite pozwala nam na zdefiniowanie prefiksów "osobistych" lub "scratch" przestrzeni nazw dla każdego developera (na przykład `refs/personal/<devname>/*`); zobacz sekcje "osobiste gałęzie" w `doc/3-faq-tips-etc.mkd`.
+Gitolite pozwala nam na zdefiniowanie prefiksów "osobistych" lub "scratch" przestrzeni nazw dla każdego developera (na przykład `refs/personal/<devname>/*`); zobacz sekcję "osobiste gałęzie" w `doc/3-faq-tips-etc.mkd`.
 
 ### Repozytoria "Wildcard" ###
 
@@ -737,7 +737,7 @@ Jeśli zdecydujesz się nie używać Gitosis, ale chcesz ustawić Git demona, mu
 	$ cd /path/to/project.git
 	$ touch git-daemon-export-ok
 
-Obecność tego pliku mówi Git'owi, że można serwować ten projekt bez autoryzacji.
+Obecność tego pliku mówi Gitowi, że można serwować ten projekt bez autoryzacji.
 
 Gitosis może także kontrolować, który projekt GitWeb ma pokazywać. Najpierw, musisz dodać coś takiego do pliku `/etc/gitweb.conf`:
 
@@ -788,7 +788,7 @@ Jeśli jest to możliwe to jest to dobry moment aby dodać swój publiczny klucz
 Kliknięcie "I agree, sign me up" powoduje przeniesienie do nowego panelu użytkownika (patrz rysunek 4-4).
 
 Insert 18333fig0404.png 
-Figure 4-4. Panel użytkowinia GitHub.
+Figure 4-4. Panel użytkownika GitHub.
 
 Następnie możesz utworzyć nowe repozytorium.
 
@@ -866,13 +866,13 @@ Po tym jak wyślesz swój projekt lub zaimportujesz z Subversion, będziesz mia�
 Insert 18333fig0413.png 
 Figure 4-13. Strona główna projektu GitHub.
 
-Kiedy ludzie będą odwiedzali Twój projekt, zobaczą tą stronę. Zawiera ona kilka kart. Karta zatwierdzeń pokazuje zatwierdzenia w odwrotnej kolejności, tak samo jak w przypadku polecenia `git log`. Karta połączeń pokazuje wszystkich którzy zrobili rozwidlenie Twojego projektu i uzupełniają go. Karta ściągnięć pozwala Tobie załadować pliki binarne do projektu oraz linki do paczek z kodami i spakowane wersje wszystkich zaznaczonych punktów w projekcie. Karta Wiki pozwala na dodawanie dokumentacji oraz informacji do projektu. Karta Grafów pokazuje w graficzny sposób statystyki użytkowania projektu. Głowna karta z plikami źródłowymi, które lądują w projekcie pokazuje listę katalogów w projekcie i automatycznie renderuje plik README poniżej jeśli taki znajduje się w głównym katalogu projektu. Ta karta pokazuje również okno z zatwierdzeniami.
+Kiedy ludzie będą odwiedzali Twój projekt, zobaczą tę stronę. Zawiera ona kilka kart. Karta zatwierdzeń pokazuje zatwierdzenia w odwrotnej kolejności, tak samo jak w przypadku polecenia `git log`. Karta połączeń pokazuje wszystkich którzy zrobili rozwidlenie Twojego projektu i uzupełniają go. Karta ściągnięć pozwala ci załadować pliki binarne do projektu oraz linki do paczek z kodami i spakowane wersje wszystkich zaznaczonych punktów w projekcie. Karta Wiki pozwala na dodawanie dokumentacji oraz informacji do projektu. Karta Grafów pokazuje w graficzny sposób statystyki użytkowania projektu. Głowna karta z plikami źródłowymi, które lądują w projekcie pokazuje listę katalogów w projekcie i automatycznie renderuje plik README poniżej jeśli taki znajduje się w głównym katalogu projektu. Ta karta pokazuje również okno z zatwierdzeniami.
 
 ### Rozwidlanie projektu ###
 
 Jeśli chcesz przyczynić się do rozwoju istniejącego projektu, w którym nie masz możliwości wysyłania, GitHub zachęca do rozwidlania projektu. Kiedy znajdziesz się na stronie która wydaje się interesująca i chcesz pogrzebać w niej trochę, możesz nacisnąć przycisk "fork" w nagłówku projektu aby GitHub skopiował projekt do Twojego użytkownika tak abyś mógł do niego wprowadzać zmiany.
 
-W tego typu projektach nie musimy martwić się o dodawanie współpracowników aby nadać im prawo do wysyłania. Ludzie moga rozwidlić projekt i swobodnie wysyłać do niego, a głowny opiekun projektu może pobrać te zmiany dodając gałąź jako zdalną i połączyć go z głównym projektem.
+W tego typu projektach nie musimy martwić się o dodawanie współpracowników aby nadać im prawo do wysyłania. Ludzie mogą rozwidlić projekt i swobodnie wysyłać do niego, a główny opiekun projektu może pobrać te zmiany dodając gałąź jako zdalną i połączyć go z głównym projektem.
 
 Aby rozwidlić projekt, odwiedź stronę projektu (w tym przykładzie, mojombo/chronic) i naciśnij przycisk "fork" w nagłówku (zobacz Rysunek 4-14).
 
@@ -886,12 +886,12 @@ Figure 4-15. Twoje rozwidlenie projektu.
 
 ### Podsumowanie GitHub ###
 
-To już wszystko o GitHub, ale ważne jest aby zaznaczyć jak szybko można to wszystko zrobić. Możesz stworzyć konto, dodać nowy projekt i wysłać go w kilka minut. Jeśli Twój projekt jest typu open source, dodatkowo zyskujesz ogromną społeczność programistów, którzy mają teraz wgląd do Twojego projektu i mogą pomóc jego rozwoju tworząc rozwidlenie. W ostateczności, może to być sposób na zaznajomienie się i szybkie wypróbowanie Git'a.
+To już wszystko o GitHub, ale ważne jest aby zaznaczyć jak szybko można to wszystko zrobić. Możesz stworzyć konto, dodać nowy projekt i wysłać go w kilka minut. Jeśli Twój projekt jest typu open source, dodatkowo zyskujesz ogromną społeczność programistów, którzy mają teraz wgląd do twojego projektu i mogą pomóc w jego rozwoju tworząc rozwidlenie. W ostateczności, może to być sposób na zaznajomienie się i szybkie wypróbowanie Gita.
 
 ## Podsumowanie ##
 
-Istnieje kilka sposobów na stworzenie repozytorium Git'a, w celu kooperacji z innymi lub dzielenia się swoją pracą.
+Istnieje kilka sposobów na stworzenie repozytorium Gita, w celu kooperacji z innymi lub dzielenia się swoją pracą.
 
-Postawienie własnego serwera daje Ci sporą kontrolę i umożliwia działanie serwera za własnym firewall'em, ale taki serwer na ogół wymaga sporo czasu na stworzenie i utrzymanie. Jeśli umieścisz swoje dane na gotowym hostingu, to jest to łatwe do skonfigurowania i utrzymania, ale musisz być w stanie utrzymać swój kod na cudzych serwerach, a niektóre organizacje na to nie pozwalają.
+Postawienie własnego serwera daje Ci sporą kontrolę i umożliwia działanie serwera za własnym firewallem, ale taki serwer na ogół wymaga sporo czasu na stworzenie i utrzymanie. Jeśli umieścisz swoje dane na gotowym hostingu, to jest to łatwe do skonfigurowania i utrzymania, ale musisz być w stanie utrzymać swój kod na cudzych serwerach, a niektóre organizacje na to nie pozwalają.
 
 Określenie, które rozwiązanie lub połączenie rozwiązań jest odpowiednie dla Ciebie i Twojej organizacji powinno być dość proste.

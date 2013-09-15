@@ -270,7 +270,7 @@
       <dia:attribute name="text">
         <dia:composite type="text">
           <dia:attribute name="string">
-            <dia:string>#31b8c#</dia:string>
+            <dia:string>#31b8e#</dia:string>
           </dia:attribute>
           <dia:attribute name="font">
             <dia:font family="Courier New" style="80" name="Courier-Bold"/>

@@ -348,8 +348,8 @@ Here’s an example. I put Chapter 1 of this book into Git, added some text to a
 	 Since its birth in 2005, Git has evolved and matured to be easy to use
 	 and yet retain these initial qualities. It’s incredibly fast, it’s
 	 very efficient with large projects, and it has an incredible branching
-	-system for non-linear development (See Chapter 3).
-	+system for non-linear development.
+	-system for non-linear development.
+	+system for non-linear development (See Chapter 3).
 
 Git successfully and succinctly tells me that I added the string "(See Chapter 3)", which is correct. Works perfectly!
 

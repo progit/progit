@@ -529,7 +529,7 @@
         <dia:point val="6.575,11.5719"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="6.54999,11.3754;17.5934,11.7563"/>
+        <dia:rectangle val="6.5441,11.3812;17.5625,11.7621"/>
       </dia:attribute>
       <dia:attribute name="conn_endpoints">
         <dia:point val="6.575,11.5719"/>
@@ -541,13 +541,13 @@
       <dia:attribute name="line_width">
         <dia:real val="0.05000000074505806"/>
       </dia:attribute>
-      <dia:attribute name="end_arrow">
+      <dia:attribute name="start_arrow">
         <dia:enum val="3"/>
       </dia:attribute>
-      <dia:attribute name="end_arrow_length">
+      <dia:attribute name="start_arrow_length">
         <dia:real val="0.30000000000000004"/>
       </dia:attribute>
-      <dia:attribute name="end_arrow_width">
+      <dia:attribute name="start_arrow_width">
         <dia:real val="0.30000000000000004"/>
       </dia:attribute>
     </dia:object>
@@ -655,7 +655,7 @@
         <dia:point val="10.0022,14.845"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="10.0022,13.9525;14.0447,15.0725"/>
+        <dia:rectangle val="10.0022,13.9525;14.0272,15.0725"/>
       </dia:attribute>
       <dia:attribute name="text">
         <dia:composite type="text">

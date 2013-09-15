@@ -148,7 +148,7 @@ Le dernier point à soigner est le message de validation.
 S'habituer à écrire des messages de validation de qualité facilite grandement l'emploi et la collaboration avec Git.
 En règle générale, les messages doivent débuter par une ligne unique d'au plus 50 caractères décrivant concisément la modification, suivie d'une ligne vide, suivie d'une explication plus détaillée.
 Le projet Git exige que l'explication détaillée inclue la motivation de la modification en contrastant le nouveau comportement par rapport à l'ancien — c'est une bonne règle de rédaction.
-Un bonne règle consiste aussi à utiliser le présent de l'impératif ou des verbes substantivés dans le message.
+Une bonne règle consiste aussi à utiliser le présent de l'impératif ou des verbes substantivés dans le message.
 En d'autres termes, utilisez des ordres.
 Au lieu d'écrire « J'ai ajouté des tests pour » ou « En train d'ajouter des tests pour », utilisez juste « Ajoute des tests pour » ou « Ajout de tests pour ».
 

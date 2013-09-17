@@ -348,8 +348,8 @@ Gitでは、バイナリファイルの差分を効果的に扱うためにGit�
 	 Since its birth in 2005, Git has evolved and matured to be easy to use
 	 and yet retain these initial qualities. It’s incredibly fast, it’s
 	 very efficient with large projects, and it has an incredible branching
-	-system for non-linear development (See Chapter 3).
-	+system for non-linear development.
+	-system for non-linear development.
+	+system for non-linear development (See Chapter 3).
 
 Gitは、追加した"(See Chapter 3)"という文字列を首尾よく、かつ、簡潔に知らせてくれました。正確で、申し分のない動作です！
 

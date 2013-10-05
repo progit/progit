@@ -142,7 +142,7 @@ Ce réglage a été ajouté dans Git 1.5.5.
 Si vous avez une version antérieure, vous devrez spécifier les règles de colorisation individuellement.
 
 `color.ui = always` est rarement utile.
-Dans les plupart des cas, si vous tenez vraiment à coloriser vos sorties redirigées, vous pourrez passer le drapeau `--color` à la commande Git pour la forcer à utiliser les codes de couleur.
+Dans la plupart des cas, si vous tenez vraiment à coloriser vos sorties redirigées, vous pourrez passer le drapeau `--color` à la commande Git pour la forcer à utiliser les codes de couleur.
 Le réglage `color.ui = true` est donc le plus utilisé.
 
 #### `color.*` ####
@@ -163,7 +163,7 @@ Par exemple, pour régler les couleurs de méta-informations du diff avec une é
 La couleur peut prendre les valeurs suivantes : *normal*, *black*, *red*, *green*, *yellow*, *blue*, *magenta*, *cyan* ou *white*.
 Si vous souhaitez ajouter un attribut de casse, les valeurs disponibles sont *bold* (gras), *dim* (léger), *ul* (*underlined*, souligné), *blink* (clignotant) et *reverse* (inversé).
 
-Référez-vous à la page de manuel de `git config` pour tous les sous-réglages disponibles.
+Référez-vous à la page du manuel de `git config` pour tous les sous-réglages disponibles.
 
 ### Outils externes de fusion et de différence ###
 
@@ -294,7 +294,7 @@ Les deux autres qui sont désactivées par défaut mais peuvent être activées 
 
 Vous pouvez indiquer à Git quelle correction vous voulez activer en fixant `core.whitespace` avec les valeurs que vous voulez ou non, séparées par des virgules.
 Vous pouvez désactiver des réglages en les éliminant de la chaîne de paramétrage ou en les préfixant avec un `-`.
-Par exemple, si vous souhaiter activer tout sauf `cr-at-eol`, vous pouvez lancer ceci :
+Par exemple, si vous souhaitez activer tout sauf `cr-at-eol`, vous pouvez lancer ceci :
 
 	$ git config --global core.whitespace \
 	    trailing-space,space-before-tab,indent-with-non-tab
@@ -749,7 +749,7 @@ Vous ne pouvez plus arrêter le processus de validation avec ce script.
 
 #### Autres crochets côté client ####
 
-Le crochet `pre-rebase` est invoqueé avant que vous ne rebasiez et peut interrompre le processus s'il sort avec un code d'erreur non nul.
+Le crochet `pre-rebase` est invoqué avant que vous ne rebasiez et peut interrompre le processus s'il sort avec un code d'erreur non nul.
 Vous pouvez utiliser ce crochet pour empêcher de rebaser tout *commit* qui a déjà été poussé.
 C'est ce que fait le crochet d'exemple `pre-rebase` que Git installe, même s'il considère que la branche cible de publication s'appelle `next`.
 Il est très probable que vous ayez à changer ce nom pour celui que vous utilisez réellement en branche publique stable.
@@ -760,7 +760,7 @@ Cela peut signifier y déplacer des gros fichiers binaires que vous ne souhaitez
 
 Enfin, le crochet `post-merge` s'exécute à la suite d'une commande `merge` réussie.
 Vous pouvez l'utiliser pour restaurer certaines données non gérées par Git dans le copie de travail telles que les informations de permission.
-Ce crochet permet de même de valider la présence de fichiers externes au contrôle de Git que vous souhaitez voir recopiés lorsque la copie de travail change.
+Ce crochet permet même de valider la présence de fichiers externes au contrôle de Git que vous souhaitez voir recopiés lorsque la copie de travail change.
 
 ### Crochets côté serveur ###
 

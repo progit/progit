@@ -369,7 +369,7 @@ That gives you the log output in XML format — you can look for the authors, cr
 
 You can provide this file to `git svn` to help it map the author data more accurately. You can also tell `git svn` not to include the metadata that Subversion normally imports, by passing `--no-metadata` to the `clone` or `init` command. This makes your `import` command look like this:
 
-	$ git-svn clone http://my-project.googlecode.com/svn/ \
+	$ git svn clone http://my-project.googlecode.com/svn/ \
 	      --authors-file=users.txt --no-metadata -s my_project
 
 Now you should have a nicer Subversion import in your `my_project` directory. Instead of commits that look like this

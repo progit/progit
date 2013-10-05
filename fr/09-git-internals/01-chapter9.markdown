@@ -19,7 +19,7 @@ Ensuite, vous apprendrez les mécanismes de transport/transmission/communication
 ## Plomberie et porcelaine ##
 
 Ce livre couvre l'utilisation de Git avec une trentaine de verbes comme `checkout`, `branch`, `remote`...
-Mais, puisque Git était initialement une boîte à outils (*toolkit*) pour VCS, plutôt qu'un VCS complet et conviviale, il dispose de tout un ensemble d'actions pour les tâches bas niveau qui étaient conçues pour être liées dans le style UNIX ou appelées depuis des scripts.
+Mais, puisque Git était initialement une boîte à outils (*toolkit*) pour VCS, plutôt qu'un VCS complet et convivial, il dispose de tout un ensemble d'actions pour les tâches bas niveau qui étaient conçues pour être liées dans le style UNIX ou appelées depuis des scripts.
 Ces commandes sont dites commandes de « plomberie » (*plumbing*) et les autres, plus conviviales sont appelées « porcelaines » (*porcelain*).
 
 Les huit premiers chapitres du livre concernent presque exclusivement les commandes porcelaine.
@@ -349,7 +349,7 @@ Vous devez inclure la bibliothèque et exécuter `Zlib::Deflate.deflate()` sur l
 	=> "x\234K\312\311OR04c(\317H,Q\310,V(-\320QH\311O\266\a\000_\034\a\235"
 
 Finalement, vous enregistrerez le contenu compressé dans un objet sur le disque.
-Vous déterminerez le chemin de l'objet que vous voulez enregistrer (les deux premiers caractères de l'empreinte SHA-1 formeront le nom du sous-répertoires et les 38 derniers formeront le nom du fichier dans ce répertoire).
+Vous déterminerez le chemin de l'objet que vous voulez enregistrer (les deux premiers caractères de l'empreinte SHA-1 formeront le nom du sous-répertoire et les 38 derniers formeront le nom du fichier dans ce répertoire).
 En Ruby, on peut utiliser la fonction `FileUtils.mkdir_p()` pour créer un sous-répertoire s'il n'existe pas.
 Ensuite, ouvrez le fichier avec `File.open()` et enregistrez le contenu compressé en appelant la fonction `write()` sur la référence du fichier :
 
@@ -725,7 +725,7 @@ S'il existe une équipe qualité (QA) qui publie une série de branches et que l
 	       fetch = +refs/heads/master:refs/remotes/origin/master
 	       fetch = +refs/heads/qa/*:refs/remotes/origin/qa/*
 
-Si vous utilisez des processus complexes impliquant une équipe qualité, des développeurs et des intégrateurs qui publient des branches et qui collaborent sur des branches distantes, vous pouvez facilement utiliser des espaces des noms de cette façon.
+Si vous utilisez des processus complexes impliquant une équipe qualité, des développeurs et des intégrateurs qui publient des branches et qui collaborent sur des branches distantes, vous pouvez facilement utiliser des espaces de noms, de cette façon.
 
 ### Publier une référence spécifique ###
 
@@ -1084,12 +1084,12 @@ Si vous l'exécutez avec l'option `--full`, il vous montre tous les objets qui n
 	dangling blob 7108f7ecb345ee9d0084193f147cdad4d2998293
 
 Dans ce cas, vous pouvez voir votre *commit* manquant après « dangling commit ».
-Vous pouvez le restaurez de la même manière que précédemment, en créant une branche qui référence cette empreinte SHA.
+Vous pouvez le restaurer de la même manière que précédemment, en créant une branche qui référence cette empreinte SHA.
 
 ### Suppression d'objets ###
 
 Il y a beaucoup de choses dans Git qui sont géniales, mais une fonctionnalité qui peut poser problème est le fait que `git clone` télécharge l'historique entier du projet, incluant chaque version de chaque fichier.
-C'est très bien lorsque le tout est du code source, parce Git est hautement optimisé pour compresser les données efficacement.
+C'est très bien lorsque le tout est du code source, parce que Git est hautement optimisé pour compresser les données efficacement.
 Cependant, si quelqu'un à un moment donné de l'historique de votre projet a ajouté un énorme fichier, chaque clone sera forcé de télécharger cet énorme fichier, même s'il a été supprimé du projet dans le *commit* suivant.
 Puisqu'il est accessible depuis l'historique, il sera toujours là.
 
@@ -1131,7 +1131,7 @@ Maintenant, faites un `gc` sur votre base de données, pour voir combien d'espac
 	Writing objects: 100% (21/21), done.
 	Total 21 (delta 3), reused 15 (delta 1)
 
-Vous pouvez exécutez la commande `count-objects` pour voir rapidement combien d'espace disque vous utilisez :
+Vous pouvez exécuter la commande `count-objects` pour voir rapidement combien d'espace disque vous utilisez :
 
 	$ git count-objects -v
 	count: 4
@@ -1142,7 +1142,7 @@ Vous pouvez exécutez la commande `count-objects` pour voir rapidement combien d
 	prune-packable: 0
 	garbage: 0
 
-L'entrée `size-pack` est la taille de vos fichiers groupés en kilooctets, vous utilisez donc 2 Mio.
+L'entrée `size-pack` est la taille de vos fichiers groupés en kilo-octet, vous utilisez donc 2 Mio.
 Avant votre dernier *commit*, vous utilisiez environ 2 Kio, clairement, supprimer le fichier avec le *commit* précédent ne l'a pas enlevé de votre historique.
 À chaque fois que quelqu'un clonera votre dépôt, il aura à cloner les 2 Mio pour récupérer votre tout petit projet, parce que vous avez accidentellement rajouté un gros fichier.
 Débarrassons-nous en.
@@ -1160,7 +1160,7 @@ Vous pouvez également le faire suivre à la commande `tail` car vous ne vous in
 
 Le gros objet est à la fin : 2 Mio.
 Pour trouver quel fichier c'est, vous allez utiliser la commande `rev-list`, que vous avez utilisée brièvement dans le chapitre 7.
-Si vous mettez l'option `--objects` à `rev-list`, elle listera tous les SHA des *commits* et des blobs avec le chemin du fichier associés.
+Si vous mettez l'option `--objects` à `rev-list`, elle listera tous les SHA des *commits* et des blobs avec le chemin du fichier associé.
 Vous pouvez utilisez cette commande pour trouver le nom de votre blob :
 
 	$ git rev-list --objects --all | grep 7a9eb2fb

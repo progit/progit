@@ -30,7 +30,7 @@ Następnym miejscem w które Git zajrzy jest plik `~/.gitconfig`, wskazujący na
 
 <!-- The next place Git looks is the `~/.gitconfig` file, which is specific to each user. You can make Git read and write to this file by passing the `-\-global` option. -->
 
-Na końcu, Git szuka ustawień w pliku konfiguracyjnym znajdującym się z katalogu Git (`.git/config`) w każdym repozytorium którego obecnie uzywasz. Ustawienia te są specyficzne dla tego konkretnego repozytorium. Każdy z poziomów nadpisuje ustawienia poprzedniegi poziomy, więc na przykład ustawienia w `.git/config` napisują te z `/etc/gitconfig`. Możesz również ustawiać wartości ręcznie poprzez edycję i wprowadzenie danych w poprawnym formacie, ale generalnie dużo ławiej jest użyć komendy `git config`.
+Na końcu, Git szuka ustawień w pliku konfiguracyjnym znajdującym się z katalogu Git (`.git/config`) w każdym repozytorium którego obecnie używasz. Ustawienia te są specyficzne dla tego konkretnego repozytorium. Każdy z poziomów nadpisuje ustawienia poprzedniego poziomu, więc na przykład ustawienia w `.git/config` nadpisują te z `/etc/gitconfig`. Możesz również ustawiać wartości ręcznie poprzez edycję i wprowadzenie danych w poprawnym formacie, ale generalnie dużo łatwiej jest użyć komendy `git config`.
 
 <!-- Finally, Git looks for configuration values in the config file in the Git directory (`.git/config`) of whatever repository you’re currently using. These values are specific to that single repository. Each level overwrites values in the previous level, so values in `.git/config` trump those in `/etc/gitconfig`, for instance. You can also set these values by manually editing the file and inserting the correct syntax, but it’s generally easier to run the `git config` command. -->
 
@@ -38,7 +38,7 @@ Na końcu, Git szuka ustawień w pliku konfiguracyjnym znajdującym się z katal
 
 <!-- ### Basic Client Configuration ### -->
 
-Opcje konfiguracyjne rozpoznawane przez Gita dzielą się na dwie kategorie: opcje klienta i serwera. Większość opcji dotyczy konfiguracji klienta - ustawień Twoich własnych preferencji. Chociaż jest dostępnych mnóstwo opcji, opiszę tylko kilka te z nich, którę są albo często używane lub mogą w znaczący sposób wpłynąć na Twoją pracę. Duża ilość opcji jest użyteczna tylko w specyficznych sytuacjach, których nie opiszę tutaj. Jeżeli chcesz zobaczyć listę wszystkich opcji konfiguracyjnych które Twoja wersja Gita rozpoznaje, uruchom
+Opcje konfiguracyjne rozpoznawane przez Gita dzielą się na dwie kategorie: opcje klienta i serwera. Większość opcji dotyczy konfiguracji klienta - ustawień Twoich własnych preferencji. Chociaż jest dostępnych mnóstwo opcji, opiszę tylko kilka te z nich, które są albo często używane lub mogą w znaczący sposób wpłynąć na Twoją pracę. Duża ilość opcji jest użyteczna tylko w specyficznych sytuacjach, których nie opiszę tutaj. Jeżeli chcesz zobaczyć listę wszystkich opcji konfiguracyjnych które Twoja wersja Gita rozpoznaje, uruchom
 
 <!-- The configuration options recognized by Git fall into two categories: client side and server side. The majority of the options are client side—configuring your personal working preferences. Although tons of options are available, I’ll only cover the few that either are commonly used or can significantly affect your workflow. Many options are useful only in edge cases that I won’t go over here. If you want to see a list of all the options your version of Git recognizes, you can run -->
 
@@ -100,13 +100,13 @@ Potem, Twój edytor będzie ustawiał coś takiego jako domyślną treść komen
 	~
 	".git/COMMIT_EDITMSG" 14L, 297C
 
-Jeżeli masz specjalną politykę tworzenia treści komentarzy, to ustawienie takiego szablonu i skonfigurowanie Gita aby go używał zwiekszy szanse na to, że będzie ona regularnie przestrzegana.
+Jeżeli masz specjalną politykę tworzenia treści komentarzy, to ustawienie takiego szablonu i skonfigurowanie Gita aby go używał zwiększy szanse na to, że będzie ona regularnie przestrzegana.
 
 <!-- If you have a commit-message policy in place, then putting a template for that policy on your system and configuring Git to use it by default can help increase the chance of that policy being followed regularly. -->
 
 #### core.pager ####
 
-Wartość core.pager określa jaki program do stronnicowania jest używany przez Gita podczas pokazywania wyników komend `log` i `diff`. Możesz ustawić je na `more` lub inny ulubiony (domyślnie jest to `less`), lub możesz zupełnie je wyłączyć przez ustawienie pustej wartości:
+Wartość core.pager określa jaki program do stronicowania jest używany przez Gita podczas pokazywania wyników komend `log` i `diff`. Możesz ustawić je na `more` lub inny ulubiony (domyślnie jest to `less`), lub możesz zupełnie je wyłączyć przez ustawienie pustej wartości:
 
 <!-- The core.pager setting determines what pager is used when Git pages output such as `log` and `diff`. You can set it to `more` or to your favorite pager (by default, it’s `less`), or you can turn it off by setting it to a blank string: -->
 
@@ -170,7 +170,7 @@ Gdy ta wartość jest ustawiona, Git będzie pokazywał w kolorze wyniki swojego
 
 <!-- When that value is set, Git colors its output if the output goes to a terminal. Other possible settings are false, which never colors the output, and always, which sets colors all the time, even if you’re redirecting Git commands to a file or piping them to another command. -->
 
-Bardzo rzadko będziesz potrzebował `color.ui = always`. Najczęściej, jeżeli będziesz chciał kolory w wynik działania Gita, użyjesz opcji `--color` do komendy Gita, aby wymisić na nim użycie kolorów. Ustawienie `color.ui = true` jest najczęściej tym, które będziesz chciał użyć.
+Bardzo rzadko będziesz potrzebował `color.ui = always`. Najczęściej, jeżeli będziesz chciał kolory w wynik działania Gita, użyjesz opcji `--color` do komendy Gita, aby wymusić na nim użycie kolorów. Ustawienie `color.ui = true` jest najczęściej tym, które będziesz chciał użyć.
 
 <!-- You’ll rarely want `color.ui = always`. In most scenarios, if you want color codes in your redirected output, you can instead pass a `-\-color` flag to the Git command to force it to use color codes. The `color.ui = true` setting is almost always what you’ll want to use. -->
 
@@ -203,11 +203,11 @@ Zobacz podręcznik systemowy do komendy `git config`, aby poznać wszystkie usta
 
 <!-- ### External Merge and Diff Tools ### -->
 
-Chociaż Git posiada wbudowaną obsługę narzedzia diff, którego dotychczas używałeś, możesz ustawić inny zewnętrzny program zamiast niego. Możesz również ustawić graficzny program pozwalający na łączenie zmian i rozwiązywanie konfliktów, bez konieczności robienia tego ręcznie. Zaprezentuję na przykładzie Perforce Visual Merge Tool (P4Merge) w jaki sposób ustawić do obsługi łączenia i pokazywania różnic zewnętrzny program, ponieważ ma on prosty graficzny interfejs i jest darmowy.
+Chociaż Git posiada wbudowaną obsługę narzędzia diff, którego dotychczas używałeś, możesz ustawić inny zewnętrzny program zamiast niego. Możesz również ustawić graficzny program pozwalający na łączenie zmian i rozwiązywanie konfliktów, bez konieczności robienia tego ręcznie. Zaprezentuję na przykładzie Perforce Visual Merge Tool (P4Merge) w jaki sposób ustawić do obsługi łączenia i pokazywania różnic zewnętrzny program, ponieważ ma on prosty graficzny interfejs i jest darmowy.
 
 <!-- Although Git has an internal implementation of diff, which is what you’ve been using, you can set up an external tool instead. You can also set up a graphical merge conflict-resolution tool instead of having to resolve conflicts manually. I’ll demonstrate setting up the Perforce Visual Merge Tool (P4Merge) to do your diffs and merge resolutions, because it’s a nice graphical tool and it’s free. -->
 
-Jeżeli chcesz tego również spróbować, P4Merge działa na wszystkich głównych platformach, więc prawdopodobnie będziesz mogł to zrobić. Będę używał nazw ścieżek w przykładach które działają na systemach Mac i Linux; dla systemu Windows bedziesz musiał zmienić `/usr/local/bin` na odpowiednią ścieżkę w Twoim środowisku.
+Jeżeli chcesz tego również spróbować, P4Merge działa na wszystkich głównych platformach, więc prawdopodobnie będziesz mógł to zrobić. Będę używał nazw ścieżek w przykładach które działają na systemach Mac i Linux; dla systemu Windows będziesz musiał zmienić `/usr/local/bin` na odpowiednią ścieżkę w Twoim środowisku.
 
 <!-- If you want to try this out, P4Merge works on all major platforms, so you should be able to do so. I’ll use path names in the examples that work on Mac and Linux systems; for Windows, you’ll have to change `/usr/local/bin` to an executable path in your environment. -->
 
@@ -217,7 +217,7 @@ Możesz pobrać P4Merge stąd:
 
 	http://www.perforce.com/perforce/downloads/component.html
 
-Na początek, ustawimy zewnętrzny skrypt do uruchamiania komend. Użyję ścieżki z systemu Mac wskazującej na program; w innych systemach, będzie ona musiała wskazywać na miejscej w którym program `p4merge` został zainstalowany. Stwórz skrypt o nazwie `extMerge`, który bedzie przyjmował wszystkie podane parametry i uruchamiał program:
+Na początek, ustawimy zewnętrzny skrypt do uruchamiania komend. Użyję ścieżki z systemu Mac wskazującej na program; w innych systemach, będzie ona musiała wskazywać na miejsce w którym program `p4merge` został zainstalowany. Stwórz skrypt o nazwie `extMerge`, który będzie przyjmował wszystkie podane parametry i uruchamiał program:
 
 <!-- To begin, you’ll set up external wrapper scripts to run your commands. I’ll use the Mac path for the executable; in other systems, it will be where your `p4merge` binary is installed. Set up a merge wrapper script named `extMerge` that calls your binary with all the arguments provided: -->
 
@@ -226,7 +226,7 @@ Na początek, ustawimy zewnętrzny skrypt do uruchamiania komend. Użyję ście�
 	/Applications/p4merge.app/Contents/MacOS/p4merge $*
 
 
-Skrypt do obsługi diff sprawdza czy zostało podanych 7 argumentów i przekazuje dwa z nicg do skryptu obsłiugującego merge. Domyślnie, Git przekazuje te argumenty do programu obsługującego pokazywanie różnic:
+Skrypt do obsługi diff sprawdza czy zostało podanych 7 argumentów i przekazuje dwa z nich do skryptu obsługującego merge. Domyślnie, Git przekazuje te argumenty do programu obsługującego pokazywanie różnic:
 
 <!-- The diff wrapper checks to make sure seven arguments are provided and passes two of them to your merge script. By default, Git passes the following arguments to the diff program: -->
 

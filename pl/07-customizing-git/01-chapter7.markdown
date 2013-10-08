@@ -132,13 +132,13 @@ Teraz, możesz podpisywać tagi bez konieczności wskazywania za każdym razem k
 
 #### core.excludesfile ####
 
-Możesz umieścić wzorce plików w pliku `.gitignore` w swoim projekcie, tak aby Git pomijał je i nie próbował dodawać ich do przechowalni, gdy uruchomisz `git add`, zgodnie z tym ja opisano w rozdziale 2. Jednakże, jeżeli chcesz aby inny plik poza projektem przechowywał te informacje, lub miał jakieś dodatkowe, możesz wskazać Gitowi gdzie ten plik się znajduje za pomocą ustawienia `core.excludesfile`. Po prostu ustaw w nim ścieżkę do pliku, który zawiera wpisu analogiczne do tych które byłyby w pliku `.gitignore`.
+Możesz umieścić wzorce w pliku `.gitignore` w swoim projekcie, aby Git nie śledził ich i nie próbował dodawać do przechowalni po wykonaniu komendy `git add`, jak wspomniałem już w rozdziale 2. Możesz jednak przechowywać te informacje w innym pliku, znajdującym się poza drzewem projektu, możesz wskazać Gitowi loikalizację tego pliku za pomocą ustawienia `core.excludesfile`. Po prostu ustaw ją na ścieżkę wskazującą na plik, który ma zawartość podobną do tej, którą ma `.gitignore`.
 
 <!-- You can put patterns in your project’s `.gitignore` file to have Git not see them as untracked files or try to stage them when you run `git add` on them, as discussed in Chapter 2. However, if you want another file outside of your project to hold those values or have extra values, you can tell Git where that file is with the `core.excludesfile` setting. Simply set it to the path of a file that has content similar to what a `.gitignore` file would have. -->
 
 #### help.autocorrect ####
 
-Opcja ta jest dostępna od wersji Gita 1.6.1 lub późniejszej. Jeżeli zrobisz błąd podczas wpisywania komendy Gita, pokaże Ci się coś podobnego do:
+Ta opcja jest dostępna w wersjach Gita 1.6.1 i późniejszych. Jeżeli błędnie wpiszesz komendę w Git, zostanie Ci pokazany wynik podobny do:
 
 <!-- This option is available only in Git 1.6.1 and later. If you mistype a command in Git, it shows you something like this: -->
 
@@ -148,11 +148,14 @@ Opcja ta jest dostępna od wersji Gita 1.6.1 lub późniejszej. Jeżeli zrobisz 
 	Did you mean this?
 	     commit
 
-Po ustawieniu `help.autocorrect` na 1, Git automatycznie uruchomi komendę, jeżeli będzie w stanie dopasować ją do dokładnie jednego wyniku.
+Jeżeli ustawisz `help.autocorrect` na 1, Git automatycznie uruchomi komendę, jeżeli będzie mógł ją dopasować tylko do jednego wyniku.
 
 <!-- If you set `help.autocorrect` to 1, Git will automatically run the command if it has only one match under this scenario. -->
 
-### Colors in Git ###
+
+### Kolory w Git ###
+
+<!-- ### Colors in Git ### -->
 
 Git może również pokazywać wyniki swojego działania w kolorze, co ułatwi Ci ich odczytanie w szybszy i łatwiejszy sposób. Liczne opcje pozwalają na dostosowanie kolorowania do Twoich preferencji.
 
@@ -234,7 +237,7 @@ Skrypt do obsługi diff sprawdza czy zostało podanych 7 argumentów i przekazuj
 
 <!-- 	path old-file old-hex old-mode new-file new-hex new-mode -->
 
-Ponieważ potrzebujesz tylko argumentów `stary-plik` i `nowy-plik`, w skrypcie przekazujesz tylko te które potrzebujesz.
+Ponieważ chcesz tylko argumentów `stary-plik` i `nowy-plik`, w skrypcie przekazujesz tylko te które potrzebujesz.
 
 <!-- Because you only want the `old-file` and `new-file` arguments, you use the wrapper script to pass the ones you need. -->
 
@@ -242,14 +245,14 @@ Ponieważ potrzebujesz tylko argumentów `stary-plik` i `nowy-plik`, w skrypcie 
 	#!/bin/sh
 	[ $# -eq 7 ] && /usr/local/bin/extMerge "$2" "$5"
 
-Musisz zwrócić uwagę, czy te narzędzia mają poprawne uprawnienia:
+Musisz zwrócić uwagę, czy te skrypty mają poprawne uprawnienia:
 
 <!-- You also need to make sure these tools are executable: -->
 
 	$ sudo chmod +x /usr/local/bin/extMerge
 	$ sudo chmod +x /usr/local/bin/extDiff
 
-Teraz możesz zmienić ustawienia, 
+Teraz możesz ustawić swój plik konfiguracyjny, aby korzystał z innych niż domyślne programów do łączenia i rozwiązywania konfliktów. Dostępnych jest kilka opcji konfiguracyjnych: `merge.tool` wskazująca jaką strategię TODO
 
 <!-- Now you can set up your config file to use your custom merge resolution and diff tools. This takes a number of custom settings: `merge.tool` to tell Git what strategy to use, `mergetool.*.cmd` to specify how to run the command, `mergetool.trustExitCode` to tell Git if the exit code of that program indicates a successful merge resolution or not, and `diff.external` to tell Git what command to run for diffs. So, you can either run four config commands -->
 
@@ -259,7 +262,9 @@ Teraz możesz zmienić ustawienia,
 	$ git config --global mergetool.trustExitCode false
 	$ git config --global diff.external extDiff
 
-or you can edit your `~/.gitconfig` file to add these lines:
+lub możesz wyedytować swój plik `~/.gitconfig` i dodać następujące linie:
+
+<!-- or you can edit your `~/.gitconfig` file to add these lines: -->
 
 	[merge]
 	  tool = extMerge
@@ -269,34 +274,54 @@ or you can edit your `~/.gitconfig` file to add these lines:
 	[diff]
 	  external = extDiff
 
-After all this is set, if you run diff commands such as this:
+Po wprowadzeniu tych ustawień, jeżeli uruchomisz komendę diff w ten sposób:
+
+<!-- After all this is set, if you run diff commands such as this: -->
 
 	$ git diff 32d1776b1^ 32d1776b1
 
-Instead of getting the diff output on the command line, Git fires up P4Merge, which looks something like Figure 7-1.
+Zamiast wyniku pokazanego w wierszu poleceń, Git uruchomi P4Merge, pokazując wynik podobny do tego zamieszczonego na Rysunku 7-1.
+
+<!-- Instead of getting the diff output on the command line, Git fires up P4Merge, which looks something like Figure 7-1. -->
 
 Insert 18333fig0701.png
 Figure 7-1. P4Merge.
 
-If you try to merge two branches and subsequently have merge conflicts, you can run the command `git mergetool`; it starts P4Merge to let you resolve the conflicts through that GUI tool.
+Jeżeli spróbujesz wykonać łączenie (ang. merge) na dwóch gałęziach, które zakończy się konfliktem, możesz uruchomić komendę `git mergetool`; zostanie uruchomiony skrypt P4Merge, pozwalający na rozwiązanie konfliktów poprzez interfejs graficzny GUI.
 
-The nice thing about this wrapper setup is that you can change your diff and merge tools easily. For example, to change your `extDiff` and `extMerge` tools to run the KDiff3 tool instead, all you have to do is edit your `extMerge` file:
+<!-- If you try to merge two branches and subsequently have merge conflicts, you can run the command `git mergetool`; it starts P4Merge to let you resolve the conflicts through that GUI tool. -->
+
+Zaletą tej konfiguracji jest to, że możesz zmienić łatwo zmienić narzędzia służące do porównywania (diff), oraz łączenia (merge). Na przykład, aby skrypty `extDiff` i `extMerge` uruchamiały KDiff3, musisz tylko zmienić plik `extMerge`:
+
+<!-- The nice thing about this wrapper setup is that you can change your diff and merge tools easily. For example, to change your `extDiff` and `extMerge` tools to run the KDiff3 tool instead, all you have to do is edit your `extMerge` file: -->
 
 	$ cat /usr/local/bin/extMerge
 	#!/bin/sh
 	/Applications/kdiff3.app/Contents/MacOS/kdiff3 $*
 
-Now, Git will use the KDiff3 tool for diff viewing and merge conflict resolution.
+teraz, Git będzie używał programu KDiff3 podczas pokazywania różnic oraz rozwiązywania konfliktów.
 
-Git comes preset to use a number of other merge-resolution tools without your having to set up the cmd configuration. You can set your merge tool to kdiff3, opendiff, tkdiff, meld, xxdiff, emerge, vimdiff, or gvimdiff. If you’re not interested in using KDiff3 for diff but rather want to use it just for merge resolution, and the kdiff3 command is in your path, then you can run
+<!-- Now, Git will use the KDiff3 tool for diff viewing and merge conflict resolution. -->
+
+Git jest wstępnie skonfigurowany do używania wielu innych narzędzi do łączenia i rozwiązywania konfliktów, bez konieczności wprowadzania konfiguracji odpowiednich komend. Możesz wybrać narzędzia takie jak  kdiff3, opendiff, tkdiff, meld, xxdiff, emerge, vimdiff, oraz gvimdiff. Jeżeli nie chcesz używać KDiff3 do pokazywania różnic, ale chcesz aby dalej służył do rozwiązywania konfliktów, w przypadku gdy kdiff3 znajduje się w zmiennej środowiskowej PATH, możesz uruchomić
+
+<!-- Git comes preset to use a number of other merge-resolution tools without your having to set up the cmd configuration. You can set your merge tool to kdiff3, opendiff, tkdiff, meld, xxdiff, emerge, vimdiff, or gvimdiff. If you’re not interested in using KDiff3 for diff but rather want to use it just for merge resolution, and the kdiff3 command is in your path, then you can run -->
 
 	$ git config --global merge.tool kdiff3
 
-If you run this instead of setting up the `extMerge` and `extDiff` files, Git will use KDiff3 for merge resolution and the normal Git diff tool for diffs.
+Jeżeli uruchomić tą komendę, zamiast ustawienia plików `extMerge` i `extDiff`, Git będzie używał KDiff3 do rozwiązywania konfliktów i standardowego narzędzia Git diff do pokazywania różnic.
 
-### Formatting and Whitespace ###
+<!-- If you run this instead of setting up the `extMerge` and `extDiff` files, Git will use KDiff3 for merge resolution and the normal Git diff tool for diffs. -->
 
-Formatting and whitespace issues are some of the more frustrating and subtle problems that many developers encounter when collaborating, especially cross-platform. It’s very easy for patches or other collaborated work to introduce subtle whitespace changes because editors silently introduce them or Windows programmers add carriage returns at the end of lines they touch in cross-platform projects. Git has a few configuration options to help with these issues.
+### Formatowanie i białe znaki ###
+
+<!-- ### Formatting and Whitespace ### -->
+
+Problemy związane z formatowaniem i białymi znakami są jednym z bardziej uciążliwych i wyrafinowanych problemów, które wielu deweloperów może spotkać podczas współpracy, szczególnie jeżeli korzystają z różnych systemów operacyjnych. Bardzo łatwo można wprowadzić zmiany w łatach lub innych modyfikacjach, które 
+
+Git posiada kilka opcji konfiguracyjnych, które pomagają rozwiązać te problemy.
+
+<!-- Formatting and whitespace issues are some of the more frustrating and subtle problems that many developers encounter when collaborating, especially cross-platform. It’s very easy for patches or other collaborated work to introduce subtle whitespace changes because editors silently introduce them or Windows programmers add carriage returns at the end of lines they touch in cross-platform projects. Git has a few configuration options to help with these issues. -->
 
 #### core.autocrlf ####
 

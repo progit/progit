@@ -389,15 +389,15 @@ Huomaa kenoviiva (`\`) `*`-merkin edessä. Windowsin järjestelmäkonsolissa ken
 
 Tämä komento poistaa kaikki tiedostot, jotka loppuvat `~`-merkkiin.
 
-### Moving Files ###
+### Tiedostojen siirtäminen ###
 
-Unlike many other VCS systems, Git doesn’t explicitly track file movement. If you rename a file in Git, no metadata is stored in Git that tells it you renamed the file. However, Git is pretty smart about figuring that out after the fact — we’ll deal with detecting file movement a bit later.
+Toisin kuin monet muut VCS-järjestelmät, Git ei jäljitä suoranaisesti tiedostojen siirtämistä. Jos nimeät tiedoston uudelleen Gitissä, Gitiin ei tallenneta metadataa, joka kertoo, että nimesit tiedoston uudelleen. Git on kuitenkin melko älykäs selvittämään sen myöhemmin — käsittelemme tiedostojen siirtämisen havaitsemista hieman myöhemmin.
 
-Thus it’s a bit confusing that Git has a `mv` command. If you want to rename a file in Git, you can run something like
+Siksi on hieman sekavaa, että Gitissä on `mv`-komento. Jos haluat nimetä tiedoston uudelleen Gitissä, voit ajaa jotakuinkin seuraavasti
 
-	$ git mv file_from file_to
+	$ git mv lähdetiedosto kohdetiedosto
 
-and it works fine. In fact, if you run something like this and look at the status, you’ll see that Git considers it a renamed file:
+ja se toimii hienosti. Itse asiassa, jos ajat jotakuinkin tällä tavalla ja katsot tilaa, näet Gitin pitävän sitä uudelleennimettynä tiedostona:
 
 	$ git mv README.txt README
 	$ git status
@@ -410,23 +410,23 @@ and it works fine. In fact, if you run something like this and look at the statu
 	#       renamed:    README.txt -> README
 	#
 
-However, this is equivalent to running something like this:
+Tämä on kuitenkin sama, kuin ajaisit seuraavasti:
 
 	$ mv README.txt README
 	$ git rm README.txt
 	$ git add README
 
-Git figures out that it’s a rename implicitly, so it doesn’t matter if you rename a file that way or with the `mv` command. The only real difference is that `mv` is one command instead of three — it’s a convenience function. More important, you can use any tool you like to rename a file, and address the add/rm later, before you commit.
+Git ymmärtää sen olevan uudelleennimeäminen epäsuorasti, joten ei ole väliä, nimeätkö tiedoston uudelleen tällä tavalla vai `mv`-komennolla. Ainoa todellinen ero on, että `mv` on yksi komento kolmen sijaan — se on helppokäyttötoiminto. Tärkeämpää, voit käyttää tiedoston uudelleennimeämiseen mitä työkalua haluat ja käsitellä add/rm myöhemmin, ennen kuin teet pysyvän muutoksen.
 
-## Viewing the Commit History ##
+## Pysyvien muutosten historian tarkasteleminen ##
 
-After you have created several commits, or if you have cloned a repository with an existing commit history, you’ll probably want to look back to see what has happened. The most basic and powerful tool to do this is the `git log` command.
+Kun olet luonut useita pysyviä muutoksia tai kloonannut tietovaraston, jonka historiassa on pysyviä muutoksia, haluat todennäköisesti katsoa taaksepäin nähdäksesi, mitä on tapahtunut. Yksinkertaisin ja tehokkain työkalu tähän on `git log` -komento.
 
-These examples use a very simple project called `simplegit` that I often use for demonstrations. To get the project, run
+Nämä esimerkit käyttävät erittäin yksinkertaista projektia nimeltä `simplegit`, jota käytän useasti havainnollistamisessa. Saadaksesi projektin, aja
 
 	git clone git://github.com/schacon/simplegit-progit.git
 
-When you run `git log` in this project, you should get output that looks something like this:
+Kun ajat `git log` tässä projektissa, sinun tulisi saada vastaavanlainen tuloste:
 
 	$ git log
 	commit ca82a6dff817ec66f44342007202690a93763949
@@ -447,11 +447,11 @@ When you run `git log` in this project, you should get output that looks somethi
 
 	    first commit
 
-By default, with no arguments, `git log` lists the commits made in that repository in reverse chronological order. That is, the most recent commits show up first. As you can see, this command lists each commit with its SHA-1 checksum, the author’s name and e-mail, the date written, and the commit message.
+Oletuksena, ilman argumentteja, `git log` listaa tietovarastoon tehdyt pysyvät muutokset käänteisessä aikajärjestyksessä. Se tarkoittaa, että uusin pysyvä muutos tulee ensimmäiseksi. Kuten voit nähdä, tämä komento listaa kustakin pysyvästä muutoksesta sen SHA-1-tarkisteen,  tekijän nimen ja sähköpostin, luontipäiväyksen sekä viestin.
 
-A huge number and variety of options to the `git log` command are available to show you exactly what you’re looking for. Here, we’ll show you some of the most-used options.
+`Git log` -komennolle on saatavilla valtava määrä ja lajitelma optioita näyttääkseen sinulle tarkalleen etsimäsi. Näytämme tässä sinulle joitakin käytetyimpiä optioita.
 
-One of the more helpful options is `-p`, which shows the diff introduced in each commit. You can also use `-2`, which limits the output to only the last two entries:
+Yksi hyödyllisimmistä optioista on `-p`, joka näyttää kunkin pysyvän muutoksen eroavaisuuden. Voit myös käyttää `-2`, joka rajaa tulosteen ainoastaan kahteen viimeisimpään kirjaukseen:
 
 	$ git log -p -2
 	commit ca82a6dff817ec66f44342007202690a93763949
@@ -493,9 +493,9 @@ One of the more helpful options is `-p`, which shows the diff introduced in each
 	-end
 	\ No newline at end of file
 
-This option displays the same information but with a diff directly following each entry. This is very helpful for code review or to quickly browse what happened during a series of commits that a collaborator has added.
+Tämä optio näyttää saman informaation, mutta jokaista kirjausta seuraavalla eroavaisuudella. Tämä on erittäin hyödyllinen koodin katselmoinnissa tai nopeasti tarkistettaessa, mitä tapahtui pysyvien muutosten sarjassa, jonka työtoveri on lisännyt.
 
-Sometimes it's easier to review changes on the word level rather than on the line level. There is a `--word-diff` option available in Git, that you can append to the `git log -p` command to get word diff instead of normal line by line diff. Word diff format is quite useless when applied to source code, but it comes in handy when applied to large text files, like books or your dissertation. Here is an example:
+Joskus on helpompaa katselmoida muutoksia sanatasolla kuin rivitasolla. Gitissä on saatavilla `--word-diff`-optio, jonka voit lisätä `git log -p` -komentoon saadaksesi sanatason eroavaisuuden normaalin rivitasoisen eroavaisuuden sijaan. Sanatason eroavaisuuden formaatti on melko hyödytön käytettäessä sitä lähdekoodiin, mutta siitä tulee kätevä käytettäessä sitä isoihin tekstitiedostoihin, kuten kirjoihin tai väitöskirjaasi. Tässä on esimerkki:
 
 	$ git log -U1 --word-diff
 	commit ca82a6dff817ec66f44342007202690a93763949
@@ -513,9 +513,9 @@ Sometimes it's easier to review changes on the word level rather than on the lin
 	    s.version   =   [-"0.1.0"-]{+"0.1.1"+}
 	    s.author    =   "Scott Chacon"
 
-As you can see, there is no added and removed lines in this output as in a normal diff. Changes are shown inline instead. You can see the added word enclosed in `{+ +}` and removed one enclosed in `[- -]`. You may also want to reduce the usual three lines context in diff output to only one line, as the context is now words, not lines. You can do this with `-U1` as we did in the example above.
+Kuten voit nähdä, tässä tulosteessa ei ole lisättyjä ja poistettuja rivejä, kuten normaalissa eroavaisuudessa. Muutokset esitetään sen sijaan rivin sisällä. Voit nähdä lisätyn sanan ympäröitynä `{+ +}` -merkeillä ja poistetun ympäröitynä `[- -]` -merkeillä. Voit myös haluta vähentää tavallisen kolmen rivin kontekstin eroavaisuustulosteessa vain yhden rivin kontekstiksi, koska asiayhteys on nyt sanatasolla ei rivitasolla. Voit tehdä tämän `-U1`-optiolla, kuten teimme esimerkissä yläpuolella.
 
-You can also use a series of summarizing options with `git log`. For example, if you want to see some abbreviated stats for each commit, you can use the `--stat` option:
+Voit myös käyttää yhteenveto-optioiden sarjaa `git log`in kanssa. Esimerkiksi, jos haluat nähdä hieman lyhennettyjä tilastoja kustakin pysyvästä muutoksesta, voit käyttää `--stat`-optiota:
 
 	$ git log --stat
 	commit ca82a6dff817ec66f44342007202690a93763949
@@ -547,48 +547,48 @@ You can also use a series of summarizing options with `git log`. For example, if
 	 lib/simplegit.rb |   25 +++++++++++++++++++++++++
 	 3 files changed, 54 insertions(+), 0 deletions(-)
 
-As you can see, the `--stat` option prints below each commit entry a list of modified files, how many files were changed, and how many lines in those files were added and removed. It also puts a summary of the information at the end.
-Another really useful option is `--pretty`. This option changes the log output to formats other than the default. A few prebuilt options are available for you to use. The `oneline` option prints each commit on a single line, which is useful if you’re looking at a lot of commits. In addition, the `short`, `full`, and `fuller` options show the output in roughly the same format but with less or more information, respectively:
+Kuten voit nähdä, `--stat`-optio tulostaa kunkin pysyvän muutoksen alapuolelle listan muokatuista tiedostoista, kuinka montaa tiedostoa muutettiin ja kuinka monta riviä lisättiin ja poistettiin näissä tiedostoissa. Se esittää myös lopuksi yhteenvedon tiedoista.
+Toinen todella hyödyllinen optio on `--pretty`. Tämä optio muuttaa lokitulosteen oletuksesta poikkeaviin muotoihin. Saatavilla on muutama esikäännetty optio käytettäväksesi. `Oneline`-optio tulostaa kunkin pysyvän muutoksen yhdelle riville,  mikä on hyödyllistä, jos katselet monia pysyviä muutoksia. Lisäksi `short`-, `full`- ja `fuller`-optiot näyttävät tulosteen karkeasti ottaen alkuperäisessä muodossa, mutta vastaavasti vähemmillä tai enemmillä tiedoilla:
 
 	$ git log --pretty=oneline
 	ca82a6dff817ec66f44342007202690a93763949 changed the version number
 	085bb3bcb608e1e8451d4b2432f8ecbe6306e7e7 removed unnecessary test code
 	a11bef06a3f659402fe7563abf99ad00de2209e6 first commit
 
-The most interesting option is `format`, which allows you to specify your own log output format. This is especially useful when you’re generating output for machine parsing — because you specify the format explicitly, you know it won’t change with updates to Git:
+Kiinnostavin optio on `format`, joka antaa sinun määritellä oman formaatin lokitulosteelle. Tämä on hyödyllinen varsinkin, kun  luot tulostetta koneellista parsimista varten — koska sinä määrittelet formaatin eksplisiittisesti, tiedät, ettei se muutu Gitin päivitysten myötä:
 
 	$ git log --pretty=format:"%h - %an, %ar : %s"
 	ca82a6d - Scott Chacon, 11 months ago : changed the version number
 	085bb3b - Scott Chacon, 11 months ago : removed unnecessary test code
 	a11bef0 - Scott Chacon, 11 months ago : first commit
 
-Table 2-1 lists some of the more useful options that format takes.
+Taulukko 2-1 listaa joitakin hyödyllisempiä optioita, joita format hyväksyy.
 
 <!-- Attention to translators: this is a table declaration.
 The lines must be formatted as follows
 <TAB><First column text><TAB><Second column text>
 -->
 
-	Option	Description of Output
-	%H	Commit hash
-	%h	Abbreviated commit hash
-	%T	Tree hash
-	%t	Abbreviated tree hash
-	%P	Parent hashes
-	%p	Abbreviated parent hashes
-	%an	Author name
-	%ae	Author e-mail
-	%ad	Author date (format respects the --date= option)
-	%ar	Author date, relative
-	%cn	Committer name
-	%ce	Committer email
-	%cd	Committer date
-	%cr	Committer date, relative
-	%s	Subject
+	Optio	Tulosteen kuvaus
+	%H	Pysyvän muutoksen tarkiste
+	%h	Lyhennetty pysyvän muutoksen tarkiste
+	%T	Puun tarkiste
+	%t	Lyhennetty puun tarkiste
+	%P	Vanhempien tarkisteet
+	%p	Lyhennetyt vanhempien tarkisteet
+	%an	Tekijän nimi
+	%ae	Tekijän sähköpostiosoite
+	%ad	Tekijän päiväys (muoto riippuu --date=-optiosta)
+	%ar	Tekijän päiväys, suhteellinen
+	%cn	Hyväksyjän nimi
+	%ce	Hyväksyjän sähköpostiosoite
+	%cd	Hyväksyjän päiväys
+	%cr	Hyväksyjän päiväys, suhteellinen
+	%s	Aihe
 
-You may be wondering what the difference is between _author_ and _committer_. The _author_ is the person who originally wrote the patch, whereas the _committer_ is the person who last applied the patch. So, if you send in a patch to a project and one of the core members applies the patch, both of you get credit — you as the author and the core member as the committer. We’ll cover this distinction a bit more in *Chapter 5*.
+Saatat ihmetellä, mitä eroa on _tekijällä_ ja _hyväksyjällä_. _Tekijä_ on henkilö, joka alunperin kirjoitti muutoksen, kun taas _hyväksyjä_ on henkilö, joka lopulta otti muutoksen käyttöön. Joten, jos sinä lähetät muutoksen projektiin ja joku ydinjäsenistä ottaa muutoksen käyttöön, te saatte molemmat kunniaa — sinä tekijänä ja ydinjäsen hyväksyjänä. Käsittelemme tätä eroa enemmän *Luvussa 5*.
 
-The `oneline` and `format` options are particularly useful with another `log` option called `--graph`. This option adds a nice little ASCII graph showing your branch and merge history, which we can see in our copy of the Grit project repository:
+`Oneline`- ja `format`-optiot ovat  erityisen hyödyllisiä yhdessä toisen `--graph`-nimisen `log`-komennon option kanssa. Tämä optio lisää kivan pienen ASCII-kaavion esittämään haarasi ja yhdistämisten historiaa, jonka voimme nähdä Grit-projektin tietovaraston kopiossamme:
 
 	$ git log --pretty=format:"%h %s" --graph
 	* 2d3acf9 ignore errors from SIGCHLD on trap
@@ -602,55 +602,55 @@ The `oneline` and `format` options are particularly useful with another `log` op
 	* d6016bc require time for xmlschema
 	*  11d191e Merge branch 'defunkt' into local
 
-Those are only some simple output-formatting options to `git log` — there are many more. Table 2-2 lists the options we’ve covered so far and some other common formatting options that may be useful, along with how they change the output of the `log` command.
+Ne ovat vain joitakin yksinkertaisia tulosteenmuotoiluoptioita `git log`ille — monia muitakin on olemassa. Taulukko 2-2 listaa optiot, jotka olemme käsitelleet tähän mennessä sekä joitakin muita yleisiä muotoiluoptioita, jotka voivat olla hyödyllisiä, yhdessä sen kanssa, miten ne muuttavat `log`-komennon tulostetta.
 
 <!-- Attention to translators: this is a table declaration.
 The lines must be formatted as follows
 <TAB><First column text><TAB><Second column text>
 -->
 
-	Option	Description
-	-p	Show the patch introduced with each commit.
-	--word-diff	Show the patch in a word diff format.
-	--stat	Show statistics for files modified in each commit.
-	--shortstat	Display only the changed/insertions/deletions line from the --stat command.
-	--name-only	Show the list of files modified after the commit information.
-	--name-status	Show the list of files affected with added/modified/deleted information as well.
-	--abbrev-commit	Show only the first few characters of the SHA-1 checksum instead of all 40.
-	--relative-date	Display the date in a relative format (for example, “2 weeks ago”) instead of using the full date format.
-	--graph	Display an ASCII graph of the branch and merge history beside the log output.
-	--pretty	Show commits in an alternate format. Options include oneline, short, full, fuller, and format (where you specify your own format).
-	--oneline	A convenience option short for `--pretty=oneline --abbrev-commit`.
+	Optio	Kuvaus
+	-p	Näyttää tehdyt muutokset kunkin pysyvän muutoksen yhteydessä.
+	--word-diff	Näyttää tehdyt muutokset sanatason eroavaisuuksina.
+	--stat	Näyttää kussakin pysyvässä muutoksessa muutetuista tiedostoista tilaston.
+	--shortstat	Näyttää vain muuttuneet/lisätyt/poistetut-rivin –stat-komennosta.
+	--name-only	Näyttää muutettujen tiedostojen listan pysyvän muutoksen tietojen jälkeen.
+	--name-status	Näyttää lisäksi listan vaikutetuista tiedostoista lisätty/muokattu/poistettu-tiedon kera.
+	--abbrev-commit	Näyttää vain muutaman ensimmäisen merkin SHA-1-tarkistesummasta kaikkien 40 merkin sijaan.
+	--relative-date	Näyttää päiväykset suhteellisessa muodossa (esimerkiksi, ”2 viikkoa sitten”) täyden päiväysmuotoilun käyttämisen sijaan.
+	--graph	Näyttää ASCII-kaavion haarasi ja yhdistämisten historiasta lokitulosteen vieressä.
+	--pretty	Näyttää pysyvät muutokset vaihtoehtoisessa muodossa. Vaihtoehtoihin kuuluu oneline, short, full, fuller ja format (jossa voit määritellä oman muotoilusi).
+	--oneline	Helppokäyttöoptio `--pretty=oneline –abbrev-commit`ille.
 
-### Limiting Log Output ###
+### Tulosteen rajaaminen ###
 
-In addition to output-formatting options, `git log` takes a number of useful limiting options — that is, options that let you show only a subset of commits. You’ve seen one such option already — the `-2` option, which shows only the last two commits. In fact, you can do `-<n>`, where `n` is any integer to show the last `n` commits. In reality, you’re unlikely to use that often, because Git by default pipes all output through a pager so you see only one page of log output at a time.
+Lisäyksenä tulosteen muotoiluoptioihin, `git log` hyväksyy useita hyödyllisiä rajaamisoptioita — optioita, jotka antavat sinun näyttää vain osajoukon pysyvistä muutoksista. Olet nähnyt yhden sellaisen option ennestään — `-2`-option, joka näyttää vain kaksi viimeisintä pysyvää muutosta. Itse asiassa, voit käyttää `-<n>`:tä, jossa `n` on mikä tahansa kokonaisluku näyttääksesi viimeiset `n` pysyvää muutosta. Todellisuudessa käytät sitä epätodennäköisesti usein, koska oletuksena Git putkittaa kaiken tulosteen sivuttajan läpi, joten näet vain yhden sivun lokitulosteesta kerralla.
 
-However, the time-limiting options such as `--since` and `--until` are very useful. For example, this command gets the list of commits made in the last two weeks:
+Aikarajausoptiot, kuten `--since` ja `--until`, ovat kuitenkin erittäin hyödyllisiä. Esimerkiksi tämä komento hakee listan pysyvistä muutoksista, jotka on tehty kahden viimeisen viikon aikana.
 
 	$ git log --since=2.weeks
 
-This command works with lots of formats — you can specify a specific date (“2008-01-15”) or a relative date such as “2 years 1 day 3 minutes ago”.
+Tämä komento toimii useilla muodoilla — voit määritellä tietyn päivämäärän (”15. 1. 2008”) tai suhteellisen päiväyksen, kuten ”2 vuotta 1 päivä ja 3 minuuttia sitten”.
 
-You can also filter the list to commits that match some search criteria. The `--author` option allows you to filter on a specific author, and the `--grep` option lets you search for keywords in the commit messages. (Note that if you want to specify both author and grep options, you have to add `--all-match` or the command will match commits with either.)
+Voit myös suodattaa listan pysyviin muutoksiin, joihin sopii  jokin hakukriteeri. `--author`-optio antaa sinun suodattaa tietyllä tekijällä ja `--grep`-optio etsiä avainsanoja pysyvän muutoksen viestistä (Huomaa, että jos haluat määritellä sekä tekijä- että grep-optiot, täytyy sinun lisätä `--all-match` tai komento sopii pysyviin muutoksiin, jotka täyttävät vain toisen ehdon.)
 
-The last really useful option to pass to `git log` as a filter is a path. If you specify a directory or file name, you can limit the log output to commits that introduced a change to those files. This is always the last option and is generally preceded by double dashes (`--`) to separate the paths from the options.
+Viimeinen todella hyödyllinen `git log`ille suodattimena annettava optio on hakemistopolku (path). Jos määrittelet hakemiston tai tiedoston nimen, voit rajata lokitulosteen pysyviin muutoksiin, jotka esittelivät muutokset niihin tiedostoihin. Tämä on aina viimeinen optio ja yleensä varustettu kahden viivan (`--`) etuliitteellä, jotta hakemistopolut erotettaisiin optioista.
 
-In Table 2-3 we’ll list these and a few other common options for your reference.
+Taulukossa 2-3 listaamme nämä ja muutaman muun yleisen option referenssiksesi.
 
 <!-- Attention to translators: this is a table declaration.
 The lines must be formatted as follows
 <TAB><First column text><TAB><Second column text>
 -->
 
-	Option	Description
-	-(n)	Show only the last n commits
-	--since, --after	Limit the commits to those made after the specified date.
-	--until, --before	Limit the commits to those made before the specified date.
-	--author	Only show commits in which the author entry matches the specified string.
-	--committer	Only show commits in which the committer entry matches the specified string.
+	Optio	Kuvaus
+	-(n)	Näyttää vain viimeisimmät n pysyvää muutosta
+	--since, --after	Rajaa pysyvät muutokset tietyn päivämäärän jälkeen tehtyihin.
+	--until, --before	Rajaa pysyvät muutokset tiettyä päivämäärää ennen tehtyihin.
+	--author	Näyttää vain pysyvät muutokset, joiden tekijämerkintä sopii tiettyyn merkkijonoon.
+	--committer	Näyttää vain pysyvät muutokset, joiden hyväksyjämerkintä sopii tiettyyn merkkijonoon.
 
-For example, if you want to see which commits modifying test files in the Git source code history were committed by Junio Hamano in the month of October 2008 and were not merges, you can run something like this:
+Esimerkiksi, jos haluat nähdä, mitkä testitiedostoja muokanneet pysyvät muutokset Gitin lähdekoodihistoriassa Junio Hamano teki lokakuussa 2008, joita ei ole yhdistetty, voit ajaa jotakuinkin seuraavasti:
 
 	$ git log --pretty="%h - %s" --author=gitster --since="2008-10-01" \
 	   --before="2008-11-01" --no-merges -- t/
@@ -661,42 +661,42 @@ For example, if you want to see which commits modifying test files in the Git so
 	51a94af - Fix "checkout --track -b newbranch" on detac
 	b0ad11e - pull: allow "git pull origin $something:$cur
 
-Of the nearly 20,000 commits in the Git source code history, this command shows the 6 that match those criteria.
+Tämä komento näyttää melkein 20 000 pysyvän muutoksen Gitin lähdekoodihistoriasta 6 näihin ehtoihin sopivaa pysyvää muutosta.
 
-### Using a GUI to Visualize History ###
+### GUI:n käyttäminen historian visualisointiin ###
 
-If you like to use a more graphical tool to visualize your commit history, you may want to take a look at a Tcl/Tk program called `gitk` that is distributed with Git. Gitk is basically a visual `git log` tool, and it accepts nearly all the filtering options that `git log` does. If you type `gitk` on the command line in your project, you should see something like Figure 2-2.
+Jos haluat käyttää graafisempaa työkalua visualisoidaksesi pysyvien muutosten historiaasi, voit haluta katsoa `gitk`:ksi kutsuttua Tcl/Tk-ohjelmaa, jota levitetään Gitin kanssa. Gitk on periaatteessa visuaalinen `git log` -työkalu ja se hyväksyy lähes kaikki suodatusoptiot, joita `git log`kin hyväksyy. Jos kirjoitat projektissasi komentoriville `gitk`, sinun pitäisi saada Kuvaa 2-2 vastaava tulos.
 
 Insert 18333fig0202.png
-Figure 2-2. The gitk history visualizer.
+Kuva 2-2. Gitk -historian visualisoija.
 
-You can see the commit history in the top half of the window along with a nice ancestry graph. The diff viewer in the bottom half of the window shows you the changes introduced at any commit you click.
+Voit nähdä pysyvien muutosten historian ikkunan ylemmässä puoliskossa yhdessä kivan syntyperäkaavion kanssa. Vertailuohjelma ikkunan alemmassa puoliskossa näyttää sinulle napsauttamassasi pysyvässä muutoksessa esitellyt muutokset.
 
-## Undoing Things ##
+## Asioiden kumoaminen ##
 
-At any stage, you may want to undo something. Here, we’ll review a few basic tools for undoing changes that you’ve made. Be careful, because you can’t always revert some of these undos. This is one of the few areas in Git where you may lose some work if you do it wrong.
+Saatat haluta kumota jotain missä tahansa työvaiheessa. Esittelemme tässä muutaman perustyökalun tekemiesi muutosten kumoamiseen. Ole huolellinen, koska et voi aina peruuttaa joitakin näistä kumoamisista. Tämä on yksi muutamasta alueesta Gitissä, joissa voit menettää jonkin verran työtä, jos teet sen väärin.
 
-### Changing Your Last Commit ###
+### Viimeisimmän pysyvän muutoksen muuttaminen ###
 
-One of the common undos takes place when you commit too early and possibly forget to add some files, or you mess up your commit message. If you want to try that commit again, you can run commit with the `--amend` option:
+Yksi yleinen kumoaminen tapahtuu, kun teet pysyvän muutoksen liian aikaisin ja mahdollisesti unohdat lisätä joitakin tiedostoja tai sähläät pysyvän muutoksen viestin kanssa. Jos haluat yrittää tehdä pysyvää muutosta uudestaan, voit tehdä sen `--amend`-optiolla:
 
 	$ git commit --amend
 
-This command takes your staging area and uses it for the commit. If you’ve made no changes since your last commit (for instance, you run this command immediately after your previous commit), then your snapshot will look exactly the same and all you’ll change is your commit message.
+Tämä komento ottaa lavastusalueesi ja käyttää sitä pysyvään muutokseen. Jos et ole tehnyt muutoksia viimeisimmän pysyvän muutoksesi jälkeen (esimerkiksi, jos ajat tämän komennon heti edellisen pysyvän muutoksesi jälkeen), tilannekuvasi näyttää tarkalleen samalta ja kaikki, mitä muutat, on pysyvän muutoksesi viesti.
 
-The same commit-message editor fires up, but it already contains the message of your previous commit. You can edit the message the same as always, but it overwrites your previous commit.
+Sama pysyvän muutoksen viestin editori aktivoituu, mutta se sisältää jo viestin edellisestä pysyvästä muutoksesta. Voit muokata viestiä samoin kuin aina, mutta se korvaa edellisen pysyvän muutoksesi.
 
-As an example, if you commit and then realize you forgot to stage the changes in a file you wanted to add to this commit, you can do something like this:
+Esimerkkinä, jos teet pysyvän muutoksen ja sitten huomaat unohtaneesi lavastaa muutokset tiedostossa, jonka haluat lisätä tähän pysyvään muutokseen, voit tehdä jotakuinkin seuraavasti:
 
 	$ git commit -m 'initial commit'
-	$ git add forgotten_file
+	$ git add unohtunut_tiedosto
 	$ git commit --amend
 
-After these three commands, you end up with a single commit — the second commit replaces the results of the first.
+Näiden kolmen komennon jälkeen päädyt yhteen pysyvään muutokseen — toinen pysyvä muutos korvaa ensimmäisen.
 
-### Unstaging a Staged File ###
+### Lavastetun tiedoston lavastuksen purkaminen ###
 
-The next two sections demonstrate how to wrangle your staging area and working directory changes. The nice part is that the command you use to determine the state of those two areas also reminds you how to undo changes to them. For example, let’s say you’ve changed two files and want to commit them as two separate changes, but you accidentally type `git add *` and stage them both. How can you unstage one of the two? The `git status` command reminds you:
+Kaksi seuraavaa kappaletta havainnollistavat, kuinka paimentaa muutoksia lavastusalueellasi ja työskentelyhakemistossasi. Mukava osa on, että komento, jota käytät selvittääksesi näiden kahden alueen tilan, muistuttaa sinua myös, kuinka peruuttaa muutokset niihin. Sanokaamme, esimerkiksi, että olet muuttanut kahta tiedostoa ja haluat tehdä niistä kaksi erillistä pysyvää muutosta, mutta kirjoitit vahingossa `git add *` ja lavastit ne molemmat. Kuinka voit purkaa toisen lavastuksen? `Git status` -komento muistuttaa sinua:
 
 	$ git add .
 	$ git status
@@ -708,7 +708,7 @@ The next two sections demonstrate how to wrangle your staging area and working d
 	#       modified:   benchmarks.rb
 	#
 
-Right below the “Changes to be committed” text, it says "use `git reset HEAD <file>...` to unstage". So, let’s use that advice to unstage the `benchmarks.rb` file:
+Heti ”Changes to be committed” -tekstin alla, sanotaan "use `git reset HEAD <file>...` to unstage". Joten, käyttäkäämme tätä neuvoa purkaaksemme `benchmarks.rb`-tiedoston lavastuksen:
 
 	$ git reset HEAD benchmarks.rb
 	benchmarks.rb: locally modified
@@ -726,11 +726,11 @@ Right below the “Changes to be committed” text, it says "use `git reset HEAD
 	#       modified:   benchmarks.rb
 	#
 
-The command is a bit strange, but it works. The `benchmarks.rb` file is modified but once again unstaged.
+Komento on hieman kummallinen, mutta se toimii. `Benchmarks.rb`-tiedosto on muokattu mutta lavastamaton jälleen.
 
-### Unmodifying a Modified File ###
+### Muutetun tiedoston muutosten kumoaminen ###
 
-What if you realize that you don’t want to keep your changes to the `benchmarks.rb` file? How can you easily unmodify it — revert it back to what it looked like when you last committed (or initially cloned, or however you got it into your working directory)? Luckily, `git status` tells you how to do that, too. In the last example output, the unstaged area looks like this:
+Mitä, jos tajuat, ettet halua säilyttää muutoksiasi `benchmarks.rb`-tiedostoon? Kuinka voit helposti kumota sen muutokset — palauttaa sen takaisin sellaiseksi, miltä se näytti, kun teit viimeksi pysyvän muutoksen (tai alun perin kloonasit tai miten saitkaan sen työskentelyhakemistoosi)? Onneksi `git status` kertoo sinulle myös, miten tämä tehdään. Edellisessä esimerkkitulosteessa lavastamaton alue näyttää tältä:
 
 	# Changes not staged for commit:
 	#   (use "git add <file>..." to update what will be committed)
@@ -739,7 +739,7 @@ What if you realize that you don’t want to keep your changes to the `benchmark
 	#       modified:   benchmarks.rb
 	#
 
-It tells you pretty explicitly how to discard the changes you’ve made (at least, the newer versions of Git, 1.6.1 and later, do this — if you have an older version, we highly recommend upgrading it to get some of these nicer usability features). Let’s do what it says:
+Se kertoo sinulle melko selvästi, kuinka hylätä tekemäsi muutokset (ainakin Gitin uudemmat versiot, 1.6.1 ja uudemmat, tekevät tämän — jos sinulla on vanhempi versio, suosittelemme lämpimästi sen päivittämistä saadaksesi joitakin näistä mukavammista käytettävyysominaisuuksista). Tehkäämme kuten se sanoo:
 
 	$ git checkout -- benchmarks.rb
 	$ git status
@@ -750,9 +750,9 @@ It tells you pretty explicitly how to discard the changes you’ve made (at leas
 	#       modified:   README.txt
 	#
 
-You can see that the changes have been reverted. You should also realize that this is a dangerous command: any changes you made to that file are gone — you just copied another file over it. Don’t ever use this command unless you absolutely know that you don’t want the file. If you just need to get it out of the way, we’ll go over stashing and branching in the next chapter; these are generally better ways to go.
+Voit nähdä, että muutokset on peruutettu. Sinun tulisi myös ymmärtää, että tämä on vaarallinen komento: kaikki tähän tiedostoon tekemäsi muutokset ovat mennyttä — kopioit juuri toisen tiedoston sen päälle. Älä koskaan käytä tätä komentoa ellet ehdottomasti tiedä, ettet halua säilyttää tiedostoa. Jos sinun täytyy ainoastaan saada se pois tieltä, käymme läpi kätkemisen ja haarautumisen seuraavassa luvussa; ne ovat usein parempia tapoja toimia.
 
-Remember, anything that is committed in Git can almost always be recovered. Even commits that were on branches that were deleted or commits that were overwritten with an `--amend` commit can be recovered (see *Chapter 9* for data recovery). However, anything you lose that was never committed is likely never to be seen again.
+Muista, että kaikki, mistä on tehty pysyvä muutos Gitiin, voidaan melkein aina palauttaa. Jopa poistetuissa haaroissa olleet tai `--amend`-optiolla ylikirjoitetut pysyvät muutokset voidaan palauttaa (katso *Luku 9* datan palauttamiseksi). Kuitenkin, mitään, minkä hävität ja mistä ei ole tehty pysyvää muutosta, ei nähdä todennäköisesti koskaan uudelleen.
 
 ## Working with Remotes ##
 

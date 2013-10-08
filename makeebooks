@@ -4,7 +4,7 @@
 # formats supported with calibre (http://calibre-ebook.com)
 #
 # Samples:
-# 	
+#
 # Build e-book for amazon kindle for english and russian languages
 # 	$ ruby makeebooks en ru
 # or
@@ -78,7 +78,11 @@ ARGV.each do |lang|
     elsif lang == 'pl'
       figure_title = 'Rysunek'
       book_title = 'Pro Git — profesjonalna kontrola wersji'
-      comments = 'udostępnione na licencji Creative Commons Attribution-Non Commercial-Share Alike 3.0 license'	 
+      comments = 'udostępnione na licencji Creative Commons Attribution-Non Commercial-Share Alike 3.0 license'
+    elsif lang == 'cs'
+      figure_title = 'Obrázek'
+      book_title = 'Pro Git — profesionální správa verzí'
+      comments = 'Licence: Creative Commons Attribution-Non Commercial-Share Alike 3.0 license'
     end
 
     book_content = %(<html xmlns="http://www.w3.org/1999/xhtml"><head><title>#{book_title}</title></head><body>)
@@ -95,7 +99,16 @@ ARGV.each do |lang|
       output.write(book_content)
     end
 
-    system('ebook-convert', "progit.#{lang}.html", "progit.#{lang}.#{format}",
+    $ebook_convert_cmd = ENV['ebook_convert_path'].to_s
+    if $ebook_convert_cmd.empty?
+      $ebook_convert_cmd = `which ebook-convert`.chomp
+    end
+    if $ebook_convert_cmd.empty?
+      mac_osx_path = '/Applications/calibre.app/Contents/MacOS/ebook-convert'
+      $ebook_convert_cmd = mac_osx_path
+    end
+
+    system($ebook_convert_cmd, "progit.#{lang}.html", "progit.#{lang}.#{format}",
            '--cover', 'ebooks/cover.png',
            '--authors', authors,
            '--comments', comments,

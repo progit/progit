@@ -1278,7 +1278,7 @@ La fusion de la pieuvre peut gérer plusieurs branches mais elle est plus pruden
 
 Cependant, il existe d'autres stratégies que vous pouvez tout aussi bien choisir.
 L'une d'elles est la fusion de sous-arborescence que vous pouvez utiliser pour gérer la problématique du sous-projet.
-Nous allons donc voir comme gérer l'inclusion de `rack` comme dans la section précédente, mais en utilisant cette fois-ci les fusions de sous-arborescence.
+Nous allons donc voir comment gérer l'inclusion de `rack` comme dans la section précédente, mais en utilisant cette fois-ci les fusions de sous-arborescence.
 
 La fusion de sous-arborescence suppose que vous ayez deux projets et que l'un s'identifie à un sous-répertoire de l'autre.
 Lorsque vous spécifiez une fusion de sous-arborescence, Git est assez intelligent pour deviner lequel est un sous-répertoire de l'autre et fusionne en conséquence — c'est assez bluffant.

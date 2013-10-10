@@ -485,7 +485,7 @@ Je import is nu klaar om naar je nieuwe Git server gepushed te worden.
 
 Als het door jou gebruikte systeem niet Subversion of Perforce is, zou je online voor een importeerder moeten zoeken – er zijn importeerders van goede kwaliteit beschikbaar voor CVS, Clear Case, Visual Source Safe, en zelfs een map met archieven. Als geen van deze tools voor jou geschikt is, je hebt een zeldzamer tool, of je hebt om een andere reden een eigen import proces nodig, dan zou je `git fast-import` moeten gebruiken. Dit commando leest eenvoudige instructies van stdin om specifieke Git data te schrijven. Het is veel eenvoudiger om op deze manier Git objecten te maken, dan de rauwe Git commando's uit te voeren, of om te proberen de rauwe objecten te schrijven (zie hoofdstuk 9 voor meer informatie). Op deze manier kun je een import script schrijven dat de noodzakelijke data uit het systeem leest dat je aan het importeren bent en rechttoe rechtaan instructies op stdout afdrukt. Je kunt dit programma dan uitvoeren en de output door `git fast-import` sluizen.
 
-Voor een snelle demonstratie zul je een eenvoudige importeerde schrijven. Stel dan je in current werkt, waarbij je je project eens in de zoveel tijd backup'ed door de map te kopiëren naar een backup map die gelabeld is met de tijd `back_YYYY_MM_DD`, en je wil dit in Git importeren. Je mappenstructuur ziet er zo uit:
+Voor een snelle demonstratie zul je een eenvoudige importeerder schrijven. Stel dat je in current werkt, waarbij je je project eens in de zoveel tijd backup'ed door de map te kopiëren naar een backup map die gelabeld is met de tijd `back_YYYY_MM_DD`, en je wil dit in Git importeren. Je mappenstructuur ziet er zo uit:
 
 	$ ls /opt/import_from
 	back_2009_01_02
@@ -496,9 +496,9 @@ Voor een snelle demonstratie zul je een eenvoudige importeerde schrijven. Stel d
 
 Om naar een Git map te importeren, moet je bekijken hoe Git zijn data opslaat. Je kunt je misschien herinneren dat Git in fundament een gelinkte lijst is met commit objecten die naar een snapshot van inhoud wijzen. Het enige dat je hoeft te doen, is `fast-import` vertellen wat de inhoud snapshots zijn, welke commit data er naar wijst en de volgorde waarin ze moeten staan. Je strategie bestaat uit het doorlopen van de snapshots en commits te creëren met de inhoud van iedere map, waarbij je iedere commit terug linkt met de vorige.
 
-Zoals je dat gedaan hebt in de "Een Voorbeeld van Git Afgedwongen Beleid" sectie van Hoofdstuk 7, gaan we dit in Ruby schrijven, omdat het is waar ik over het algemeen mee werk en het neigt eenvoudig te lezen te zijn. Je kunt dit voorbeeld vrij eenvoudig schrijven in alles waar je bekend mee bent – het hoeft alleen de juiste informatie naar stdout te schrijven. En dat betekent dat als je op Windows werkt, je erg voorzichtig moet zijn om geen carriage returns te introduceren aan het einde van je regels – git fast-import is erg kieskeurig in de manier waarop hij slechts line feeds (LF) wil hebben en niet de cariage return line feeds (CRLF), die Windows gebruikt.
+Zoals je dat gedaan hebt in de "Een Voorbeeld van Git Afgedwongen Beleid" sectie van Hoofdstuk 7, gaan we dit in Ruby schrijven, omdat ik daar over het algemeen mee werk en het is relatief eenvoudig te lezen. Je kunt dit voorbeeld vrij eenvoudig schrijven in alles waar je bekend mee bent – het hoeft alleen de juiste informatie naar stdout te schrijven. En dat betekent dat als je op Windows werkt, je erg voorzichtig moet zijn om geen carriage returns te introduceren aan het einde van je regels – git fast-import is erg kieskeurig in de manier waarop hij slechts line feeds (LF) wil hebben en niet de cariage return line feeds (CRLF), die Windows gebruikt.
 
-Om te beginnen ga je naar de doelmap en identificeer je iedere submap, waarvan elk een snapshot is dat je als commit wil importeren. Je zult in iedere submap gaan en de noodzakelijke commando's printen om ze te exporteren. Je basis hoofdlus ziet er zo uit:
+Om te beginnen ga je naar de doelmap en identificeer je iedere submap, waarvan elk een snapshot is dat je als commit wil importeren. Dan ga je in iedere submap en print de noodzakelijke commando's om ze te exporteren. Je basis hoofdlus ziet er zo uit:
 
 	last_mark = nil
 
@@ -528,7 +528,7 @@ Je zult dit doen door een lijst van mappen te creëren en de index waarde als me
 	  ($marks.index(dir) + 1).to_s
 	end
 
-Nu dat je een geheel getal hebt als voorstelling van je commit, moet je een datum hebben voor de commit metadata. Omdat de datum is uitgedrukt in de naam van de map, zul je het daar uit moeten halen. De volgende regel in de `print_export` bestand is
+Nu dat je een geheel getal hebt als voorstelling van je commit, moet je een datum hebben voor de commit metadata. Omdat de datum is uitgedrukt in de naam van de map, zul je het daar uit moeten halen. De volgende regel in het `print_export` bestand is
 
 	date = convert_dir_to_date(dir)
 

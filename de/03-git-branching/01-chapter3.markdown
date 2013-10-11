@@ -616,7 +616,7 @@ Abbildung 3-22. Ein 'git clone' gibt dir deinen eigenen `master`-Branch und `ori
 
 <!--If you do some work on your local master branch, and, in the meantime, someone else pushes to `git.ourcompany.com` and updates its master branch, then your histories move forward differently. Also, as long as you stay out of contact with your origin server, your `origin/master` pointer doesn’t move (see Figure 3-23).-->
 
-Wenn du ein wenig an deinem lokalen `master`-Branch arbeitest und unterdessen jemand etwas zu `git.ourcompany.com` herauflädt, verändert er damit dessen `master`-Branch und eure Arbeitsverläufe entwickeln sich unterschiedlich. Indess bewegt sich dein `origin/master`-Zeiger nicht, solange du keinen Kontakt mit deinem `origin`-Server aufnimmst (siehe Abbildung 3-23).
+Wenn du ein wenig an deinem lokalen `master`-Branch arbeitest und unterdessen jemand etwas zu `git.ourcompany.com` herauflädt, verändert er damit dessen `master`-Branch und eure Arbeitsverläufe entwickeln sich unterschiedlich. Indes bewegt sich dein `origin/master`-Zeiger nicht, solange du keinen Kontakt mit deinem `origin`-Server aufnimmst (siehe Abbildung 3-23).
 
 <!--Figure 3-23. Working locally and having someone push to your remote server makes each history move forward differently.-->
 
@@ -643,7 +643,7 @@ Abbildung 3-25. Einen weiteren Server als Quelle hinzufügen.
 
 <!--Now, you can run `git fetch teamone` to fetch everything the remote `teamone` server has that you don’t have yet. Because that server has a subset of the data your `origin` server has right now, Git fetches no data but sets a remote branch called `teamone/master` to point to the commit that `teamone` has as its `master` branch (see Figure 3-26).-->
 
-Nun kannst du einfach `git fetch teamone` ausführen um alles vom Server zu holen was du noch nicht hast. Da der Datenbestand auf dem Teamserver einen Teil der Informationen auf deinem `origin`-Server ist, holt Git keine Daten, erstellt allerdings einen Remote-Branch namens `teamone/master`, der auf den gleichen Commit wie `teamone`s `master`-Branch zeigt (siehe Abbildung 3-26).
+Nun kannst du einfach `git fetch teamone` ausführen um alles vom Server zu holen was du noch nicht hast. Da der Datenbestand auf dem Teamserver ein Teil der Informationen auf deinem `origin`-Server ist, holt Git keine Daten, erstellt allerdings einen Remote-Branch namens `teamone/master`, der auf den gleichen Commit wie `teamone`s `master`-Branch zeigt (siehe Abbildung 3-26).
 
 <!--Figure 3-26. You get a reference to teamone’s master branch position locally.-->
 
@@ -706,7 +706,7 @@ Dies erstellt dir einen lokalen bearbeitbaren Branch mit der Grundlage des `orig
 
 <!--Checking out a local branch from a remote branch automatically creates what is called a _tracking branch_. Tracking branches are local branches that have a direct relationship to a remote branch. If you’re on a tracking branch and type `git push`, Git automatically knows which server and branch to push to. Also, running `git pull` while on one of these branches fetches all the remote references and then automatically merges in the corresponding remote branch.-->
 
-Das Auschecken eines lokalen Branches von einem Remote-Branch erzeugt automatisch einen sogenannten _Tracking-Branch_. Tracking Branches sind lokale Branches mit einer direkten Beziehung zu dem Remote-Zweig. Wenn du dich in einem Tracking-Branch befindest und `git push` eingibst, weiß Git automatisch zu welchem Server und Repository es Pushen soll. Ebenso führt `git pull` in einem dieser Branches dazu, dass alle entfernten Referenzen gefetched und automatisch in den Zweig gemerged werden.
+Das Auschecken eines lokalen Branches von einem Remote-Branch erzeugt automatisch einen sogenannten _Tracking-Branch_. Tracking Branches sind lokale Branches mit einer direkten Beziehung zu dem Remote-Zweig. Wenn du dich in einem Tracking-Branch befindest und `git push` eingibst, weiß Git automatisch zu welchem Server und Repository es pushen soll. Ebenso führt `git pull` in einem dieser Branches dazu, dass alle entfernten Referenzen gefetched und automatisch in den Zweig gemerged werden.
 
 <!--When you clone a repository, it generally automatically creates a `master` branch that tracks `origin/master`. That’s why `git push` and `git pull` work out of the box with no other arguments. However, you can set up other tracking branches if you wish — ones that don’t track branches on `origin` and don’t track the `master` branch. The simple case is the example you just saw, running `git checkout -b [branch] [remotename]/[branch]`. If you have Git version 1.6.2 or later, you can also use the `-\-track` shorthand:-->
 
@@ -786,7 +786,7 @@ In unserem Beispiel würdest du folgendes ausführen:
 
 <!--It works by going to the common ancestor of the two branches (the one you’re on and the one you’re rebasing onto), getting the diff introduced by each commit of the branch you’re on, saving those diffs to temporary files, resetting the current branch to the same commit as the branch you are rebasing onto, and finally applying each change in turn. Figure 3-29 illustrates this process.-->
 
-Dies funktioniert, indem Git zu dem gemeinsamen/allgemeinen Vorfahren [gemeinsamer Vorfahr oder der Ursprung der beiden Branches?] der beiden Branches (des Zweiges auf dem du arbeitest und des Zweiges auf den du _rebasen_ möchtest) geht, die Differenzen jedes Commits des aktuellen Branches ermittelt und temporär in einer Datei ablegt. Danach wird der aktuelle Branch auf den Schnittpunkt der beiden Zweige zurückgesetzt und alle zwischengespeicherte Commits nacheinander auf Zielbranch angewendet. Die Abbildung 3-29 bildet diesen Prozess ab.
+Dies funktioniert, indem Git zu dem gemeinsamen/allgemeinen Vorfahren [gemeinsamer Vorfahr oder der Ursprung der beiden Branches?] der beiden Branches (des Zweiges auf dem du arbeitest und des Zweiges auf den du _rebasen_ möchtest) geht, die Differenzen jedes Commits des aktuellen Branches ermittelt und temporär in einer Datei ablegt. Danach wird der aktuelle Branch auf den Schnittpunkt der beiden Zweige zurückgesetzt und alle zwischengespeicherte Commits nacheinander auf den Zielbranch angewendet. Die Abbildung 3-29 bildet diesen Prozess ab.
 
 <!--Figure 3-29. Rebasing the change introduced in C3 onto C4.-->
 
@@ -804,7 +804,7 @@ Abbildung 3-30. Fast-forward des Master-Branches.
 
 <!--Now, the snapshot pointed to by C3' is exactly the same as the one that was pointed to by C5 in the merge example. There is no difference in the end product of the integration, but rebasing makes for a cleaner history. If you examine the log of a rebased branch, it looks like a linear history: it appears that all the work happened in series, even when it originally happened in parallel.-->
 
-Nun ist der Schnappschuss, auf den C3 zeigt, exakt der gleiche, wie der auf den C5 in dem Merge-Beispiel gezeigt hat. Bei dieser Zusammenführung entsteht kein unterschiedliches Produkt, durch Rebasing ensteht allerdings ein sauberer Verlauf. Bei genauerer Betrachtung der Historie, entpuppt sich der Rebased-Branch als linearer Verlauf - es scheint als sei die ganze Arbeit in einer Serie entstanden, auch wenn sie in Wirklichkeit parallel stattfand.
+Nun ist der Schnappschuss, auf den C3' zeigt, exakt der gleiche, wie der auf den C5 in dem Merge-Beispiel gezeigt hat. Bei dieser Zusammenführung entsteht kein unterschiedliches Produkt, durch Rebasing ensteht allerdings ein sauberer Verlauf. Bei genauerer Betrachtung der Historie entpuppt sich der Rebased-Branch als linearer Verlauf - es scheint als sei die ganze Arbeit in einer Serie entstanden, auch wenn sie in Wirklichkeit parallel stattfand.
 
 <!--Often, you’ll do this to make sure your commits apply cleanly on a remote branch — perhaps in a project to which you’re trying to contribute but that you don’t maintain. In this case, you’d do your work in a branch and then rebase your work onto `origin/master` when you were ready to submit your patches to the main project. That way, the maintainer doesn’t have to do any integration work — just a fast-forward or a clean apply.-->
 
@@ -834,7 +834,7 @@ Stell dir vor du entscheidest dich deine clientseitigen Änderungen für einen R
 
 <!--This basically says, “Check out the client branch, figure out the patches from the common ancestor of the `client` and `server` branches, and then replay them onto `master`.” It’s a bit complex; but the result, shown in Figure 3-32, is pretty cool.-->
 
-Das bedeutet einfach “Checke den Client-Branch aus, finde die Patches heraus die auf dem gemeinsamen Vorfahr der `client`- und `server`-Branches basieren und wende sie erneut auf dem `master`-Branch an.” Das ist ein bisschen komplex aber das Ergebnis - wie in Abbildung 3-32 - ist richtig cool.
+Das bedeutet einfach “Checke den Client-Branch aus, finde die Patches heraus die auf dem gemeinsamen Vorfahr der `client`- und `server`-Branches basieren und wende sie erneut auf dem `master`-Branch an.” Das ist ein bisschen komplex, aber das Ergebnis - wie in Abbildung 3-32 - ist richtig cool.
 
 <!--Figure 3-32. Rebasing a topic branch off another topic branch.-->
 
@@ -900,7 +900,7 @@ Ahh, aber der ganze Spaß mit dem Rebasing kommt nicht ohne seine Schattenseiten
 
 <!--If you follow that guideline, you’ll be fine. If you don’t, people will hate you, and you’ll be scorned by friends and family.-->
 
-Wenn du diesem Ratschlag folgst ist alles in ordnung. Falls nicht werden die Leute dich hassen und du wirst von deinen Freunden und deiner Familie verachtet.
+Wenn du diesem Ratschlag folgst ist alles in Ordnung. Falls nicht, werden die Leute dich hassen und du wirst von deinen Freunden und deiner Familie verachtet.
 
 <!--When you rebase stuff, you’re abandoning existing commits and creating new ones that are similar but different. If you push commits somewhere and others pull them down and base work on them, and then you rewrite those commits with `git rebase` and push them up again, your collaborators will have to re-merge their work and things will get messy when you try to pull their work back into yours.-->
 
@@ -908,7 +908,7 @@ Wenn du Zeug rebased, hebst du bestehende Commits auf und erstellst stattdessen 
 
 <!--Let’s look at an example of how rebasing work that you’ve made public can cause problems. Suppose you clone from a central server and then do some work off that. Your commit history looks like Figure 3-36.-->
 
-Lass uns mal ein Beispiel betrachten wie das Rebasen veröfentlichter Arbeit Probleme verursachen kann. Angenommen du klonst von einem zentralen Server und werkelst ein bisschen daran rum. Dein Commit-Verlauf sieht wie in Abbildung 3-36 aus.
+Lass uns mal ein Beispiel betrachten wie das Rebasen veröffentlichter Arbeit Probleme verursachen kann. Angenommen du klonst von einem zentralen Server und werkelst ein bisschen daran rum. Dein Commit-Verlauf sieht wie in Abbildung 3-36 aus.
 
 <!--Figure 3-36. Clone a repository, and base some work on it.-->
 
@@ -944,11 +944,11 @@ Abbildung 3-39. Du mergst die gleiche Arbeit nochmals in einen neuen Merge-Commi
 
 <!--You have to merge that work in at some point so you can keep up with the other developer in the future. After you do that, your commit history will contain both the C4 and C4' commits, which have different SHA-1 hashes but introduce the same work and have the same commit message. If you run a `git log` when your history looks like this, you’ll see two commits that have the same author date and message, which will be confusing. Furthermore, if you push this history back up to the server, you’ll reintroduce all those rebased commits to the central server, which can further confuse people.-->
 
-Irgendwann musst du seine Arbeit einmergen, damit du auch zukünftig mit dem anderen Entwickler zusammenarbeiten kannst. Danach wird dein Commit-Verlauf sowohl den C4 als auch den C4'-Commit enthalten, weche zwar verschiedene SHA-1-Hashes besitzen aber die gleichen Änderungen und die gleiche Commit-Beschreibung enthalten. Wenn du so einen Verluaf mit `git log` betrachtest, wirst immer zwei Commits des gleichen Autors, zur gleichen Zeit und mit der gleichen Commit-Nachricht sehen. Was ganz schön verwirrend ist. Wenn du diesen Verlauf außerdem auf den Server hochlädst, wirst du dort alle rebasierten Commits einführen, was auch noch andere verwirren kann.
+Irgendwann musst du seine Arbeit einmergen, damit du auch zukünftig mit dem anderen Entwickler zusammenarbeiten kannst. Danach wird dein Commit-Verlauf sowohl den C4 als auch den C4'-Commit enthalten, weche zwar verschiedene SHA-1-Hashes besitzen aber die gleichen Änderungen und die gleiche Commit-Beschreibung enthalten. Wenn du so einen Verlauf mit `git log` betrachtest, wirst du immer zwei Commits des gleichen Autors, zur gleichen Zeit und mit der gleichen Commit-Nachricht sehen. Was ganz schön verwirrend ist. Wenn du diesen Verlauf außerdem auf den Server hochlädst, wirst du dort alle rebasierten Commits einführen, was auch noch andere verwirren kann.
 
 <!--If you treat rebasing as a way to clean up and work with commits before you push them, and if you only rebase commits that have never been available publicly, then you’ll be fine. If you rebase commits that have already been pushed publicly, and people may have based work on those commits, then you may be in for some frustrating trouble.-->
 
-Wenn du rebasing als Weg behandelst um aufzuräumen und mit Commits zu arbeiten, bevor du sie hochlädst und wenn du nur Commits rebased die noch nie publiziert wurden, dann fährst du goldrichtig. Wenn du Commits rebased die bereits veröffentlicht wurden und Leute vielleicht schon ihre Arbeit darauf aufgebaut haben, dann bist du vielleicht für frustrierenden Ärger verantwortlich.
+Wenn du rebasing als Weg behandelst um aufzuräumen und mit Commits zu arbeiten, bevor du sie hochlädst und wenn du nur Commits rebased, die noch nie publiziert wurden, dann fährst du goldrichtig. Wenn du Commits rebased die bereits veröffentlicht wurden und Leute vielleicht schon ihre Arbeit darauf aufgebaut haben, dann bist du vielleicht für frustrierenden Ärger verantwortlich.
 
 <!--## Summary ##-->
 ## Zusammenfassung ##

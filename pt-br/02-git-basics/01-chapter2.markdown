@@ -595,7 +595,7 @@ Este comando funciona com vários formatos — você pode especificar uma data e
 
 Você pode ainda filtrar a lista de commits que batem com alguns critérios de busca. A opção `--author` permite que você filtre por algum autor específico, e a opção `--grep` deixa você buscar por palavras chave nas mensagens dos commits. (Note que se você quer especificar ambas as opções author e grep, você deve adicionar `--all-match` ou o comando considerará commits que batem com qualquer um).
 
-A última opção realmente útil para passar para `git log` como um filtro é o caminho. Se você especificar um diretório ou um nome de arquivo, você pode limitar a saída a commits que modificaram aqueles arquivos. Essa é sempre a última opção e é geralmente precedida por dois trços (`--`) para separar caminhos das opções.
+A última opção realmente útil para passar para `git log` como um filtro é o caminho. Se você especificar um diretório ou um nome de arquivo, você pode limitar a saída a commits que modificaram aqueles arquivos. Essa é sempre a última opção e é geralmente precedida por dois traços (`--`) para separar caminhos das opções.
 
 Na Tabela 2-3 nós listamos estas e outras opções comuns para sua referência.
 

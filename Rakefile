@@ -180,12 +180,8 @@ def test_lang(lang)
     "07-customizing-git"    => 3,
     "08-git-and-other-scms" => 0,
     "09-git-internals"      => 4}
-  mark = ''
   source_files = FileList.new(File.join(lang, '0*', '*.markdown')).sort
   source_files.each do |mk_filename|
-    mk_file = File.open(mk_filename, 'r') do |mk|
-      mark+= mk.read.encode("UTF-8")
-    end
     src_file = File.open(mk_filename, 'r')
     figure_count = 0
     until src_file.eof?
@@ -211,6 +207,8 @@ def test_lang(lang)
     end
   end
   begin
+    mark = (source_files.map{|mk_filename| File.open(mk_filename, 'r'){
+                |mk| mk.read.encode("UTF-8")}}).join('')
     require 'maruku'
     code = Maruku.new(mark, :on_error => :raise, :error_stream => StderrDecorator.new)
   rescue

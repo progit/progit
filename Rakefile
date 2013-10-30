@@ -160,15 +160,19 @@ namespace :pdf do
 end
 
 class StderrDecorator
+  def initialize(out)
+    @out = out
+  end
+
   def <<(x)
-    $stderr<< "#{x}"
+    @out << "#{x}"
     if x.match /REXML/
       raise ""
     end
   end
 end
 
-def test_lang(lang)
+def test_lang(lang, out)
   error_code = false
   chapter_figure = {
     "01-introduction"       => 7,
@@ -189,7 +193,7 @@ def test_lang(lang)
       matches = line.match /^#/
       if matches
         if line.match /^(#+).*#[[:blank:]]+$/
-          print "\nBadly formatted title in #{mk_filename}: #{line}\n"
+          out<< "\nBadly formatted title in #{mk_filename}: #{line}\n"
           error_code = true
         end
       end
@@ -202,7 +206,7 @@ def test_lang(lang)
     tab_fig_count = chapter_figure[File.basename(File.dirname(mk_filename))]
     expected_figure_count = tab_fig_count ? tab_fig_count:0
     if figure_count > expected_figure_count
-      print "\nToo many figures declared in #{mk_filename}\n"
+      out << "\nToo many figures declared in #{mk_filename}\n"
       error_code = true
     end
   end
@@ -210,7 +214,7 @@ def test_lang(lang)
     mark = (source_files.map{|mk_filename| File.open(mk_filename, 'r'){
                 |mk| mk.read.encode("UTF-8")}}).join('')
     require 'maruku'
-    code = Maruku.new(mark, :on_error => :raise, :error_stream => StderrDecorator.new)
+    code = Maruku.new(mark, :on_error => :raise, :error_stream => StderrDecorator.new(out))
   rescue
     print $!
     error_code = true
@@ -218,22 +222,29 @@ def test_lang(lang)
   error_code
 end
 
+$out = $stdout
+
 namespace :ci do
   desc "Parallel Continuous integration"
   task :parallel_check do
     require 'parallel'
     langs = FileList.new('??')+FileList.new('??-??')
     results = Parallel.map(langs) do |lang|
-      Rake::Task["ci:" +lang+"_check"].execute
-      0
+      error_code = test_lang(lang, $out)
+      if error_code
+        print "processing #{lang} KO\n"
+      else
+        print "processing #{lang} OK\n"
+      end
+      error_code
     end
-    fail "At least one language conversion failed" if results.any? { |result| result!=0}
+    fail "At least one language conversion failed" if results.any?
   end
 
   (FileList.new('??')+FileList.new('??-??')).each do |lang|
     desc "testing " + lang
     task (lang+"_check").to_sym do
-      error_code = test_lang(lang)
+      error_code = test_lang(lang, $out)
       fail "processing #{lang} KO\n" if error_code
       print "processing #{lang} OK\n"
       end
@@ -253,19 +264,17 @@ namespace :ci do
       end
       langs -= excluded_langs
     end
-    global_error_code = false
-    langs.each do |lang|
+    errors = langs.each do |lang|
       print "processing #{lang} "
-      error_code=test_lang(lang)
+      error_code=test_lang(lang, $out)
       if error_code
         print "KO\n"
       else
         print "OK\n"
       end
-      global_error_code|=error_code
-
+      error_code
     end
-    fail "At least one language conversion failed" if global_error_code
+    fail "At least one language conversion failed" if errors.any?
   end
 
 end

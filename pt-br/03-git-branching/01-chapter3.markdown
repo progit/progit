@@ -577,7 +577,7 @@ Agora, outra pessoa faz modificações que inclui um merge, e envia (push) esse 
 Insert 18333fig0337.png
 Figura 3-37. Obtêm mais commits e faz o merge deles no seu trabalho.
 
-Em seguida, a pessoa que envio o merge voltou atrás e fez o rebase do seu do seu trabalho; eles executam `git push --force` para sobrescrever o histórico no servidor. Você então obtém os dados do servidor, trazendo os novos commits.
+Em seguida, a pessoa que envio o merge voltou atrás e fez o rebase do seu trabalho; eles executam `git push --force` para sobrescrever o histórico no servidor. Você então obtém os dados do servidor, trazendo os novos commits.
 
 Insert 18333fig0338.png
 Figura 3-38. Alguém envia commits com rebase, abandonando os commits que você usou como base para o seu trabalho.

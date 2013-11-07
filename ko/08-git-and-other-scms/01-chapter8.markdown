@@ -369,7 +369,7 @@ SVN에 기록된 Author 이름을 아래 명령으로 조회한다:
 
 이 파일을 `git svn` 명령에 전달하면 보다 정확한 Author 정보를 Git 저장소에 남길 수 있다. 그리고 `git svn`의 `clone`이나 `init` 명령에 `--no-metadata` 옵션을 주면 Subversion의 메타데이터를 저장하지 않는다. 해당 명령은 아래와 같다:
 
-	$ git-svn clone http://my-project.googlecode.com/svn/ \
+	$ git svn clone http://my-project.googlecode.com/svn/ \
 	      --authors-file=users.txt --no-metadata -s my_project
 
 `my_project` 디렉토리에 진짜 Git 저장소가 생성된다. 결과는 아래와 같지 않고:

@@ -488,18 +488,18 @@ Git은 Stash를 적용할 때 Staged 상태였던 파일을 자동으로 다시 
 
 Stash를 적용하고 나서 아차 싶을 때에는 다시 되돌려 놓아야 한다. Git은 `stash unapply` 같은 명령을 제공하지는 않는다. 하지만, Stash를 이용해서 패치를 만들고 그것을 거꾸로 적용할 수 있다:
 
-    $ git stash show -p stash@{0} | git apply -R
+	$ git stash show -p stash@{0} | git apply -R
 
 Stash를 명시하지 않으면 Git은 가장 최근의 Stash를 사용한다:
 
-    $ git stash show -p | git apply -R
+	$ git stash show -p | git apply -R
 
 `stash-unapply`라는 alias를 만들고 편리하게 할 수도 있다:
 
-    $ git config --global alias.stash-unapply '!git stash show -p | git apply -R'
-    $ git stash
-    $ #... work work work
-    $ git stash-unapply
+	$ git config --global alias.stash-unapply '!git stash show -p | git apply -R'
+	$ git stash
+	$ #... work work work
+	$ git stash-unapply
 
 ### Stash를 적용한 브랜치 만들기 ###
 

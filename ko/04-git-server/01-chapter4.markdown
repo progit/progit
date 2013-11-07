@@ -54,8 +54,8 @@ SSH를 통해 Git 저장소를 Clone하려면 `ssh://`로 시작하는 URL을 �
 
 	$ git clone ssh://user@server/project.git
 
-아래와 같이 프로토콜 이름을 명시하지 않고도 SSH를 사용할 수 있다:
-	
+아니면 scp 명령어처럼 사용할 수 있다. 이게 조금 더 짧다:
+
 	$ git clone user@server:project.git
 
 사용자 계정을 생략할 수도 있는데 계정을 생략하면 Git은 현재 로그인한 사용자의 계정을 사용한다.
@@ -141,7 +141,7 @@ Bare 저장소는 이제 만들었으니까 서버에 넣고 프로토콜을 설
 	$ cd /opt/git/my_project.git
 	$ git init --bare --shared
 
-Git 저장소를 만드는 것이 얼마나 쉬운지 살펴보았다. Bare 저장소를 만들어 SSH로 접근할 수 있는 서버에 올리면 동료와 함께 일할 준비가 끝난다. 
+Git 저장소를 만드는 것이 얼마나 쉬운지 살펴보았다. Bare 저장소를 만들어 SSH로 접근할 수 있는 서버에 올리면 동료와 함께 일할 준비가 끝난다.
 
 그러니까 Git 서버를 구축하는데 사람이 할 일은 정말 별로 없다. SSH로 접속할 수 있도록 서버에 계정을 만들고 Bare 저장소를 사람들이 읽고 쓸 수 있는 곳에 넣어 두기만 하면 된다. 다른 것은 아무것도 필요 없다.
 
@@ -172,11 +172,11 @@ Git 저장소를 만드는 것이 얼마나 쉬운지 살펴보았다. Bare 저�
 
 something, something.pub이라는 형식으로 된 파일을 볼 수 있다. something은 보통 `id_dsa`나 `id_rsa`라고 돼 있다. 그중 `.pub`파일이 공개키이고 다른 파일은 개인키이다. 만약 이 파일이 없거나 `.ssh` 디렉토리도 없으면 `ssh-keygen`이라는 프로그램으로 키를 생성해야 한다. `ssh-keygen` 프로그램은 리눅스나 Mac의 SSH 패키지에 포함돼 있고 윈도는 MSysGit 패키지 안에 들어 있다:
 
-	$ ssh-keygen 
+	$ ssh-keygen
 	Generating public/private rsa key pair.
-	Enter file in which to save the key (/Users/schacon/.ssh/id_rsa): 
-	Enter passphrase (empty for no passphrase): 
-	Enter same passphrase again: 
+	Enter file in which to save the key (/Users/schacon/.ssh/id_rsa):
+	Enter passphrase (empty for no passphrase):
+	Enter same passphrase again:
 	Your identification has been saved in /Users/schacon/.ssh/id_rsa.
 	Your public key has been saved in /Users/schacon/.ssh/id_rsa.pub.
 	The key fingerprint is:
@@ -186,7 +186,7 @@ something, something.pub이라는 형식으로 된 파일을 볼 수 있다. som
 
 사용자는 그 다음에 자신의 공개기를 Git 서버 관리자에게 보내야 한다. 사용자는 `.pub` 파일의 내용을 복사하여 메일을 보내기만 하면 된다. 공개키는 아래와 같이 생겼다:
 
-	$ cat ~/.ssh/id_rsa.pub 
+	$ cat ~/.ssh/id_rsa.pub
 	ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAklOUpkDHrfHY17SbrmTIpNLTGK9Tjom/BWDSU
 	GPl+nafzlHDTYW7hdI4yZ5ew18JH4JW9jbhUFrviQzM7xlELEVf4h9lFX5QVkbPppSwg0cda3
 	Pbv7kOdJ/MTyBlWXFCR+HAo3FXRitBqxiX1nKhXpHAZsMciLq8V6RjsNAQwdsdMFvSlVK/7XA
@@ -270,7 +270,7 @@ something, something.pub이라는 형식으로 된 파일을 볼 수 있다. som
 
 익명의 사용자에게 읽기 접근을 허용하고 싶을 때는 어떻게 해야 할까? 프로젝트를 비공개가 아니라 오픈 소스 프로젝트로 공개한다거나 자동 빌드 서버나 CI(Continuous Integration) 서버가 많아서 계정마다 하나하나 설정해야 할 수 있다. 아니면 그냥 매번 SSH 키를 생성하는 게 귀찮을 수도 있다. 그러니까 그냥 간단하게 익명의 사용자도 읽을 수 있도록 하고 싶을 때는 어떻게 해야 할까?
 
-분병 웹 서버를 설치하는 것이 가장 쉬운 방법이다. 이 장의 첫 부분에 설명했듯이 웹 서버를 설치하고 Git 저장소를 문서 루트 디렉토리에 두고 `post-update` 훅을 켜기만 하면 된다. 먼저 설명했던 예제를 따라 해보자. `/opt/git` 디렉토리에 저장소가 있고 서버에 Apache가 설치돼 있다고 가정하자. 아무 웹 서버나 다 사용할 수 있지만, 이 예제에서는 Apache를 사용한다. 여기에서는 이해하는 것이 목적이므로 아주 기본적인 Apache 설정만을 보여줄 것이다. 
+분명 웹 서버를 설치하는 것이 가장 쉬운 방법이다. 이 장의 첫 부분에 설명했듯이 웹 서버를 설치하고 Git 저장소를 문서 루트 디렉토리에 두고 `post-update` 훅을 켜기만 하면 된다. 먼저 설명했던 예제를 따라 해보자. `/opt/git` 디렉토리에 저장소가 있고 서버에 Apache가 설치돼 있다고 가정하자. 아무 웹 서버나 다 사용할 수 있지만, 이 예제에서는 Apache를 사용한다. 여기에서는 이해하는 것이 목적이므로 아주 기본적인 Apache 설정만을 보여줄 것이다.
 
 먼저 이 훅을 설정해야 한다:
 
@@ -280,7 +280,7 @@ something, something.pub이라는 형식으로 된 파일을 볼 수 있다. som
 
 `post-update` 훅은 무슨 일을 할까? 기본적으로 다음과 같다:
 
-	$ cat .git/hooks/post-update 
+	$ cat .git/hooks/post-update
 	#!/bin/sh
 	exec git-update-server-info
 
@@ -297,7 +297,7 @@ SSH를 통해서 서버에 Push하면 Git은 이 명령어를 실행하여 HTTP�
 	    </Directory>
 	</VirtualHost>
 
-그리고 Apache 서버는 `www-data` 권한으로 CGI 스크립트를 실행시키기 때문에 `/opt/git` 디렉토리의 그룹 소유 권한을 `www-data`로 수정해 주어야 웹 서버로 접근하는 사용자들이 읽을 수 있다. 
+그리고 Apache 서버는 `www-data` 권한으로 CGI 스크립트를 실행시키기 때문에 `/opt/git` 디렉토리의 그룹 소유 권한을 `www-data`로 수정해 주어야 웹 서버로 접근하는 사용자들이 읽을 수 있다.
 
 	$ chgrp -R www-data /opt/git
 
@@ -311,7 +311,7 @@ Apache를 재시작하면 아래와 같은 URL로 저장소를 Clone할 수 있�
 
 프로젝트 저장소를 단순히 읽거나 쓰는 것에 대한 설정은 다뤘다. 이제는 웹 기반 인터페이스를 설정해보자. Git에는 GitWeb이라는 CGI 스크립트를 제공해서 쉽게 웹에서 저장소를 조회하도록 할 수 있다. `http://git.kernel.org`같은 사이트에서 GitWeb을 구경할 수 있다(그림 4-1).
 
-Insert 18333fig0401.png 
+Insert 18333fig0401.png
 그림 4-1 Git 웹용 UI, GitWeb
 
 Git은 GitWeb을 쉽게 사용해 볼 수 있도록 서버를 잠시 띄우는 명령을 제공한다. 시스템에 `lighttpd`나 `webrick` 같은 경량 웹서버가 설치돼 있어야 이 명령을 사용할 수 있다. 리눅스에서는 `lighttpd`가 설치돼 있을 확률이 높고 프로젝트 디렉토리에서 그냥 `git instaweb`을 실행하면 바로 실행된다. Mac의 Leopard 버전은 Ruby가 미리 설치돼 있기 때문에 `webrick`이 더 낫다. lighttpd이 아니라면 아래와 같이 `--httpd` 옵션을 사용해야 한다:
@@ -329,7 +329,7 @@ Git은 GitWeb을 쉽게 사용해 볼 수 있도록 서버를 잠시 띄우는 �
 	$ git clone git://git.kernel.org/pub/scm/git/git.git
 	$ cd git/
 	$ make GITWEB_PROJECTROOT="/opt/git" \
-	        prefix=/usr gitweb
+	        prefix=/usr gitweb/gitweb.cgi
 	$ sudo cp -Rf gitweb /var/www/
 
 빌드할 때 `GITWEB_PROJECTROOT` 변수로 Git 저장소의 위치를 알려줘야 한다. 이제 Apache가 이 스크립트를 사용하도록 VirtualHost 항목을 설정한다:
@@ -417,7 +417,7 @@ Gitosis가 키들을 관리할 것이기 때문에 현재 파일은 삭제하고
 
 이제 `gitosis.conf` 파일을 열어보자. 지금 막 Clone한 `gitosis-admin` 프로젝트에 대한 정보만 들어 있다:
 
-	$ cat gitosis.conf 
+	$ cat gitosis.conf
 	[gitosis]
 
 	[group gitosis-admin]
@@ -604,10 +604,10 @@ Gitolite는 접근 제어를 두 단계로 한다. 첫 단계가 저장소 단�
 
 브랜치 단위로 Push를 제어할 수 있지만 수정된 파일 단위로도 제어할 수 있다. 예를 들어 Makefile을 보자. Makefile 파일에 의존하는 파일은 매우 많고 보통 *꼼꼼하게* 수정하지 않으면 문제가 생긴다. 그래서 아무나 Makefile을 수정하게 둘 수 없다. 그러면 아래와 같이 설정한다:
 
-    repo foo
-        RW                      =   @junior_devs @senior_devs
+	repo foo
+	    RW                      =   @junior_devs @senior_devs
 
-        -   VREF/NAME/Makefile  =   @junior_devs
+	    -   VREF/NAME/Makefile  =   @junior_devs
 
 예전 버전의 Gitolite에서 버전을 올리려는 사용자는 설정이 많이 달라진 것을 알게 될 것이다. Gitolite의 버전업 가이드를 필히 참고하자.
 
@@ -633,15 +633,15 @@ Gitolite는 펄 정규표현식으로 저장소 이름을 표현하기 때문에
 
 **접근 권한 보여주기**: 만약 어떤 서버에서 작업을 시작하려고 할 때 필요한 것이 무엇일까? Gitolite는 해당 서버에 대해 접근할 수 있는 저장소가 무엇인지, 어떤 권한을 가졌는지 보여준다:
 
-        hello scott, this is git@git running gitolite3 v3.01-18-g9609868 on git 1.7.4.4
+	    hello scott, this is git@git running gitolite3 v3.01-18-g9609868 on git 1.7.4.4
 
-             R     anu-wsd
-             R     entrans
-             R  W  git-notes
-             R  W  gitolite
-             R  W  gitolite-admin
-             R     indic_web_input
-             R     shreelipi_converter
+	         R     anu-wsd
+	         R     entrans
+	         R  W  git-notes
+	         R  W  gitolite
+	         R  W  gitolite-admin
+	         R     indic_web_input
+	         R     shreelipi_converter
 
 **권한 위임**: 조직 규모가 크면 저장소에 대한 책임을 여러 사람이 나눠 가지는 게 좋다. 여러 사람이 각자 맡은 바를 관리하도록 한다. 그래서 주요 관리자의 업무가 줄어들기에 병목현상이 적어진다. 이 기능에 대해서는 `doc/` 디렉토리에 포함된 Gitolite 문서를 참고하라.
 
@@ -713,7 +713,7 @@ Gitosis 설정 파일에 `gitweb` 설정을 넣거나 빼면 사용자는 GitWeb
 
 ## Hosted Git ##
 
-Git 서버를 설치하는 등의 일을 하고 싶지 않으면 전문 호스팅 사이트를 이용하면 된다. 호스팅 사이트는 몇 가지 장점이 있다. 설정이 쉬워서 바로 프로젝트를 시작할 수 있을 뿐만 아니라 직접 서버를 관리하고 모니터링하지 않아도 된다. 내부적으로 Git 서버를 직접 설치하고 운영하고 있어도 오픈소스 프로젝트는 호스팅 사이트를 이용하는 것이 좋다. 이렇게 하면 보통 오픈소스 커뮤니티로부터 좀 더 쉽게 도움받을 수 있다. 
+Git 서버를 설치하는 등의 일을 하고 싶지 않으면 전문 호스팅 사이트를 이용하면 된다. 호스팅 사이트는 몇 가지 장점이 있다. 설정이 쉬워서 바로 프로젝트를 시작할 수 있을 뿐만 아니라 직접 서버를 관리하고 모니터링하지 않아도 된다. 내부적으로 Git 서버를 직접 설치하고 운영하고 있어도 오픈소스 프로젝트는 호스팅 사이트를 이용하는 것이 좋다. 이렇게 하면 보통 오픈소스 커뮤니티로부터 좀 더 쉽게 도움받을 수 있다.
 
 요즘은 이용할 수 있는 호스팅 사이트들이 많다. 각각 장단점이 있기 때문에 다음 페이지에서 최신 정보를 확인해보자:
 
@@ -731,19 +731,19 @@ GitHub은 이윤을 목적으로 하는 회사이기 때문에 비공개 저장�
 
 ### 계정 설정하기 ###
 
-먼저 무료 계정을 하나 만든다. 가격 정책에 대해 알려주며 가입을 시작할 수 있는 `http://github.com/plans`에 방문하여 "Sign up" 버튼을 클릭한다. 그러면 가입 페이지로 이동한다. 
+먼저 무료 계정을 하나 만든다. 가격 정책에 대해 알려주며 가입을 시작할 수 있는 `http://github.com/plans`에 방문하여 "Sign up" 버튼을 클릭한다. 그러면 가입 페이지로 이동한다.
 
 Insert 18333fig0402.png
 그림 4-2 GitHub 가격 정책 페이지
 
 아직 등록되지 않은 사용자 이름을 입력하고 e-mail 주소와 암호를 입력한다(그림 4-3).
 
-Insert 18333fig0403.png 
+Insert 18333fig0403.png
 그림 4-3 GitHub 가입 폼
 
 그리고 SSH 공개키가 있으면 바로 등록한다. SSH 키를 만드는 방법은 "바로 설정하기" 절에서 이미 설명했다. 그 공개키 파일의 내용을 복사해서 SSH 공개키 입력 박스에 붙여 넣는다. "explain ssh keys" 링크를 클릭하면 key를 생성하는 방법을 자세히 설명해준다. 주요 운영체제에서 하는 방법이 모두 설명돼 있다. "I agree, sign me up" 버튼을 클릭하면 자신만의 대쉬보드 페이지가 나타난다.
 
-Insert 18333fig0404.png 
+Insert 18333fig0404.png
 그림 4-4 GitHub 사용자 대쉬보드
 
 그리고 저장소를 만들자.
@@ -752,17 +752,17 @@ Insert 18333fig0404.png
 
 `Your Repositories`옆에 있는 "create a new one" 링크를 클릭하면 저장소를 만드는 입력 폼을 볼 수 있다(그림 4-5).
 
-Insert 18333fig0405.png 
+Insert 18333fig0405.png
 그림 4-5 GitHub의 저장소를 생성하는 폼
 
 이 폼에 프로젝트 이름과 프로젝트 설명을 적는다. 다 적은 후에 "Create Repository" 버튼을 클릭하면 GitHub에 저장소가 생긴다.
 
-Insert 18333fig0406.png 
+Insert 18333fig0406.png
 그림 4-6 GitHub 프로젝트 정보
 
 이 저장소에는 아직 코드가 없어서 GitHub은 프로젝트를 새로 만드는 방법, 이미 있는 Git 프로젝트를 Push하는 법, 공개된 Subversion 저장소에서 프로젝트를 가져오는(Import) 방법 등을 보여준다.
 
-Insert 18333fig0407.png 
+Insert 18333fig0407.png
 그림 4-7 새 저장소를 위한 사용설명서
 
 여기 설명하는 내용은 이미 우리가 배웠다. 프로젝트가 없을 때는 아래와 같이 프로젝트를 초기화한다:
@@ -773,12 +773,12 @@ Insert 18333fig0407.png
 
 만약 이미 로컬에 Git 저장소가 있으면 GitHub 저장소를 리모트 저장소로 등록하고 master 브랜치를 Push한다:
 
-	$ git remote add origin git@github.com:testinguser/iphone_project.git
+	$ git remote add origin git@GitHub.com:testinguser/iphone_project.git
 	$ git push origin master
 
 이제 프로젝트가 GitHub에서 서비스되니 공유하고 싶은 사람에게 URL을 알려 주면 된다. URL은 `http://github.com/testinguser/iphone_project`이다. 그리고 이 저장소의 정보를 잘 살펴보면 Git URL이 두 개라는 것을 발견할 수 있다.
 
-Insert 18333fig0408.png 
+Insert 18333fig0408.png
 그림 4-8 프로젝트의 공개 URL과 비공개 URL
 
 `Public Clone URL`은 말 그대로 누구나 프로젝트를 Clone할 수 있도록 모두에게 읽기 전용으로 공개하는 것이다. 이 URL을 다른 사람에 알려주거나 웹사이트 같은데 공개하는 것을 부담스러워 하지 않아도 된다.
@@ -789,23 +789,23 @@ Insert 18333fig0408.png
 
 GitHub은 공개 중인 Subversion 프로젝트를 Git 프로젝트로 만들어 준다. 사용설명서 하단에 있는 "Subversion에서 Import하기" 링크를 클릭하면 임포트 폼을 볼 수 있고 거기에 Subversion 프로젝트의 URL을 넣는다(그림 4-9).
 
-Insert 18333fig0409.png 
+Insert 18333fig0409.png
 그림 4-9 Subversion 프로젝트를 Import하는 화면
 
 프로젝트가 비표준 방식을 사용하거나 규모가 너무 크고 비공개라면 이 기능을 사용할 수 없다. *7장*에서 수동으로 임포트하는 방법에 대해 좀 더 자세히 배운다.
 
 ### 동료 추가하기 ###
 
-동료를 추가하자. 먼저 John씨, Josie씨, Jessica씨를 모두 GitHub에 가입시키고 나서 그들을 동료로 추가하고 저장소에 Push할 수 있는 권한을 준다. 
+동료를 추가하자. 먼저 John씨, Josie씨, Jessica씨를 모두 GitHub에 가입시키고 나서 그들을 동료로 추가하고 저장소에 Push할 수 있는 권한을 준다.
 
 프로젝트 페이지에 있는 Admin 버튼을 클릭해서 관리 페이지로 이동한다(그림 4-10).
 
-Insert 18333fig0410.png 
+Insert 18333fig0410.png
 그림 4-10 GitHub의 프로젝트 관리 페이지
 
 다른 사람에게 쓰기 권한을 주려면 “Add another collaborator” 링크를 클릭한다. 그러면 텍스트 박스가 새로 나타나는 데 거기에 사용자 이름을 입력한다. 사용자 이름을 입력하기 시작하면 자동으로 시스템에 존재하는 사용자를 찾아서 보여 준다. 원하는 사용자를 찾으면 Add 버튼을 클릭해서 그 사용자를 동료로 만든다.
 
-Insert 18333fig0411.png 
+Insert 18333fig0411.png
 그림 4-11 프로젝트에 동료 추가하기
 
 추가한 사람은 동료 목록 박스에서 모두 확인할 수 있다(그림 4-12).
@@ -819,7 +819,7 @@ Insert 18333fig0412.png
 
 Subversion에서 Import했거나 로컬의 프로젝트를 Push하고 나면 프로젝트 메인 페이지가 그림 4-13같이 바뀐다.
 
-Insert 18333fig0413.png 
+Insert 18333fig0413.png
 그림 4-13 GitHub의 프로젝트 메인 페이지
 
 사람들이 이 프로젝트에 방문하면 이 페이지가 제일 처음 보인다. 이 페이지는 몇 가지 탭으로 구성된다. Commits 탭은 지금까지의 커밋을 `git log` 명령을 실행시킨 것처럼 최신 것부터 보여준다. Network 탭은 프로젝트를 복제한 사람들과 기여한 사람들을 모두 보여준다. Downloads 탭에는 바이너리 파일이나 프로젝트의 태그 버전을 압축해서 올릴 수 있다. Wiki 탭은 프로젝트에 대한 정보나 문서를 쓰는 곳이다. Graphs 탭은 사람들의 활동을 그림과 통계로 보여준다. 메인 탭인 Source 탭은 프로젝트의 메인 디렉토리를 보여주고 README 파일이 있으면 자동으로 화면에 출력해 준다. 그리고 마지막 커밋 내용도 함께 보여준다.
@@ -832,12 +832,12 @@ Insert 18333fig0413.png
 
 프로젝트 페이지에 들어가서 상단의 "fork" 버튼을 클릭하여 프로젝트를 복제한다(그림 4-14) 그림 4-14의 예는 mojombo/chronic 프로젝트 페이지이다
 
-Insert 18333fig0414.png 
+Insert 18333fig0414.png
 그림 4-14 어떤 저장소든지 "fork" 버튼을 클릭하면 Push할 수 있는 저장소를 얻을 수 있다
 
-클릭하는 순간, 이 프로젝트를 즉시 Fork한다(그림 4-15). 
+클릭하는 순간, 이 프로젝트를 즉시 Fork한다(그림 4-15).
 
-Insert 18333fig0415.png 
+Insert 18333fig0415.png
 그림 4-15 Fork한 프로젝트
 
 ### GitHub 요약 ###

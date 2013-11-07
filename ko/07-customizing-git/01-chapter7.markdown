@@ -189,7 +189,7 @@ Git config 파일에 이 스크립트를 모두 추가한다. 설정해야 하�
 
 diff 결과가 터미널에 출력되는 대신 P4Merge가 실행된다. 그리고 그림 7-1처럼 그 프로그램 안에서 보여준다:
 
-Insert 18333fig0701.png 
+Insert 18333fig0701.png
 그림 7-1 P4Merge
 
 브랜치를 Merge할 때 충돌이 나면 `git mergetool` 명령을 실행한다. 이 명령을 실행하면 GUI 도구로 충돌을 해결할 수 있도록 P4Merge를 실행해준다.
@@ -307,11 +307,15 @@ Git은 Push할 때 기본적으로 개체를 검증하지(check for consistency)
 
 #### 바이너리 파일 Diff하기 ####
 
-Git은 바이너리 파일도 diff할 수 있다. 이 Attribute는 바이너리 파일을 텍스트 포맷으로 변환하고 그 결과를 diff로 비교하도록 하는 것이다.
+Git은 바이너리 파일도 diff할 수 있다. Git Attribute를 통해 Git이 바이너리 파일을 텍스트 포맷으로 변환하고 그 결과를 diff로 비교하도록 하는 것이다. 그래서 문제는 어떻게 *바이너리*를 텍스트로 변환해야 할까에 있다. 바이너리를 텍스트로 변환해 주는 도구 중에서 내가 필요한 바이너리 파일에 꼭 맞는 도구를 찾는게 가장 좋다. 사람이 읽을 수 있는 텍스트로 표현된 바이너리 포맷은 극히 드물다(오디오 데이터를 텍스트로 변환한다고 생각해보라). 파일 내용을 텍스트로 변환할 방법을 찾지 못했을 때는 파일의 설명이나 메타데이터를 텍스트로 변환하는 방법을 찾아보자. 이런 방법이 가능한 경우가 많다. 메타데이터는 파일 내용을 완벽하게 알려주지 않지만 전혀 비교하지 못하는 것보다 이렇게라도 하는 게 훨씬 낫다.
+
+여기서 설명한 두 가지 방법을 많이 사용하는 바이너리 파일에 적용해 볼 거다.
+
+댓글: 전용 변환기는 없지만 텍스트가 들어 있는 바이너리 포맷들이 있다. 이런 포맷은 `strings` 프로그램으로 바이너리 파일에서 텍스트를 추출한다. 이런 종류의 바이너리 파일 중에서 UTF-16 인코딩이나 다른 "codepages"로 된 파일들도 있다. 그런 인코딩으로 된 파일에서 `strings`으로 추출할 수 있는 텍스트는 제한적이다. 상황에 따라 다르게 추출된다. 그래도 `strings`는 Mac과 Linux 시스템에서 쉽게 사용할 수 있기 때문에 다양한 바이너리 파일에 쉽게 적용할 수 있다.
 
 ##### MS Word 파일 #####
 
-이 Attribute는 잘 알려지진 않았지만 끝내준다. Word 문서를 버전 관리하는 상황을 살펴보자. 이 문제는 인류에게 알려진 가장 귀찮은 문제 중 하나다. 모든 사람이 Word가 가장 끔찍한 편집기라고 말하지만 애석하게도 모두 Word를 사용한다. Git 저장소에 넣고 커밋하는 것으로도 Word 문서를 버전 관리할 수 있다. 하지만 `git diff`를 실행하면 아래와 같은 메시지를 보여준다:
+먼저 이 기술을 인류에게 알려진 가장 귀찮은 문제 중 하나인 Word 문서를 버전 관리하는 상황을 살펴보자. 모든 사람이 Word가 가장 끔찍한 편집기라고 말하지만 애석하게도 모두 Word를 사용한다. Git 저장소에 넣고 이따금 커밋하는 것만으로도 Word 문서의 버전을 관리할 수 있다. 그렇지만 `git diff`를 실행하면 다음과 같은 메시지를 볼 수 있을 뿐이다:
 
 	$ git diff
 	diff --git a/chapter1.doc b/chapter1.doc
@@ -322,16 +326,16 @@ Git은 바이너리 파일도 diff할 수 있다. 이 Attribute는 바이너리 
 
 	*.doc diff=word
 
-이것은 `*.doc` 파일을 diff할 때 "word" 필터를 사용하라고 설정하는 것이다. 그럼 "word" 필터는 뭘까? 이 "word" 필터도 정의해야 한다. `strings` 프로그램으로 Word 문서에서 사람이 읽을 수 있는 텍스트를 추출하는 "word" 필터를 정의한다. 그러면 Word 문서도 diff할 수 있다:
+이것은 `*.doc` 파일의 두 버전이 무엇이 다른지 diff할 때 "word" 필터를 사용하라고 설정하는 것이다. 그럼 "word" 필터는 뭘까? 이 "word" 필터도 정의해야 한다. Word 문서에서 사람이 읽을 수 있는 텍스트를 추출해주는 `catdoc` 프로그램을 "word" 필터로 사용한다. 그러면 Word 문서를 diff할 수 있다. (catdoc 프로그램은 MS Word 문서에 특화된 텍스트 추출기다. `http://www.wagner.pp.ru/~vitus/software/catdoc/`에서 구할 수 있다):
 
-	$ git config diff.word.textconv strings
+	$ git config diff.word.textconv catdoc
 
 위의 명령은 아래와 같은 내용을 `.git/config` 파일에 추가한다:
 
-    [diff "word"]
-        textconv = strings
+	[diff "word"]
+	    textconv = strings
 
-덧붙이는 말: `.doc` 파일의 종류는 여러가지이다. UTF-16 인코딩을 쓰거나 "codepages" 기반(역주: 한글은 Codepage 949) 인코딩을 사용하는 파일일 수도 있다. 어쨌든 `strings`으로 유용한 정보를 하나도 찾지 못할 때도 있다. 그때 그때 다르다.
+댓글: `.doc` 파일의 종류는 여러가지이다. UTF-16 인코딩을 쓰거나 "codepages" 기반(역주: 한글은 Codepage 949) 인코딩을 사용 할 수도 있다. `catdoc`으로는 유용한 정보를 아무것도 찾지 못할 수 있다.
 
 이제 Git은 확장자가 `.doc`인 파일의 스냅샷을 diff할 때 "word" 필터로 정의한 `strings` 프로그램을 사용한다. 이 프로그램은 Word 파일을 텍스트 파일로 변환해 주기 때문에 diff할 수 있다.
 
@@ -342,15 +346,14 @@ Git은 바이너리 파일도 diff할 수 있다. 이 Attribute는 바이너리 
 	index c1c8a0a..b93c9e4 100644
 	--- a/chapter1.doc
 	+++ b/chapter1.doc
-	@@ -8,7 +8,8 @@ re going to cover Version Control Systems (VCS) and Git basics
-	 re going to cover how to get it and set it up for the first time if you don
-	 t already have it on your system.
-	 In Chapter Two we will go over basic Git usage - how to use Git for the 80%
-	-s going on, modify stuff and contribute changes. If the book spontaneously
-	+s going on, modify stuff and contribute changes. If the book spontaneously
-	+Let's see if this works.
+	@@ -128,7 +128,7 @@ and data size)
+	 Since its birth in 2005, Git has evolved and matured to be easy to use
+	 and yet retain these initial qualities. It’s incredibly fast, it’s
+	 very efficient with large projects, and it has an incredible branching
+	-system for non-linear development.
+	+system for non-linear development (See Chapter 3).
 
-Git은 "Let's see if this works"가 추가됐다는 것을 정확하게 찾아 준다. 이것은 완벽하지는 않지만(끝에 아무거나 왕창 집어넣지만 않으면) 어쨌든 잘 동작한다. Word 문서를 텍스트로 잘 변환해 주는 프로그램이 있으면 이 방법은 좀 더 완벽해질 수 있다. Mac이나 Linux 같은 시스템에는 `strings`가 이미 설치되어 있기 때문에 당장 사용할 수 있다.
+Git은 "(See Chapter 3)"가 추가됐다는 것을 정확하게 찾아 준다.
 
 ##### OpenDocument 파일 #####
 
@@ -358,47 +361,47 @@ MS Word(`*.doc`) 파일에 사용한 방법은 OpenOffice.org(혹은 LibreOffice
 
 아래의 내용을 `.gitattributes` 파일에 추가한다:
 
-    *.odt diff=odt
+	*.odt diff=odt
 
 `.git/config` 파일에 `odt` diff 필터를 설정한다:
 
-    [diff "odt"]
-        binary = true
-        textconv = /usr/local/bin/odt-to-txt
+	[diff "odt"]
+	    binary = true
+	    textconv = /usr/local/bin/odt-to-txt
 
 OpenDocument 파일은 사실 여러 파일(XML, 스타일, 이미지 등등)을 Zip으로 압축한 형식이다. OpenDocument 파일에서 텍스트만 추출하는 스크립트를 하나 작성한다. 아래와 같은 내용을 `/usr/local/bin/odt-to-txt` 파일로(다른 위치에 저장해도 상관없다) 저장한다:
 
-    #! /usr/bin/env perl
-    # Simplistic OpenDocument Text (.odt) to plain text converter.
-    # Author: Philipp Kempgen
+	#! /usr/bin/env perl
+	# Simplistic OpenDocument Text (.odt) to plain text converter.
+	# Author: Philipp Kempgen
 
-    if (! defined($ARGV[0])) {
-        print STDERR "No filename given!\n";
-        print STDERR "Usage: $0 filename\n";
-        exit 1;
-    }
+	if (! defined($ARGV[0])) {
+	    print STDERR "No filename given!\n";
+	    print STDERR "Usage: $0 filename\n";
+	    exit 1;
+	}
 
-    my $content = '';
-    open my $fh, '-|', 'unzip', '-qq', '-p', $ARGV[0], 'content.xml' or die $!;
-    {
-        local $/ = undef;  # slurp mode
-        $content = <$fh>;
-    }
-    close $fh;
-    $_ = $content;
-    s/<text:span\b[^>]*>//g;           # remove spans
-    s/<text:h\b[^>]*>/\n\n*****  /g;   # headers
-    s/<text:list-item\b[^>]*>\s*<text:p\b[^>]*>/\n    --  /g;  # list items
-    s/<text:list\b[^>]*>/\n\n/g;       # lists
-    s/<text:p\b[^>]*>/\n  /g;          # paragraphs
-    s/<[^>]+>//g;                      # remove all XML tags
-    s/\n{2,}/\n\n/g;                   # remove multiple blank lines
-    s/\A\n+//;                         # remove leading blank lines
-    print "\n", $_, "\n\n";
+	my $content = '';
+	open my $fh, '-|', 'unzip', '-qq', '-p', $ARGV[0], 'content.xml' or die $!;
+	{
+	    local $/ = undef;  # slurp mode
+	    $content = <$fh>;
+	}
+	close $fh;
+	$_ = $content;
+	s/<text:span\b[^>]*>//g;           # remove spans
+	s/<text:h\b[^>]*>/\n\n*****  /g;   # headers
+	s/<text:list-item\b[^>]*>\s*<text:p\b[^>]*>/\n    --  /g;  # list items
+	s/<text:list\b[^>]*>/\n\n/g;       # lists
+	s/<text:p\b[^>]*>/\n  /g;          # paragraphs
+	s/<[^>]+>//g;                      # remove all XML tags
+	s/\n{2,}/\n\n/g;                   # remove multiple blank lines
+	s/\A\n+//;                         # remove leading blank lines
+	print "\n", $_, "\n\n";
 
 그리고 실행 가능하도록 만든다:
 
-    chmod +x /usr/local/bin/odt-to-txt
+	chmod +x /usr/local/bin/odt-to-txt
 
 이제 `git diff` 명령으로 `.odt` 파일에 대한 변화를 살펴볼 수 있다.
 
@@ -406,12 +409,12 @@ OpenDocument 파일은 사실 여러 파일(XML, 스타일, 이미지 등등)을
 
 이 방법으로 이미지 파일도 diff할 수 있다. 필터로 EXIF 정보를 추출해서 PNG 파일을 비교한다. EXIF 정보는 대부분의 이미지 파일에 들어 있는 메타데이터다. `exiftool`이라는 프로그램을 설치하고 이미지 파일에서 메타데이터 텍스트를 추출한다. 그리고 그 결과를 diff해서 무엇이 달라졌는지 본다:
 
-	$ echo '*.png diff=exif' >> .gitattributes
+	$ echo '*.pngdiff=exif' >> .gitattributes
 	$ git config diff.exif.textconv exiftool
 
 프로젝트에 들어 있는 이미지 파일을 변경하고 `git diff`를 실행하면 아래와 같이 보여준다:
 
-	diff --git a/image.png b/image.png
+	diff --git a/image.pngb/image.png
 	index 88839c4..4afcb7c 100644
 	--- a/image.png
 	+++ b/image.png
@@ -452,10 +455,10 @@ Git은 이 파일을 Checkout할 때마다 SHA 값을 삽입해준다:
 
 Commit/Checkout할 때 사용하는 필터를 직접 만들어 쓸 수 있다. 방향에 따라 "clean" 필터와 "smudge" 필터라고 부른다. ".gitattributes" 파일에 설정하고 파일 경로마다 다른 필터를 설정할 수 있다. Checkout할 때 파일을 처리하는 것이 "smudge" 필터이고(그림 7-2) 커밋할 때 처리하는 필터가 "clean" 필터이다. 이 필터로 할 수 있는 일은 무궁무진하다.
 
-Insert 18333fig0702.png 
+Insert 18333fig0702.png
 그림 7-2 "smudge" 필터는 Checkout할 때 실행된다
 
-Insert 18333fig0703.png 
+Insert 18333fig0703.png
 그림 7-3 "clean" 필터는 파일을 Stage할 때 실행된다
 
 커밋하기 전에 `indent` 프로그램으로 C 코드 전부를 필터링하지만 커밋 메시지는 단순한 예제를 보자. `*.c` 파일은 indent 필터를 사용하도록 `.gitattributes` 파일에 설정한다:
@@ -780,7 +783,7 @@ update 스크립트는 각 브랜치마다 한 번씩 실행된다는 것을 제
 	Unpacking objects: 100% (3/3), done.
 	Enforcing Policies...
 	(refs/heads/master) (8338c5) (c5b616)
-	[POLICY] Cannot push a non fast-forward reference
+	[POLICY] Cannot push a non-fast-forward reference
 	error: hooks/update exited with error code 1
 	error: hook declined to update refs/heads/master
 	To git@gitserver:project.git
@@ -790,7 +793,7 @@ update 스크립트는 각 브랜치마다 한 번씩 실행된다는 것을 제
 정책과 관련해 하나씩 살펴보자. 먼저 훅이 실행될 때마다 다음 메시지가 출력된다.
 
 	Enforcing Policies...
-	(refs/heads/master) (8338c5) (c5b616)
+	(refs/heads/master) (fb8c72) (c56860)
 
 이것은 update 스크립트 맨 윗부분에서 표준출력(STDOUT)에 출력한 내용이다. 스크립트에서 표준출력으로 출력하면 클라이언트로 전송된다. 이점을 꼭 기억하자.
 

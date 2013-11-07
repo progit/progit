@@ -242,7 +242,7 @@ Git은 자동으로 Merge하지 못해서 새 커밋이 생기지 않는다. 변
 	#	unmerged:   index.html
 	#
 
-충돌이 일어난 파일은 unmerged 상태로 표시된다. Git은 충돌이 난 부분을 표준 형식에 따라 표시해준다. 그러면 개발자는 해당 부분을 수동으로 해결한다. 충돌 난 부분은 다음과 같이 표시된다:
+충돌이 일어난 파일은 unmerged 상태로 표시된다. Git은 충돌이 난 부분을 표준 형식에 따라 표시해준다. 그러면 개발자는 해당 부분을 수동으로 해결한다. 충돌 난 부분은 다음과 같이 표시된다.
 
 	<<<<<<< HEAD:index.html
 	<div id='footer'>contact : email.support@github.com</div>
@@ -357,7 +357,7 @@ Insert 18333fig0318.png
 Insert 18333fig0319.png
 그림 3-19 각 브랜치를 하나의 실험실로 생각하라
 
-코드를 여러 단계로 나누고 안정성을 높이면서 운영해 갈 수 있다. 큰 규모의 프로젝트라면 proposed 혹은 pu(proposed updates)라는 이름의 브랜치를 두어 next나 master 브랜치에 아직 Merge할 준비가 되지 않은 것을 일단 Merge시킨다. 
+코드를 여러 단계로 나누어 안정성을 높여가며 운영할 수 있다. 큰 규모의 프로젝트라면 proposed 혹은 pu(proposed updates)라는 이름의 브랜치를 두어 next나 master 브랜치에 아직 Merge할 준비가 되지 않은 것을 일단 Merge시킨다.
 
 중요한 개념은 브랜치를 이용해 여러 단계에 걸쳐서 안정화해 나아가면서 충분히 안정화가 됐을 때 안정 브랜치로 Merge한다는 점이다. 다시 말해서 반드시 Long-Running의 브랜치를 여러 개 만들어야 하는 것은 아니지만 정말 유용하다. 특히 규모가 크고 복잡한 프로젝트일수록 그 유용성이 반짝반짝 빛난다.
 
@@ -426,7 +426,7 @@ serverfix라는 브랜치를 다른 사람과 공유할 때에도 브랜치를 �
 	To git@github.com:schacon/simplegit.git
 	 * [new branch]      serverfix -> serverfix
 
-이 메시지에는 여러가지 의미가 숨겨져 있다.
+이 메시지에는 숨겨진 내용이 많다.
 
 Git은 serverfix라는 브랜치 이름을 `refs/heads/serverfix:refs/heads/serverfix`로 확장한다. 이것은 serverfix라는 로컬 브랜치를 서버로 Push하는데 리모트의 serverfix 브랜치로 업데이트한다는 것을 의미한다. 나중에 *9장*에서 `refs/heads/`의 뜻을 자세히 알아볼 것이기 때문에 일단 넘어가도록 한다. `git push origin serverfix:serverfix`라고 Push하는 것도 같은 의미인데 이것은 '로컬의 serverfix 브랜치를 리모트 저장소의 serverfix 브랜치로 Push하라'라는 뜻이다. 로컬 브랜치의 이름과 리모트 서버의 브랜치 이름이 다를 때 필요하다. 리모트 저장소에 serverfix라는 이름 대신 다른 이름을 사용하려면 `git push origin serverfix:awesomebranch`처럼 사용한다.
 
@@ -440,7 +440,7 @@ Git은 serverfix라는 브랜치 이름을 `refs/heads/serverfix:refs/heads/serv
 	From git@github.com:schacon/simplegit
 	 * [new branch]      serverfix    -> origin/serverfix
 
-여기서 짚고 넘어가야 할 게 있다. Fetch 명령으로 리모트 브랜치를 내려받는다고 해서 로컬 저장소에 수정할 수 있는 브랜치가 새로 생기는 것이 아니다. 다시 말해서 serverfix라는 브랜치가 생기는 것이 아니라 그저 수정 못 하는 origin/serverfix 브랜치 포인터가 생기는 것이다. 
+여기서 짚고 넘어가야 할 게 있다. Fetch 명령으로 리모트 브랜치를 내려받는다고 해서 로컬 저장소에 수정할 수 있는 브랜치가 새로 생기는 것이 아니다. 다시 말해서 serverfix라는 브랜치가 생기는 것이 아니라 그저 수정 못 하는 origin/serverfix 브랜치 포인터가 생기는 것이다.
 
 새로 받은 브랜치의 내용을 Merge하려면 `git merge origin/serverfix` 명령을 사용한다. Merge하지 않고 리모트 브랜치에서 시작하는 새 브랜치를 만들려면 아래와 같은 명령을 사용한다.
 
@@ -513,7 +513,7 @@ Insert 18333fig0329.png
 Insert 18333fig0330.png
 그림 3-30 master 브랜치를 Fast-forward시키기
 
-C3'로 표시된 커밋에서의 내용은 Merge 예제에서 살펴본 C5 커밋에서의 내용과 같을 것이다. Merge이든 Rebase든 둘 다 합치는 관점에서는 서로 다를 게 없다. 하지만, Rebase가 좀 더 깨끗한 히스토리를 만든다. Rebase한 브랜치의 Log를 살펴보면 히스토리가 선형적이다. 일을 병렬로 동시에 진행해도 Rebase하고 나면 모든 작업이 차례대로 수행된 것처럼 보인다. 
+C3'로 표시된 커밋에서의 내용은 Merge 예제에서 살펴본 C5 커밋에서의 내용과 같을 것이다. Merge이든 Rebase든 둘 다 합치는 관점에서는 서로 다를 게 없다. 하지만, Rebase가 좀 더 깨끗한 히스토리를 만든다. Rebase한 브랜치의 Log를 살펴보면 히스토리가 선형적이다. 일을 병렬로 동시에 진행해도 Rebase하고 나면 모든 작업이 차례대로 수행된 것처럼 보인다.
 
 Rebase는 보통 리모트 브랜치에 커밋을 깔끔하게 적용하고 싶을 때 사용한다. 아마 이렇게 Rebase하는 리모트 브랜치는 직접 관리하는 것이 아니라 그냥 참여하는 브랜치일 것이다. 메인 프로젝트에 패치를 보낼 준비가 되면 하는 것이 Rebase이니까 브랜치에서 하던 일을 완전히 마치고 origin/master로 Rebase한다. 프로젝트 관리자는 어떠한 통합작업도 필요 없다. 그냥 master 브랜치를 Fast-forward 시키면 된다.
 
@@ -571,7 +571,7 @@ Rebase가 장점이 많은 기능이지만 단점이 없는 것은 아니니 조
 
 **이미 공개 저장소에 Push한 커밋을 Rebase하지 마라**
 
-이 지침만 지키면 Rebase를 하는 데 문제 될 게 없다. 하지만, 이 주의사항을 지키지 않으면 사람들에게 욕을 먹을 것이다(역주 - 아마도 가카의 호연지기가 필요해질 것이다). 
+이 지침만 지키면 Rebase를 하는 데 문제 될 게 없다. 하지만, 이 주의사항을 지키지 않으면 사람들에게 욕을 먹을 것이다(역주 - 아마도 가카의 호연지기가 필요해질 것이다).
 
 Rebase는 기존의 커밋을 그대로 사용하는 것이 아니라 내용은 같지만 다른 커밋을 새로 만든다. 새 커밋을 서버에 Push하고 동료 중 누군가가 그 커밋을 Pull해서 작업을 한다고 하자. 그런데 그 커밋을 `git rebase`로 바꿔서 Push해버리면 동료가 다시 Push했을 때 동료는 다시 Merge해야 한다. 그리고 동료가 다시 Merge한 내용을 Pull하면 내 코드는 정말 엉망이 된다.
 

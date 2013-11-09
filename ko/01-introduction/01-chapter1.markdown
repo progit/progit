@@ -101,7 +101,7 @@ Git을 사용하면 프로젝트가 심각하게 망가질 걱정 없이 매우 
 
 이 세 가지 상태는 Git 프로젝트의 세 가지 단계와 연결돼 있다. Git 디렉토리, 워킹 디렉토리, Staging Area 이렇게 세 가지 단계를 이해하고 넘어가자.
 
-Insert 18333fig0106.png 
+Insert 18333fig0106.png
 그림 1-6 워킹 디렉토리, Staging Area, Git 디렉토리
 
 Git 디렉토리는 Git이 프로젝트의 메타데이터와 객체 데이터베이스를 저장하는 곳을 말한다. Git 디렉토리가 Git의 핵심이다. 다른 컴퓨터에 있는 저장소를 Clone 할 때 Git 디렉토리가 만들어진다.
@@ -182,6 +182,8 @@ MacPorts(`http://www.macports.org`)를 사용하는 방법도 있다. MacPorts�
 
 설치가 완료되면 CLI 프로그램과 GUI 프로그램을 둘 다 사용할 수 있다. CLI 프로그램에는 SSH 클라이언트가 포함돼 있기 때문에 유용하다.
 
+Windows 사용자 필독:이 책에서 소개하는 다양한 명령어를 사용하려면 유닉스 스타일의 msysGit 쉘을 사용하는 것이 좋다. 어쩔 수 없이 Windows에 포함된 기본 쉘(Command Prompt, 명령 프롬프트)을 꼭 써야 하면 공백이 포함된 파라미터를 Git 명령어에 넘길 때 작은 따옴표(' ') 대신 큰 따옴표(" ")를 사용해야 한다. 파라미터 끝에 `^` 기호가 있을 때도 큰 따옴표로 파라미터를 감싸야 한다. Windows 쉘에서 `^` 기호는 다음 줄로 명령어가 이어짐을 나타낸다.
+
 ## Git 최초 설정 ##
 
 Git을 설치하고 나면 Git의 사용 환경을 적절하게 설정해 주어야 한다. 한 번만 설정하면 된다. 설정한 내용은 Git을 업그레이드해도 유지된다. 언제든지 다시 바꿀 수 있는 명령어가 있다.
@@ -192,7 +194,7 @@ Git을 설치하고 나면 Git의 사용 환경을 적절하게 설정해 주어
 * `~/.gitconfig` 파일: 특정 사용자에게만 적용되는 설정이다. `git config --global` 옵션으로 이 파일을 읽고 쓸 수 있다.
 * `.git/config`: 이 파일은 Git 디렉토리에 있고 특정 저장소(혹은 현재 작업 중인 프로젝트)에만 적용된다. 각 설정은 역순으로 우선시 된다. 그래서 `.git/config`가 `/etc/gitconfig`보다 우선한다.
 
-윈도용 Git은 `$HOME` 디렉토리(`C:\Documents and Settings\$USER`)에 있는 `.gitconfig` 파일을 찾는다. msysGit에도 /etc/gitconfig 파일이 있다. 경로는 MSys 루트에 따른 상대 경로다. 인스톨러로 msysGit을 설치할 때 설치 경로를 선택할 수 있다.
+윈도용 Git은 `$HOME` 디렉토리(`%USERPROFILE%` 환경변수)에 있는 `.gitconfig` 파일을 찾는다. 보통 `C:\Documents and Settings\$USER` 또는 `C:\Users\$USER` 이다(윈도우에서는 `$USER` 대신 `%USERNAME%`를 사용한다). 그리고 msysGit도 /etc/gitconfig를 가지고 있다. 경로는 MSys 루트에 따른 상대 경로다. 인스톨러로 msysGit을 설치할 때 설치 경로를 선택할 수 있다.
 
 ### 사용자 정보 ###
 

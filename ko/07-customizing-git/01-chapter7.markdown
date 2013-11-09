@@ -93,7 +93,7 @@ Git이 무시하는 untracked 파일은 `.gitignore`에 해당 패턴을 적으�
 
 #### help.autocorrect ####
 
-이 옵션은 Git 1.6.1 버전부터 사용할 수 있다. 명령어를 잘못 입력하면 Git 1.6에서는 메시지를 아래와 같이 보여 준다:
+이 옵션은 Git 1.6.1 버전부터 사용할 수 있다. 명령어를 잘못 입력하면 Git은 메시지를 아래와 같이 보여 준다:
 
 	$ git com
 	git: 'com' is not a git-command. See 'git --help'.
@@ -113,13 +113,13 @@ Git이 무시하는 untracked 파일은 `.gitignore`에 해당 패턴을 적으�
 
 	$ git config --global color.ui true
 
-이 옵션을 켜면 Git은 터미널에 컬러로 결과를 출력한다. 이 값을 false로 설정하면 절대 컬러로 출력하지 않는다. 결과를 파일로 리다이렉트하거나 다른 프로그램으로 보낼(Piping. 파이프라인)때도 그렇다. 이 설정은 1.5.5 버전에 이르러 추가됐고 예전 버전을 사용하고 있으면 해당 요소마다 직접 컬러를 지정해주어야 한다.
+이 옵션을 켜면 Git은 터미널에 컬러로 결과를 출력한다. 이 값을 false로 설정하면 절대 컬러로 출력하지 않는다. 결과를 파일로 리다이렉트하거나 다른 프로그램으로 보낼(Piping. 파이프라인)때도 그렇다.
 
 `color.ui = always`라고 설정하면 결과를 리다이렉트할 때에도 컬러 코드가 출력된다. 이렇게까지 설정해야 하는 경우는 매우 드물다. 대신 Git 명령에는 `--color` 옵션이 있어서 어떻게 출력할지 그때그때 정해줄 수 있다. 보통은 `color.ui = true` 만으로도 충분하다.
 
 #### `color.*` ####
 
-좀 더 꼼꼼하게 컬러를 설정하거나 예전 버전이라서 `color.ui` 옵션을 사용할 수 없으면 아래와 같이 종류별로 설정할 수 있다. 모두 `true`, `false`, `always` 중 하나를 고를 수 있다:
+Git은 좀 더 꼼꼼하게 컬러를 설정하는 방법을 제공한다. 아래와 같은 설정들이 있다. 모두 `true`, `false`, `always` 중 하나를 고를 수 있다:
 
 	color.branch
 	color.diff
@@ -128,7 +128,7 @@ Git이 무시하는 untracked 파일은 `.gitignore`에 해당 패턴을 적으�
 
 또한, 각 옵션의 컬러를 직접 지정할 수도 있다. 아래처럼 설정하면 diff 명령에서 meta 정보의 포그라운드는 blue, 백그라운드는 black, 테스트는 bold로 바뀐다:
 
-	$ git config --global color.diff.meta “blue black bold”
+	$ git config --global color.diff.meta "blue black bold"
 
 컬러는 normal, black, red, green, yellow, blue, magenta, cyan, white 중에서 고를 수 있고 텍스트 속성은 bold, dim, ul, blink, reverse 중에서 고를 수 있다.
 
@@ -156,13 +156,13 @@ P4Merge는 중요 플랫폼을 모두 지원하기 때문에 웬만한 환경이
 
 이 중에서 `old-file`과 `new-file` 만 사용하는 wrapper script를 만든다:
 
-	$ cat /usr/local/bin/extDiff 
+	$ cat /usr/local/bin/extDiff
 	#!/bin/sh
 	[ $# -eq 7 ] && /usr/local/bin/extMerge "$2" "$5"
 
 이 두 스크립트에 실행 권한을 부여한다:
 
-	$ sudo chmod +x /usr/local/bin/extMerge 
+	$ sudo chmod +x /usr/local/bin/extMerge
 	$ sudo chmod +x /usr/local/bin/extDiff
 
 Git config 파일에 이 스크립트를 모두 추가한다. 설정해야 하는 옵션이 좀 많다. `merge.tool`로 무슨 Merge 도구를 사용할지, `mergetool.*.cmd`로 실제로 어떻게 명령어를 실행할지, `mergetool.trustExitCode`로 Merge 도구가 반환하는 exit 코드가 merge의 성공여부를 나타내는지, `diff.external`은 diff할 때 실행할 명령어가 무엇인지를 설정할 때 사용한다. 모두 `git config` 명령으로 설정한다:
@@ -189,7 +189,7 @@ Git config 파일에 이 스크립트를 모두 추가한다. 설정해야 하�
 
 diff 결과가 터미널에 출력되는 대신 P4Merge가 실행된다. 그리고 그림 7-1처럼 그 프로그램 안에서 보여준다:
 
-Insert 18333fig0701.png 
+Insert 18333fig0701.png
 그림 7-1 P4Merge
 
 브랜치를 Merge할 때 충돌이 나면 `git mergetool` 명령을 실행한다. 이 명령을 실행하면 GUI 도구로 충돌을 해결할 수 있도록 P4Merge를 실행해준다.
@@ -197,7 +197,7 @@ Insert 18333fig0701.png
 Wrapper를 만들어 설정해두면 다른 diff, Merge 도구로 바꾸기도 쉽다. 예를 들어, KDiff3를 사용하도록 extDiff와 extMerge 스크립트를 수정한다:
 
 	$ cat /usr/local/bin/extMerge
-	#!/bin/sh	
+	#!/bin/sh
 	/Applications/kdiff3.app/Contents/MacOS/kdiff3 $*
 
 이제부터 Git은 diff 결과를 보여주거나 충돌을 해결할 때 KDiff3 도구를 사용한다.
@@ -255,7 +255,7 @@ Git에는 공백 문자를 다루는 방법으로 네 가지가 미리 정의돼
 
 ### 서버 설정 ###
 
-서버 설정은 많지 않지만, 꼭 짚고 넘어가야 하는 것이 몇 개 있다. 
+서버 설정은 많지 않지만, 꼭 짚고 넘어가야 하는 것이 몇 개 있다.
 
 #### receive.fsckObjects ####
 
@@ -307,13 +307,17 @@ Git은 Push할 때 기본적으로 개체를 검증하지(check for consistency)
 
 #### 바이너리 파일 Diff하기 ####
 
-Git 1.6부터 바이너리 파일도 diff할 수 있게 됐다. 이 Attribute는 바이너리 파일을 텍스트 포맷으로 변환하고 그 결과를 diff로 비교하도록 하는 것이다.
+Git은 바이너리 파일도 diff할 수 있다. Git Attribute를 통해 Git이 바이너리 파일을 텍스트 포맷으로 변환하고 그 결과를 diff로 비교하도록 하는 것이다. 그래서 문제는 어떻게 *바이너리*를 텍스트로 변환해야 할까에 있다. 바이너리를 텍스트로 변환해 주는 도구 중에서 내가 필요한 바이너리 파일에 꼭 맞는 도구를 찾는게 가장 좋다. 사람이 읽을 수 있는 텍스트로 표현된 바이너리 포맷은 극히 드물다(오디오 데이터를 텍스트로 변환한다고 생각해보라). 파일 내용을 텍스트로 변환할 방법을 찾지 못했을 때는 파일의 설명이나 메타데이터를 텍스트로 변환하는 방법을 찾아보자. 이런 방법이 가능한 경우가 많다. 메타데이터는 파일 내용을 완벽하게 알려주지 않지만 전혀 비교하지 못하는 것보다 이렇게라도 하는 게 훨씬 낫다.
+
+여기서 설명한 두 가지 방법을 많이 사용하는 바이너리 파일에 적용해 볼 거다.
+
+댓글: 전용 변환기는 없지만 텍스트가 들어 있는 바이너리 포맷들이 있다. 이런 포맷은 `strings` 프로그램으로 바이너리 파일에서 텍스트를 추출한다. 이런 종류의 바이너리 파일 중에서 UTF-16 인코딩이나 다른 "codepages"로 된 파일들도 있다. 그런 인코딩으로 된 파일에서 `strings`으로 추출할 수 있는 텍스트는 제한적이다. 상황에 따라 다르게 추출된다. 그래도 `strings`는 Mac과 Linux 시스템에서 쉽게 사용할 수 있기 때문에 다양한 바이너리 파일에 쉽게 적용할 수 있다.
 
 ##### MS Word 파일 #####
 
-이 Attribute는 잘 알려지진 않았지만 끝내준다. Word 문서를 버전 관리하는 상황을 살펴보자. 이 문제는 인류에게 알려진 가장 귀찮은 문제 중 하나다. 모든 사람이 Word가 가장 끔찍한 편집기라고 말하지만 애석하게도 모두 Word를 사용한다. Git 저장소에 넣고 커밋하는 것으로도 Word 문서를 버전 관리할 수 있다. 하지만 `git diff`를 실행하면 아래와 같은 메시지를 보여준다:
+먼저 이 기술을 인류에게 알려진 가장 귀찮은 문제 중 하나인 Word 문서를 버전 관리하는 상황을 살펴보자. 모든 사람이 Word가 가장 끔찍한 편집기라고 말하지만 애석하게도 모두 Word를 사용한다. Git 저장소에 넣고 이따금 커밋하는 것만으로도 Word 문서의 버전을 관리할 수 있다. 그렇지만 `git diff`를 실행하면 다음과 같은 메시지를 볼 수 있을 뿐이다:
 
-	$ git diff 
+	$ git diff
 	diff --git a/chapter1.doc b/chapter1.doc
 	index 88839c4..4afcb7c 100644
 	Binary files a/chapter1.doc and b/chapter1.doc differ
@@ -322,16 +326,16 @@ Git 1.6부터 바이너리 파일도 diff할 수 있게 됐다. 이 Attribute는
 
 	*.doc diff=word
 
-이것은 `*.doc` 파일을 diff할 때 "word" 필터를 사용하라고 설정하는 것이다. 그럼 "word" 필터는 뭘까? 이 "word" 필터도 정의해야 한다. `strings` 프로그램으로 Word 문서에서 사람이 읽을 수 있는 텍스트를 추출하는 "word" 필터를 정의한다. 그러면 Word 문서도 diff할 수 있다:
+이것은 `*.doc` 파일의 두 버전이 무엇이 다른지 diff할 때 "word" 필터를 사용하라고 설정하는 것이다. 그럼 "word" 필터는 뭘까? 이 "word" 필터도 정의해야 한다. Word 문서에서 사람이 읽을 수 있는 텍스트를 추출해주는 `catdoc` 프로그램을 "word" 필터로 사용한다. 그러면 Word 문서를 diff할 수 있다. (catdoc 프로그램은 MS Word 문서에 특화된 텍스트 추출기다. `http://www.wagner.pp.ru/~vitus/software/catdoc/`에서 구할 수 있다):
 
-	$ git config diff.word.textconv strings
+	$ git config diff.word.textconv catdoc
 
 위의 명령은 아래와 같은 내용을 `.git/config` 파일에 추가한다:
 
-    [diff "word"]
-        textconv = strings
+	[diff "word"]
+	    textconv = strings
 
-덧붙이는 말: `.doc` 파일의 종류는 여러가지이다. UTF-16 인코딩을 쓰거나 "codepages" 기반(역주: 한글은 Codepage 949) 인코딩을 사용하는 파일일 수도 있다. 어쨌든 `strings`으로 유용한 정보를 하나도 찾지 못할 때도 있다. 그때 그때 다르다.
+댓글: `.doc` 파일의 종류는 여러가지이다. UTF-16 인코딩을 쓰거나 "codepages" 기반(역주: 한글은 Codepage 949) 인코딩을 사용 할 수도 있다. `catdoc`으로는 유용한 정보를 아무것도 찾지 못할 수 있다.
 
 이제 Git은 확장자가 `.doc`인 파일의 스냅샷을 diff할 때 "word" 필터로 정의한 `strings` 프로그램을 사용한다. 이 프로그램은 Word 파일을 텍스트 파일로 변환해 주기 때문에 diff할 수 있다.
 
@@ -342,15 +346,14 @@ Git 1.6부터 바이너리 파일도 diff할 수 있게 됐다. 이 Attribute는
 	index c1c8a0a..b93c9e4 100644
 	--- a/chapter1.doc
 	+++ b/chapter1.doc
-	@@ -8,7 +8,8 @@ re going to cover Version Control Systems (VCS) and Git basics
-	 re going to cover how to get it and set it up for the first time if you don
-	 t already have it on your system.
-	 In Chapter Two we will go over basic Git usage - how to use Git for the 80% 
-	-s going on, modify stuff and contribute changes. If the book spontaneously 
-	+s going on, modify stuff and contribute changes. If the book spontaneously 
-	+Let's see if this works.
+	@@ -128,7 +128,7 @@ and data size)
+	 Since its birth in 2005, Git has evolved and matured to be easy to use
+	 and yet retain these initial qualities. It’s incredibly fast, it’s
+	 very efficient with large projects, and it has an incredible branching
+	-system for non-linear development.
+	+system for non-linear development (See Chapter 3).
 
-Git은 "Let's see if this works"가 추가됐다는 것을 정확하게 찾아 준다. 이것은 완벽하지는 않지만(끝에 아무거나 왕창 집어넣지만 않으면) 어쨌든 잘 동작한다. Word 문서를 텍스트로 잘 변환해 주는 프로그램이 있으면 이 방법은 좀 더 완벽해질 수 있다. Mac이나 Linux 같은 시스템에는 `strings`가 이미 설치되어 있기 때문에 당장 사용할 수 있다.
+Git은 "(See Chapter 3)"가 추가됐다는 것을 정확하게 찾아 준다.
 
 ##### OpenDocument 파일 #####
 
@@ -358,47 +361,47 @@ MS Word(`*.doc`) 파일에 사용한 방법은 OpenOffice.org(혹은 LibreOffice
 
 아래의 내용을 `.gitattributes` 파일에 추가한다:
 
-    *.odt diff=odt
+	*.odt diff=odt
 
 `.git/config` 파일에 `odt` diff 필터를 설정한다:
 
-    [diff "odt"]
-        binary = true
-        textconv = /usr/local/bin/odt-to-txt
+	[diff "odt"]
+	    binary = true
+	    textconv = /usr/local/bin/odt-to-txt
 
 OpenDocument 파일은 사실 여러 파일(XML, 스타일, 이미지 등등)을 Zip으로 압축한 형식이다. OpenDocument 파일에서 텍스트만 추출하는 스크립트를 하나 작성한다. 아래와 같은 내용을 `/usr/local/bin/odt-to-txt` 파일로(다른 위치에 저장해도 상관없다) 저장한다:
 
-    #! /usr/bin/env perl
-    # Simplistic OpenDocument Text (.odt) to plain text converter.
-    # Author: Philipp Kempgen
-    
-    if (! defined($ARGV[0])) {
-        print STDERR "No filename given!\n";
-        print STDERR "Usage: $0 filename\n";
-        exit 1;
-    }
-    
-    my $content = '';
-    open my $fh, '-|', 'unzip', '-qq', '-p', $ARGV[0], 'content.xml' or die $!;
-    {
-        local $/ = undef;  # slurp mode
-        $content = <$fh>;
-    }
-    close $fh;
-    $_ = $content;
-    s/<text:span\b[^>]*>//g;           # remove spans
-    s/<text:h\b[^>]*>/\n\n*****  /g;   # headers
-    s/<text:list-item\b[^>]*>\s*<text:p\b[^>]*>/\n    --  /g;  # list items
-    s/<text:list\b[^>]*>/\n\n/g;       # lists
-    s/<text:p\b[^>]*>/\n  /g;          # paragraphs
-    s/<[^>]+>//g;                      # remove all XML tags
-    s/\n{2,}/\n\n/g;                   # remove multiple blank lines
-    s/\A\n+//;                         # remove leading blank lines
-    print "\n", $_, "\n\n";
+	#! /usr/bin/env perl
+	# Simplistic OpenDocument Text (.odt) to plain text converter.
+	# Author: Philipp Kempgen
+
+	if (! defined($ARGV[0])) {
+	    print STDERR "No filename given!\n";
+	    print STDERR "Usage: $0 filename\n";
+	    exit 1;
+	}
+
+	my $content = '';
+	open my $fh, '-|', 'unzip', '-qq', '-p', $ARGV[0], 'content.xml' or die $!;
+	{
+	    local $/ = undef;  # slurp mode
+	    $content = <$fh>;
+	}
+	close $fh;
+	$_ = $content;
+	s/<text:span\b[^>]*>//g;           # remove spans
+	s/<text:h\b[^>]*>/\n\n*****  /g;   # headers
+	s/<text:list-item\b[^>]*>\s*<text:p\b[^>]*>/\n    --  /g;  # list items
+	s/<text:list\b[^>]*>/\n\n/g;       # lists
+	s/<text:p\b[^>]*>/\n  /g;          # paragraphs
+	s/<[^>]+>//g;                      # remove all XML tags
+	s/\n{2,}/\n\n/g;                   # remove multiple blank lines
+	s/\A\n+//;                         # remove leading blank lines
+	print "\n", $_, "\n\n";
 
 그리고 실행 가능하도록 만든다:
 
-    chmod +x /usr/local/bin/odt-to-txt
+	chmod +x /usr/local/bin/odt-to-txt
 
 이제 `git diff` 명령으로 `.odt` 파일에 대한 변화를 살펴볼 수 있다.
 
@@ -406,19 +409,19 @@ OpenDocument 파일은 사실 여러 파일(XML, 스타일, 이미지 등등)을
 
 이 방법으로 이미지 파일도 diff할 수 있다. 필터로 EXIF 정보를 추출해서 PNG 파일을 비교한다. EXIF 정보는 대부분의 이미지 파일에 들어 있는 메타데이터다. `exiftool`이라는 프로그램을 설치하고 이미지 파일에서 메타데이터 텍스트를 추출한다. 그리고 그 결과를 diff해서 무엇이 달라졌는지 본다:
 
-	$ echo '*.png diff=exif' >> .gitattributes
+	$ echo '*.pngdiff=exif' >> .gitattributes
 	$ git config diff.exif.textconv exiftool
 
 프로젝트에 들어 있는 이미지 파일을 변경하고 `git diff`를 실행하면 아래와 같이 보여준다:
 
-	diff --git a/image.png b/image.png
+	diff --git a/image.pngb/image.png
 	index 88839c4..4afcb7c 100644
 	--- a/image.png
 	+++ b/image.png
 	@@ -1,12 +1,12 @@
 	 ExifTool Version Number         : 7.74
 	-File Size                       : 70 kB
-	-File Modification Date/Time     : 2009:04:21 07:02:45-07:00
+	-File Modification Date/Time     : 2009:04:17 10:12:35-07:00
 	+File Size                       : 94 kB
 	+File Modification Date/Time     : 2009:04:21 07:02:43-07:00
 	 File Type                       : PNG
@@ -445,17 +448,17 @@ Git은 이 파일을 Checkout할 때마다 SHA 값을 삽입해준다:
 
 	$ rm test.txt
 	$ git checkout -- test.txt
-	$ cat test.txt 
+	$ cat test.txt
 	$Id: 42812b7653c7b88933f8a9d6cad0ca16714b9bb3 $
 
 하지만 이것은 별로 유용하지 않다. CVS나 SVN의 키워드 치환(Keyword Substitution)을 써봤으면 날짜(Datestamp)도 가능했다는 것을 알고 있을 것이다. SHA는 그냥 해시이고 식별할 수 있을 뿐이지 다른 것을 알려주진 않는다. SHA만으로는 예전 것보다 새 것인지 오래된 것인지는 알 수 없다.
 
 Commit/Checkout할 때 사용하는 필터를 직접 만들어 쓸 수 있다. 방향에 따라 "clean" 필터와 "smudge" 필터라고 부른다. ".gitattributes" 파일에 설정하고 파일 경로마다 다른 필터를 설정할 수 있다. Checkout할 때 파일을 처리하는 것이 "smudge" 필터이고(그림 7-2) 커밋할 때 처리하는 필터가 "clean" 필터이다. 이 필터로 할 수 있는 일은 무궁무진하다.
 
-Insert 18333fig0702.png 
+Insert 18333fig0702.png
 그림 7-2 "smudge" 필터는 Checkout할 때 실행된다
 
-Insert 18333fig0703.png 
+Insert 18333fig0703.png
 그림 7-3 "clean" 필터는 파일을 Stage할 때 실행된다
 
 커밋하기 전에 `indent` 프로그램으로 C 코드 전부를 필터링하지만 커밋 메시지는 단순한 예제를 보자. `*.c` 파일은 indent 필터를 사용하도록 `.gitattributes` 파일에 설정한다:
@@ -547,7 +550,7 @@ Git도 다른 버전 관리 시스템처럼 어떤 이벤트가 생겼을 때 �
 
 ### 훅 설치하기 ###
 
-훅은 `.git/hooks`라는 디렉토리에 저장한다. 이 디렉토리에 가보면 Git이 자동으로 넣어준 매우 유용한 스크립트 예제가 몇 개 있다. 그리고 스크립트가 입력받는 값이 어떤 값인지 파일 안에 자세히 설명돼 있다. 모든 예제는 쉘과 Perl 스크립트로 작성돼 있지만 실행할 수만 있으면 되고 Ruby나 Python같은 스크립트 언어로 만들어도 된다. Git 1.6부터 예제 스크립트의 파일 이름에 `.sample`이라는 확장자가 붙었다. 그래서 이름만 바꿔주면 그 훅을 사용할 수 있다. 1·6 이전 버전에서는 파일 이름과 상관없이 비실행파일이 예제 파일이었다.
+훅은 Git 디렉토리 밑에 `hooks`라는 디렉토리에 저장한다. 기본 훅 디렉토리는 `.git/hooks`이다. 이 디렉토리에 가보면 Git이 자동으로 넣어준 매우 유용한 스크립트 예제가 몇 개 있다. 그리고 스크립트가 입력받는 값이 어떤 값인지 파일 안에 자세히 설명돼 있다. 모든 예제는 쉘과 Perl 스크립트로 작성돼 있지만 실행할 수만 있으면 되고 Ruby나 Python같은 다른 스크립트 언어로 만들어도 된다.예제 스크립트의 파일 이름에는 `.sample`이라는 확장자가 붙어 있다. 그래서 이름만 바꿔주면 그 훅을 사용할 수 있다.
 
 실행할 수 있는 스크립트 파일을 저장소의 `hooks` 디렉토리에 넣으면 훅 스크립트가 켜진다. 이 스크립트는 앞으로 계속 호출된다. 중요한 훅은 여기서 모두 설명한다.
 
@@ -559,7 +562,7 @@ Git도 다른 버전 관리 시스템처럼 어떤 이벤트가 생겼을 때 �
 
 먼저 커밋과 관련된 훅을 살펴보자. 커밋과 관련된 훅은 모두 네 가지다. `pre-commit` 훅은 커밋할 때 가장 먼저 호출되는 훅으로 커밋 메시지를 작성하기 전에 호출된다. 이 훅에서 커밋하는 Snapshot을 점검한다. 빠트린 것은 없는지, 테스트는 확실히 했는지 등을 검사한다. 커밋할 때 꼭 확인해야 할 게 있으면 이 훅으로 확인한다. 그리고 이 훅의 Exit 코드가 0이 아니면 커밋은 취소된다. 물론 `git commit --no-verify`라고 실행하면 이 훅을 일시적으로 생략할 수 있다. lint 같은 프로그램으로 코드 스타일을 검사하거나, 줄 끝의 공백 문자를 검사하거나(예제로 들어 있는 `pre-commit` 훅이 하는 게 이 일이다), 코드에 주석을 달았는지 검사하는 일은 이 훅으로 하는 것이 좋다.
 
-`prepare-commit-msg` 훅은 Git이 커밋 메시지를 생성하고 나서 편집기를 실행하기 전에 실행된다. 이 훅은 사람이 커밋 메시지를 수정하기 전에 먼저 프로그램으로 손보고 싶을 때 사용한다. 이 훅은 커밋 메시지가 들어 있는 파일의 경로, 커밋의 종류를 아규먼트로 받는다. 그리고 최근 커밋을 수정할 때에는(Amending Commit) SHA-1 값을 추가 아규먼트로 더 받는다. 사실 이 훅은 일반 커밋에는 별로 필요 없고 커밋 메시지가 자동으로 생성될 때 좋다. 커밋 메시지에 템플릿을 적용하거나, Merge 커밋, Squash 커밋, Amend 커밋일 때 유용하다. 이 스크립트로 커밋 메시지 템플릿에 정보를 삽입할 수 있다. 
+`prepare-commit-msg` 훅은 Git이 커밋 메시지를 생성하고 나서 편집기를 실행하기 전에 실행된다. 이 훅은 사람이 커밋 메시지를 수정하기 전에 먼저 프로그램으로 손보고 싶을 때 사용한다. 이 훅은 커밋 메시지가 들어 있는 파일의 경로, 커밋의 종류를 아규먼트로 받는다. 그리고 최근 커밋을 수정할 때에는(Amending 커밋) SHA-1 값을 추가 아규먼트로 더 받는다. 사실 이 훅은 일반 커밋에는 별로 필요 없고 커밋 메시지를 자동으로 생성하는 커밋에 좋다. 커밋 메시지에 템플릿을 적용하거나, Merge 커밋, Squash 커밋, Amend 커밋일 때 유용하다. 이 스크립트로 커밋 메시지 템플릿에 정보를 삽입할 수 있다.
 
 `commit-msg` 훅은 커밋 메시지가 들어 있는 임시 파일의 경로를 아규먼트로 받는다. 그리고 이 스크립트가 0이 아닌 값을 반환하면 커밋되지 않는다. 이 훅에서 최종적으로 커밋이 완료되기 전에 프로젝트 상태나 커밋 메시지를 검증한다. 이 장의 마지막 절에서 이 훅을 사용하는 예제를 보여준다. 커밋 메시지가 정책에 맞는지 검사하는 스크립트를 만들어 보자.
 
@@ -601,7 +604,7 @@ update 스크립트는 각 브랜치마다 한 번씩 실행된다는 것을 제
 
 ## 정책 구현하기 ##
 
-지금까지 배운 것을 한 번 적용해보자. 커밋 메시지 규칙 검사하고, Fast-forward Push만 허용하고, 디렉토리마다 사용자의 수정 권한을 제어하는 Workflow를 만들어 본다. 실질적으로 정책을 강제하려면 서버 훅으로 만들어야 한다. 하지만, 개발자들이 Push할 수 없는 커밋은 아예 만들지 않도록 클라이언트 훅도 만들어 본다. 
+지금까지 배운 것을 한 번 적용해보자. 커밋 메시지 규칙 검사하고, Fast-forward Push만 허용하고, 디렉토리마다 사용자의 수정 권한을 제어하는 Workflow를 만든다. 실질적으로 정책을 강제하려면 서버 훅으로 만들어야 한다. 하지만, 개발자들이 Push할 수 없는 커밋은 아예 만들지 않도록 클라이언트 훅도 만든다.
 
 필자가 제일 좋아하는 Ruby로 만든다. 필자는 독자가 슈도코드를 읽듯이 Ruby 코드를 읽을 수 있다고 생각한다. Ruby를 모르더라도 충분히 개념을 이해할 수 있을 것이다. 하지만, Git은 언어를 가리지 않는다. Git이 자동으로 생성해주는 예제는 모두 Perl과 Bash로 작성돼 있다. 그래서 예제를 열어 보면 Perl과 Bash로 작성된 예제를 참고 할 수 있다.
 
@@ -754,11 +757,11 @@ update 스크립트는 각 브랜치마다 한 번씩 실행된다는 것을 제
 
 #### Fast-Forward Push만 허용하기 ####
 
-이제 Fast-forward Push가 아니면 거절되게 해보자. Git 1.6부터 `receive.denyDeletes`와 `receive.denyNonFastForwards` 설정으로 간단하게 거절할 수 있다. 하지만, 그 이전 버전에는 꼭 훅으로 구현해야 했다. 게다가 특정 사용자만 제한하거나 허용하려면 훅으로 구현해야 한다.
+이제 Fast-forward Push가 아니면 거절되게 해보자. `receive.denyDeletes`와 `receive.denyNonFastForwards` 설정으로 간단하게 거절할 수 있다. 하지만, 그 이전 버전에는 꼭 훅으로 구현해야 했다. 게다가 특정 사용자만 제한하거나 허용하려면 훅으로 구현해야 한다.
 
 기존에 있던 커밋이 Push하는 브랜치에 없으면 Fast-forward Push가 아니라고 판단한다. 커밋 하나라도 없으면 거절하고 모두 있으면 Fast-forward Push이므로 그대로 둔다:
 
-	# enforces fast-forward only pushes 
+	# enforces fast-forward only pushes
 	def check_fast_forward
 	  missed_refs = `git rev-list #{$newrev}..#{$oldrev}`
 	  missed_ref_count = missed_refs.split("\n").size
@@ -778,9 +781,9 @@ update 스크립트는 각 브랜치마다 한 번씩 실행된다는 것을 제
 	Writing objects: 100% (3/3), 323 bytes, done.
 	Total 3 (delta 1), reused 0 (delta 0)
 	Unpacking objects: 100% (3/3), done.
-	Enforcing Policies... 
+	Enforcing Policies...
 	(refs/heads/master) (8338c5) (c5b616)
-	[POLICY] Cannot push a non fast-forward reference
+	[POLICY] Cannot push a non-fast-forward reference
 	error: hooks/update exited with error code 1
 	error: hook declined to update refs/heads/master
 	To git@gitserver:project.git
@@ -789,8 +792,8 @@ update 스크립트는 각 브랜치마다 한 번씩 실행된다는 것을 제
 
 정책과 관련해 하나씩 살펴보자. 먼저 훅이 실행될 때마다 다음 메시지가 출력된다.
 
-	Enforcing Policies... 
-	(refs/heads/master) (8338c5) (c5b616)
+	Enforcing Policies...
+	(refs/heads/master) (fb8c72) (c56860)
 
 이것은 update 스크립트 맨 윗부분에서 표준출력(STDOUT)에 출력한 내용이다. 스크립트에서 표준출력으로 출력하면 클라이언트로 전송된다. 이점을 꼭 기억하자.
 
@@ -820,7 +823,7 @@ update 스크립트는 각 브랜치마다 한 번씩 실행된다는 것을 제
 
 ### 클라이언트 훅 ###
 
-서버 훅의 단점은 Push할 때까지 Push할 수 있는지 없는지 알 수 없다는데 있다. 기껏 공들여 정성껏 구현했는데 막상 Push할 수 없으면 곤혹스럽다. 히스토리를 제대로 고치는 일은 정신건강에 매우 해롭다. 
+서버 훅의 단점은 Push할 때까지 Push할 수 있는지 없는지 알 수 없다는데 있다. 기껏 공들여 정성껏 구현했는데 막상 Push할 수 없으면 곤혹스럽다. 히스토리를 제대로 고치는 일은 정신건강에 매우 해롭다.
 
 이 문제는 클라이언트 훅으로 해결한다. 클라이언트 훅으로 서버가 거부할지 말지 검사한다. 사람들은 커밋하기 전에, 그러니까 시간이 지나 고치기 어려워지기 전에 문제를 해결할 수 있다. Clone할 때 이 훅은 전송되지 않기 때문에 다른 방법으로 동료에게 배포해야 한다. 그 훅을 가져다 `.git/hooks` 디렉토리에 복사하고 실행할 수 있게 만든다. 이 훅 파일을 프로젝트에 넣어서 배포해도 되고 Git 훅 프로젝트를 만들어서 배포해도 된다. 하지만, 자동으로 설치하는 방법은 없다.
 
@@ -916,7 +919,7 @@ Fast-forward Push인지 확인하는 일이 남았다. 보통은 Fast-forward가
 	target_shas.each do |sha|
 	  remote_refs.each do |remote_ref|
 	    shas_pushed = `git rev-list ^#{sha}^@ refs/remotes/#{remote_ref}`
-	    if shas_pushed.split(“\n”).include?(sha)
+	    if shas_pushed.split("\n").include?(sha)
 	      puts "[POLICY] Commit #{sha} has already been pushed to #{remote_ref}"
 	      exit 1
 	    end

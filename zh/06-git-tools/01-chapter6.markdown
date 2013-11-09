@@ -1107,7 +1107,7 @@ Git 通过子模块处理这个问题。子模块允许你将一个 Git 仓库�
 	$ ls
 	README
 
-要将 Rack 项目当作子目录拉取到你的`master`项目中。你可以在 Git 中用`git read-tree`来实现。你会在第9章学到更多与`read-tree`和它的朋友相关的东西，当前你会知道它读取一个分支的根目录树到当前的暂存区和工作目录。你只要切换回你的`master`分支，然后拉取`rack`分支到你主项目的`master`分支的`rack`子目录：
+要将 Rack 项目当作子目录拉取到你的`master`项目中。你可以在 Git 中用`git read-tree`来实现。你会在第9章学到更多与`read-tree`和它的朋友相关的东西，当前你会知道它读取一个分支的根目录树到当前的暂存区和工作目录。你只要切换回你的`master`分支，然后拉取`rack_branch`到你主项目的`master`分支的`rack`子目录：
 
 
 	$ git read-tree --prefix=rack/ -u rack_branch

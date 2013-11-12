@@ -116,7 +116,7 @@ Il flusso base di lavoro in Git, funziona come segue:
 2. Esegui l'operazione di stage dei file, per aggiungere i relativi snapshot all'area di stage
 3. Esegui il commit, per immagazzinare permanentemente nella directory di Git, lo snapshot relativo, una volta presi i file nell'area di stage
 
-Se una versione particolare di un file è nella directory git, sarà considerata già affidata. Se il file è stato modificato, ma è stato aggiunta all'area di staging, è in sosta. E se è stato modificato da quando è stata controllato, ma non è stato messo in sosta, sarà modificato.  Nel Capitolo 2, imparerai di più su questi stati e come trarne vantaggio da essi o saltare interamente la parte di staging.
+Se una versione particolare di un file è nella directory git, sarà considerata già affidata. Se il file è stato modificato, ma è stato aggiunto all'area di staging, è in sosta. E se è stato modificato da quando è stata controllato, ma non è stato messo in sosta, sarà modificato.  Nel Capitolo 2, imparerai di più su questi stati e come trarne vantaggio da essi o saltare interamente la parte di staging.
 
 ## Installare Git ##
 

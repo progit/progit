@@ -112,7 +112,7 @@ L'area di stage è un semplice file, generalmente contenuto nella directory di G
 
 Il flusso base di lavoro in Git, funziona come segue:
 
-1. Modifici i file nella directory di lavoro
+1. Modifica i file nella directory di lavoro
 2. Esegui l'operazione di stage dei file, per aggiungere i relativi snapshot all'area di stage
 3. Esegui il commit, per immagazzinare permanentemente nella directory di Git, lo snapshot relativo, una volta presi i file nell'area di stage
 

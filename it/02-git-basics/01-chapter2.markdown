@@ -1118,7 +1118,7 @@ Git non deduce il comando se si digita solo in parte. Se non si vuole scrivere l
 	$ git config --global alias.ci commit
 	$ git config --global alias.st status
 
-Questo significa che, per esempio, invece di digitare `git commit`, hai solamente bisogno di scrivere `git co`. Andando avanti con l'uso di Git, probabilmente ci saranno altri comandi che userai di frequente; in questi casi, non esitare a creare nuovi alias.
+Questo significa che, per esempio, invece di digitare `git commit`, hai solamente bisogno di scrivere `git ci`. Andando avanti con l'uso di Git, probabilmente ci saranno altri comandi che userai di frequente; in questi casi, non esitare a creare nuovi alias.
 
 Questa tecnica può anche essere molto utile per creare comandi che ritieni dovrebbero esistere. Per esempio, per correggere un problema comune in cui si incorre quando si vuole disimpegnare un file dall'area di stage, puoi aggiungere il tuo alias unstage a Git:
 

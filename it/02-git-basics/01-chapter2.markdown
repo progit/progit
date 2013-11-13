@@ -857,7 +857,7 @@ Questo è un semplice esempio che potrai incontrare. Quando usi moltissimo Git, 
 	  Local branch pushed with 'git push'
 	    master:master
 
-Questo comando mostra quale rame è automaticamente caricato quando lanci `git push` su certe diramazioni. Inoltre ti mostrerà quali rami remoti sul server che ancora non possiedi, quali rami remoti possiedi e che saranno rimossi dal server, e le diramazioni che saranno automaticamente unite quando lancerai `git pull`.
+Questo comando mostra quale ramo è automaticamente caricato quando lanci `git push` su certe diramazioni. Inoltre ti mostrerà quali rami remoti sul server che ancora non possiedi, quali rami remoti possiedi e che saranno rimossi dal server, e le diramazioni che saranno automaticamente unite quando lancerai `git pull`.
 
 ### Rimuovere e Rinominare Sorgenti Remote ###
 

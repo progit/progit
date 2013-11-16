@@ -110,8 +110,14 @@ no-nb:
   thanks: "Dette er PDF filen for innholdet til boken Pro Git. Den er lisensiert under Creative Commons Attribution-Non Commercial-Share Alike 3.0 lisensen. Jeg håper du vil ha nytte av den, jeg håper den vil hjelpe deg til å lære Git, og jeg håper du vil støtte Apress og meg ved å kjøpe en kopi av denne boken hos Amazon: \\url{http://tinyurl.com/amazonprogit}"
 de:
   langrule: "\\frenchspacing"
+  prechap: "Kapitel "
+  presect: "Abschnitt "
+  fig: "Abbildung "
+  tab: "Tabelle "
+  con: "Inhaltsverzeichnis"
   dql: "„"
   dqr: "“"
+  thanks: "Dies ist die PDF-Datei des Buches „Pro Git“. Es ist lizenziert unter der „Creative Commons Attribution-Non Commercial-Share Alike“-Lizenz. Ich hoffe, es gefällt dir, ich hoffe, es hilft dir, Git zu lernen, und ich hoffe, dass du Apress und mich unterstützt, indem du ein gedrucktes Exemplar des Buches über Amazon bestellst: \\url{http://tinyurl.com/amazonprogit}"
 ko:
   langrule: "\\XeTeXlinebreakskip=0em plus 0.1em minus 0.01em\n\\XeTeXlinebreakpenalty=0"
   font: NanumMyeongjo

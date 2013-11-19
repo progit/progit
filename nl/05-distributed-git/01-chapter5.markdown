@@ -519,7 +519,7 @@ Het `format-patch` commando voert de namen uit van de patch bestanden die het ma
 	--
 	1.6.2.rc1.20.g8c5b.dirty
 
-Je kunt deze patch bestanden ook aanpassen om meer informatie voor de maillijst toe te voegen, die je niet in het commit bericht wil laten zien. Als je tekst toevoegt tussen de `--` regel en het begin van de patch (de `lib/simplegit.rb` regel), dan kunnen ontwikkelaars dit lezen; maar tijdens het toepassen van de patch wordt dit weggelaten.
+Je kunt deze patch bestanden ook aanpassen om meer informatie voor de maillijst toe te voegen, die je niet in het commit bericht wil laten zien. Als je tekst toevoegt tussen de `---` regel en het begin van de patch (de `lib/simplegit.rb` regel), dan kunnen ontwikkelaars dit lezen; maar tijdens het toepassen van de patch wordt dit weggelaten.
 
 Om dit te e-mailen naar een maillijst, kun je het bestand in je e-mail applicatie plakken of het sturen via een commandoregel programma. Het plakken van de tekst veroorzaakt vaak formaat problemen, in het bijzonder bij "slimmere" clients die geen harde returns en andere witruimte juist behouden. Gelukkig levert Git een applicatie die je helpt om juist geformatteerde patches via IMAP te versturen, wat makkelijker voor je kan zijn. Ik zal demonstreren hoe je een patch via Gmail stuurt, wat de e-mail applicatie is die ik gebruik; je kunt gedetailleerde instructies voor een aantal mail programma's vinden aan het eind van het voornoemde `Documentation/SubmittingPatches` bestand in de Git broncode.
 

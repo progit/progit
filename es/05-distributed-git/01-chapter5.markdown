@@ -12,7 +12,7 @@ Al contrario de otros Sistemas Centralizados de Control de Versiones, (CVCSs, Ce
 
 En los sistemas centralizados, tenemos una única forma de trabajar. Un repositorio o punto central guarda el código fuente; y todo el mundo sincroniza su trabajo con él. Unos cuantos desarrolladores son nodos de trabajo --consumidores de dicho repositorio-- y se sincronizan con dicho punto central. (ver Figura 5-1).
 
-Insert 18333fig0501.png 
+Insert 18333fig0501.png
 Figura 5-1. Flujo de trabajo centralizado.
 
 Esto significa que, si dos desarrolladores clonan desde el punto central, y ambos hacen cambios; tan solo el primero de ellos en enviar sus cambios de vuelta lo podrá hacer limpiamente. El segundo desarrollador deberá fusionar previamente su trabajo con el del primero, antes de enviarlo, para evitar el sobreescribir los cambios del primero. Este concepto es también válido en Git, tanto como en Subversion (o cualquier otro CVCS), y puede ser perfectamente utilizado en Git.
@@ -31,7 +31,7 @@ Al permitir multiples repositorios remotos, en Git es posible tener un flujo de 
 5. La gestora añade como remoto el repositorio de la colaboradora y fusiona (merge) los cambios localmente.
 6. La gestora envia (push) los cambios fusionados al repositorio principal.
 
-Insert 18333fig0502.png 
+Insert 18333fig0502.png
 Figura 5-2. Flujo de trabajo Gestor-de-Integración.
 
 Esta es una forma de trabajo muy común en sitios tales como GitHub, donde es sencillo bifurcar (fork) un proyecto y enviar tus cambios a tu copia, donde cualquiera puede verlos. La principal ventaja de esta forma de trabajar es que puedes continuar trabajando, y la persona gestora del repositorio principal podrá recuperar (pull) tus cambios en cualquier momento. Las personas colaboradoras no tienen por qué esperar a que sus cambios sean incorporados al proyecto, --cada cual puede trabajar a su propio ritmo--.
@@ -45,7 +45,7 @@ Es una variante del flujo de trabajo con multiples repositorios. Se utiliza gene
 3. El dictador fusiona las ramas master de los tenientes en su propia rama master.
 4. El dictador envia (push) su rama master al repositorio de referencia, para permitir que los desarrolladores reorganicen (rebase) desde ella.
 
-Insert 18333fig0503.png  
+Insert 18333fig0503.png
 Figura 5-3. Fujo de trabajo del dictador benevolente.
 
 Esta manera de trabajar no es muy habitual, pero es muy util en proyectos muy grandes o en organizaciónes fuertemente jerarquizadas. Permite al lider o a la lider del proyecto (el/la dictador/a) delegar gran parte del trabajo; recolectando el fruto de multiples puntos de trabajo antes de integrarlo en el proyecto.
@@ -58,7 +58,7 @@ En estos momentos conoces las diferentes formas de trabajar, y tienes ya un gene
 
 El mayor problema al intentar describir este proceso es el gran número de variaciones que se pueden presentar. Por la gran flexibilidad de Git, la gente lo suele utilizar de multiples maneras; siendo problemático intentar describir la forma en que deberías contribuir a un proyecto --cada proyecto tiene sus peculiaridades--. Algunas de las variables a considerar son: la cantidad de colaboradores activos, la forma de trabajo escogida, el nivel de acceso que tengas, y, posiblemente, el sistema de colaboración externa implantado.
 
-La primera variable es el número de colaboradores activos. ¿Cuántos usuarios están enviando activamente código a este proyecto?, y ¿con qué frecuencia?. En muchas ocasiones, tendrás dos o tres desarrolladores, con tan solo unas pocas confirmaciones de cambios (commits) diarias; e incluso menos en algunos proyectos durmientes. En proyectos o empresas verdaderamente grandes puedes tener cientos de desarrolladores, con docenas o incluso cientos de parches llegando cada día. Esto es importante, ya que cuantos más desarrolladores haya, mayores serán los problemas para asegurarte de que tu código se integre limpiamente. Los cambios que envies pueden quedar obsoletos o severamente afectados por otros trabajos que han sido integrados previamente mientras tú estabas trabajando o mientras tus cambios aguardaban a ser aprobados para su integración. ¿Cómo puedes mantener consistentemente actualizado tu código, y asegurarte así de que tus parches son válidos? 
+La primera variable es el número de colaboradores activos. ¿Cuántos usuarios están enviando activamente código a este proyecto?, y ¿con qué frecuencia?. En muchas ocasiones, tendrás dos o tres desarrolladores, con tan solo unas pocas confirmaciones de cambios (commits) diarias; e incluso menos en algunos proyectos durmientes. En proyectos o empresas verdaderamente grandes puedes tener cientos de desarrolladores, con docenas o incluso cientos de parches llegando cada día. Esto es importante, ya que cuantos más desarrolladores haya, mayores serán los problemas para asegurarte de que tu código se integre limpiamente. Los cambios que envies pueden quedar obsoletos o severamente afectados por otros trabajos que han sido integrados previamente mientras tú estabas trabajando o mientras tus cambios aguardaban a ser aprobados para su integración. ¿Cómo puedes mantener consistentemente actualizado tu código, y asegurarte así de que tus parches son válidos?
 
 La segunda variable es la forma de trabajo que se utilice para el proyecto. ¿Es centralizado, con iguales derechos de acceso en escritura para cada desarrollador?. ¿Tiene un gestor de integraciones que comprueba todos los parches?. ¿Se revisan y aprueban los parches entre los propios desarrolladores?.  ¿Participas en ese proceso de aprobación?. ¿Existe un sistema de tenientes, a los que has de enviar tu trabajo en primer lugar?.
 
@@ -112,7 +112,7 @@ Vamos a ver como actuarian dos desarrolladores trabajando conjuntamente en un re
 	Initialized empty Git repository in /home/john/simplegit/.git/
 	...
 	$ cd simplegit/
-	$ vim lib/simplegit.rb 
+	$ vim lib/simplegit.rb
 	$ git commit -am 'removed invalid default value'
 	[master 738ee87] removed invalid default value
 	 1 files changed, 1 insertions(+), 1 deletions(-)
@@ -124,7 +124,7 @@ La segunda desarrolladora, Jessica, hace lo mismo: clona el repositorio y confir
 	Initialized empty Git repository in /home/jessica/simplegit/.git/
 	...
 	$ cd simplegit/
-	$ vim TODO 
+	$ vim TODO
 	$ git commit -am 'add reset task'
 	[master fbff5bc] add reset task
 	 1 files changed, 1 insertions(+), 0 deletions(-)
@@ -154,7 +154,7 @@ John no puede enviar porque Jessica ha enviado previamente. Entender bien esto e
 
 En este punto, el repositorio local de John será algo parecido a la Figura 5-4.
 
-Insert 18333fig0504.png 
+Insert 18333fig0504.png
 Figura 5-4. El repositorio inicial de John.
 
 John tiene una referencia a los cambios enviados por Jessica, pero ha de fusionarlos en su propio trabajo antes de que se le permita enviar:
@@ -166,7 +166,7 @@ John tiene una referencia a los cambios enviados por Jessica, pero ha de fusiona
 
 Si la fusión se realiza sin problemas, el historial de John será algo parecido a la Figura 5-5.
 
-Insert 18333fig0505.png 
+Insert 18333fig0505.png
 Figura 5-5. El repositorio de John tras fusionar origin/master.
 
 En este momento, John puede comprobar su código para verificar que sigue funcionando correctamente, y luego puede enviar su trabajo al servidor:
@@ -178,12 +178,12 @@ En este momento, John puede comprobar su código para verificar que sigue funcio
 
 Finalmente, el historial de John es algo parecido a la Figura 5-6.
 
-Insert 18333fig0506.png 
+Insert 18333fig0506.png
 Figura 5-6. El historial de John tras enviar al servidor origen.
 
 Mientras tanto, jessica ha seguido trabajando en una rama puntual (topic branch). Ha creado una rama puntual denominada 'issue54' y ha realizado tres confirmaciones de cambios (commit) en dicha rama. Como todavia no ha recuperado los cambios de John, su historial es como se muestra en la Figura 5-7.
 
-Insert 18333fig0507.png 
+Insert 18333fig0507.png
 Figura 5-7. Historial inicial de Jessica.
 
 Jessica desea sincronizarse con John, para lo cual:
@@ -196,7 +196,7 @@ Jessica desea sincronizarse con John, para lo cual:
 
 Esto recupera el trabajo enviado por John durante el tiempo en que Jessica estaba trabajando. El historial de Jessica es en estos momentos como se muestra en la figura 5-8.
 
-Insert 18333fig0508.png 
+Insert 18333fig0508.png
 Figura 5-8. El historial de Jessica tras recuperar los cambios de John.
 
 Jessica considera su rama puntual terminada, pero quiere saber lo que debe integrar con su trabajo antes de poder enviarla. Lo comprueba con el comando 'git log':
@@ -233,7 +233,7 @@ No hay ningún problema; como puedes observar, es un simple avance rápido (fast
 
 Todo se integra limpiamente, y el historial de Jessica queda como en la Figura 5-9.
 
-Insert 18333fig0509.png 
+Insert 18333fig0509.png
 Figura 5-9. El historial de Jessica tras fusionar los cambios de John.
 
 En este punto, la rama 'origin/master' es alcanzable desde la rama 'master' de Jessica, permitiendole enviar (push) --asumiendo que John no haya enviado nada más durante ese tiempo--:
@@ -245,12 +245,12 @@ En este punto, la rama 'origin/master' es alcanzable desde la rama 'master' de J
 
 Cada desarrollador ha confirmado algunos cambios y ambos han fusionado sus trabajos correctamente; ver Figura 5-10.
 
-Insert 18333fig0510.png 
+Insert 18333fig0510.png
 Figura 5-10. El historial de Jessica tras enviar de vuelta todos los cambios al servidor.
 
 Este es uno de los flujos de trabajo más simples. Trabajas un rato, normalmente en una rama puntual de un asunto concreto, y la fusionas con tu rama principal cuando la tienes lista para integrar. Cuando deseas compartir ese trabajo, lo fusionas (merge) en tu propia rama 'master'; luego recuperas (fetch) y fusionas (merge) la rama 'origin/master', por si hubiera cambiado; y finalmente envias (push) la rama 'master' de vuelta al servidor. La secuencia general es algo así como la mostrada en la Figura 5-11.
 
-Insert 18333fig0511.png 
+Insert 18333fig0511.png
 Figura 5-11. Secuencia general de eventos en un flujo de trabajo multidesarrollador simple.
 
 ### Grupo Privado Gestionado ###
@@ -296,10 +296,10 @@ Y realiza un par de confirmaciones de cambios (commits) en la rama 'featureB':
 
 Quedando su repositorio como se muestra en la Figura 5-12
 
-Insert 18333fig0512.png 
+Insert 18333fig0512.png
 Figura 5-12. Historial inicial de Jessica.
 
-Cuando está preparada para enviar (push) su trabajo, recibe un correo-e de Josie de que ha puesto en el servidor una rama denominada 'featureBee', con algo de trabajo. Jessica necesita fusionar (merge) dichos cambios con los suyos antes de poder enviarlos al servidor. Por tanto, recupera (fetch) los cambios de Josie: 
+Cuando está preparada para enviar (push) su trabajo, recibe un correo-e de Josie de que ha puesto en el servidor una rama denominada 'featureBee', con algo de trabajo. Jessica necesita fusionar (merge) dichos cambios con los suyos antes de poder enviarlos al servidor. Por tanto, recupera (fetch) los cambios de Josie:
 
 	$ git fetch origin
 	...
@@ -361,17 +361,17 @@ Jessica realiza algunos ajustes, los confirma (commit) y los envia (push) de vue
 
 Quedando su historial como se muestra en la Figura 5-13.
 
-Insert 18333fig0513.png 
+Insert 18333fig0513.png
 Figura 5-13. El historial de Jessica después de confirmar cambios en una rama puntual.
 
 Jessica, Josie y John informan a los integradores de que las ramas 'featureA' y 'featureBee' del servidor están preparadas para su integración con la línea principal del programa. Despues de que dichas ramas sean integradas en la línea principal, una recuperación (fetch) traerá de vuelta las confirmaciones de cambios de las integraciones (merge commits), dejando un historial como el mostrado en la Figura 5-14.
 
-Insert 18333fig0514.png 
+Insert 18333fig0514.png
 Figura 5-14. El historial de Jessica tras fusionar sus dos ramas puntuales.
 
 Muchos grupos se están pasando a trabajar con Git, debido a su habilidad para mantener multiples equipos trabajando en paralelo, fusionando posteriormente las diferentes líneas de trabajo. La habilidad para que pequeños subgrupos de un equipo colaboren a través de ramas remotas, sin necesidad de tener en cuenta o de perturbar el equipo completo, es un gran beneficio de trabajar con Git. La secuencia del flujo de trabajo que hemos visto es algo así como lo mostrado en la Figura 5-15.
 
-Insert 18333fig0515.png 
+Insert 18333fig0515.png
 Figura 5-15. Secuencia básica de este flujo de trabajo en equipo gestionado.
 
 ### Pequeño Proyecto Público ###
@@ -420,7 +420,7 @@ Este comando 'request-pull' compara la rama base donde deseas que se integre tu 
 
 Esta salida puede ser enviada al gestor del proyecto, --le indica el punto donde  se ramificó, resume las confirmaciones de cambio, y le dice desde dónde recuperar estos cambios--.
 
-En un proyecto del que no seas gestor, suele ser más sencillo tener una rama tal como 'master' siguiendo siempre a la rama 'origin/master'; mientras realizas todo tu trabajo en otras ramas puntuales, que podrás descartar facilmente en caso de que alguna de ellas sea rechazada.  Manteniendo el trabajo de distintos temas aislados en sus respectivas ramas puntuales, te facilitas también el poder reorganizar tu trabajo si la cabeza del repositorio principal se mueve mientras tanto y tus confirmaciones de cambio (commits) ya no se pueden integrar limpiamente. Por ejemplo, si deseas contribuir al proyecto en un segundo tema, no continues trabajando sobre la rama puntual que acabas de enviar; comienza una nueva rama puntual desde la rama 'master' del repositorio principal: 
+En un proyecto del que no seas gestor, suele ser más sencillo tener una rama tal como 'master' siguiendo siempre a la rama 'origin/master'; mientras realizas todo tu trabajo en otras ramas puntuales, que podrás descartar facilmente en caso de que alguna de ellas sea rechazada.  Manteniendo el trabajo de distintos temas aislados en sus respectivas ramas puntuales, te facilitas también el poder reorganizar tu trabajo si la cabeza del repositorio principal se mueve mientras tanto y tus confirmaciones de cambio (commits) ya no se pueden integrar limpiamente. Por ejemplo, si deseas contribuir al proyecto en un segundo tema, no continues trabajando sobre la rama puntual que acabas de enviar; comienza una nueva rama puntual desde la rama 'master' del repositorio principal:
 
 	$ git checkout -b featureB origin/master
 	$ (work)
@@ -431,7 +431,7 @@ En un proyecto del que no seas gestor, suele ser más sencillo tener una rama ta
 
 De esta forma, cada uno de los temas está aislado dentro de un silo, --similar a una cola de parches--; permitiendote reescribir, reorganizar y modificar cada uno de ellos sin interferir ni crear interdependencias entre ellos.
 
-Insert 18333fig0516.png 
+Insert 18333fig0516.png
 Figura 5-16. Historial inicial con el trabajo de la funcionalidad B.
 
 Supongamos que el gestor del proyecto ha recuperado e integrado un grupo de otros parches y después lo intenta con tu primer parche, viendo que no se integra limpiamente.  En este caso, puedes intentar reorganizar (rebase) tu parche sobre 'origin/master', arreglar los conflictos y volver a enviar tus cambios:
@@ -442,7 +442,7 @@ Supongamos que el gestor del proyecto ha recuperado e integrado un grupo de otro
 
 Esto reescribe tu historial, quedando como se vé en la Figura 5-17.
 
-Insert 18333fig0517.png 
+Insert 18333fig0517.png
 Figura 5-17. Historial tras el trabajo en la funcionalidad A.
 
 Debido a que has reorganizado (rebase) tu rama de trabajo, tienes que indicar la opción '-f' en tu comando de envio (push), para permitir que la rama 'featureA' del servidor sea reemplazada por una confirmación de cambios (commit) que no es hija suya. Una alternativa podría ser el enviar (push) este nuevo trabajo a una rama diferente del servidor (por ejemplo a 'featureAv2').
@@ -459,7 +459,7 @@ La opción '--squash' coge todo el trabajo en la rama fusionada y lo aplica, en 
 
 En estos momentos, puedes notificar al gestor del proyecto que has realizado todos los cambios solicitados y que los puede encontrar en tu rama 'featureBv2' (ver Figura 5-18).
 
-Insert 18333fig0518.png 
+Insert 18333fig0518.png
 Figura 5-18. Historial tras el trabajo en la versión 2 de la funcionalidad B.
 
 ### Proyecto Público Grande ###
@@ -482,7 +482,7 @@ Tienes dos confirmaciones de cambios (commits) a enviar a la lista de correo. Ut
 
 El comando `format-patch` lista los nombres de los archivos de parche que crea. La opción `-M` indica a Git que ha de mirar por si hay algo renombrado. Los archivos serán algo como:
 
-	$ cat 0001-add-limit-to-log-function.patch 
+	$ cat 0001-add-limit-to-log-function.patch
 	From 330090432754092d704da8e76ca5c05c198e71a8 Mon Sep 17 00:00:00 2001
 	From: Jessica Smith <jessica@example.com>
 	Date: Sun, 6 Apr 2008 10:17:23 -0700
@@ -507,10 +507,10 @@ El comando `format-patch` lista los nombres de los archivos de parche que crea. 
 	   end
 
 	   def ls_tree(treeish = 'master')
-	-- 
+	--
 	1.6.2.rc1.20.g8c5b.dirty
 
-Puedes incluso editar esos archivos de parche, para añadirles más información , específica para la lista de correo, y que no desees mostrar en el propio mensaje de la confirmación de cambios.  Si añades texto entre la línea que comienza por `--` y el comienzo del parche (la línea `lib/simplegit.rb`). Los desarrolladores de la lista de correo podrán leerlo. Pero será ignorado al aplicar el parche al proyecto.
+Puedes incluso editar esos archivos de parche, para añadirles más información , específica para la lista de correo, y que no desees mostrar en el propio mensaje de la confirmación de cambios.  Si añades texto entre la línea que comienza por `---` y el comienzo del parche (la línea `lib/simplegit.rb`). Los desarrolladores de la lista de correo podrán leerlo. Pero será ignorado al aplicar el parche al proyecto.
 
 Para enviar estos archivos a la lista de correo,puedes tanto pegar directamente el archivo en tu programa de correo electrónico, como enviarlo a través de algún programa basado en línea de comandos. Pegar el texto directamente suele causar problemas de formato. Especialmente con los clientes de correo más "inteligentes", que no preservan adecuadamente los saltos de línea y otros espaciados. Afortunadamente, Git suministra una herramienta que nos puede ser de gran ayuda para enviar parches correctamente formateados a través de protocolo IMAP, facilitandonos así las cosas. Voy a indicar cómo enviar un parche usando Gmail, que da la casualidad de que es el agente de correo utilizado por mí. En el final del anteriormente citado documento, `Documentation/SubmittingPatches`, puedes leer instrucciones detalladas para otros agentes de correo.
 
@@ -530,14 +530,14 @@ Cuando tengas esto ajustado, podrás utilizar el comando `git send-email` para p
 	$ git send-email *.patch
 	0001-added-limit-to-log-function.patch
 	0002-changed-log-output-to-30-from-25.patch
-	Who should the emails appear to be from? [Jessica Smith <jessica@example.com>] 
+	Who should the emails appear to be from? [Jessica Smith <jessica@example.com>]
 	Emails will be sent from: Jessica Smith <jessica@example.com>
 	Who should the emails be sent to? jessica@example.com
 	Message-ID to be used as In-Reply-To for the first email? y
 
 Tras esto, Git escupirá una serie de información de registro, con pinta más o menos como esta:
 
-	(mbox) Adding cc: Jessica Smith <jessica@example.com> from 
+	(mbox) Adding cc: Jessica Smith <jessica@example.com> from
 	  \line 'From: Jessica Smith <jessica@example.com>'
 	OK. Log says:
 	Sendmail: /usr/sbin/sendmail -i jessica@example.com
@@ -564,7 +564,7 @@ Además de conocer cómo contribuir de forma efectiva a un proyecto, es posible 
 
 ### Trabajando con Ramas Puntuales ###
 
-Cuando estás pensando en integrar nuevo trabajo, suele ser buena idea utilizar una rama puntual para cada tema concreto --una rama temporal creada específicamente para trabajar dicho tema-- De esta forma, es sencillo tratar cada parche de forma individualizada y poder "aparcar" uno concreto cuando no trabajamos en él, hasta cuando volvamos a tener tiempo para retomarlo. Si creas los nombres de ramas basandolos en el tema sobre el que vas a trabajar, por ejemplo 'ruby client' o algo así de descriptivo, podrás recordar de qué iba cada rama en caso de que la abandones por un tiempo y la retomes más tarde. La persona gestora del proyecto Git suele tender a nombrar cada rama de foma parecida --por ejemplo 'sc/ruby client', donde sc es la abreviatura para la persona que ha contribuido con ese trabajo--. 
+Cuando estás pensando en integrar nuevo trabajo, suele ser buena idea utilizar una rama puntual para cada tema concreto --una rama temporal creada específicamente para trabajar dicho tema-- De esta forma, es sencillo tratar cada parche de forma individualizada y poder "aparcar" uno concreto cuando no trabajamos en él, hasta cuando volvamos a tener tiempo para retomarlo. Si creas los nombres de ramas basandolos en el tema sobre el que vas a trabajar, por ejemplo 'ruby client' o algo así de descriptivo, podrás recordar de qué iba cada rama en caso de que la abandones por un tiempo y la retomes más tarde. La persona gestora del proyecto Git suele tender a nombrar cada rama de foma parecida --por ejemplo 'sc/ruby client', donde sc es la abreviatura para la persona que ha contribuido con ese trabajo--.
 Como recordarás, la forma de crear una rama basandola en tu rama master es:
 
 	$ git branch sc/ruby_client master
@@ -589,7 +589,7 @@ Esto modificará los archivos en tu carpeta de trabajo. Es prácticamente idént
 
 Tambien puedes utilizar 'git apply' para comprobar si un parche se puede incorporar limpiamente; antes de intentar incorporarlo. Puedes lanzar el comando 'git apply --check':
 
-	$ git apply --check 0001-seeing-if-this-helps-the-gem.patch 
+	$ git apply --check 0001-seeing-if-this-helps-the-gem.patch
 	error: patch failed: ticgit.gemspec:1
 	error: ticgit.gemspec: patch does not apply
 
@@ -608,11 +608,11 @@ Para incorporar un parche generado con 'format-patch', utilizarás el comando 'g
 
 	Limit log functionality to the first 20Limit log functionality to the first 20Limit log functionality to the first 20
 
-Esto es el comienzo de la salida del comando format-patch visto en la sección anterior. Es también un formato válido para un mbox. Si alguien te ha enviado correctamente un parche utilizando 'git send-email', y te lo has descargado a un formato mbox; podrás indicar dicho archivo mbox al comando 'git am', y este comenzará a incorporar todos los parches que encuentre dentro. Si tienes un cliente de correo electrónico capaz de guardar varios mensajes en formato mbox, podrás guardar series completas de parches en un mismo archivo; y luego usar 'git am' para irlos incorporando secuencialmente. 
+Esto es el comienzo de la salida del comando format-patch visto en la sección anterior. Es también un formato válido para un mbox. Si alguien te ha enviado correctamente un parche utilizando 'git send-email', y te lo has descargado a un formato mbox; podrás indicar dicho archivo mbox al comando 'git am', y este comenzará a incorporar todos los parches que encuentre dentro. Si tienes un cliente de correo electrónico capaz de guardar varios mensajes en formato mbox, podrás guardar series completas de parches en un mismo archivo; y luego usar 'git am' para irlos incorporando secuencialmente.
 
 Sin embargo, si alguien sube su archivo de parche a un sistema de gestión de peticiones de servicio o similar; tendrás que descargartelo a un archivo local en tu disco y luego indicar ese archivo local al comando 'git am':
 
-	$ git am 0001-limit-log-function.patch 
+	$ git am 0001-limit-log-function.patch
 	Applying: add limit to log function
 
 Observarás que, tras incorporarlo limpiamente, crea automáticamente una nueva confirmación de cambios (commit). La información sobre el autor o autora la recoge de las cabeceras 'From' (Remitente) y 'Date' (Fecha). Y el mensaje para la confirmación (commit) lo recoge de 'Subject' (Asunto) y del cuerpo del correo electrónico. Por ejemplo, si consideramos el parche incorporado desde el mbox del ejemplo que acabamos de mostrar; la confirmación de camios (commit) generada será algo como:
@@ -628,11 +628,11 @@ Observarás que, tras incorporarlo limpiamente, crea automáticamente una nueva 
 
 	   Limit log functionality to the first 20Limit log functionality to the first 20Limit log functionality to the first 20
 
-El campo 'Commit' muestra la persona que ha incorporado el parche y cuándo lo ha incorporado. El campo 'Author' muestra la persona que ha creado originalmente el parche y cuándo fue creado este. 
+El campo 'Commit' muestra la persona que ha incorporado el parche y cuándo lo ha incorporado. El campo 'Author' muestra la persona que ha creado originalmente el parche y cuándo fue creado este.
 
 Pero también podría suceder que el parche no se pudiera incorporar limpiamente. Es posible que tu rama principal diverja demasiado respecto de la rama sobre la que se construyó el parche; o que el parche tenga dependencias respecto de algún otro parche anterior que aún no hayas incorporado. En ese caso, el proceso 'git am' fallará y te preguntará qué deseas hacer:
 
-	$ git am 0001-seeing-if-this-helps-the-gem.patch 
+	$ git am 0001-seeing-if-this-helps-the-gem.patch
 	Applying: seeing if this helps the gem
 	error: patch failed: ticgit.gemspec:1
 	error: ticgit.gemspec: patch does not apply
@@ -644,13 +644,13 @@ Pero también podría suceder que el parche no se pudiera incorporar limpiamente
 Este comando pondrá marcadores de conflicto en cualquier archivo con problemas, de forma similar a como lo haría una operación de fusión (merge) o de reorganización (rebase). Y resolverás los problemas de la misma manera: editar el archivo para resolver los conflictos, prepararlo (stage), y lanzar 'git am --resolved' para continuar con el siguiente parche:
 
 	$ (fix the file)
-	$ git add ticgit.gemspec 
+	$ git add ticgit.gemspec
 	$ git am --resolved
 	Applying: seeing if this helps the gem
 
 Si deseas más inteligencia por parte de Git al resolver conflictos, puedes pasarle la opción '-3', para que intente una fusión a tres bandas (three-way merge). Esta opción no se usa por defecto, porque no funcionará en caso de que la confirmación de cambios en que el parche dice estar basado no esté presente en tu repositorio.  Sin embargo, si tienes dicha confirmación de cambios (commit), --si el parche está basado en una confirmación pública--, entonces la opción '-3' suele ser mucho más avispada cuando incorporas un parche conflictivo:
 
-	$ git am -3 0001-seeing-if-this-helps-the-gem.patch 
+	$ git am -3 0001-seeing-if-this-helps-the-gem.patch
 	Applying: seeing if this helps the gem
 	error: patch failed: ticgit.gemspec:1
 	error: ticgit.gemspec: patch does not apply
@@ -667,7 +667,7 @@ Al aplicar varios parches desde un mbox, puedes lanzar el comando 'am' en modo i
 	--------------------------
 	seeing if this helps the gem
 	--------------------------
-	Apply? [y]es/[n]o/[e]dit/[v]iew patch/[a]ccept all 
+	Apply? [y]es/[n]o/[e]dit/[v]iew patch/[a]ccept all
 
 Es una utilidad interesante si tienes tienes almacenados unos cuantos parches, porque puedes ir revisando previamente cada parche y aplicarlos selectivamente.
 
@@ -687,7 +687,7 @@ Si más tarde vuelva a enviarte otro correo-e avisandote de otra gran funcionali
 
 Es muy util cuando trabajas regularmente con una persona. En cambio, si alguien tiene un solo parche para enviarte, una sola vez, puede ser más efectivo aceptarlo directamente por correo-e; en lugar de pedir a todo el mundo que tenga cada uno su propio servidor y tener nosotros que estar continuamente añadiendo y quitando remotos para cada parche. También es muy posible que no quieras tener cientos de remotos, cada uno contribuyendo tan solo con un parche o dos. De todas formas, los scripts y los servicios albergados pueden hacerte la vida más facil en esto, --todo depende de cómo desarrolles tú y de como desarrollan las personas que colaboran contigo--.
 
-Otra ventaja de esta forma de trabajar es que recibes también el histórico de confirmaciones de cambio (commits). A pesar de poder seguir teniendo los habituales problemas con la fusión, por lo menos conoces en qué punto de tu historial han basado su trabajo. Por defecto, se aplicará una genuina fusión a tres bandas, en lugar de tener que poner un '-3' y esperar que el parche haya sido generado a partir de una confirmación de cambios (commit) pública a la que tengas tú también acceso. 
+Otra ventaja de esta forma de trabajar es que recibes también el histórico de confirmaciones de cambio (commits). A pesar de poder seguir teniendo los habituales problemas con la fusión, por lo menos conoces en qué punto de tu historial han basado su trabajo. Por defecto, se aplicará una genuina fusión a tres bandas, en lugar de tener que poner un '-3' y esperar que el parche haya sido generado a partir de una confirmación de cambios (commit) pública a la que tengas tú también acceso.
 
 Si no trabajas habitualmente con una persona, pero deseas recuperar de ella por esta vía, puedes indicar directamente el URL del repositorio remoto en el comando 'git pull'. Esto efectua una recuperación (pull) puntual y no conserva la URL como una referencia remota:
 
@@ -731,7 +731,7 @@ Técnicamente, lo puedes hacer descubriendo tu mismo dicho ancestro común y lan
 
 	$ git merge-base contrib master
 	36c7dba2c95e6bbb78dfa822519ecfec6e1ca649
-	$ git diff 36c7db 
+	$ git diff 36c7db
 
 Pero esto no es lo más conveniente. De ahí que Git suministre otro atajo para hacerlo: la sintaxis del triple-punto. Estando en el contexto del comando 'diff', puedes indicar tres puntos entre los nombres de las dos ramas; para comparar entre la última confirmación de cambios de la rama donde estás y la respectiva confirmación común con la otra rama:
 
@@ -747,7 +747,7 @@ Cuando todo el trabajo presente en tu rama puntual esté listo para ser integrad
 
 Una forma simple de trabajar es fusionandolo todo en tu rama 'master'. En este escenario, tienes una rama 'master' que contiene, principalmente, código estable. Cuando en una rama puntual tienes trabajo ya terminado o contribuciones ya verificadas de terceros, los fusionas en tu rama 'master', borras la rama puntual, y continuas trabajando en otra/s rama/s.  Si, tal y como se muestra en la Figura 5-19,  tenemos un repositorio con trabajos en dos ramas, denominadas 'ruby client' y 'php client'; y fusionamos primero la rama 'ruby client' y luego la 'php client', obtendremos un historial similar al de la Figura 5-20.
 
-Insert 18333fig0519.png 
+Insert 18333fig0519.png
 Figura 5-19. Historial con varias ramas puntuales.
 
 Insert 18333fig0520.png
@@ -755,15 +755,15 @@ Figura 5-20. Tras fusionar una rama puntual.
 
 Este es probablemente el flujo de trabajo más sencillo. Pero puede dar problemas cuando estás tratando con grandes repositorios o grandes proyectos.
 
-Teniendo muchos desarrolladores o proyectos muy grandes, muy posiblemente desees utilizar un ciclo con por lo menos dos fases. En este escenario, se dispone de dos ramas de largo recorrido: 'master' y 'develop'. La primera de ellas, 'master', será actualizada únicamente por los lanzamientos de código muy estable. La segunda rama, 'develop', es donde iremos integrando todo el código nuevo.  Ambas ramas se enviarán periodicamente al repositorio público. Cada vez que tengas una nueva rama puntual lista para integrar (Figura 5-21), la fusionarás en la rama 'develop'. Y  cuando marques el lanzamiento de una versión estable, avanzarás la rama 'master' hasta el punto donde la rama 'develop' se encuentre en ese momento (Figura 5-23). 
+Teniendo muchos desarrolladores o proyectos muy grandes, muy posiblemente desees utilizar un ciclo con por lo menos dos fases. En este escenario, se dispone de dos ramas de largo recorrido: 'master' y 'develop'. La primera de ellas, 'master', será actualizada únicamente por los lanzamientos de código muy estable. La segunda rama, 'develop', es donde iremos integrando todo el código nuevo.  Ambas ramas se enviarán periodicamente al repositorio público. Cada vez que tengas una nueva rama puntual lista para integrar (Figura 5-21), la fusionarás en la rama 'develop'. Y  cuando marques el lanzamiento de una versión estable, avanzarás la rama 'master' hasta el punto donde la rama 'develop' se encuentre en ese momento (Figura 5-23).
 
-Insert 18333fig0521.png 
+Insert 18333fig0521.png
 Figura 5-21. Antes de fusionar una rama puntual.
 
-Insert 18333fig0522.png 
+Insert 18333fig0522.png
 Figura 5-22. Tras fusionar una rama puntual.
 
-Insert 18333fig0523.png 
+Insert 18333fig0523.png
 Figura 5-23. Tras un lanzamiento puntual.
 
 De esta forma, cuando alguien clone el repositorio de tu proyecto, podrá recuperar (checkout) y mantener actualizadas tanto la última version estable como la versión con el material más avanzado; en las ramas 'master' y 'develop', respectivamente.
@@ -773,12 +773,12 @@ Puedes continuar ampliando este concepto, disponiendo de una rama 'integrate' do
 
 El proyecto Git tiene cuatro ramas de largo recorrido: 'master', 'next', 'pu' (proposed updates) para el trabajo nuevo, y 'maint' (maintenance) para trabajos de mantenimiento de versiones previas. A medida que vamos introduciendo nuevos trabajos de las personas colaboradoras, estos se van recolectando en ramas puntuales en el repositorio de una persona gestora; de forma similar a como se ha ido describiendo (ver Figura 5-24). En un momento dado, las funcionalidades introducidas se evaluan; comprobando si son seguras y si están preparadas para los consumidores; o si, por el contrario, necesitan dedicarles más trabajo. Las funcionalidades que resultan ser seguras y estar preparadas se fusionan (merge) en la rama 'next'; y esta es enviada (push) al repositorio público, para que cualquiera pueda probarlas.
 
-Insert 18333fig0524.png 
+Insert 18333fig0524.png
 Figura 5-24. Gestionando complejas series de ramas puntuales paralelas con funcionalidades varias.
 
 Si las funcionalidades necesitan ser más trabajadas, se fusionan (merge) en la rama 'pu'. Y cuando las funcionalidades permanecen totalmente estables, se refusionan en la rama 'master'; componiendolas desde las funcionalidades en la rama 'next' aún sin   promocionar a 'master'.  Esto significa que 'master' prácticamente siempre avanza; 'next' se reorganiza (rebase) de vez en cuando; y 'pu' es reorganizada con más frecuencia (ver Figura 5-25).
 
-Insert 18333fig0525.png 
+Insert 18333fig0525.png
 Figura 5-25. Fusionando aportaciones de ramas puntuales en ramas de más largo recorrido.
 
 Una rama puntual se borra del repositorio cuando, finalmente, es fusionada en la rama 'master'. El proyecto Git dispone también de una rama 'maint' que se bifurca (fork) a partir de la última versión ya lanzada; para trabajar en parches, en caso de necesitarse alguna versión intermedia de mantenimiento. Así, cuando clonas el repositorio de Git, obtienes cuatro ramas que puedes recuperar (checkout); pudiendo evaluar el proyecto en distintos estadios de desarrollo, dependiendo de cuán avanzado desees estar o cómo desees contribuir. Y así, los gestores de mantenimiento disponen de un flujo de trabajo estructurado, para ayudarles en el procesado e incorporación de nuevas contribuciones.
@@ -789,7 +789,7 @@ Otros gestores de mantenimiento,  al procesar el trabajo recibido de las persona
 
 El otro camino para introducir trabajo de una rama en otra, es entresacarlo. Entresacar (cherry-pick) en Git es como reorganizar (rebase) una sola confirmación de cambios (commit). Se trata de coger el parche introducido por una determinada confirmación de cambios e intentar reaplicarlo sobre la rama donde te encuentres en ese momento. Puede ser util si tienes varias confirmaciones de cambios en una rama puntual, y tan solo deseas integar una de ellas; o si tienes una única confirmación de cambios en una rama puntual, y prefieres entresacarla en lugar de reorganizar. Por ejemplo, suponiendo que tienes un proyecto parecido al ilustrado en la Figura 5-26.
 
-Insert 18333fig0526.png 
+Insert 18333fig0526.png
 Figura 5-26. Historial de ejemplo, antes de entresacar.
 
 Si deseas integar únicamente la confirmación 'e43a6' en tu rama 'master', puedes lanzar:
@@ -801,7 +801,7 @@ Si deseas integar únicamente la confirmación 'e43a6' en tu rama 'master', pued
 
 Esto introduce exactamente el mismo cambio introducido por 'e43a6', pero con un nuevo valor SHA-1 de confirmación; ya que es diferente la fecha en que ha sido aplicado. Tu historial quedará tal como ilustra la Figura 5-27.
 
-Insert 18333fig0527.png 
+Insert 18333fig0527.png
 Figura 5-27. Historial tras entresacar una confirmación de cambios de una rama puntual.
 
 Ahora, ya puedes borrar la rama puntual y descartar las confirmaciones de cambios que no deseas integrar.
@@ -833,7 +833,7 @@ Una vez tengas el contenido de tu clave guardado en Git, puedes crear una etiqut
 
 	$ git tag -a maintainer-pgp-pub 659ef797d181633c87ec71ac3f9ba29fe5775b92
 
-Si lanzas el comando 'git push --tags', la etiqueta 'maintainer-pgp-pub' será compartida por todos. Cualquiera que desee verificar la autenticidad de una etiqueta, no tiene más que importar tu clave PGP, sacando el objecto directamente de la base de datos e importandolo en GPG:, 
+Si lanzas el comando 'git push --tags', la etiqueta 'maintainer-pgp-pub' será compartida por todos. Cualquiera que desee verificar la autenticidad de una etiqueta, no tiene más que importar tu clave PGP, sacando el objecto directamente de la base de datos e importandolo en GPG:,
 
 	$ git show maintainer-pgp-pub | gpg --import
 

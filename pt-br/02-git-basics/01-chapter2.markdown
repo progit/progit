@@ -36,7 +36,7 @@ Isso cria um diretório chamado `grit`, inicializa um diretório `.git`dentro de
 
 Este comando faz exatamente a mesma coisa que o anterior, mas o diretório alvo será chamado `mygrit`.
 
-O Git possui diversos protocolos de transferência que você pode utilizar. O exemplo anterior utiliza o protocolo `git://`, mas você também pode ver `http(s)://` ou `user@server:/path.git`, que utilizam o protocolo de transferência SSH. No *Capítulo 4* introduziremos todas as opções disponíveis as quais o servidor pode ser configurado para acessar o seu repositório Git e os prós e contras de cada uma.
+O Git possui diversos protocolos de transferência que você pode utilizar. O exemplo anterior utiliza o protocolo `git://`, mas você também pode ver `http(s)://` ou `user@server:/path.git`, que utilizam o protocolo de transferência SSH. No *Capítulo 4*, introduziremos todas as opções disponíveis com as quais o servidor pode ser configurado para acessar o seu repositório Git, e os prós e contras de cada uma.
 
 ## Gravando Alterações no Repositório ##
 

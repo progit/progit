@@ -658,7 +658,7 @@ Le contenu des fichiers ressemble à ceci :
 	1.6.2.rc1.20.g8c5b.dirty
 
 Vous pouvez maintenant éditer ces fichiers de patch pour ajouter plus d'informations à destination de la liste de diffusion mais que vous ne souhaitez pas voir apparaître dans le message de validation.
-Si vous ajoutez du texte entre la ligne `--` et le début du patch (la ligne `lib/simplegit.rb`), les développeurs peuvent le lire mais l'application du patch ne le prend pas en compte.
+Si vous ajoutez du texte entre la ligne `---` et le début du patch (la ligne `lib/simplegit.rb`), les développeurs peuvent le lire mais l'application du patch ne le prend pas en compte.
 
 Pour envoyer par e-mail ces fichiers, vous pouvez soit copier leur contenu dans votre application d'e-mail, soit l'envoyer via une ligne de commande.
 Le copier-coller cause souvent des problèmes de formatage, spécialement avec les applications « intelligentes » qui ne préservent pas les retours à la ligne et les types d'espace.

@@ -516,7 +516,7 @@ O comando `format-patch` imprime o nome dos arquivos patch que ele cria. A opç�
     --
     1.6.2.rc1.20.g8c5b.dirty
 
-Você pode também editar esses arquivos de patch para adicionar mais informação para a lista de e-mail que você não quer que apareça na mensagem do commit. Se você adicionar o texto entre a linha com `--` e o início do patch (a linha `lib/simplegit.rb`), então desenvolvedores podem lê-la; mas aplicar o patch a exclui.
+Você pode também editar esses arquivos de patch para adicionar mais informação para a lista de e-mail que você não quer que apareça na mensagem do commit. Se você adicionar o texto entre a linha com `---` e o início do patch (a linha `lib/simplegit.rb`), então desenvolvedores podem lê-la; mas aplicar o patch a exclui.
 
 Para enviar por e-mail a uma lista de discussão, você pode ou colar o arquivo em seu programa de e-mails ou enviar por um programa em linha de comando. Colando o texto geralmente causa problemas de formatação, especialmente com clientes "expertos" que não preservam linhas em branco e espaços em branco de forma apropriada. Por sorte, Git fornece uma ferramenta que lhe ajuda a enviar um patch via Gmail, que por acaso é o agente de e-mail que eu uso; você pode ler instruções detalhadas para vários programas de e-mail no final do arquivo previamente mencionado `Documentation/SubmittingPatched` no código fonte do Git.
 

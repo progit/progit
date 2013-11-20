@@ -155,24 +155,24 @@ Versuche außerdem, deine Änderungen in logisch zusammenhängende Einheiten zu 
 <!--The last thing to keep in mind is the commit message. Getting in the habit of creating quality commit messages makes using and collaborating with Git a lot easier. As a general rule, your messages should start with a single line that’s no more than about 50 characters and that describes the changeset concisely, followed by a blank line, followed by a more detailed explanation. The Git project requires that the more detailed explanation include your motivation for the change and contrast its implementation with previous behavior — this is a good guideline to follow. It’s also a good idea to use the imperative present tense in these messages. In other words, use commands. Instead of "I added tests for" or "Adding tests for," use "Add tests for."
 Here is a template originally written by Tim Pope at tpope.net:-->
 
-Ein weitere Sache, der du ein bißchen Aufmerksamkeit schenken solltest, ist die Commit Meldung selbst. Wenn man sich angewöhnt, aussagekräftige und hochwertige Commit Meldungen zu schreiben, macht man sich selbst und anderen das Leben erheblich einfacher. Im allgemeinen sollte eine Commit Meldung mit einer einzelnen Zeile anfangen, die nicht länger als 50 Zeichen sein sollte. Dann sollte eine leere Zeile folgen und schließlich eine ausführlichere Beschreibung der Änderungen. 
+Ein weitere Sache, der du ein bißchen Aufmerksamkeit schenken solltest, ist die Commit Meldung selbst. Wenn man sich angewöhnt, aussagekräftige und hochwertige Commit Meldungen zu schreiben, macht man sich selbst und anderen das Leben erheblich einfacher. Im allgemeinen sollte eine Commit Meldung mit einer einzelnen Zeile anfangen, die nicht länger als 50 Zeichen sein sollte. Dann sollte eine leere Zeile folgen und schließlich eine ausführlichere Beschreibung der Änderungen.
 
 	Short (50 chars or less) summary of changes
-	
+
 	More detailed explanatory text, if necessary.  Wrap it to about 72
 	characters or so.  In some contexts, the first line is treated as the
 	subject of an email and the rest of the text as the body.  The blank
 	line separating the summary from the body is critical (unless you omit
 	the body entirely); tools like rebase can get confused if you run the
 	two together.
-	
+
 	Further paragraphs come after blank lines.
-	
+
 	 - Bullet points are okay, too
-	
+
 	 - Typically a hyphen or asterisk is used for the bullet, preceded by a
 	   single space, with blank lines in between, but conventions vary here
-	
+
 <!--If all your commit messages look like this, things will be a lot easier for you and the developers you work with. The Git project has well-formatted commit messages — I encourage you to run `git log -\-no-merges` there to see what a nicely formatted project-commit history looks like.-->
 
 Wenn du deine Commit Meldungen in dieser Weise formatierst, kannst du dir und anderen eine Menge Ärger ersparen. Das Git Projekt selbst hat wohl-formatierte Commit Meldungen. Wir empfehlen, einmal `git log --no-merges` in diesem Repository auszuführen, um einen Eindruck zu erhalten, wie eine gute Commit History eines Projektes aussehen kann.
@@ -745,9 +745,9 @@ Der Befehl `git format-patch` zeigt dir die Namen der Patch Dateien an, die er e
 	--
 	1.6.2.rc1.20.g8c5b.dirty
 
-<!--You can also edit these patch files to add more information for the e-mail list that you don’t want to show up in the commit message. If you add text between the `-\-` line and the beginning of the patch (the `lib/simplegit.rb` line), then developers can read it; but applying the patch excludes it.-->
+<!--You can also edit these patch files to add more information for the e-mail list that you don’t want to show up in the commit message. If you add text between the `-\-\-` line and the beginning of the patch (the `lib/simplegit.rb` line), then developers can read it; but applying the patch excludes it.-->
 
-Du kannst diese Patch Dateien anschließend bearbeiten, z.B. um weitere Informationen für die Mailingliste hinzuzufügen, die du nicht in der Commit Meldung haben willst. Wenn du zusätzlichen Text zwischen der `--` Zeile und dem Anfang des Patches (der Zeile `lib/simplegit.rb` in diesem Fall), dann ist er für den Leser sichtbar, aber Git wird ihn ignorieren, wenn man den Patch verwendet.
+Du kannst diese Patch Dateien anschließend bearbeiten, z.B. um weitere Informationen für die Mailingliste hinzuzufügen, die du nicht in der Commit Meldung haben willst. Wenn du zusätzlichen Text zwischen der `---` Zeile und dem Anfang des Patches (der Zeile `lib/simplegit.rb` in diesem Fall), dann ist er für den Leser sichtbar, aber Git wird ihn ignorieren, wenn man den Patch verwendet.
 
 <!--To e-mail this to a mailing list, you can either paste the file into your e-mail program or send it via a command-line program. Pasting the text often causes formatting issues, especially with "smarter" clients that don’t preserve newlines and other whitespace appropriately. Luckily, Git provides a tool to help you send properly formatted patches via IMAP, which may be easier for you. I’ll demonstrate how to send a patch via Gmail, which happens to be the e-mail agent I use; you can read detailed instructions for a number of mail programs at the end of the aforementioned `Documentation/SubmittingPatches` file in the Git source code.-->
 
@@ -1228,7 +1228,7 @@ Wenn du `git push --tags` ausführst, wird jetzt der `maintainer-pgp-pub` Tag au
 	$ git show maintainer-pgp-pub | gpg --import
 
 <!--They can use that key to verify all your signed tags. Also, if you include instructions in the tag message, running `git show <tag>` will let you give the end user more specific instructions about tag verification.-->
-	
+
 Dieser Schlüssel kann anschließend für alle signierten Tages verwendet werden. Zusätzlich kannst du deinen Anwendern in der Tag Meldung erklären, wie sie signierte Tags mit diesem Schlüssel verifizieren können.
 
 <!--### Generating a Build Number ###-->

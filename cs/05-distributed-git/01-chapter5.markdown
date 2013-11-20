@@ -517,7 +517,7 @@ Příkaz `format-patch` vypíše názvy souborů záplaty, kterou vytváří. P�
 	--
 	1.6.2.rc1.20.g8c5b.dirty
 
-Tyto soubory záplaty můžete také upravit a přidat k nim další informace určené pro seznam příjemců e-mailu, u nichž nechcete, aby byly obsaženy ve zprávě k revizi. Přidáte-li text mezi řádek `--` a začátek záplaty (řádek `lib/simplegit.rb`), vývojářům se zobrazí, ale aplikace záplaty ho obsahovat nebude.
+Tyto soubory záplaty můžete také upravit a přidat k nim další informace určené pro seznam příjemců e-mailu, u nichž nechcete, aby byly obsaženy ve zprávě k revizi. Přidáte-li text mezi řádek `---` a začátek záplaty (řádek `lib/simplegit.rb`), vývojářům se zobrazí, ale aplikace záplaty ho obsahovat nebude.
 
 Chcete-li e-mail odeslat do poštovní konference, můžete soubor buď vložit do svého e-mailového programu, nebo ho odeslat pomocí příkazového řádku. Vložení textu může často způsobovat problémy s formátováním, zvlášť v případě některých „chytřejších“ klientů, kteří správně nezachovávají nové řádky a jiné prázdné znaky. Git naštěstí nabízí nástroj, který vám pomůže odeslat správně formátované patche pomocí protokolu IMAP. Já budu dokumentovat odeslání záplaty na příkladu Gmailu, který používám jako svého e-mailového agenta. Podrobné instrukce pro celou řadu poštovních programů najdete na konci již dříve zmíněného souboru `Documentation/SubmittingPatches` ve zdrojovém kódu systému Git.
 

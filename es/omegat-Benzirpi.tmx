@@ -182,11 +182,11 @@
     </tu>
     <tu>
       <tuv lang="EN">
-        <seg>Insert 18333fig0504.png 
+        <seg>Insert 18333fig0504.png
 Figure 5-4.</seg>
       </tuv>
       <tuv lang="ES">
-        <seg>Insert 18333fig0504.png 
+        <seg>Insert 18333fig0504.png
 Figura 5-4.</seg>
       </tuv>
     </tu>
@@ -256,12 +256,12 @@ Figura 5-4.</seg>
     </tu>
     <tu>
       <tuv lang="EN">
-        <seg>$ git apply --check 0001-seeing-if-this-helps-the-gem.patch 
+        <seg>$ git apply --check 0001-seeing-if-this-helps-the-gem.patch
 	error: patch failed: ticgit.gemspec:1
 	error: ticgit.gemspec: patch does not apply</seg>
       </tuv>
       <tuv lang="ES">
-        <seg>$ git apply --check 0001-seeing-if-this-helps-the-gem.patch 
+        <seg>$ git apply --check 0001-seeing-if-this-helps-the-gem.patch
 	error: patch failed: ticgit.gemspec:1
 	error: ticgit.gemspec: patch does not apply</seg>
       </tuv>
@@ -394,14 +394,14 @@ Figura 5-4.</seg>
     </tu>
     <tu>
       <tuv lang="EN">
-        <seg>$ cat 0001-add-limit-to-log-function.patch 
+        <seg>$ cat 0001-add-limit-to-log-function.patch
 	From 330090432754092d704da8e76ca5c05c198e71a8 Mon Sep 17 00:00:00 2001
 	From: Jessica Smith &lt;jessica@example.com&gt;
 	Date: Sun, 6 Apr 2008 10:17:23 -0700
 	Subject: [PATCH 1/2] add limit to log function</seg>
       </tuv>
       <tuv lang="ES">
-        <seg>$ cat 0001-add-limit-to-log-function.patch 
+        <seg>$ cat 0001-add-limit-to-log-function.patch
 	From 330090432754092d704da8e76ca5c05c198e71a8 Mon Sep 17 00:00:00 2001
 	From: Jessica Smith &lt;jessica@example.com&gt;
 	Date: Sun, 6 Apr 2008 10:17:23 -0700
@@ -647,7 +647,7 @@ Figura 5-4.</seg>
     <tu>
       <tuv lang="EN">
         <seg>Or you can use the shorter scp-like syntax for SSH protocol:
-	
+
 	$ git clone user@server:project.git</seg>
       </tuv>
       <tuv lang="ES">
@@ -730,11 +730,11 @@ Figura 5-4.</seg>
     </tu>
     <tu>
       <tuv lang="EN">
-        <seg>Insert 18333fig0511.png 
+        <seg>Insert 18333fig0511.png
 Figure 5-11.</seg>
       </tuv>
       <tuv lang="ES">
-        <seg>Insert 18333fig0511.png 
+        <seg>Insert 18333fig0511.png
 Figura 5-11.</seg>
       </tuv>
     </tu>
@@ -764,11 +764,11 @@ Figura 5-11.</seg>
     </tu>
     <tu>
       <tuv lang="EN">
-        <seg>Insert 18333fig0315.png 
+        <seg>Insert 18333fig0315.png
 Figure 3-15.</seg>
       </tuv>
       <tuv lang="ES">
-        <seg>Insert 18333fig0315.png 
+        <seg>Insert 18333fig0315.png
 Figura 3-15.</seg>
       </tuv>
     </tu>
@@ -868,11 +868,11 @@ Figura 3-15.</seg>
     </tu>
     <tu>
       <tuv lang="EN">
-        <seg>Insert 18333fig0401.png 
+        <seg>Insert 18333fig0401.png
 Figure 4-1.</seg>
       </tuv>
       <tuv lang="ES">
-        <seg>Insert 18333fig0401.png 
+        <seg>Insert 18333fig0401.png
 Figura 4-1.</seg>
       </tuv>
     </tu>
@@ -970,7 +970,7 @@ Figura 4-1.</seg>
     </tu>
     <tu>
       <tuv lang="EN">
-        <seg># enforces fast-forward only pushes 
+        <seg># enforces fast-forward only pushes
 	def check_fast_forward
 	  missed_refs = `git rev-list #{$newrev}..#{$oldrev}`
 	  missed_ref_count = missed_refs.split(&quot;\n&quot;).size
@@ -981,7 +981,7 @@ Figura 4-1.</seg>
 	end</seg>
       </tuv>
       <tuv lang="ES">
-        <seg># enforces fast-forward only pushes 
+        <seg># enforces fast-forward only pushes
 	def check_fast_forward
 	  missed_refs = `git rev-list #{$newrev}..#{$oldrev}`
 	  missed_ref_count = missed_refs.split(&quot;\n&quot;).size
@@ -1141,11 +1141,11 @@ Here is a template originally written by Tim Pope at tpope.net:</seg>
     </tu>
     <tu>
       <tuv lang="EN">
-        <seg>Insert 18333fig0334.png 
+        <seg>Insert 18333fig0334.png
 Figure 3-34.</seg>
       </tuv>
       <tuv lang="ES">
-        <seg>Insert 18333fig0334.png 
+        <seg>Insert 18333fig0334.png
 Figura 3-34.</seg>
       </tuv>
     </tu>
@@ -1402,12 +1402,12 @@ Figura 3-6.</seg>
     <tu>
       <tuv lang="EN">
         <seg>$ echo 'version 2' &gt; test.txt
-	$ git hash-object -w test.txt 
+	$ git hash-object -w test.txt
 	1f7a7a472abf3dd9643fd615f6da379c4acb3e3a</seg>
       </tuv>
       <tuv lang="ES">
         <seg>$ echo 'version 2' &gt; test.txt
-	$ git hash-object -w test.txt 
+	$ git hash-object -w test.txt
 	1f7a7a472abf3dd9643fd615f6da379c4acb3e3a</seg>
       </tuv>
     </tu>
@@ -1437,11 +1437,11 @@ Figura 3-6.</seg>
     </tu>
     <tu>
       <tuv lang="EN">
-        <seg>Insert 18333fig0409.png 
+        <seg>Insert 18333fig0409.png
 Figure 4-9.</seg>
       </tuv>
       <tuv lang="ES">
-        <seg>Insert 18333fig0409.png 
+        <seg>Insert 18333fig0409.png
 Figura 4-9.</seg>
       </tuv>
     </tu>
@@ -1537,7 +1537,7 @@ Figura 4-9.</seg>
     </tu>
     <tu>
       <tuv lang="EN">
-        <seg>$ cat ~/.ssh/id_rsa.pub 
+        <seg>$ cat ~/.ssh/id_rsa.pub
 	ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAklOUpkDHrfHY17SbrmTIpNLTGK9Tjom/BWDSU
 	GPl+nafzlHDTYW7hdI4yZ5ew18JH4JW9jbhUFrviQzM7xlELEVf4h9lFX5QVkbPppSwg0cda3
 	Pbv7kOdJ/MTyBlWXFCR+HAo3FXRitBqxiX1nKhXpHAZsMciLq8V6RjsNAQwdsdMFvSlVK/7XA
@@ -1546,7 +1546,7 @@ Figura 4-9.</seg>
 	NrRFi9wrf+M7Q== schacon@agadorlaptop.local</seg>
       </tuv>
       <tuv lang="ES">
-        <seg>$ cat ~/.ssh/id_rsa.pub 
+        <seg>$ cat ~/.ssh/id_rsa.pub
 	ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAklOUpkDHrfHY17SbrmTIpNLTGK9Tjom/BWDSU
 	GPl+nafzlHDTYW7hdI4yZ5ew18JH4JW9jbhUFrviQzM7xlELEVf4h9lFX5QVkbPppSwg0cda3
 	Pbv7kOdJ/MTyBlWXFCR+HAo3FXRitBqxiX1nKhXpHAZsMciLq8V6RjsNAQwdsdMFvSlVK/7XA
@@ -2061,7 +2061,7 @@ Figura 4-9.</seg>
 	      access[$user].each do |access_path|
 	        if !access_path || # user has access to everything
 	          (path.index(access_path) == 0) # access to this path
-	          has_file_access = true 
+	          has_file_access = true
 	        end
 	      end
 	      if !has_file_access
@@ -2069,7 +2069,7 @@ Figura 4-9.</seg>
 	        exit 1
 	      end
 	    end
-	  end  
+	  end
 	end</seg>
       </tuv>
       <tuv lang="ES">
@@ -2083,7 +2083,7 @@ Figura 4-9.</seg>
 	      access[$user].each do |access_path|
 	        if !access_path || # user has access to everything
 	          (path.index(access_path) == 0) # access to this path
-	          has_file_access = true 
+	          has_file_access = true
 	        end
 	      end
 	      if !has_file_access
@@ -2091,7 +2091,7 @@ Figura 4-9.</seg>
 	        exit 1
 	      end
 	    end
-	  end  
+	  end
 	end</seg>
       </tuv>
     </tu>
@@ -2113,11 +2113,11 @@ Figura 4-9.</seg>
     </tu>
     <tu>
       <tuv lang="EN">
-        <seg>Insert 18333fig0305.png 
+        <seg>Insert 18333fig0305.png
 Figure 3-5.</seg>
       </tuv>
       <tuv lang="ES">
-        <seg>Insert 18333fig0305.png 
+        <seg>Insert 18333fig0305.png
 Figura 3-5.</seg>
       </tuv>
     </tu>
@@ -2351,11 +2351,11 @@ Figura 3-5.</seg>
     </tu>
     <tu>
       <tuv lang="EN">
-        <seg>Insert 18333fig0336.png 
+        <seg>Insert 18333fig0336.png
 Figure 3-36.</seg>
       </tuv>
       <tuv lang="ES">
-        <seg>Insert 18333fig0336.png 
+        <seg>Insert 18333fig0336.png
 Figura 3-36.</seg>
       </tuv>
     </tu>
@@ -2605,11 +2605,11 @@ Figura 3-36.</seg>
     </tu>
     <tu>
       <tuv lang="EN">
-        <seg>Insert 18333fig0408.png 
+        <seg>Insert 18333fig0408.png
 Figure 4-8.</seg>
       </tuv>
       <tuv lang="ES">
-        <seg>Insert 18333fig0408.png 
+        <seg>Insert 18333fig0408.png
 Figura 4-8.</seg>
       </tuv>
     </tu>
@@ -2639,11 +2639,11 @@ Figura 4-8.</seg>
     </tu>
     <tu>
       <tuv lang="EN">
-        <seg>$ git am 0001-limit-log-function.patch 
+        <seg>$ git am 0001-limit-log-function.patch
 	Applying: add limit to log function</seg>
       </tuv>
       <tuv lang="ES">
-        <seg>$ git am 0001-limit-log-function.patch 
+        <seg>$ git am 0001-limit-log-function.patch
 	Applying: add limit to log function</seg>
       </tuv>
     </tu>
@@ -2967,11 +2967,11 @@ Figura 4-8.</seg>
     </tu>
     <tu>
       <tuv lang="EN">
-        <seg>$ cat .git/refs/remotes/origin/master 
+        <seg>$ cat .git/refs/remotes/origin/master
 	ca82a6dff817ec66f44342007202690a93763949</seg>
       </tuv>
       <tuv lang="ES" changedate="20110810T225114Z" changeid="juan">
-        <seg>$ cat .git/refs/remotes/origin/master 
+        <seg>$ cat .git/refs/remotes/origin/master
 	ca82a6dff817ec66f44342007202690a93763949</seg>
       </tuv>
     </tu>
@@ -3281,11 +3281,11 @@ Figura 4-8.</seg>
     </tu>
     <tu>
       <tuv lang="EN">
-        <seg>Insert 18333fig0303.png 
+        <seg>Insert 18333fig0303.png
 Figure 3-3.</seg>
       </tuv>
       <tuv lang="ES">
-        <seg>Insert 18333fig0303.png 
+        <seg>Insert 18333fig0303.png
 Figura 3-3.</seg>
       </tuv>
     </tu>
@@ -3313,11 +3313,11 @@ Figura 3-3.</seg>
     </tu>
     <tu>
       <tuv lang="EN">
-        <seg>Insert 18333fig0902.png 
+        <seg>Insert 18333fig0902.png
 Figure 9-2.</seg>
       </tuv>
       <tuv lang="ES" changedate="20110807T145450Z" changeid="juan">
-        <seg>Insert 18333fig0902.png 
+        <seg>Insert 18333fig0902.png
 Figura 9-2.</seg>
       </tuv>
     </tu>
@@ -3379,11 +3379,11 @@ Figura 9-2.</seg>
     </tu>
     <tu>
       <tuv lang="EN">
-        <seg>Insert 18333fig0507.png 
+        <seg>Insert 18333fig0507.png
 Figure 5-7.</seg>
       </tuv>
       <tuv lang="ES">
-        <seg>Insert 18333fig0507.png 
+        <seg>Insert 18333fig0507.png
 Figura 5-7.</seg>
       </tuv>
     </tu>
@@ -3503,11 +3503,11 @@ Figura 5-7.</seg>
     </tu>
     <tu>
       <tuv lang="EN">
-        <seg>$ cat .git/HEAD 
+        <seg>$ cat .git/HEAD
 	ref: refs/heads/master</seg>
       </tuv>
       <tuv lang="ES" changedate="20110808T192320Z" changeid="juan">
-        <seg>$ cat .git/HEAD 
+        <seg>$ cat .git/HEAD
 	ref: refs/heads/master</seg>
       </tuv>
     </tu>
@@ -3563,11 +3563,11 @@ Figura 5-7.</seg>
     </tu>
     <tu>
       <tuv lang="EN">
-        <seg>Insert 18333fig0403.png 
+        <seg>Insert 18333fig0403.png
 Figure 4-3.</seg>
       </tuv>
       <tuv lang="ES">
-        <seg>Insert 18333fig0403.png 
+        <seg>Insert 18333fig0403.png
 Figura 4-3.</seg>
       </tuv>
     </tu>
@@ -3699,11 +3699,11 @@ Figura 4-3.</seg>
     </tu>
     <tu>
       <tuv lang="EN">
-        <seg>Insert 18333fig0330.png 
+        <seg>Insert 18333fig0330.png
 Figure 3-30.</seg>
       </tuv>
       <tuv lang="ES">
-        <seg>Insert 18333fig0330.png 
+        <seg>Insert 18333fig0330.png
 Figura 3-30.</seg>
       </tuv>
     </tu>
@@ -4059,11 +4059,11 @@ Figura 3-30.</seg>
     </tu>
     <tu>
       <tuv lang="EN">
-        <seg>Insert 18333fig0701.png 
+        <seg>Insert 18333fig0701.png
 Figure 7-1.</seg>
       </tuv>
       <tuv lang="ES">
-        <seg>Insert 18333fig0701.png 
+        <seg>Insert 18333fig0701.png
 Figura 7-1.</seg>
       </tuv>
     </tu>
@@ -4123,7 +4123,7 @@ Figura 7-1.</seg>
 	$ git clone git@gitserver:gitosis-admin.git</seg>
       </tuv>
       <tuv lang="ES">
-        <seg>a tu ordenador personal-- 
+        <seg>a tu ordenador personal--
 	$ git clone git@gitserver:gitosis-admin.git</seg>
       </tuv>
     </tu>
@@ -4393,11 +4393,11 @@ Figura 7-1.</seg>
     </tu>
     <tu>
       <tuv lang="EN">
-        <seg>Insert 18333fig0302.png 
+        <seg>Insert 18333fig0302.png
 Figure 3-2.</seg>
       </tuv>
       <tuv lang="ES">
-        <seg>Insert 18333fig0302.png 
+        <seg>Insert 18333fig0302.png
 Figura 3-2.</seg>
       </tuv>
     </tu>
@@ -4503,11 +4503,11 @@ Figura 3-2.</seg>
     </tu>
     <tu>
       <tuv lang="EN">
-        <seg>Insert 18333fig0904.png 
+        <seg>Insert 18333fig0904.png
 Figure 9-4.</seg>
       </tuv>
       <tuv lang="ES" changedate="20110808T191524Z" changeid="juan">
-        <seg>Insert 18333fig0904.png 
+        <seg>Insert 18333fig0904.png
 Figura 9-4.</seg>
       </tuv>
     </tu>
@@ -4577,12 +4577,12 @@ Figura 9-4.</seg>
     </tu>
     <tu>
       <tuv lang="EN">
-        <seg>$ cat /usr/local/bin/extDiff 
+        <seg>$ cat /usr/local/bin/extDiff
 	#!/bin/sh
 	[ $# -eq 7 ] &amp;&amp; /usr/local/bin/extMerge &quot;$2&quot; &quot;$5&quot;</seg>
       </tuv>
       <tuv lang="ES">
-        <seg>$ cat /usr/local/bin/extDiff 
+        <seg>$ cat /usr/local/bin/extDiff
 	#!/bin/sh
 	[ $# -eq 7 ] &amp;&amp; /usr/local/bin/extMerge &quot;$2&quot; &quot;$5&quot;</seg>
       </tuv>
@@ -4597,13 +4597,13 @@ Figura 9-4.</seg>
     </tu>
     <tu>
       <tuv lang="EN">
-        <seg>$ git diff 
+        <seg>$ git diff
 	diff --git a/chapter1.doc b/chapter1.doc
 	index 88839c4..4afcb7c 100644
 	Binary files a/chapter1.doc and b/chapter1.doc differ</seg>
       </tuv>
       <tuv lang="ES">
-        <seg>$ git diff 
+        <seg>$ git diff
 	diff --git a/chapter1.doc b/chapter1.doc
 	index 88839c4..4afcb7c 100644
 	Binary files a/chapter1.doc and b/chapter1.doc differ</seg>
@@ -4659,11 +4659,11 @@ Figura 9-4.</seg>
     </tu>
     <tu>
       <tuv lang="EN">
-        <seg>Insert 18333fig0316.png 
+        <seg>Insert 18333fig0316.png
 Figure 3-16.</seg>
       </tuv>
       <tuv lang="ES">
-        <seg>Insert 18333fig0316.png 
+        <seg>Insert 18333fig0316.png
 Figura 3-16.</seg>
       </tuv>
     </tu>
@@ -4813,11 +4813,11 @@ Figura 3-16.</seg>
     </tu>
     <tu>
       <tuv lang="EN">
-        <seg>Insert 18333fig0522.png 
+        <seg>Insert 18333fig0522.png
 Figure 5-22.</seg>
       </tuv>
       <tuv lang="ES">
-        <seg>Insert 18333fig0522.png 
+        <seg>Insert 18333fig0522.png
 Figura 5-22.</seg>
       </tuv>
     </tu>
@@ -4935,15 +4935,15 @@ Figura 5-22.</seg>
     </tu>
     <tu>
       <tuv lang="EN">
-        <seg>Enter file in which to save the key (/Users/schacon/.ssh/id_rsa): 
-	Enter passphrase (empty for no passphrase): 
-	Enter same passphrase again: 
+        <seg>Enter file in which to save the key (/Users/schacon/.ssh/id_rsa):
+	Enter passphrase (empty for no passphrase):
+	Enter same passphrase again:
 	Your identification has been saved in /Users/schacon/.ssh/id_rsa.</seg>
       </tuv>
       <tuv lang="ES">
-        <seg>Enter file in which to save the key (/Users/schacon/.ssh/id_rsa): 
-	Enter passphrase (empty for no passphrase): 
-	Enter same passphrase again: 
+        <seg>Enter file in which to save the key (/Users/schacon/.ssh/id_rsa):
+	Enter passphrase (empty for no passphrase):
+	Enter same passphrase again:
 	Your identification has been saved in /Users/schacon/.ssh/id_rsa.</seg>
       </tuv>
     </tu>
@@ -4973,11 +4973,11 @@ Figura 5-22.</seg>
     </tu>
     <tu>
       <tuv lang="EN">
-        <seg>If the book spontaneously 
+        <seg>If the book spontaneously
 	+Let's see if this works.</seg>
       </tuv>
       <tuv lang="ES">
-        <seg>If the book spontaneously 
+        <seg>If the book spontaneously
 	+Let's see if this works.</seg>
       </tuv>
     </tu>
@@ -5337,11 +5337,11 @@ Figura 5-22.</seg>
     </tu>
     <tu>
       <tuv lang="EN">
-        <seg>Insert 18333fig0323.png 
+        <seg>Insert 18333fig0323.png
 Figure 3-23.</seg>
       </tuv>
       <tuv lang="ES">
-        <seg>Insert 18333fig0323.png 
+        <seg>Insert 18333fig0323.png
 Figura 3-23.</seg>
       </tuv>
     </tu>
@@ -5413,11 +5413,11 @@ Figura 4-2.</seg>
     </tu>
     <tu>
       <tuv lang="EN">
-        <seg>Insert 18333fig0318.png 
+        <seg>Insert 18333fig0318.png
 Figure 3-18.</seg>
       </tuv>
       <tuv lang="ES">
-        <seg>Insert 18333fig0318.png 
+        <seg>Insert 18333fig0318.png
 Figura 3-18.</seg>
       </tuv>
     </tu>
@@ -5563,14 +5563,14 @@ Figura 3-18.</seg>
     </tu>
     <tu>
       <tuv lang="EN">
-        <seg>$ git am 0001-seeing-if-this-helps-the-gem.patch 
+        <seg>$ git am 0001-seeing-if-this-helps-the-gem.patch
 	Applying: seeing if this helps the gem
 	error: patch failed: ticgit.gemspec:1
 	error: ticgit.gemspec: patch does not apply
 	Patch failed at 0001.</seg>
       </tuv>
       <tuv lang="ES">
-        <seg>$ git am 0001-seeing-if-this-helps-the-gem.patch 
+        <seg>$ git am 0001-seeing-if-this-helps-the-gem.patch
 	Applying: seeing if this helps the gem
 	error: patch failed: ticgit.gemspec:1
 	error: ticgit.gemspec: patch does not apply
@@ -5587,11 +5587,11 @@ Figura 3-18.</seg>
     </tu>
     <tu>
       <tuv lang="EN">
-        <seg>Insert 18333fig0518.png 
+        <seg>Insert 18333fig0518.png
 Figure 5-18.</seg>
       </tuv>
       <tuv lang="ES">
-        <seg>Insert 18333fig0518.png 
+        <seg>Insert 18333fig0518.png
 Figura 5-18.</seg>
       </tuv>
     </tu>
@@ -5640,7 +5640,7 @@ Figura 5-18.</seg>
 	Initialized empty Git repository in /home/jessica/simplegit/.git/
 	...
 	$ cd simplegit/
-	$ vim TODO 
+	$ vim TODO
 	$ git commit -am 'add reset task'
 	[master fbff5bc] add reset task
 	 1 files changed, 1 insertions(+), 0 deletions(-)</seg>
@@ -5651,7 +5651,7 @@ Figura 5-18.</seg>
 	Initialized empty Git repository in /home/jessica/simplegit/.git/
 	...
 	$ cd simplegit/
-	$ vim TODO 
+	$ vim TODO
 	$ git commit -am 'add reset task'
 	[master fbff5bc] add reset task
 	 1 files changed, 1 insertions(+), 0 deletions(-)</seg>
@@ -5936,7 +5936,7 @@ Figura 5-18.</seg>
     <tu>
       <tuv lang="EN">
         <seg>$ curl http://github.com/mojombo/grit/raw/master/lib/grit/repo.rb &gt; repo.rb
-	$ git add repo.rb 
+	$ git add repo.rb
 	$ git commit -m 'added repo.rb'
 	[master 484a592] added repo.rb
 	 3 files changed, 459 insertions(+), 2 deletions(-)
@@ -5946,7 +5946,7 @@ Figura 5-18.</seg>
       </tuv>
       <tuv lang="ES" changedate="20110810T230215Z" changeid="juan">
         <seg>$ curl http://github.com/mojombo/grit/raw/master/lib/grit/repo.rb &gt; repo.rb
-	$ git add repo.rb 
+	$ git add repo.rb
 	$ git commit -m 'added repo.rb'
 	[master 484a592] added repo.rb
 	 3 files changed, 459 insertions(+), 2 deletions(-)
@@ -6091,11 +6091,11 @@ Figura 5-18.</seg>
     </tu>
     <tu>
       <tuv lang="EN">
-        <seg>Insert 18333fig0601.png 
+        <seg>Insert 18333fig0601.png
 Figure 6-1.</seg>
       </tuv>
       <tuv lang="ES" changedate="20120701T115755Z" changeid="juan">
-        <seg>Insert 18333fig0601.png 
+        <seg>Insert 18333fig0601.png
 Figura 6-1.</seg>
       </tuv>
     </tu>
@@ -6133,11 +6133,11 @@ Figura 6-1.</seg>
     </tu>
     <tu>
       <tuv lang="EN">
-        <seg>Insert 18333fig0322.png 
+        <seg>Insert 18333fig0322.png
 Figure 3-22.</seg>
       </tuv>
       <tuv lang="ES">
-        <seg>Insert 18333fig0322.png 
+        <seg>Insert 18333fig0322.png
 Figura 3-22.</seg>
       </tuv>
     </tu>
@@ -6397,11 +6397,11 @@ Figura 3-22.</seg>
     </tu>
     <tu>
       <tuv lang="EN">
-        <seg>Insert 18333fig0404.png 
+        <seg>Insert 18333fig0404.png
 Figure 4-4.</seg>
       </tuv>
       <tuv lang="ES">
-        <seg>Insert 18333fig0404.png 
+        <seg>Insert 18333fig0404.png
 Figura 4-4.</seg>
       </tuv>
     </tu>
@@ -6483,7 +6483,7 @@ Figura 4-4.</seg>
     </tu>
     <tu>
       <tuv lang="EN">
-        <seg>$ git am -3 0001-seeing-if-this-helps-the-gem.patch 
+        <seg>$ git am -3 0001-seeing-if-this-helps-the-gem.patch
 	Applying: seeing if this helps the gem
 	error: patch failed: ticgit.gemspec:1
 	error: ticgit.gemspec: patch does not apply
@@ -6492,7 +6492,7 @@ Figura 4-4.</seg>
 	No changes -- Patch already applied.</seg>
       </tuv>
       <tuv lang="ES">
-        <seg>$ git am -3 0001-seeing-if-this-helps-the-gem.patch 
+        <seg>$ git am -3 0001-seeing-if-this-helps-the-gem.patch
 	Applying: seeing if this helps the gem
 	error: patch failed: ticgit.gemspec:1
 	error: ticgit.gemspec: patch does not apply
@@ -6511,11 +6511,11 @@ Figura 4-4.</seg>
     </tu>
     <tu>
       <tuv lang="EN">
-        <seg>Insert 18333fig0311.png 
+        <seg>Insert 18333fig0311.png
 Figure 3-11.</seg>
       </tuv>
       <tuv lang="ES">
-        <seg>Insert 18333fig0311.png 
+        <seg>Insert 18333fig0311.png
 Figura 3-11.</seg>
       </tuv>
     </tu>
@@ -6723,11 +6723,11 @@ Figura 3-11.</seg>
     </tu>
     <tu>
       <tuv lang="EN">
-        <seg>Insert 18333fig0325.png 
+        <seg>Insert 18333fig0325.png
 Figure 3-25.</seg>
       </tuv>
       <tuv lang="ES">
-        <seg>Insert 18333fig0325.png 
+        <seg>Insert 18333fig0325.png
 Figura 3-25.</seg>
       </tuv>
     </tu>
@@ -7075,11 +7075,11 @@ Figura 3-25.</seg>
     </tu>
     <tu>
       <tuv lang="EN">
-        <seg>Insert 18333fig0502.png 
+        <seg>Insert 18333fig0502.png
 Figure 5-2.</seg>
       </tuv>
       <tuv lang="ES">
-        <seg>Insert 18333fig0502.png 
+        <seg>Insert 18333fig0502.png
 Figura 5-2.</seg>
       </tuv>
     </tu>
@@ -7289,11 +7289,11 @@ Figura 5-2.</seg>
     </tu>
     <tu>
       <tuv lang="EN">
-        <seg>Insert 18333fig0338.png 
+        <seg>Insert 18333fig0338.png
 Figure 3-38.</seg>
       </tuv>
       <tuv lang="ES">
-        <seg>Insert 18333fig0338.png 
+        <seg>Insert 18333fig0338.png
 Figura 3-38.</seg>
       </tuv>
     </tu>
@@ -7509,11 +7509,11 @@ Figura 3-38.</seg>
     </tu>
     <tu>
       <tuv lang="EN">
-        <seg>Insert 18333fig0328.png 
+        <seg>Insert 18333fig0328.png
 Figure 3-28.</seg>
       </tuv>
       <tuv lang="ES">
-        <seg>Insert 18333fig0328.png 
+        <seg>Insert 18333fig0328.png
 Figura 3-28.</seg>
       </tuv>
     </tu>
@@ -7640,11 +7640,11 @@ Figura 3-28.</seg>
     </tu>
     <tu>
       <tuv lang="EN">
-        <seg>$ sudo chmod +x /usr/local/bin/extMerge 
+        <seg>$ sudo chmod +x /usr/local/bin/extMerge
 	$ sudo chmod +x /usr/local/bin/extDiff</seg>
       </tuv>
       <tuv lang="ES">
-        <seg>$ sudo chmod +x /usr/local/bin/extMerge 
+        <seg>$ sudo chmod +x /usr/local/bin/extMerge
 	$ sudo chmod +x /usr/local/bin/extDiff</seg>
       </tuv>
     </tu>
@@ -8002,7 +8002,7 @@ Figura 3-28.</seg>
     </tu>
     <tu>
       <tuv lang="EN">
-        <seg>$ git rm git.tbz2 
+        <seg>$ git rm git.tbz2
 	rm 'git.tbz2'
 	$ git commit -m 'oops - removed large tarball'
 	[master da3f30d] oops - removed large tarball
@@ -8010,7 +8010,7 @@ Figura 3-28.</seg>
 	 delete mode 100644 git.tbz2</seg>
       </tuv>
       <tuv lang="ES" changedate="20110822T104718Z" changeid="juan">
-        <seg>$ git rm git.tbz2 
+        <seg>$ git rm git.tbz2
 	rm 'git.tbz2'
 	$ git commit -m 'oops - removed large tarball'
 	[master da3f30d] oops - removed large tarball
@@ -8214,11 +8214,11 @@ Figura 3-28.</seg>
     </tu>
     <tu>
       <tuv lang="EN">
-        <seg>Insert 18333fig0414.png 
+        <seg>Insert 18333fig0414.png
 Figure 4-14.</seg>
       </tuv>
       <tuv lang="ES">
-        <seg>Insert 18333fig0414.png 
+        <seg>Insert 18333fig0414.png
 Figura 4-14.</seg>
       </tuv>
     </tu>
@@ -8273,12 +8273,12 @@ Figura 4-14.</seg>
     <tu>
       <tuv lang="EN">
         <seg>$ echo 'version 1' &gt; test.txt
-	$ git hash-object -w test.txt 
+	$ git hash-object -w test.txt
 	83baae61804e65cc73a7201a7252750c76066a30</seg>
       </tuv>
       <tuv lang="ES">
         <seg>$ echo 'version 1' &gt; test.txt
-	$ git hash-object -w test.txt 
+	$ git hash-object -w test.txt
 	83baae61804e65cc73a7201a7252750c76066a30</seg>
       </tuv>
     </tu>
@@ -8386,11 +8386,11 @@ Figura 4-14.</seg>
     </tu>
     <tu>
       <tuv lang="EN">
-        <seg>Insert 18333fig0314.png 
+        <seg>Insert 18333fig0314.png
 Figure 3-14.</seg>
       </tuv>
       <tuv lang="ES">
-        <seg>Insert 18333fig0314.png 
+        <seg>Insert 18333fig0314.png
 Figura 3-14.</seg>
       </tuv>
     </tu>
@@ -8448,11 +8448,11 @@ Figura 3-14.</seg>
     </tu>
     <tu>
       <tuv lang="EN">
-        <seg>Insert 18333fig0512.png 
+        <seg>Insert 18333fig0512.png
 Figure 5-12.</seg>
       </tuv>
       <tuv lang="ES">
-        <seg>Insert 18333fig0512.png 
+        <seg>Insert 18333fig0512.png
 Figura 5-12.</seg>
       </tuv>
     </tu>
@@ -8616,12 +8616,12 @@ Figura 5-12.</seg>
     </tu>
     <tu>
       <tuv lang="EN">
-        <seg>$ cat .git/hooks/post-update 
+        <seg>$ cat .git/hooks/post-update
 	#!/bin/sh
 	exec git-update-server-info</seg>
       </tuv>
       <tuv lang="ES">
-        <seg>$ cat .git/hooks/post-update 
+        <seg>$ cat .git/hooks/post-update
 	#!/bin/sh
 	exec git-update-server-info</seg>
       </tuv>
@@ -8636,11 +8636,11 @@ Figura 5-12.</seg>
     </tu>
     <tu>
       <tuv lang="EN">
-        <seg>Insert 18333fig0327.png 
+        <seg>Insert 18333fig0327.png
 Figure 3-27.</seg>
       </tuv>
       <tuv lang="ES">
-        <seg>Insert 18333fig0327.png 
+        <seg>Insert 18333fig0327.png
 Figura 3-27.</seg>
       </tuv>
     </tu>
@@ -9049,12 +9049,12 @@ Figura 3-27.</seg>
     <tu>
       <tuv lang="EN">
         <seg>$ git symbolic-ref HEAD refs/heads/test
-	$ cat .git/HEAD 
+	$ cat .git/HEAD
 	ref: refs/heads/test</seg>
       </tuv>
       <tuv lang="ES" changedate="20110808T192927Z" changeid="juan">
         <seg>$ git symbolic-ref HEAD refs/heads/test
-	$ cat .git/HEAD 
+	$ cat .git/HEAD
 	ref: refs/heads/test</seg>
       </tuv>
     </tu>
@@ -9188,7 +9188,7 @@ Figura 3-27.</seg>
     </tu>
     <tu>
       <tuv lang="EN">
-        <seg>Enforcing Policies... 
+        <seg>Enforcing Policies...
 	(refs/heads/master) (8338c5) (c5b616)
 	[POLICY] Cannot push a non-fast-forward reference
 	error: hooks/update exited with error code 1
@@ -9197,7 +9197,7 @@ Figura 3-27.</seg>
 	 !</seg>
       </tuv>
       <tuv lang="ES">
-        <seg>Enforcing Policies... 
+        <seg>Enforcing Policies...
 	(refs/heads/master) (8338c5) (c5b616)
 	[POLICY] Cannot push a non-fast-forward reference
 	error: hooks/update exited with error code 1
@@ -9493,11 +9493,11 @@ Figura 3-27.</seg>
     </tu>
     <tu>
       <tuv lang="EN">
-        <seg>Insert 18333fig0517.png 
+        <seg>Insert 18333fig0517.png
 Figure 5-17.</seg>
       </tuv>
       <tuv lang="ES">
-        <seg>Insert 18333fig0517.png 
+        <seg>Insert 18333fig0517.png
 Figura 5-17.</seg>
       </tuv>
     </tu>
@@ -9597,11 +9597,11 @@ Figura 5-17.</seg>
     </tu>
     <tu>
       <tuv lang="EN">
-        <seg>Insert 18333fig0519.png 
+        <seg>Insert 18333fig0519.png
 Figure 5-19.</seg>
       </tuv>
       <tuv lang="ES">
-        <seg>Insert 18333fig0519.png 
+        <seg>Insert 18333fig0519.png
 Figura 5-19.</seg>
       </tuv>
     </tu>
@@ -10323,11 +10323,11 @@ Figura 5-19.</seg>
     </tu>
     <tu>
       <tuv lang="EN">
-        <seg>Insert 18333fig0501.png 
+        <seg>Insert 18333fig0501.png
 Figure 5-1.</seg>
       </tuv>
       <tuv lang="ES">
-        <seg>Insert 18333fig0501.png 
+        <seg>Insert 18333fig0501.png
 Figura 5-1.</seg>
       </tuv>
     </tu>
@@ -10393,12 +10393,12 @@ Figura 5-1.</seg>
     </tu>
     <tu>
       <tuv lang="EN">
-        <seg>(mbox) Adding cc: Jessica Smith &lt;jessica@example.com&gt; from 
+        <seg>(mbox) Adding cc: Jessica Smith &lt;jessica@example.com&gt; from
 	  \line 'From: Jessica Smith &lt;jessica@example.com&gt;'
 	OK.</seg>
       </tuv>
       <tuv lang="ES">
-        <seg>(mbox) Adding cc: Jessica Smith &lt;jessica@example.com&gt; from 
+        <seg>(mbox) Adding cc: Jessica Smith &lt;jessica@example.com&gt; from
 	  \line 'From: Jessica Smith &lt;jessica@example.com&gt;'
 	OK.</seg>
       </tuv>
@@ -10437,8 +10437,8 @@ Figura 5-1.</seg>
     </tu>
     <tu>
       <tuv lang="EN">
-        <seg>$ git blame -C -L 141,153 GITPackUpload.m 
-	f344f58d GITServerHandler.m (Scott 2009-01-04 141) 
+        <seg>$ git blame -C -L 141,153 GITPackUpload.m
+	f344f58d GITServerHandler.m (Scott 2009-01-04 141)
 	f344f58d GITServerHandler.m (Scott 2009-01-04 142) - (void) gatherObjectShasFromC
 	f344f58d GITServerHandler.m (Scott 2009-01-04 143) {
 	70befddd GITServerHandler.m (Scott 2009-03-22 144)         //NSLog(@&quot;GATHER COMMI
@@ -10453,8 +10453,8 @@ Figura 5-1.</seg>
 	56ef2caf GITServerHandler.m (Scott 2009-01-05 153)</seg>
       </tuv>
       <tuv lang="ES" changedate="20120830T065945Z" changeid="juan">
-        <seg>$ git blame -C -L 141,153 GITPackUpload.m 
-	f344f58d GITServerHandler.m (Scott 2009-01-04 141) 
+        <seg>$ git blame -C -L 141,153 GITPackUpload.m
+	f344f58d GITServerHandler.m (Scott 2009-01-04 141)
 	f344f58d GITServerHandler.m (Scott 2009-01-04 142) - (void) gatherObjectShasFromC
 	f344f58d GITServerHandler.m (Scott 2009-01-04 143) {
 	70befddd GITServerHandler.m (Scott 2009-03-22 144)         //NSLog(@&quot;GATHER COMMI
@@ -11055,11 +11055,11 @@ Figura 5-1.</seg>
     </tu>
     <tu>
       <tuv lang="EN">
-        <seg>Insert 18333fig0410.png 
+        <seg>Insert 18333fig0410.png
 Figure 4-10.</seg>
       </tuv>
       <tuv lang="ES">
-        <seg>Insert 18333fig0410.png 
+        <seg>Insert 18333fig0410.png
 Figura 4-10.</seg>
       </tuv>
     </tu>
@@ -11089,11 +11089,11 @@ Figura 4-10.</seg>
     </tu>
     <tu>
       <tuv lang="EN">
-        <seg>Insert 18333fig0407.png 
+        <seg>Insert 18333fig0407.png
 Figure 4-7.</seg>
       </tuv>
       <tuv lang="ES">
-        <seg>Insert 18333fig0407.png 
+        <seg>Insert 18333fig0407.png
 Figura 4-7.</seg>
       </tuv>
     </tu>
@@ -11189,11 +11189,11 @@ Figura 4-7.</seg>
     </tu>
     <tu>
       <tuv lang="EN">
-        <seg>Insert 18333fig0309.png 
+        <seg>Insert 18333fig0309.png
 Figure 3-9.</seg>
       </tuv>
       <tuv lang="ES">
-        <seg>Insert 18333fig0309.png 
+        <seg>Insert 18333fig0309.png
 Figura 3-9.</seg>
       </tuv>
     </tu>
@@ -11295,11 +11295,11 @@ Figura 3-9.</seg>
     </tu>
     <tu>
       <tuv lang="EN">
-        <seg>Insert 18333fig0324.png 
+        <seg>Insert 18333fig0324.png
 Figure 3-24.</seg>
       </tuv>
       <tuv lang="ES">
-        <seg>Insert 18333fig0324.png 
+        <seg>Insert 18333fig0324.png
 Figura 3-24.</seg>
       </tuv>
     </tu>
@@ -11329,11 +11329,11 @@ Figura 3-24.</seg>
     </tu>
     <tu>
       <tuv lang="EN">
-        <seg>Insert 18333fig0505.png 
+        <seg>Insert 18333fig0505.png
 Figure 5-5.</seg>
       </tuv>
       <tuv lang="ES">
-        <seg>Insert 18333fig0505.png 
+        <seg>Insert 18333fig0505.png
 Figura 5-5.</seg>
       </tuv>
     </tu>
@@ -12149,11 +12149,11 @@ Figura 5-5.</seg>
     </tu>
     <tu>
       <tuv lang="EN">
-        <seg>Insert 18333fig0513.png 
+        <seg>Insert 18333fig0513.png
 Figure 5-13.</seg>
       </tuv>
       <tuv lang="ES">
-        <seg>Insert 18333fig0513.png 
+        <seg>Insert 18333fig0513.png
 Figura 5-13.</seg>
       </tuv>
     </tu>
@@ -12735,11 +12735,11 @@ Figura 5-20.</seg>
     </tu>
     <tu>
       <tuv lang="EN">
-        <seg>Insert 18333fig0903.png 
+        <seg>Insert 18333fig0903.png
 Figure 9-3.</seg>
       </tuv>
       <tuv lang="ES" changedate="20110807T153604Z" changeid="juan">
-        <seg>Insert 18333fig0903.png 
+        <seg>Insert 18333fig0903.png
 Figura 9-3.</seg>
       </tuv>
     </tu>
@@ -12811,11 +12811,11 @@ Figura 9-3.</seg>
     </tu>
     <tu>
       <tuv lang="EN">
-        <seg>Insert 18333fig0525.png 
+        <seg>Insert 18333fig0525.png
 Figure 5-25.</seg>
       </tuv>
       <tuv lang="ES">
-        <seg>Insert 18333fig0525.png 
+        <seg>Insert 18333fig0525.png
 Figura 5-25.</seg>
       </tuv>
     </tu>
@@ -13379,11 +13379,11 @@ Figura 5-25.</seg>
     </tu>
     <tu>
       <tuv lang="EN">
-        <seg>Insert 18333fig0313.png 
+        <seg>Insert 18333fig0313.png
 Figure 3-13.</seg>
       </tuv>
       <tuv lang="ES">
-        <seg>Insert 18333fig0313.png 
+        <seg>Insert 18333fig0313.png
 Figura 3-13.</seg>
       </tuv>
     </tu>
@@ -13413,11 +13413,11 @@ Figura 3-13.</seg>
     </tu>
     <tu>
       <tuv lang="EN">
-        <seg>Insert 18333fig0702.png 
+        <seg>Insert 18333fig0702.png
 Figure 7-2.</seg>
       </tuv>
       <tuv lang="ES">
-        <seg>Insert 18333fig0702.png 
+        <seg>Insert 18333fig0702.png
 Figura 7-2.</seg>
       </tuv>
     </tu>
@@ -13475,11 +13475,11 @@ Figura 7-2.</seg>
     </tu>
     <tu>
       <tuv lang="EN">
-        <seg>Insert 18333fig0508.png 
+        <seg>Insert 18333fig0508.png
 Figure 5-8.</seg>
       </tuv>
       <tuv lang="ES">
-        <seg>Insert 18333fig0508.png 
+        <seg>Insert 18333fig0508.png
 Figura 5-8.</seg>
       </tuv>
     </tu>
@@ -13567,11 +13567,11 @@ Figura 5-8.</seg>
     </tu>
     <tu>
       <tuv lang="EN">
-        <seg>Insert 18333fig0337.png 
+        <seg>Insert 18333fig0337.png
 Figure 3-37.</seg>
       </tuv>
       <tuv lang="ES">
-        <seg>Insert 18333fig0337.png 
+        <seg>Insert 18333fig0337.png
 Figura 3-37.</seg>
       </tuv>
     </tu>
@@ -13869,11 +13869,11 @@ Figura 3-37.</seg>
     </tu>
     <tu>
       <tuv lang="EN">
-        <seg>Insert 18333fig0524.png 
+        <seg>Insert 18333fig0524.png
 Figure 5-24.</seg>
       </tuv>
       <tuv lang="ES">
-        <seg>Insert 18333fig0524.png 
+        <seg>Insert 18333fig0524.png
 Figura 5-24.</seg>
       </tuv>
     </tu>
@@ -14537,13 +14537,13 @@ Figura 5-24.</seg>
     </tu>
     <tu>
       <tuv lang="EN">
-        <seg>$ git cat-file -p 83baae61804e65cc73a7201a7252750c76066a30 &gt; test.txt 
-	$ cat test.txt 
+        <seg>$ git cat-file -p 83baae61804e65cc73a7201a7252750c76066a30 &gt; test.txt
+	$ cat test.txt
 	version 1</seg>
       </tuv>
       <tuv lang="ES">
-        <seg>$ git cat-file -p 83baae61804e65cc73a7201a7252750c76066a30 &gt; test.txt 
-	$ cat test.txt 
+        <seg>$ git cat-file -p 83baae61804e65cc73a7201a7252750c76066a30 &gt; test.txt
+	$ cat test.txt
 	version 1</seg>
       </tuv>
     </tu>
@@ -14749,11 +14749,11 @@ Figura 5-24.</seg>
     </tu>
     <tu>
       <tuv lang="EN">
-        <seg>Insert 18333fig0506.png 
+        <seg>Insert 18333fig0506.png
 Figure 5-6.</seg>
       </tuv>
       <tuv lang="ES">
-        <seg>Insert 18333fig0506.png 
+        <seg>Insert 18333fig0506.png
 Figura 5-6.</seg>
       </tuv>
     </tu>
@@ -15059,10 +15059,10 @@ Figura 5-6.</seg>
     </tu>
     <tu>
       <tuv lang="EN">
-        <seg>If you add text between the `--` line and the beginning of the patch (the `lib/simplegit.rb` line), then developers can read it; but applying the patch excludes it.</seg>
+        <seg>If you add text between the `---` line and the beginning of the patch (the `lib/simplegit.rb` line), then developers can read it; but applying the patch excludes it.</seg>
       </tuv>
       <tuv lang="ES">
-        <seg>Si añades texto entre la línea que comienza por `--` y el comienzo del parche (la línea `lib/simplegit.rb). Los desarrolladores de la lista de correo podrán leerlo. Pero será ignorado al aplicar el parche al proyecto.</seg>
+        <seg>Si añades texto entre la línea que comienza por `---` y el comienzo del parche (la línea `lib/simplegit.rb). Los desarrolladores de la lista de correo podrán leerlo. Pero será ignorado al aplicar el parche al proyecto.</seg>
       </tuv>
     </tu>
     <tu>
@@ -15395,7 +15395,7 @@ Figura 5-6.</seg>
     </tu>
     <tu>
       <tuv lang="EN">
-        <seg>$ ls 
+        <seg>$ ls
 	HEAD
 	branches/
 	config
@@ -15407,7 +15407,7 @@ Figura 5-6.</seg>
 	refs/</seg>
       </tuv>
       <tuv lang="ES" changedate="20110808T180445Z" changeid="juan">
-        <seg>$ ls 
+        <seg>$ ls
 	HEAD
 	branches/
 	config
@@ -15715,11 +15715,11 @@ Figura 5-6.</seg>
     </tu>
     <tu>
       <tuv lang="EN">
-        <seg>Insert 18333fig0310.png 
+        <seg>Insert 18333fig0310.png
 Figure 3-10.</seg>
       </tuv>
       <tuv lang="ES">
-        <seg>Insert 18333fig0310.png 
+        <seg>Insert 18333fig0310.png
 Figura 3-10.</seg>
       </tuv>
     </tu>
@@ -15903,11 +15903,11 @@ Figura 3-10.</seg>
     </tu>
     <tu>
       <tuv lang="EN">
-        <seg>Insert 18333fig0509.png 
+        <seg>Insert 18333fig0509.png
 Figure 5-9.</seg>
       </tuv>
       <tuv lang="ES">
-        <seg>Insert 18333fig0509.png 
+        <seg>Insert 18333fig0509.png
 Figura 5-9.</seg>
       </tuv>
     </tu>
@@ -15937,7 +15937,7 @@ Figura 5-9.</seg>
     </tu>
     <tu>
       <tuv lang="EN">
-        <seg>$ git blame -L 12,22 simplegit.rb 
+        <seg>$ git blame -L 12,22 simplegit.rb
 	^4832fe2 (Scott Chacon  2008-03-15 10:31:28 -0700 12)  def show(tree = 'master')
 	^4832fe2 (Scott Chacon  2008-03-15 10:31:28 -0700 13)   command(&quot;git show #{tree}&quot;)
 	^4832fe2 (Scott Chacon  2008-03-15 10:31:28 -0700 14)  end
@@ -15945,13 +15945,13 @@ Figura 5-9.</seg>
 	9f6560e4 (Scott Chacon  2008-03-17 21:52:20 -0700 16)  def log(tree = 'master')
 	79eaf55d (Scott Chacon  2008-04-06 10:15:08 -0700 17)   command(&quot;git log #{tree}&quot;)
 	9f6560e4 (Scott Chacon  2008-03-17 21:52:20 -0700 18)  end
-	9f6560e4 (Scott Chacon  2008-03-17 21:52:20 -0700 19) 
+	9f6560e4 (Scott Chacon  2008-03-17 21:52:20 -0700 19)
 	42cf2861 (Magnus Chacon 2008-04-13 10:45:01 -0700 20)  def blame(path)
 	42cf2861 (Magnus Chacon 2008-04-13 10:45:01 -0700 21)   command(&quot;git blame #{path}&quot;)
 	42cf2861 (Magnus Chacon 2008-04-13 10:45:01 -0700 22)  end</seg>
       </tuv>
       <tuv lang="ES" changedate="20120827T143652Z" changeid="juan">
-        <seg>$ git blame -L 12,22 simplegit.rb 
+        <seg>$ git blame -L 12,22 simplegit.rb
 	^4832fe2 (Scott Chacon  2008-03-15 10:31:28 -0700 12)  def show(tree = 'master')
 	^4832fe2 (Scott Chacon  2008-03-15 10:31:28 -0700 13)   command(&quot;git show #{tree}&quot;)
 	^4832fe2 (Scott Chacon  2008-03-15 10:31:28 -0700 14)  end
@@ -15959,7 +15959,7 @@ Figura 5-9.</seg>
 	9f6560e4 (Scott Chacon  2008-03-17 21:52:20 -0700 16)  def log(tree = 'master')
 	79eaf55d (Scott Chacon  2008-04-06 10:15:08 -0700 17)   command(&quot;git log #{tree}&quot;)
 	9f6560e4 (Scott Chacon  2008-03-17 21:52:20 -0700 18)  end
-	9f6560e4 (Scott Chacon  2008-03-17 21:52:20 -0700 19) 
+	9f6560e4 (Scott Chacon  2008-03-17 21:52:20 -0700 19)
 	42cf2861 (Magnus Chacon 2008-04-13 10:45:01 -0700 20)  def blame(path)
 	42cf2861 (Magnus Chacon 2008-04-13 10:45:01 -0700 21)   command(&quot;git blame #{path}&quot;)
 	42cf2861 (Magnus Chacon 2008-04-13 10:45:01 -0700 22)  end</seg>
@@ -16039,11 +16039,11 @@ Figura 5-9.</seg>
     </tu>
     <tu>
       <tuv lang="EN">
-        <seg>Insert 18333fig0307.png 
+        <seg>Insert 18333fig0307.png
 Figure 3-7.</seg>
       </tuv>
       <tuv lang="ES">
-        <seg>Insert 18333fig0307.png 
+        <seg>Insert 18333fig0307.png
 Figura 3-7.</seg>
       </tuv>
     </tu>
@@ -16103,13 +16103,13 @@ Figura 3-7.</seg>
     </tu>
     <tu>
       <tuv lang="EN">
-        <seg>$ find .git/objects -type f 
+        <seg>$ find .git/objects -type f
 	.git/objects/1f/7a7a472abf3dd9643fd615f6da379c4acb3e3a
 	.git/objects/83/baae61804e65cc73a7201a7252750c76066a30
 	.git/objects/d6/70460b4b4aece5915caf5c68d12f560a9fe3e4</seg>
       </tuv>
       <tuv lang="ES">
-        <seg>$ find .git/objects -type f 
+        <seg>$ find .git/objects -type f
 	.git/objects/1f/7a7a472abf3dd9643fd615f6da379c4acb3e3a
 	.git/objects/83/baae61804e65cc73a7201a7252750c76066a30
 	.git/objects/d6/70460b4b4aece5915caf5c68d12f560a9fe3e4</seg>
@@ -16387,11 +16387,11 @@ Figura 3-7.</seg>
     </tu>
     <tu>
       <tuv lang="EN">
-        <seg>Insert 18333fig0503.png  
+        <seg>Insert 18333fig0503.png
 Figure 5-3.</seg>
       </tuv>
       <tuv lang="ES">
-        <seg>Insert 18333fig0503.png  
+        <seg>Insert 18333fig0503.png
 Figura 5-3.</seg>
       </tuv>
     </tu>
@@ -16701,11 +16701,11 @@ Figura 5-3.</seg>
     </tu>
     <tu>
       <tuv lang="EN">
-        <seg>Insert 18333fig0411.png 
+        <seg>Insert 18333fig0411.png
 Figure 4-11.</seg>
       </tuv>
       <tuv lang="ES">
-        <seg>Insert 18333fig0411.png 
+        <seg>Insert 18333fig0411.png
 Figura 4-11.</seg>
       </tuv>
     </tu>
@@ -17149,11 +17149,11 @@ Figura 4-11.</seg>
     </tu>
     <tu>
       <tuv lang="EN">
-        <seg>Insert 18333fig0901.png 
+        <seg>Insert 18333fig0901.png
 Figure 9-1.</seg>
       </tuv>
       <tuv lang="ES" changedate="20110801T121501Z" changeid="juan">
-        <seg>Insert 18333fig0901.png 
+        <seg>Insert 18333fig0901.png
 Figura 9-1.</seg>
       </tuv>
     </tu>
@@ -17231,11 +17231,11 @@ Figura 9-1.</seg>
     </tu>
     <tu>
       <tuv lang="EN">
-        <seg>Enforcing Policies... 
+        <seg>Enforcing Policies...
 	(refs/heads/master) (fb8c72) (c56860)</seg>
       </tuv>
       <tuv lang="ES">
-        <seg>Enforcing Policies... 
+        <seg>Enforcing Policies...
 	(refs/heads/master) (fb8c72) (c56860)</seg>
       </tuv>
     </tu>
@@ -17730,11 +17730,11 @@ Figura 9-1.</seg>
     </tu>
     <tu>
       <tuv lang="EN">
-        <seg>Insert 18333fig0406.png 
+        <seg>Insert 18333fig0406.png
 Figure 4-6.</seg>
       </tuv>
       <tuv lang="ES">
-        <seg>Insert 18333fig0406.png 
+        <seg>Insert 18333fig0406.png
 Figura 4-6.</seg>
       </tuv>
     </tu>
@@ -18336,11 +18336,11 @@ Figura 4-6.</seg>
     </tu>
     <tu>
       <tuv lang="EN">
-        <seg>$ cat .git/HEAD 
+        <seg>$ cat .git/HEAD
 	ref: refs/heads/test</seg>
       </tuv>
       <tuv lang="ES" changedate="20110808T192402Z" changeid="juan">
-        <seg>$ cat .git/HEAD 
+        <seg>$ cat .git/HEAD
 	ref: refs/heads/test</seg>
       </tuv>
     </tu>
@@ -18531,12 +18531,12 @@ Figura 4-6.</seg>
     <tu>
       <tuv lang="EN">
         <seg>$ cat /usr/local/bin/extMerge
-	#!/bin/sh	
+	#!/bin/sh
 	/Applications/kdiff3.app/Contents/MacOS/kdiff3 $*</seg>
       </tuv>
       <tuv lang="ES">
         <seg>$ cat /usr/local/bin/extMerge
-	#!/bin/sh	
+	#!/bin/sh
 	/Applications/kdiff3.app/Contents/MacOS/kdiff3 $*</seg>
       </tuv>
     </tu>
@@ -18964,11 +18964,11 @@ Figura 4-6.</seg>
     </tu>
     <tu>
       <tuv lang="EN">
-        <seg>Insert 18333fig0516.png 
+        <seg>Insert 18333fig0516.png
 Figure 5-16.</seg>
       </tuv>
       <tuv lang="ES">
-        <seg>Insert 18333fig0516.png 
+        <seg>Insert 18333fig0516.png
 Figura 5-16.</seg>
       </tuv>
     </tu>
@@ -19086,11 +19086,11 @@ Figura 5-16.</seg>
     </tu>
     <tu>
       <tuv lang="EN">
-        <seg>If the book spontaneously 
+        <seg>If the book spontaneously
 	+s going on, modify stuff and contribute changes.</seg>
       </tuv>
       <tuv lang="ES">
-        <seg>If the book spontaneously 
+        <seg>If the book spontaneously
 	+s going on, modify stuff and contribute changes.</seg>
       </tuv>
     </tu>
@@ -19141,12 +19141,12 @@ Figura 5-16.</seg>
     <tu>
       <tuv lang="EN">
         <seg>def ls_tree(treeish = 'master')
-	-- 
+	--
 	1.6.2.rc1.20.g8c5b.dirty</seg>
       </tuv>
       <tuv lang="ES">
         <seg>def ls_tree(treeish = 'master')
-	-- 
+	--
 	1.6.2.rc1.20.g8c5b.dirty</seg>
       </tuv>
     </tu>
@@ -19184,11 +19184,11 @@ Figura 5-16.</seg>
     </tu>
     <tu>
       <tuv lang="EN">
-        <seg>Insert 18333fig0321.png 
+        <seg>Insert 18333fig0321.png
 Figure 3-21.</seg>
       </tuv>
       <tuv lang="ES">
-        <seg>Insert 18333fig0321.png 
+        <seg>Insert 18333fig0321.png
 Figura 3-21.</seg>
       </tuv>
     </tu>
@@ -19360,11 +19360,11 @@ Figura 3-21.</seg>
     </tu>
     <tu>
       <tuv lang="EN">
-        <seg>Insert 18333fig0515.png 
+        <seg>Insert 18333fig0515.png
 Figure 5-15.</seg>
       </tuv>
       <tuv lang="ES">
-        <seg>Insert 18333fig0515.png 
+        <seg>Insert 18333fig0515.png
 Figura 5-15.</seg>
       </tuv>
     </tu>
@@ -19750,11 +19750,11 @@ Figura 5-15.</seg>
     </tu>
     <tu>
       <tuv lang="EN">
-        <seg>Insert 18333fig0304.png 
+        <seg>Insert 18333fig0304.png
 Figure 3-4.</seg>
       </tuv>
       <tuv lang="ES">
-        <seg>Insert 18333fig0304.png 
+        <seg>Insert 18333fig0304.png
 Figura 3-4.</seg>
       </tuv>
     </tu>
@@ -20064,13 +20064,13 @@ Figura 3-4.</seg>
     </tu>
     <tu>
       <tuv lang="EN">
-        <seg>$ echo '# testing' &gt;&gt; repo.rb 
+        <seg>$ echo '# testing' &gt;&gt; repo.rb
 	$ git commit -am 'modified repo a bit'
 	[master ab1afef] modified repo a bit
 	 1 files changed, 1 insertions(+), 0 deletions(-)</seg>
       </tuv>
       <tuv lang="ES" changedate="20110810T230539Z" changeid="juan">
-        <seg>$ echo '# testing' &gt;&gt; repo.rb 
+        <seg>$ echo '# testing' &gt;&gt; repo.rb
 	$ git commit -am 'modified repo a bit'
 	[master ab1afef] modified repo a bit
 	 1 files changed, 1 insertions(+), 0 deletions(-)</seg>
@@ -20091,10 +20091,10 @@ Figura 3-4.</seg>
         <seg>$ git log --pretty=format:'%h %s' --graph
 	* 734713b fixed refs handling, added gc auto, updated tests
 	*   d921970 Merge commit 'phedders/rdocs'
-	|\  
+	|\
 	| * 35cfb2b Some rdoc changes
 	* | 1c002dd added some blame and merge stuff
-	|/  
+	|/
 	* 1c36188 ignore *.gem
 	* 9b29157 add open3_detach to gemspec file list</seg>
       </tuv>
@@ -20102,10 +20102,10 @@ Figura 3-4.</seg>
         <seg>$ git log --pretty=format:'%h %s' --graph
 	* 734713b fixed refs handling, added gc auto, updated tests
 	*   d921970 Merge commit 'phedders/rdocs'
-	|\  
+	|\
 	| * 35cfb2b Some rdoc changes
 	* | 1c002dd added some blame and merge stuff
-	|/  
+	|/
 	* 1c36188 ignore *.gem
 	* 9b29157 add open3_detach to gemspec file list</seg>
       </tuv>
@@ -20670,13 +20670,13 @@ Figura 3-4.</seg>
       <tuv lang="EN">
         <seg>$ rm text.txt
 	$ git checkout -- text.txt
-	$ cat test.txt 
+	$ cat test.txt
 	$Id: 42812b7653c7b88933f8a9d6cad0ca16714b9bb3 $</seg>
       </tuv>
       <tuv lang="ES">
         <seg>$ rm text.txt
 	$ git checkout -- text.txt
-	$ cat test.txt 
+	$ cat test.txt
 	$Id: 42812b7653c7b88933f8a9d6cad0ca16714b9bb3 $</seg>
       </tuv>
     </tu>
@@ -20860,11 +20860,11 @@ Figura 3-4.</seg>
     </tu>
     <tu>
       <tuv lang="EN">
-        <seg>Insert 18333fig0703.png 
+        <seg>Insert 18333fig0703.png
 Figure 7-3.</seg>
       </tuv>
       <tuv lang="ES">
-        <seg>Insert 18333fig0703.png 
+        <seg>Insert 18333fig0703.png
 Figura 7-3.</seg>
       </tuv>
     </tu>
@@ -20952,11 +20952,11 @@ Figura 7-3.</seg>
     </tu>
     <tu>
       <tuv lang="EN">
-        <seg>Insert 18333fig0523.png 
+        <seg>Insert 18333fig0523.png
 Figure 5-23.</seg>
       </tuv>
       <tuv lang="ES">
-        <seg>Insert 18333fig0523.png 
+        <seg>Insert 18333fig0523.png
 Figura 5-23.</seg>
       </tuv>
     </tu>
@@ -21044,11 +21044,11 @@ Figura 5-23.</seg>
     </tu>
     <tu>
       <tuv lang="EN">
-        <seg>Insert 18333fig0333.png 
+        <seg>Insert 18333fig0333.png
 Figure 3-33.</seg>
       </tuv>
       <tuv lang="ES">
-        <seg>Insert 18333fig0333.png 
+        <seg>Insert 18333fig0333.png
 Figura 3-33.</seg>
       </tuv>
     </tu>
@@ -21192,11 +21192,11 @@ Figura 3-33.</seg>
     </tu>
     <tu>
       <tuv lang="EN">
-        <seg>Insert 18333fig0326.png 
+        <seg>Insert 18333fig0326.png
 Figure 3-26.</seg>
       </tuv>
       <tuv lang="ES">
-        <seg>Insert 18333fig0326.png 
+        <seg>Insert 18333fig0326.png
 Figura 3-26.</seg>
       </tuv>
     </tu>
@@ -21378,11 +21378,11 @@ Figura 3-26.</seg>
     </tu>
     <tu>
       <tuv lang="EN">
-        <seg>$ find .git/objects -type f 
+        <seg>$ find .git/objects -type f
 	.git/objects/d6/70460b4b4aece5915caf5c68d12f560a9fe3e4</seg>
       </tuv>
       <tuv lang="ES">
-        <seg>$ find .git/objects -type f 
+        <seg>$ find .git/objects -type f
 	.git/objects/d6/70460b4b4aece5915caf5c68d12f560a9fe3e4</seg>
       </tuv>
     </tu>
@@ -21420,18 +21420,18 @@ Figura 3-26.</seg>
     </tu>
     <tu>
       <tuv lang="EN">
-        <seg>Insert 18333fig0332.png 
+        <seg>Insert 18333fig0332.png
 Figure 3-32.</seg>
       </tuv>
       <tuv lang="ES">
-        <seg>Insert 18333fig0332.png 
+        <seg>Insert 18333fig0332.png
 Figura 3-32.</seg>
       </tuv>
     </tu>
     <tu>
       <tuv lang="EN">
         <seg>After all this is set, if you run diff commands such as this:
-	
+
 	$ git diff 32d1776b1^ 32d1776b1</seg>
       </tuv>
       <tuv lang="ES">
@@ -21464,11 +21464,11 @@ Figura 3-32.</seg>
     </tu>
     <tu>
       <tuv lang="EN">
-        <seg>Insert 18333fig0319.png 
+        <seg>Insert 18333fig0319.png
 Figure 3-19.</seg>
       </tuv>
       <tuv lang="ES">
-        <seg>Insert 18333fig0319.png 
+        <seg>Insert 18333fig0319.png
 Figura 3-19.</seg>
       </tuv>
     </tu>
@@ -21482,11 +21482,11 @@ Figura 3-19.</seg>
     </tu>
     <tu>
       <tuv lang="EN">
-        <seg>Insert 18333fig0510.png 
+        <seg>Insert 18333fig0510.png
 Figure 5-10.</seg>
       </tuv>
       <tuv lang="ES">
-        <seg>Insert 18333fig0510.png 
+        <seg>Insert 18333fig0510.png
 Figura 5-10.</seg>
       </tuv>
     </tu>
@@ -21562,11 +21562,11 @@ Figura 5-10.</seg>
     </tu>
     <tu>
       <tuv lang="EN">
-        <seg>Insert 18333fig0526.png 
+        <seg>Insert 18333fig0526.png
 Figure 5-26.</seg>
       </tuv>
       <tuv lang="ES">
-        <seg>Insert 18333fig0526.png 
+        <seg>Insert 18333fig0526.png
 Figura 5-26.</seg>
       </tuv>
     </tu>
@@ -21907,11 +21907,11 @@ Figura 5-26.</seg>
     </tu>
     <tu>
       <tuv lang="EN">
-        <seg>In Chapter Two we will go over basic Git usage - how to use Git for the 80% 
+        <seg>In Chapter Two we will go over basic Git usage - how to use Git for the 80%
 	-s going on, modify stuff and contribute changes.</seg>
       </tuv>
       <tuv lang="ES">
-        <seg>In Chapter Two we will go over basic Git usage - how to use Git for the 80% 
+        <seg>In Chapter Two we will go over basic Git usage - how to use Git for the 80%
 	-s going on, modify stuff and contribute changes.</seg>
       </tuv>
     </tu>
@@ -22235,11 +22235,11 @@ Figura 5-26.</seg>
     </tu>
     <tu>
       <tuv lang="EN">
-        <seg>Insert 18333fig0301.png 
+        <seg>Insert 18333fig0301.png
 Figure 3-1.</seg>
       </tuv>
       <tuv lang="ES">
-        <seg>Insert 18333fig0301.png 
+        <seg>Insert 18333fig0301.png
 Figura 3-1.</seg>
       </tuv>
     </tu>
@@ -22264,7 +22264,7 @@ Figura 3-1.</seg>
         <seg>$ git log -g master
 	commit 734713bc047d87bf7eac9674765ae793478c50d3
 	Reflog: master@{0} (Scott Chacon &lt;schacon@gmail.com&gt;)
-	Reflog message: commit: fixed refs handling, added gc auto, updated 
+	Reflog message: commit: fixed refs handling, added gc auto, updated
 	Author: Scott Chacon &lt;schacon@gmail.com&gt;
 	Date:   Fri Jan 2 18:32:33 2009 -0800</seg>
       </tuv>
@@ -22272,7 +22272,7 @@ Figura 3-1.</seg>
         <seg>$ git log -g master
 	commit 734713bc047d87bf7eac9674765ae793478c50d3
 	Reflog: master@{0} (Scott Chacon &lt;schacon@gmail.com&gt;)
-	Reflog message: commit: fixed refs handling, added gc auto, updated 
+	Reflog message: commit: fixed refs handling, added gc auto, updated
 	Author: Scott Chacon &lt;schacon@gmail.com&gt;
 	Date:   Fri Jan 2 18:32:33 2009 -0800</seg>
       </tuv>
@@ -22360,13 +22360,13 @@ Figura 3-1.</seg>
     <tu>
       <tuv lang="EN">
         <seg>$ (fix the file)
-	$ git add ticgit.gemspec 
+	$ git add ticgit.gemspec
 	$ git am --resolved
 	Applying: seeing if this helps the gem</seg>
       </tuv>
       <tuv lang="ES">
         <seg>$ (fix the file)
-	$ git add ticgit.gemspec 
+	$ git add ticgit.gemspec
 	$ git am --resolved
 	Applying: seeing if this helps the gem</seg>
       </tuv>
@@ -23076,11 +23076,11 @@ Figura 3-1.</seg>
     </tu>
     <tu>
       <tuv lang="EN">
-        <seg>Insert 18333fig0317.png 
+        <seg>Insert 18333fig0317.png
 Figure 3-17.</seg>
       </tuv>
       <tuv lang="ES">
-        <seg>Insert 18333fig0317.png 
+        <seg>Insert 18333fig0317.png
 Figura 3-17.</seg>
       </tuv>
     </tu>
@@ -23490,11 +23490,11 @@ Figura 3-17.</seg>
     </tu>
     <tu>
       <tuv lang="EN">
-        <seg>Insert 18333fig0405.png 
+        <seg>Insert 18333fig0405.png
 Figure 4-5.</seg>
       </tuv>
       <tuv lang="ES">
-        <seg>Insert 18333fig0405.png 
+        <seg>Insert 18333fig0405.png
 Figura 4-5.</seg>
       </tuv>
     </tu>
@@ -23540,11 +23540,11 @@ Figura 4-5.</seg>
     </tu>
     <tu>
       <tuv lang="EN">
-        <seg>Insert 18333fig0335.png 
+        <seg>Insert 18333fig0335.png
 Figure 3-35.</seg>
       </tuv>
       <tuv lang="ES">
-        <seg>Insert 18333fig0335.png 
+        <seg>Insert 18333fig0335.png
 Figura 3-35.</seg>
       </tuv>
     </tu>
@@ -23574,11 +23574,11 @@ Figura 3-35.</seg>
     </tu>
     <tu>
       <tuv lang="EN">
-        <seg>Insert 18333fig0339.png 
+        <seg>Insert 18333fig0339.png
 Figure 3-39.</seg>
       </tuv>
       <tuv lang="ES">
-        <seg>Insert 18333fig0339.png 
+        <seg>Insert 18333fig0339.png
 Figura 3-39.</seg>
       </tuv>
     </tu>
@@ -23600,11 +23600,11 @@ Figura 3-39.</seg>
     </tu>
     <tu>
       <tuv lang="EN">
-        <seg>Insert 18333fig0412.png 
+        <seg>Insert 18333fig0412.png
 Figure 4-12.</seg>
       </tuv>
       <tuv lang="ES">
-        <seg>Insert 18333fig0412.png 
+        <seg>Insert 18333fig0412.png
 Figura 4-12.</seg>
       </tuv>
     </tu>
@@ -24114,11 +24114,11 @@ Figura 4-12.</seg>
     </tu>
     <tu>
       <tuv lang="EN">
-        <seg>$ cat gitosis.conf 
+        <seg>$ cat gitosis.conf
 	[gitosis]</seg>
       </tuv>
       <tuv lang="ES">
-        <seg>$ cat gitosis.conf 
+        <seg>$ cat gitosis.conf
 	[gitosis]</seg>
       </tuv>
     </tu>
@@ -24326,11 +24326,11 @@ Figura 4-12.</seg>
     </tu>
     <tu>
       <tuv lang="EN">
-        <seg>Insert 18333fig0415.png 
+        <seg>Insert 18333fig0415.png
 Figure 4-15.</seg>
       </tuv>
       <tuv lang="ES">
-        <seg>Insert 18333fig0415.png 
+        <seg>Insert 18333fig0415.png
 Figura 4-15.</seg>
       </tuv>
     </tu>
@@ -24688,11 +24688,11 @@ Figura 4-15.</seg>
     </tu>
     <tu>
       <tuv lang="EN">
-        <seg>Insert 18333fig0308.png 
+        <seg>Insert 18333fig0308.png
 Figure 3-8.</seg>
       </tuv>
       <tuv lang="ES">
-        <seg>Insert 18333fig0308.png 
+        <seg>Insert 18333fig0308.png
 Figura 3-8.</seg>
       </tuv>
     </tu>
@@ -24932,13 +24932,13 @@ Figura 3-8.</seg>
     </tu>
     <tu>
       <tuv lang="EN">
-        <seg>$ git cat-file -p 1f7a7a472abf3dd9643fd615f6da379c4acb3e3a &gt; test.txt 
-	$ cat test.txt 
+        <seg>$ git cat-file -p 1f7a7a472abf3dd9643fd615f6da379c4acb3e3a &gt; test.txt
+	$ cat test.txt
 	version 2</seg>
       </tuv>
       <tuv lang="ES">
-        <seg>$ git cat-file -p 1f7a7a472abf3dd9643fd615f6da379c4acb3e3a &gt; test.txt 
-	$ cat test.txt 
+        <seg>$ git cat-file -p 1f7a7a472abf3dd9643fd615f6da379c4acb3e3a &gt; test.txt
+	$ cat test.txt
 	version 2</seg>
       </tuv>
     </tu>
@@ -25570,11 +25570,11 @@ Figura 3-8.</seg>
     </tu>
     <tu>
       <tuv lang="EN">
-        <seg>Insert 18333fig0312.png 
+        <seg>Insert 18333fig0312.png
 Figure 3-12.</seg>
       </tuv>
       <tuv lang="ES">
-        <seg>Insert 18333fig0312.png 
+        <seg>Insert 18333fig0312.png
 Figura 3-12.</seg>
       </tuv>
     </tu>
@@ -25782,11 +25782,11 @@ Figura 3-12.</seg>
     </tu>
     <tu>
       <tuv lang="EN">
-        <seg>Insert 18333fig0413.png 
+        <seg>Insert 18333fig0413.png
 Figure 4-13.</seg>
       </tuv>
       <tuv lang="ES">
-        <seg>Insert 18333fig0413.png 
+        <seg>Insert 18333fig0413.png
 Figura 4-13.</seg>
       </tuv>
     </tu>
@@ -26039,12 +26039,12 @@ Figura 4-13.</seg>
     <tu>
       <tuv lang="EN">
         <seg>$ echo 'new file' &gt; new.txt
-	$ git update-index test.txt 
+	$ git update-index test.txt
 	$ git update-index --add new.txt</seg>
       </tuv>
       <tuv lang="ES" changedate="20110808T180322Z" changeid="juan">
         <seg>$ echo 'new file' &gt; new.txt
-	$ git update-index test.txt 
+	$ git update-index test.txt
 	$ git update-index --add new.txt</seg>
       </tuv>
     </tu>
@@ -26134,11 +26134,11 @@ Figura 4-13.</seg>
     </tu>
     <tu>
       <tuv lang="EN">
-        <seg>Insert 18333fig0329.png 
+        <seg>Insert 18333fig0329.png
 Figure 3-29.</seg>
       </tuv>
       <tuv lang="ES">
-        <seg>Insert 18333fig0329.png 
+        <seg>Insert 18333fig0329.png
 Figura 3-29.</seg>
       </tuv>
     </tu>
@@ -26835,11 +26835,11 @@ Figura 3-29.</seg>
     </tu>
     <tu>
       <tuv lang="EN">
-        <seg>Insert 18333fig0331.png 
+        <seg>Insert 18333fig0331.png
 Figure 3-31.</seg>
       </tuv>
       <tuv lang="ES">
-        <seg>Insert 18333fig0331.png 
+        <seg>Insert 18333fig0331.png
 Figura 3-31.</seg>
       </tuv>
     </tu>
@@ -26853,11 +26853,11 @@ Figura 3-31.</seg>
     </tu>
     <tu>
       <tuv lang="EN">
-        <seg>Insert 18333fig0527.png 
+        <seg>Insert 18333fig0527.png
 Figure 5-27.</seg>
       </tuv>
       <tuv lang="ES">
-        <seg>Insert 18333fig0527.png 
+        <seg>Insert 18333fig0527.png
 Figura 5-27.</seg>
       </tuv>
     </tu>
@@ -27007,13 +27007,13 @@ Figura 5-27.</seg>
     </tu>
     <tu>
       <tuv lang="EN">
-        <seg>$ cat .gitmodules 
+        <seg>$ cat .gitmodules
 	[submodule &quot;rack&quot;]
 	      path = rack
 	      url = git://github.com/chneukirchen/rack.git</seg>
       </tuv>
       <tuv lang="ES" changedate="20120830T103753Z" changeid="juan">
-        <seg>$ cat .gitmodules 
+        <seg>$ cat .gitmodules
 	[submodule &quot;rack&quot;]
 	      path = rack
 	      url = git://github.com/chneukirchen/rack.git</seg>
@@ -27021,11 +27021,11 @@ Figura 5-27.</seg>
     </tu>
     <tu>
       <tuv lang="EN">
-        <seg>Update&gt;&gt; 
+        <seg>Update&gt;&gt;
 	updated 2 paths</seg>
       </tuv>
       <tuv lang="ES" changedate="20120701T212803Z" changeid="juan">
-        <seg>Update&gt;&gt; 
+        <seg>Update&gt;&gt;
 	updated 2 paths</seg>
       </tuv>
     </tu>
@@ -27121,11 +27121,11 @@ Figura 5-27.</seg>
     </tu>
     <tu>
       <tuv lang="EN">
-        <seg>$ cat .git/refs/tags/v1.1 
+        <seg>$ cat .git/refs/tags/v1.1
 	9585191f37f7b0fb9444f35a9bf50de191beadc2</seg>
       </tuv>
       <tuv lang="ES" changedate="20110808T234314Z" changeid="juan">
-        <seg>$ cat .git/refs/tags/v1.1 
+        <seg>$ cat .git/refs/tags/v1.1
 	9585191f37f7b0fb9444f35a9bf50de191beadc2</seg>
       </tuv>
     </tu>
@@ -27147,11 +27147,11 @@ Figura 5-27.</seg>
     </tu>
     <tu>
       <tuv lang="EN">
-        <seg>Insert 18333fig0514.png 
+        <seg>Insert 18333fig0514.png
 Figure 5-14.</seg>
       </tuv>
       <tuv lang="ES">
-        <seg>Insert 18333fig0514.png 
+        <seg>Insert 18333fig0514.png
 Figura 5-14.</seg>
       </tuv>
     </tu>
@@ -27519,8 +27519,8 @@ Figura 5-14.</seg>
     </tu>
     <tu>
       <tuv lang="EN">
-        <seg>$ cat .git/packed-refs 
-	# pack-refs with: peeled 
+        <seg>$ cat .git/packed-refs
+	# pack-refs with: peeled
 	cac0cab538b970a37ea1e769cbbde608743bc96d refs/heads/experiment
 	ab1afef80fac8e34258ff41fc1b867c702daa24b refs/heads/master
 	cac0cab538b970a37ea1e769cbbde608743bc96d refs/tags/v1.0
@@ -27528,8 +27528,8 @@ Figura 5-14.</seg>
 	^1a410efbd13591db07496601ebc7a059dd55cfe9</seg>
       </tuv>
       <tuv lang="ES" changedate="20110820T092605Z" changeid="juan">
-        <seg>$ cat .git/packed-refs 
-	# pack-refs with: peeled 
+        <seg>$ cat .git/packed-refs
+	# pack-refs with: peeled
 	cac0cab538b970a37ea1e769cbbde608743bc96d refs/heads/experiment
 	ab1afef80fac8e34258ff41fc1b867c702daa24b refs/heads/master
 	cac0cab538b970a37ea1e769cbbde608743bc96d refs/tags/v1.0
@@ -27687,11 +27687,11 @@ Figura 5-14.</seg>
     </tu>
     <tu>
       <tuv lang="EN">
-        <seg>$ ssh-keygen 
+        <seg>$ ssh-keygen
 	Generating public/private rsa key pair.</seg>
       </tuv>
       <tuv lang="ES">
-        <seg>$ ssh-keygen 
+        <seg>$ ssh-keygen
 	Generating public/private rsa key pair.</seg>
       </tuv>
     </tu>
@@ -27745,11 +27745,11 @@ Figura 5-14.</seg>
     </tu>
     <tu>
       <tuv lang="EN">
-        <seg>Insert 18333fig0320.png 
+        <seg>Insert 18333fig0320.png
 Figure 3-20.</seg>
       </tuv>
       <tuv lang="ES">
-        <seg>Insert 18333fig0320.png 
+        <seg>Insert 18333fig0320.png
 Figura 3-20.</seg>
       </tuv>
     </tu>
@@ -28105,12 +28105,12 @@ Figura 3-20.</seg>
     </tu>
     <tu>
       <tuv lang="EN">
-        <seg>[Jessica Smith &lt;jessica@example.com&gt;] 
+        <seg>[Jessica Smith &lt;jessica@example.com&gt;]
 	Emails will be sent from: Jessica Smith &lt;jessica@example.com&gt;
 	Who should the emails be sent to?</seg>
       </tuv>
       <tuv lang="ES">
-        <seg>[Jessica Smith &lt;jessica@example.com&gt;] 
+        <seg>[Jessica Smith &lt;jessica@example.com&gt;]
 	Emails will be sent from: Jessica Smith &lt;jessica@example.com&gt;
 	Who should the emails be sent to?</seg>
       </tuv>
@@ -28165,11 +28165,11 @@ Figura 3-20.</seg>
     </tu>
     <tu>
       <tuv lang="EN">
-        <seg>Insert 18333fig0521.png 
+        <seg>Insert 18333fig0521.png
 Figure 5-21.</seg>
       </tuv>
       <tuv lang="ES">
-        <seg>Insert 18333fig0521.png 
+        <seg>Insert 18333fig0521.png
 Figura 5-21.</seg>
       </tuv>
     </tu>
@@ -28908,7 +28908,7 @@ Figura 5-21.</seg>
 	Initialized empty Git repository in /home/john/simplegit/.git/
 	...
 	$ cd simplegit/
-	$ vim lib/simplegit.rb 
+	$ vim lib/simplegit.rb
 	$ git commit -am 'removed invalid default value'
 	[master 738ee87] removed invalid default value
 	 1 files changed, 1 insertions(+), 1 deletions(-)</seg>
@@ -28919,7 +28919,7 @@ Figura 5-21.</seg>
 	Initialized empty Git repository in /home/john/simplegit/.git/
 	...
 	$ cd simplegit/
-	$ vim lib/simplegit.rb 
+	$ vim lib/simplegit.rb
 	$ git commit -am 'removed invalid default value'
 	[master 738ee87] removed invalid default value
 	 1 files changed, 1 insertions(+), 1 deletions(-)</seg>

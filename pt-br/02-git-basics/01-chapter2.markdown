@@ -59,7 +59,7 @@ A principal ferramenta utilizada para determinar quais arquivos estão em quais 
 
 Isso significa que você tem um diretório de trabalho limpo — em outras palavras, não existem arquivos monitorados e modificados. Git também não encontrou qualquer arquivo não monitorado, caso contrário eles seriam listados aqui. Por fim, o comando lhe mostra em qual branch você se encontra. Por enquanto, esse sempre é o `master`, que é o padrão; você não deve se preocupar com isso. No próximo capítulo nós vamos falar sobre branches e referências em detalhes.
 
-Vamos dizer que você adicione um novo arquivo em seu projeto, um simples arquivo `README`. Caso o arquivo não exista e você executar `git status`, você verá o arquivo não monitorado dessa forma:
+Vamos dizer que você adicione um novo arquivo em seu projeto, um simples arquivo `README`. Caso o arquivo não exista e você execute `git status`, você verá o arquivo não monitorado dessa forma:
 
     $ vim README
     $ git status
@@ -70,7 +70,7 @@ Vamos dizer que você adicione um novo arquivo em seu projeto, um simples arquiv
     #    README
     nothing added to commit but untracked files present (use "git add" to track)
 
-Você pode ver que o seu novo arquivo `README` não está sendo monitorado, pois está listado sob o cabeçalho "Untracked files" na saída do comando status. Não monitorado significa basicamente que o Git está vendo um arquivo que não existia na última captura (commit); o Git não vai incluí-lo nas suas capturas de commit até que você diga explicitamente à ele para fazer isso. Ele faz isso para que você não inclua acidentalmente arquivos binários gerados ou outros arquivos que você não tenha a intenção de incluir. Digamos, que você queira incluir o arquivo README, portanto vamos começar a monitorar este arquivo.
+Você pode ver que o seu novo arquivo `README` não está sendo monitorado, pois está listado sob o cabeçalho "Untracked files" na saída do comando status. Não monitorado significa basicamente que o Git está vendo um arquivo que não existia na última captura (commit); o Git não vai incluí-lo nas suas capturas de commit até que você o diga explicitamente que assim o faça. Ele faz isso para que você não inclua acidentalmente arquivos binários gerados, ou outros arquivos que você não têm a intenção de incluir. Digamos, que você queira incluir o arquivo README, portanto vamos começar a monitorar este arquivo.
 
 ### Monitorando Novos Arquivos ###
 
@@ -92,7 +92,7 @@ Você pode dizer que ele está selecionado pois está sob o cabeçalho “Change
 
 ### Selecionando Arquivos Modificados ###
 
-Vamos alterar um arquivos que já está sendo monitorado. Se você alterar um aquivo previamente monitorado chamado `benchmarks.rb` e então rodar o comando `status` novamente, você terá algo semelhante a:
+Vamos alterar um arquivo que já está sendo monitorado. Se você alterar um aquivo previamente monitorado chamado `benchmarks.rb` e então rodar o comando `status` novamente, você terá algo semelhante a:
 
     $ git status
     # On branch master
@@ -107,7 +107,7 @@ Vamos alterar um arquivos que já está sendo monitorado. Se você alterar um aq
     #    modified:   benchmarks.rb
     #
 
-O arquivo `benchmarks.rb` aparece sob a seção chamada “Changes not staged for commit” — que significa que um arquivo monitorado foi modificado no diretório de trabalho mas ainda não foi selecionado (staged). Para selecioná-lo, você utiliza o comando `git add` (é um comando com várias funções — você o utiliza para monitorar novos arquivos, selecionar arquivos, e para fazer outras coisas como marcar como resolvido aquivos com conflito). Agora vamos rodar o comando `git add` para selecionar o arquivo `benchmarks.rb`, e então rodar `git status` novamente:
+O arquivo `benchmarks.rb` aparece sob a seção chamada “Changes not staged for commit” — que significa que um arquivo monitorado foi modificado no diretório de trabalho, mas ainda não foi selecionado (staged). Para selecioná-lo, utilize o comando `git add` (é um comando com várias funções — você o utiliza para monitorar novos arquivos, selecionar arquivos, e para fazer outras coisas como marcar como resolvido aquivos com conflito). Agora vamos rodar o comando `git add` para selecionar o arquivo `benchmarks.rb`, e então rodar `git status` novamente:
 
     $ git add benchmarks.rb
     $ git status
@@ -156,16 +156,16 @@ Muitas vezes, você terá uma classe de arquivos que não quer que o Git automat
     *.[oa]
     *~
 
-A primeira linha fala para o Git ignorar qualquer arquivo finalizado em `.o` ou `.a` — arquivos *objetos* e *archive* (compactados) que devem ter produto da construção (build) de seu código. A segunda linha fala para o Git ignorar todos os arquivos que terminam com um til (`~`), os quais são utilizados por muitos editores de texto como o Emacs para marcar arquivos temporários. Você também pode incluir um diretório `log`, `tmp` ou `pid`; documentação gerada automaticamente; e assim por diante. Configurar um arquivo `.gitignore` antes de começar a trabalhar normalmente é uma boa ideia, evitando que você commite acidentalmente arquivos que não deveriam ir para o seu repositório Git.
+A primeira linha fala para o Git ignorar qualquer arquivo finalizado em `.o` ou `.a` — arquivos *objetos* e *archive* (compactados) que devem ter produto da construção (build) de seu código. A segunda linha fala para o Git ignorar todos os arquivos que terminam com um til (`~`), os quais são utilizados por muitos editores de texto como o Emacs para marcar arquivos temporários. Você também pode incluir um diretório `log`, `tmp` ou `pid`; documentação gerada automaticamente; e assim por diante. Configurar um arquivo `.gitignore` antes de começar a trabalhar, normalmente é uma boa ideia, pois evita que você commite acidentalmente arquivos que não deveriam ir para o seu repositório Git.
 
-As regras para os padrões que você pode por no arquivo `.gitignore` são as seguintes:
+As regras para os padrões que você pode pôr no arquivo `.gitignore` são as seguintes:
 
 * Linhas em branco ou iniciando com `#` são ignoradas.
 * Padrões glob comuns funcionam.
 * Você pode terminar os padrões com uma barra (`/`) para especificar diretórios.
 * Você pode negar um padrão ao iniciá-lo com um ponto de exclamação (`!`).
 
-Padrões glob são como expressões regulares simples que os shells usam. Um asterísco (`*`) significa zero ou mais caracteres; `[abc]` condiz com qualquer um dos caracteres de dentro dos colchetes (nesse caso a, b, ou c); um ponto de interrogação (`?`) condiz com um único caractere; e os caracteres separados por hífen dentro de colchetes (`[0-9]`) condizem à qualquer um dos caracteres entre eles (neste cado de 0 a 9).
+Padrões glob são como expressões regulares simples que os shells usam. Um asterísco (`*`) significa zero ou mais caracteres; `[abc]` condiz com qualquer um dos caracteres de dentro dos colchetes (nesse caso, a, b, ou c); um ponto de interrogação (`?`) condiz com um único caractere; e os caracteres separados por hífen dentro de colchetes (`[0-9]`) condizem à qualquer um dos caracteres entre eles (neste caso, de 0 à 9).
 
 Segue um outro exemplo de arquivo `.gitignore`:
 
@@ -183,7 +183,7 @@ Segue um outro exemplo de arquivo `.gitignore`:
 
 ### Visualizando Suas Mudanças Selecionadas e Não Selecionadas ###
 
-Se o comando `git status` for muito vago — você quer saber exatamente o que você alterou, não apenas quais arquivos foram alterados — você pode utilizar o comando `git diff`. Nós trataremos o comando `git diff` em mais detalhes posteriormente; mas provavelmente você vai utilizá-lo com frequência para responder estas duas perguntas: O que você alterou mas ainda não selecionou (stage)? E o que você selecionou que está para ser commitado? Apesar do comando `git status` responder essas duas perguntas de maneira geral, o `git diff` mostra as linhas exatas que foram adicionadas e removidas — o patch, por assim dizer.
+Se o comando `git status` for muito vago — você quer saber exatamente o que você alterou, não apenas quais arquivos foram alterados — você pode utilizar o comando `git diff`. Nós trataremos o comando `git diff` em mais detalhes posteriormente; mas provavelmente você vai utilizá-lo com frequência para responder estas duas perguntas: O que você alterou, mas ainda não selecionou (stage)? E o que você selecionou, que está para ser commitado? Apesar do comando `git status` responder essas duas perguntas de maneira geral, o `git diff` mostra as linhas exatas que foram adicionadas e removidas — o patch, por assim dizer.
 
 Vamos dizer que você edite e selecione o arquivo `README` de novo e então edite o arquivo `benchmarks.rb` sem selecioná-lo. Se você rodar o comando `status`, você novamente verá algo assim:
 
@@ -221,7 +221,7 @@ Para ver o que você alterou mas ainda não selecionou, digite o comando `git di
 
 Este comando compara o que está no seu diretório de trabalho com o que está na sua área de seleção (staging). O resultado te mostra as mudanças que você fez que ainda não foram selecionadas.
 
-Se você quer ver o que selecionou que irá no seu próximo commit, pode utilizar `git diff --cached`. (Nas versões do Git 1.6.1 e superiores, você também pode utilizar `git diff --staged`, o que deve ser mais fácil de lembrar.) Este comando compara as mudanças selecionadas com o seu último commit:
+Se você quer ver o que selecionou que irá no seu próximo commit, pode utilizar `git diff --cached`. (Nas versões do Git 1.6.1 e superiores, você também pode utilizar `git diff --staged`, que deve ser mais fácil de lembrar.) Este comando compara as mudanças selecionadas com o seu último commit:
 
     $ git diff --cached
     diff --git a/README b/README
@@ -238,7 +238,7 @@ Se você quer ver o que selecionou que irá no seu próximo commit, pode utiliza
 
 É importante notar que o `git diff` por si só não mostra todas as mudanças desde o último commit — apenas as mudanças que ainda não foram selecionadas. Isso pode ser confuso, pois se você selecionou todas as suas mudanças, `git diff` não te dará nenhum resultado.
 
-Como um outro exemplo, se você selecionar o arquivo `benchmarks.rb` e então editá-lo, você pode utilizar o `git diff` para ver as mudanças no arquivo que estão selecionadas e as mudanças que não estão:
+Como um outro exemplo, se você selecionar o arquivo `benchmarks.rb` e então editá-lo, você pode utilizar o `git diff` para ver as mudanças no arquivo que estão selecionadas, e as mudanças que não estão:
 
     $ git add benchmarks.rb
     $ echo '# test line' >> benchmarks.rb
@@ -267,7 +267,7 @@ Agora você pode utilizar o `git diff` para ver o que ainda não foi selecionado
      ##pp Grit::GitRuby.cache_client.stats
     +# test line
 
-e executar `git diff --cached` para ver o que você já alterou para o estado staged até o momento:
+E executar `git diff --cached` para ver o que você já alterou para o estado staged até o momento:
 
     $ git diff --cached
     diff --git a/benchmarks.rb b/benchmarks.rb
@@ -371,7 +371,7 @@ Em seguida, se você rodar `git rm`, a remoção do arquivo é colocada na área
 
 Na próxima vez que você fizer o commit, o arquivo sumirá e não será mais monitorado. Se você modificou o arquivo e já o adicionou na área de seleção, você deve forçar a remoção com a opção `-f`. Essa é uma funcionalidade de segurança para prevenir remoções acidentais de dados que ainda não foram gravados em um snapshot e não podem ser recuperados do Git.
 
-Outra coisa útil que você pode querer fazer é manter o arquivo no seu diretório mas apagá-lo da sua área de seleção. Em outras palavras, você quer manter o arquivo no seu disco rígido mas não quer que o Git o monitore mais. Isso é particularmente útil se você esqueceu de adicionar alguma coisa no seu arquivo `.gitignore` e acidentalmente o adicionou, como um grande arquivo de log ou muitos arquivos `.a` compilados. Para fazer isso, use a opção `--cached`:
+Outra coisa útil que você pode querer fazer é manter o arquivo no seu diretório, mas apagá-lo da sua área de seleção. Em outras palavras, você quer manter o arquivo no seu disco rígido mas não quer que o Git o monitore mais. Isso é particularmente útil se você esqueceu de adicionar alguma coisa no seu arquivo `.gitignore` e acidentalmente o adicionou, como um grande arquivo de log ou muitos arquivos `.a` compilados. Para fazer isso, use a opção `--cached`:
 
     $ git rm --cached readme.txt
 

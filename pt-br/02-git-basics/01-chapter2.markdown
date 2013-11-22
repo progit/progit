@@ -416,9 +416,9 @@ O Git descobre que o arquivo foi renomeado implicitamente, então ele não se im
 
 ## Visualizando o Histórico de Commits ##
 
-Depois que você tenha criado vários commits, ou se você clonou um repositório com um histórico de commits existente, você provavelmente irá querer ver o que aconteceu. A ferramente mais básica e poderosa para fazer isso é o comando `git log`.
+Depois que você tiver criado vários commits, ou se clonou um repositório com um histórico de commits existente, você provavelmente vai querer ver o que aconteceu. A ferramente mais básica e poderosa para fazer isso é o comando `git log`.
 
-Estes exemplos usam um projeto muito simples chamado `simplegit` que eu frequentemente uso para demonstrações. Para pegar o projeto, execute
+Estes exemplos usam um projeto muito simples chamado `simplegit`, que eu frequentemente uso para demonstrações. Para pegar o projeto, execute:
 
     git clone git://github.com/schacon/simplegit-progit.git
 
@@ -445,7 +445,7 @@ Quando você executar `git log` neste projeto, você deve ter uma saída como es
 
 Por padrão, sem argumentos, `git log` lista os commits feitos naquele repositório em ordem cronológica reversa. Isto é, os commits mais recentes primeiro. Como você pode ver, este comando lista cada commit com seu checksum SHA-1, o nome e e-mail do autor, a data e a mensagem do commit.
 
-Um grande número e variedade de opções para o comando `git log` estão disponíveis para mostrar a você exatamente o que você quer ver. Aqui, nós mostraremos algumas das opções mais usadas.
+Um grande número e variedade de opções para o comando `git log` estão disponíveis para mostrá-lo exatamente o que você quer ver. Aqui, nós mostraremos algumas das opções mais usadas.
 
 Uma das opções mais úteis é `-p`, que mostra o diff introduzido em cada commit. Você pode ainda usar `-2`, que limita a saída somente às duas últimas entradas.
 
@@ -487,7 +487,7 @@ Uma das opções mais úteis é `-p`, que mostra o diff introduzido em cada comm
     -end
     \ No newline at end of file
 
-Esta opção mostra a mesma informação mas com um diff diretamente seguido de cada entrada. Isso é muito útil para revisão de código ou para navegar rapidamente e saber o que aconteceu durante uma série de commits que um colaborador adicionou.
+Esta opção mostra a mesma informação, mas com um diff diretamente seguido de cada entrada. Isso é muito útil para revisão de código ou para navegar rapidamente e saber o que aconteceu durante uma série de commits que um colaborador adicionou.
 Você pode ainda usar uma série de opções de sumarização com `git log`. Por exemplo, se você quiser ver algumas estatísticas abreviadas para cada commit, você pode usar a opção `--stat`
 
     $ git log --stat
@@ -521,14 +521,14 @@ Você pode ainda usar uma série de opções de sumarização com `git log`. Por
      3 files changed, 54 insertions(+), 0 deletions(-)
 
 Como você pode ver, a opção `--stat` imprime abaixo de cada commit uma lista de arquivos modificados, quantos arquivos foram modificados, e quantas linhas nestes arquivos foram adicionadas e removidas. Ele ainda mostra um resumo destas informações no final.
-Outra opção realmente útil é `--pretty`. Esta opção muda a saída do log para outro formato que não o padrão. Algumas opções pré-construídas estão disponíveis para você usar. A opção `oneline` mostra cada commit em uma única linha, o que é útil se você está olhando muitos commits. Em adição, as opções `short`, `full` e `fuller` mostram a saída aproximadamente com o mesmo formato mas com menos ou mais informações, respectivamente:
+Outra opção realmente útil é `--pretty`. Esta opção muda a saída do log para outro formato que não o padrão. Algumas opções pré-construídas estão disponíveis para você usar. A opção `oneline` mostra cada commit em uma única linha, o que é útil se você está olhando muitos commits. Em adição, as opções `short`, `full` e `fuller` mostram a saída aproximadamente com o mesmo formato, mas com menos ou mais informações, respectivamente:
 
     $ git log --pretty=oneline
     ca82a6dff817ec66f44342007202690a93763949 changed the verison number
     085bb3bcb608e1e8451d4b2432f8ecbe6306e7e7 removed unnecessary test code
     a11bef06a3f659402fe7563abf99ad00de2209e6 first commit
 
-A opção mais interessante é `format`, que permite que você especifique seu próprio formato de saída do log. Isto é especialmente útil quando você está gerando saída para a análise automatizada máquina — porque você especifica o formato explicitamente, você sabe que ele não vai mudar junto com as atualizações do Git:
+A opção mais interessante é `format`, que permite que você especifique seu próprio formato de saída do log. Isto é especialmente útil quando você está gerando saída para análise automatizada (parsing) — porque você especifica o formato explicitamente, você sabe que ele não vai mudar junto com as atualizações do Git:
 
     $ git log --pretty=format:"%h - %an, %ar : %s"
     ca82a6d - Scott Chacon, 11 months ago : changed the verison number
@@ -546,7 +546,7 @@ Tabela 2-1 lista algumas das opções mais importantes para formatação.
 	%p	Hashes pais abreviados
 	%an	Nome do autor
 	%ae	Email do autor
-	%ad	Data do autor (formato respeira a opção -date=)
+	%ad	Data do autor (formato respeita a opção -date=)
 	%ar	Data do autor, relativa
 	%cn	Nome do committer
 	%ce	Email do committer
@@ -554,7 +554,7 @@ Tabela 2-1 lista algumas das opções mais importantes para formatação.
 	%cr	Data do committer, relativa
 	%s	Assunto
 
-Você deve estar se perguntando qual a diferença entre _autor_ e _committer_. O _autor_ é a pessoa que originalmente escreveu o trabalho, enquanto o _commiter_ é a pessoa que por último aplicou o trabalho. Então, se você envia um patch para o projeto e algum dos membros do núcleo aplicar o patch, ambos receberão créditos — você como o autor e o membro do núcleo como o commiter. Nós cobriremos esta distinção mais um pouco mais no *Capítulo 5*.
+Você deve estar se perguntando qual a diferença entre _autor_ e _committer_. O _autor_ é a pessoa que originalmente escreveu o trabalho, enquanto o _commiter_ é a pessoa que por último aplicou o trabalho. Então, se você envia um patch para um projeto, e algum dos membros do núcleo o aplicam, ambos receberão créditos — você como o autor, e o membro do núcleo como o commiter. Nós cobriremos esta distinção um pouco mais no *Capítulo 5*.
 
 As opções `oneline` e `format` são particularmente úteis com outra opção chamada `--graph`. Esta opção gera um agradável gráfico ASCII mostrando seu branch e histórico de merges, que nós podemos ver em nossa cópia do repositório do projeto Grit:
 
@@ -585,7 +585,7 @@ Estas são apenas algumas opções de formatação de saída do `git log` — h�
 
 ### Limitando a Saída de Log ###
 
-Em adição às opções de formatação, `git log` tem inúmeras opções de limitações úteis — que são, opções que deixam você mostrar somente um subconjunto de commits. Você já viu algumas — a opção `-2`, que mostra apenas os dois últimos commits. De fato, você pode fazer `-<n>`, onde `n` é qualquer inteiro para mostrar os últimos `n` commits. Na realidade você provavelmente não deve usar isso frequentemente, porque o Git por padrão enfileira toda a saída em um paginador e então você vê somente uma página da saída do log por vês.
+Em adição às opções de formatação, `git log` tem inúmeras opções de limitações úteis — que são opções que lhe deixam mostrar somente um subconjunto de commits. Você já viu algumas — a opção `-2`, que mostra apenas os dois últimos commits. De fato, você pode fazer `-<n>`, onde `n` é qualquer inteiro para mostrar os últimos `n` commits. Na verdade, você provavelmente não usará isso frequentemente, porque por padrão o Git enfileira toda a saída em um paginador, e então você vê somente uma página da saída do log por vez.
 
 No entanto, as opções de limites de tempo como `--since` e `--until` são muito úteis. Por exemplo, este comando pega a lista de commits feitos nas últimas duas semanas:
 
@@ -593,20 +593,20 @@ No entanto, as opções de limites de tempo como `--since` e `--until` são muit
 
 Este comando funciona com vários formatos — você pode especificar uma data específica(“2008-01-15”) ou uma data relativa como “2 years 1 day 3 minutes ago”.
 
-Você pode ainda filtrar a lista de commits que batem com alguns critérios de busca. A opção `--author` permite que você filtre por algum autor específico, e a opção `--grep` deixa você buscar por palavras chave nas mensagens dos commits. (Note que se você quer especificar ambas as opções author e grep, você deve adicionar `--all-match` ou o comando considerará commits que batem com qualquer um).
+Você pode ainda filtrar a lista de commits que casam com alguns critérios de busca. A opção `--author` permite que você filtre por algum autor específico, e a opção `--grep` deixa você buscar por palavras chave nas mensagens dos commits. (Note que se você quiser especificar ambas as opções author e grep simultâneamente, você deve adicionar `--all-match`, ou o comando considerará commits que casam com qualquer um.)
 
-A última opção realmente útil para passar para `git log` como um filtro é o caminho. Se você especificar um diretório ou um nome de arquivo, você pode limitar a saída a commits que modificaram aqueles arquivos. Essa é sempre a última opção e é geralmente precedida por dois traços (`--`) para separar caminhos das opções.
+A última opção realmente útil para passar para `git log` como um filtro, é o caminho. Se você especificar um diretório ou um nome de arquivo, você pode limitar a saída a commits que modificaram aqueles arquivos. Essa é sempre a última opção, e geralmente é precedida por dois traços (`--`) para separar caminhos das opções.
 
 Na Tabela 2-3 nós listamos estas e outras opções comuns para sua referência.
 
 	Opção	Descrição
-	-(n)	Mostra somente os últimos n commits
+	-(n)	Mostra somente os últimos n commits.
 	--since, --after	Limita aos commits feitos depois da data especificada.
 	--until, --before	Limita aos commits feitos antes da data especificada.
-	--author	Somente mostra commits que o autor bate com a string especificada.
+	--author	Somente mostra commits que o autor casa com a string especificada.
 	--committer	Somente mostra os commits em que a entrada do commiter bate com a string especificada.
 
-Por exemplo, se você quer ver quais commits modificaram arquivos de teste no histórico do código fonte do Git que foram commitados por Julio Hamano e não foi feito merge no mês de Outrubro de 2008, você pode executar algo como:
+Por exemplo, se você quer ver quais commits modificaram arquivos de teste no histórico do código fonte do Git que foram commitados por Julio Hamano em Outubro de 2008, e não foram merges, você pode executar algo como:
 
     $ git log --pretty="%h - %s" --author=gitster --since="2008-10-01" \
        --before="2008-11-01" --no-merges -- t/
@@ -617,11 +617,11 @@ Por exemplo, se você quer ver quais commits modificaram arquivos de teste no hi
     51a94af - Fix "checkout --track -b newbranch" on detac
     b0ad11e - pull: allow "git pull origin $something:$cur
 
-Dos 20.000 commits mais novos no histórico do código fonte do Git, este comando mostra os 6 que batem com aqueles critérios.
+Dos 20.000 commits mais novos no histórico do código fonte do Git, este comando mostra os 6 que casam com aqueles critérios.
 
 ### Usando Interface Gráfica para Visualizar o Histórico ###
 
-Se você quiser usar uma ferramenta gráfica para visualizar seu histórico de commit, você pode querer dar uma olhada em um programa Tcl/Tk chamado `gitk` que é distribuído com o Git. Gitk é basicamente uma ferramente visual para `git log`, e ele aceita aproximadamente todas as opções de filtros que `git log` aceita. Se você digitar `gitk` na linha de comando em seu projeto, você deve ver algo como a Figura 2-2.
+Se você quiser usar uma ferramenta gráfica para visualizar seu histórico de commit, você pode querer dar uma olhada em um programa Tcl/Tk chamado `gitk` que é distribuído com o Git. Gitk é basicamente uma ferramenta visual para `git log`, e ele aceita aproximadamente todas as opções de filtros que `git log` aceita. Se você digitar `gitk` na linha de comando em seu projeto, você deve ver algo como a Figura 2-2.
 
 Insert 18333fig0202.png
 Figura 2-2. O visualizador de histórico gitk.

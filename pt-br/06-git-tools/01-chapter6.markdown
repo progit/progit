@@ -696,7 +696,7 @@ Isso é bastante comum de acontecer. Alguém acidentalmente faz um commit sem pe
     Rewrite 6b9b3cf04e7c5686a9cb838c3f36a8cb6a0fc2bd (21/21)
     Ref 'refs/heads/master' was rewritten
 
-A opção `--tree-filter` executa o comando especificado depois de cada checkout do projeto e faz o commit do resultado novamente. Neste caso, você está removendo um arquivo chamado passwords.txt de cada snapshot, quer ele exista ou não. Se você quer remover todos os arquivos de backup do editor que entraram em commits acidentalmente, você pode executar algo como `git filter-branch --tree-filter 'rm -f *~' HEAD`.
+A opção `--tree-filter` executa o comando especificado depois de cada checkout do projeto e faz o commit do resultado novamente. Neste caso, você está removendo um arquivo chamado passwords.txt de cada snapshot, quer ele exista ou não. Se você quer remover todos os arquivos de backup do editor que entraram em commits acidentalmente, você pode executar algo como `git filter-branch --tree-filter "find * -type f -name '*~' -delete" HEAD`.
 
 Você irá assistir o Git reescrever árvores e commits e, em seguida, no final, mover a referência do branch. Geralmente é uma boa idéia fazer isso em um branch de teste e depois fazer um hard-reset do seu branch master depois que você viu que isso era realmente o que queria fazer. Para executar `filter-branch` em todos os seus branches, você pode informar `--all` ao comando.
 

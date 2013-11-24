@@ -696,7 +696,7 @@ Git으로 일하다 보면 어떤 이유로든 커밋 히스토리를 수정해�
 	Rewrite 6b9b3cf04e7c5686a9cb838c3f36a8cb6a0fc2bd (21/21)
 	Ref 'refs/heads/master' was rewritten
 
-`--tree-filter` 옵션은 프로젝트를 Checkout한 후에 각 커밋에 명시한 명령어를 실행시키고 그 결과를 다시 커밋한다. 이 예제에서는 각 스냅샷에 passwords.txt라는 파일이 있으면 그 파일을 삭제한다. 실수로 편집기의 백업파일을 커밋했으면 `git filter-branch --tree-filter 'rm -f *~' HEAD`라고 실행해서 삭제할 수 있다.
+`--tree-filter` 옵션은 프로젝트를 Checkout한 후에 각 커밋에 명시한 명령어를 실행시키고 그 결과를 다시 커밋한다. 이 예제에서는 각 스냅샷에 passwords.txt라는 파일이 있으면 그 파일을 삭제한다. 실수로 편집기의 백업파일을 커밋했으면 `git filter-branch --tree-filter "find * -type f -name '*~' -delete" HEAD`라고 실행해서 삭제할 수 있다.
 
 이 명령은 모든 파일과 커밋을 정리하고 브랜치 포인터를 다시 복원해준다. 테스팅 브랜치에서 사용할 명령을 점검하고 나서 master 브랜치를 정리한다. 그리고 `filter-branch` 명령에 `--all` 옵션을 추가하면 모든 브랜치에 적용된다.
 

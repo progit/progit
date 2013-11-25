@@ -822,7 +822,7 @@ Pour supprimer un fichier nommé « passwords.txt » de tout votre historique,
 
 L'option `--tree-filter` exécute la commande spécifiée pour chaque *commit* et le revalide ensuite.
 Dans le cas présent, vous supprimez le fichier nommé « passwords.txt » de chaque contenu, qu'il existait ou non.
-Si vous voulez supprimer tous les fichiers temporaires des éditeurs validés accidentellement, vous pouvez exécuter une commande telle que `git filter-branch --tree-filter 'rm -f *~' HEAD`.
+Si vous voulez supprimer tous les fichiers temporaires des éditeurs validés accidentellement, vous pouvez exécuter une commande telle que `git filter-branch --tree-filter "find * -type f -name '*~' -delete" HEAD`.
 
 Vous pourrez alors regarder Git réécrire l'arbre des *commits* et revalider à chaque fois, pour finir en modifiant la référence de la branche.
 C'est généralement une bonne idée de le faire dans un branche de test puis de faire une réinitialisation forte (*hard-reset*) de votre branche `master` si le résultat vous convient.

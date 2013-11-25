@@ -699,7 +699,7 @@ Git 在腳本中應用了最後一次提交（`a5f4a0d`），你的歷史看起�
 	Rewrite 6b9b3cf04e7c5686a9cb838c3f36a8cb6a0fc2bd (21/21)
 	Ref 'refs/heads/master' was rewritten
 
-`--tree-filter` 選項會在每次 checkout 專案時先執行指定的命令然後重新提交結果。在這個例子中，你會在所有快照中刪除一個名叫 password.txt 的檔，無論它是否存在。如果你想刪除所有不小心提交上去的編輯器備份檔案，你可以執行類似 `git filter-branch --tree-filter 'rm -f *~' HEAD` 的命令。 
+`--tree-filter` 選項會在每次 checkout 專案時先執行指定的命令然後重新提交結果。在這個例子中，你會在所有快照中刪除一個名叫 password.txt 的檔，無論它是否存在。如果你想刪除所有不小心提交上去的編輯器備份檔案，你可以執行類似 `git filter-branch --tree-filter "find * -type f -name '*~' -delete" HEAD` 的命令。 
 
 你可以觀察到 Git 重寫目錄樹並且提交，然後將分支指標移到末尾。一個比較好的辦法是在一個測試分支上做這件事，然後在你確定結果真的是你所要的之後，再 hard-reset 你的主分支。要在你所有的分支上運行 `filter-branch` 的話，你可以傳遞一個 `--all` 參數給該命令。 
 

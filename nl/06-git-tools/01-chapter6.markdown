@@ -683,7 +683,7 @@ Dit gebeurd vrij vaak. Iemand voegt per ongeluk een enorm binair bestand toe met
 	Rewrite 6b9b3cf04e7c5686a9cb838c3f36a8cb6a0fc2bd (21/21)
 	Ref 'refs/heads/master' was rewritten
 
-De `--tree-filter` optie voert het gegeven commando uit na iedere checkout van het project, en commit de resultaten weer. In dit geval, verwijder je een bestand genaamd passwords.txt van iedere snapshot, of het bestaat of niet. Als je alle per ongeluk toegevoegde editor backup bestanden wilt verwijderen, kun je zoiets als dit uitvoeren `git filter-branch --tree-filter 'rm -f *~' HEAD`.
+De `--tree-filter` optie voert het gegeven commando uit na iedere checkout van het project, en commit de resultaten weer. In dit geval, verwijder je een bestand genaamd passwords.txt van iedere snapshot, of het bestaat of niet. Als je alle per ongeluk toegevoegde editor backup bestanden wilt verwijderen, kun je zoiets als dit uitvoeren `git filter-branch --tree-filter "find * -type f -name '*~' -delete" HEAD`.
 
 Je kunt Git bomen en commits zien herschrijven en de branch wijzer aan het einde zien verplaatsen. Het is over het algemeen een goed idee om dit in een test branch te doen, en dan je master branch te hard-resetten nadat je gecontroleerd hebt dat de uitkomst echt zo is als je wil. Om `filter-branch` op al je branches uit te voeren, kun je `--all` aan het commando meegeven.
 

@@ -191,7 +191,7 @@ Insert 18333fig0314.png
 Insert 18333fig0315.png 
 图 3-15. iss53 分支可以不受影响继续推进。
 
-不用担心之前 `hotfix` 分支的修改内容尚未包含到 `iss53` 中来。如果确实需要纳入此次修补，可以用 `git merge master` 把 master 分支合并到 `iss53`；或者等 `iss53` 完成之后，再将 `iss53` 分支中的更新并入 `master`。
+值得注意的是之前 `hotfix` 分支的修改内容尚未包含到 `iss53` 中来。如果需要纳入此次修补，可以用 `git merge master` 把 master 分支合并到 `iss53`；或者等 `iss53` 完成之后，再将 `iss53` 分支中的更新并入 `master`。
 
 ### 分支的合并 ###
 

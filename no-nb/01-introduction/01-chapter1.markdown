@@ -2,11 +2,11 @@
 
 Dette kapittelet handler om å komme i gang med Git. Vi vil begynne på begynnelsen, ved å fortelle noe om bakgrunnen til versjonskontroll, før vi går over til hvordan du kan få Git til å kjøre på ditt system, og til slutt hvordan man kan sette opp og begynne å arbeide med det. Ved kapittelets slutt burde du kunne forstå hvorfor Git finnes, hvorfor du burde bruke det, og du burde være satt opp til å gjøre det.
 
-## About Version Control ##
+## Om versjonskontroll ##
 
-What is version control, and why should you care? Version control is a system that records changes to a file or set of files over time so that you can recall specific versions later. Even though the examples in this book show software source code as the files under version control, in reality any type of file on a computer can be placed under version control.
+Hva er versjonskontroll, og hvorfor burdeu du bry deg? Versjonskontroll er et system som holder styr på forandringer i en fil, eller et sett av filer over tid, slik at du kan finne tilbake til spesifikke versjoner senere. Selv om eksemplene i denne boka viser kildekodefiler under versjonskontroll, kan man i realiteten bruke det på alle typer filer på en datamaskin.
 
-If you are a graphic or web designer and want to keep every version of an image or layout (which you certainly would), it is very wise to use a Version Control System (VCS). A VCS allows you to: revert files back to a previous state, revert the entire project back to a previous state, review changes made over time, see who last modified something that might be causing a problem, who introduced an issue and when, and more. Using a VCS also means that if you screw things up or lose files, you can generally recover easily. In addition, you get all this for very little overhead.
+Er du en grafisk designer eller arbeider med webdesign og ønsker å beholde alle versjoner av et bilde eller en layout (som du sannsynligvis vil), så er det lurt å bruke et Version Control System (VCS). Et VCS gjør det mulig for deg å: tilbakestille filer til en tidligere utgave, tilbakestille hele prosjektet til en tidligere utgave, sjekke forandringer over tid, se hvem som sist forandret noe som muligens forårsaker et problem, hvem som introduserte en sak og når, osv. Å benytte seg av et VCS betyr også at dersom du roter det til eller mister filer, kan du vanligvis komme tilbake opp å kjøre raskt og enkelt. I tillegg, så får du alt dette uten at det krever noe videre av deg eller systemet ditt.
 
 ### Local Version Control Systems ###
 

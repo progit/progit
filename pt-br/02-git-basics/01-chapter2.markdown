@@ -630,19 +630,19 @@ Você pode ver o histórico de commit na metade de cima da janela juntamente com
 
 ## Desfazendo Coisas ##
 
-Em qualquer fase, você pode querer desfazer alguma coisa. Aqui, vamos ver algumas ferramentas básicas para desfazer modificações que você fez. Cuidado, porque você não pode desfazer algumas dessas mudanças. Essa é uma das poucas áreas no Git onde você pode perder algum trabalho se você fizer errado.
+Em qualquer fase, você pode querer desfazer alguma coisa. Aqui, veremos algumas ferramentas básicas para desfazer modificações que você fez. Cuidado, porque você não pode desfazer algumas dessas mudanças. Essa é uma das poucas áreas no Git onde você pode perder algum trabalho se fizer errado.
 
 ### Modificando Seu Último Commit ###
 
-Uma das mais comuns situações de desfazer acontece quando você faz o commit muito cedo e possivelmente esqueceu de adicionar alguns arquivos, ou você bagunçou sua mensagem de commit. Se você quer tentar fazer esse commit de novo, você pode executá-lo com a opção `--amend`:
+Uma das situações mais comuns para desfazer algo, acontece quando você faz o commit muito cedo e possivelmente esqueceu de adicionar alguns arquivos, ou você bagunçou sua mensagem de commit. Se você quiser tentar fazer novamente esse commit, você pode executá-lo com a opção `--amend`:
 
     $ git commit --amend
 
 Esse comando pega sua área de seleção e a utiliza no commit. Se você não fez nenhuma modificação desde seu último commit (por exemplo, você rodou esse comando imediatamente após seu commit anterior), seu snapshot será exatamente o mesmo e tudo que você mudou foi sua mensagem de commit.
 
-O mesmo editor de mensagem de commits abre, mas ele já tem a mensagem do seu commit anterior. Você pode editar a mensagem como sempre, mas ele substituirá seu último commit.
+O mesmo editor de mensagem de commits abre, mas ele já tem a mensagem do seu commit anterior. Você pode editar a mensagem como sempre, mas ela substituirá seu último commit.
 
-Como exemplo, se você fez um commit e esqueceu de adicionar na área de seleção as modificações de um arquivo que gostaria de adicionar nesse commit, você pode fazer algo como isso:
+Por exemplo, se você fez um commit e esqueceu de adicionar na área de seleção as modificações de um arquivo que gostaria de ter adicionado nesse commit, você pode fazer algo como isso:
 
     $ git commit -m 'initial commit'
     $ git add forgotten_file
@@ -664,7 +664,7 @@ As duas próximas seções mostram como trabalhar nas suas modificações na ár
     #       modified:   benchmarks.rb
     #
 
-Logo abaixo do texto “Changes to be committed”, ele diz `use git reset HEAD <file>... to unstage` ("use `git reset HEAD <file>...` para retirá-los do estado unstage"). Então, vamos usar esse conselho para retirar o arquivo `benchmarks.rb`:
+Logo abaixo do texto “Changes to be committed”, ele diz `use git reset HEAD <file>... to unstage` ("use `git reset HEAD <file>...` para retirá-los do estado unstaged"). Então, vamos usar esse conselho para retirar o arquivo `benchmarks.rb`:
 
     $ git reset HEAD benchmarks.rb
     benchmarks.rb: locally modified
@@ -682,7 +682,7 @@ Logo abaixo do texto “Changes to be committed”, ele diz `use git reset HEAD 
     #       modified:   benchmarks.rb
     #
 
-O comando é um pouco estranho, mas funciona. O arquivo `benchmarks.rb` está modificado mas, mais uma vez fora da área de seleção.
+O comando é um pouco estranho, mas funciona. O arquivo `benchmarks.rb` está modificado, mas, novamente fora da área de seleção.
 
 ### Desfazendo um Arquivo Modificado ###
 
@@ -708,7 +708,7 @@ Ele diz explicitamente como descartar as modificações que você fez (pelo meno
 
 Você pode ver que as alterações foram revertidas. Perceba também que esse comando é perigoso: qualquer alteração que você fez nesse arquivo foi desfeita — você acabou de copiar outro arquivo sobre ele. Nunca use esse comando a menos que você tenha certeza absoluta que não quer o arquivo. Se você só precisa tirá-lo do caminho, vamos falar sobre stash e branch no próximo capítulo; geralmente essas são maneiras melhores de agir.
 
-Lembre-se, qualquer coisa que foi incluída com um commit no Git quase sempre pode ser recuperada. Até mesmo commits que estavam em branches que foram apagados ou commits que foram sobrescritos com um commit `--amend` podem ser recuperados (consulte o *Capítulo 9* para recuperação de dados). No entanto, qualquer coisa que você perder que nunca foi commitada provavelmente nunca mais será vista novamente.
+Lembre-se, qualquer coisa que foi incluída com um commit no Git quase sempre pode ser recuperada. Até mesmo commits que estavam em branches que foram apagados ou commits que foram sobrescritos com um commit `--amend` podem ser recuperados (consulte o *Capítulo 9* para recuperação de dados). No entanto, qualquer coisa que você perder que nunca foi commitada, provavelmente nunca mais será vista novamente.
 
 ## Trabalhando com Remotos ##
 
@@ -730,7 +730,7 @@ Para ver quais servidores remotos você configurou, você pode executar o comand
     $ git remote
     origin
 
-Você também pode especificar `-v`, que mostra a você a URL que o Git armazenou para o nome do remoto:
+Você também pode especificar `-v`, que mostra a URL que o Git armazenou para o nome do remoto:
 
     $ git remote -v
     origin  git://github.com/schacon/ticgit.git (fetch)
@@ -746,11 +746,11 @@ Se você tem mais de um remoto, o comando lista todos. Por exemplo, meu reposit�
     koke      git://github.com/koke/grit.git
     origin    git@github.com:mojombo/grit.git
 
-Isso significa que podemos puxar contribuições de qualquer um desses usuários muito facilmente. Mas note que somente o remoto origin é uma URL SSH, é o único pra onde eu posso fazer o push (vamos ver o motivo disso no *Capítulo 4*).
+Isso significa que podemos puxar contribuições de qualquer um desses usuários muito facilmente. Mas note que somente o remoto origin é uma URL SSH, sendo o único pra onde eu posso fazer o push (vamos ver o motivo disso no *Capítulo 4*).
 
 ### Adicionando Repositórios Remotos ###
 
-Eu mencionei e dei algumas demonstrações de adição de repositórios remotos nas seções anteriores, mas aqui está como fazê-lo explicitamente. Para adicionar um novo repositório remoto no Git com um nome curto para que você possa fazer referência facilmente, execute `git remote add [nomecurto] [url]`:
+Eu mencionei e dei algumas demonstrações de adição de repositórios remotos nas seções anteriores, mas aqui está como fazê-lo explicitamente. Para adicionar um novo repositório remoto no Git com um nome curto, para que você possa fazer referência facilmente, execute `git remote add [nomecurto] [url]`:
 
     $ git remote
     origin
@@ -790,7 +790,7 @@ Quando o seu projeto estiver pronto para ser compartilhado, você tem que enviá
 
     $ git push origin master
 
-Este comando funcionando apenas se você clonou de um servidor onde você tenha permissão para escrita e se ninguém mais enviou dados no meio tempo. Se você e mais alguém clonar ao mesmo tempo e você enviar suas modificações após a pessoa ter enviado as dela, o seu push será rejeitado. Você terá que fazer um pull das modificações deste outro alguém antes e incorporá-las às suas antes que você tenha permissão para enviá-las. Veja o *Capítulo 3* para mais detalhes sobre como enviar suas modificações para servidores remotos.
+Este comando funciona apenas se você clonou de um servidor que você têm permissão para escrita, e se mais ninguém enviou dados no meio tempo. Se você e mais alguém clonarem ao mesmo tempo, e você enviar suas modificações após a pessoa ter enviado as dela, o seu push será rejeitado. Antes, você terá que fazer um pull das modificações deste outro alguém, e incorporá-las às suas para que você tenha permissão para enviá-las. Veja o *Capítulo 3* para mais detalhes sobre como enviar suas modificações para servidores remotos.
 
 ### Inspecionando um Remoto ###
 
@@ -805,7 +805,7 @@ Se você quer ver mais informação sobre algum remoto em particular, você pode
         master
         ticgit
 
-Ele lista a URL do repositório remoto assim como as branches sendo rastreadas. O resultado deste comando lhe diz que se você está na branch master e rodar `git pull`, ele irá automaticamente fazer um merge na branch master no remoto depois que ele fizer o fetch de todas as referências remotas. Ele também lista todas as referências remotas que foram puxadas.
+Ele lista a URL do repositório remoto assim como as branches sendo rastreadas. O resultado deste comando lhe diz que se você está na branch master e rodar `git pull`, ele automaticamente fará um merge na branch master no remoto depois que ele fizer o fetch de todas as referências remotas. Ele também lista todas as referências remotas que foram puxadas.
 
 Este é um simples exemplo que você talvez encontre por aí. Entretanto, quando se usa o Git pra valer, você pode ver muito mais informação vindo de `git remote show`:
 
@@ -831,7 +831,7 @@ Este é um simples exemplo que você talvez encontre por aí. Entretanto, quando
       Local branch pushed with 'git push'
         master:master
 
-Este comando mostra qual branch é automaticamente pushed quando você roda `git push` em determinadas branches. Ele também mostra quais branches remotas que estão no servidor e você não tem, quais branches remotas você tem e que foram removidos do servidor, e múltiplas branches que são automaticamente merged quando você roda `git pull`.
+Este comando mostra qual branch é automaticamente enviado (pushed) quando você roda `git push` em determinados branches. Ele também mostra quais branches remotos que estão no servidor e você não tem, quais branches remotos você tem e que foram removidos do servidor, e múltiplos branches que são automaticamente mesclados (merged) quando você roda `git pull`.
 
 ### Removendo e Renomeando Remotos ###
 
@@ -842,7 +842,7 @@ Se você quiser renomear uma referência, em versões novas do Git você pode ro
     origin
     paul
 
-É válido mencionar que isso modifica também os nomes das branches no servidor remoto. O que costumava ser referenciado como `pb/master` agora é `paul/master`.
+É válido mencionar que isso modifica também os nomes dos branches no servidor remoto. O que costumava ser referenciado como `pb/master` agora é `paul/master`.
 
 Se você quiser remover uma referência por qualquer razão — você moveu o servidor ou não está mais usando um mirror específico, ou talvez um contribuidor não está mais contribuindo — você usa `git remote rm`:
 
@@ -852,7 +852,7 @@ Se você quiser remover uma referência por qualquer razão — você moveu o se
 
 ## Tagging ##
 
-Assim como a maioria dos VCS's, Git tem a habilidade de criar tags em pontos específicos na história do código como pontos importantes. Geralmente as pessoas usam esta funcionalidade para marcar pontos de release (`v1.0`, e por aí vai). Nesta seção, você irá aprender como listar as tags disponíveis, como criar novas tags, e quais são os tipos diferentes de tags.
+Assim como a maioria dos VCS's, Git tem a habilidade de criar tags em pontos específicos na história do código como pontos importantes. Geralmente as pessoas usam esta funcionalidade para marcar pontos de release (`v1.0`, e por aí vai). Nesta seção, você aprenderá como listar as tags disponíveis, como criar novas tags, e quais são os tipos diferentes de tags.
 
 ### Listando Suas Tags ###
 
@@ -950,7 +950,7 @@ Outro jeito para taggear commits é com a tag leve. Esta é basicamente a chave 
     v1.4-lw
     v1.5
 
-Desta vez, se você executar `git show` na tag, você não verá nenhum informação extra. O comando apenas mostra o commit:
+Desta vez, se você executar `git show` na tag, você não verá nenhuma informação extra. O comando apenas mostra o commit:
 
     $ git show v1.4-lw
     commit 15027957951b64cf874c3557a0f3547bd83b3ff6
@@ -1061,20 +1061,20 @@ Antes de terminarmos este capítulo em Git Essencial, algumas dicas e truques po
 
 ### Preenchimento Automático ###
 
-Se você usa um Bash shell, Git vem com um script de preenchimento automático que você pode habilitar. Faça download do código fonte, e olhe no diretório `contrib/completion`; lá deve existir um arquivo chamado `git-completion.bash`. Copie este arquivo para o seu diretório home, e adicione a linha abaixo ao seu arquivo `.bashrc`:
+Se você usa um shell Bash, você pode habilitar um script de preenchimento automático que vem com o Git. Faça download do código fonte, e olhe no diretório `contrib/completion`; lá deve existir um arquivo chamado `git-completion.bash`. Copie este arquivo para o seu diretório home, e adicione a linha abaixo ao seu arquivo `.bashrc`:
 
     source ~/.git-completion.bash
 
-Se você quiser configurar Git para automaticamente ter preenchimento automático para todos os usuários, copie o script para o diretório `/opt/local/etc/bash_completion.d` em Mac ou para o diretório `/etc/bash_completion.d/` em Linux. Este é o diretório de scripts que o Bash irá automaticamente carregar para prover preenchimento automático.
+Se você quiser configurar Git para automaticamente ter preenchimento automático para todos os usuários, copie o script para o diretório `/opt/local/etc/bash_completion.d` em Mac ou para o diretório `/etc/bash_completion.d/` em Linux. Este é o diretório de scripts que o Bash automaticamente carregará para prover o preenchimento automático.
 
-Se você estiver usando Windows com Git Bash, que é o padrão quando instalando Git no Windows com msysGit, preenchimento automático deve estar pré-configurado.
+Se você estiver usando Windows com Git Bash, que é o padrão quando instalando Git no Windows com msysGit, o preenchimento automático deve estar pré-configurado.
 
 Pressiona a tecla Tab quando estiver escrevendo um comando Git, e ele deve retornar uma lista de sugestões para você escolher:
 
     $ git co<tab><tab>
     commit config
 
-Neste caso, escrevendo `git co` e pressionando a tecla Tab duas vezes sugere commit e config. Addicionando `m<tab>` completa `git commit` automaticamente.
+Neste caso, escrevendo `git co` e pressionando a tecla Tab duas vezes, ele sugere commit e config. Adicionando `m<tab>` completa `git commit` automaticamente.
 
 Isto também funciona com opções, o que é provavelmente mais útil. Por exemplo, se você estiver executando o comando `git log` e não consegue lembrar uma das opções, você pode começar a escrever e pressionar Tab para ver o que corresponde:
 
@@ -1085,7 +1085,7 @@ Este é um truque bem bacana e irá te poupar tempo e leitura de documentação.
 
 ### Pseudônimos no Git ###
 
-Git não interfere com seu comando se você digitar ele parcialmente. Se você não quiser digitar o texto todo de cada comando Git, você pode facilmente criar um pseudônimo para cada um usando `git config`. Abaixo alguns exemplos que você pode usar:
+O Git não interfere em seu comando se você digitá-lo parcialmente. Se você não quiser digitar o texto todo de cada comando Git, você pode facilmente criar um pseudônimo para cada um usando `git config`. Abaixo alguns exemplos que você pode usar:
 
     $ git config --global alias.co checkout
     $ git config --global alias.br branch

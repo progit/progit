@@ -97,7 +97,7 @@ Vamos ver por que você deve fazê-lo.
 Vamos ver um exemplo simples de uso de branch e merge com um fluxo de trabalho que você pode usar no mundo real. Você seguirá esses passos:
 
 1. Trabalhar em um web site.
-2. Criar um branch para uma nova funcionalidade em que está trabalhando.
+2. Criar um branch para uma nova história em que está trabalhando.
 3. Trabalhar nesse branch.
 
 Nesse etapa, você receberá um telefonema informando que outro problema crítico existe e precisa de correção. Você fará o seguinte:
@@ -105,7 +105,7 @@ Nesse etapa, você receberá um telefonema informando que outro problema crític
 1. Voltar ao seu branch de produção.
 2. Criar um branch para adicionar a correção.
 3. Depois de testado, fazer o merge do branch da correção, e enviar para produção.
-4. Retornar à sua funcionalidade anterior e continuar trabalhando.
+4. Retornar à sua história anterior e continuar trabalhando.
 
 ### Branch Básico ###
 

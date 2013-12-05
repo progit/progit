@@ -362,7 +362,7 @@ Subversion 저장소를 클론하면 쓸데 없는 파일을 커밋하지 않도
 
 SVN에 기록된 Author 이름을 아래 명령으로 조회한다:
 
-	$ svn log --xml | grep -P "^<author" | sort -u | \
+	$ svn log ^/ --xml | grep -P "^<author" | sort -u | \
 	      perl -pe 's/<author>(.*?)<\/author>/$1 = /' > users.txt
 
 우선 XML 형식으로 SVN 로그를 출력하고, 거기서 Author 정보만 찾고, 중복된 것을 제거하고, XML 태그는 버린다. 물론 `grep`, `sort`, `perl` 명령이 동작하는 시스템에서만 이 명령을 사용할 수 있다. 이 결과에 Git Author 정보를 더해서 `users.txt`를 만든다.

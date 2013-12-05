@@ -362,7 +362,7 @@ Takový import však není úplně dokonalý a vzhledem k tomu, jak dlouho můž
 
 Chcete-li získat seznam jmen autorů používaných v SVN, spusťte tento příkaz:
 
-	$ svn log --xml | grep -P "^<author" | sort -u | \
+	$ svn log ^/ --xml | grep -P "^<author" | sort -u | \
 	      perl -pe 's/<author>(.*?)<\/author>/$1 = /' > users.txt
 
 Vytvoříte tím log ve formátu XML. Můžete v něm vyhledávat autory, vytvořit si vlastní seznam a XML zase vyjmout. (Tento příkaz pochopitelně funguje pouze na počítačích, v nichž je nainstalován `grep`, `sort` a `perl`.) Poté tento výstup přesměrujte do souboru users.txt, abyste mohli vedle každého záznamu přidat stejná data o uživatelích Git.

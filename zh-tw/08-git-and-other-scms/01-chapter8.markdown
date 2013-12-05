@@ -363,7 +363,7 @@ Git 通過搜尋提交歷史中 Subversion 分支的頭部(tip)來決定 dcommit
 
 通過以下命令可以獲得 SVN 作者的列表： 
 
-	$ svn log --xml | grep -P "^<author" | sort -u | \
+	$ svn log ^/ --xml | grep -P "^<author" | sort -u | \
 	      perl -pe 's/<author>(.*?)<\/author>/$1 = /' > users.txt
 
 它將輸出 XML 格式的日誌——你可以找到作者，建立一個單獨的列表，然後從 XML 中抽取出需要的資訊。（顯而易見，本方法要求主機上安裝了`grep`，`sort` 和 `perl`.）然後把輸出重定向到 user.txt 檔，然後就可以在每一項的後面添加相應的 Git 使用者資料。 

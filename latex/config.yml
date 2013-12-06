@@ -43,7 +43,7 @@ zh-tw:
   indent: "文"
 ja:
   langrule: "\\XeTeXlinebreakskip=0em plus 0.1em minus 0.01em\n\\XeTeXlinebreakpenalty=0"
-  font: IPAPMincho
+  font: IPAexMincho
   bold: VL PGothic
   mono: VL Gothic
   prechap: "第"

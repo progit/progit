@@ -525,7 +525,7 @@ Aby otrzymać listę autorów używanych przez SVN, uruchom komendę:
 
 <!-- To get a list of the author names that SVN uses, you can run this: -->
 
-	$ svn log --xml | grep -P "^<author" | sort -u | \
+	$ svn log ^/ --xml | grep -P "^<author" | sort -u | \
 	      perl -pe 's/<author>(.*?)<\/author>/$1 = /' > users.txt
 
 Komenda ta da wynik w formacie XML - z którego możesz wyciągnąć autorów, stworzyć z nich unikalną listę i następnie usunąć XMLa (Oczywiście to zadziała tylko na komputerze z zainstalowanymi programami `grep`, `sort`, oraz `perl`). Następnie przekieruj wynik komendy do pliku users.txt, tak abyś mógł dodać odpowiednik użytkownika w Gitcie dla każdego wpisu.

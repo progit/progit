@@ -1,4 +1,4 @@
-﻿# Deutsche Übersetzung #
+# Deutsche Übersetzung #
 
 Die deutsche Übersetzung wird im Repository progit-de/progit verwaltet. Wenn Du an der deutschen Übersetzung mitarbeiten willst, dann melde dich am besten bei uns. Du kannst dazu einen Issue im Repository progit-de/progit erzeugen. Wir werden Dir dann einen Vorschlag machen, wie Du uns am besten helfen kannst. Der Workflow an sich ist unter Workflow beschrieben. Ein Status der Übersetzung der jeweiligen Kapitel findest Du unter "Status der Übersetzung".
 
@@ -400,41 +400,41 @@ Bitte den Status nicht aktualisieren. Dies übernimmt ein Maintainer.
 <td>Ja</td>
 <td>Nein</td>
 <td>Ja</td>
-<td bgcolor="red">Review notwendig</td>
+<td bgcolor="yellow">Review notwendig</td>
 </tr>
 <tr>
 <td>6.4</td>
-<td>Nein</td>
 <td>Ja</td>
 <td>Nein</td>
-<td bgcolor="red">Übersetzung fehlt</td>
+<td>Ja</td>
+<td bgcolor="yellow">Review notwendig</td>
 </tr>
 <tr>
 <td>6.5</td>
-<td>Nein</td>
 <td>Ja</td>
 <td>Nein</td>
-<td bgcolor="red">Übersetzung fehlt</td>
+<td>Ja</td>
+<td bgcolor="yellow">Review notwendig</td>
 </tr>
 <tr>
 <td>6.6</td>
 <td>Nein</td>
-<td>Ja</td>
 <td>Nein</td>
+<td>Ja</td>
 <td bgcolor="red">Übersetzung fehlt</td>
 </tr>
 <tr>
 <td>6.7</td>
 <td>Nein</td>
-<td>Ja</td>
 <td>Nein</td>
+<td>Ja</td>
 <td bgcolor="red">Übersetzung fehlt</td>
 </tr>
 <tr>
 <td>6.8</td>
 <td>Nein</td>
-<td>Ja</td>
 <td>Nein</td>
+<td>Ja</td>
 <td bgcolor="red">Übersetzung fehlt</td>
 </tr>
 <tr>

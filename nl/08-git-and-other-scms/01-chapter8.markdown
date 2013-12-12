@@ -38,7 +38,7 @@ Je kunt dit project nu syncen naar je lokale machine door `svnsync init` aan te 
 
 	$ svnsync init file:///tmp/test-svn http://progit-example.googlecode.com/svn/
 
-Dit stelt de eigenschappen in om de sync uit te voeren. Je kunt de code dan clonen door dit uit te voeren
+Dit stelt de eigenschappen in om de sync uit te voeren. Je kunt de code dan klonen door dit uit te voeren
 
 	$ svnsync sync file:///tmp/test-svn
 	Committed revision 1.
@@ -48,11 +48,11 @@ Dit stelt de eigenschappen in om de sync uit te voeren. Je kunt de code dan clon
 	Committed revision 3.
 	...
 
-Alhoewel deze operatie maar een paar minuten in beslag neemt, zal het kopiëren van het originele repository naar een ander remote repository in plaat van een lokale meer dan een uur duren, terwijl er minder dan 100 commits in zitten. Subversion moet één revisie per keer clonen en dan terug pushen in een ander repository – het is belachelijk inefficiënt, maar het is de enige makkelijke manier om dit te doen.
+Alhoewel deze operatie maar een paar minuten in beslag neemt, zal het kopiëren van het originele repository naar een ander remote repository in plaat van een lokale meer dan een uur duren, terwijl er minder dan 100 commits in zitten. Subversion moet één revisie per keer klonen en dan terug pushen in een ander repository – het is belachelijk inefficiënt, maar het is de enige makkelijke manier om dit te doen.
 
 ### Beginnen ###
 
-Nu dat je een Subversion repository hebt met schrijftoegang, kun je door een typische werkwijze gaan. Je begint met het `git svn clone` commando, wat een volledig Subversion repository in een lokaal Git repository clonet. Onthoud dat als je van een echt beheerd Subversion repository importeert, je de `file:///tmp/test-svn` hier moet vervangen door de URL van je Subversion repository:
+Nu dat je een Subversion repository hebt met schrijftoegang, kun je door een typische werkwijze gaan. Je begint met het `git svn clone` commando, wat een volledig Subversion repository in een lokaal Git repository kloont. Onthoud dat als je van een echt beheerd Subversion repository importeert, je de `file:///tmp/test-svn` hier moet vervangen door de URL van je Subversion repository:
 
 	$ git svn clone file:///tmp/test-svn -T trunk -b branches -t tags
 	Initialized empty Git repository in /Users/schacon/projects/testsvnsync/svn/.git/
@@ -87,7 +87,7 @@ Op dit punt zou je een geldig Git repository moeten hebben, dat je branches en t
 	  tags/release-2.0.2rc1
 	  trunk
 
-Het is belangrijk om te zien hoe dit tool je remote references een andere naamruimte toebedeeld. Als je een normaal Git repository clonet, krijg je alle branches op die remote server lokaal beschikbaar in de vorm van `origin/[branch]` – volgens de naamruimte van de remote. Maar, `git svn` gaat er vanuit dan je niet meerdere remotes hebt en bewaard al zijn referentie punten om de remote server zonder naamruimte. Je kunt het Git loodgieters commando `show-ref` gebruiken om naar al je volledige referentie namen te kijken:
+Het is belangrijk om te zien hoe dit tool je remote references een andere naamruimte toebedeeld. Als je een normaal Git repository kloont, krijg je alle branches op die remote server lokaal beschikbaar in de vorm van `origin/[branch]` – volgens de naamruimte van de remote. Maar, `git svn` gaat er vanuit dan je niet meerdere remotes hebt en bewaard al zijn referentie punten om de remote server zonder naamruimte. Je kunt het Git loodgieters commando `show-ref` gebruiken om naar al je volledige referentie namen te kijken:
 
 	$ git show-ref
 	1cbd4904d9982f386d87f88fce1c24ad7c0f0471 refs/heads/master
@@ -227,7 +227,7 @@ Stel dat je geschiedenis er zoals volgt uitziet: je hebt een `experiment` branch
 
 Het uitvoeren van `dcommit` op een branch met gemergede historie werkt prima, behalve wanneer je naar je Git project historie kijkt, het geen van beide commits die je op de `experiment` branch gedaan hebt herschreven heeft – in plaats daarvan verschijnen al die wijzigingen in de SVN versie van de enkele merge commit.
 
-Als iemand anders dat werk clonet, is alles wat ze zien de merge commit met al het werk erin gesquashed; ze zien niet de commit data met waar het vandaan kwam of wanneer het was gecommit.
+Als iemand anders dat werk kloont, is alles wat ze zien de merge commit met al het werk erin gesquashed; ze zien niet de commit data met waar het vandaan kwam of wanneer het was gecommit.
 
 ### Subversion branchen ###
 
@@ -326,7 +326,7 @@ Dit is vergelijkbaar met `blame` en `log` in dat het offline draait en alleen up
 
 #### Negeren wat Subversion negeert ####
 
-Als je een Subversion repository clonet, die ergens `svn:ignore` eigenschappen gezet heeft, dan zul je waarschijnlijk overeenkomende `.gitignore` bestanden in willen stellen zo dat je niet per ongeluk bestanden commit die je niet had moeten committen. `git svn` heeft twee commando's die met dit probleem helpen. De eerste is `git svn create-ignore`, wat automatisch `.gitignore` bestanden voor je genereert zodat je volgende commit ze niet kan bevatten.
+Als je een Subversion repository kloont, die ergens `svn:ignore` eigenschappen gezet heeft, dan zul je waarschijnlijk overeenkomende `.gitignore` bestanden in willen stellen zo dat je niet per ongeluk bestanden commit die je niet had moeten committen. `git svn` heeft twee commando's die met dit probleem helpen. De eerste is `git svn create-ignore`, wat automatisch `.gitignore` bestanden voor je genereert zodat je volgende commit ze niet kan bevatten.
 
 Het tweede commando is `git svn show-ignore`, want op stdout de regels afdrukt die je in een `.gitignore` bestand moet stoppen zodat je de output in het exclude bestand van je project kunt stoppen:
 
@@ -339,7 +339,7 @@ Op die manier vervuil je het project niet met `.gitignore` bestanden. Dit is een
 De `git svn` tools zijn bruikbaar als je voorlopig vast zit aan een Subversion server, of op een andere manier in een ontwikkelomgeving zit waar het draaien van een Subversion server noodzakelijk is. Je moet het echter beschouwen als een kreupele Git, of anders loop je tegen problemen in de vertaling aan, die jou en je medewerkers in verwarring kunnen brengen. Om uit de problemen te blijven moet je deze regels volgen:
 
 * Houdt een lineaire Git historie aan, die geen merge commits bevat die gedaan zijn door `git merge`. Rebase al het werk dat je buiten je hoofd branch doet er terug in; niet erin mergen.
-* Geen aparte Git server instellen en daar op samenwerken. Je kunt er een hebben om clones voor nieuwe developers te versnellen, maar push er niets terug in dat geen `git-svn-id` vermelding heeft. Je zou zelfs een `pre-receive` haak kunnen toevoegen, die ieder commit bericht na kijkt op een `git-svn-id` en pushes weigert die commits zonder bevatten.
+* Geen aparte Git server instellen en daar op samenwerken. Je kunt er een hebben om klonen voor nieuwe developers te versnellen, maar push er niets terug in dat geen `git-svn-id` vermelding heeft. Je zou zelfs een `pre-receive` haak kunnen toevoegen, die ieder commit bericht na kijkt op een `git-svn-id` en pushes weigert die commits zonder bevatten.
 
 Als je deze regels volgt, dan kan werken met een Subversion server meer dragelijk zijn. Maar, als het mogelijk is om over te gaan naar een echte Git server, dan kan dat je team een hoop meer toevoegen.
 

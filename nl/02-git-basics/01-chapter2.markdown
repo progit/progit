@@ -38,7 +38,7 @@ Dat commando doet hetzelfde als het vorige, maar dan heet de doelmap `mygrit`.
 
 Git heeft een aantal verschillende transport protocollen die je kunt gebruiken. Het vorige voorbeeld maakt gebruik van het `git://` protocol, maar je kunt ook `http(s)://` of `gebruiker@server:/pad.git` tegenkomen, dat het SSH transport protocol gebruikt. *Hoofdstuk 4* zal alle beschikbare opties introduceren die de server kan gebruiken om je Git repository aan te kunnen, met daarbij de voors en tegens van elk.
 
-## Wijzigingen Aan Het Repository Vastleggen ##
+## Wijzigingen aan het repository vastleggen ##
 
 Je hebt een bonafide Git repository en een checkout of werkkopie van de bestanden voor dat project. Je moet wat wijzigingen maken en deze committen in je repository, iedere keer zodra het project een status bereikt die je wilt vastleggen.
 

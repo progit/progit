@@ -6,15 +6,15 @@ Git'i kullanmaya başlamak için yalnızca bir bölüm okuyacak kadar zamanını
 
 Bir Git projesi edinmenin başlıca iki yolu vardır. Bunlardan ilki, halihazırda varolan bir projeyi Git'e aktarmaktır. İkincisi ise bir sunucuda yer alan bir Git yazılım havuzunu klonlamakdır.
 
-### Varolan Bir Klasörde Yazılım Havuzu Oluşturmak ###
+### Var olan Bir Klasörde Yazılım Havuzu Oluşturmak ###
 
-Varolan bir projenizi sürüm kontrolü altına almak istiyorsanız, projenin bulunduğu klasöre gidip aşağıdaki komutu çalıştırmanız gerekir:
+Var olan bir projenizi sürüm kontrolü altına almak istiyorsanız, projenin bulunduğu klasöre gidip aşağıdaki komutu çalıştırmanız gerekir:
 
 	$ git init
 
 Bu, gerekli yazılım havuzu dosyalarını —Git iskeletini— içeren `.git` adında bir klasör oluşturur. Bu noktada, projenizdeki hiçbir şey sürüm kontrolüne girmiş değildir. (Oluşturulan `.git` klasöründe tam olarak hangi dosyaların bulunduğu hakkında daha fazla bilgi edinmek için bkz. _9. Bölüm_.)
 
-Varolan dosyalarınızı sürüm kontrolüne almak istiyorsanız, o dosyaları hazırlayıp kayıt etmelisiniz. Bunu, sürüm kontrolüne almak istediğiniz dosyaları belirleyip kayıt altına aldığınız birkaç git komutuyla gerçekleştirebilirsiniz:
+Var olan dosyalarınızı sürüm kontrolüne almak istiyorsanız, o dosyaları hazırlayıp kayıt etmelisiniz. Bunu, sürüm kontrolüne almak istediğiniz dosyaları belirleyip kayıt altına aldığınız birkaç git komutuyla gerçekleştirebilirsiniz:
 
 	$ git add *.c
 	$ git add README
@@ -22,9 +22,9 @@ Varolan dosyalarınızı sürüm kontrolüne almak istiyorsanız, o dosyaları h
 
 Birazdan bu komutların üzerinde duracağız. Bu noktada, sürüm kontrolüne aldığınız dosyaları içeren bir Git yazılım havuzunuz var.
 
-### Varolan Bir Yazılım Havuzunu Klonlamak ###
+### Var olan Bir Yazılım Havuzunu Klonlamak ###
 
-Varolan bir Git yazılım havuzunu klonlamak istiyorsanız —söz gelimi, katkıda bulunmak istediğiniz bir proje varsa- ihtiyacınız olan komut `git clone`. Subversion gibi başka SKS'lere aşinaysanız, komutun `checkout` değil `clone` olduğunu fark etmişsinizdir. Bu önemli bir ayrımdır —Git, sunucuda bulunan neredeyse bütün veriyi kopyalar. `git clone` komutunu çalıştırdığınızda her dosyanın proje tarihçesinde bulunan her sürümü istemciye indirilir. Hatta, sunucunuzun diski bozulacak olsa, herhangi bir istemcideki herhangi bir klonu, sunucuyu klonlandığı zamanki haline geri getirmek için kullanabilirsiniz (sunucunuzdaki bazı çengel betikleri (_hook_) kaybedebilirsiniz, ama sürümlenmiş verinin tamamı elinizin altında olacaktır —daha fazla ayrıntı için bkz. _4. Bölüm_)
+Var olan bir Git yazılım havuzunu klonlamak istiyorsanız —söz gelimi, katkıda bulunmak istediğiniz bir proje varsa- ihtiyacınız olan komut `git clone`. Subversion gibi başka SKS'lere aşinaysanız, komutun `checkout` değil `clone` olduğunu fark etmişsinizdir. Bu önemli bir ayrımdır —Git, sunucuda bulunan neredeyse bütün veriyi kopyalar. `git clone` komutunu çalıştırdığınızda her dosyanın proje tarihçesinde bulunan her sürümü istemciye indirilir. Hatta, sunucunuzun diski bozulacak olsa, herhangi bir istemcideki herhangi bir klonu, sunucuyu klonlandığı zamanki haline geri getirmek için kullanabilirsiniz (sunucunuzdaki bazı çengel betikleri (_hook_) kaybedebilirsiniz, ama sürümlenmiş verinin tamamı elinizin altında olacaktır —daha fazla ayrıntı için bkz. _4. Bölüm_)
 
 Bir yazılım havuzu `git clone [url]` komutuyla klonlanır. Örneğin, Grit adlı Ruby Git kütüphanesini klonlamak isterseniz, bunu şu şekilde yapabilirsiniz:
 
@@ -42,9 +42,9 @@ Git'in bir dizi farklı transfer protokolü vardır. Yukarıdaki örnek `git://`
 
 Gerçek bir Git yazılım havuzuna ve söz konusu proje için gerekli olan bir dosya seçmesine sahipsiniz. Bu proje üzerinde değişiklikler yapmanız ve proje kaydetmek istediğiniz bir seviyeye geldiğinde bu değişikliklerin bir bellek kopyasını kaydetmeniz gerekecek.
 
-Unutmayın, çalışma klasörünüzdeki dosyalar iki halden birinde bulunurlar: _izlenenler_ (_tracked_) ve _izlenmeyenler_ (_untracked_). _İzlenen_ dosyalar, bir önceki bellek kopyasında bulunan dosyalardır; bunlar _değişmemiş_, _değişmiş_ ya da _hazırlanmış_ olabilirler. Geri kalan her şey —çalışma klasörünüzde bulunan ve bir önceki bellek kopyasında ya da hazırlama alanında bulumayan dosyalar— _izlenmeyen_ dosyalardır. Bir yazılım havuzunu yeni kopyalamışsanız, bütün dosyalar, henüz yeni seçme yaptığınız ve hiçbir şeyi değiştirmediğiniz için, izlenen ve değişmemiş olacaktır.
+Unutmayın, çalışma klasörünüzdeki dosyalar iki halden birinde bulunurlar: _izlenenler_ (_tracked_) ve _izlenmeyenler_ (_untracked_). _İzlenen_ dosyalar, bir önceki bellek kopyasında bulunan dosyalardır; bunlar _değişmemiş_, _değişmiş_ ya da _hazırlanmış_ olabilirler. Geri kalan her şey —çalışma klasörünüzde bulunan ve bir önceki bellek kopyasında ya da hazırlama alanında bulunmayan dosyalar— _izlenmeyen_ dosyalardır. Bir yazılım havuzunu yeni kopyalamışsanız, bütün dosyalar, henüz yeni seçme yaptığınız ve hiçbir şeyi değiştirmediğiniz için, izlenen ve değişmemiş olacaktır.
 
-Dosyaları düzenlemeye başladığınzıda, Git onları değişmiş olarak görecektir, çünkü son kaydınızdan beri üzerlerinde değişiklik yapmış olacaksınız. Değiştirdiğiniz bu dosyaları önce _hazırlayıp_ sonra bütün _hazırlanmış_ değişiklikleri kaydedeceksiniz ve bu döngü böyle sürüp gidecek. Bu döngü, Figür 2-1'de gösteriliyor.
+Dosyaları düzenlemeye başladığınızda, Git onları değişmiş olarak görecektir, çünkü son kaydınızdan beri üzerlerinde değişiklik yapmış olacaksınız. Değiştirdiğiniz bu dosyaları önce _hazırlayıp_ sonra bütün _hazırlanmış_ değişiklikleri kaydedeceksiniz ve bu döngü böyle sürüp gidecek. Bu döngü, Figür 2-1'de gösteriliyor.
 
 
 Insert 18333fig0201.png
@@ -89,11 +89,11 @@ Yeni bir dosyayı izlemeye almak için `git add` komutunu kullanmalısınız. RE
 	#	new file:   README
 	#
 
-Hazırlık alanında olduğunu “Changes to be committed” başlığının altında olmasına bakarak söyleyebilirsiniz. Eğer bu noktada bir kayıt (_commit_) yapacak olursanız, dosyanın `git add` komutunu çalıştırdığınız andaki hali bellek kopyasına kaydedilecektir. Daha önce `git init` komutunu çalıştırdıktan sonra projenize dosya eklemek için `git add (dosya)` komutunu çalıştırdığınızı hatırlayacaksınız —bunun amacı klasörünüzdeki dosyaları izlemeye almaktı. `git add` komutu bir dosya ya da klasörün konumuyla çalışır; eğer söz konusu olan br klasörse, klasördeki bütün dosyaları tekrarlamalı olarak projeye ekler.
+Hazırlık alanında olduğunu “Changes to be committed” başlığının altında olmasına bakarak söyleyebilirsiniz. Eğer bu noktada bir kayıt (_commit_) yapacak olursanız, dosyanın `git add` komutunu çalıştırdığınız andaki hali bellek kopyasına kaydedilecektir. Daha önce `git init` komutunu çalıştırdıktan sonra projenize dosya eklemek için `git add (dosya)` komutunu çalıştırdığınızı hatırlayacaksınız —bunun amacı klasörünüzdeki dosyaları izlemeye almaktı. `git add` komutu bir dosya ya da klasörün konumuyla çalışır; eğer söz konusu olan bir klasörse, klasördeki bütün dosyaları tekrarlamalı olarak projeye ekler.
 
 ### Değiştirilen Dosyaları Hazırlamak ###
 
-Gelin şimdi halihazırda izlenmekte olan bir dosyayı değiştirelim. İzlenmekte olan `benchmarks.rb` adındaki bir dosyayı değiştirip `status` komutunu çaıştırdığınızda şöyle bir ekran çıktısıyla karşılaşırsınız:
+Gelin şimdi halihazırda izlenmekte olan bir dosyayı değiştirelim. İzlenmekte olan `benchmarks.rb` adındaki bir dosyayı değiştirip `status` komutunu çalıştırdığınızda şöyle bir ekran çıktısıyla karşılaşırsınız:
 
 	$ git status
 	# On branch master
@@ -166,7 +166,7 @@ Ne oldu? `benchmarks.rb` dosyası hem kayda hazırlanmış hem de kayda hazırla
 *	Bir klasörü belirtmek üzere örüntüleri bir eğik çizgi (`/`) ile sonlandırabilirsiniz.
 *	Bir örüntüyü ünlem işaretiyle (`!`) başlattığınızda, örüntünün tersi gereçli olur.
 
-_Glob_ örüntüleri _shell_'ler tarafından kullanılan basitleştirilmiş kurallı ifadelerdir (_regular expression_). Bir asterisk işareti (`*`) sıfır ya da daha fazla karakterle eşleşir; `[abc]` köşeli parantezin içindeki herhangi bir karakterle eşleşir (buradaki örnekte `a`, `b`, ya da `c` ile); soru işareti (`?`) bir karakterle eşleşir; tireyle ayrılmış karakterleri içine alan bir köşeli parantez (`[0-9]`) bu aralıktaki bütün karakterlerle eşleşir (bu örnekte 0'dan 9'a kadar olan karakterler).
+_Glob_ örüntüleri _shell_'ler tarafından kullanılan basitleştirilmiş kurallı ifadelerdir (_regular expression_). Bir yıldız işareti (`*`) sıfır ya da daha fazla karakterle eşleşir; `[abc]` köşeli parantezin içindeki herhangi bir karakterle eşleşir (buradaki örnekte `a`, `b`, ya da `c` ile); soru işareti (`?`) bir karakterle eşleşir; tireyle ayrılmış karakterleri içine alan bir köşeli parantez (`[0-9]`) bu aralıktaki bütün karakterlerle eşleşir (bu örnekte 0'dan 9'a kadar olan karakterler).
 
 Bir `.gitignore` dosyası örneği daha:
 
@@ -184,7 +184,7 @@ Bir `.gitignore` dosyası örneği daha:
 
 ### Kayda Hazırlanmış ve Hazırlanmamış Değişiklikleri Görüntülemek ###
 
-`git status` komutunu fazla anlaşılmaz buluyorsanız —yalnızca hangi dosyaların değiştiğini değil, bu dosyalarda tam olarak nelerin değiştiğini görmek istiyorsanız— `git diff` komutunu kullanabilirsiniz. `git diff` komutunu ileride ayrıntılı olarak inceleyeceğiz; ama bu komutu muhtemelen en çok şu iki soruya cevap bulmak için kullanacaksınız: Değiştirip de henüz kayda hazırlamadığınız neler var? Ve kayda olmak üzere hangi değişikliklerin hazırlığını yaptınız? `git status` bu soruları genel biçimde cevaplıyor olsa da `git diff` eklenen ve çıkarılan bütün dosyaları —olduğu gibi yamayı— görsterir.
+`git status` komutunu fazla anlaşılmaz buluyorsanız —yalnızca hangi dosyaların değiştiğini değil, bu dosyalarda tam olarak nelerin değiştiğini görmek istiyorsanız— `git diff` komutunu kullanabilirsiniz. `git diff` komutunu ileride ayrıntılı olarak inceleyeceğiz; ama bu komutu muhtemelen en çok şu iki soruya cevap bulmak için kullanacaksınız: Değiştirip de henüz kayda hazırlamadığınız neler var? Ve kayda olmak üzere hangi değişikliklerin hazırlığını yaptınız? `git status` bu soruları genel biçimde cevaplıyor olsa da `git diff` eklenen ve çıkarılan bütün dosyaları —olduğu gibi yamayı— gösterir.
 
 Diyelim `README` dosyasını düzenleyip kayda hazırladınız, sonra da `benchmarks.rb` dosyasını düzenlediniz ama kayda hazırlamadınız. `status` komutunu çalıştırdığınızda şöyle bir şey görürsünüz:
 
@@ -222,7 +222,7 @@ Henüz kayda hazırlamadığınız değişiklikleri görmek için `git diff` kom
 
 Komut, çalışma klasörünüzün içeriğiyle kayda hazırlık alanının içeriğini karşılaştırır. Sonuç size henüz kayda hazırlamadığınız değişiklikleri gösterir.
 
-Kayda hazırlamış olduğunuz değişiklikleri görmek için `git diff --cache` komutunu kullanabilirsiniz. (1.6.1'den sonraki Git sürümlerinde hatırlaması daha kolay olabilecek `git diff --staged` komutunu da kullanabilirsiniz.) Bu komut kayda hazırlanmış değişikliklerle son kaydı karşılatırır.
+Kayda hazırlamış olduğunuz değişiklikleri görmek için `git diff --cache` komutunu kullanabilirsiniz. (1.6.1'den sonraki Git sürümlerinde hatırlaması daha kolay olabilecek `git diff --staged` komutunu da kullanabilirsiniz.) Bu komut kayda hazırlanmış değişikliklerle son kaydı karşılaştırır.
 
 	$ git diff --cached
 	diff --git a/README b/README
@@ -312,7 +312,7 @@ Metin editörü aşağıdaki metni görüntüler (bu örnek Vim ekranından):
 	~
 	".git/COMMIT_EDITMSG" 10L, 283C
 
-Gördüğünüz gibi hazır kayıt mesajı `git status` çıktısının `#` kullanılarak devre dışı bırakılmış haliyle en üstte bir boş satırdan oluşur. Bu devre dışı bırakılmış kayıt mesajını silip yerine kendi kayıt mesajınızı yazabilir, ya da neyi kaydettiğinizi size hatırlatması için orada bırakabilirsiniz. (Neyi değiştirdiğinizin daha ayrıntlı olarak hatırlatılmasını isterseniz, `git commit` mesajını `-v` seçeneğiyle kullanabilirsiniz. Bu seçenek kaydetmekte olduğunuz değişikliğin içeriğini de (_diff_) editörde gösterecektir.) Editörü kapattığınızda Git, yazdığınız mesajı kullanarak değişikliği kaydeder (devre dışı bırakılmış bölümü ve değişikliğin içeriğini mesajın dışında bırakır).
+Gördüğünüz gibi hazır kayıt mesajı `git status` çıktısının `#` kullanılarak devre dışı bırakılmış haliyle en üstte bir boş satırdan oluşur. Bu devre dışı bırakılmış kayıt mesajını silip yerine kendi kayıt mesajınızı yazabilir, ya da neyi kaydettiğinizi size hatırlatması için orada bırakabilirsiniz. (Neyi değiştirdiğinizin daha ayrıntılı olarak hatırlatılmasını isterseniz, `git commit` mesajını `-v` seçeneğiyle kullanabilirsiniz. Bu seçenek kaydetmekte olduğunuz değişikliğin içeriğini de (_diff_) editörde gösterecektir.) Editörü kapattığınızda Git, yazdığınız mesajı kullanarak değişikliği kaydeder (devre dışı bırakılmış bölümü ve değişikliğin içeriğini mesajın dışında bırakır).
 
 Bir başka seçenek de, kayıt mesajınızı `commit` komutunu `-m` seçeneğiyle aşağıdaki gibi kullanmaktır:
 
@@ -340,7 +340,7 @@ Her ne kadar kayıtları tam istediğiniz gibi düzenlemek inanılmaz derecede y
 	[master 83e38c7] added new benchmarks
 	 1 files changed, 5 insertions(+), 0 deletions(-)
 
-Gördünüğüz gibi, kayıt işlemi yapmadan önce `benchmarks.rb` dosyasını `git add` komutundan geçirmek zorunda kalmadınız.
+Gördüğünüz gibi, kayıt işlemi yapmadan önce `benchmarks.rb` dosyasını `git add` komutundan geçirmek zorunda kalmadınız.
 
 ### Dosyaları Ortadan Kaldırmak ###
 
@@ -523,7 +523,7 @@ Dilerseniz `git log`'u özet bilgiler veren bir dizi seçenekle birlikte kullana
 	 lib/simplegit.rb |   25 +++++++++++++++++++++++++
 	 3 files changed, 54 insertions(+), 0 deletions(-)
 
-Gördüğünüz gibi `--stat`  seçeneği, her kaydın altına o kayıtta değişikliğe uğramış dosyaların listesini, kaç tane dosyanın değişikliğe uğradığını ve söz konusu dosyalara kaç satırın eklenip çıkarıldığı bilgisini ekler. Bu bilgilerin bir özetini de kaydın en altına yerleştirir. Oldukça yararlı bir başka seçenek de `--pretty` seçeneğidir. Bu seçenek `log` çıktısının biçimini değiştirmek için kullanılır. Bu seçenekle birlikte kullanacağınız birkaç tane öntanımlı ek seçenek vardır. `oneline` ek seçeneği her bir kaydı tek bir satırda gösterir; bu çok sayıda kayda göz atıyorsanız yararlı olabilir. Ayrıca `short`, `full` ve `fuller`seçenekleri aşağı yukarı aynı miktarda bilgiyi —bazı farklarla— gösterir:
+Gördüğünüz gibi `--stat`  seçeneği, her kaydın altına o kayıtta değişikliğe uğramış dosyaların listesini, kaç tane dosyanın değişikliğe uğradığını ve söz konusu dosyalara kaç satırın eklenip çıkarıldığı bilgisini ekler. Bu bilgilerin bir özetini de kaydın en altına yerleştirir. Oldukça yararlı bir başka seçenek de `--pretty` seçeneğidir. Bu seçenek `log` çıktısının biçimini değiştirmek için kullanılır. Bu seçenekle birlikte kullanacağınız birkaç tane öntanımlı ek seçenek vardır. `oneline` ek seçeneği her bir kaydı tek bir satırda gösterir; bu çok sayıda kayda göz atıyorsanız yararlı olabilir. Ayrıca `short`, `full` ve `fuller` seçenekleri aşağı yukarı aynı miktarda bilgiyi —bazı farklarla— gösterir:
 
 	$ git log --pretty=oneline
 	ca82a6dff817ec66f44342007202690a93763949 changed the version number
@@ -587,9 +587,9 @@ Bunlar `git log`'la birlikte kullanabileceğiniz seçeneklerden yalnızca birka�
 
 ### Log Çıktısını Sınırlandırma ###
 
-`git log` komutu, biçimlendirme seçeneklerinin yanı sıra bir dizi sınırlandırma seçeneği de sunar —bu seçenekler kayıtların yalnızca bir alt kümesini gösterir. Bu seçeneklerden birini yukarıda gördünüz —yalnızca son iki kaydı gösteren `-2` seçeneğini. Aslında, son `n` kaydı görmek için `n` yerine herhangi bir tam sayı koyarak bu seçeneği `-<n>` biçiminde kullanabilirsiniz. Bunu muhtemelen çok sık kullanmazsınız, zira Git `log` çıktısını zaten sayfa sayfa gösteriyor, dolayısıyla `git log` komutunu çaıştırdığınızda zaten önce kayıtların birinci sayfasını göreceksiniz.
+`git log` komutu, biçimlendirme seçeneklerinin yanı sıra bir dizi sınırlandırma seçeneği de sunar —bu seçenekler kayıtların yalnızca bir alt kümesini gösterir. Bu seçeneklerden birini yukarıda gördünüz —yalnızca son iki kaydı gösteren `-2` seçeneğini. Aslında, son `n` kaydı görmek için `n` yerine herhangi bir tam sayı koyarak bu seçeneği `-<n>` biçiminde kullanabilirsiniz. Bunu muhtemelen çok sık kullanmazsınız, zira Git `log` çıktısını zaten sayfa sayfa gösteriyor, dolayısıyla `git log` komutunu çalıştırdığınızda zaten önce kayıtların birinci sayfasını göreceksiniz.
 
-Öte yandan `--since` ya da `--until` gibi çıktıyı zamanla sınırlayan seçenekler işinizi kolaylaştırabilir. Söz gelimi, şu komut, son iki hafta içinde apılmış kayıtları listeliyor:
+Öte yandan `--since` ya da `--until` gibi çıktıyı zamanla sınırlayan seçenekler işinizi kolaylaştırabilir. Söz gelimi, şu komut, son iki hafta içinde yapılmış kayıtları listeliyor:
 
 	$ git log --since=2.weeks
 
@@ -604,7 +604,7 @@ Tablo 2-3, bu seçenekleri ve birkaç başka yaygın seçeneği listeliyor.
 	Seçenek	Açıklama
 	-(n)	Yalnızca son n kaydı göster.
 	--since, --after	Yalnızca belirli bir tarihten sonra eklenmiş kayıtlları göster.
-	--until, --before	Yalnızca belirli bir tarhten önce yapılmış kayıtları göster.
+	--until, --before	Yalnızca belirli bir tarihten önce yapılmış kayıtları göster.
 	--author	Yalnızca yazarın adının belirli bir karakter katarıyla (_string_) eşleşen kayıtları göster.
 	--committer	Yalnızca kaydedenin adının belirli bir karakter katarıyla eşleştiği kayıtları göster.
 
@@ -628,7 +628,7 @@ Kayıt tarihçenizi görüntülemek için görselliği daha çok ön planda olan
 Insert 18333fig0202.png
 Figür 2-2. gitk grafiklse tarihçe görüntüleyicisi.
 
-Pencerenin üst yarısında bir kalıtım grafiğinin yanısıra kayıt tarihçesini görebilirsiniz. Alttaki kayıt içeriği görüntüleyicisi, tıkladığınız herhangi bir kayıttaki değişiklikleri gösterecektir.
+Pencerenin üst yarısında bir kalıtım grafiğinin yanı sıra kayıt tarihçesini görebilirsiniz. Alttaki kayıt içeriği görüntüleyicisi, tıkladığınız herhangi bir kayıttaki değişiklikleri gösterecektir.
 
 ## Değişiklikleri Geri Almak ##
 
@@ -708,19 +708,19 @@ Yaptığınız değişiklikleri nasıl çöpe atabileceğinizi açıkça söylü
 	#       modified:   README.txt
 	#
 
-Gördüğünüz gibi değişiklikler çöpe atıldı. Bunun tehlikeli bir komut olduğunu aklınızdan çıkarmayın: o dosyaya yaptığınız bütün değişiklikler şimdi yok oldu —dosyanın üstüne yeni bir dosya kopyaladınız. Eğer dosyadaki değişiklikleri isteemediğinizden yüzde yüz emin değilseniz asla bu komutu kullanmayın. Eğer sorun bu dosyada yaptığınız değişikliklerin başka işlemler yapmanıza engel olması ise bir sonraki bölümde ele alacağımız zulalama (_stash_) ve dallandırma (_branch_) işlemlerini kullanmanız daha iyi olacaktır.
+Gördüğünüz gibi değişiklikler çöpe atıldı. Bunun tehlikeli bir komut olduğunu aklınızdan çıkarmayın: o dosyaya yaptığınız bütün değişiklikler şimdi yok oldu —dosyanın üstüne yeni bir dosya kopyaladınız. Eğer dosyadaki değişiklikleri istemediğinizden yüzde yüz emin değilseniz asla bu komutu kullanmayın. Eğer sorun bu dosyada yaptığınız değişikliklerin başka işlemler yapmanıza engel olması ise bir sonraki bölümde ele alacağımız zulalama (_stash_) ve dallandırma (_branch_) işlemlerini kullanmanız daha iyi olacaktır.
 
 Unutmayın, Git'te kaydedilmiş her şey neredeyse her zaman kurtarılabilir. Silinmiş dallardaki kayıtlar ve hatta `--amend` seçeneğiyle üzerine yazılmış kayıtlar bile kurtarılabilirler (veri kurtarma konusunda bkz. _9. Bölüm_). Diğer taraftan, kaydedilmemiş bir değişikliği kaybederseniz büyük olasılıkla onu kurtarmanız mümkün olmaz.
 
 ## Uzak Uçbirimlerle Çalışmak ##
 
-Bir Git projesine katkıda bulunabilmek için uzaktaki yazılım havuzlarını nasıl düzenleyeceğinizi bilmeniz gerekir. Uzaktaki yazılım havuzları, projenizin Internet'te ya da başka bir ağda barındırılan sürümleridir. Birden fazla uzak yazılım havuzunuz olabilir, bunlardan herbiri sizin için ya salt okunur ya da okunur/yazılır durumdadır. Başkalarıyla ortak çalışmak, bu yazılım havuzlarını düzenlemeyi, onlardan veri çikip (_pull_) onlara veri iterek (_push_) çalışmalarınızı paylaşmayı gerektirir.
+Bir Git projesine katkıda bulunabilmek için uzaktaki yazılım havuzlarını nasıl düzenleyeceğinizi bilmeniz gerekir. Uzaktaki yazılım havuzları, projenizin İnternet'te ya da başka bir ağda barındırılan sürümleridir. Birden fazla uzak yazılım havuzunuz olabilir, bunlardan her biri sizin için ya salt okunur ya da okunur/yazılır durumdadır. Başkalarıyla ortak çalışmak, bu yazılım havuzlarını düzenlemeyi, onlardan veri çekip (_pull_) onlara veri iterek (_push_) çalışmalarınızı paylaşmayı gerektirir.
 
 Uzaktaki yazılım havuzlarınızı düzenleyebilmek için, projenize uzak yazılım havuzlarının nasıl ekleneceğini, kullanılmayan havuzların nasıl çıkarılacağını, çeşitli uzak dalları düzenlemeyi ve onların izlenen dallar olarak belirleyip belirlememeyi ve daha başka şeyleri gerektirir. Bu alt bölümde bu uzağı yönetme yeteneklerini inceleyeceğiz.
 
 ### Uzak Uçbirimleri Görüntüleme ###
 
-Projenizde hangi uzak sunucuları ayarladığınınızı görme için `git remote` komutunu kullanabilirsiniz. Bu komut, herbir uzak uçbirimin belirlenmiş kısa adını görüntüler. Eğer yazılım havuzunuzu bir yerden klonlamışsanız, en azından _origi_ uzak uçbirimini görmelisiniz —bu Git'in klonlamanın yapıldığı sunucuya verdiği öntanımlı addır.
+Projenizde hangi uzak sunucuları ayarladığınızı görme için `git remote` komutunu kullanabilirsiniz. Bu komut, her bir uzak uçbirimin belirlenmiş kısa adını görüntüler. Eğer yazılım havuzunuzu bir yerden klonlamışsanız, en azından _origin_ uzak uçbirimini görmelisiniz —bu Git'in klonlamanın yapıldığı sunucuya verdiği öntanımlı addır.
 
 	$ git clone git://github.com/schacon/ticgit.git
 	Initialized empty Git repository in /private/tmp/ticgit/.git/
@@ -748,7 +748,7 @@ Projenizde birden çok uzak uçbirim varsa, bu komut hepsini listeleyecektir. Ö
 	koke      git://github.com/koke/grit.git
 	origin    git@github.com:mojombo/grit.git
 
-Bu demek oluyor ki bu kullanıcıların herhangi birinden kolaylıkla çekme işlemi (_pull_) yapabiliriz. Fakat dikkat ederseniz, yalnızca _origin_ uçbiriminin SSH URL'si var, yani yalnızca o hazuva kod itebilirim (_push_) (niye böyle olduğunu _4. Bölüm_'de inceleyeceğiz)
+Bu demek oluyor ki bu kullanıcıların herhangi birinden kolaylıkla çekme işlemi (_pull_) yapabiliriz. Fakat dikkat ederseniz, yalnızca _origin_ uçbiriminin SSH URL'si var, yani yalnızca o havuza kod itebiliriz (_push_) (niye böyle olduğunu _4. Bölüm_'de inceleyeceğiz)
 
 ### Uzak Uçbirimler Eklemek ###
 
@@ -778,11 +778,11 @@ Paul'ün `mastertr` dalı sizin yazılım havuzunuzda da `pb/master` olarak eri�
 
 Biraz önce gördüğünüz gibi, uzaktaki yazılım havuzlarından veri almak için şu komutu kullanabilirsiniz:
 
-	$ git fetch [remote-name]
+	$ git fetch [uzak-sunucu-adı]
 
-Bu komut, söz konusu uzaktaki yazılım havuuzna gidip orada bulunup da sizin projenizde bulunmayan bütün veriyi getirir. Bunu yaptıktan sonra sizin projenizde o uzak yazılım havuzundaki bütün dallarak referanslar oluşur —ki bunları birleştirme yapmak ya da içeriği incelemek için kullanabilirsiniz. (Dalların ne olduğunu ve onları nasıl kullanabileceğinizi _3. Bölüm_'de ayrınlıtı biçimde inceleyeceğiz.)
+Bu komut, söz konusu uzaktaki yazılım havuzuna gidip orada bulunup da sizin projenizde bulunmayan bütün veriyi getirir. Bunu yaptıktan sonra sizin projenizde o uzak yazılım havuzundaki bütün dallara referanslar oluşur —ki bunları birleştirme yapmak ya da içeriği incelemek için kullanabilirsiniz. (Dalların ne olduğunu ve onları nasıl kullanabileceğinizi _3. Bölüm_'de ayrıntılı biçimde inceleyeceğiz.)
 
-Bir yazılım havuzunu klonladığınızda, klonlama komutu söz konusu kaynak yazılım havuzunu _origin_ adıyla uzak uçbirimler arasına ekler. Dolayısıya, `git fetch origin` komutu, klonlamayı yaptığınızdan (ya da en son getirme işlemini (_fetch_) yatığınızdan) beri sunucuya itilmiş yeni değişiklikleri getirir. Unutmayın, `fetch` komutu veriyi yeler yazılım havuzunuza indirir —otomatik olarak sizin yaptıklarınızla birleştirmeye, ya da çalıştığınız şeyler üzerinde değişiklik yapmaya kalkışmaz. Hazır olduğunuzda birleştirme işlemini sizin yapmanız gerekir.
+Bir yazılım havuzunu klonladığınızda, klonlama komutu söz konusu kaynak yazılım havuzunu _origin_ adıyla uzak uçbirimler arasına ekler. Dolayısıyla, `git fetch origin` komutu, klonlamayı yaptığınızdan (ya da en son getirme işlemini (_fetch_) yatığınızdan) beri sunucuya itilmiş yeni değişiklikleri getirir. Unutmayın, `fetch` komutu veriyi yeler yazılım havuzunuza indirir —otomatik olarak sizin yaptıklarınızla birleştirmeye, ya da çalıştığınız şeyler üzerinde değişiklik yapmaya kalkışmaz. Hazır olduğunuzda birleştirme işlemini sizin yapmanız gerekir.
 
 Uzaktaki bir dalı izlemek üzere ayarlanmış bir dalınız varsa (daha fazla bilgi için sonraki alt bölüme ve _3. Bölüm_'e bakınız) bu dal üzerinde `git pull` komutunu kullanarak uzaktaki yazılım havuzundaki veriyi hem getirip hem de mevcut dalınızla birleştirebilirsiniz. Bu çalışması daha kolay bir düzen olabilir; bu arada, `git clone ` komutu, otomatik olarak, yerel yazılım havuzunuzda, uzaktaki yazılım havuzunun `master` dalını takip eden bir `master` dalı oluşturur (uzaktaki yazılım havuzunun `master` adında bir dalı olması koşuluyla). `git pull` komutu genellikle yereldeki yazılım havuzunuza kaynaklık eden sunucudan veriyi getirip otomatik olarak üzerinde çalışmakta olduğunuz dalla birleştirir.
 
@@ -792,7 +792,7 @@ Projeniz paylaşmak istediğiniz bir hale geldiğinde, yaptıklarınızı kayna�
 
 	$ git push origin master
 
-Bu komut, yalnızca yazma yetkisine sahip olduğunuz bir sunucudan klonlama yapmışsanız ve son getirme işleminizden beri hiçkimse itme işlemi yapmamışsa istediğiniz sonucu verir. Eğer sizinle birlikte bir başkası daha klonlama yapmışsa ve o kişi sizden önce itme yapmışsa, sizin itme işleminiz reddedilir. İtmeden önce sizden önce itilmiş değişiklikleri çekip kendi çalışmanızla birleştirmeniz gerekir. Uzaktaki yazılım havuzlarına itme yapmak konusunda daha ayrıntılı bilgi için bkz. _3. Bölüm_.
+Bu komut, yalnızca yazma yetkisine sahip olduğunuz bir sunucudan klonlama yapmışsanız ve son getirme işleminizden beri hiç kimse itme işlemi yapmamışsa istediğiniz sonucu verir. Eğer sizinle birlikte bir başkası daha klonlama yapmışsa ve o kişi sizden önce itme yapmışsa, sizin itme işleminiz reddedilir. İtmeden önce sizden önce itilmiş değişiklikleri çekip kendi çalışmanızla birleştirmeniz gerekir. Uzaktaki yazılım havuzlarına itme yapmak konusunda daha ayrıntılı bilgi için bkz. _3. Bölüm_.
 
 ### Uzak Uçbirim Hakkında Bilgi Almak ###
 
@@ -833,11 +833,11 @@ Yukarıdaki verdiğimiz, basit bir örnekti. Git'i daha yoğun biçimde kulland�
 	  Local branch pushed with 'git push'
 	    master:master
 
-Bu çıktı, belirli dallarda `git push` komutunu çalıştırdığınızda hangi dalların otomatik olarak itileceğini gösteriyor. Buna ek olarak uzak uçbirimde bulunup da sizin projenizde henüz bulunmayan uzak dalları, uzak uçbirimden silinmiş olduuğu halde sizin projenizde bulunan dalları ve `git pull` komutunu çalıştırdığınızda otomatik olarak birleştirme işlemine uğrayacak birden çok daı gösteriyor.
+Bu çıktı, belirli dallarda `git push` komutunu çalıştırdığınızda hangi dalların otomatik olarak itileceğini gösteriyor. Buna ek olarak uzak uçbirimde bulunup da sizin projenizde henüz bulunmayan uzak dalları, uzak uçbirimden silinmiş olduğu halde sizin projenizde bulunan dalları ve `git pull` komutunu çalıştırdığınızda otomatik olarak birleştirme işlemine uğrayacak birden çok dalı gösteriyor.
 
 ### Uzan Uçbirimleri Kaldırmak ve Yeniden Adlandırmak ###
 
-Bir uçbirimin kısa adını değiştirmek isterseniz, Git'in yeni sürümlerinde bunu `git remote rename` komutuyla yapabilirsiniz. Örneğin, `pb` uçbirimini `paul` diye yeniden adlandımak isterseniz, bunu `git remote rename`'i kullanarak yapabilirsiniz:
+Bir uçbirimin kısa adını değiştirmek isterseniz, Git'in yeni sürümlerinde bunu `git remote rename` komutuyla yapabilirsiniz. Örneğin, `pb` uçbirimini `paul` diye yeniden adlandırmak isterseniz, bunu `git remote rename`'i kullanarak yapabilirsiniz:
 
 	$ git remote rename pb paul
 	$ git remote
@@ -846,7 +846,7 @@ Bir uçbirimin kısa adını değiştirmek isterseniz, Git'in yeni sürümlerind
 
 Bu işlemin uçbirim dal adlarını da değiştirdiğini hatırlatmakta yarar var. Bu işlemden önce `pb/master` olan dalın adı artık `paul/master` olacaktır.
 
-Bir uçbirim referansını herhangi bir nedenle —sunucuyu taşımış ya da belirli bir yansısyı artık kullanmıyor olabilirsiniz; ya da belki katılımcılardan birisi artık katkıda bulunmuyordur— kaldırmak isterseniz `git remote rm` komutunu kullanabilirsiniz:
+Bir uçbirim referansını herhangi bir nedenle —sunucuyu taşımış ya da belirli bir yansıyı artık kullanmıyor olabilirsiniz; ya da belki katılımcılardan birisi artık katkıda bulunmuyordur— kaldırmak isterseniz `git remote rm` komutunu kullanabilirsiniz:
 
 	$ git remote rm paul
 	$ git remote
@@ -856,7 +856,7 @@ Bir uçbirim referansını herhangi bir nedenle —sunucuyu taşımış ya da be
 
 Çoğu SKS gibi Git'in de tarihçedeki belirli noktaları önemli olarak etiketleyebilme özelliği vardır. Genellikle insanlar bu işlevi sürümleri (`v1.0`, vs.) işaretlemek için kullanırlar. Bu alt bölümde mevcut etiketleri nasıl listeleyebileceğinizi, nasıl yeni etiketler oluşturabileceğinizi ve değişik etiket tiplerini öğreneceksiniz.
 
-### Listing Your Tags ###
+### Etiketlerinizi Listeleme ###
 
 Git'te mevcut etiketleri listeleme işi epeyi kolaydır. `git tag` yazmanız yeterlidir:
 
@@ -876,19 +876,19 @@ Bu komut etiketleri alfabetik biçimde sıralar; etiketlerin sırasının bir ö
 
 ### Etiket Oluşturma ###
 
-Git iki başlıca etiket tipi kullanır: hafif ve açıklamalı. Hafif etiketler hiç değişmeyen dallar gibidir —belirli bir kaydı işaret ederler. Öte yandan, açıklamalı etiketler, Git veritabanında bütünlüklü nesneler olarak kaydedilirler. Sınama toplamları alınır; etiketleyenin adını ve e-posta adresini içerirler; bir etiket mesajına sahiptirler ve GNU Privacy Guard (GPG) kullanılarak imzalanıp doğrulanabilirler. Genelllikle bütün bu bilgilere ulaşılabilmesini olanaklı kılabilmek için açıklamalı etiketlerin kullanılması önerilir, ama bütün bu bilgileri depolamadan yalnızca geçici bir etiket oluşturmak istiyorsanız, hafif etiketleri de kullanabilirsiniz.
+Git iki başlıca etiket tipi kullanır: hafif ve açıklamalı. Hafif etiketler hiç değişmeyen dallar gibidir —belirli bir kaydı işaret ederler. Öte yandan, açıklamalı etiketler, Git veritabanında bütünlüklü nesneler olarak kaydedilirler. Sınama toplamları alınır; etiketleyenin adını ve e-posta adresini içerirler; bir etiket mesajına sahiptirler ve GNU Privacy Guard (GPG) kullanılarak imzalanıp doğrulanabilirler. Genellikle bütün bu bilgilere ulaşılabilmesini olanaklı kılabilmek için açıklamalı etiketlerin kullanılması önerilir, ama bütün bu bilgileri depolamadan yalnızca geçici bir etiket oluşturmak istiyorsanız, hafif etiketleri de kullanabilirsiniz.
 
 ### Açıklamalı Etiketler ###
 
-Git'te açıklamalı etiket oluşturmak basittir. En kolayı `tag` komutunu çalıştırıren `-a` seçeneğini kullanmaktır:
+Git'te açıklamalı etiket oluşturmak basittir. En kolayı `tag` komutunu çalıştırırken `-a` seçeneğini kullanmaktır:
 
-	$ git tag -a v1.4 -m 'my version 1.4'
+	$ git tag -a v1.4 -m 'sürümüm 1.4'
 	$ git tag
 	v0.1
 	v1.3
 	v1.4
 
-`-m` seçeneği etketle birlikte depolanacak etiketleme mesajını belirlemek için kullanılır. Açıklamalı bir etiket için mesajı bu şekilde belirlemezseniz, Git mesajı yazabilmeniz için bir editör açacaktır.
+`-m` seçeneği etiketle birlikte depolanacak etiketleme mesajını belirlemek için kullanılır. Açıklamalı bir etiket için mesajı bu şekilde belirlemezseniz, Git mesajı yazabilmeniz için bir editör açacaktır.
 
 `git show` komutunu kullanarak etiketlenen kayıtla birlikte etikete ilişkin verileri de görebilirsiniz:
 
@@ -905,13 +905,13 @@ Git'te açıklamalı etiket oluşturmak basittir. En kolayı `tag` komutunu çal
 
 	    Merge branch 'experiment'
 
-Bu, kayıt bilgisinden önce etiketlenyenle ilgili bilgileri, kaydın etiketlendiği tarihi ve açıklama mesajını gösterir.
+Bu, kayıt bilgisinden önce etiketleyenle ilgili bilgileri, kaydın etiketlendiği tarihi ve açıklama mesajını gösterir.
 
 ### İmzalı Etiketler ###
 
 Eğer bir kişisel anahtarınız (_private key_) varsa etiketlerinizi GPG ile imzalayabilirsiniz. Yapmanız gereken tek şey `-a` yerine `-s` seçeneğini kullanmaktır:
 
-	$ git tag -s v1.5 -m 'my signed 1.5 tag'
+	$ git tag -s v1.5 -m 'imzalı 1.5 etiketim'
 	You need a passphrase to unlock the secret key for
 	user: "Scott Chacon <schacon@gee-mail.com>"
 	1024-bit DSA key, ID F721C45A, created 2009-02-09
@@ -923,7 +923,7 @@ Bu etiket üzerinde `git show` komutunu çalıştırırsanız, GPG imzasını da
 	Tagger: Scott Chacon <schacon@gee-mail.com>
 	Date:   Mon Feb 9 15:22:20 2009 -0800
 
-	my signed 1.5 tag
+	imzalı 1.5 etiketim
 	-----BEGIN PGP SIGNATURE-----
 	Version: GnuPG v1.4.8 (Darwin)
 
@@ -980,7 +980,7 @@ Kayıtları etiketlemenin bir yolu da hafif etiketler kullanmaktır. Bu, kayıt 
 	gpg:                 aka "[jpeg image of size 1513]"
 	Primary key fingerprint: 3565 2A26 2040 E066 C9A7  4A7D C0C6 D9A4 F311 9B9A
 
-If you don’t have the signer’s public key, you get something like this instead:
+Eğer imzalayıcının genel anahtarına sahip değilseniz, bunun yerine aşağıdakine benzer bir şey göreceksiniz:
 
 	gpg: Signature made Wed Sep 13 02:08:25 2006 PDT using DSA key ID F3119B9A
 	gpg: Can't check signature: public key not found
@@ -1031,7 +1031,7 @@ Kaydın etiketlendiğini göreceksiniz:
 
 ### Etiketleri Paylaşmak ###
 
-Aksi belirtilmedikçe `git push` komutu etiketleri uzak uçbirimelere aktarmaz. Etiketleri belirtik biçimde bir ortak sunucuya itmeniz gerekir. Bu süreç uçbirim dallarını paylaşmaya benzer —`git push origin [etiket-adi]` komutunu çalıştırabilirsiniz.
+Aksi belirtilmedikçe `git push` komutu etiketleri uzak uçbirimlere aktarmaz. Etiketleri belirtik biçimde bir ortak sunucuya itmeniz gerekir. Bu süreç uçbirim dallarını paylaşmaya benzer —`git push origin [etiket-adi]` komutunu çalıştırabilirsiniz.
 
 	$ git push origin v1.5
 	Counting objects: 50, done.
@@ -1059,11 +1059,11 @@ Artık başka biri sizin yazılım havuzunuzdan çekme yaptığında, bütün et
 
 ## İpuçları ##
 
-Git'in temelleri hakkındaki bu bölümü tamamlamadan önce, Git deneyiminizi kolaylaştırabilmek için birkaç ipucu vermekte yarar var. Pekçok insan Git'i bu ipuçlarına başvurmadan kullanıyor; bu ipuçlarından ileride tekrar söz etmeyeceğimiz gibi bunları bilmeniz gereltiğini de varsaymıyoruz; ama yine de bilmeniz yararınıza olacaktır.
+Git'in temelleri hakkındaki bu bölümü tamamlamadan önce, Git deneyiminizi kolaylaştırabilmek için birkaç ipucu vermekte yarar var. Pek çok insan Git'i bu ipuçlarına başvurmadan kullanıyor; bu ipuçlarından ileride tekrar söz etmeyeceğimiz gibi bunları bilmeniz gerektiğini de varsaymıyoruz; ama yine de bilmeniz yararınıza olacaktır.
 
 ### Otomatik Tamamlama ###
 
-Eğer Bash -shell_'ini kullanıyorsanız, Git'in otomatik tamamlama betiğini (_script_) kullanabilirsiniz. Git kaynak kodunu indirip `contrib/completion` klasörüne bakın; orada `git-completion.bash` adında bir dosya olmalı. Bu dosyayı ana dizininize (_home_) kopyalayıp `.bashrc` dosyanıza ekleyin:
+Eğer Bash -shell_'ini kullanıyorsanız, Git'in otomatik tamamlama betiğini (_script_) kullanabilirsiniz. Git kaynak kodunu indirip `contrib/completion` klasörüne bakın; orada `git-completion.bash` adında bir dosya olmalı. Bu dosyayı ev dizininize (_home_) kopyalayıp `.bashrc` dosyanıza ekleyin:
 
 	source ~/.git-completion.bash
 
@@ -1071,23 +1071,23 @@ Otomatik tamamlama özelliğinin bütün Git kullanıcıları için geçerli olm
 
 Eğer bir Windows kullanıcısıysanız ve Git Bash kullanıyorsanız- ki bu msysGit'le kurulum yaptığınızdaki öntanımlı programdır, otomatik tamamlama kendiliğinden gelecektir.
 
-Bir Git komutu yazarken Tab tuşuna bastığınızda, karşınıza bir dizi seçenek getirir:
+Bir Git komutu yazarken Sekme tuşuna bastığınızda, karşınıza bir dizi seçenek getirir:
 
-	$ git co<tab><tab>
+	$ git co<selme><sekme>
 	commit config
 
-Bu örnekte, `git co` yazıp Tab tuşuna iki kez basmak `commit` ve `config` komutlarını öneriyor. Komutun devamında `m` yazıp bir kez daha Tab tuşuna basacak olursanız, komut otomatik olarak `git commit`'e tamamlanır.
+Bu örnekte, `git co` yazıp Sekme tuşuna iki kez basmak `commit` ve `config` komutlarını öneriyor. Komutun devamında `m` yazıp bir kez daha Sekme tuşuna basacak olursanız, komut otomatik olarak `git commit`'e tamamlanır.
 
-Bu, seçeneklerde de kullanılabilir, ki muhtemelen daha yararlı olacaktır. Örneğin, `git log` komutunu çalıştırıren seçeneklerden birisini hatırlayamadınız, seçeneği yazmaya başlayıp Tab tuşuna basarak eşleşen seçenekleri görebilirsiniz:
+Bu, seçeneklerde de kullanılabilir, ki muhtemelen daha yararlı olacaktır. Örneğin, `git log` komutunu çalıştırırken seçeneklerden birisini hatırlayamadınız, seçeneği yazmaya başlayıp Sekme tuşuna basarak eşleşen seçenekleri görebilirsiniz:
 
-	$ git log --s<tab>
+	$ git log --s<sekme>
 	--shortstat  --since=  --src-prefix=  --stat   --summary
 
-Bu güzel özellik sizi zaman kazandırabileceği gibi ikide bir dokümantasyona bakma gereğini de ortadan kaldırır.
+Bu güzel özellik sizi zaman kazandırabileceği gibi ikide bir belgelendirmeye bakma gereğini de ortadan kaldırır.
 
 ### Takma Adlar ###
 
-Bir komutun bir kısmını yazdığınızda Git bunu anlamayacaktır. Komutların uzun adlarını kullanmak istemezseniz, `git cofig` komutunu kullanarak bunların yerine daha kısa takma adlar belirleyebilirsiniz. Kullanmak isteyebileceğiniz bazı takma adları buraya aldık:
+Bir komutun bir kısmını yazdığınızda Git bunu anlamayacaktır. Komutların uzun adlarını kullanmak istemezseniz, `git config` komutunu kullanarak bunların yerine daha kısa takma adlar belirleyebilirsiniz. Kullanmak isteyebileceğiniz bazı takma adları buraya aldık:
 
 	$ git config --global alias.co checkout
 	$ git config --global alias.br branch
@@ -1105,7 +1105,7 @@ Bu durumda şu iki komut eşdeğer olacaktır:
 	$ git unstage fileA
 	$ git reset HEAD fileA
 
-Biraz daha temiz değil mi? Bir `last` komutu ekleek de oldukça yaygındır:
+Biraz daha temiz değil mi? Bir `last` komutu eklemek de oldukça yaygındır:
 
 	$ git config --global alias.last 'log -1 HEAD'
 
@@ -1120,7 +1120,7 @@ Böylece son kaydı kolaylıkla görebilirsiniz:
 
 	    Signed-off-by: Scott Chacon <schacon@example.com>
 
-Gördüğünüz gibi Git yeni komutu takma ad olarak belirlediğini şeyin yerine kullanıyor. Ama belki de bir Git komutu çalıştırmak değil de başka br program kullanmak istiyorsunuz. Bu durumda komutun başına `!` karakterini koymalısınız. Bir Git yazılım havuzu üzerinde çalışan kendi araçlarınızı yazıyorsanız bu seçenek yararlı olabilir. Bunu göstermek için ,`gitk`'yi çalıştırmak için `git visual` diye yeni bir takma ad tanımlayabiliriz:
+Gördüğünüz gibi Git yeni komutu takma ad olarak belirlediğini şeyin yerine kullanıyor. Ama belki de bir Git komutu çalıştırmak değil de başka bir program kullanmak istiyorsunuz. Bu durumda komutun başına `!` karakterini koymalısınız. Bir Git yazılım havuzu üzerinde çalışan kendi araçlarınızı yazıyorsanız bu seçenek yararlı olabilir. Bunu göstermek için ,`gitk`'yi çalıştırmak için `git visual` diye yeni bir takma ad tanımlayabiliriz:
 
 	$ git config --global alias.visual '!gitk'
 

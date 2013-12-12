@@ -52,7 +52,7 @@ Alhoewel deze operatie maar een paar minuten in beslag neemt, zal het kopiëren 
 
 ### Beginnen ###
 
-Nu dat je een Subversion repository hebt met schrijftoegang, kun je door een typische werkwijze gaan. Je begint met het `git svn clone` commando, wat een volledig Subversion repository in een lokaal Git repository cloned. Onthoud dat als je van een echt beheerd Subversion repository importeert, je de `file:///tmp/test-svn` hier moet vervangen door de URL van je Subversion repository:
+Nu dat je een Subversion repository hebt met schrijftoegang, kun je door een typische werkwijze gaan. Je begint met het `git svn clone` commando, wat een volledig Subversion repository in een lokaal Git repository clonet. Onthoud dat als je van een echt beheerd Subversion repository importeert, je de `file:///tmp/test-svn` hier moet vervangen door de URL van je Subversion repository:
 
 	$ git svn clone file:///tmp/test-svn -T trunk -b branches -t tags
 	Initialized empty Git repository in /Users/schacon/projects/testsvnsync/svn/.git/
@@ -87,7 +87,7 @@ Op dit punt zou je een geldig Git repository moeten hebben, dat je branches en t
 	  tags/release-2.0.2rc1
 	  trunk
 
-Het is belangrijk om te zien hoe dit tool je remote references een andere naamruimte toebedeeld. Als je een normaal Git repository cloned, krijg je alle branches op die remote server lokaal beschikbaar in de vorm van `origin/[branch]` – volgens de naamruimte van de remote. Maar, `git svn` gaat er vanuit dan je niet meerdere remotes hebt en bewaard al zijn referentie punten om de remote server zonder naamruimte. Je kunt het Git loodgieters commando `show-ref` gebruiken om naar al je volledige referentie namen te kijken:
+Het is belangrijk om te zien hoe dit tool je remote references een andere naamruimte toebedeeld. Als je een normaal Git repository clonet, krijg je alle branches op die remote server lokaal beschikbaar in de vorm van `origin/[branch]` – volgens de naamruimte van de remote. Maar, `git svn` gaat er vanuit dan je niet meerdere remotes hebt en bewaard al zijn referentie punten om de remote server zonder naamruimte. Je kunt het Git loodgieters commando `show-ref` gebruiken om naar al je volledige referentie namen te kijken:
 
 	$ git show-ref
 	1cbd4904d9982f386d87f88fce1c24ad7c0f0471 refs/heads/master
@@ -171,7 +171,7 @@ Nu dat al jouw werk bovenop hetgeen wat op de Subversion server staat gebracht i
 	No changes between current HEAD and refs/remotes/trunk
 	Resetting to the latest refs/remotes/trunk
 
-Het is belangrijk te onthouden dat `git svn` je dit alleen laat doen als de wijzigingen conflicteren, in tegenstelling tot Git dat je vereist om eerst al het stroomopwaartse werk dat je nog niet lokaal hebt te mergen voordat je kunt pushen. Als iemand anders een verandering naar een bestand pushed en daarna push jij een verandering op een ander bestand, dan zal je `dcommit` prima werken:
+Het is belangrijk te onthouden dat `git svn` je dit alleen laat doen als de wijzigingen conflicteren, in tegenstelling tot Git dat je vereist om eerst al het stroomopwaartse werk dat je nog niet lokaal hebt te mergen voordat je kunt pushen. Als iemand anders een verandering naar een bestand pusht en daarna push jij een verandering op een ander bestand, dan zal je `dcommit` prima werken:
 
 	$ git svn dcommit
 	Committing to file:///tmp/test-svn/trunk ...
@@ -202,7 +202,7 @@ Eens in de zoveel tijd `git svn rebase` uitvoeren zorgt er voor dat je code alti
 
 ### Git branch problemen ###
 
-Als je je op je gemak voelt met een Git manier van werken, zul je waarschijnlijk onderwerp branches gaan maken, er werk op doen, en ze dan inmergen. Als je naar een Subversion server pushed via git svn, wil je misschien je werk iedere keer in een enkele branch rebasen in plaats van de branches samen mergen. De reden om rebasen te prefereren is dat Subversion een lineaire geschiedenis heeft, en niet omgaat met merges op de manier zoals Git dat doet, dus git svn volgt alleen de eerste ouder op het moment dat de snapshots naar Subversion commits omgezet worden.
+Als je je op je gemak voelt met een Git manier van werken, zul je waarschijnlijk onderwerp branches gaan maken, er werk op doen, en ze dan inmergen. Als je naar een Subversion server pusht via git svn, wil je misschien je werk iedere keer in een enkele branch rebasen in plaats van de branches samen mergen. De reden om rebasen te prefereren is dat Subversion een lineaire geschiedenis heeft, en niet omgaat met merges op de manier zoals Git dat doet, dus git svn volgt alleen de eerste ouder op het moment dat de snapshots naar Subversion commits omgezet worden.
 
 Stel dat je geschiedenis er zoals volgt uitziet: je hebt een `experiment` branch gemaakt, twee commits gedaan, en ze dan terug in `master` gemerged. Als je dan `dcommit` zie je output zoals dit:
 
@@ -227,7 +227,7 @@ Stel dat je geschiedenis er zoals volgt uitziet: je hebt een `experiment` branch
 
 Het uitvoeren van `dcommit` op een branch met gemergede historie werkt prima, behalve wanneer je naar je Git project historie kijkt, het geen van beide commits die je op de `experiment` branch gedaan hebt herschreven heeft – in plaats daarvan verschijnen al die wijzigingen in de SVN versie van de enkele merge commit.
 
-Als iemand anders dat werk cloned, is alles wat ze zien de merge commit met al het werk erin gesquashed; ze zien niet de commit data met waar het vandaan kwam of wanneer het was gecommit.
+Als iemand anders dat werk clonet, is alles wat ze zien de merge commit met al het werk erin gesquashed; ze zien niet de commit data met waar het vandaan kwam of wanneer het was gecommit.
 
 ### Subversion branchen ###
 
@@ -258,7 +258,7 @@ Als je tegelijk wilt werken op meer dan één branch, dan kun je lokale branches
 
 Als je je `opera` branch nu in `trunk` (jouw `master` branch) wilt mergen, kun je dit doen met een normale `git merge`. Maar je moet een beschrijvend commit bericht meegeven (via `-m`), of de merge zal "Merge branch opera" bevatten in plaats van iets bruikbaars.
 
-Onthoud dat, alhoewel je `git merge` gebruikt voor deze operatie, en de merge waarschijnlijk veel makkelijker gaat dan het in Subversion zou gaan (omdat Git automatisch de merge basis voor je zal detecteren), dit geen normale Git merge commit is. Je moet deze data terug pushen naar een Subversion server die geen commit aan kan die meer dan één ouder volgt; dus, nadat je het omhoog gepushed hebt, zal het eruit zien als een enkele commit waarbij al het werk van een andere branch erin gesquashed zit als een enkele commit. Nadat je een branch in een andere gemerged hebt, kun je niet eenvoudig terug gaan en op die branch verder werken, zoals je dat normaal kunt in Git. Het `dcommit` commando dat je uitvoert, wist alle informatie die kan vertellen welke branch erin gemerged was, dus opvolgende merge-basis berekeningen zullen fout gaan – de `dcommit` zal je `git merge` resultaat eruit laten zien alsof je `git merge --squash` uitgevoerd hebt. Helaas is er geen manier om deze situatie te vermijden – Subversion kan deze informatie niet opslaan, dus je zult altijd gelimiteerd zijn door zijn beperkingen zolang als je het als server gebruikt. Om problemen te vermijden, zou je de lokale branch moeten verwijderen (in dit geval `opera`), nadat je hem in trunk gemerged hebt.
+Onthoud dat, alhoewel je `git merge` gebruikt voor deze operatie, en de merge waarschijnlijk veel makkelijker gaat dan het in Subversion zou gaan (omdat Git automatisch de merge basis voor je zal detecteren), dit geen normale Git merge commit is. Je moet deze data terug pushen naar een Subversion server die geen commit aan kan die meer dan één ouder volgt; dus, nadat je het omhoog gepusht hebt, zal het eruit zien als een enkele commit waarbij al het werk van een andere branch erin gesquashed zit als een enkele commit. Nadat je een branch in een andere gemerged hebt, kun je niet eenvoudig terug gaan en op die branch verder werken, zoals je dat normaal kunt in Git. Het `dcommit` commando dat je uitvoert, wist alle informatie die kan vertellen welke branch erin gemerged was, dus opvolgende merge-basis berekeningen zullen fout gaan – de `dcommit` zal je `git merge` resultaat eruit laten zien alsof je `git merge --squash` uitgevoerd hebt. Helaas is er geen manier om deze situatie te vermijden – Subversion kan deze informatie niet opslaan, dus je zult altijd gelimiteerd zijn door zijn beperkingen zolang als je het als server gebruikt. Om problemen te vermijden, zou je de lokale branch moeten verwijderen (in dit geval `opera`), nadat je hem in trunk gemerged hebt.
 
 ### Subversion commando's ###
 
@@ -304,7 +304,7 @@ Zoals het `git svn log` commando het `svn log` commando offline simuleert, kun j
 	 2   temporal Buffer compiler (protoc) execute the following:
 	 2   temporal
 
-Nogmaals, het toont geen commits die je lokaal in Git gedaan hebt, of die in de tussentijd naar Subversion gepushed zijn.
+Nogmaals, het toont geen commits die je lokaal in Git gedaan hebt, of die in de tussentijd naar Subversion gepusht zijn.
 
 #### SVN server informatie ####
 
@@ -326,7 +326,7 @@ Dit is vergelijkbaar met `blame` en `log` in dat het offline draait en alleen up
 
 #### Negeren wat Subversion negeert ####
 
-Als je een Subversion repository cloned, die ergens `svn:ignore` eigenschappen gezet heeft, dan zul je waarschijnlijk overeenkomende `.gitignore` bestanden in willen stellen zo dat je niet per ongeluk bestanden commit die je niet had moeten committen. `git svn` heeft twee commando's die met dit probleem helpen. De eerste is `git svn create-ignore`, wat automatisch `.gitignore` bestanden voor je genereert zodat je volgende commit ze niet kan bevatten.
+Als je een Subversion repository clonet, die ergens `svn:ignore` eigenschappen gezet heeft, dan zul je waarschijnlijk overeenkomende `.gitignore` bestanden in willen stellen zo dat je niet per ongeluk bestanden commit die je niet had moeten committen. `git svn` heeft twee commando's die met dit probleem helpen. De eerste is `git svn create-ignore`, wat automatisch `.gitignore` bestanden voor je genereert zodat je volgende commit ze niet kan bevatten.
 
 Het tweede commando is `git svn show-ignore`, want op stdout de regels afdrukt die je in een `.gitignore` bestand moet stoppen zodat je de output in het exclude bestand van je project kunt stoppen:
 
@@ -353,7 +353,7 @@ Je zult leren hoe je data uit twee van de grotere professioneel gebruikte SCM sy
 
 ### Subversion ###
 
-Als je de vorige sectie over het gebruik van `git svn` leest, kun je die instructies eenvoudig gebruiken om een `git svn clone` te doen op een repository; daarna stop je met het gebruik van de Subversion server, pushed naar de nieuwe Git server, en ga die gebruiken. Als je de historie wil hebben, kun je dat zo snel als dat je van de server kunt pullen voor elkaar krijgen (wat een tijdje kan duren).
+Als je de vorige sectie over het gebruik van `git svn` leest, kun je die instructies eenvoudig gebruiken om een `git svn clone` te doen op een repository; daarna stop je met het gebruik van de Subversion server, pusht naar de nieuwe Git server, en ga die gebruiken. Als je de historie wil hebben, kun je dat zo snel als dat je van de server kunt pullen voor elkaar krijgen (wat een tijdje kan duren).
 
 Maar, de import is niet perfect; en omdat het zo lang zal duren, kun je het maar beter goed doen. Het eerste probleem is informatie over de auteurs. In Subversion heeft iedere persoon die commit een gebruikersaccount op het systeem, wat wordt opgenomen in de commit informatie. De voorbeelden in de voorgaande sectie toen `schacon` op bepaalde plaatsen zoals de `blame` output en bij `git svn log`. Als je dit beter wil transleren naar Git auteur data, dan heb je een translatie nodig van de Subversion gebruikers naar de Git auteurs. Maak een bestand genaamd `users.txt`, die deze translatie in dit formaat heeft:
 
@@ -479,7 +479,7 @@ Als je `git log` uitvoert, kun je zien dat alle SHA-1 checksums voor de commits 
 
 	    Update derived jamgram.c
 
-Je import is nu klaar om naar je nieuwe Git server gepushed te worden.
+Je import is nu klaar om naar je nieuwe Git server gepusht te worden.
 
 ### Een eigen importeerder ###
 

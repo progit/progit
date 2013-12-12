@@ -527,7 +527,7 @@ Dat plaatst je in je teksteditor, met je laatste commit bericht erin, klaar voor
 
 Als je hebt gecommit en je wilt het snapshot dat je gecommit hebt wijzigen, door het toevoegen of wijzigen van bestanden, misschien omdat je vergeten was een nieuw bestand toe te voegen toen je committe, werkt het proces ongeveer op dezelfde manier. Je staged de wijzigingen die je wilt door een bestand te wijzigen en `git add` er op uit te voeren, of `git rm` op een gevolgd bestand, en de daaropvolgende `git commit --amend` pakt je huidige staging area en maakt dat het snapshot voor de nieuwe commit.
 
-Je moet oppassen met deze techniek, omdat het amenden de SHA-1 van de commit wijzigt. Het is vergelijkbaar met een kleine rebase – niet je laatste commit wijzigen als je die al gepushed hebt.
+Je moet oppassen met deze techniek, omdat het amenden de SHA-1 van de commit wijzigt. Het is vergelijkbaar met een kleine rebase – niet je laatste commit wijzigen als je die al gepusht hebt.
 
 ### Meerdere commit berichten wijzigen ###
 
@@ -537,7 +537,7 @@ Bijvoorbeeld, als je de laatste drie commit berichten wilt veranderen, of een va
 
 	$ git rebase -i HEAD~3
 
-Onthoud ook dat dit een rebase commando is – iedere commit in de serie `HEAD~3..HEAD` zal worden herschreven, of je het bericht wijzigt of niet. Voeg geen commit toe die je al naar een centrale server gepushed hebt – als je dit doet breng je andere gebruikers in de war door ze een alternatieve versie van dezelfde wijziging te geven.
+Onthoud ook dat dit een rebase commando is – iedere commit in de serie `HEAD~3..HEAD` zal worden herschreven, of je het bericht wijzigt of niet. Voeg geen commit toe die je al naar een centrale server gepusht hebt – als je dit doet breng je andere gebruikers in de war door ze een alternatieve versie van dezelfde wijziging te geven.
 
 Dit commando uitvoeren geeft je een lijst met commits in je tekst editor die er ongeveer zo uit ziet:
 
@@ -669,7 +669,7 @@ Git zal de laatste commit (`a5f4a0d`) in het script toepassen, en je geschiedeni
 	35cfb2b updated README formatting
 	f3cc40e changed my name a bit
 
-Nogmaals, dit veranderd alle SHA's van alle commits in je lijst, dus zorg er voor dat er geen commit in die lijst zit die je al naar een gedeeld repository gepushed hebt.
+Nogmaals, dit veranderd alle SHA's van alle commits in je lijst, dus zorg er voor dat er geen commit in die lijst zit die je al naar een gedeeld repository gepusht hebt.
 
 ### De nucleaire optie: filter-branch ###
 
@@ -759,7 +759,7 @@ Dit is heel handig. Normaal krijg je als de originele commit de commit waar je d
 
 Een bestand annoteren helpt als je eenmaal weet waar het probleem zit. Als je niet weet wat er kapot is, en er zijn vele dozijnen of honderden commits geweest sinds de laatste staat waarvan je weet dat de code werkte, dan zul je waarschijnlijk bij `git bisect` aankloppen voor hulp. Het `bisect` commando zoekt binair door je commitgeschiedenis om je zo snel als mogelijk te helpen identificeren welke commit het issue introduceerde.
 
-Stel dat je zojuist een release van je code naar een productie omgeving gepushed hebt, en je krijgt bug rapporten terug dat er iets gebeurd dat niet in je development omgeving gebeurde en je kunt je niet voorstellen waarom de code dat aan het doen is. Je gaat terug naar je code, en het blijkt dat je het probleem kunt reproduceren, maar je kunt niet zien wat er verkeerd gaat. Je kunt de code bisecten om het uit te vinden. Als eerste voer je `git bisect start` uit om aan de gang te gaan, en dan gebruik je `git bisect bad` om het systeem te vertellen dat de huidige commit kapot is. Dan moet je bisect vertellen wanneer de laatste goede status was, door `git bisect good [goede_commit]` te gebruiken:
+Stel dat je zojuist een release van je code naar een productie omgeving gepusht hebt, en je krijgt bug rapporten terug dat er iets gebeurd dat niet in je development omgeving gebeurde en je kunt je niet voorstellen waarom de code dat aan het doen is. Je gaat terug naar je code, en het blijkt dat je het probleem kunt reproduceren, maar je kunt niet zien wat er verkeerd gaat. Je kunt de code bisecten om het uit te vinden. Als eerste voer je `git bisect start` uit om aan de gang te gaan, en dan gebruik je `git bisect bad` om het systeem te vertellen dat de huidige commit kapot is. Dan moet je bisect vertellen wanneer de laatste goede status was, door `git bisect good [goede_commit]` te gebruiken:
 
 	$ git bisect start
 	$ git bisect bad
@@ -841,7 +841,7 @@ Eerst zie je het `.gitmodules` bestand. Dit is een configuratie bestand dat de m
 	      path = rack
 	      url = git://github.com/chneukirchen/rack.git
 
-Als je meerdere submodules hebt, zul je meerdere vermeldingen hebben in dit bestand. Het is belangrijk om te zien dat dit bestand net als je andere bestanden ook onder versiebeheer staat, zoals je `.gitignore` bestand. Het wordt gepushed en gepulled samen met de rest van je project. Op deze manier weten andere mensen die je project clonen waar ze de submodule projecten vandaan moeten halen.
+Als je meerdere submodules hebt, zul je meerdere vermeldingen hebben in dit bestand. Het is belangrijk om te zien dat dit bestand net als je andere bestanden ook onder versiebeheer staat, zoals je `.gitignore` bestand. Het wordt gepusht en gepulled samen met de rest van je project. Op deze manier weten andere mensen die je project clonen waar ze de submodule projecten vandaan moeten halen.
 
 De andere vermelding in de `git status` output is de rack regel. Als je `git diff` daarop uitvoert zul je iets interessants zien:
 
@@ -955,7 +955,7 @@ Dit is het geval omdat de pointer die je hebt voor de submodule niet is wat eige
 
 Je moet dit iedere keer dat je een submodule wijziging pulled in het hoofdproject. Het is vreemd, maar het werkt.
 
-Er probleem doet zich voor als een developer een locale wijziging in en submodule doet en die niet naar een publieke server pushed. Dan, zullen ze een pointer naar de niet-publieke status committen en naar het superproject pushen. Als andere developers dan `git submodule update` proberen uit te voeren, dan zal het submodule systeem de commit die gerefereerd wordt niet kunnen vinden, omdat het alleen op het systeem van de eerste developer bestaat. Als dat gebeurd, zul je een foutmelding als deze zien:
+Er probleem doet zich voor als een developer een locale wijziging in en submodule doet en die niet naar een publieke server pusht. Dan, zullen ze een pointer naar de niet-publieke status committen en naar het superproject pushen. Als andere developers dan `git submodule update` proberen uit te voeren, dan zal het submodule systeem de commit die gerefereerd wordt niet kunnen vinden, omdat het alleen op het systeem van de eerste developer bestaat. Als dat gebeurd, zul je een foutmelding als deze zien:
 
 	$ git submodule update
 	fatal: reference isn’t a tree: 6c5e70b984a60b3cecd395edd5b48a7575bf58e0
@@ -1007,7 +1007,7 @@ Van branches wisselen die submodules bevatten kan ook lastig zijn. Als je een ni
 	#
 	#      rack/
 
-Je moet hem verplaatsen of verwijderen, waarna je hem opnieuw moet clonen als je terug wisselt – en je loopt kans om locale wijzigingen of branches te verliezen die je niet omhoog gepushed hebt.
+Je moet hem verplaatsen of verwijderen, waarna je hem opnieuw moet clonen als je terug wisselt – en je loopt kans om locale wijzigingen of branches te verliezen die je niet omhoog gepusht hebt.
 
 De laatste grote valkuil waar veel mensen in lopen heeft te maken met het wisselen van submappen naar submodules. Als je bestanden in je project aan het volgen bent, en je wilt ze in een submodule verplaatsen, dan moet je voorzichtig zijn of anders zal Git boos op je worden. Stel dat je de rack bestanden in een submap van je project hebt, en je wilt die naar een submodule wijzigen. Als je de submap weggooit en dan `submodule add` uitvoerd, begint Git naar je te schreeuwen:
 

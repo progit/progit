@@ -251,7 +251,7 @@ Of je kunt Git vragen om automatisch deze problemen te repareren alvorens de pat
 
 	$ git apply --whitespace=fix <patch>
 
-Deze opties zijn ook op de git rebase optie van toepassing. Als je witruimte problemen gecommit hebt maar ze nog niet stroomopwaarts gepushed hebt, kun je een `rebase` uitvoeren met de `--whitespace=fix` optie uitvoeren om Git automatisch witruimte problemen te laten repareren zodra het de patches herschrijft.
+Deze opties zijn ook op de git rebase optie van toepassing. Als je witruimte problemen gecommit hebt maar ze nog niet stroomopwaarts gepusht hebt, kun je een `rebase` uitvoeren met de `--whitespace=fix` optie uitvoeren om Git automatisch witruimte problemen te laten repareren zodra het de patches herschrijft.
 
 ### Server configuratie ###
 
@@ -267,7 +267,7 @@ Nu zal Git de integriteit van je repository controleren voor iedere push geaccep
 
 #### receive.denyNonFastForwards ####
 
-Als je commits rebased die je al gepushed hebt en dan nog eens pushed, of op een andere manier een commit probeert te pushen naar een remote branch die niet de commit bevat waarnaar de remote branch op het moment wijst, dan wordt dat afgewezen. Dit is over het algemeen een goed beleid; maar in het geval van de rebase, kun je besluiten dat je weet waar je mee bezig bent en kun je de remote branch geforceerd vernieuwen door een `-f` vlag met je push commando mee te geven.
+Als je commits rebased die je al gepusht hebt en dan nog eens pusht, of op een andere manier een commit probeert te pushen naar een remote branch die niet de commit bevat waarnaar de remote branch op het moment wijst, dan wordt dat afgewezen. Dit is over het algemeen een goed beleid; maar in het geval van de rebase, kun je besluiten dat je weet waar je mee bezig bent en kun je de remote branch geforceerd vernieuwen door een `-f` vlag met je push commando mee te geven.
 
 Om de mogelijkheid van het geforceerd vernieuwen van remote branches naar niet fast-forward referenties uit te schakelen, stel je `receive.denyNonFastForwards` in:
 
@@ -277,7 +277,7 @@ Een andere manier waarop je dit kunt doen is het instellen van ontvangst haken o
 
 #### receive.denyDeletes ####
 
-Een van de wegen om een `denyNonFastForwards` beleid heen is dat de gebruiker de branch verwijderd en het dan opnieuw terug pushed met de nieuwe referentie. In nieuwere versies van Git (beginnend bij versie 1.6.1), kun je `receive.denyDeletes` op true zetten:
+Een van de wegen om een `denyNonFastForwards` beleid heen is dat de gebruiker de branch verwijderd en het dan opnieuw terug pusht met de nieuwe referentie. In nieuwere versies van Git (beginnend bij versie 1.6.1), kun je `receive.denyDeletes` op true zetten:
 
 	$ git config --system receive.denyDeletes true
 
@@ -518,7 +518,7 @@ De laatste haak die uitgevoerd wordt tijdens een `git am` operatie is de `post-a
 
 #### Andere client haken ####
 
-De `pre-rebase` haak wordt uitgevoerd voordat je ook maar iets rebased, en kan het proces afbreken door met een waarde anders dan nul te eindigen. Je kunt deze haak gebruiken om tegen te gaan dat commits die al gepushed zijn gerebased worden. De voorbeeld `pre-rebase` haak die Git installeert doet dit, alhoewel deze er vanuit gaat dat next de naam is van de branch die je publiceert. Je zult dat waarschijnlijk moeten veranderen in de naam van je stabiele gepubliceerde branch.
+De `pre-rebase` haak wordt uitgevoerd voordat je ook maar iets rebased, en kan het proces afbreken door met een waarde anders dan nul te eindigen. Je kunt deze haak gebruiken om tegen te gaan dat commits die al gepusht zijn gerebased worden. De voorbeeld `pre-rebase` haak die Git installeert doet dit, alhoewel deze er vanuit gaat dat next de naam is van de branch die je publiceert. Je zult dat waarschijnlijk moeten veranderen in de naam van je stabiele gepubliceerde branch.
 
 Nadat je een succesvolle `git checkout` uitgevoerd hebt, wordt de `post-checkout` haak uitgevoerd; je kunt het gebruiken om je werkmap goed in te stellen voor je project omgeving. Dit kan het invoegen van grote binaire bestanden die je niet in versie beheer wil hebben betekenen, of het automatisch genereren van documentatie, of iets in die geest.
 
@@ -530,7 +530,7 @@ Naast de client-kant haken, kun je als systeem administrator ook een paar belang
 
 #### pre-receive en post-receive ####
 
-Het eerste script dat uitgevoerd wordt tijdens het afhandelen van een push van een client is `pre-receive`. Het aanvaardt een lijst van referenties die worden gepushed op stdin; als het eindigt met een andere waarde dan nul, worden ze allen geweigerd. Je kunt deze haak gebruiken om dingen te doen als valideren dat geen van de vernieuwde referenties een non-fast-forward is; of om te controleren dat de gebruiker die de push doet ook creatie, verwijder, of push toegang of toegang om vernieuwingen te pushen naar alle bestanden die ze proberen aan te passen met de push.
+Het eerste script dat uitgevoerd wordt tijdens het afhandelen van een push van een client is `pre-receive`. Het aanvaardt een lijst van referenties die worden gepusht op stdin; als het eindigt met een andere waarde dan nul, worden ze allen geweigerd. Je kunt deze haak gebruiken om dingen te doen als valideren dat geen van de vernieuwde referenties een non-fast-forward is; of om te controleren dat de gebruiker die de push doet ook creatie, verwijder, of push toegang of toegang om vernieuwingen te pushen naar alle bestanden die ze proberen aan te passen met de push.
 
 De `post-receive` haak wordt uitgevoerd nadat het hele proces afgerond is, en hij kan gebruikt worden om andere services te vernieuwen of gebruikers te notificeren. Het aanvaardt dezelfde gegevens op stdin als de `pre-receive` haak. Voorbeelden zijn een e-mail sturen naar een lijst, een continue integratie server notificeren, of het vernieuwen van een ticket-volg systeem – je kunt zelfs de commit boodschappen doorlopen om te zien of er nog tickets zijn die moeten worden geopend, aangepast of afgesloten moeten worden. Dit script kan het push proces niet stoppen, maar de client verbreekt de connectie niet totdat het afgerond is; dus ben voorzichtig als je iets probeert te doen dat een lange tijd in beslag neemt.
 
@@ -546,7 +546,7 @@ Ik heb Ruby gebruikt om ze te schrijven, zowel omdat het mijn voorkeur script ta
 
 ### Server-kant haak ###
 
-Al het werk aan de server kant zal in het update bestand in je haken map gaan. Het update bestand zal eens per gepushte branch uitgevoerd worden en aanvaardt de referentie waarnaar gepushed wordt, de oude revisie waar die branch was, en de nieuwe gepushte revisie. Je hebt ook toegang tot de gebruiker die de push doet, als de push via SSH gedaan wordt. Als je iedereen hebt toegestaan om connectie te maken als één gebruiker (zoals "git") via publieke sleutel authenticatie, dan moet je misschien die gebruiker een shell wrapper geven die bepaalt welke gebruiker er connectie maakt op basis van de publieke sleutel, en een omgevingsvariabele instelt met daarin die gebruiker. Hier ga ik er vanuit dat de gebruiker in de `$USER` omgevingsvariabele staat, dus begint je update script met het verzamelen van alle gegevens die het nodig heeft:
+Al het werk aan de server kant zal in het update bestand in je haken map gaan. Het update bestand zal eens per gepushte branch uitgevoerd worden en aanvaardt de referentie waarnaar gepusht wordt, de oude revisie waar die branch was, en de nieuwe gepushte revisie. Je hebt ook toegang tot de gebruiker die de push doet, als de push via SSH gedaan wordt. Als je iedereen hebt toegestaan om connectie te maken als één gebruiker (zoals "git") via publieke sleutel authenticatie, dan moet je misschien die gebruiker een shell wrapper geven die bepaalt welke gebruiker er connectie maakt op basis van de publieke sleutel, en een omgevingsvariabele instelt met daarin die gebruiker. Hier ga ik er vanuit dat de gebruiker in de `$USER` omgevingsvariabele staat, dus begint je update script met het verzamelen van alle gegevens die het nodig heeft:
 
 	#!/usr/bin/env ruby
 
@@ -561,9 +561,9 @@ Ja, ik gebruik een globale variabele. Veroordeel me niet – het is makkelijker 
 
 #### Een specifiek commit-bericht formaat afdwingen ####
 
-Je eerste uitdaging is afdwingen dat ieder commit bericht moet voldoen aan een specifiek formaat. Om maar een doel te hebben, gaan we er vanuit dat ieder bericht een stuk tekst bevat dat eruit ziet asl "ref: 1234", omdat je wil dat iedere commit gekoppeld is aan een werkonderdeel in je ticket systeem. Je moet kijken naar iedere commit die gepushed wordt, zien dat die tekst in de commit boodschap zit, en als de tekst niet in één van de commits zit, met niet nul eindigen zodat de push geweigerd wordt.
+Je eerste uitdaging is afdwingen dat ieder commit bericht moet voldoen aan een specifiek formaat. Om maar een doel te hebben, gaan we er vanuit dat ieder bericht een stuk tekst bevat dat eruit ziet asl "ref: 1234", omdat je wil dat iedere commit gekoppeld is aan een werkonderdeel in je ticket systeem. Je moet kijken naar iedere commit die gepusht wordt, zien dat die tekst in de commit boodschap zit, en als de tekst niet in één van de commits zit, met niet nul eindigen zodat de push geweigerd wordt.
 
-Je kunt de lijst met alle SHA-1 waarden van alle commits die gepushed worden verkrijgen door de `$newrev` en `$oldrev` waarden te pakken en ze aan een Git sanitaire voorzieningen commando genaamd `git rev-list` te geven. Dit is eigenlijk het `git log` commando, maar standaard voert het alleen de SHA-1 waarden uit en geen andere informatie. Dus, om een lijst te krijgen van alle commit SHA's die worden geïntroduceerd tussen één commit SHA en een andere, kun je zoiets als dit uitvoeren:
+Je kunt de lijst met alle SHA-1 waarden van alle commits die gepusht worden verkrijgen door de `$newrev` en `$oldrev` waarden te pakken en ze aan een Git sanitaire voorzieningen commando genaamd `git rev-list` te geven. Dit is eigenlijk het `git log` commando, maar standaard voert het alleen de SHA-1 waarden uit en geen andere informatie. Dus, om een lijst te krijgen van alle commit SHA's die worden geïntroduceerd tussen één commit SHA en een andere, kun je zoiets als dit uitvoeren:
 
 	$ git rev-list 538c33..d14fc7
 	d14fc7c847ab946ec39590d87783c69b031bdfb7
@@ -589,7 +589,7 @@ Een simpele manier om de commit boodschap te krijgen van een commit waarvan je d
 	$ git cat-file commit ca82a6 | sed '1,/^$/d'
 	changed the version number
 
-Je kunt die spreuk gebruiken om de commit boodschap te pakken van iedere commit die probeert te worden gepushed en eindigen als je ziet dat er iets is wat niet past. Om het script te eindigen en de push te weigeren, eindig je met niet nul. De hele methode ziet er zo uit:
+Je kunt die spreuk gebruiken om de commit boodschap te pakken van iedere commit die probeert te worden gepusht en eindigen als je ziet dat er iets is wat niet past. Om het script te eindigen en de push te weigeren, eindig je met niet nul. De hele methode ziet er zo uit:
 
 	$regex = /\[ref: (\d+)\]/
 
@@ -610,7 +610,7 @@ Door dat in je `update` script te stoppen, zal het updates weigeren die commits 
 
 #### Een gebruiker-gebaseerd ACL systeem afdwingen ####
 
-Stel dat je een mechanisme wil toevoegen dat gebruik maakt van een toegangscontrole lijst (ACL) die specificeert welke gebruikers zijn toegestaan om wijzigingen te pushen naar welke delen van je project. Sommige mensen hebben volledige toegang, en andere hebben alleen toegang om wijzigingen te pushen naar bepaalde submappen of specifieke bestanden. Om dit af te dwingen zul je die regels schrijven in een bestand genaamd `acl` dat in je bare Git repository op de server leeft. Je zult de `update` haak naar die regels laten kijken, zien welke bestanden worden geïntroduceerd voor alle commits die gepushed worden, en bepalen of de gebruiker die de push doet toegang heeft om al die bestanden te wijzigen.
+Stel dat je een mechanisme wil toevoegen dat gebruik maakt van een toegangscontrole lijst (ACL) die specificeert welke gebruikers zijn toegestaan om wijzigingen te pushen naar welke delen van je project. Sommige mensen hebben volledige toegang, en andere hebben alleen toegang om wijzigingen te pushen naar bepaalde submappen of specifieke bestanden. Om dit af te dwingen zul je die regels schrijven in een bestand genaamd `acl` dat in je bare Git repository op de server leeft. Je zult de `update` haak naar die regels laten kijken, zien welke bestanden worden geïntroduceerd voor alle commits die gepusht worden, en bepalen of de gebruiker die de push doet toegang heeft om al die bestanden te wijzigen.
 
 Het eerste dat je zult doen is je ACL schrijven. Hier zul je een formaat gebruiken dat erg lijkt op het CVS ACL mechanisme: het gebruikt een serie regels, waarbij het eerste veld `avail` of `unavail` is, het volgende veld een komma gescheiden lijst van de gebruikers is waarvoor de regel geldt, en het laatste veld het pad is waarvoor de regel geldt (leeg betekent open toegang). Alle velden worden gescheiden door een pipe (`|`) karakter.
 
@@ -649,7 +649,7 @@ Op het ACL bestand dat je eerder bekeken hebt, zal deze `get_acl_access_data` me
 	 "usinclair"=>["doc"],
 	 "ebronte"=>["doc"]}
 
-Nu dat je de rechten bepaald hebt, moet je bepalen welke paden de commits die gepushed worden hebben aangepast, zodat je er zeker van kunt zijn dat de gebruiker die de push doet daar ook toegang tot heeft.
+Nu dat je de rechten bepaald hebt, moet je bepalen welke paden de commits die gepusht worden hebben aangepast, zodat je er zeker van kunt zijn dat de gebruiker die de push doet daar ook toegang tot heeft.
 
 Je kunt eenvoudig zien welke bestanden gewijzigd zijn in een enkele commit met de `--name-only` optie op het `git log` commando (dat kort genoemd wordt in Hoofdstuk 2):
 
@@ -687,7 +687,7 @@ Als je gebruik maakt van de ACL structuur die wordt teruggegeven door de `get_ac
 
 	check_directory_perms
 
-Het meeste daarvan zou makkelijk te volgen moeten zijn. Je krijgt een lijst met commits die gepushed worden naar je server met `git rev-list`. Daarna vind je, voor iedere commit, de bestanden die aangepast worden en stelt vast of de gebruiker die pushed toegang heeft tot alle paden die worden aangepast. Een Ruby-isme dat wellicht niet duidelijk is is `path.index(access_path) == 0`, wat waar is als het pad begint met `access_path` – dit zorgt ervoor dat `access_path` niet slechts in één van de toegestane paden zit, maar dat een toegestaan pad begint met ieder aangeraakt pad.
+Het meeste daarvan zou makkelijk te volgen moeten zijn. Je krijgt een lijst met commits die gepusht worden naar je server met `git rev-list`. Daarna vind je, voor iedere commit, de bestanden die aangepast worden en stelt vast of de gebruiker die pusht toegang heeft tot alle paden die worden aangepast. Een Ruby-isme dat wellicht niet duidelijk is is `path.index(access_path) == 0`, wat waar is als het pad begint met `access_path` – dit zorgt ervoor dat `access_path` niet slechts in één van de toegestane paden zit, maar dat een toegestaan pad begint met ieder aangeraakt pad.
 
 Nu kunnen je gebruikers geen commits pushen met slechte berichten of met aangepaste bestanden buiten hun toegewezen paden.
 
@@ -834,11 +834,11 @@ moet je dit gebruiken
 
 	files_modified = `git diff-index --cached --name-only HEAD`
 
-Maar dat zijn de enige twee verschillen – voor de rest werkt het script op dezelfde manier. Een instinker is dat het van je verwacht dat je lokaal werkt als dezelfde gebruiker die pushed naar de remote machine. Als dat verschillend is, moet je de `$user` variabele handmatig instellen.
+Maar dat zijn de enige twee verschillen – voor de rest werkt het script op dezelfde manier. Een instinker is dat het van je verwacht dat je lokaal werkt als dezelfde gebruiker die pusht naar de remote machine. Als dat verschillend is, moet je de `$user` variabele handmatig instellen.
 
-Het laatste ding dat je moet doen is controleren dat je niet non-fast-forward referenties probeert te pushen, maar dat komt minder voor. Om een referentie te krijgen dat geen fast-forward is, moet je voorbij een commit rebasen die je al gepushed hebt, of een andere lokale branch naar dezelfde remote branch proberen te pushen.
+Het laatste ding dat je moet doen is controleren dat je niet non-fast-forward referenties probeert te pushen, maar dat komt minder voor. Om een referentie te krijgen dat geen fast-forward is, moet je voorbij een commit rebasen die je al gepusht hebt, of een andere lokale branch naar dezelfde remote branch proberen te pushen.
 
-Omdat de server je zal vertellen dat je geen non-fast-forward push kunt doen, en de haak de push tegenhoudt, is het enige ongelukkige ding dat je kunt proberen te vangen het rebasen van commits die je al gepushed hebt.
+Omdat de server je zal vertellen dat je geen non-fast-forward push kunt doen, en de haak de push tegenhoudt, is het enige ongelukkige ding dat je kunt proberen te vangen het rebasen van commits die je al gepusht hebt.
 
 
 Hier is een voorbeeld pre-rebase script dat daarop controleert. Het haalt een lijst met alle commits die je op het punt staat te herschrijven, en controleert of ze al op een bepaalde manier bestaan in één van je remote referenties. Als het er een ziet die bereikbaar is vanuit een van je remote referenties, dan stopt het de rebase:
@@ -865,7 +865,7 @@ Hier is een voorbeeld pre-rebase script dat daarop controleert. Het haalt een li
 	  end
 	end
 
-Dit script gebruikt een syntax dat niet behandeld is in de Revisie Selectie sectie van Hoofdstuk 6. Je krijgt een lijst van commits die al gepushed zijn door dit uit te voeren:
+Dit script gebruikt een syntax dat niet behandeld is in de Revisie Selectie sectie van Hoofdstuk 6. Je krijgt een lijst van commits die al gepusht zijn door dit uit te voeren:
 
 	git rev-list ^#{sha}^@ refs/remotes/#{remote_ref}
 

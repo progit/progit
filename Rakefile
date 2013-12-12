@@ -155,7 +155,7 @@ end
 namespace :pdf do
         desc "generate a pdf"
         task :generate  do
-                system("ruby makepdfs")
+                system("bash makepdfs")
         end
 end
 

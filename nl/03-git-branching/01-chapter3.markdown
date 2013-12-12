@@ -384,7 +384,7 @@ Remote branches zijn referenties naar de staat van de branches op je remote repo
 
 Ze hebben de vorm `(remote)/(branch)`. Bijvoorbeeld, als je wil zien hoe de `master` branch op je `origin` er uit zag vanaf de laatste dat je er mee gecommuniceerd hebt, dan zou je de `origin/master` branch bekijken. Als je aan het werk bent aan een probleem met een partner en zij hebben een `iss53` branch teruggezet, dan zou je je eigen lokale `iss53` kunnen hebben; maar de branch op de server zou wijzen naar de commit op `origin/iss53`.
 
-Dit kan wat verwarrend zijn, dus laten we eens naar een voorbeeld kijken. Stel dat je een Git server op je netwerk hebt op `git.ourcompany.com`. Als je hiervan cloned dan wordt die automatisch `origin` voor je genoemd, Git haalt al zijn gegevens binnen, maakt een verwijzing naar waar zijn `master` branch is, en noemt dat lokaal `origin/master`; en je kunt het niet verplaatsen. Git geeft je ook je eigen `master` branch, beginnend op dezelfde plaats als de `master` branch van origin, zodat je iets hebt om vanaf te werken (zie Figuur 3-22).
+Dit kan wat verwarrend zijn, dus laten we eens naar een voorbeeld kijken. Stel dat je een Git server op je netwerk hebt op `git.ourcompany.com`. Als je hiervan clonet dan wordt die automatisch `origin` voor je genoemd, Git haalt al zijn gegevens binnen, maakt een verwijzing naar waar zijn `master` branch is, en noemt dat lokaal `origin/master`; en je kunt het niet verplaatsen. Git geeft je ook je eigen `master` branch, beginnend op dezelfde plaats als de `master` branch van origin, zodat je iets hebt om vanaf te werken (zie Figuur 3-22).
 
 Insert 18333fig0322.png
 Figuur 3-22. Een Git clone geeft je je eigen master branch en origin/master wijzend naar de master branch van origin.
@@ -449,7 +449,7 @@ Dit geeft je een lokale branch waar je op kunt werken, die begint met waar `orig
 
 Een lokale branch uitchecken van een remote branch creëert automatisch een zogenaamde _volg branch_ (_tracking branch_). Volg branches zijn lokale branches die een directe releatie met een remote branch hebben. Als je op een volg branch zit en git push typt, dat weet Git automatisch naar welke server en branch hij moet terugzetten. En, terwijl je op een van die branches zit zal het uitvoeren van `git pull` alle remote referenties ophalen en ze automatisch in de corresponderende remote branch samenvoegen.
 
-Als je een repository cloned, zal het over het algemeen automatisch een `master` branch aanmaken, die `origin/master` volgt. Daarom werken `git push` en `git pull` zo uit het doosje, zonder verdere argumenten. Maar, kun je kunt ook andere volg branches instellen als je dat wilt — anderen die niet branches volgen op `origin` en niet de `master` branch volgen. Het eenvoudige geval is het voorbeeld dat je zojuist zag, `git checkout -b [branch] [remotenaam]/[branch]` uitvoeren. Als je Git versie 1.6.2 of nieuwer hebt, kun je ook de `--track` afkorting gebruiken:
+Als je een repository clonet, zal het over het algemeen automatisch een `master` branch aanmaken, die `origin/master` volgt. Daarom werken `git push` en `git pull` zo uit het doosje, zonder verdere argumenten. Maar, kun je kunt ook andere volg branches instellen als je dat wilt — anderen die niet branches volgen op `origin` en niet de `master` branch volgen. Het eenvoudige geval is het voorbeeld dat je zojuist zag, `git checkout -b [branch] [remotenaam]/[branch]` uitvoeren. Als je Git versie 1.6.2 of nieuwer hebt, kun je ook de `--track` afkorting gebruiken:
 
 	$ git checkout --track origin/serverfix
 	Branch serverfix set up to track remote branch refs/remotes/origin/serverfix.
@@ -570,7 +570,7 @@ Als je die richtlijn volgt, dan gebeurt je niets. Als je dat niet doet, zullen m
 
 Als je spullen rebaset, laat je bestaande commits achter en maak je nieuwe aan die vergelijkbaar zijn maar anders. Als je commits ergens naartoe zet en andere halen ze binnen en baseren daar werk op, en vervolgens herschrijf je die commits met `git rebase` en zet ze opnieuw terug, dan zullen je medewerkers hun werk opnieuw moeten samenvoegen en zullen de dingen vervelend worden als je hun werk probeert binnen te halen in het jouwe.
 
-Laten we eens kijken naar een voorbeeld of hoe werk rebasen dat je publiekelijk gemaakt hebt problemen kan veroorzaken. Stel dat je van een centrale server cloned en dan daar wat werk vanaf doet. Je commit historie ziet er uit als Figuur 3-36.
+Laten we eens kijken naar een voorbeeld of hoe werk rebasen dat je publiekelijk gemaakt hebt problemen kan veroorzaken. Stel dat je van een centrale server clonet en dan daar wat werk vanaf doet. Je commit historie ziet er uit als Figuur 3-36.
 
 Insert 18333fig0336.png
 Figuur 3-36. Clone een repository, en baseer wat werk daarop.

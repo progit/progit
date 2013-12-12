@@ -396,7 +396,7 @@ in de Git broncode. De Linux kernel heeft ook een non-commit-wijzend tag object 
 
 ### Remotes ###
 
-Het derde soort referentie dat je zult zien is een remote referentie. Als je een remote toevoegt en er naar pushed, slaat Git de laatste waarde van iedere branch op die je gepushed hebt naar die remote in de `refs/remotes` map. Bijvoorbeeld, je kunt een remote genaamd `origin` toevoegen en je master branch hier naar pushen:
+Het derde soort referentie dat je zult zien is een remote referentie. Als je een remote toevoegt en er naar pusht, slaat Git de laatste waarde van iedere branch op die je gepusht hebt naar die remote in de `refs/remotes` map. Bijvoorbeeld, je kunt een remote genaamd `origin` toevoegen en je master branch hier naar pushen:
 
 	$ git remote add origin git@github.com:schacon/simplegit-progit.git
 	$ git push origin master
@@ -475,7 +475,7 @@ De blob is nu een andere blob, wat betekent dat alhoewel je slechts een enkele r
 
 Je hebt nu twee vrijwel identieke 12K grote objecten op je harde schijf. Zou het niet fijn zijn als Git één van de twee volledig op kon slaan, en het tweede object slechts als delta tussen die en de eerste?
 
-Het blijkt dat dat kan. Het initiële formaat waarin Git objecten opslaat op de harde schijf wordt een los object formaat genoemd. Maar, eens in de zoveel tijd pakt Git een aantal van die objecten in een enkel binair bestand wat een packfile genoemd wordt, om wat ruimte te besparen en efficiënter te zijn. Git doet dit als je teveel losse objecten rond hebt slingeren, als je het `git gc` commando handmatig uitvoert, of als je naar een remote server pushed. Om te zien wat er gebeurd, kun je Git handmatig vragen om de objecten in te pakken met het `git gc` commando:
+Het blijkt dat dat kan. Het initiële formaat waarin Git objecten opslaat op de harde schijf wordt een los object formaat genoemd. Maar, eens in de zoveel tijd pakt Git een aantal van die objecten in een enkel binair bestand wat een packfile genoemd wordt, om wat ruimte te besparen en efficiënter te zijn. Git doet dit als je teveel losse objecten rond hebt slingeren, als je het `git gc` commando handmatig uitvoert, of als je naar een remote server pusht. Om te zien wat er gebeurd, kun je Git handmatig vragen om de objecten in te pakken met het `git gc` commando:
 
 	$ git gc
 	Counting objects: 17, done.
@@ -578,14 +578,14 @@ Je kunt geen gedeeltelijke globs in het patroon gebruiken, dus het volgende zou 
 
 	fetch = +refs/heads/qa*:refs/remotes/origin/qa*
 
-Maar je kunt wel naamruimtes gebruiken om zoiets voor elkaar te krijgen. Als je een QA team hebt dat naar een serie branches pushed, en je wilt de master branch en alle QA team branches hebben, maar niets anders, kun je een configuratie sectie zoals dit gebruiken:
+Maar je kunt wel naamruimtes gebruiken om zoiets voor elkaar te krijgen. Als je een QA team hebt dat naar een serie branches pusht, en je wilt de master branch en alle QA team branches hebben, maar niets anders, kun je een configuratie sectie zoals dit gebruiken:
 
 	[remote "origin"]
 	       url = git@github.com:schacon/simplegit-progit.git
 	       fetch = +refs/heads/master:refs/remotes/origin/master
 	       fetch = +refs/heads/qa/*:refs/remotes/origin/qa/*
 
-Als je een ingewikkeld werkproces hebt waarbij het QA team branches pushed, ontwikkelaars branches pushen, en integratie teams pushen en samenwerken op remote branches, kun je ze op deze manier eenvoudig in naamruimten stoppen.
+Als je een ingewikkeld werkproces hebt waarbij het QA team branches pusht, ontwikkelaars branches pushen, en integratie teams pushen en samenwerken op remote branches, kun je ze op deze manier eenvoudig in naamruimten stoppen.
 
 ### Refspecs pushen ###
 
@@ -916,7 +916,7 @@ Je kunt het `count-objects` commando gebruiken om snel te zien hoeveel ruimte je
 	prune-packable: 0
 	garbage: 0
 
-Op de `size-pack` regel staat de grootte van je packfiles in kilobytes, dus je gebruikt 2Mb. Voor de laatste commit gebruikte je bijna 2K – dus het is duidelijk dat het verwijderen van het bestand uit de vorige commit, het niet uit je geschiedenis verwijderd heeft. Iedere keer als iemand dit repository cloned, zullen ze de volle 2Mb moeten clonen alleen maar om dit kleine project te krijgen, omdat jij per ongeluk een groot bestand toegevoegd hebt. Laten we het kwijtraken.
+Op de `size-pack` regel staat de grootte van je packfiles in kilobytes, dus je gebruikt 2Mb. Voor de laatste commit gebruikte je bijna 2K – dus het is duidelijk dat het verwijderen van het bestand uit de vorige commit, het niet uit je geschiedenis verwijderd heeft. Iedere keer als iemand dit repository clonet, zullen ze de volle 2Mb moeten clonen alleen maar om dit kleine project te krijgen, omdat jij per ongeluk een groot bestand toegevoegd hebt. Laten we het kwijtraken.
 
 Eerst moet je het vinden. In dit geval weet je al welk bestand het is. Maar stel dat je het niet wist; hoe zou je kunnen vinden welk bestand of bestanden zoveel ruimte in beslag nemen? Als je `git gc` uitvoert zitten alle objecten in een packfile; je kunt de grote bestanden identificeren door een ander sanitaire voorzieningen commando genaamd `git verify-pack` uit te voeren en te sorteren op het derde veld in de uitvoer, wat de bestandsgrootte is. Je kunt het ook door het `tail` commando leiden omdat je alleen geïnteresseerd bent in het laatste paar grote bestanden.
 

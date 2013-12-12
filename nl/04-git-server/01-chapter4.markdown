@@ -91,7 +91,7 @@ Als laatste hebben we het HTTP protocol. Het mooie aan het HTTP of HTTPS protoco
 	$ mv hooks/post-update.sample hooks/post-update
 	$ chmod a+x hooks/post-update
 
-Dat is alles. De `post-update` hook, die standaard bij Git zit, voert het noodzakelijke commando uit (`git update-server-info`) om HTTP fetching en cloning goed werkend te krijgen. Dit commando wordt uitgevoerd als je naar dit repository via SSH pushed; en dan kunnen andere mensen clonen met behulp van zoiets als
+Dat is alles. De `post-update` hook, die standaard bij Git zit, voert het noodzakelijke commando uit (`git update-server-info`) om HTTP fetching en cloning goed werkend te krijgen. Dit commando wordt uitgevoerd als je naar dit repository via SSH pusht; en dan kunnen andere mensen clonen met behulp van zoiets als
 
 	$ git clone http://example.com/gitproject.git
 
@@ -291,7 +291,7 @@ Wat doet deze `post-update` haak? Het ziet er ongeveer zo uit:
 	#!/bin/sh
 	exec git-update-server-info
 
-Dit betekent dat wanneer je naar de server via SSH pushed, Git dit commando uitvoert om de benodigde bestanden voor HTTP fetching te verversen.
+Dit betekent dat wanneer je naar de server via SSH pusht, Git dit commando uitvoert om de benodigde bestanden voor HTTP fetching te verversen.
 
 Vervolgens moet je een VirtualHost toevoeging in je Apache configuratie aanmaken, met de document root als de hoofdmap van je Git projecten. Hier nemen we aan dat je joker DNS ingesteld hebt om `*.gitserver` door te sturen naar waar je dit alles draait:
 
@@ -360,7 +360,7 @@ Nogmaals, GitWeb kan geserveerd worden met iedere CGI capabele web server; als j
 
 De publieke sleutels van alle gebruikers in een `authorized_keys` bestand bewaren voor toegang werkt slechts tijdelijk goed. Als je honderden gebruikers hebt, dan is het moeizaam om dat proces te beheersen. Je moet iedere keer in de server inloggen, en er is geen toegangscontrole — iedereen in het bestand heeft lees- en schrijftoegang op ieder project.
 
-Op dit punt wil je je misschien wenden tot een veelgebruikt software project genaamd Gitosis. Gitosis is in feite een set scripts die je helpen het `authorized_keys` bestand te beheren en eenvoudige toegangscontrole te implementeren. Het meest interessante gedeelte is dat de gebruikers interface voor deze applicatie om mensen toe te voegen en toegang te bepalen, geen web interface is maar een speciale Git repository. Je stelt de informatie in in dat project; en als je het pushed, dan herconfigureert Gitosis de server op basis van dat project, wat stoer is.
+Op dit punt wil je je misschien wenden tot een veelgebruikt software project genaamd Gitosis. Gitosis is in feite een set scripts die je helpen het `authorized_keys` bestand te beheren en eenvoudige toegangscontrole te implementeren. Het meest interessante gedeelte is dat de gebruikers interface voor deze applicatie om mensen toe te voegen en toegang te bepalen, geen web interface is maar een speciale Git repository. Je stelt de informatie in in dat project; en als je het pusht, dan herconfigureert Gitosis de server op basis van dat project, wat stoer is.
 
 Gitosis installeren is niet de makkelijkste taak ooit, maar het is ook niet te moeilijk. Het is het makkelijkst om er een Linux server voor te gebruiken — deze voorbeelden gebruiken een standaard Ubuntu 8.10 server.
 
@@ -503,7 +503,7 @@ Nu kan John het project clonen en updates krijgen, maar Gitosis zal hem niet toe
 	writable  = another_iphone_project
 	members   = @mobile_committers john
 
-Als je problemen hebt, kan het handig zijn om `loglevel=DEBUG` onder de `[gitosis]` sectie te zetten. Als je je push-toegang bent verloren door een kapotte configuratie te pushen, kun je het handmatig repareren in het bestand `/home/git/.gitosis.conf` op de server — het bestand waar Gitosis zijn informatie vandaan haalt. Een push naar het project neemt het `gitosis.conf` bestand dat je zojuist gepushed hebt en stopt het daar. Als je het bestand handmatig aanpast, zal het zo blijven totdat de volgende succesvolle push gedaan wordt naar het `gitosis-admin` project.
+Als je problemen hebt, kan het handig zijn om `loglevel=DEBUG` onder de `[gitosis]` sectie te zetten. Als je je push-toegang bent verloren door een kapotte configuratie te pushen, kun je het handmatig repareren in het bestand `/home/git/.gitosis.conf` op de server — het bestand waar Gitosis zijn informatie vandaan haalt. Een push naar het project neemt het `gitosis.conf` bestand dat je zojuist gepusht hebt en stopt het daar. Als je het bestand handmatig aanpast, zal het zo blijven totdat de volgende succesvolle push gedaan wordt naar het `gitosis-admin` project.
 
 ## Gitolite ##
 
@@ -603,7 +603,7 @@ Je kunt permissies instellen op "ref" niveau. In het volgende voorbeeld mogen st
 	    RW  refs/tags/rc[0-9]   = @engineers
 	    RW+                     = @admins
 
-De expressie achter de `RW` of `RW+` is een reguliere expressie (regex), waarmee de ref naam (ref) waarnaar gepushed wordt, wordt gecontroleerd. Dus daarom noemen we het een "refex"! Natuurlijk kan een refex veel krachtiger zijn dan hier getoond wordt, dus overdrijf niet als je niet op je gemak bent met perl regexen.
+De expressie achter de `RW` of `RW+` is een reguliere expressie (regex), waarmee de ref naam (ref) waarnaar gepusht wordt, wordt gecontroleerd. Dus daarom noemen we het een "refex"! Natuurlijk kan een refex veel krachtiger zijn dan hier getoond wordt, dus overdrijf niet als je niet op je gemak bent met perl regexen.
 
 En, zoals je waarschijnlijk al geraden had, zet Gitolite `refs/heads/` er als een syntactisch gemak voor als de refex niet begint met `refs/`.
 
@@ -725,7 +725,7 @@ Vervolgens zul je je Gitosis server moeten vertellen welke repositories je ongev
 	[repo iphone_project]
 	daemon = yes
 
-Als dat gecommit en gepushed is, dan zou je draaiende daemon verzoeken moeten serveren aan iedereen die toegang heeft op poort 9418 van je server.
+Als dat gecommit en gepusht is, dan zou je draaiende daemon verzoeken moeten serveren aan iedereen die toegang heeft op poort 9418 van je server.
 
 Als je besluit om Gitosis niet te gebruiken, maar je wilt toch een Git daemon instellen, dan moet je dit op ieder project uitvoeren waarvoor je de Git daemon wilt laten serveren:
 
@@ -747,7 +747,7 @@ Je kunt instellen welke projecten GitWeb gebruikers laat bladeren door een `gitw
 	daemon = yes
 	gitweb = yes
 
-Als je nu het project commit en pushed, start GitWeb automatisch met het tonen van je iphone project.
+Als je nu het project commit en pusht, start GitWeb automatisch met het tonen van je iphone project.
 
 ## Hosted Git ##
 
@@ -856,7 +856,7 @@ Als je toegang van individuen moet intrekken, dan kun je de "revoke" link klikke
 
 ### Je project ###
 
-Nadat je je project gepushed hebt, of geïmporteerd vanuit Subversion, heb je een hoofd project pagina die er uitziet zoals Figuur 4-13.
+Nadat je je project gepusht hebt, of geïmporteerd vanuit Subversion, heb je een hoofd project pagina die er uitziet zoals Figuur 4-13.
 
 Insert 18333fig0413.png
 Figuur 4-13. Een GitHub project hoofdpagina.

@@ -26,7 +26,7 @@ We zullen zodadelijk beschrijven wat deze commando's doen. Op dit punt heb je ee
 
 Als je een kopie wilt van een bestaande Git repository — bijvoorbeeld een project waaraan je wilt bijdragen — dan is `git clone` het commando wat je nodig hebt. Als je bekend bent met andere versie-beheersystemen zoals Subversion, dan valt je op dat het commando `clone` is en niet `checkout`. Dit is een belangrijk verschil — Git ontvangt een kopie van bijna alle data die de server heeft. Iedere versie van ieder bestand van de hele geschiedenis van een project wordt binnengehaald als je `git clone` doet. In feite kun je, als je disk kapot gaat, iedere clone van iedere client gebruiken om de server terug in de status te brengen op het moment van clonen (al zou je wel wat hooks en dergelijke verliezen, maar alle versies van alle bestanden zouden er zijn — zie *Hoofdstuk 4* voor meer informatie).
 
-Je cloned een repository met `git clone [url]`. Bijvoorbeeld, als je de Ruby Git bibliotheek genaamd Grit wilt clonen, kun je dit als volgt doen:
+Je clonet een repository met `git clone [url]`. Bijvoorbeeld, als je de Ruby Git bibliotheek genaamd Grit wilt clonen, kun je dit als volgt doen:
 
 	$ git clone git://github.com/schacon/grit.git
 
@@ -42,7 +42,7 @@ Git heeft een aantal verschillende transport protocollen die je kunt gebruiken. 
 
 Je hebt een bonafide Git repository en een checkout of werkkopie van de bestanden voor dat project. Je moet wat wijzigingen maken en deze committen in je repository, iedere keer zodra het project een status bereikt die je wilt vastleggen.
 
-Onthoud dat ieder bestand in je werkmap in twee statussen kan verkeren: *gevolgd (tracked)* of *niet gevolgd (untracked)*. *Gevolgde* bestanden zijn bestanden die in het laatste snapshot zaten; ze kunnen *ongewijzigd*, *gewijzigd* of *staged zijn*. *Niet gevolgde* bestanden zijn al het andere - ieder bestand in je werkmap dat niet in je laatste snapshot en niet in je staging gebied zit. Als je voor het eerst een repository cloned, zullen al je bestanden gevolgd en ongewijzigd zijn, omdat je ze zojuist ge-checkout en niet gewijzigd hebt.
+Onthoud dat ieder bestand in je werkmap in twee statussen kan verkeren: *gevolgd (tracked)* of *niet gevolgd (untracked)*. *Gevolgde* bestanden zijn bestanden die in het laatste snapshot zaten; ze kunnen *ongewijzigd*, *gewijzigd* of *staged zijn*. *Niet gevolgde* bestanden zijn al het andere - ieder bestand in je werkmap dat niet in je laatste snapshot en niet in je staging gebied zit. Als je voor het eerst een repository clonet, zullen al je bestanden gevolgd en ongewijzigd zijn, omdat je ze zojuist ge-checkout en niet gewijzigd hebt.
 
 Zodra je bestanden wijzigt, ziet Git ze als gewijzigd omdat je ze veranderd hebt sinds je laatste commit. Je *staged* deze gewijzigde bestanden en commit al je ge-stagede wijzigingen, en de cyclus herhaalt zichzelf. Deze cyclus wordt in Figuur 2-1 geïllustreerd.
 
@@ -779,7 +779,7 @@ Zoals je zojuist gezien hebt, kun je om data van je remote projecten te halen di
 
 Het commando gaat naar het remote project en haalt alle data van dat remote project dat jij nog niet hebt. Nadat je dit gedaan hebt, zou je references (referenties) naar alle branches van dat remote moeten hebben, die je op ieder tijdstip kunt mergen en bekijken. (We zullen zien wat branches precies zijn, en hoe je ze moet gebruiken in meer detail in *Hoofdstuk 3*.)
 
-Als je een repository cloned, voegt dat commando dat remote repository automatisch toe onder de naam *origin*. Dus `git fetch origin` fetched (haalt) ieder nieuw werk dat gepushed is naar die server sinds je gecloned hebt (of voor het laatst ge-fetched hebt). Het is belangrijk om te weten dat het fetch commando de data naar je locale repository haalt — het merged niet automatisch met je werk of verandert waar je momenteel aan zit te werken. Je kunt het handmatig in je werk mergen als je er klaar voor bent.
+Als je een repository clonet, voegt dat commando dat remote repository automatisch toe onder de naam *origin*. Dus `git fetch origin` fetched (haalt) ieder nieuw werk dat gepusht is naar die server sinds je gecloned hebt (of voor het laatst ge-fetched hebt). Het is belangrijk om te weten dat het fetch commando de data naar je locale repository haalt — het merged niet automatisch met je werk of verandert waar je momenteel aan zit te werken. Je kunt het handmatig in je werk mergen als je er klaar voor bent.
 
 Als je een branch geconfigureerd hebt om een remote branch te tracken (volgen) (zie de volgende sectie en *Hoofdstuk 3* voor meer informatie), dan kun je het `git pull` commando gebruiken om automatisch een remote branch te fetchen en mergen in je huidige branch. Dit kan makkelijker of meer comfortabel zijn voor je werkwijze; en standaard stelt het `git clone` commando je lokale master branch zo in dat het de remote master branch van de server waarvan je gecloned hebt volgt (aangenomen dat de remote een master branch heeft). Over het algemeen zal een `git pull` dat van de server waarvan je origineel gecloned hebt halen en proberen het automatisch in de code waar je op dat moment aan zit te werken te mergen.
 
@@ -789,7 +789,7 @@ Wanneer je je project op een punt krijgt dat je het wilt delen, dan moet je het 
 
 	$ git push origin master
 
-Dit commando werkt alleen als je gecloned hebt van een server waarop je schrijfrechten hebt, en als niemand in de tussentijd gepushed heeft. Als jij en iemand anders op hetzelfde tijdstip gecloned hebben en zij pushen stroomopwaarts en dan jij, dan zal je push terecht geweigerd worden. Je zult eerst hun werk moeten pullen en in jouw werk verwerken voordat je toegestaan wordt te pushen. Zie *Hoofdstuk 3* voor meer gedetailleerde informatie over hoe je naar remote servers moet pushen.
+Dit commando werkt alleen als je gecloned hebt van een server waarop je schrijfrechten hebt, en als niemand in de tussentijd gepusht heeft. Als jij en iemand anders op hetzelfde tijdstip gecloned hebben en zij pushen stroomopwaarts en dan jij, dan zal je push terecht geweigerd worden. Je zult eerst hun werk moeten pullen en in jouw werk verwerken voordat je toegestaan wordt te pushen. Zie *Hoofdstuk 3* voor meer gedetailleerde informatie over hoe je naar remote servers moet pushen.
 
 ### Een remote inspecteren ###
 
@@ -830,7 +830,7 @@ Dat is een eenvoudig voorbeeld dat je vaak tegenkomt. Als je Git meer intensief 
 	  Local branch pushed with 'git push'
 	    master:master
 
-Dit commando toont welke branch automatisch gepushed wordt als je `git push` uitvoert op bepaalde branches. Het toont je ook welke remote branches op de server je nog niet hebt, welke remote branches je hebt die verwijderd zijn van de server, en meerdere branches die automatisch gemerged worden als je `git pull` uitvoert.
+Dit commando toont welke branch automatisch gepusht wordt als je `git push` uitvoert op bepaalde branches. Het toont je ook welke remote branches op de server je nog niet hebt, welke remote branches je hebt die verwijderd zijn van de server, en meerdere branches die automatisch gemerged worden als je `git pull` uitvoert.
 
 ### Remotes verwijderen en hernoemen ###
 
@@ -1052,7 +1052,7 @@ Als je veel tags hebt die je ineens wilt pushen, kun je ook de `--tags` optie aa
 	 * [new tag]         v1.4-lw -> v1.4-lw
 	 * [new tag]         v1.5 -> v1.5
 
-Als nu iemand anders van jouw repository cloned of pulled, dan zullen zij al jouw tags ook krijgen.
+Als nu iemand anders van jouw repository clonet of pulled, dan zullen zij al jouw tags ook krijgen.
 
 ## Tips en trucs ##
 

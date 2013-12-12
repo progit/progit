@@ -17,7 +17,7 @@ Figuur 5-1. Gecentraliseerde Werkwijze.
 
 Dit betekent dat als twee ontwikkelaars clonen van het gecentraliseerde punt en beide wijzigingen doen, de eerste ontwikkelaar zijn wijzigingen terug kan zetten zonder problemen. De tweede ontwikkelaar zal het werk van de eerste in het zijne moeten samenvoegen voordat hij het zijne kan terugzetten, om zo niet het werk van de eerste te overschrijven. Dit concept werkt zo in Git zoals het ook werkt in Subversion (of ieder ander CVCS), en dit model werkt perfect in Git.
 
-Als je een klein team hebt, of al vertrouwd bent met een gecentraliseerde werkwijze in je bedrijf of team, dan kun je eenvoudig doorgaan met het gebruiken van die werkwijze met Git. Stel eenvoudigweg een enkel repository in, en geef iedereen in je team terugzettoegang; Git zal gebruikers niet toestaan om elkaars wijzigingen te overschrijven. Als een ontwikkelaar cloned, wijzigingen maakt, en dan probeert zijn wijzigingen terug te zetten terwijl een andere ontwikkelaar de zijne in de tussentijd heeft teruggezet, dan zal de server de wijzigingen van die ontwikkelaar weigeren. "Non-fast-forward-wijzigingen" kunnen niet teruggezet worden alvorens de conflicten worden opgelost.
+Als je een klein team hebt, of al vertrouwd bent met een gecentraliseerde werkwijze in je bedrijf of team, dan kun je eenvoudig doorgaan met het gebruiken van die werkwijze met Git. Stel eenvoudigweg een enkel repository in, en geef iedereen in je team terugzettoegang; Git zal gebruikers niet toestaan om elkaars wijzigingen te overschrijven. Als een ontwikkelaar clonet, wijzigingen maakt, en dan probeert zijn wijzigingen terug te zetten terwijl een andere ontwikkelaar de zijne in de tussentijd heeft teruggezet, dan zal de server de wijzigingen van die ontwikkelaar weigeren. "Non-fast-forward-wijzigingen" kunnen niet teruggezet worden alvorens de conflicten worden opgelost.
 Deze werkwijze is voor een hoop mensen aantrekkelijk omdat het een wijze is waarmee veel mensen bekend zijn en zich op hun gemak bij voelen.
 
 ### Integratie-manager werkwijze ###
@@ -25,7 +25,7 @@ Deze werkwijze is voor een hoop mensen aantrekkelijk omdat het een wijze is waar
 Omdat Git je toestaat om meerdere remote repositories te hebben, is het mogelijk om een werkwijze te hebben waarbij iedere ontwikkelaar schrijftoegang heeft tot zijn eigen publieke repository en leestoegang op de andere. Dit scenario heeft vaak een gezagdragend repository dat het "officiële" project voorstelt. Om bij te kunnen dragen tot dat project, maak je je eigen publieke clone van het project en zet je wijzigingen daarin terug. Daarna stuur je een verzoek naar de eigenaar van het hoofdproject om jouw wijzigingen binnen te halen. Hij kan je repository toevoegen als een remote, je wijzigingen lokaal testen, ze in zijn branch samenvoegen, en naar zijn repository terugzetten. Het proces werkt als volgt (zie Figuur 5-2):
 
 1. De projecteigenaar zet terug naar zijn eigen repository.
-2. Een bijdrager cloned dat repository en maakt wijzigingen.
+2. Een bijdrager clonet dat repository en maakt wijzigingen.
 3. De bijdrager zet terug naar zijn eigen publieke kopie.
 4. De bijdrager stuurt de eigenaar een e-mail met de vraag om de wijzigingen binnen te halen.
 5. De eigenaar voegt het repo van de bijdrager toe als een remote en voegt lokaal samen.
@@ -113,7 +113,7 @@ In de volgende voorbeelden, en verder door de rest van dit boek, zal ik omwille 
 De eenvoudigste opzet die je waarschijnlijk zult tegenkomen is een besloten project met één of twee andere ontwikkelaars. Met besloten bedoel ik gesloten broncode – zonder leestoegang voor de buitenwereld. Jij en de andere ontwikkelaars hebben allemaal terugzet toegang op het repository.
 
 In deze omgeving kun je een werkwijze aanhouden die vergelijkbaar is met wat je zou doen als je Subversion of een andere gecentraliseerd systeem zou gebruiken. Je hebt nog steeds de voordelen van zaken als offline committen en veel eenvoudiger branchen en samenvoegen, maar de werkwijze kan erg vergelijkbaar zijn; het grote verschil is dat het samenvoegen aan de client-kant gebeurt tijdens het committen in plaats van aan de server-kant.
-Laten we eens kijken hoe het er uit zou kunnen zien als twee ontwikkelaars samen beginnen te werken met een gedeelde repository. De eerste ontwikkelaar, John, cloned de repository, maakt een wijziging, en commit lokaal. (Ik vervang de protocol berichten met `...` in deze voorbeelden om ze iets in te korten.)
+Laten we eens kijken hoe het er uit zou kunnen zien als twee ontwikkelaars samen beginnen te werken met een gedeelde repository. De eerste ontwikkelaar, John, clonet de repository, maakt een wijziging, en commit lokaal. (Ik vervang de protocol berichten met `...` in deze voorbeelden om ze iets in te korten.)
 
 	# John's Machine
 	$ git clone john@githost:simplegit.git
@@ -125,7 +125,7 @@ Laten we eens kijken hoe het er uit zou kunnen zien als twee ontwikkelaars samen
 	[master 738ee87] removed invalid default value
 	 1 files changed, 1 insertions(+), 1 deletions(-)
 
-De tweede ontwikkelaar, Jessica, doet hetzelfde – cloned de repository en commit een wijziging:
+De tweede ontwikkelaar, Jessica, doet hetzelfde – clonet de repository en commit een wijziging:
 
 	# Jessica's Machine
 	$ git clone jessica@githost:simplegit.git
@@ -790,7 +790,7 @@ Als de onderwerpen nog werk nodig hebben, dan worden ze in plaats daarvan sameng
 Insert 18333fig0525.png
 Figuur 5-25. Bijgedragen onderwerp branches samenvoegen in langlopende integratie branches.
 
-Als een onderwerp branch uiteindelijk is samengevoegd in `master`, dan wordt het verwijderd van het repository. Het Git project heeft ook een `main` branch, die geforked is van de laatste vrijgave om teruggewerkte patches te leveren in het geval een onderhoudsvrijgave benodigd is. Dus, als je het Git repository cloned, dan heb je vier branches die je kunt uitchecken om het project in verschillende stadia van ontwikkeling te evalueren, afhankelijk van hoe nieuw je alles wilt hebben of hoe je wil bijdragen; en de beheerder heeft een gestructureerde werkwijze om ze te helpen nieuwe bijdragen aan de tand te voelen.
+Als een onderwerp branch uiteindelijk is samengevoegd in `master`, dan wordt het verwijderd van het repository. Het Git project heeft ook een `main` branch, die geforked is van de laatste vrijgave om teruggewerkte patches te leveren in het geval een onderhoudsvrijgave benodigd is. Dus, als je het Git repository clonet, dan heb je vier branches die je kunt uitchecken om het project in verschillende stadia van ontwikkeling te evalueren, afhankelijk van hoe nieuw je alles wilt hebben of hoe je wil bijdragen; en de beheerder heeft een gestructureerde werkwijze om ze te helpen nieuwe bijdragen aan de tand te voelen.
 
 #### Rebasen en cherry pick werkwijzen ####
 

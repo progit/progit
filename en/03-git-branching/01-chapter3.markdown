@@ -460,7 +460,7 @@ To set up a local branch with a different name than the remote branch, you can e
 	Branch sf set up to track remote branch refs/remotes/origin/serverfix.
 	Switched to a new branch "sf"
 
-Now, your local branch sf will automatically push to and pull from origin/serverfix.
+Now, your local branch `sf` will automatically push to and pull from `origin/serverfix`.
 
 ### Deleting Remote Branches ###
 

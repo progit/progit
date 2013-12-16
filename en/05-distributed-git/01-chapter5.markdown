@@ -174,7 +174,7 @@ John has a reference to the changes Jessica pushed up, but he has to merge them 
 The merge goes smoothly — John’s commit history now looks like Figure 5-5.
 
 Insert 18333fig0505.png
-Figure 5-5. John’s repository after merging origin/master.
+Figure 5-5. John’s repository after merging `origin/master`.
 
 Now, John can test his code to make sure it still works properly, and then he can push his new merged work up to the server:
 
@@ -215,7 +215,7 @@ Jessica thinks her topic branch is ready, but she wants to know what she has to 
 
 	    removed invalid default value
 
-Now, Jessica can merge her topic work into her master branch, merge John’s work (`origin/master`) into her `master` branch, and then push back to the server again. First, she switches back to her master branch to integrate all this work:
+Now, Jessica can merge her topic work into her `master` branch, merge John’s work (`origin/master`) into her `master` branch, and then push back to the server again. First, she switches back to her `master` branch to integrate all this work:
 
 	$ git checkout master
 	Switched to branch "master"
@@ -255,7 +255,7 @@ Each developer has committed a few times and merged each other’s work successf
 Insert 18333fig0510.png
 Figure 5-10. Jessica’s history after pushing all changes back to the server.
 
-That is one of the simplest workflows. You work for a while, generally in a topic branch, and merge into your master branch when it’s ready to be integrated. When you want to share that work, you merge it into your own master branch, then fetch and merge `origin/master` if it has changed, and finally push to the `master` branch on the server. The general sequence is something like that shown in Figure 5-11.
+That is one of the simplest workflows. You work for a while, generally in a topic branch, and merge into your `master` branch when it’s ready to be integrated. When you want to share that work, you merge it into your own `master` branch, then fetch and merge `origin/master` if it has changed, and finally push to the `master` branch on the server. The general sequence is something like that shown in Figure 5-11.
 
 Insert 18333fig0511.png
 Figure 5-11. General sequence of events for a simple multiple-developer Git workflow.

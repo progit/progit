@@ -333,11 +333,9 @@ Git은 바이너리 파일도 diff할 수 있다. Git Attribute를 통해 Git이
 위의 명령은 아래와 같은 내용을 `.git/config` 파일에 추가한다:
 
 	[diff "word"]
-	    textconv = strings
+	    textconv = catdoc
 
-댓글: `.doc` 파일의 종류는 여러가지이다. UTF-16 인코딩을 쓰거나 "codepages" 기반(역주: 한글은 Codepage 949) 인코딩을 사용 할 수도 있다. `catdoc`으로는 유용한 정보를 아무것도 찾지 못할 수 있다.
-
-이제 Git은 확장자가 `.doc`인 파일의 스냅샷을 diff할 때 "word" 필터로 정의한 `strings` 프로그램을 사용한다. 이 프로그램은 Word 파일을 텍스트 파일로 변환해 주기 때문에 diff할 수 있다.
+이제 Git은 확장자가 `.doc`인 파일의 스냅샷을 diff할 때 "word" 필터로 정의한 `catdoc` 프로그램을 사용한다. 이 프로그램은 Word 파일을 텍스트 파일로 변환해 주기 때문에 diff할 수 있다.
 
 이 책의 *1장*을 Word 파일로 만들어서 Git에 넣고 나서 단락 하나를 수정하고 저장하는 예를 살펴보자. `git diff`를 실행하면 어디가 달려졌는지 확인할 수 있다:
 

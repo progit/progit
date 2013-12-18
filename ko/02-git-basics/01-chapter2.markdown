@@ -1107,9 +1107,9 @@ Git의 기초를 마치기 전에 Git을 좀 더 쉽고 편안하게 쓸 수 있
 
 ### 자동완성 ###
 
-Bash 쉘을 쓰고 있다면 멋진 자동완성(Auto-completion) 기능을 사용할 수 있다. Git의 소스코드를 다운받아 `contrib/completion` 디렉토리를 살펴보면 `git-completion.bash`라는 파일이 있다. 그 파일을 홈 디렉토리에 카피하고 `.bashrc` 파일에 아래와 같은 내용을 추가하자:
+Bash 쉘을 쓰고 있다면 멋진 자동완성(Auto-completion) 기능을 사용할 수 있다. https://github.com/git/git/blob/master/contrib/completion/git-completion.bash 에서 바로 다운받는다. 그 파일을 홈 디렉토리에 카피하고 `.bashrc` 파일에 아래와 같은 내용을 추가하자:
 
-	source ~/.git-completion.bash
+	source ~/git-completion.bash
 
 또 모든 사용자가 사용할 수 있게 설정할 수 있다. Mac 시스템이라면 이 스크립트를 `/opt/local/etc/bash_completion.d` 디렉토리에 복사하고 리눅스라면 `/etc/bash_completion.d/`에 복사한다. 이 디렉토리는 Bash가 자동완성을 지원하기 위해 사용하는 디렉토리다.
 

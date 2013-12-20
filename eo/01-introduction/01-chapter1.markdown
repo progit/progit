@@ -15,7 +15,7 @@ La preferata versikontrola metodo de multaj homoj estas kopii dosierojn al alia 
 Por ataki tiun problemon, programistoj antaŭlonge disvolvis lokajn VCSojn kiuj havis simplan datumbazon kiu mantenis ĉiujn ŝanĝojn al dosieroj sub kontrolo (vidu bildon 1-1).
 
 Insert 18333fig0101.png 
-Figure 1-1. Diagramo pri loka versikontrolo.
+Bildo 1-1. Diagramo pri loka versikontrolo.
 
 One of the more popular VCS tools was a system called rcs, which is still distributed with many computers today. Even the popular Mac OS X operating system includes the  rcs command when you install the Developer Tools. This tool basically works by keeping patch sets (that is, the differences between files) from one change to another in a special format on disk; it can then re-create what any file looked like at any point in time by adding up all the patches.
 

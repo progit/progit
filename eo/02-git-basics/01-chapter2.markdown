@@ -1,18 +1,18 @@
-# Git Basics #
+# Bazoj de Git #
 
-If you can read only one chapter to get going with Git, this is it. This chapter covers every basic command you need to do the vast majority of the things you’ll eventually spend your time doing with Git. By the end of the chapter, you should be able to configure and initialize a repository, begin and stop tracking files, and stage and commit changes. We’ll also show you how to set up Git to ignore certain files and file patterns, how to undo mistakes quickly and easily, how to browse the history of your project and view changes between commits, and how to push and pull from remote repositories.
+Se vi nur povas legi unu ĉapitron por ekuzi Git, jen ĝi. Ĉi tiu ĉapitro pritraktas ĉiun bazan komandon kiun vi bezonas por fari la plimulton de la aferojn kiujnvi iam faros per Git. Fine de ĉi tiu ĉapitro, vi devus povi konfiguri kaj komenci deponejon, komenci kaj ĉesi sekvi ŝanĝojn en dosieroj, kaj preparmeti kaj enmeti ŝanĝojn. Ni ankaŭ montros al vi kiel agordi Git por ignori certajn dosierojn kaj dosierskemojn, kiel malfari erarojn rapide kaj facile, kiel foliumi la historion de via projekto kaj vidi ŝanĝojn inter enmetoj, kaj kiel puŝi kaj tiri de distancaj deponejoj.
 
-## Getting a Git Repository ##
+## Ekhavi Git-deponejon ##
 
-You can get a Git project using two main approaches. The first takes an existing project or directory and imports it into Git. The second clones an existing Git repository from another server.
+Estas du precipaj manieroj ekhavi Git-projekton. La unua prenas ekzistantan projekton kaj importas ĝin al Git. La dua klonas ekzistantan Git-deponejon de alia servilo.
 
-### Initializing a Repository in an Existing Directory ###
+### Komenci deponejon en ekzistanta dosierujo ###
 
-If you’re starting to track an existing project in Git, you need to go to the project’s directory and type
+Se vi komencas sekvi ŝanĝojn de ekzistanta projekto pere de Git, vi devas iri alla dosierujo de la projekto kaj tajpi
 
 	$ git init
 
-This creates a new subdirectory named `.git` that contains all of your necessary repository files — a Git repository skeleton. At this point, nothing in your project is tracked yet. (See *Chapter 9* for more information about exactly what files are contained in the `.git` directory you just created.)
+Tio kreas novan subdosierujon kun la nomo `.git` kiu enhavas ĉiujn esencajn deponejajn dosierojn — tio estas la skeleto de la Git-deponejo. Ĉi-momente, nenio en via projekto ankoraŭ estas sekvata. (Rigardu en *Ĉapitro 9* por pli da informoj pri la ekzakta enhavo de la `.git`-dosierujo kiun vi ĵus kreis.)
 
 If you want to start version-controlling existing files (as opposed to an empty directory), you should probably begin tracking those files and do an initial commit. You can accomplish that with a few `git add` commands that specify the files you want to track, followed by a commit:
 

@@ -8,14 +8,14 @@ Kio estas versikontrolo, kaj kial vi okupiĝu pri tio? Versikontrolo estas siste
 
 Se vi estas grafika aŭ retpaĝa dizajnisto kaj vi volas manteni ĉiujn versiojn de bildo aŭ aspekto (kion vi nepre volu), versikontrola sistemo (VCS, version control system en la angla) estas tre uzinda. Ĝi permesas al vi remeti dosierojn al antaŭa stato, kompari ŝanĝojn laŭ la tempo, vidi kiu ŝanĝis ion kio povus kaŭzi problemon, kiu enmetis problemon kaj kiam, kaj pli. Uzante VCSon kutime ankaŭ signifas ke se vi ion fuŝigis aŭ se vi perdis dosierojn, vi facile povas reiri. Aldone, vi ĉion tion havas kun malmulta superŝarĝo.
 
-### Local Version Control Systems ###
+### Lokaj versikontrolaj sistemoj ###
 
-Many people’s version-control method of choice is to copy files into another directory (perhaps a time-stamped directory, if they’re clever). This approach is very common because it is so simple, but it is also incredibly error prone. It is easy to forget which directory you’re in and accidentally write to the wrong file or copy over files you don’t mean to.
+La preferata versikontrola metodo de multaj homoj estas kopii dosierojn al alia dosierujo (se ili prudentas, kun hormarko en la nomo). Ĉi tiu maniero estas tre komuna ĉar ĝi estas tiom simpla, sed ĝi ankaŭ malfermas la pordon al multaj problemoj. Facilas forgesi en kiu dosierujo vi estas kaj akcidente skribi al la malĝusta dosiero aŭ kopii super dosierojn pri kiuj vi tion ne volis.
 
-To deal with this issue, programmers long ago developed local VCSs that had a simple database that kept all the changes to files under revision control (see Figure 1-1).
+Por ataki tiun problemon, programistoj antaŭlonge disvolvis lokajn VCSojn kiuj havis simplan datumbazon kiu mantenis ĉiujn ŝanĝojn al dosieroj sub kontrolo (vidu bildon 1-1).
 
 Insert 18333fig0101.png 
-Figure 1-1. Local version control diagram.
+Figure 1-1. Diagramo pri loka versikontrolo.
 
 One of the more popular VCS tools was a system called rcs, which is still distributed with many computers today. Even the popular Mac OS X operating system includes the  rcs command when you install the Developer Tools. This tool basically works by keeping patch sets (that is, the differences between files) from one change to another in a special format on disk; it can then re-create what any file looked like at any point in time by adding up all the patches.
 
@@ -41,15 +41,15 @@ Furthermore, many of these systems deal pretty well with having several remote r
 
 ## A Short History of Git ##
 
-As with many great things in life, Git began with a bit of creative destruction and fiery controversy. The Linux kernel is an open source software project of fairly large scope. For most of the lifetime of the Linux kernel maintenance (1991–2002), changes to the software were passed around as patches and archived files. In 2002, the Linux kernel project began using a proprietary DVCS system called BitKeeper.
+As with many great things in life, Git began with a bit of creative destruction and fiery controversy. The Linŭ kernel is an open source software project of fairly large scope. For most of the lifetime of the Linŭ kernel maintenance (1991–2002), changes to the software were passed around as patches and archived files. In 2002, the Linŭ kernel project began using a proprietary DVCS system called BitKeeper.
 
-In 2005, the relationship between the community that developed the Linux kernel and the commercial company that developed BitKeeper broke down, and the tool’s free-of-charge status was revoked. This prompted the Linux development community (and in particular Linus Torvalds, the creator of Linux) to develop their own tool based on some of the lessons they learned while using BitKeeper. Some of the goals of the new system were as follows:
+In 2005, the relationship between the community that developed the Linŭ kernel and the commercial company that developed BitKeeper broke down, and the tool’s free-of-charge status was revoked. This prompted the Linŭ development community (and in particular Linus Torvalds, the creator of Linŭ) to develop their own tool based on some of the lessons they learned while using BitKeeper. Some of the goals of the new system were as follows:
 
 *	Speed
 *	Simple design
 *	Strong support for non-linear development (thousands of parallel branches)
 *	Fully distributed
-*	Able to handle large projects like the Linux kernel efficiently (speed and data size)
+*	Able to handle large projects like the Linŭ kernel efficiently (speed and data size)
 
 Since its birth in 2005, Git has evolved and matured to be easy to use and yet retain these initial qualities. It’s incredibly fast, it’s very efficient with large projects, and it has an incredible branching system for non-linear development (See Chapter 3).
 
@@ -124,7 +124,7 @@ Let’s get into using some Git. First things first—you have to install it. Yo
 
 ### Installing from Source ###
 
-If you can, it’s generally useful to install Git from source, because you’ll get the most recent version. Each version of Git tends to include useful UI enhancements, so getting the latest version is often the best route if you feel comfortable compiling software from source. It is also the case that many Linux distributions contain very old packages; so unless you’re on a very up-to-date distro or are using backports, installing from source may be the best bet.
+If you can, it’s generally useful to install Git from source, because you’ll get the most recent version. Each version of Git tends to include useful UI enhancements, so getting the latest version is often the best route if you feel comfortable compiling software from source. It is also the case that many Linŭ distributions contain very old packages; so unless you’re on a very up-to-date distro or are using backports, installing from source may be the best bet.
 
 To install Git, you need to have the following libraries that Git depends on: curl, zlib, openssl, expat, and libiconv. For example, if you’re on a system that has yum (such as Fedora) or apt-get (such as a Debian based system), you can use one of these commands to install all of the dependencies:
 
@@ -149,9 +149,9 @@ After this is done, you can also get Git via Git itself for updates:
 
 	$ git clone git://git.kernel.org/pub/scm/git/git.git
 	
-### Installing on Linux ###
+### Installing on Linŭ ###
 
-If you want to install Git on Linux via a binary installer, you can generally do so through the basic package-management tool that comes with your distribution. If you’re on Fedora, you can use yum:
+If you want to install Git on Linŭ via a binary installer, you can generally do so through the basic package-management tool that comes with your distribution. If you’re on Fedora, you can use yum:
 
 	$ yum install git-core
 
@@ -163,7 +163,7 @@ Or if you’re on a Debian-based distribution like Ubuntu, try apt-get:
 
 There are two easy ways to install Git on a Mac. The easiest is to use the graphical Git installer, which you can download from the Google Code page (see Figure 1-7):
 
-	http://code.google.com/p/git-osx-installer
+	http://code.google.com/p/git-oŝ-installer
 
 Insert 18333fig0107.png 
 Figure 1-7. Git OS X installer.

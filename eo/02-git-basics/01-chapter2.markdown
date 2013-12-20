@@ -14,13 +14,13 @@ Se vi komencas sekvi ŝanĝojn de ekzistanta projekto pere de Git, vi devas iri 
 
 Tio kreas novan subdosierujon kun la nomo `.git` kiu enhavas ĉiujn esencajn deponejajn dosierojn — tio estas la skeleto de la Git-deponejo. Ĉi-momente, nenio en via projekto ankoraŭ estas sekvata. (Rigardu en *Ĉapitro 9* por pli da informoj pri la ekzakta enhavo de la `.git`-dosierujo kiun vi ĵus kreis.)
 
-If you want to start version-controlling existing files (as opposed to an empty directory), you should probably begin tracking those files and do an initial commit. You can accomplish that with a few `git add` commands that specify the files you want to track, followed by a commit:
+Se vi volas komenci versikontrolon de ekzistantaj dosieroj (kontraŭe al malplena dosierujo), vi devus verŝajne komenci sekvi tiujn dosierojn kaj fari unuan enmeton. Vi povas fari tion kun kelkaj `git add` kiuj specifigas la dosierojn kiujn vi volas sekvi, kaj post tio `git commit` por enmeti:
 
 	$ git add *.c
 	$ git add README
-	$ git commit -m 'initial project version'
+	$ git commit -m 'unua versio de la projekto'
 
-We’ll go over what these commands do in just a minute. At this point, you have a Git repository with tracked files and an initial commit.
+Baldaŭ ni klarigu kion ĉi tiuj komandoj faras. En ĉi tiu momento vi havas Git-deponejon kun sekvataj dosieroj kaj unuan enmeton.
 
 ### Cloning an Existing Repository ###
 

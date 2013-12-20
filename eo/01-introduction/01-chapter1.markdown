@@ -41,15 +41,15 @@ Furthermore, many of these systems deal pretty well with having several remote r
 
 ## A Short History of Git ##
 
-As with many great things in life, Git began with a bit of creative destruction and fiery controversy. The Linŭ kernel is an open source software project of fairly large scope. For most of the lifetime of the Linŭ kernel maintenance (1991–2002), changes to the software were passed around as patches and archived files. In 2002, the Linŭ kernel project began using a proprietary DVCS system called BitKeeper.
+As with many great things in life, Git began with a bit of creative destruction and fiery controversy. The Linux kernel is an open source software project of fairly large scope. For most of the lifetime of the Linux kernel maintenance (1991–2002), changes to the software were passed around as patches and archived files. In 2002, the Linux kernel project began using a proprietary DVCS system called BitKeeper.
 
-In 2005, the relationship between the community that developed the Linŭ kernel and the commercial company that developed BitKeeper broke down, and the tool’s free-of-charge status was revoked. This prompted the Linŭ development community (and in particular Linus Torvalds, the creator of Linŭ) to develop their own tool based on some of the lessons they learned while using BitKeeper. Some of the goals of the new system were as follows:
+In 2005, the relationship between the community that developed the Linux kernel and the commercial company that developed BitKeeper broke down, and the tool’s free-of-charge status was revoked. This prompted the Linux development community (and in particular Linus Torvalds, the creator of Linux) to develop their own tool based on some of the lessons they learned while using BitKeeper. Some of the goals of the new system were as follows:
 
 *	Speed
 *	Simple design
 *	Strong support for non-linear development (thousands of parallel branches)
 *	Fully distributed
-*	Able to handle large projects like the Linŭ kernel efficiently (speed and data size)
+*	Able to handle large projects like the Linux kernel efficiently (speed and data size)
 
 Since its birth in 2005, Git has evolved and matured to be easy to use and yet retain these initial qualities. It’s incredibly fast, it’s very efficient with large projects, and it has an incredible branching system for non-linear development (See Chapter 3).
 
@@ -124,7 +124,7 @@ Let’s get into using some Git. First things first—you have to install it. Yo
 
 ### Installing from Source ###
 
-If you can, it’s generally useful to install Git from source, because you’ll get the most recent version. Each version of Git tends to include useful UI enhancements, so getting the latest version is often the best route if you feel comfortable compiling software from source. It is also the case that many Linŭ distributions contain very old packages; so unless you’re on a very up-to-date distro or are using backports, installing from source may be the best bet.
+If you can, it’s generally useful to install Git from source, because you’ll get the most recent version. Each version of Git tends to include useful UI enhancements, so getting the latest version is often the best route if you feel comfortable compiling software from source. It is also the case that many Linux distributions contain very old packages; so unless you’re on a very up-to-date distro or are using backports, installing from source may be the best bet.
 
 To install Git, you need to have the following libraries that Git depends on: curl, zlib, openssl, expat, and libiconv. For example, if you’re on a system that has yum (such as Fedora) or apt-get (such as a Debian based system), you can use one of these commands to install all of the dependencies:
 
@@ -149,9 +149,9 @@ After this is done, you can also get Git via Git itself for updates:
 
 	$ git clone git://git.kernel.org/pub/scm/git/git.git
 	
-### Installing on Linŭ ###
+### Installing on Linux ###
 
-If you want to install Git on Linŭ via a binary installer, you can generally do so through the basic package-management tool that comes with your distribution. If you’re on Fedora, you can use yum:
+If you want to install Git on Linux via a binary installer, you can generally do so through the basic package-management tool that comes with your distribution. If you’re on Fedora, you can use yum:
 
 	$ yum install git-core
 

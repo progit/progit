@@ -130,7 +130,8 @@ def post_pandoc(string, config)
 
 		# Style ctables
 		s /ctable\[pos = H, center, botcap\]\{..\}/ , 'ctable[pos = ht!, caption = ~ ,width = 130mm, center, botcap]{lX}'
-		s /longtable\}\[c\]\{\@\{\}ll\@\{\}\}/ , 'longtable}[c]{@{}lp{10cm}@{}}'
+		s /longtable\}\[c\]\{\@\{\}ll\@\{\}\}/ , 'longtable}[c]{@{}lp{10cm}@{}}
+\caption{~}\\\\\\\\'
 
 		# Shaded verbatim block
 		s /(\\begin\{verbatim\}.*?\\end\{verbatim\})/m, '\begin{shaded}\1\end{shaded}'

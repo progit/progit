@@ -22,9 +22,9 @@ Se vi volas komenci versikontrolon de ekzistantaj dosieroj (kontraŭe al malplen
 
 Baldaŭ ni klarigu kion ĉi tiuj komandoj faras. En ĉi tiu momento vi havas Git-deponejon kun sekvataj dosieroj kaj unuan enmeton.
 
-### Cloning an Existing Repository ###
+### Kloni ekzistantan deponejon ###
 
-If you want to get a copy of an existing Git repository — for example, a project you’d like to contribute to — the command you need is `git clone`. If you’re familiar with other VCS systems such as Subversion, you’ll notice that the command is `clone` and not `checkout`. This is an important distinction — Git receives a copy of nearly all data that the server has. Every version of every file for the history of the project is pulled down when you run `git clone`. In fact, if your server disk gets corrupted, you can use any of the clones on any client to set the server back to the state it was in when it was cloned (you may lose some server-side hooks and such, but all the versioned data would be there — see *Chapter 4* for more details).
+Se vi volas havigi al vi kopion de ekzistanta Git-deponejo — ekzemple de projekto al kiu vi volas kontribui — vi bezonos la komandon `git clone`. Se vi konas aliajn VCS-sistemojn, vi rimarkas ke la komando estas `clone` kaj ne `checkout`. Tio estas grava distingo — Git ricevas kopion de preskaŭ ĉiuj datumoj de la servilo. Ĉiu versio de ĉiu dosiero en la projekto estas elŝutata kiam vi uzas `git clone`. Verdire, se la disko de via servilo rompiĝas, vi povas uzi ajnan klonon en ajna kliento por remeti la servilon en la stato de kiam ĝi estis klonita (vi povas perdi kelkajn servilflankajn hokojn ktp, sed ĉiuj datumaj versioj estus tie — rigardu en *Ĉapitro 4* por pli da detaloj).
 
 You clone a repository with `git clone [url]`. For example, if you want to clone the Ruby Git library called Grit, you can do so like this:
 

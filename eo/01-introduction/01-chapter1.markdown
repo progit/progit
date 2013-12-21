@@ -6,16 +6,16 @@
 
 Kio estas versikontrolo, kaj kial vi okupiĝu pri tio? Versikontrolo estas sistemo kiu registras ŝanĝojn pri dosiero aŭ dosieraro dumtempe por ke vi povu revoki specifajn versiojn poste. Por la ekzemploj en ĉi tiu libro vi uzos programaran fontkodon kiel la dosierojn versikontrolataj, sed vere vi povas fari ĉi tion pri ĉiaj dosieroj komputilaj.
 
-Se vi estas grafika aŭ retpaĝa dizajnisto kaj vi volas If you are a graphic or web designer and want to keep every version of an image or layout (which you would most certainly want to), a Version Control System (VCS) is a very wise thing to use. It allows you to revert files back to a previous state, revert the entire project back to a previous state, compare changes over time, see who last modified something that might be causing a problem, who introduced an issue and when, and more. Using a VCS also generally means that if you screw things up or lose files, you can easily recover. In addition, you get all this for very little overhead.
+Se vi estas grafika aŭ retpaĝa dizajnisto kaj vi volas manteni ĉiujn versiojn de bildo aŭ aspekto (kion vi nepre volu), versikontrola sistemo (VCS, version control system en la angla) estas tre uzinda. Ĝi permesas al vi remeti dosierojn al antaŭa stato, kompari ŝanĝojn laŭ la tempo, vidi kiu ŝanĝis ion kio povus kaŭzi problemon, kiu enmetis problemon kaj kiam, kaj pli. Uzante VCSon kutime ankaŭ signifas ke se vi ion fuŝigis aŭ se vi perdis dosierojn, vi facile povas reiri. Aldone, vi ĉion tion havas kun malmulta superŝarĝo.
 
-### Local Version Control Systems ###
+### Lokaj versikontrolaj sistemoj ###
 
-Many people’s version-control method of choice is to copy files into another directory (perhaps a time-stamped directory, if they’re clever). This approach is very common because it is so simple, but it is also incredibly error prone. It is easy to forget which directory you’re in and accidentally write to the wrong file or copy over files you don’t mean to.
+La preferata versikontrola metodo de multaj homoj estas kopii dosierojn al alia dosierujo (se ili prudentas, kun hormarko en la nomo). Ĉi tiu maniero estas tre komuna ĉar ĝi estas tiom simpla, sed ĝi ankaŭ malfermas la pordon al multaj problemoj. Facilas forgesi en kiu dosierujo vi estas kaj akcidente skribi al la malĝusta dosiero aŭ kopii super dosierojn pri kiuj vi tion ne volis.
 
-To deal with this issue, programmers long ago developed local VCSs that had a simple database that kept all the changes to files under revision control (see Figure 1-1).
+Por ataki tiun problemon, programistoj antaŭlonge disvolvis lokajn VCSojn kiuj havis simplan datumbazon kiu mantenis ĉiujn ŝanĝojn al dosieroj sub kontrolo (vidu bildon 1-1).
 
 Insert 18333fig0101.png 
-Figure 1-1. Local version control diagram.
+Bildo 1-1. Diagramo pri loka versikontrolo.
 
 One of the more popular VCS tools was a system called rcs, which is still distributed with many computers today. Even the popular Mac OS X operating system includes the  rcs command when you install the Developer Tools. This tool basically works by keeping patch sets (that is, the differences between files) from one change to another in a special format on disk; it can then re-create what any file looked like at any point in time by adding up all the patches.
 

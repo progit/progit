@@ -53,6 +53,6 @@ and send a pull request.
 
 * Be careful to use UTF-8 encoding in your files.
 * Do not mix changes to the original english with translations in a single pull request.
-* If your pull request changes a translation, prefix your pull request and commits'messages with the ISO 639 code, e.g. `[de] Update chapter 2`.
+* If your pull request changes a translation, prefix your pull request and commits'messages with the ISO 639 code, e.g. `[de] Update chapter 2`. Please only push files where there is already some translation done.
 * Make sure the translation changes can be automatically merged. The maintainers can not make the merge manually if there are some conflicts.
 * Make as sure as possible that the changes work correctly for publishing to pdf, ebooks and the git-scm.com website

@@ -809,11 +809,11 @@ Het gebeurt vaak dat terwijl je zit te werken aan het ene project, je een ander 
 
 Hier is een voorbeeld. Stel dat je een website aan het ontwikkelen bent en Atom feeds aan het maken bent. In plaats van je eigen Atom feedcode te schrijven, besluit je een library te gebruiken. Je zult deze code waarschijnlijk moeten includen van een gedeelde library zoals een CPAN installatie of een Ruby gem, of de broncode kopiëren naar je eigen projectboom. Het probleem met de library includen is dat het lastig is om de library op enige manier aan te passen, en vaak is het lastiger om het uit te rollen, omdat je zeker moet zijn dat iedere klant die library beschikbaar heeft. Het probleem van de broncode in je project stoppen is dat alle aanpassingen die je maakt lastig te mergen zijn op het moment dat stroomopwaarts veranderingen beschikbaar komen.
 
-Git pakt dit probleem aan door submodules te gebruiken. Submodules geven je de mogelijkheid om een Git repository als een subdirectory van een ander Git repository te gebruiken. Dit staat je toe een ander repository in je project te clonen en je commits gescheiden te houden.
+Git pakt dit probleem aan door submodules te gebruiken. Submodules geven je de mogelijkheid om een Git repository als een subdirectory van een ander Git repository te gebruiken. Dit staat je toe een ander repository in je project te klonen en je commits gescheiden te houden.
 
 ### Beginnen met submodules ###
 
-Stel dat je de Rack library (een Ruby web server gateway interface) wilt toevoegen aan je project, misschien je eigen veranderingen eraan wilt onderhouden, maar ook veranderingen van stroomopwaarts wilt mergen. Het eerste dat je zou moeten doen is het externe repository clonen in jouw submap. Je voegt externe projecten als submodules toe door middel van het `git submodule add` commando:
+Stel dat je de Rack library (een Ruby web server gateway interface) wilt toevoegen aan je project, misschien je eigen veranderingen eraan wilt onderhouden, maar ook veranderingen van stroomopwaarts wilt mergen. Het eerste dat je zou moeten doen is het externe repository klonen in jouw submap. Je voegt externe projecten als submodules toe door middel van het `git submodule add` commando:
 
 	$ git submodule add git://github.com/chneukirchen/rack.git rack
 	Initialized empty Git repository in /opt/subtest/rack/.git/
@@ -841,7 +841,7 @@ Eerst zie je het `.gitmodules` bestand. Dit is een configuratie bestand dat de m
 	      path = rack
 	      url = git://github.com/chneukirchen/rack.git
 
-Als je meerdere submodules hebt, zul je meerdere vermeldingen hebben in dit bestand. Het is belangrijk om te zien dat dit bestand net als je andere bestanden ook onder versiebeheer staat, zoals je `.gitignore` bestand. Het wordt gepusht en gepulled samen met de rest van je project. Op deze manier weten andere mensen die je project clonen waar ze de submodule projecten vandaan moeten halen.
+Als je meerdere submodules hebt, zul je meerdere vermeldingen hebben in dit bestand. Het is belangrijk om te zien dat dit bestand net als je andere bestanden ook onder versiebeheer staat, zoals je `.gitignore` bestand. Het wordt gepusht en gepulled samen met de rest van je project. Op deze manier weten andere mensen die je project klonen waar ze de submodule projecten vandaan moeten halen.
 
 De andere vermelding in de `git status` output is de rack regel. Als je `git diff` daarop uitvoert zul je iets interessants zien:
 
@@ -854,7 +854,7 @@ De andere vermelding in de `git status` output is de rack regel. Als je `git dif
 	@@ -0,0 +1 @@
 	+Subproject commit 08d709f78b8c5b0fbeb7821e37fa53e69afcf433
 
-Alhoewel `rack` een submap in je werkmap is, ziet Git het als een submodule en zal de inhoud niet volgen als je niet in die map staat. In plaats daarvan slaat Git het als een aparte commit op van dat repository. Als je wijzigingen maakt en in die submap een commit doet, zal het superproject zien dat de HEAD daarin is veranderd en de exacte commit opslaan waarvan je op dat moment zit te werken; op die manier zullen anderen die dit project clonen de omgeving exact kunnen reproduceren.
+Alhoewel `rack` een submap in je werkmap is, ziet Git het als een submodule en zal de inhoud niet volgen als je niet in die map staat. In plaats daarvan slaat Git het als een aparte commit op van dat repository. Als je wijzigingen maakt en in die submap een commit doet, zal het superproject zien dat de HEAD daarin is veranderd en de exacte commit opslaan waarvan je op dat moment zit te werken; op die manier zullen anderen die dit project klonen de omgeving exact kunnen reproduceren.
 
 Dit is een belangrijk punt met submodules: je slaat ze op als de exacte commit waar ze op staan. Je kunt een submodule niet opslaan als `master` of een andere symbolische referentie.
 
@@ -884,9 +884,9 @@ Je kunt de `rack` map als een apart project behandelen en je superproject van ti
 
 	    Document version change
 
-### Een project met submodules clonen ###
+### Een project met submodules klonen ###
 
-Hier zul je een project met een submodule erin clonen. Als je zo'n project ontvangt, krijg je de mappen die submodules bevatten, maar nog niet meteen de bestanden:
+Hier zul je een project met een submodule erin klonen. Als je zo'n project ontvangt, krijg je de mappen die submodules bevatten, maar nog niet meteen de bestanden:
 
 	$ git clone git://github.com/schacon/myproject.git
 	Initialized empty Git repository in /opt/myproject/.git/
@@ -1007,7 +1007,7 @@ Van branches wisselen die submodules bevatten kan ook lastig zijn. Als je een ni
 	#
 	#      rack/
 
-Je moet hem verplaatsen of verwijderen, waarna je hem opnieuw moet clonen als je terug wisselt – en je loopt kans om locale wijzigingen of branches te verliezen die je niet omhoog gepusht hebt.
+Je moet hem verplaatsen of verwijderen, waarna je hem opnieuw moet klonen als je terug wisselt – en je loopt kans om locale wijzigingen of branches te verliezen die je niet omhoog gepusht hebt.
 
 De laatste grote valkuil waar veel mensen in lopen heeft te maken met het wisselen van submappen naar submodules. Als je bestanden in je project aan het volgen bent, en je wilt ze in een submodule verplaatsen, dan moet je voorzichtig zijn of anders zal Git boos op je worden. Stel dat je de rack bestanden in een submap van je project hebt, en je wilt die naar een submodule wijzigen. Als je de submap weggooit en dan `submodule add` uitvoerd, begint Git naar je te schreeuwen:
 
@@ -1039,7 +1039,7 @@ Je moet de `rack` submodule map verplaatsen voordat je naar een branch kunt wiss
 	$ ls
 	README	rack
 
-Als je dan terug wisselt krijg je een lege `rack` map. Je kunt dan nogmaals `git submodule update` uitvoeren om nog eens te clonen, of je kunt je `/tmp/rack` map terug zetten in de lege map.
+Als je dan terug wisselt krijg je een lege `rack` map. Je kunt dan nogmaals `git submodule update` uitvoeren om nog eens te klonen, of je kunt je `/tmp/rack` map terug zetten in de lege map.
 
 ## Subboom mergen ##
 

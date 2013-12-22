@@ -18,7 +18,7 @@ Het is belangrijk om te zien dat, met uitzondering van de HTTP protocollen, ze a
 
 Het meest basale is het _lokale protocol_, waarbij het remote repository in een andere map op de schijf staat. Dit wordt vaak gebruikt als iedereen in je team toegang heeft op een gedeeld bestandssysteem zoals een NFS map, of in het weinig voorkomende geval dat iedereen op dezelfde computer werkt. Het laatste zou niet ideaal zijn, want dan zouden alle repositories zich op dezelfde computer bevinden, zodat de kans op een catastrofaal verlies veel groter wordt.
 
-Als je een gedeeld bestandssysteem hebt, dan kun je clonen, pushen en pullen van een op een lokaal bestand gebaseerde repository. Om een dergelijk repository te clonen, of om er een als een remote aan een bestaand project toe te voegen, moet je het pad naar het repository als URL gebruiken. Bijvoorbeeld, om een lokaal repository te clonen, kun je zoiets als dit uitvoeren:
+Als je een gedeeld bestandssysteem hebt, dan kun je klonen, pushen en pullen van een op een lokaal bestand gebaseerde repository. Om een dergelijk repository te klonen, of om er een als een remote aan een bestaand project toe te voegen, moet je het pad naar het repository als URL gebruiken. Bijvoorbeeld, om een lokaal repository te klonen, kun je zoiets als dit uitvoeren:
 
 	$ git clone /opt/git/project.git
 
@@ -50,7 +50,7 @@ Het is ook belangrijk om te melden dat het niet noodzakelijk de snelste optie is
 
 Waarschijnlijk het meest voorkomende protocol voor Git is SSH. Dit is omdat SSH toegang tot servers in veel plaatsen al geconfigureerd is — en als dat niet het geval is, dan is het makkelijk om dat te doen. SSH is ook het enige netwerk gebaseerde protocol waarvan je makkelijk kunt lezen en naartoe kunt schrijven. De andere twee netwerk protocollen (HTTP en Git) zijn over het algemeen alleen-lezen, dus zelfs als je ze al beschikbaar hebt voor de ongewassen massa, dan heb je nog steeds SSH nodig voor je eigen schrijftoegang. SSH is ook een geverifieerd protocol; en omdat het overal voorkomt, is het over het algemeen eenvoudig om in te stellen en te gebruiken.
 
-Om een Git repository via SSH te clonen, kun je een ssh:// URL opgeven zoals:
+Om een Git repository via SSH te klonen, kun je een ssh:// URL opgeven zoals:
 
 	$ git clone ssh://user@server/project.git
 
@@ -70,7 +70,7 @@ Het negatieve aspect van SSH is dat je er geen anonieme toegang over kunt geven.
 
 ### Het Git protocol ###
 
-Het volgende is het Git protocol. Dit is een aparte daemon, die samen met Git geleverd wordt; het luistert op een toegewezen poort (9418), dat een vergelijkbare dienst verleend als het SSH protocol, maar dan zonder enige authenticatie. Om een repository te serveren over het Git protocol, moet je het `git-export-daemon-ok` bestand aanmaken — de daemon zal een repository zonder dit bestand erin niet serveren — maar buiten dat is er geen beveiliging. Ofwel het Git repository kan door iedereen gecloned worden, of helemaal niet. Dit betekent dat er over het algemeen geen pushing is via dit protocol. Je kunt push toegang aanzetten; maar gegeven het gebrek aan toegangscontrole als je push toegang aan zet, kan iedereen die de URL van jouw project op het internet vindt, pushen naar jouw project. We volstaan met te zeggen dat dit zeldzaam is.
+Het volgende is het Git protocol. Dit is een aparte daemon, die samen met Git geleverd wordt; het luistert op een toegewezen poort (9418), dat een vergelijkbare dienst verleend als het SSH protocol, maar dan zonder enige authenticatie. Om een repository te serveren over het Git protocol, moet je het `git-export-daemon-ok` bestand aanmaken — de daemon zal een repository zonder dit bestand erin niet serveren — maar buiten dat is er geen beveiliging. Ofwel het Git repository kan door iedereen gekloond worden, of helemaal niet. Dit betekent dat over het algemeen pushen niet mogelijk is via dit protocol. Je kunt push toegang aanzetten; maar gegeven het gebrek aan toegangscontrole als je push toegang aan zet, kan iedereen die de URL van jouw project op het internet vindt, pushen naar jouw project. We volstaan met te zeggen dat dit zeldzaam is.
 
 #### De voordelen ####
 
@@ -83,7 +83,7 @@ Het is waarschijnlijk ook het meest ingewikkelde protocol om in te stellen. Het 
 
 ### Het HTTP/S protocol ###
 
-Als laatste hebben we het HTTP protocol. Het mooie aan het HTTP of HTTPS protocol is dat het simpel in te stellen is. Eigenlijk is alles wat je moet doen de kale Git repository in je HTTP document root zetten, en een specifieke `post-update` hook (haak) instellen en je bent klaar (zie hoofdstuk 7 voor details over Git hooks). Vanaf dat moment kan iedereen die toegang heeft tot de webserver waaronder je de repository gezet hebt ook je repository clonen. Om leestoegang tot je repository over HTTP toe te staan, doe je zoiets als het volgende:
+Als laatste hebben we het HTTP protocol. Het mooie aan het HTTP of HTTPS protocol is dat het simpel in te stellen is. Eigenlijk is alles wat je moet doen de kale Git repository in je HTTP document root zetten, en een specifieke `post-update` hook (haak) instellen en je bent klaar (zie hoofdstuk 7 voor details over Git hooks). Vanaf dat moment kan iedereen die toegang heeft tot de webserver waaronder je de repository gezet hebt ook je repository klonen. Om leestoegang tot je repository over HTTP toe te staan, doe je zoiets als het volgende:
 
 	$ cd /var/www/htdocs/
 	$ git clone --bare /path/to/git_project gitproject.git
@@ -91,7 +91,7 @@ Als laatste hebben we het HTTP protocol. Het mooie aan het HTTP of HTTPS protoco
 	$ mv hooks/post-update.sample hooks/post-update
 	$ chmod a+x hooks/post-update
 
-Dat is alles. De `post-update` hook, die standaard bij Git zit, voert het noodzakelijke commando uit (`git update-server-info`) om HTTP fetching en cloning goed werkend te krijgen. Dit commando wordt uitgevoerd als je naar dit repository via SSH pusht; en dan kunnen andere mensen clonen met behulp van zoiets als
+Dat is alles. De `post-update` hook, die standaard bij Git zit, voert het noodzakelijke commando uit (`git update-server-info`) om HTTP fetchen en klonen goed werkend te krijgen. Dit commando wordt uitgevoerd als je naar dit repository via SSH pusht; en dan kunnen andere mensen klonen met behulp van zoiets als
 
 	$ git clone http://example.com/gitproject.git
 
@@ -109,12 +109,12 @@ Een ander fijn ding is dat HTTP zo'n veel voorkomend protocol is dat bedrijfsfir
 
 #### De nadelen ####
 
-Het nadeel van je repository serveren via HTTP is dat het relatief inefficiënt voor de client is. Over het algemeen duurt het een stuk langer om te clonen en te fetchen van de repository, en je hebt vaak een stuk meer netwerk belasting en transport volume via HTTP dan met elk van de andere netwerk protocollen. Omdat het niet zo intelligent is om alleen de data te versturen die je nodig hebt — er wordt geen dynamisch werk door de server gedaan in deze transacties — wordt vaak naar het HTTP protocol gerefereerd als zijnde een _dom_ protocol. Voor meer informatie over de verschillen in efficiëntie tussen het HTTP protocol en andere protocollen, zie Hoofdstuk 9.
+Het nadeel van je repository serveren via HTTP is dat het relatief inefficiënt voor de client is. Over het algemeen duurt het een stuk langer om te klonen en te fetchen van de repository, en je hebt vaak een stuk meer netwerk belasting en transport volume via HTTP dan met elk van de andere netwerk protocollen. Omdat het niet zo intelligent is om alleen de data te versturen die je nodig hebt — er wordt geen dynamisch werk door de server gedaan in deze transacties — wordt vaak naar het HTTP protocol gerefereerd als zijnde een _dom_ protocol. Voor meer informatie over de verschillen in efficiëntie tussen het HTTP protocol en andere protocollen, zie Hoofdstuk 9.
 
 ## Git op een server krijgen ##
 
 Om een initiële Git server op te zetten, moet je een bestaande repository in een kale repository exporteren — een repository dat geen werkmap bevat. Dit is over het algemeen eenvoudig te doen.
-Om je repository te clonen met als doel het maken van een kale repository, voer je het clone commando uit met de `--bare` optie. Als vaste gewoonte eindigen de namen van kale repository mappen in `.git`, zoals:
+Om je repository te klonen met als doel het maken van een kale repository, voer je het `clone` commando uit met de `--bare` optie. Als vaste gewoonte eindigen de namen van kale repository mappen in `.git`, zoals:
 
 	$ git clone --bare my_project my_project.git
 	Initialized empty Git repository in /opt/projects/my_project.git/
@@ -133,7 +133,7 @@ Nu dat je een kale kopie van je repository hebt, is het enige dat je moet doen h
 
 	$ scp -r my_project.git user@git.example.com:/opt/git
 
-Op dit punt kunnen andere gebruikers, die SSH toegang hebben tot dezelfde server en lees-toegang hebben tot de `/opt/git` map, jouw repository clonen door dit uit te voeren:
+Op dit punt kunnen andere gebruikers, die SSH toegang hebben tot dezelfde server en lees-toegang hebben tot de `/opt/git` map, jouw repository klonen door dit uit te voeren:
 
 	$ git clone user@git.example.com:/opt/git/my_project.git
 
@@ -243,7 +243,7 @@ Daarna kunnen John, Josie of Jessica de eerste versie van hun project in de repo
 	$ git remote add origin git@gitserver:/opt/git/project.git
 	$ git push origin master
 
-Op dat punt kunnen de anderen het clonen en wijzigingen even gemakkelijk terug pushen:
+Op dat punt kunnen de anderen het klonen en wijzigingen even gemakkelijk terug pushen:
 
 	$ git clone git@gitserver:/opt/git/project.git
 	$ vim README
@@ -308,7 +308,7 @@ Je zult ook de Unix gebruikers groep van de `/opt/git` mappen moeten instellen o
 
 	$ chgrp -R www-data /opt/git
 
-Als je Apache herstart, dan zou je je repositories onder die map moeten kunnen clonen door de URL van je project te specificeren:
+Als je Apache herstart, dan zou je je repositories onder die map moeten kunnen klonen door de URL van je project te specificeren:
 
 	$ git clone http://git.gitserver/project.git
 
@@ -354,7 +354,7 @@ Let op dat je het commando moet vertellen waar het je Git repositories kan vinde
 	    </Directory>
 	</VirtualHost>
 
-Nogmaals, GitWeb kan geserveerd worden met iedere CGI capabele web server; als je iets anders prefereert zou het niet moeilijk in te stellen moeten zijn. Op dit punt zou je in staat moeten zijn om `http://gitserver/` te bezoeken en je repositories online te zien, en kun je `http://git.gitserver` gebruiken om je repositories over HTTP te clonen en te fetchen.
+Nogmaals, GitWeb kan geserveerd worden met iedere CGI capabele web server; als je iets anders prefereert zou het niet moeilijk in te stellen moeten zijn. Op dit punt zou je in staat moeten zijn om `http://gitserver/` te bezoeken en je repositories online te zien, en kun je `http://git.gitserver` gebruiken om je repositories over HTTP te klonen en te fetchen.
 
 ## Gitosis ##
 
@@ -368,7 +368,7 @@ Gitosis vereist wat Python applicaties, dus moet je eerst het Python setuptools 
 
 	$ apt-get install python-setuptools
 
-Vervolgens clone en installeer je Gitosis van de hoofdpagina van het project:
+Vervolgens kloon en installeer je Gitosis van de hoofdpagina van het project:
 
 	$ git clone git://eagain.net/gitosis.git
 	$ cd gitosis
@@ -408,7 +408,7 @@ Je bent nu klaar om te gaan. Als je alles juist hebt ingesteld, kun je nu met SS
 	fatal: unrecognized command 'gitosis-serve schacon@quaternion'
 	  Connection to gitserver closed.
 
-Dat betekent dat Gitosis je herkend heeft, maar je buitensluit omdat je geen Git commando's aan het doen bent. Dus, laten we een echt Git commando doen — je gaat de Gitosis beheer repository clonen:
+Dat betekent dat Gitosis je herkend heeft, maar je buitensluit omdat je geen Git commando's aan het doen bent. Dus, laten we een echt Git commando doen — je gaat de Gitosis beheer repository klonen:
 
 	# op je locale computer
 	$ git clone git@gitserver:gitosis-admin.git
@@ -423,7 +423,7 @@ Nu heb je een map genaamd `gitosis-admin`, die twee hoofd gedeeltes heeft:
 
 Het `gitosis.conf` bestand is het beheer bestand, dat je zult gebruiken om gebruikers, repositories en permissies te specificeren. De `keydir` map is de plaats waar je de publieke sleutels opslaat van alle gebruikers die een vorm van toegang tot je repositories hebben — één bestand per gebruiker. De naam van het bestand in `keydir` (in het vorige voorbeeld, `scott.pub`) zal anders voor jou zijn — Gitosis haalt de naam uit de beschrijving aan het einde van de publieke sleutel die was geïmporteerd met het `gitosis-init` script.
 
-Als je naar het `gitosis.conf` bestand kijkt, zou het alleen informatie over het zojuist geclonede `gitosis-admin` project mogen bevatten:
+Als je naar het `gitosis.conf` bestand kijkt, zou het alleen informatie over het zojuist gekloonde `gitosis-admin` project mogen bevatten:
 
 	$ cat gitosis.conf
 	[gitosis]
@@ -490,7 +490,7 @@ Gitosis heeft ook eenvoudige toegangscontrole. Als je wilt dat John alleen lees 
 	readonly = iphone_project
 	members = john
 
-Nu kan John het project clonen en updates krijgen, maar Gitosis zal hem niet toestaan om terug naar het project te pushen. Je kunt zoveel van deze groepen maken als je wilt, waarbij ze allen verschillende gebruikers en projecten mogen bevatten. Je kunt ook een andere groep als een van de leden specificeren (waarbij je `@` als prefix gebruikt), om alle leden automatisch over te erven:
+Nu kan John het project klonen en updates krijgen, maar Gitosis zal hem niet toestaan om terug naar het project te pushen. Je kunt zoveel van deze groepen maken als je wilt, waarbij ze allen verschillende gebruikers en projecten mogen bevatten. Je kunt ook een andere groep als een van de leden specificeren (waarbij je `@` als prefix gebruikt), om alle leden automatisch over te erven:
 
 	[group mobile_committers]
 	members = scott josie jessica
@@ -536,7 +536,7 @@ Dit zal je vragen naar het wachtwoord van het gitolite account, en dan toegang m
 	$ ssh gitolite@gitserver pwd
 	/home/gitolite
 
-Vervolgens clone je Gitolite van de hoofdsite van het project en voer je het "easy install" script uit (het derde argument is de naam zoals je wilt verschijnen in het resulterende gitolite-admin repository):
+Vervolgens kloon je Gitolite van de hoofdsite van het project en voer je het "easy install" script uit (het derde argument is de naam zoals je wilt verschijnen in het resulterende gitolite-admin repository):
 
 	$ git clone git://github.com/sitaramc/gitolite
 	$ cd gitolite/src
@@ -546,12 +546,12 @@ En dan ben je klaar! Gitolite is nu geïnstalleerd op de server, en je hebt nu e
 
 Dat laatste commando zorgt wel voor een flinke hoeveelheid uitvoer, dat interessant kan zijn om te lezen. Daarnaast wordt de eerste keer dat je dit uitvoert een nieuw sleutelpaar gegenereerd; je zult hiervoor een wachtzin moeten kiezen of enter drukken om zonder te werken. Waarom een tweede paar nodig is, en hoe het gebruikt wordt, wordt uitgelegd in het "ssh troubleshooting" document dat bij Gitolite zit. (He, de documentatie moet toch *ergens* goed voor zijn!)
 
-Standaard worden de `testing` en `gitolite-admin` repositories aangemaakt. Als je een van deze lokaal wilt clonen (vanaf een account dat SSH console toegang heeft tot het gitolite account via *authorized_keys*), type:
+Standaard worden de `testing` en `gitolite-admin` repositories aangemaakt. Als je een van deze lokaal wilt klonen (vanaf een account dat SSH console toegang heeft tot het gitolite account via *authorized_keys*), type:
 
 	$ git clone gitolite:gitolite-admin
 	$ git clone gitolite:testing
 
-Om dezelfde repos van ieder ander account te clonen:
+Om dezelfde repos van ieder ander account te klonen:
 
 	$ git clone gitolite@servername:gitolite-admin
 	$ git clone gitolite@servername:testing
@@ -695,7 +695,7 @@ In ieder geval is het Git protocol relatief eenvoudig in te stellen. Eigenlijk i
 
 	git daemon --reuseaddr --base-path=/opt/git/ /opt/git/
 
-`--reuseaddr` staat de server toe om te herstarten zonder te wachten tot oude connecties een time out krijgen, de `--base-path` optie staat mensen toe om projecten te clonen zonder het volledige pad te specificeren, en het pad aan het einde vertelt de Git daemon waar hij moet kijken voor de te exporteren repositories. Als je een firewall draait, zul je er ook een gat in moeten maken op poort 9418 op de machine waar je dit op instelt.
+`--reuseaddr` staat de server toe om te herstarten zonder te wachten tot oude connecties een time out krijgen, de `--base-path` optie staat mensen toe om projecten te klonen zonder het volledige pad te specificeren, en het pad aan het einde vertelt de Git daemon waar hij moet kijken voor de te exporteren repositories. Als je een firewall draait, zul je er ook een gat in moeten maken op poort 9418 op de machine waar je dit op instelt.
 
 Je kunt dit proces op een aantal manieren daemoniseren, afhankelijk van het besturingssysteem waarop je draait. Op een Ubuntu machine, zul je een Upstart script gebruiken. Dus in het volgende bestand
 
@@ -820,7 +820,7 @@ Nu wordt je project beheerd op GitHub, en kun je de URL aan iedereen geven waarm
 Insert 18333fig0408.png
 Figuur 4-8. Project met een publieke URL en een privé URL.
 
-De publieke Clone URL is een publieke alleen-lezen Git URL, waarmee iedereen het project kan clonen. Deel deze URL maar gewoon uit en zet 'm op je website of wat je ook hebt.
+De publieke Clone URL is een publieke alleen-lezen Git URL, waarmee iedereen het project kan klonen. Deel deze URL maar gewoon uit en zet 'm op je website of wat je ook hebt.
 
 De Your Clone URL is een lees/schrijf SSH-gebaseerde URL waar je alleen over kunt lezen of schrijven als je connectie maakt met de privé SSH sleutel die geassocieerd is met de publieke sleutel die je voor jouw gebruiker geüpload hebt. Wanneer andere gebruikers deze project pagina bezoeken, zullen ze die URL niet zien — alleen de publieke.
 

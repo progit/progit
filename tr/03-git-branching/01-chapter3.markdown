@@ -2,22 +2,22 @@
 
 Neredeyse her SKS'nin bir dallanma (_branching_) işlevi vardır. Dallanma, ana geliştirme çizgisinden sapmak ve işinizi o ana geliştirme çizgisine bulaşmadan devam ettirmek anlamına gelir. Çoğu SKS aracında bu pahalı bir süreçtir; kaynak kod klasörünüzün yeni bir kopyasını yapmanızı gerektirir ve büyük projelerde çok zaman alır.
 
-Bazıları Git'in dallanma modelinin onun "en vurucu özelliği" olduğunu söylerler; bu özelliğin SKS topluluğu içinde Git'i ayrı bir yere koyduğu doğrudur. Onu bu kadar özel yapan nedir? Git'te dallanmalar çok kolay ve neredeyse anlıktır, üstelik farklı dallar arasında gidip gelmek de bir o kadar hızlıdır. Çoğu SKS'den farklı olarak Git dallanma ve birleştirmenin (_merge_) sık (belki de günde birkaç kez) gerçekleşeceği bir iş akışını teşvik eder. Bu özelliği anlayıp bu konuda ustalaşmak size son derece becerikli ve eşsiz bir araç sağlayabileceği gibi çalışma biçiminizi de bütnüyle değiştirebilir.
+Bazıları Git'in dallanma modelinin onun "en vurucu özelliği" olduğunu söylerler; bu özelliğin SKS topluluğu içinde Git'i ayrı bir yere koyduğu doğrudur. Onu bu kadar özel yapan nedir? Git'te dallanmalar çok kolay ve neredeyse anlıktır, üstelik farklı dallar arasında gidip gelmek de bir o kadar hızlıdır. Çoğu SKS'den farklı olarak Git dallanma ve birleştirmenin (_merge_) sık (belki de günde birkaç kez) gerçekleşeceği bir iş akışını teşvik eder. Bu özelliği anlayıp bu konuda ustalaşmak size son derece becerikli ve eşsiz bir araç sağlayabileceği gibi çalışma biçiminizi de bütünüyle değiştirebilir.
 
 ## Dal Nedir? ##
 
-Git'in dallanma ilemini nasıl yaptığını gerçekten anlayabilmek için geriye doğru bir adım atıp Git'in verilerini nasıl depoladığına bakmamız gerekiyor. 1. Bölüm'den hatırlayabileceğiniz üzere, Git verilerini bir dizi değişiklik olarak değil bir dizi bellek kopyası olarak depolar.
+Git'in dallanma işlemini nasıl yaptığını gerçekten anlayabilmek için geriye doğru bir adım atıp Git'in verilerini nasıl depoladığına bakmamız gerekiyor. 1. Bölüm'den hatırlayabileceğiniz üzere, Git verilerini bir dizi değişiklik olarak değil bir dizi bellek kopyası olarak depolar.
 
 Git'te bir kayıt yaptığınızda, Git, kayda hazırladığınız içeriğin bellek kopyasına işaret eden imleci, yazar ve mesaj üstverisini ve söz konusu kaydın atalarını gösteren sıfır ya da daha fazla imleci (ilk kayıt için sıfır ata, normal bir kayıt için bir ata, iki ya da daha fazla dalın birleştirilmesinden oluşan bir kayıt için birden çok ata) içeren bir kayıt nesnesini depolar.
 
-Bunu görselleştirmek için, üç dosyadan oluşan bir klasörünüzün olduğunu ve bu üç dosyayı da kayıt için hazırladığınızı varsayalım. Dosyaları kayda hazırlamak herbir dosyanın sınama toplamını alır (1. Bölüm'de söz ettiğimiz SHA-1 özeti), dosyanın o sürümünü Git yazılım havuzunda depolar (Git'te bunlara _blob_ denir (Ç.N. _blob_ Türkçeye damla ya da topak diye çevrileblir, fakat kelimeyi olduğu gibi kullanmanın daha anlaşılır olacağını düşündük.)) ve sınama toplamını hazırlık alanına ekler:
+Bunu görselleştirmek için, üç dosyadan oluşan bir klasörünüzün olduğunu ve bu üç dosyayı da kayıt için hazırladığınızı varsayalım. Dosyaları kayda hazırlamak her bir dosyanın sınama toplamını alır (1. Bölüm'de söz ettiğimiz SHA-1 özeti), dosyanın o sürümünü Git yazılım havuzunda depolar (Git'te bunlara _blob_ denir (Ç.N. _blob_ Türkçe'ye damla ya da topak diye çevrilebilir, fakat kelimeyi olduğu gibi kullanmanın daha anlaşılır olacağını düşündük.)) ve sınama toplamını hazırlık alanına ekler:
 
 	$ git add README test.rb LICENSE
 	$ git commit -m 'initial commit of my project'
 
 `git commit` komutunu çalıştırarak bir kayıt oluşturduğunuzda, Git her bir alt klasörün (bu örnekte yalnızca kök klasörün) sınama toplamını alır ve bu ağaç yapısındaki bu nesneleri yazılım havuzunda depolar. Git, daha sonra, üst veriyi ve ihtiyaç duyulduğunda bellek kopyasının yeniden yaratabilmek için ağaç yapısındaki nesneyi gösteren bir imleci içeren bir kayıt nesneyi yaratır.
 
-Şimdi, Git yazılım havuzunuzda beş nesne bulunuyor: üç dosyanızın herbiri için bir içerik _blob_'u, klasörün içeriğini listeleyen ve hangi dosyanın hangi _blob_'da depolandığı bilgisini içeren bir ağaç nesnesi ve o ağaç nesnesini gösteren bir imleci ve bütün kayıt üstverisini içeren bir kayıt nesnesi. Kavramsal olarak, Git yazılım havuzunuzdaki veri Figür 3-1'deki gibi görünür.
+Şimdi, Git yazılım havuzunuzda beş nesne bulunuyor: üç dosyanızın her biri için bir içerik _blob_'u, klasörün içeriğini listeleyen ve hangi dosyanın hangi _blob_'da depolandığı bilgisini içeren bir ağaç nesnesi ve o ağaç nesnesini gösteren bir imleci ve bütün kayıt üstverisini içeren bir kayıt nesnesi. Kavramsal olarak, Git yazılım havuzunuzdaki veri Figür 3-1'deki gibi görünür.
 
 Insert 18333fig0301.png 
 Figür 3-1. Tek kayıtlı yazılım havuzundaki veri.
@@ -27,10 +27,10 @@ Yeniden değişiklik yapıp kaydederseniz, yeni kayıt kendisinden hemen önce g
 Insert 18333fig0302.png 
 Figür 3-2. Birden çok kayıt sonunda Git nesne verisi.
 
-Git'te bir dal, bu kayıtlardan birine işaret eden, yer değiştirebilen kıvrak bir imleçten ibarettir. Git'teki varsayılan dal adı `master`'dır. İlk kaydı yaptığınızda, son yatığınız kaydı gösteren bir `master` dalına sahip olursunuz. Her kayıt yaptığınızda dal otomatik olarak son kaydı göstermek üzere hareket eder.
+Git'te bir dal, bu kayıtlardan birine işaret eden, yer değiştirebilen kıvrak bir imleçten ibarettir. Git'teki varsayılan dal adı `master`'dır. İlk kaydı yaptığınızda, son yaptığınız kaydı gösteren bir `master` dalına sahip olursunuz. Her kayıt yaptığınızda dal otomatik olarak son kaydı göstermek üzere hareket eder.
 
 Insert 18333fig0303.png 
-Figür 3-3. Dalkayıt verisinin tarihçesini gösteriyor.
+Figür 3-3. Dal kayıt verisinin tarihçesini gösteriyor.
 
 Yeni bir dal oluşturduğunuzda ne olur? Yeni kayıtlarla ilerlemenizi sağlayan yeni bir imleç yaratılır. Söz gelimi, `testing` adında yeni bir dal oluşturalım. Bunu, `git branch` komutuyla yapabilirsiniz:
 
@@ -89,9 +89,9 @@ Figür 3-9. Dal tarihçeleri birbirinden ıraksadı.
 
 Git'te bir dal işaret ettiği kaydın 40 karakterlik SHA-1 sınama toplamını içeren basit bir dosyadan ibaret olduğu için dalları yaratmak ve yok etmek oldukça masrafsızdır. Yeni bir dal yaratmak bir dosyaya 41 karakter (40 karakter ve bir satır sonu) yazmak kadar hızlıdır.
 
-Bu, çoğu SKS'nin bütün proje dosyalarını yeni bir klasöre kopyalamayı gerektiren dallanma yaklaşımıyla keskin bir karşıtlık içindedir. Söz konusu yaklaşımda projenin boyutlarına bağlı olarak dallanma saniyeler, hatta dakikalar sürebilir; Git'te ise bu süreç her zaman anlıktır. Ayrıca, kayıt yaparken ata kayıtları da kaydettiğimiz için birleştirme sırasında uygun bir ortak payda bulma işi de otomatik olarak ve genellikle oldukça kolayca halledilir. Bu özellikler yazılımcıları sık sık dal yaratıp kullanmaya teşşvik eder.
+Bu, çoğu SKS'nin bütün proje dosyalarını yeni bir klasöre kopyalamayı gerektiren dallanma yaklaşımıyla keskin bir karşıtlık içindedir. Söz konusu yaklaşımda projenin boyutlarına bağlı olarak dallanma saniyeler, hatta dakikalar sürebilir; Git'te ise bu süreç her zaman anlıktır. Ayrıca, kayıt yaparken ata kayıtları da kaydettiğimiz için birleştirme sırasında uygun bir ortak payda bulma işi de otomatik olarak ve genellikle oldukça kolayca halledilir. Bu özellikler yazılımcıları sık sık dal yaratıp kullanmaya teşvik eder.
 
-Neden böyle olması gerektiğine yaından bakalım.
+Neden böyle olması gerektiğine yakından bakalım.
 
 ## Dallanma ve Birleştirmenin Temelleri ##
 
@@ -145,7 +145,7 @@ Ama, bunu yapmadan önce şunu belirtmekte yarar var: eğer çalışma klasörü
 	$ git checkout master
 	Switched to branch "master"
 
-Bu noktada, çalışma klasörünüz #53 numaralı sorun üzerinde çalışmaya başlamadan hemen önceki halindedir ve yamayı hazırlamaya odaklanabilirsiniz. Burası önemli: Git, çalışma klasörünüzü seçtiğiniz dalın gösterdiği kaydın bellek kopyasıyla aynı olacak şekilde ayarlar. Dal, son kaydınızda nasıl görünüyorsa çalışma klasörünü o hale getirbilmek için otomatik olarak dosyaları ekler, siler ve değiştirir.
+Bu noktada, çalışma klasörünüz #53 numaralı sorun üzerinde çalışmaya başlamadan hemen önceki halindedir ve yamayı hazırlamaya odaklanabilirsiniz. Burası önemli: Git, çalışma klasörünüzü seçtiğiniz dalın gösterdiği kaydın bellek kopyasıyla aynı olacak şekilde ayarlar. Dal, son kaydınızda nasıl görünüyorsa çalışma klasörünü o hale getirebilmek için otomatik olarak dosyaları ekler, siler ve değiştirir.
 
 Sırada, hazırlanacak yama var. Şimdi yama üzerinde çalışmak için bir `hotfix` dalı oluşturalım (bkz. Figür 3-13):
 
@@ -196,7 +196,7 @@ Figür 3-15. iss53 dalınız bağımsız olarak ilerleyebilir.
 
 ### Birleştirmenin Temelleri ###
 
-Diyelim ki #53 numaralı sorunla ilgili çalışmanızı tamamladınız ve `master` dalıyla birleştirmeye hazırsınız. Bunu yapabilmek için `iss53` dalınızı, aynı `hotfiz` dalını yaptığınız gibi birleştireceksiniz. Bütün yapmanız gereken birleştirmeyi gerçekleştirmek istediğiniz dalı seçmek (_checkout_) ve `git merge` komutunu çalıştırmak:
+Diyelim ki #53 numaralı sorunla ilgili çalışmanızı tamamladınız ve `master` dalıyla birleştirmeye hazırsınız. Bunu yapabilmek için `iss53` dalınızı, aynı `hotfix` dalını yaptığınız gibi birleştireceksiniz. Bütün yapmanız gereken birleştirmeyi gerçekleştirmek istediğiniz dalı seçmek (_checkout_) ve `git merge` komutunu çalıştırmak:
 
 	$ git checkout master
 	$ git merge iss53
@@ -204,12 +204,12 @@ Diyelim ki #53 numaralı sorunla ilgili çalışmanızı tamamladınız ve `mast
 	 README |    1 +
 	 1 files changed, 1 insertions(+), 0 deletions(-)
 
-Bu daha önce yaptığınız `hotfix` birleştirmesinden biraz farklı görünüyor. Burada, kayıt tarihçeniz daha eski bir noktadan ıraksamıştı. Üzerinde bulunduğunuz dalın gösterdiği kayıt birleştirmekte olduğunuz dalın doğrudan atası olmadığından Git'in biraz iş yapması gerekiyor. Bu örnekte Git, iki dalın en uç noktası ve ikisinin ortak atasının kullanıldığı üç-taraflı basit bir birleştirme yapıyor. Figür 3-16, bu birleştirmede kullanılan üç farklı bellek kopyasını vurguluyor.
+Bu daha önce yaptığınız `hotfix` birleştirmesinden biraz farklı görünüyor. Burada, kayıt tarihçeniz daha eski bir noktadan ıraksamıştı. Üzerinde bulunduğunuz dalın gösterdiği kayıt birleştirmekte olduğunuz dalın doğrudan atası olmadığından Git'in biraz iş yapması gerekiyor. Bu örnekte Git, iki dalın en uç noktası ve ikisinin ortak atasının kullanıldığı üç taraflı basit bir birleştirme yapıyor. Figür 3-16, bu birleştirmede kullanılan üç farklı bellek kopyasını vurguluyor.
 
 Insert 18333fig0316.png 
 Figür 3-16. Git, dalları birleştirmek için en uygun ortak atayı buluyor.
 
-Git, yalnızca dal imlecini ileri kaydırmak yerine üç-tarafı birleştirmenin sonucunda ortaya çıkan bellek kopyası için otomatik bir kayıt oluşturuyor (bkz. Figür 3-17). Buna birlleştirme kaydı denir ve özelliği birden çok atasının olmasıdır.
+Git, yalnızca dal imlecini ileri kaydırmak yerine üç taraflı birleştirmenin sonucunda ortaya çıkan bellek kopyası için otomatik bir kayıt oluşturuyor (bkz. Figür 3-17). Buna birleştirme kaydı denir ve özelliği birden çok atasının olmasıdır.
 
 Git'in en uygun ortak atayı otomatik olarak bulduğunu vurgulamakta yarar var; bu kullanıcının en uygun ortak paydayı bulmak zorunda olduğu CVS ve Subversion'daki durumdan (1.5 sürümünden önceki haliyle) farklıdır. Bu Git kullanarak birleştirme yapmayı söz konusu diğer sistemlere göre çok daha kolay bir hale getirir.
 
@@ -222,7 +222,7 @@ Figür 3-17. Git, otomatik olarak, birleştirilmiş çalışmayı içeren yeni b
 
 ### Temel Birleştirme Uyuşmazlıkları ###
 
-Zaman zaman bu süreç o kadar da pürüzsüz ilerlemez. Eğer aynı dosyanın aynı bölümünü her iki dalda da değiştirmişseniz, Git temiz bir birleştirme yapamaz. #53 numaları sorun için hazırladığınız düzeltme `hotfix`le aynı yazılım parçasını değiştiriyorsa, şuna benzer bir birleştirme uyuşmazlığıyla karşılaşırsınız:
+Zaman zaman bu süreç o kadar da pürüzsüz ilerlemez. Eğer aynı dosyanın aynı bölümünü her iki dalda da değiştirmişseniz, Git temiz bir birleştirme yapamaz. #53 numaraları sorun için hazırladığınız düzeltme `hotfix`le aynı yazılım parçasını değiştiriyorsa, şuna benzer bir birleştirme uyuşmazlığıyla karşılaşırsınız:
 
 	$ git merge iss53
 	Auto-merging index.html
@@ -241,7 +241,7 @@ Burada Git otomatik olarak yeni bir birleştirme kaydı oluşturmadı. Sizin uyu
 	#	unmerged:   index.html
 	#
 
-Birleştirme uyuşmazlığı henüz çözümlenmemiş her şey _unmerged_ (birleştirilmemiş) olarak gösterilecektir. Git, dosyaları açıp uyuşmazlıkları çözümleyebilmeniz için standartuyuşmazlık-çözümleme işaretçileri koyar. Dosyanızda şuna benzer bir bölümle karşılaşırsınız:
+Birleştirme uyuşmazlığı henüz çözümlenmemiş her şey _unmerged_ (birleştirilmemiş) olarak gösterilecektir. Git, dosyaları açıp uyuşmazlıkları çözümleyebilmeniz için standart uyuşmazlık çözümleme işaretçileri koyar. Dosyanızda şuna benzer bir bölümle karşılaşırsınız:
 
 	<<<<<<< HEAD:index.html
 	<div id="footer">contact : email.support@github.com</div>
@@ -257,7 +257,7 @@ Burada , `HEAD`deki sürüm (ki bu `master` dalındaki sürümdür çünkü birl
 	please contact us at email.support@github.com
 	</div>
 
-Çözümlemede iki taraftan da bir şeyler var ve `<<<<<<<`, `=======`, ve `>>>>>>>` işaretlerini içeren satırlar tamamen silinmiş durumda. Uyuşmazlık olan herbir dosyadaki herbir uyuşmazlık bloğunu çözümledikten sonra herbir dosya üzerinde `git add` komutunu çalıştırarak, uyuşmazlığın o dosya için çözülmüş olduğunu belirtebilirsiniz. Bir dosyayı ayda hazırlamak o dosyayı uyuşmazlığı çözümlenmiş olarak işaretler.
+Çözümlemede iki taraftan da bir şeyler var ve `<<<<<<<`, `=======`, ve `>>>>>>>` işaretlerini içeren satırlar tamamen silinmiş durumda. Uyuşmazlık olan her bir dosyadaki her bir uyuşmazlık bloğunu çözümledikten sonra her dosyanın üzerinde `git add` komutunu çalıştırarak, uyuşmazlığın o dosya için çözülmüş olduğunu belirtebilirsiniz. Bir dosyayı ayda hazırlamak o dosyayı uyuşmazlığı çözümlenmiş olarak işaretler.
 Uyuşmazlıkları çözümlemek için görsel bir araç kullanmak isterseniz `git mergetool` komutunu çalıştırabilirsiniz; bu komut size tek tek herbir uyuşmazlığı gösterecek uygun bir birleştirme aracını çalıştırır:
 
 	$ git mergetool
@@ -271,7 +271,7 @@ Uyuşmazlıkları çözümlemek için görsel bir araç kullanmak isterseniz `gi
 
 Varsayılan aracın dışında bir araç kullanmak isterseniz (Git, Mac'te çalıştığım için bu örnekte `opendiff`'i seçti), Git'in desteklediği bütün birleştirme araçlarının listesini en üstte “merge tool candidates” yazısından hemen sonra görebilirsiniz. Kullanmak istediğiniz aracın adını yazın. 7. Bölüm'de kendi çalışma ortamınız için varsayılan değeri nasıl değiştirebileceğinizi inceleyeceğiz.
 
-Brileştirme aracını kapattıktan sonra, Git size birleştirmenin başarılı olup olmadığını soracaktır. Eğer başarılı olduğunu söylerseniz, sizin yerinize dosyayı kayda hazırlayıp çözümlenmiş olarak işaretler.
+Birleştirme aracını kapattıktan sonra, Git size birleştirmenin başarılı olup olmadığını soracaktır. Eğer başarılı olduğunu söylerseniz, sizin yerinize dosyayı kayda hazırlayıp çözümlenmiş olarak işaretler.
 
 Bütün uyuşmazlıkların çözümlendiğinden emin olmak için tekrar `git status` komutunu çalıştırabilirsiniz:
 
@@ -296,11 +296,11 @@ Durumdan memnunsanız ve uyuşmazlığı olan bütün dosyaların kayda hazırla
 	# and try again.
 	#
 
-İleride bu bürleştirme işlemini inceleyecek olanlar için yararlı olacağını düşünüyorsanız bu kayıt mesajını ayrıntılandırabilirsiniz —eğer aşikâr değilse, birleştirmeyi neden yaptığınızı, ve birleştirmede neler yaptığınızı açıklayabilirsiniz.
+İleride bu birleştirme işlemini inceleyecek olanlar için yararlı olacağını düşünüyorsanız bu kayıt mesajını ayrıntılandırabilirsiniz —eğer aşikâr değilse, birleştirmeyi neden yaptığınızı, ve birleştirmede neler yaptığınızı açıklayabilirsiniz.
 
 ## Dal Yönetimi ##
 
-Dal yaratma, birleştirme ve silme işlemlerini yaptığımıza göre, gelin şimdi de dallar üzerinde çalışırken işimize yarayacak kimi dal-yönetim araçlarına gö atalım.
+Dal yaratma, birleştirme ve silme işlemlerini yaptığımıza göre, gelin şimdi de dallar üzerinde çalışırken işimize yarayacak kimi dal yönetim araçlarına göz atalım.
 
 `git branch` komutu dal yaratmak ve silmekten fazlasını yapar. Bu komutu hiçbir seçenek kullanmadan çalıştırırsanız, mevcut dallarınızın bir listesini görürsünüz:
 
@@ -309,7 +309,7 @@ Dal yaratma, birleştirme ve silme işlemlerini yaptığımıza göre, gelin şi
 	* master
 	  testing
 
-`master` dalının önündeki `*` karakterine dikkatinizi çekmiştir: bu, o dalı seçmiş olduğunuzu (_checkout_) gösteriyor. Yani, bu noktada bir kayıt yapacak olursanız, yeni değişikliğiniz `master` dalını ileri götürecek. Herbir dalın en son kaydının ne olduğunu görmek isterseniz `git branch -v` komutunu çalıştırabilirsiniz:
+`master` dalının önündeki `*` karakterine dikkatinizi çekmiştir: bu, o dalı seçmiş olduğunuzu (_checkout_) gösteriyor. Yani, bu noktada bir kayıt yapacak olursanız, yeni değişikliğiniz `master` dalını ileri götürecek. Her bir dalın en son kaydının ne olduğunu görmek isterseniz `git branch -v` komutunu çalıştırabilirsiniz:
 
 	$ git branch -v
 	  iss53   93b412c fix javascript issue
@@ -322,7 +322,7 @@ Dallarınızın ne durumda olduğunu incelerken yararlı olacak bir başka şey 
 	  iss53
 	* master
 
-`iss53` dalını daha önce birleştirdiğiniz için listede görüyorsunuz. Bu listede önünde `*` olmayan dalları `git branch -d` komutula silebilirsiniz; onlardaki değişiklikleri zaten başka bir dalla birleştirdiğiniz için, herhangi bir kaybınız olmaz.
+`iss53` dalını daha önce birleştirdiğiniz için listede görüyorsunuz. Bu listede önünde `*` olmayan dalları `git branch -d` komutuyla silebilirsiniz; onlardaki değişiklikleri zaten başka bir dalla birleştirdiğiniz için, herhangi bir kaybınız olmaz.
 
 Henüz birleştirmediğiniz değişikliklerin bulunduğu dalları görmek için `git branch --no-merged` komutunu çalıştırabilirsiniz:
 
@@ -342,9 +342,9 @@ Dallanma ve birleştirmenin temellerine hakim olduğunuza göre, şimdi bu bilgi
 
 ### Uzun Süreli Dallar ###
 
-Git, basit üç-taraflı birleştirme yaptığı için uzun bir zaman dilimi boyunca bir daldan diğerine çok sayıda birleştirme yapmak genellikle kolaydır. Yani, sürekli açık olan ve geliştirme döngünüzün değşik aşamalarında kullanabileceğiniz birkaç dal bulundurabilirsiniz; düzenli olarak bazılarından diğerlerine birleştirme yapabilirsiniz.
+Git, basit üç taraflı birleştirme yaptığı için uzun bir zaman dilimi boyunca bir daldan diğerine çok sayıda birleştirme yapmak genellikle kolaydır. Yani, sürekli açık olan ve geliştirme döngünüzün değişik aşamalarında kullanabileceğiniz birkaç dal bulundurabilirsiniz; düzenli olarak bazılarından diğerlerine birleştirme yapabilirsiniz.
 
-Git'i kullanan pekçok yazılımcı bu yaklaşımı benimser, `master` dalında yalnızca kararlı (_stable_) durumdaki kod bulunur —yalnızca yayımlanmış olan ya da yayımlanacak kod. `develop` ya da `next` adında, kararlılık testlerinin yürütüldüğü bir paralel dalları daha vardır —bu dal o kada kararlı olmayabilir, fakat kararlı duruma getirildiğinde `master` dalına birleştirilir. Kısa ömürlü, belirli bir işlevin geliştirilmesine ayrılmış dalların (sizin `iss53` adlı dalınız gibi) hazır olduklarında birleştirilmeleri için —bütün testlerden geçtiklerinden ve yeni hatalara kapı aralamadıklarından emin olmak amacıyla— kullanılır.
+Git'i kullanan pek çok yazılımcı bu yaklaşımı benimser, `master` dalında yalnızca kararlı (_stable_) durumdaki kod bulunur —yalnızca yayımlanmış olan ya da yayımlanacak kod. `develop` ya da `next` adında, kararlılık testlerinin yürütüldüğü bir paralel dalları daha vardır —bu dal o kadar kararlı olmayabilir, fakat kararlı duruma getirildiğinde `master` dalına birleştirilir. Kısa ömürlü, belirli bir işlevin geliştirilmesine ayrılmış dalların (sizin `iss53` adlı dalınız gibi) hazır olduklarında birleştirilmeleri için —bütün testlerden geçtiklerinden ve yeni hatalara kapı aralamadıklarından emin olmak amacıyla— kullanılır.
 
 Gerçekte, yazılım tarihçesinde ileri doğru hareket eden imleçlerden söz ediyoruz. Kararlı dallar eski kayıtları, güncel dallar çok daha yenilerini gösterir (bkz. Figür 3-18).
 
@@ -363,14 +363,14 @@ Tekrarlayalım: birden çok uzun ömürlü dal bulundurmak zorunlu değildir, am
 
 İşlev dalları, her ölçekte proje için yararlıdır. İşlev dalları, belirli bir özellikle ilgili değişikliklerin geliştirilmesi için kullanılan kısa ömürlü dallardır. Başka SKS'lerde bu çok masraflı olduğu için, muhtemelen bu yaklaşımı daha önce benimsemediniz. Ama Git'te dal yaratmak, o dal üzerinde çalışmak, dalı birleştirmek ve daha sonra silmek, günde birkaç kez yapılan yaygın bir yöntemdir.
 
-Bunu bir önceki alt bölümde `iss53` ve `hotfix` dalları üzerinde çalışırken gördünüz. Bu dallarda birkaç değişiklik yaptınız ve bu değişiklikleri `master` dalına birleştirdikten hemen sonra bu dalları sildiniz. Bu teknik sayesinde, bağlamlar arasında hızlı ve bütünlüklü geçişler yapabilirsiniz —çalışmalarınız belirli bir işlevin geliştirilmesine adanmış farklı ambarlara ayrılmış olduğundan, geçen süre zarfında, diyelim kod gözden geçirmesi sırasında neler olduğunu kolaylıkla görebilirsiniz. Değişikliklerinizi işlev dallarında dakikallarca, günlerce ya da aylarca tutabilir, hazır oldukları zaman, hangisinin dalın daha önce oluşturulduğuna aldırmadan birleştirebilirsiniz.
+Bunu bir önceki alt bölümde `iss53` ve `hotfix` dalları üzerinde çalışırken gördünüz. Bu dallarda birkaç değişiklik yaptınız ve bu değişiklikleri `master` dalına birleştirdikten hemen sonra bu dalları sildiniz. Bu teknik sayesinde, bağlamlar arasında hızlı ve bütünlüklü geçişler yapabilirsiniz —çalışmalarınız belirli bir işlevin geliştirilmesine adanmış farklı ambarlara ayrılmış olduğundan, geçen süre zarfında, diyelim kod gözden geçirmesi sırasında neler olduğunu kolaylıkla görebilirsiniz. Değişikliklerinizi işlev dallarında dakikalarca, günlerce ya da aylarca tutabilir, hazır oldukları zaman, hangisinin dalın daha önce oluşturulduğuna aldırmadan birleştirebilirsiniz.
 
-Diyelim ki `master` dalında çalışıyorsunuz, sonra bir hatayı gidermek için yeni bir dal yaratıyorsunuz (`iss91`), derken aynı hatayı başka türlü gidermek için yeni bir dal yaratıyorsunuz (`iss91v2`), sonra `master`'a geri dönüp biraaz daha çalışıyorsunuz, sonra aklınıza gelen ama çok da gerekli olmadığını düşündüğünüz bir şeyle ilgili çalışmak için yeni bir dal yaratıyorsununuz (`dumbidea`)... Kayıt tarihçeniz Figür 3-20'deki gibi görünecektir.
+Diyelim ki `master` dalında çalışıyorsunuz, sonra bir hatayı gidermek için yeni bir dal oluşturuyorsunuz (`iss91`), derken aynı hatayı başka türlü gidermek için yeni bir dal oluşturuyorsunuz (`iss91v2`), sonra `master`'a geri dönüp biraz daha çalışıyorsunuz, sonra aklınıza gelen ama çok da gerekli olmadığını düşündüğünüz bir şeyle ilgili çalışmak için yeni bir dal oluşturuyorsunuz (`dumbidea`)... Kayıt tarihçeniz Figür 3-20'deki gibi görünecektir.
 
 Insert 18333fig0320.png 
 Figür 3-20. Birden çok işlev dalının bulunduğu kayıt tarihçeniz.
 
-Şimdi diyelim ki, hatanın giderilmesinde ikinci çözümü (`iss91v2`) kullanmaya karar veriyorsunuz ve işarkadaşlarınız `dumbidea` dalında yaptıklarınızı dahice buluyor. `iss91` dalınızı çöpe atabilir (C5 ve C6 kayıtlarını kaybedeceksiniz) diğer iki dalı birleştirebilirsiniz. Bu durumda tarihçeniz Figür 3-21'deki gibi görünecektir.
+Şimdi diyelim ki, hatanın giderilmesinde ikinci çözümü (`iss91v2`) kullanmaya karar veriyorsunuz ve iş arkadaşlarınız `dumbidea` dalında yaptıklarınızı dahice buluyor. `iss91` dalınızı çöpe atabilir (C5 ve C6 kayıtlarını kaybedeceksiniz) diğer iki dalı birleştirebilirsiniz. Bu durumda tarihçeniz Figür 3-21'deki gibi görünecektir.
 
 Insert 18333fig0321.png 
 Figür 3-21. dumbidea ve iss91v2'yi birleştirdikten sonra kayıt tarihçeniz.
@@ -381,24 +381,24 @@ Unutmayın, bütün bunları yerel dallarda yapıyorsunuz. Dal yaratırken ve bi
 
 Yerel yazılım havuzunuzdaki uzak uçbirim dalları, uzak uçbirimlerdeki yazılım havuzlarınızın durumlarını gösteren imleçlerdir. Bunlar, hareket ettiremediğiniz yerel dallardır; yalnızca sunucuyla iletişim kurduğunuzda hareket ederler. Bu dallar, son bağlandığınızda sunucudaki yazılım havuzunun ne durumda olduğunu hatırlatan işaretçilerdir.
 
-`(remote)`/`(dal)` biçimindedirler. Örneğin, sunucuya son bağlandığınızda `origin` uzak uçbirimindeki `master` dalının nasıl olduğunu görmek isterseniz, `origin/master` dalına bakmalısınız. Bir hatayı bir işortağıyla birlikte çözüyorsanız ve onlar `iss53` adında bir dalı sunucuya itmişlerse, sizin yerel dalınızın adı `iss53` iken, sunucuya itilmiş olan dalın adı `origin/iss53` olacaktır.
+`(remote)`/`(dal)` biçimindedirler. Örneğin, sunucuya son bağlandığınızda `origin` uzak uçbirimindeki `master` dalının nasıl olduğunu görmek isterseniz, `origin/master` dalına bakmalısınız. Bir hatayı bir iş ortağıyla birlikte çözüyorsanız ve onlar `iss53` adında bir dalı sunucuya itmişlerse, sizin yerel dalınızın adı `iss53` iken, sunucuya itilmiş olan dalın adı `origin/iss53` olacaktır.
 
-Bu biraz kafa karıştırıcı olabilir, gelin bir örnekle açıklayalım. Diyelim ki `git.ourcompany.com` adresinde bir Git sunucunuz var. Buradan klonlama yaparsanız, Git bu yazılım havuzunu otomatik olarak `origin` olarak adlandıracak, bütün veriyi indirecek, onun `master` dalının gösterdiği kaydı gösteren `origin/master` adında hareket ettiremeyeceğiniz bir yerel dal oluşturacaktır. Git ayrıca,  üzerinde çalışabilmeniz için `origin`in `master` dalının olduğu yeri gösteren `master` adında yerel bir dal da oluşturacaktır (bkz. Figür 3-22).
+Bu biraz kafa karıştırıcı olabilir, gelin bir örnekle açıklayalım. Diyelim ki `git.şirketimiz.com` adresinde bir Git sunucunuz var. Buradan klonlama yaparsanız, Git bu yazılım havuzunu otomatik olarak `origin` olarak adlandıracak, bütün veriyi indirecek, onun `master` dalının gösterdiği kaydı gösteren `origin/master` adında hareket ettiremeyeceğiniz bir yerel dal oluşturacaktır. Git ayrıca,  üzerinde çalışabilmeniz için `origin`in `master` dalının olduğu yeri gösteren `master` adında yerel bir dal da oluşturacaktır (bkz. Figür 3-22).
 
 Insert 18333fig0322.png 
 Figür 3-22. Bir Git klonladığınızda hem yerel bir master dalınız hem de origin'in master dalını gösteren origin/master adında bir dalınız olur.
 
-Eğer siz kendi master dalınızda çalışırken biir başkası `git.ourcompany.com`'a itme yapıp `master` dalını güncellerse, tarihçeleriniz birbiirinden farklılaşacaktır. Üstelik, `origin` sunucusuyla iletişime geçmediğiniz sürece sizin `origin/master` dalınız hareket etmeyecektir (bkz. Figür 3-23).
+Eğer siz kendi master dalınızda çalışırken biir başkası `git.şirketimiz.com`'a itme yapıp `master` dalını güncellerse, tarihçeleriniz birbirinden farklılaşacaktır. Üstelik, `origin` sunucusuyla iletişime geçmediğiniz sürece sizin `origin/master` dalınız hareket etmeyecektir (bkz. Figür 3-23).
 
 Insert 18333fig0323.png 
 Figür 3-23. Siz yerelde çalışıyorken bir başkası sunucuya itme yaparsa, tarihçeleriniz birbirinden farklı hareket etmeye başlar.
 
-Çalışmalarınızı senkronize etmek için `git fetch origin` komutunu çalıştırabilirsiniz. Bu komut `origin`sunucusunun hangisi olduğuna bakar (bu örnekte `git.ourcompany.com`), orada bulunup da sizde olmayan her türlü veriyi indirir, yerel veritabanınızı güncelleyip yerelinizdeki `origin/master` dalını yeni, güncel konumuna taşır (bkz. Figür 3-24).
+Çalışmalarınızı eşitlemek için `git fetch origin` komutunu çalıştırabilirsiniz. Bu komut `origin` sunucusunun hangisi olduğuna bakar (bu örnekte `git.şirketimiz.com`), orada bulunup da sizde olmayan her türlü veriyi indirir, yerel veritabanınızı güncelleyip yerelinizdeki `origin/master` dalını yeni, güncel konumuna taşır (bkz. Figür 3-24).
 
 Insert 18333fig0324.png 
 Figür 3-24. git fetch komutu uzak uçbirim imleçlerinizi günceller.
 
-Birden çok uzak uçbirime sahip bir projede uzak uçbirim imleçlerinin nasıl görüneceğini incelemek için, Scrum takımlarınızdan birisi tarafından kullanılan başka bir sunucunuzun daha olduğunu varsayalım. Bu sunucunun adresi `git.team1.ourcompany.com` olsun. 2. Bölüm'de incelediğimiz gibi, bu sunucuyu projenize uzak uçbirim olarak eklemek için `git remote add` komutunu kullanabilirsiniz. Bu uçbirimin adı `teamone` olsun, ki bu adı daha sonra bütün URL yerine kısaltma olarak kullanacaksınız (bkz. Figür 3-25).
+Birden çok uzak uçbirime sahip bir projede uzak uçbirim imleçlerinin nasıl görüneceğini incelemek için, Scrum takımlarınızdan birisi tarafından kullanılan başka bir sunucunuzun daha olduğunu varsayalım. Bu sunucunun adresi `git.team1.şirketimiz.com` olsun. 2. Bölüm'de incelediğimiz gibi, bu sunucuyu projenize uzak uçbirim olarak eklemek için `git remote add` komutunu kullanabilirsiniz. Bu uçbirimin adı `teamone` olsun, ki bu adı daha sonra bütün URL yerine kısaltma olarak kullanacaksınız (bkz. Figür 3-25).
 
 Insert 18333fig0325.png 
 Figür 3-25. Başka bir sunucuyu uzak uçbirim olarak eklemek.
@@ -410,7 +410,7 @@ Figür 3-26. teamone'nin master dalının pozisyonunu gösteren bir yerel imleci
 
 ### İtme İşlemi ###
 
-Bir daldaki çalışmalarınızı başkalarıyla paylaşmak istediğinizde, onu yazma yetkinizin olduğu bir uzak uçbirime itmelisiniz (_push_). yerel dallarınız otomatik kolarak sunucuyla senkronize edilmez —paylaşmak istediğiniz dalları açık şekilde itmelisiniz. Böylece, paylaşmak istemediğiniz dallar için özel yerel dallar kullanıp, yalnızca paylaşmak istediğiniz işlev dallarını iteblirsiniz.
+Bir daldaki çalışmalarınızı başkalarıyla paylaşmak istediğinizde, onu yazma yetkinizin olduğu bir uzak uçbirime itmelisiniz (_push_). yerel dallarınız otomatik olarak sunucuyla eşitlenmez —paylaşmak istediğiniz dalları açık şekilde itmelisiniz. Böylece, paylaşmak istemediğiniz dallar için özel yerel dallar kullanıp, yalnızca paylaşmak istediğiniz işlev dallarını iteblirsiniz.
 
 Başkalarıyla ortaklaşa çalışmak istediğiniz `serverfix` adında bir dalınız varsa, onu da ilk dalınızı ittiğiniz gibi itebilirsiniz. `git push (remote) (branch)` komutunu çalıştırın.
 
@@ -422,7 +422,7 @@ Başkalarıyla ortaklaşa çalışmak istediğiniz `serverfix` adında bir dalı
 	To git@github.com:schacon/simplegit.git
 	 * [new branch]      serverfix -> serverfix
 
-Bu bir tür kısayol sayılabilir. Git `serverfix` dal adını otomatik olarak `refs/heads/serverfix:refs/heads/serverfix` biçiminde açımlar, bu şu demektir: “yerel `serverfix` dalımı alıp uzak uçbirimin `serverfix` dalını güncellemek için kullan.” `refs/heads/` kısmınz 9. Bölüm'de ayrıntısıyla değineceğiz, ama genellikle bu kısmı kullanmasanız da olur. Aynı amaçla `git push origin serverfix:serverfix` komutunu da çalıştırabilirsiniz —bu da şu demektir: “Yereldeki serverfix'i al, bunu uzak uçbirimin serverfix'i yap.” Bu biçimi, yeredeki dal adıyla uzak uçbirimdeki dal adı farklı ise kullanabilirsiniz. Dal adının uzak uçbirimde `serferfix` olmasını istemezseniz `git push origin serverfix:awesomebranch` komutunu çalıştırarak yereldeki `serverfix` dalını uzak uçbirimdeki `awesomebranch` dalına itebilirsiniz.
+Bu bir tür kısayol sayılabilir. Git `serverfix` dal adını otomatik olarak `refs/heads/serverfix:refs/heads/serverfix` biçiminde açımlar, bu şu demektir: “yerel `serverfix` dalımı alıp uzak uçbirimin `serverfix` dalını güncellemek için kullan.” `refs/heads/` kısmınz 9. Bölüm'de ayrıntısıyla değineceğiz, ama genellikle bu kısmı kullanmasanız da olur. Aynı amaçla `git push origin serverfix:serverfix` komutunu da çalıştırabilirsiniz —bu da şu demektir: “Yereldeki serverfix'i al, bunu uzak uçbirimin serverfix'i yap.” Bu biçimi, yereldeki dal adıyla uzak uçbirimdeki dal adı farklı ise kullanabilirsiniz. Dal adının uzak uçbirimde `serferfix` olmasını istemezseniz `git push origin serverfix:awesomebranch` komutunu çalıştırarak yereldeki `serverfix` dalını uzak uçbirimdeki `awesomebranch` dalına itebilirsiniz.
 
 Birlikte çalıştığınız insanlar sunucudan getirme işlemi (_fetch_) yaptıklarında,  sunucudaki `serverfix` sürümünün bulunduğu yeri gösteren `origin/serverfix` adında bir imlece sahip olacaklar.
 
@@ -446,9 +446,9 @@ Bu, üzerinde çalışabileceğiniz ve `origin/serverfix`in gösterdiği yerden 
 
 ### İzleme Dalları ###
 
-Bir uzak uçbirim dalından yerel bir dal seçtğinizde (_checkout_), bu işlem otomatik olarak bir _izleme dalı_ (_tracking branch_) oluşturur. İzleme dalları, uzak uçbirim dallarıyla doğrudan ilişkileri bulunan yerel dallardır. Bir izleme dalından `git push` komutunu çalıştırdığınızda , Git hangi sunucudaki hangi dala itme işlemi yapması gerektiğini bilir. Ayrıca, bu dallardan biirinden `git pull` komutunu çalıştırdığınızda, bütün imleçler indirileceği gibi, bu izleme dalına karşılık gelen uzak uçbirim dalı da otomatik olarak bu dalla birleştirilir.
+Bir uzak uçbirim dalından yerel bir dal seçtiğinizde (_checkout_), bu işlem otomatik olarak bir _izleme dalı_ (_tracking branch_) oluşturur. İzleme dalları, uzak uçbirim dallarıyla doğrudan ilişkileri bulunan yerel dallardır. Bir izleme dalından `git push` komutunu çalıştırdığınızda , Git hangi sunucudaki hangi dala itme işlemi yapması gerektiğini bilir. Ayrıca, bu dallardan birinden `git pull` komutunu çalıştırdığınızda, bütün imleçler indirileceği gibi, bu izleme dalına karşılık gelen uzak uçbirim dalı da otomatik olarak bu dalla birleştirilir.
 
-Bir yazılım havunuzu klonladığınızda, genellikle `origin/master` dalını izleyen bir `master` dalı yaratılır. Bu nedenle `git push` ve `git pull` komutları bu durumlarda ek argümanlara gerek kalmadan çalışırlar. Öte yandan, isterseniz başka izleme dalları da —`origin`'i ya da `master` dalınız izlemeyen dallar— oluşturabilirsiniz. Yukarıda basit bir örneğini gördük: `git checkout -b [dal] [uzak_ucbirim]/[dal]`. Git'in 1.6.2'den itibaren olan sürümlerinde `--track` kısayolunu da kullanabilirsiniz:
+Bir yazılım havuzunu klonladığınızda, genellikle `origin/master` dalını izleyen bir `master` dalı yaratılır. Bu nedenle `git push` ve `git pull` komutları bu durumlarda ek argümanlara gerek kalmadan çalışırlar. Öte yandan, isterseniz başka izleme dalları da —`origin`'i ya da `master` dalınız izlemeyen dallar— oluşturabilirsiniz. Yukarıda basit bir örneğini gördük: `git checkout -b [dal] [uzak_ucbirim]/[dal]`. Git'in 1.6.2'den itibaren olan sürümlerinde `--track` kısayolunu da kullanabilirsiniz:
 
 	$ git checkout --track origin/serverfix
 	Branch serverfix set up to track remote branch refs/remotes/origin/serverfix.

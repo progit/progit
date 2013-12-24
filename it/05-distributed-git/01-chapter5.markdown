@@ -22,7 +22,7 @@ Questo metodo è utilizzato da tanti dato che è il paradigma che molti conoscon
 
 ### Workflow con manager d'integrazione ###
 
-Dato che Git ti consente di avere multipli repositories, è possibile avere un workflow dove ogni sviluppatore ha accesso in scrittura al proprio pubblico respository, e accesso il lettura a quello degli altri. Questo scenario spesso un repository "standard" che rappresenta il progetto "ufficiale". Per contribuire a quel progetto, devi creare il tuo clone pubblico del progetto stesso e fare un push delle modifiche verso esso. In seguito, si invia una richiesta al manager del progetto di eseguire un pull dei vostri cambiamenti. Possono aggiungere il vostro repository come remoto, testarlo localmente, unirlo al proprio ramo e fare un push verso il proprio repository. Il processo funziona così (vedi Figura 5-2):
+Dato che Git ti consente di avere multipli repositories, è possibile avere un workflow dove ogni sviluppatore ha accesso in scrittura al proprio pubblico respository, e accesso in lettura a quello degli altri. Questo scenario spesso un repository "standard" che rappresenta il progetto "ufficiale". Per contribuire a quel progetto, devi creare il tuo clone pubblico del progetto stesso e fare un push delle modifiche verso esso. In seguito, si invia una richiesta al manager del progetto di eseguire un pull dei vostri cambiamenti. Possono aggiungere il vostro repository come remoto, testarlo localmente, unirlo al proprio ramo e fare un push verso il proprio repository. Il processo funziona così (vedi Figura 5-2):
 
 1.  Il mantenitore del progetto fa un push del proprio repository pubblico.
 2.  Un contributore clona il reposiory ed esegue dei cambiamenti.

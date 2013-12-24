@@ -22,7 +22,7 @@ Questo metodo è utilizzato da tanti dato che è il paradigma che molti conoscon
 
 ### Workflow con manager d'integrazione ###
 
-Dato che Git ti consente di avere multipli repositories, è possibile avere un workflow dove ogni sviluppatore ha accesso in scrittura al proprio pubblico respository, e accesso il lettura a quello degli altri. Questo scenario spesso un repository "standard" che rappresenta il progetto "ufficiale". Per contribuire a quel progetto, devi creare il tuo clone pubblico del progetto stesso e fare un push delle modifiche verso esso. In seguito, si invia una richiesta al manager del progetto di eseguire un pull dei vostri cambiamenti. Possono aggiungere il vostro repository come remoto, testarlo localmente, unirlo al proprio ramo e fare un push verso il proprio repository. Il processo funziona così (vedi Figura 5-2):
+Dato che Git ti consente di avere multipli repositories, è possibile avere un workflow dove ogni sviluppatore ha accesso in scrittura al proprio pubblico respository, e accesso in lettura a quello degli altri. In questo scenario spesso esiste un repository che rappresenta il progetto "ufficiale". Per contribuire an progetto di questo tipo, devi creare il tuo clone pubblico del progetto e fare un push delle tue modifiche verso il progetto e successivamente chiedere al mantenitore del progetto di fare un pull delle tue modifiche. Questi può aggiungere il tuo repository come remoto, testarlo localmente, unirlo al proprio ramo e fare un push verso il proprio repository. Il processo funziona così (vedi Figura 5-2):
 
 1.  Il mantenitore del progetto fa un push del proprio repository pubblico.
 2.  Un contributore clona il reposiory ed esegue dei cambiamenti.
@@ -34,7 +34,7 @@ Dato che Git ti consente di avere multipli repositories, è possibile avere un w
 Insert 18333fig0502.png
 Figura 5-2. Workflow con manager d'integrazione
 
-Questo è un workflow comune con siti come GitHub, dove è facile eseguire un fork di un progetto e fare un push dei propri cambiamenti dentro al proprio fork, in modo che tutti possano accedere. Uno dei maggiori vantaggi di questo approccio è che puoi continuare il tuo lavoro, ed il mantenitore del repository principale può eseguire un pull dei tuoi cambiamenti in qualsiasi momento. I contributori non devono aspettare che il progetto incorpori i propri camiamenti, ed ognuno può lavorare per conto suo.
+Questo è un workflow comune con siti come GitHub, dove è facile eseguire un fork di un progetto e fare un push dei propri cambiamenti nel proprio fork, in modo che tutti possano accedervi. Uno dei maggiori vantaggi di questo approccio è che puoi continuare il tuo lavoro, ed il mantenitore del repository principale può eseguire un pull dei tuoi cambiamenti in qualsiasi momento. I contributori non devono aspettare che il progetto incorpori i propri camiamenti, ed ognuno può lavorare per conto suo.
 
 ### Workflow con Dittatori e Tenenti ###
 

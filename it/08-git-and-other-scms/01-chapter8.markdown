@@ -74,8 +74,8 @@ fare il clone di una revisione alla volte e poi fare il push in un altro reposit
 
 ### Cominciare ###
 
-Ora che sia un repository Subversion a cui si ha accesso, si può fare un tipico flusso
-di lavoro. Si inizierà con il comando `git svn clone`, ceh importa un intero repository
+Ora che si ha accesso a un repository Subversion, ci si può esercitare con un tipico flusso
+di lavoro. Si inizierà con il comando `git svn clone`, che importa un intero repository
 Subversion in un repository locale Git. Si ricordi che, se si sta importando da un vero
 repository Subversion, occorre sostituire `file:///tmp/test-svn` con l'URL del
 repository Subversion:

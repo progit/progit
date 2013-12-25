@@ -7,22 +7,21 @@ In un certo momento potresti voler convertire un progetto esistente a Git. La se
 
 ## Git e Subversion ##
 
-Attualmente, la maggior parte dei progetti di sviluppo open source e un gran numero
+Attualmente la maggior parte dei progetti di sviluppo open source e un gran numero
 di progetti aziendali usano Subversion per la gestione del loro codice sorgente.
-È il VCS open source più popolare ed è in giro da quasi un decennio. È anche molto
-simile in molti aspetti a CVS, che è stato il più usato controllo per i sorgenti
-prima di lui.
+Subversion è il VCS open source più popolare ed è in uso da quasi un decennio. In molteplici aspetti è molto
+simile a CVS, che è stato lo strumento più usato per il controllo dei sorgenti prima di Subversion.
 
 Una delle grandi caratteristiche di Git è il ponte bidirezionale per Subversion,
 chiamato `git svn`. Questo strumento consente di usare Git come client di un server
 Subversion, in modo da poter usare tutte le caratteristiche locale di Git e poi
-inviare al server Subversion, come se si usasse Subversion localmente. Questo
+inviarle al server Subversion, come se si usasse Subversion localmente. Questo
 vuol dire che si possono fare branch e merge in locale, usare l'area di stage, usare
-il rebase e il cherry-pick, ecc.m mentre gli altri collaboratori continuano a
-lavorare nei loro modi oscuri e antichi. È un buon modo per introdurre Git in
-un ambiente aziendale e aiutare i compagni sviluppatori a diventare più efficienti,
-mentre si cerca di convincere l'azienda a cambiare infrastruttura per supportare
-pienamente Git. Il ponte Subversion è la droga delle interfacce nel mondo dei DVCS.
+il rebase e il cherry-pick, ecc. mentre gli altri collaboratori continuano a
+lavorare con i loro metodi oscuri e antichi. È un buon modo per introdurre Git in
+un ambiente aziendale e aiutare gli altri sviluppatori a diventare più efficienti,
+mentre si cerca di convincere l'azienda a cambiare l'infrastruttura per supportare
+pienamente Git. Il ponte per Subversion è la droga delle interfacce nel mondo dei DVCS.
 
 ### git svn ###
 

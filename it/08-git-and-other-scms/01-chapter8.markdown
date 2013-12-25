@@ -35,34 +35,28 @@ Se lavori in un gruppo in cui alcuni usano SVN e altri Git, assicurati che tutti
 
 ### Impostazioni ###
 
-Per dimostrare questa funzionalità, occorre un tipo repository SVN a cui si ha accesso
-in scrittura. Se si vogliono copiare questi esempi, serve creare una copia scrivibile
-del mio repository di test. Per poterlo fare facilmente, si può usare uno strumento
-chiamato `svnsync`, distribuito con le versioni recenti di Subversion, almeno dalla
-1.4. Per questi test, ho creato su Google code un nuovo repository Subversion, che è
-la copia parziale del progetto `protobuf`, che è uno strumento di codifica di dati
-strutturati per trasmissioni di rete.
+Per dimostrare queste funzionalità, occorre un repository SVN a cui si abbia accesso in scrittura. Se vuoi riprodurre questi questi esempi, hai bisogno di una copia scrivibile del mio repository di test. Per farlo facilmente, puoi usare uno strumento chiamato `svnsync`, distribuito con le versioni recenti di Subversion, almeno dalla 1.4 in poi. Per questi test, ho creato su Google code un nuovo repository Subversion con la copia parziale del progetto `protobuf`, che è uno strumento di codifica di dati strutturati per trasmissioni di rete.
 
-Per proseguire, occorre prima creare un nuovo repository Subversion locale:
+Per proseguire, occorre prima di tutto creare un nuovo repository Subversion locale:
 
 	$ mkdir /tmp/test-svn
 	$ svnadmin create /tmp/test-svn
 
 Quindi, abilitare tutti gli utenti a cambiare revprops, il modo più facile è
-aggiungere uno script pre-revprop-change che esca sempre con 0:
+aggiungere uno script pre-revprop-change che restituisca sempre il codice "0":
 
 	$ cat /tmp/test-svn/hooks/pre-revprop-change 
 	#!/bin/sh
 	exit 0;
 	$ chmod +x /tmp/test-svn/hooks/pre-revprop-change
 
-Si può ora sincronizzare questo progetto con la proprima macchina locale, richiamando
+Si può ora sincronizzare questo progetto con la proprima macchina locale, usando
 `svnsync init` con i repository sorgente e destinazione.
 
 	$ svnsync init file:///tmp/test-svn http://progit-example.googlecode.com/svn/ 
 
-Quest inizializza le proprietà per eseguire la sincronizzazione. Si può ora fare un
-clone del codice, eseguendo
+Questo definisce le proprietà per eseguire la sincronizzazione. Ora puoi fare un
+clone del codice, con i comandi seguenti:
 
 	$ svnsync sync file:///tmp/test-svn
 	Committed revision 1.

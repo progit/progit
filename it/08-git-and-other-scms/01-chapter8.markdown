@@ -25,20 +25,13 @@ pienamente Git. Il ponte per Subversion è la droga delle interfacce nel mondo d
 
 ### git svn ###
 
-Il comando di base in Git per tutti i comandi ponte verso Subversion è `git svn`.
-Basta far precedere ogni comando con questo. Bastano pochi comandi per imparare
-quelli comuni, durante i primi flussi di lavoro. È importante notare che, quando si usa
-`git svn`, si sta interagendo con Subversion, che è un sistema molto meno
-sofisticato di Git. Sebbene si possano fare facilmente branch e merge locali, in
-genere è meglio tenere la propria history più lineare possibile, riorganizzando
-il proprio lavoro ed evitando cose che interagiscono contemporaneamente con un
-repository remoto Git.
+Il comando di base in Git per tutti i comandi del ponte per Subversion è `git svn` e basta usarlo come prefisso per ogni altro comando. Basteranno pochi  comandi durante i primi flussi di lavoro per imparare quelli più comuni.
 
-Non provare riscrivere la propria history e fare di nuovo push, non fare push verso
-un repository Git parallelo per collaborare con sviluppatori Git nello stesso tempo.
-Subversion può avere solo una singola history lineare e confondersi è molto facile.
-Se si lavora in una squadra e alcuni usano SVN e altri Git, assicurarsi che
-ognuno usi il server SVN per collaborare, in modo da semplificarsi la vita.
+È importante notare che, quando si usa `git svn`, si sta interagendo con Subversion, che è un sistema molto meno sofisticato di Git. Sebbene si possano fare facilmente branch e merge locali, in genere è meglio tenere la propria history più lineare possibile, riorganizzando il proprio lavoro ed evitare di interagire contemporaneamente con un repository Git remoto.
+
+Non provare a riscrivere la propria history e fare di nuovo push, e non fare un push verso un repository Git parallelo per collaborare contemporaneamente con altri sviluppatori Git.
+Subversion può avere solo una singola history lineare e confonderlo è molto facile.
+Se lavori in un gruppo in cui alcuni usano SVN e altri Git, assicurati che tutti usino il server SVN per collaborare, in modo da semplificarvi la vita.
 
 ### Impostazioni ###
 

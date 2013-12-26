@@ -529,3 +529,72 @@ Poiché vuoi che tutti i tuoi branch e i tag siano inviati al server, devi esegu
 
 Ora tutti i tuoi branch e i tag dovrebbero essere sul tuo server Git, con una importazione pulita e funzionale.
 
+### Perforce ###
+
+Il successivo strumento analizzato è Perforce. Una importazione da Perforce viene anche distribuita con Git. Se stai usando una versione di Git precedente alla 1.7.11, lo strumento per l’importazione è disponibile esclusivamente nella sezione `contrib` dei sorgenti di Git. In questo caso dovrai ottenere i sorgenti di git che puoi scaricare da git.kernel.org:
+
+	$ git clone git://git.kernel.org/pub/scm/git/git.git
+	$ cd git/contrib/fast-import
+
+Nella directory `fast-import` dovresti trovare uno script Python chiamato `git-p4`. Dovrai avere Python e l’applicazione `p4` installati sulla tua macchina perché questa importazioni funzioni. Per esempio importeremo il progetto Jam dal repository pubblico di Perforce. Per configurare il tuo client, devi esportare la variabile ambientale P4PORT perché punti al Perforce Public Depot:
+
+	$ export P4PORT=public.perforce.com:1666
+
+Esegui quindi il comando `git-p4 clone` per importare il progetto Jam dal server di Perforce, fornendo i percorsi del repository, del progetto e della directory locale dove vuoi che venga importato il progetto:
+
+	$ git-p4 clone //public/jam/src@all /opt/p4import
+	Importing from //public/jam/src@all into /opt/p4import
+	Reinitialized existing Git repository in /opt/p4import/.git/
+	Import destination: refs/remotes/p4/master
+	Importing revision 4409 (100%)
+
+Se ora vai nella cartella `/opt/p4import` ed esegui `git log`, vedrai che la tua importazione è completa:
+
+	$ git log -2
+	commit 1fd4ec126171790efd2db83548b85b1bbbc07dc2
+	Author: Perforce staff <support@perforce.com>
+	Date:   Thu Aug 19 10:18:45 2004 -0800
+
+	    Drop 'rc3' moniker of jam-2.5.  Folded rc2 and rc3 RELNOTES into
+	    the main part of the document.  Built new tar/zip balls.
+
+	    Only 16 months later.
+
+	    [git-p4: depot-paths = "//public/jam/src/": change = 4409]
+
+	commit ca8870db541a23ed867f38847eda65bf4363371d
+	Author: Richard Geiger <rmg@perforce.com>
+	Date:   Tue Apr 22 20:51:34 2003 -0800
+
+	    Update derived jamgram.c
+
+	    [git-p4: depot-paths = "//public/jam/src/": change = 3108]
+
+Puoi vedere l’identification `git-p4` in ogni commit. Va bene mantenere questo identificativo nel caso servisse fare riferimento al numero di versione di Perforce in un secondo momento. Ma se vuoi rimuovere questo identification questo è il momento giusto per farlo, ovvero prima che iniziate a lavorare col nuovo repository. Per farlo puoi usare il comando `git filter-branch` per rimuovere le righe identificative in un solo passaggio:
+
+	$ git filter-branch --msg-filter '
+	        sed -e "/^\[git-p4:/d"
+	'
+	Rewrite 1fd4ec126171790efd2db83548b85b1bbbc07dc2 (123/123)
+	Ref 'refs/heads/master' was rewritten
+
+Se esegui ora il comando `git log` vedrai che i checksum SHA-1 per le commit sono cambiati, questo perché le stringhe di `git-p4` non ci sono più nei messaggi delle commit:
+
+	$ git log -2
+	commit 10a16d60cffca14d454a15c6164378f4082bc5b0
+	Author: Perforce staff <support@perforce.com>
+	Date:   Thu Aug 19 10:18:45 2004 -0800
+
+	    Drop 'rc3' moniker of jam-2.5.  Folded rc2 and rc3 RELNOTES into
+	    the main part of the document.  Built new tar/zip balls.
+
+	    Only 16 months later.
+
+	commit 2b6c6db311dd76c34c66ec1c40a49405e6b527b2
+	Author: Richard Geiger <rmg@perforce.com>
+	Date:   Tue Apr 22 20:51:34 2003 -0800
+
+	    Update derived jamgram.c
+
+La tua importazione è ora pronta per essere inviata al server Git con una push.
+

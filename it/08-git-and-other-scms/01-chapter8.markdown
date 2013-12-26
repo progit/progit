@@ -711,3 +711,66 @@ In questo caso 644 è il modo (devi individuare i file eseguibili ed usare invec
 	end
 
 Puoi riusare il metodo `export_data` definito precedentemente perché l’output è lo stesso di quando abbiamo specificato le informazioni per la commit.
+
+L’ultima cosa che dovrai fare è restituire il contrassegno attuale, così che possa essere passato all’iterazione seguente:
+
+	return mark
+
+NB: Se sei su Windows devi aggiungere un ulteriore passaggio. Come già specificato prima, Windows usa il ritorno CRLF mentre git fast-import si aspetta solo un LF. Per risolvere questo problema e fare felice git fast-import, dovrai dire a ruby di usare LF invece di CRLF:
+
+	$stdout.binmode
+
+Questo è tutto: se esegui questo script otterrai un output simile al seguente:
+
+	$ ruby import.rb /opt/import_from
+	commit refs/heads/master
+	mark :1
+	committer Scott Chacon <schacon@geemail.com> 1230883200 -0700
+	data 29
+	imported from back_2009_01_02deleteall
+	M 644 inline file.rb
+	data 12
+	version two
+	commit refs/heads/master
+	mark :2
+	committer Scott Chacon <schacon@geemail.com> 1231056000 -0700
+	data 29
+	imported from back_2009_01_04from :1
+	deleteall
+	M 644 inline file.rb
+	data 14
+	version three
+	M 644 inline new.rb
+	data 16
+	new version one
+	(...)
+
+Per eseguire l’importazione, attacca (con pipe) questo output a `git fast-import` dal repository di Git in cui vuoi importare i dati. Puoi creare una nuova directory e quindi eseguire `git init` nella nuova directory per iniziare, e quindi eseguire il tuo script:
+
+	$ git init
+	Initialized empty Git repository in /opt/import_to/.git/
+	$ ruby import.rb /opt/import_from | git fast-import
+	git-fast-import statistics:
+	---------------------------------------------------------------------
+	Alloc'd objects:       5000
+	Total objects:           18 (         1 duplicates                  )
+	      blobs  :            7 (         1 duplicates          0 deltas)
+	      trees  :            6 (         0 duplicates          1 deltas)
+	      commits:            5 (         0 duplicates          0 deltas)
+	      tags   :            0 (         0 duplicates          0 deltas)
+	Total branches:           1 (         1 loads     )
+	      marks:           1024 (         5 unique    )
+	      atoms:              3
+	Memory total:          2255 KiB
+	       pools:          2098 KiB
+	     objects:           156 KiB
+	---------------------------------------------------------------------
+	pack_report: getpagesize()            =       4096
+	pack_report: core.packedGitWindowSize =   33554432
+	pack_report: core.packedGitLimit      =  268435456
+	pack_report: pack_used_ctr            =          9
+	pack_report: pack_mmap_calls          =          5
+	pack_report: pack_open_windows        =          1 /          1
+	pack_report: pack_mapped              =       1356 /       1356
+	---------------------------------------------------------------------
+

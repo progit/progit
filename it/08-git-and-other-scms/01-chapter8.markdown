@@ -774,3 +774,32 @@ Per eseguire l’importazione, attacca (con pipe) questo output a `git fast-impo
 	pack_report: pack_mapped              =       1356 /       1356
 	---------------------------------------------------------------------
 
+Come puoi vedere, quando l’importazione avviene con sussesso, restituisce una serie di statistiche sulle attività svolte con successo. In questo caso abbiamo importato complessivamente 18 oggetti in 5 commit su 1 branch. Puoi ora quindi eseguire `git log` per vedere la cronologia:
+
+	$ git log -2
+	commit 10bfe7d22ce15ee25b60a824c8982157ca593d41
+	Author: Scott Chacon <schacon@example.com>
+	Date:   Sun May 3 12:57:39 2009 -0700
+
+	    imported from current
+
+	commit 7e519590de754d079dd73b44d695a42c9d2df452
+	Author: Scott Chacon <schacon@example.com>
+	Date:   Tue Feb 3 01:00:00 2009 -0700
+
+	    imported from back_2009_02_03
+
+E ora hai un repository Git pulito e ben strutturato. È importante notare che non c’è nessun file nella directory perché non è stato fatto nessun checkout. Per avere i file che ti aspetteresti di avere, devi resettare il tuo branch alla posizione attuale del `master`:
+
+	$ ls
+	$ git reset --hard master
+	HEAD is now at 10bfe7d imported from current
+	$ ls
+	file.rb  lib
+
+Puoi fare un sacco di altre cose con lo strumento `fast-import`, come gestire modalità diverse, dati binari, branch multipli, fare il merge di branch e tag, aggiungere degli indicatori di avanzamento e molto ancora. Numerosi esempi per scenari più complessi sono disponibili nella directory `contrib/fast-import` dei sorgenti di Git. Il migliore è lo script `git-p4` di cui abbiamo parlato prima.
+
+## Summary ##
+
+Dovresti trovarti a tuo agio usando Git con Subversion o importando praticamente qualsiasi repository esistente in un nuovo repository Git senza perdere dati. Il prossimo capitolo tratterà i comandi interni raw di Git, così che puoi manipolare ogni singolo byte, qualora necessario.
+

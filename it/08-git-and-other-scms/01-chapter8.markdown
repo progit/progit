@@ -598,3 +598,91 @@ Se esegui ora il comando `git log` vedrai che i checksum SHA-1 per le commit son
 
 La tua importazione è ora pronta per essere inviata al server Git con una push.
 
+### Un’importazione personalizzata ###
+
+Se non usi né Subversion né Perforce dovresti cercare online se esista uno strumento d’importazione per il tuo sistema. Ce ne sono di buona qualità per CVS, Clear Case, Visual Source Safe e perfino per una directory di archivi. Se nessuno di questi strumenti funzionasse per il tuo caso significa che hai uno strumento abbastanza raro o se necessiti di una maggiore personalizzazione per l’importazione, dovresti usare `git fast-import`. Questo comando legge delle semplici istruzioni dallo standard input per scrivere dati di Git specifici. È molto più semplice creare degli oggetti di Git con questo strumento piuttosto che usare comandi raw di Git (v. Capitolo 9 per maggiori informazioni). In questo modo potrai scrivere uno script d’importazione che legga le informazioni necessarie dal sistema da cui vuoi importare i dati e le scriva sullo standard output, in modo che Git le legga attraverso `git fast-import`.
+
+Per dimostrare velocemente quanto detto, scriveremo uno semplice script d’importazione. Supponiamo di lavorare in current e che di tanto in tanto fai il backup del progetto copiando la directory in una di backup con il timestamp nel nome (per esempio: `back_YYYY_MM_DD`), e vuoi importare il tutto in Git. La struttura delle tue directory sarà simile a questa:
+
+	$ ls /opt/import_from
+	back_2009_01_02
+	back_2009_01_04
+	back_2009_01_14
+	back_2009_02_03
+	current
+
+Per importare la directory in Git, devi rivedere come Git gestisce i suoi dati. Come ricorderai, Git è fondamentalmente una lista collegata di oggetti commit che puntano a una versione istantanea del progetto. Tutto quello che devi fare è dire a `fast-import` quali sono le istantanee, quale commit punta alle istantanee e il loro ordine. La strategia che adotteremo sarà andare da un’istantanea all’altra e creare tante commit con il contenuto di ciascuna directory, collegando ciascuna commit alla precedente.
+
+Come hai fatto nell’esempio del Capitolo 7, scriveremo questo script in Ruby, perché è lo strumento con cui io generalmente lavoro e tende ad essere semplice da leggere. Puoi comunque scrivere questo esempio facilmente in qualsiasi linguaggio con cui tu abbia familiarità: deve solamente scrivere le informazioni corrette sullo standard output. Se lavori su Windows devi fare attenzione che non aggiunga un ritorno (CR) alla fine delle righe, perché `git fast-import` richiede specificatamente che ci sia solo un ritorno unix standard (LF) e non il ritorno a capo che usa Windows (CRLF).
+
+Per iniziare, andiamo nella directory di destinazione e identifichiamo ciascuna subdirectory, ognuna contenente una istantanea di quello che vogliamo importare come una commit. Andrai in ciascuna subdirectory e stamperai i comandi necessari per esportarne il contenuto. Il tuo ciclo di base assomiglierà a questo::
+
+	last_mark = nil
+
+	# loop through the directories
+	Dir.chdir(ARGV[0]) do
+	  Dir.glob("*").each do |dir|
+	    next if File.file?(dir)
+
+	    # move into the target directory
+	    Dir.chdir(dir) do
+	      last_mark = print_export(dir, last_mark)
+	    end
+	  end
+	end
+
+Esegui `print_export` in ciascuna directory, che prende in input il manifesto e il contrassegno dell’istantanea precedente e restituisce in output il manifesto e il contrassegno di quella corrente. In questo modo si possono collegare facilmente. "Mark" (contrassegno) è una chiave identificativa che tu dai a ciascuna commit. Man mano che creerai commit, darai a ciascuna un nuovo contrassegno che userai per collegarla alle altre commit. La prima cosa quindi che dovrai fare nel tuo `print_export` sarà generare questo contrassegno dal nome della directory:
+
+	mark = convert_dir_to_mark(dir)
+
+Creerai un array di directory e userai l’indice di questo array, perché il contrassegno dev’essere un intero. Il tuo metodo sarà più o meno così::
+
+	$marks = []
+	def convert_dir_to_mark(dir)
+	  if !$marks.include?(dir)
+	    $marks << dir
+	  end
+	  ($marks.index(dir) + 1).to_s
+	end
+
+Ora che hai un intero a rappresentare ciascuna commit, hai bisogno di una data per il metadata della commit. Poiché la data è contenuta nel nome della directory ti basterà processarla.
+La riga successiva del tuo `print_export` sarà quindi
+
+	date = convert_dir_to_date(dir)
+
+dove `convert_dir_to_date` è definito come
+
+	def convert_dir_to_date(dir)
+	  if dir == 'current'
+	    return Time.now().to_i
+	  else
+	    dir = dir.gsub('back_', '')
+	    (year, month, day) = dir.split('_')
+	    return Time.local(year, month, day).to_i
+	  end
+	end
+
+Questo restituisce un intero per la data di ciascuna directory. L’ultimo metadata di cui hai bisogno è il nome di chi ha eseguito la commit, che scriverai in una variabile globale:
+
+	$author = 'Scott Chacon <schacon@example.com>'
+
+Sei ora pronto per scrivere i dati delle commit per la tua importazione. L’informazione iniziale descrive che stai definendo una commit e a quale branch appartiene, seguita dal contrassegno che hai generato, le informazioni sull’autore e il messaggio della commit, infine la commit precedente, se esiste. Il codice assomiglierà a questo:
+
+	# print the import information
+	puts 'commit refs/heads/master'
+	puts 'mark :' + mark
+	puts "committer #{$author} #{date} -0700"
+	export_data('imported from ' + dir)
+	puts 'from :' + last_mark if last_mark
+
+Definisci hardcoded il fuso orario (-0700 nell’esempio) perché è più facile farlo così. Ma se stai importando i dati da un altro sistema dovrai specificare l’orario come differenza di ore.
+Il messaggio della commit dovrà essere espresso in un formato particolare:
+
+	data (size)\n(contents)
+
+Il formato consiste nella parola “data”, la dimensione dei dati da leggere, un ritorno a capo e quindi i dati veri e propri. Poiché hai bisogno dello stesso formato per specificare anche il contenuto dei file, creeremo un metodo `export_data`:
+
+	def export_data(string)
+	  print "data #{string.size}\n#{string}"
+	end
+

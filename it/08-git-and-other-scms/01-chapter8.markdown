@@ -686,3 +686,28 @@ Il formato consiste nella parola “data”, la dimensione dei dati da leggere, 
 	  print "data #{string.size}\n#{string}"
 	end
 
+Tutto ciò che manca è solo specificare i file contenuti in ciascuna istantanea. Questo è semplice perché ognuna è una directory, e puoi scrivere il comando `deleteall` seguito dal contenuto di ciascun file nella directory. Git registrerà ogni istantanea nel modo corretto:
+
+	puts 'deleteall'
+	Dir.glob("**/*").each do |file|
+	  next if !File.file?(file)
+	  inline_data(file)
+	end
+
+NB:	Poiché molti sistemi pensano le revisioni come cambiamenti tra una commit e l’altra, fast-import può anche prendere in input con ciascuna commit la descrizione di ciascun file aggiunto, rimosso o modificato e quale sia il contenuto attuale. Puoi calcolare tu stesso le differenze tra le varie istantanee e fornire queste informazioni, ma farlo è molto più complesso, e puoi così dare a Git tutte le informazioni e lasciare che Git ricavi quelle di cui ha bisogno. Se questo fosse il tuo caso, controlla la pagina man di `fast-import` per maggiori dettagli su come fornire queste informazioni in questo modo.
+
+Il formato per l’elenco del contenuto aggiornato dei file o per specificare i file modificati con i contenuti aggiornati è quello seguente:
+
+	M 644 inline path/to/file
+	data (size)
+	(file contents)
+
+In questo caso 644 è il modo (devi individuare i file eseguibili ed usare invece il modo 755), e inline dice che indicherai il contenuto immediatamente dalla riga successiva. Il metodo `inline_data` sarà più o meno così:
+
+	def inline_data(file, code = 'M', mode = '644')
+	  content = File.read(file)
+	  puts "#{code} #{mode} inline #{file}"
+	  export_data(content)
+	end
+
+Puoi riusare il metodo `export_data` definito precedentemente perché l’output è lo stesso di quando abbiamo specificato le informazioni per la commit.

@@ -9,24 +9,13 @@ Nelle prime versioni di Git (principalmente pre 1.5) l'interfaccia utente era mo
 
 Il filesystem indirizzabile per contenuto è veramente formidabile, quindi in questo capitolo inizierò parlandone. Imparerai quindi il meccanismo di trasporto e le attività per la manutenzione del repository con le potresti dover aver a che fare.
 
-## Plumbing and Porcelain ##
+## Impianto e sanitari ##
 
-Questo libro parla di come usare Git utilizzando più di 30 verbi, tra i quali `checkout`, `branch`, `remote` e così via.
-Siccome Git è stato inizialmente sviluppato come insieme di strumenti per un VCS piuttosto che un completo VCS user-friendly
-comprende un mucchio di verbi per fare lavori di basso livello e progettati per essere concatenati insieme in stile UNIX
-o invocati da script. Di solito ci si riferisce a questi comandi come "plumbing", mentre i comandi più user-friendly
-sono detti comandi "porcelain".
+Questo libro parla di come usare Git utilizzando più di 30 termini come `checkout`, `branch`, `remote` e così via. Poiché Git è stato inizialmente sviluppato come un insieme di strumenti per un VCS, piuttosto che un completo VCS user-friendly, ha un mucchio di termini per fare lavori di basso livello e progettati per essere concatenati insieme nello stile UNIX o invocati da script. Di solito ci si riferisce a questi comandi come "plumbing" (impianto), mentre i comandi più user-friendly sono detti comandi "porcelain" (sanitari).
 
-I primi otto capitoli del libro hanno a che fare quasi esclusivamente con comandi porcelain. In questo 
-capitolo invece vedremo i comandi plumbing di basso livello, perchè permettono di accedere al funzionamento 
-interno di Git ed aiutano a dimostrare come e perchè Git fà quello che fà. Questi comandi non sono 
-pensati per essere lanciati manualmente dalla linea di comando ma sono da considerare piuttosto come mattoni 
-con i quali costruire nuovi strumenti e script personallizzati.
+I primi otto capitoli del libro hanno a che fare quasi esclusivamente con comandi *porcelain*. In questo capitolo vedremo invece i comandi *plumbing* di basso livello, perché permettono di accedere al funzionamento interno di Git ed aiutano a dimostrare come e perché Git fa quello che fa. Questi comandi non sono pensati per essere lanciati manualmente dalla linea di comando ma sono da considerare piuttosto come mattoni con i quali costruire nuovi strumenti e script personalizzati.
 
-Lanciando `git init` in una directory nuova o esistente Git provvederà a creare la directory `.git` che contiene praticamente 
-tutti i dati sui quali che Git. Se volete fare un backup o un clone del vostro repository vi basta copiare 
-questa directory dal qualche altra parte per avere praticamente tutto quello che vi serve.
-Tutto questo capitolo ha a che fare con il contenuto di questa direcotry. La sua struttura è la seguente:
+Eseguendo `git init` in una directory nuova o esistente Git provvederà a creare la directory `.git` che contiene praticamente tutto ciò di cui ha bisogno Git. Se vuoi fare un backup o un clone del tuo repository ti basta copiare questa directory da qualche altra parte per avere praticamente tutto quello che ti serve. Tutto questo capitolo tratta il contenuto di questa directory. La sua struttura di default è la seguente:
 
 	$ ls 
 	HEAD
@@ -39,19 +28,11 @@ Tutto questo capitolo ha a che fare con il contenuto di questa direcotry. La sua
 	objects/
 	refs/
 
-Potreste trovare altri file, ma questo è il risultato di `git init` — è quello che vedete di default.
-La directory `branches` non è utilizzata dalle versioni più recenti di Git e il file `description` è 
-utilizzato solamente dal programma GitHub, quindi potete ignorarli.
+Potresti trovare altri file, ma quello che vedi sopra è il risultato di `git init` appena eseguito. La directory `branches` non è utilizzata dalle versioni più recenti di Git e il file `description` è utilizzato solamente dal programma GitWeb, quindi puoi pure ignorarli.
 Il file `config` contiene le configurazioni specifiche per il progetto e la directory `info` mantiene 
-un file di exclude globale per ignorare i pattern dei quali non volete tenere traccia un in file .gitignore.
-La directory `hooks` contiene i vostri script di hook client- o server-side, dei quali abbiamo parlato in dettaglio 
-nel capitolo 6.
+un file di exclude globale per ignorare i pattern dei quali non volete tenere traccia un in file .gitignore. La directory `hooks` contiene i tuoi script di hook client/server, che vengono discussi in dettaglio nel capitolo 7.
 
-Non abbiamo parlato di quattro voci: i file `HEAD` e `index` e le directory `objects` e `refs`. 
-Queste sono le parti principali di Git. La directory `objects` conserva tutto il contenuto del vostro database,
-la directory `refs` conserva i puntatori agli oggetti commit (branches), il file `HEAD` punta al branch di cui avete
-fatto il checkout e il file `index` è dove Git conserva la informazioni sulla vostra area di staging
-Vedremo in dettaglio ognuna di queste sezioni per capire in che modo opera Git.
+Non abbiamo ancora parlato di quattro cose importanti: i file `HEAD` e `index` e le directory `objects` e `refs`, che fanno parte del nucleo di Git. La directory `objects` contiene tutto il contenuto del tuo database, la directory `refs` contiene i puntatori agli oggetti delle commit nei diversi branch, il file `HEAD` punta al branch di cui hai fatto il checkout e nel file `index` Git registra la informazioni della tua area di staging. Vedremo in dettaglio ognuna di queste sezioni per capire come opera Git.
 
 ## Gli oggetti di Git ##
 

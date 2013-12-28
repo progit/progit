@@ -258,7 +258,7 @@ Figura 9-3. Tutti gli oggetti nella tua directory Git.
 
 ### Il salvataggio degli oggetti ###
 
-In precendeza ho menzionato il fatto che insieme ad un contenuto viene salvato anche un header. Prendiamoci 
+In precendenza ho menzionato il fatto che insieme ad un contenuto viene salvato anche un header. Prendiamoci 
 un minuto per capire come Git salva i propri oggetti. Vedrete come salvare un oggetto blob - in questo caso, la stringa
 "what is up, doc?" - intrerattivamente con il linguaggio di scripting Ruby. Potete lanciare Ruby in modalità interattiva
 con il comando `irb`:
@@ -1024,8 +1024,8 @@ Let’s see how much space you saved.
 
 The packed repository size is down to 7K, which is much better than 2MB. You can see from the size value that the big object is still in your loose objects, so it’s not gone; but it won’t be transferred on a push or subsequent clone, which is what is important. If you really wanted to, you could remove the object completely by running `git prune --expire`.
 
-## Summary ##
+## Sommario ##
 
-You should have a pretty good understanding of what Git does in the background and, to some degree, how it’s implemented. This chapter has covered a number of plumbing commands — commands that are lower level and simpler than the porcelain commands you’ve learned about in the rest of the book. Understanding how Git works at a lower level should make it easier to understand why it’s doing what it’s doing and also to write your own tools and helping scripts to make your specific workflow work for you.
+A questo punto dovresti avere una discreta conoscenza di quello che Git faccia in background e anche un’infarinatura su come è implementato. Questo capitolo ha descritto alcuni comandi *plumbing*: comandi che sono più a basso livello e più semplici dei comandi *porcelain* che hai imparato nel resto del libro. Capire come funziona Git a basso livello dovrebbe renderti più facile comprendere perché sta facendo qualcosa in quel modo, ma anche permetterti di scrivere i tuoi strumenti/script per far funzionare meglio il flusso di lavoro cui sei abituato.
 
-Git as a indirizzabile per contenuto filesystem is a very powerful tool that you can easily use as more than just a VCS. I hope you can use your newfound knowledge of Git internals to implement your own cool application of this technology and feel more comfortable using Git in more advanced ways.
+Git, come filesystem indirizzabile per contenuto, è uno strumento molto potente e puoi facilmente usarlo anche per altro che non sia solo uno strumento di gestione dei sorgenti (VCS). Spero che tu possa usare la tua ritrovata conoscenza degli strumenti interni di Git per implementare una tua bellissima applicazione con questa tecnologia e trovarti a tuo agio nell’uso avanzato di Git.

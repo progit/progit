@@ -258,24 +258,18 @@ Figura 9-3. Tutti gli oggetti nella tua directory Git.
 
 ### Il salvataggio degli oggetti ###
 
-In precendenza ho menzionato il fatto che insieme ad un contenuto viene salvato anche un header. Prendiamoci 
-un minuto per capire come Git salva i propri oggetti. Vedrete come salvare un oggetto blob - in questo caso, la stringa
-"what is up, doc?" - intrerattivamente con il linguaggio di scripting Ruby. Potete lanciare Ruby in modalità interattiva
-con il comando `irb`:
+In precedenza ho menzionato il fatto che insieme al contenuto viene salvato anche una intestazione. Prendiamoci un minuto per capire come Git salva i propri oggetti. Vedremo come salvare un oggetto blob - in questo caso la stringa "what is up, doc?" - interattivamente con il linguaggio di scripting Ruby. Potete lanciare Ruby in modalità interattiva con il comando `irb`:
 
 	$ irb
 	>> content = "what is up, doc?"
 	=> "what is up, doc?"
 
-Git costruisce un header che comincia con il tipo dell'oggetto, in questo caso un blob. Poi aggiunge uno spazio 
-seguito dalla dimensione del contenuto ed infine da un null byte:
+Git costruisce una intestazione che comincia con il tipo dell'oggetto, in questo caso un blob, aggiunge uno spazio seguito dalla dimensione del contenuto ed infine da un null byte:
 
 	>> header = "blob #{content.length}\0"
 	=> "blob 16\000"
 
-Git concatena header e contenuto originle e calcola il checksum SHA-1 del nuovo contenuto. Potete calcolare 
-lo SHA-1 di una stringa in Ruby includendo la libreria SHA1 digest con il comando `require` e invocando 
-`Digest::SHA1.hexdigest()`:
+Git concatena l’intestazione e il contenuto originale e calcola il checksum SHA-1 del risultato. Puoi calcolare lo SHA-1 di una stringa in Ruby includendo la libreria SHA1 digest con il comando `require` e invocando `Digest::SHA1.hexdigest()`:
 
 	>> store = header + content
 	=> "blob 16\000what is up, doc?"
@@ -284,19 +278,15 @@ lo SHA-1 di una stringa in Ruby includendo la libreria SHA1 digest con il comand
 	>> sha1 = Digest::SHA1.hexdigest(store)
 	=> "bd9dbf5aae1a3862dd1526723246b20206e5fc37"
 
-Git comprime il nouvo contenuto con zlib, cosa che potete fare in Ruby con la libreria zlib.
-Prima avrete bisogno di includere la libreria ed invocare `Zlib::Deflate.deflate()` sul contenuto:
+Git comprime il nuovo contenuto con zlib, cosa che potete fare in Ruby con la libreria zlib.
+Prima avrai bisogno di includere la libreria ed invocare `Zlib::Deflate.deflate()` sul contenuto:
 
 	>> require 'zlib'
 	=> true
 	>> zlib_content = Zlib::Deflate.deflate(store)
 	=> "x\234K\312\311OR04c(\317H,Q\310,V(-\320QH\311O\266\a\000_\034\a\235"
 
-Infine, scriverete il vostro contenuto zlib-deflated in un oggetto sul disco.
-Determinerete il percorso dell'oggetto che volete scrivere (i primi due caratteri dello SHA-1 sono il nome 
-della sottodirectory e gli ultimi 38 caratteri sono il nome del file contenuto in quella directory).
-I Ruby, potete usare la funzione `FileUtils.mkdir_p()` per creare la sottodirectory se questa non esiste.
-Di seguito aprite il file con `File.open()` e scrivete il contenuto ottenuto in precedenza nel file chiamando
+Infine, scrivi il contenuto zlib-deflated in un oggetto sul disco. Determinerai il percorso dell'oggetto che vuoi scrivere (i primi due caratteri dello SHA-1 sono il nome della subdirectory e gli ultimi 38 caratteri sono il nome del file contenuto in quella directory). In Ruby puoi usare la funzione `FileUtils.mkdir_p()` per creare la subdirectory, se questa non esiste. Apri di seguito il file con `File.open()` e scrivi nel file il contenuto ottenuto in precedenza, chiamando
 `write()` sul file handler risultante:
 
 	>> path = '.git/objects/' + sha1[0,2] + '/' + sha1[2,38]
@@ -308,20 +298,15 @@ Di seguito aprite il file con `File.open()` e scrivete il contenuto ottenuto in 
 	>> File.open(path, 'w') { |f| f.write zlib_content }
 	=> 32
 
-Questoè tutto - avete creato un oggetto Git di tipo blob valido. Tutti gli oggetti Git sono salvati nello
-stesso modo, solo con tipi differenti - invece della stringa "blob" l'header comincierà con "commit" o "tree".
-Inoltre, seppure il contenuto blob può essere praticamente qualsiasi cosa, i contenuti commit e tree sono formttati 
-in modo molto specifico.
+Questo è tutto - hai creato un oggetto Git valido di tipo blob. Tutti gli oggetti Git sono salvati nello stesso modo, solo con tipi differenti. Invece della stringa blob, l’intestazione comincerà con commit o tree. Inoltre, sebbene il contenuto del blob può essere praticamente qualsiasi cosa, i contenuti commit e tree sono formattati in modo molto dettagliato.
 
 ## I riferimenti di Git ##
 
-Potete lanciare qualcosa tipo `git log 1a410e` per vedere tutta la vostra intera history, ma dovete 
-comunque ricordare che quel `1a410e` è l'ultima commit per poter essere in grado di percorrere la history stessa
-per trovare tutti quegli oggetti. Avete bisogno di un file nel quale potete salvare il valore dello SHA-1
-attribuendogli un semplice nome in modo da poter usare quel nome al posto del valore SHA-1 grezzo.
+Puoi eseguire un comando come `git log 1a410e` per vedere la cronologia completa, ma devi
+comunque ricordarti che quel `1a410e` è l'ultima commit, per poter essere in grado di vedere la cronologia e trovare quegli oggetti. Hai bisogno di un file nel quale potete salvare il valore dello SHA-1 attribuendogli un semplice nome in modo da poter usare quel nome al posto del valore SHA-1 grezzo.
 
-In Git, questi sono chiamati "riferimenti" o "refs"; potete trovare i file che contengono i valori SHA-1
-nella directory `.git/refs`. Nel progetto corrente, questa directory non contiene files ma una semplice struttura:
+In Git questi sono chiamati "riferimenti" o "refs”: puoi trovare i file che contengono gli hash SHA-1
+nella directory `.git/refs`. Nel nostro progetto questa directory non contiene files ma una semplice struttura:
 
 	$ find .git/refs
 	.git/refs
@@ -330,91 +315,78 @@ nella directory `.git/refs`. Nel progetto corrente, questa directory non contien
 	$ find .git/refs -type f
 	$
 
-Per creare un nuovo riferimento che vi aiuterà a ricordare dov'è la vostra ultima commit, potete tecnicamente 
-fare qualcosa di semplice come questo:
+Per creare un nuovo riferimento che ti aiuterà a ricordare dov'è la tua ultima commit, tecnicamente puoi una cosa molto semplice come questo:
 
 	$ echo "1a410efbd13591db07496601ebc7a059dd55cfe9" > .git/refs/heads/master
 
-Ora potete usare il riferimento appena creato al posto del valore SHA-1 nei vostri comandi Git:
+Ora puoi usare il riferimento appena creato al posto del valore SHA-1 nei tuoi comandi Git:
 
 	$ git log --pretty=oneline  master
 	1a410efbd13591db07496601ebc7a059dd55cfe9 third commit
 	cac0cab538b970a37ea1e769cbbde608743bc96d second commit
 	fdf4fc3344e67ab068f836878b6c4951e3b15f3d first commit
 
-Non siete incoraggiati ad editare direttamente i file riferimento.
-Git fornisce un comando sicuro per fare questo se volete agiornare un riferimento, chiamato `update-ref`:
+Questo però non ti incoraggia a modificare direttamente i file di riferimento. Git fornisce un comando sicuro per farlo se vuoi aggiornare un riferimento, chiamato `update-ref`:
 
 	$ git update-ref refs/heads/master 1a410efbd13591db07496601ebc7a059dd55cfe9
 
-Questo è di base cos'è un branch in Git: un semplice puntetore o riferimento alla head di una linea di lavoro.
-Per creare un branch indietro alla seconda commit, potete fare questo:
+Questo è quello che si definisce branch in Git: un semplice puntatore o riferimento all’intestazione di un flusso di lavoro. Per creare un branch con la seconda commit, così:
 
 	$ git update-ref refs/heads/test cac0ca
 
-Il vostro branch conterrà solo il lavoro da quella commit in poi:
+Il tuo branch conterrà solo il lavoro da quella commit in poi:
 
 	$ git log --pretty=oneline test
 	cac0cab538b970a37ea1e769cbbde608743bc96d second commit
 	fdf4fc3344e67ab068f836878b6c4951e3b15f3d first commit
 
-Ora, il vostro database Git assomiglia concettualmente all Figura 9-4.
+Ora, il tuo database Git assomiglia concettualmente alla Figura 9-4.
 
 Insert 18333fig0904.png 
-Figura 9-4. La direcotyr degli oggetti Git directory con incluse i riferimenti branch e head.
+Figura 9-4. La directory degli oggetti Git directory con inclusi i riferimenti branch e head.
 
-Quando lanciate comandi come `git branch (branchname)`, Git in pratic lancia il comando `update-ref` per
-aggiungere lo SHA-1 dell'ultima commit del branch nel quale siete in qualsiasi nuovo riferimento vogliate creare.
+Quando esegui comandi come `git branch (branchname)`, Git in realtà esegue il comando `update-ref` per
+aggiungere lo SHA-1 dell'ultima commit del branch nel quale siete, in qualsiasi nuovo riferimento vogliate creare.
 
-### HEAD ###
+### Intestazione ###
 
-La domanda ora è, quando lanciate `git branch (branchname)`, come fà Git a conoscere lo SHA-1 dell'ultima commit? 
-La risposta è il file HEAD. Il file HEAD è un riferimento simbolico al branch corrente.
-Con riferimento simbolico intendo che, a differenze di un normale riferimento, non contiente in generale un 
-valore SHA-1 ma piuttosto un puntatore ad unl'altro riferimento. Se esaminate il file, vedrete qualcosa come:
+La questione ora è questa: quando esegui `git branch (branchname)`, come fa Git a conoscere lo SHA-1 dell'ultima commit?  La risposta è nel file HEAD. Il file HEAD è un riferimento simbolico al branch corrente. Per riferimento simbolico intendo che, a differenza di un normale riferimento, normalmente non contiene un valore SHA-1 quanto piuttosto un puntatore a un altro riferimento. Se esamini il file vedrai qualcosa come questa:
 
 	$ cat .git/HEAD 
 	ref: refs/heads/master
 
-Se lanciate `git checkout test`, Git aggiorna il file in questo modo:
+Se esegui `git checkout test`, Git aggiorna il file così:
 
 	$ cat .git/HEAD 
 	ref: refs/heads/test
 
-Quando lanciate `git commit`, crea l'oggetto commit, specificando che il padre dell'oggetto commit
-stesso sia il valore SHA-1 al quale punta il riferimento in HEAD.
+Quando esegui `git commit`, questo crea l'oggetto commit specificando il padre dell'oggetto commit in modo che sia un hash SHA-1 a cui fa riferimento l’HEAD.
 
-Potete anche editare manualmente questo file, ma ancora una volta esiste un comando più sicuro per farlo: `symbolic-ref`.
-Potete anche leggere il valore della vostra HEAD tramite questo comando:
+Puoi modificare manualmente questo file, ma, di nuovo, esiste un comando più sicuro per farlo: `symbolic-ref`. Puoi leggere il valore del tuo HEAD tramite questo comando:
 
 	$ git symbolic-ref HEAD
 	refs/heads/master
 
-Potet anche impostare il valore di HEAD:
+Puoi anche impostare il valore di HEAD:
 
 	$ git symbolic-ref HEAD refs/heads/test
 	$ cat .git/HEAD 
 	ref: refs/heads/test
 
-Non potete impostare un riferimento simbolico al di fuori di refs:
+Non puoi impostare un riferimento simbolico al di fuori dei refs:
 
 	$ git symbolic-ref HEAD test
 	fatal: Refusing to point HEAD outside of refs/
 
-### Tags ###
+### Tag ###
 
-Avete appena visto i tre principali tipi di oggetti di Git, ma ce n'è un quarto. L'oggetto tag è molto simile 
-ad un oggetto commit - contiene un tag. una data, un messaggio ed un puntatore. La differenza principale sta 
-nel fatto che un oggetto tag punta ad un oggetto commit piuttosto che ad un albero. E' come un riferimento 
-ad un branch, ma non si muove - punta sempre alla stessa commit ma gli da un nome più amichevole.
+Hai appena visto i tre tipi principali di oggetti in Git, ma ce n'è anche un quarto. L'oggetto tag è molto simile a un oggetto commit: contiene un tag, una data, un messaggio ed un puntatore. La differenza principale sta nel fatto che un tag punta a una commit piuttosto che a un albero. E' come un riferimento a un branch, ma non si muove mai: punta sempre alla stessa commit e gli da un nome più amichevole.
 
-Come discusso nel Capitolo 2, ci sono due tipi di tag: annotated e lightweight. Potete creare un tag lightweight lanciando un comando tipo questo:
+Come discusso nel Capitolo 2, ci sono due tipi di tag: annotati (*annotated*) e leggeri (*lightweight*). Puoi creare un tag *lightweight* eseguendo un comando come questo:
 
 	$ git update-ref refs/tags/v1.0 cac0cab538b970a37ea1e769cbbde608743bc96d
 
-Questo è tutto quello che è un tag lightweight - un branch che non si muove mai. Un tag annotated però è più complesso.
-Se create un tag annotated, Git crea un oggetto tag e scrive un riferimento al quale puntare, invece di puntare direttamente alla commit.
-Potete vedere tutto questo creando un tag annotated (`-a` specifica che si tratta di un tag annotated):
+Questo è tag *lightweight*: un branch che non si muove mai. Un tag annotato è però più complesso. Se crei un tag annotato, Git crea un oggetto tag e scrive un riferimento a cui puntare, piuttosto di puntare direttamente alla commit. Puoi vederlo creando un tag annotato (`-a` specifica che si tratta di un tag annotato):
 
 	$ git tag -a v1.1 1a410efbd13591db07496601ebc7a059dd55cfe9 –m 'test tag'
 
@@ -423,7 +395,7 @@ Questo è il valore SHA-1 dell'oggetto creato:
 	$ cat .git/refs/tags/v1.1 
 	9585191f37f7b0fb9444f35a9bf50de191beadc2
 
-Ora, lanciando il comando `cat-file` su questo SHA-1:
+Ora, esegui il comando `cat-file` su questo hash SHA-1:
 
 	$ git cat-file -p 9585191f37f7b0fb9444f35a9bf50de191beadc2
 	object 1a410efbd13591db07496601ebc7a059dd55cfe9
@@ -433,15 +405,11 @@ Ora, lanciando il comando `cat-file` su questo SHA-1:
 
 	test tag
 
-Notate che l'oggetto punta al valore SHA-1 della commit che avete taggato. Notate anche che non è 
-importante che punti ad un oggetto commit; potete taggare ogni oggetto di Git. Nel codice sorgente di 
-Git, ad esempio, il mantainer ha aggiunto la sua chiave pubblica GPG come oggetto blob e lo ha taggato.
-Potete vedere la chiave pubblica lanciando
+Noterai che l'oggetto punta all’hash SHA-1 della commit che hai taggato. Nota anche che non ha bisogno di puntare ad una commit: puoi taggare qualsiasi oggetto di Git. Nei sorgenti di Git, per esempio, il mantenitore ha aggiunto la sua chiave pubblica GPG come oggetto blob e lo ha taggato. Puoi vedere la chiave pubblica eseguendo
 
 	$ git cat-file blob junio-gpg-pub
 
-nel codice sorgente di Git. Anche il kernel di Linux ha un oggetto tag che non punta ad una commit - 
-il primo tag creato punta all'albero iniziale dell'import del codice sorgente.
+nei sorgenti di Git. Anche il kernel di Linux ha un oggetto tag che non punta ad una commit: il primo tag creato punta all'albero iniziale dell'import dei sorgenti.
 
 ### Remotes ###
 

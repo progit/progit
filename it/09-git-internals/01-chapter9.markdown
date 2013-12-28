@@ -378,20 +378,15 @@ Non puoi impostare un riferimento simbolico al di fuori dei refs:
 	$ git symbolic-ref HEAD test
 	fatal: Refusing to point HEAD outside of refs/
 
-### Tags ###
+### Tag ###
 
-Avete appena visto i tre principali tipi di oggetti di Git, ma ce n'è un quarto. L'oggetto tag è molto simile 
-ad un oggetto commit - contiene un tag. una data, un messaggio ed un puntatore. La differenza principale sta 
-nel fatto che un oggetto tag punta ad un oggetto commit piuttosto che ad un albero. E' come un riferimento 
-ad un branch, ma non si muove - punta sempre alla stessa commit ma gli da un nome più amichevole.
+Hai appena visto i tre tipi principali di oggetti in Git, ma ce n'è anche un quarto. L'oggetto tag è molto simile a un oggetto commit: contiene un tag, una data, un messaggio ed un puntatore. La differenza principale sta nel fatto che un tag punta a una commit piuttosto che a un albero. E' come un riferimento a un branch, ma non si muove mai: punta sempre alla stessa commit e gli da un nome più amichevole.
 
-Come discusso nel Capitolo 2, ci sono due tipi di tag: annotated e lightweight. Potete creare un tag lightweight lanciando un comando tipo questo:
+Come discusso nel Capitolo 2, ci sono due tipi di tag: annotati (*annotated*) e leggeri (*lightweight*). Puoi creare un tag *lightweight* eseguendo un comando come questo:
 
 	$ git update-ref refs/tags/v1.0 cac0cab538b970a37ea1e769cbbde608743bc96d
 
-Questo è tutto quello che è un tag lightweight - un branch che non si muove mai. Un tag annotated però è più complesso.
-Se create un tag annotated, Git crea un oggetto tag e scrive un riferimento al quale puntare, invece di puntare direttamente alla commit.
-Potete vedere tutto questo creando un tag annotated (`-a` specifica che si tratta di un tag annotated):
+Questo è tag *lightweight*: un branch che non si muove mai. Un tag annotato è però più complesso. Se crei un tag annotato, Git crea un oggetto tag e scrive un riferimento a cui puntare, piuttosto di puntare direttamente alla commit. Puoi vederlo creando un tag annotato (`-a` specifica che si tratta di un tag annotato):
 
 	$ git tag -a v1.1 1a410efbd13591db07496601ebc7a059dd55cfe9 –m 'test tag'
 
@@ -400,7 +395,7 @@ Questo è il valore SHA-1 dell'oggetto creato:
 	$ cat .git/refs/tags/v1.1 
 	9585191f37f7b0fb9444f35a9bf50de191beadc2
 
-Ora, lanciando il comando `cat-file` su questo SHA-1:
+Ora, esegui il comando `cat-file` su questo hash SHA-1:
 
 	$ git cat-file -p 9585191f37f7b0fb9444f35a9bf50de191beadc2
 	object 1a410efbd13591db07496601ebc7a059dd55cfe9
@@ -410,15 +405,11 @@ Ora, lanciando il comando `cat-file` su questo SHA-1:
 
 	test tag
 
-Notate che l'oggetto punta al valore SHA-1 della commit che avete taggato. Notate anche che non è 
-importante che punti ad un oggetto commit; potete taggare ogni oggetto di Git. Nel codice sorgente di 
-Git, ad esempio, il mantainer ha aggiunto la sua chiave pubblica GPG come oggetto blob e lo ha taggato.
-Potete vedere la chiave pubblica lanciando
+Noterai che l'oggetto punta all’hash SHA-1 della commit che hai taggato. Nota anche che non ha bisogno di puntare ad una commit: puoi taggare qualsiasi oggetto di Git. Nei sorgenti di Git, per esempio, il mantenitore ha aggiunto la sua chiave pubblica GPG come oggetto blob e lo ha taggato. Puoi vedere la chiave pubblica eseguendo
 
 	$ git cat-file blob junio-gpg-pub
 
-nel codice sorgente di Git. Anche il kernel di Linux ha un oggetto tag che non punta ad una commit - 
-il primo tag creato punta all'albero iniziale dell'import del codice sorgente.
+nei sorgenti di Git. Anche il kernel di Linux ha un oggetto tag che non punta ad una commit: il primo tag creato punta all'albero iniziale dell'import dei sorgenti.
 
 ### Remotes ###
 

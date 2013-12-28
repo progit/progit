@@ -98,7 +98,7 @@ o alla seconda:
 	$ cat test.txt 
 	version 2
 
-Ricordare la chiave SHA-1 di ogni versione del tuo file non è per niente pratico e, come hai visto, non viene salvato nemmeno il nome del file, ma solo il suo contenuto. Questo tipo di oggetto a chiamato *blob*. Puoi fare in modo che Git ti restituisca il tipo di ciascun oggetto conservato al suo interno, data la sua chiave SHA-1, con `cat-file -t`:
+Ricordare la chiave SHA-1 di ogni versione del tuo file non è per niente pratico e, come hai visto, non viene salvato nemmeno il nome del file, ma solo il suo contenuto. Questo tipo di oggetto a chiamato blob. Puoi fare in modo che Git ti restituisca il tipo di ciascun oggetto conservato al suo interno, data la sua chiave SHA-1, con `cat-file -t`:
 
 	$ git cat-file -t 1f7a7a472abf3dd9643fd615f6da379c4acb3e3a
 	blob
@@ -180,18 +180,14 @@ Figura 9-2. La struttura dei contenuti per i vostri dati di Git.
 
 ### Oggetti Commit ###
 
-A questo punto avere tre alberi che specificano i diversi snapshot del vostro progetto del quale volete tenere traccia, 
-ma il problema iniziale rimane: dovete ricordare tutti e tre i valori SHA-1 per poter recuperare gli snapshot. Non avete inoltre nessuna 
-informazione su chi ha salvato gli snapshot, quando li ha salvati o perchè li ha salvati. Queste sono le informazioni di base che gli oggetti
-commit salvati per voi.
+A questo punto avrai tre alberi che specificano le diverse istantanee (snapshot) del tuo progetto delle quali vuoi tenere traccia, ma rimane il problema iniziale: devi ricordare tutti e tre gli hash SHA-1 per poter recuperare le istantanee. Inoltre non hai nessuna informazione su chi ha salvato le istantanee, né quando le hai salvate né tantomeno perché. Queste sono le informazioni che gli oggetti commit registrano per te.
 
-Per creare un oggetto commit, lanciate `commit-tree` e specificate un singolo albero SHA-1 e quale oggetto commit, 
-se esiste, lo precede direttamente. Cominciate con il primo albero che avete scritto:
+Per creare un oggetto commit esegui `commit-tree` specificando un singolo albero SHA-1 e, se esiste, qual’è la commit immediatamente precedente. Comincia con il primo albero che hai scritto:
 
 	$ echo 'first commit' | git commit-tree d8329f
 	fdf4fc3344e67ab068f836878b6c4951e3b15f3d
 
-Ora potete analizzare il vostro nuovo oggetto commit con `cat-file`:
+Ora puoi analizzare il tuo nuovo oggetto commit con `cat-file`:
 
 	$ git cat-file -p fdf4fc3
 	tree d8329fc1cc938780ffdd9f94e0d364e0ea74f579
@@ -200,19 +196,17 @@ Ora potete analizzare il vostro nuovo oggetto commit con `cat-file`:
 
 	first commit
 
-Il formato di un oggetto commit è semplice: specifica l'albero di primo livello per lo snapshot del progetto a quel punto;
-le informazioni sull'autore/colui che ha fatto la commit estratte dalle vostre impostazioni `user.name` and `user.email`,
-con il timestamp corrente; una linea vuota ed infine il messaggio di commit.
+Il formato di un oggetto commit è semplice: specifica l'albero di primo livello per l’istantanea del progetto in quel dato punto, mentre le informazioni sull’autore delle modifiche o della commit vengono estratte dalle tue impostazioni `user.name` e `user.email` con il timestamp corrente, una linea vuota ed infine il messaggio di commit.
 
-Di seguito, scrivete gli altri due oggetti commit, ognuno dei quali fa riferimento alla commit che le hanno preceduti:
+Scriviamo gli altri due oggetti commit, ognuno dei quali fa riferimento alla commit che le hanno preceduti:
 
 	$ echo 'second commit' | git commit-tree 0155eb -p fdf4fc3
 	cac0cab538b970a37ea1e769cbbde608743bc96d
 	$ echo 'third commit'  | git commit-tree 3c4e9c -p cac0cab
 	1a410efbd13591db07496601ebc7a059dd55cfe9
 
-Ognuno dei tre oggetti commit punta ad uno dei tre alberi snapshot che avete creato.
-Ora avete una vera Git history che potete vedere con il comando `git log`, se lo lanciate sull'ultima commit SHA-1:
+Ognuno dei tre oggetti commit punta ad uno dei tre alberi delle istantanee che hai creato.
+Ora hai una vera e propria cronologia di Git che puoi consultare con il comando `git log`, se lo esegui con l’hash SHA-1 dell'ultima commit vedrai:
 
 	$ git log --stat 1a410e
 	commit 1a410efbd13591db07496601ebc7a059dd55cfe9
@@ -243,12 +237,7 @@ Ora avete una vera Git history che potete vedere con il comando `git log`, se lo
 	 test.txt |    1 +
 	 1 files changed, 1 insertions(+), 0 deletions(-)
 
-Fantastico. Avete appena eseguito le operazioni di basso livello per costruire una Git history senza utilizzare 
-nessuno dei comandi del front end. Questo è essenzialmente quello che Git fà quando lanciate i comandi `git add` e `git commit`
-- salva i blob per i file che sono cambiati, aggiorna l'indice, scrive gli alberi e scrive gli oggetti commit che 
-fanno riferimento agli alberi di primo livello e le commit fatte immediatamente prima di questi. Questi tre oggetti Git principali
-- il blob, l'albero, e la commit - sono inizialmente slavati come file separati nella vostra directory `.git/objects`. Di seguito
-potete vedere tutti gli oggetti nella directory di esempio, commentati con quello che contengono:
+Fantastico. Hai appena eseguito tutte le operazioni di basso livello per costruire una cronologia di Git senza utilizzare nessuno dei comandi del front end. Questo è essenzialmente quello che Git fa quando esegui i comandi `git add` e `git commit`: salva i blob per i file che sono cambiati, aggiorna l'indice, scrive gli alberi e scrive gli oggetti commit che fanno riferimento agli alberi di primo livello e le commit immediatamente precedenti a questi. Questi tre oggetti Git principali (il blob, l'albero, e la commit) sono inizialmente salvati come file separati nella tua directory `.git/objects`. Di seguito puoi vedere tutti gli oggetti nella directory di esempio, commentati con quello che contengono:
 
 	$ find .git/objects -type f
 	.git/objects/01/55eb4229851634a0f03eb265b69f5a2d56f341 # tree 2
@@ -262,10 +251,10 @@ potete vedere tutti gli oggetti nella directory di esempio, commentati con quell
 	.git/objects/fa/49b077972391ad58037050f2a75f74e3671e92 # new.txt
 	.git/objects/fd/f4fc3344e67ab068f836878b6c4951e3b15f3d # commit 1
 
-Se seguite tutti i puntatori interni otterrete un grafo degli oggetti simile a quelli in Figura 9-3.
+Se segui tutti i puntatori interni otterrai un grafico degli oggetti simile a quelli in Figura 9-3.
 
 Insert 18333fig0903.png 
-Figura 9-3. Tutti gli oggetti nella vostra directory Git.
+Figura 9-3. Tutti gli oggetti nella tua directory Git.
 
 ### Il salvataggio degli oggetti ###
 

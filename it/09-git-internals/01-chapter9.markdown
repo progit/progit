@@ -451,8 +451,8 @@ Let’s go back to the objects database for your test Git repository. At this po
 
 Git compresses the contents of these files with zlib, and you’re not storing much, so all these files collectively take up only 925 bytes. You’ll add some larger content to the repository to demonstrate an interesting feature of Git. Add the repo.rb file from the Grit library you worked with earlier — this is about a 12K source code file:
 
-	$ curl http://github.com/mojombo/grit/raw/master/lib/grit/repo.rb > repo.rb
-	$ git add repo.rb 
+	$ curl https://raw.github.com/mojombo/grit/master/lib/grit/repo.rb > repo.rb
+	$ git add repo.rb
 	$ git commit -m 'added repo.rb'
 	[master 484a592] added repo.rb
 	 3 files changed, 459 insertions(+), 2 deletions(-)
@@ -467,10 +467,10 @@ If you look at the resulting tree, you can see the SHA-1 value your repo.rb file
 	100644 blob 9bc1dc421dcd51b4ac296e3e5b6e2a99cf44391e      repo.rb
 	100644 blob e3f094f522629ae358806b17daf78246c27c007b      test.txt
 
-You can then use `git cat-file` to see how big that object is:
+You can then check how big is that object on your disk:
 
-	$ git cat-file -s 9bc1dc421dcd51b4ac296e3e5b6e2a99cf44391e
-	12898
+	$ du -b .git/objects/9b/c1dc421dcd51b4ac296e3e5b6e2a99cf44391e
+	4102	.git/objects/9b/c1dc421dcd51b4ac296e3e5b6e2a99cf44391e
 
 Now, modify that file a little, and see what happens:
 
@@ -488,10 +488,10 @@ Check the tree created by that commit, and you see something interesting:
 
 The blob is now a different blob, which means that although you added only a single line to the end of a 400-line file, Git stored that new content as a completely new object:
 
-	$ git cat-file -s 05408d195263d853f09dca71d55116663690c27c
-	12908
+	$ du -b .git/objects/05/408d195263d853f09dca71d55116663690c27c
+	4109	.git/objects/05/408d195263d853f09dca71d55116663690c27c
 
-You have two nearly identical 12K objects on your disk. Wouldn’t it be nice if Git could store one of them in full but then the second object only as the delta between it and the first?
+You have two nearly identical 4K objects on your disk. Wouldn’t it be nice if Git could store one of them in full but then the second object only as the delta between it and the first?
 
 It turns out that it can. The initial format in which Git saves objects on disk is called a loose object format. However, occasionally Git packs up several of these objects into a single binary file called a packfile in order to save space and be more efficient. Git does this if you have too many loose objects around, if you run the `git gc` command manually, or if you push to a remote server. To see what happens, you can manually ask Git to pack up the objects by calling the `git gc` command:
 
@@ -513,7 +513,7 @@ If you look in your objects directory, you’ll find that most of your objects a
 
 The objects that remain are the blobs that aren’t pointed to by any commit — in this case, the "what is up, doc?" example and the "test content" example blobs you created earlier. Because you never added them to any commits, they’re considered dangling and aren’t packed up in your new packfile.
 
-The other files are your new packfile and an index. The packfile is a single file containing the contents of all the objects that were removed from your filesystem. The index is a file that contains offsets into that packfile so you can quickly seek to a specific object. What is cool is that although the objects on disk before you ran the `gc` were collectively about 12K in size, the new packfile is only 6K. You’ve halved your disk usage by packing your objects.
+The other files are your new packfile and an index. The packfile is a single file containing the contents of all the objects that were removed from your filesystem. The index is a file that contains offsets into that packfile so you can quickly seek to a specific object. What is cool is that although the objects on disk before you ran the `gc` were collectively about 8K in size, the new packfile is only 4K. You’ve halved your disk usage by packing your objects.
 
 How does Git do this? When Git packs objects, it looks for files that are named and sized similarly, and stores just the deltas from one version of the file to the next. You can look into the packfile and see what Git did to save space. The `git verify-pack` plumbing command allows you to see what was packed up:
 
@@ -540,7 +540,7 @@ How does Git do this? When Git packs objects, it looks for files that are named 
 	chain length = 1: 1 object
 	pack-7a16e4488ae40c7d2bc56ea2bd43e25212a66c45.pack: ok
 
-Here, the `9bc1d` blob, which if you remember was the first version of your repo.rb file, is referencing the `05408` blob, which was the second version of the file. The third column in the output is the size of the object in the pack, so you can see that `05408` takes up 12K of the file but that `9bc1d` only takes up 7 bytes. What is also interesting is that the second version of the file is the one that is stored intact, whereas the original version is stored as a delta — this is because you’re most likely to need faster access to the most recent version of the file.
+Here, the `9bc1d` blob, which if you remember was the first version of your repo.rb file, is referencing the `05408` blob, which was the second version of the file. The third column in the output is the size of the object’s content, so you can see that the content of `05408` takes up 12K, but that of `9bc1d` only takes up 7 bytes. What is also interesting is that the second version of the file is the one that is stored intact, whereas the original version is stored as a delta — this is because you’re most likely to need faster access to the most recent version of the file.
 
 The really nice thing about this is that it can be repacked at any time. Git will occasionally repack your database automatically, always trying to save more space. You can also manually repack at any time by running `git gc` by hand.
 
@@ -628,7 +628,7 @@ You can also use the refspec to delete references from the remote server by runn
 
 	$ git push origin :topic
 
-Because the refspec is `<src>:<dst>`, by leaving off the `<src>` part, this basically says to make the topic branch on the remote nothing, which deletes it. 
+Because the refspec is `<src>:<dst>`, by leaving off the `<src>` part, this basically says to make the topic branch on the remote nothing, which deletes it.
 
 ## Transfer Protocols ##
 
@@ -650,7 +650,7 @@ Now you have a list of the remote references and SHAs. Next, you look for what t
 	=> GET HEAD
 	ref: refs/heads/master
 
-You need to check out the `master` branch when you’ve completed the process. 
+You need to check out the `master` branch when you’ve completed the process.
 At this point, you’re ready to start the walking process. Because your starting point is the `ca82a6` commit object you saw in the `info/refs` file, you start by fetching that:
 
 	=> GET objects/ca/82a6dff817ec66f44342007202690a93763949
@@ -801,8 +801,8 @@ The other thing `gc` will do is pack up your references into a single file. Supp
 
 If you run `git gc`, you’ll no longer have these files in the `refs` directory. Git will move them for the sake of efficiency into a file named `.git/packed-refs` that looks like this:
 
-	$ cat .git/packed-refs 
-	# pack-refs with: peeled 
+	$ cat .git/packed-refs
+	# pack-refs with: peeled
 	cac0cab538b970a37ea1e769cbbde608743bc96d refs/heads/experiment
 	ab1afef80fac8e34258ff41fc1b867c702daa24b refs/heads/master
 	cac0cab538b970a37ea1e769cbbde608743bc96d refs/tags/v1.0
@@ -872,10 +872,10 @@ It looks like the bottom commit is the one you lost, so you can recover it by cr
 	cac0cab538b970a37ea1e769cbbde608743bc96d second commit
 	fdf4fc3344e67ab068f836878b6c4951e3b15f3d first commit
 
-Cool — now you have a branch named `recover-branch` that is where your `master` branch used to be, making the first two commits reachable again. 
+Cool — now you have a branch named `recover-branch` that is where your `master` branch used to be, making the first two commits reachable again.
 Next, suppose your loss was for some reason not in the reflog — you can simulate that by removing `recover-branch` and deleting the reflog. Now the first two commits aren’t reachable by anything:
 
-	$ git branch –D recover-branch
+	$ git branch -D recover-branch
 	$ rm -Rf .git/logs/
 
 Because the reflog data is kept in the `.git/logs/` directory, you effectively have no reflog. How can you recover that commit at this point? One way is to use the `git fsck` utility, which checks your database for integrity. If you run it with the `--full` option, it shows you all objects that aren’t pointed to by another object:
@@ -907,7 +907,7 @@ To demonstrate, you’ll add a large file into your test repository, remove it i
 
 Oops — you didn’t want to add a huge tarball to your project. Better get rid of it:
 
-	$ git rm git.tbz2 
+	$ git rm git.tbz2
 	rm 'git.tbz2'
 	$ git commit -m 'oops - removed large tarball'
 	[master da3f30d] oops - removed large tarball

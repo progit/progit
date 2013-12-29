@@ -411,11 +411,9 @@ Noterai che l'oggetto punta all’hash SHA-1 della commit che hai taggato. Nota 
 
 nei sorgenti di Git. Anche il kernel di Linux ha un oggetto tag che non punta ad una commit: il primo tag creato punta all'albero iniziale dell'import dei sorgenti.
 
-### Remotes ###
+### Riferimenti remoti ###
 
-Il terzo tipo di riferimento che vedrete è il riferimento remoto. Se aggiungete un remote e poi fate un
-push, Git salva il valore del quale avete fatto la push per ogni branch nella directory `refs/remotes`.
-Ad esempio potete aggiungere un remote di nome `origin`e fare push del vostro branch `master` in esso:
+Il terzo tipo di riferimento che vedremo è il riferimento remoto. Se aggiungi un repository remoto e poi fai una push, Git salva il valore del quale avete fatto la push, per ogni branch, nella directory `refs/remotes`. Puoi per esempio aggiungere un repository remote di nome `origin`e fare la push del tuo branch `master`:
 
 	$ git remote add origin git@github.com:schacon/simplegit-progit.git
 	$ git push origin master
@@ -426,15 +424,13 @@ Ad esempio potete aggiungere un remote di nome `origin`e fare push del vostro br
 	To git@github.com:schacon/simplegit-progit.git
 	   a11bef0..ca82a6d  master -> master
 
-Poi, potete vedere quale era il branch `master` del remote `origin` l'ultima volta che avete comunicato con il server,
-esaminando il file `refs/remotes/origin/master`:
+E puoi vedere quale era il branch `master` del repository remoto `origin` l'ultima volta che hai comunicato con il server esaminando il file `refs/remotes/origin/master`:
 
 	$ cat .git/refs/remotes/origin/master 
 	ca82a6dff817ec66f44342007202690a93763949
 
 I riferimenti remoti differiscono dai branch (riferimenti in `refs/heads`) principalmente per il fatto
-che non è possibile fare il checkout di quest'ultimi. Git li sposta come segnalibri fino all'ultimo stato conosciuto
-di quei branch avevano sul server.
+che non è possibile fare il checkout di quest'ultimi. Git li sposta come segnalibri affinché corrispondano all'ultimo stato conosciuto di quei branch sul server.
 
 ## Packfiles ##
 

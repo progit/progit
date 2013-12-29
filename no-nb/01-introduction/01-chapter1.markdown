@@ -4,20 +4,20 @@ Dette kapittelet handler om å komme i gang med Git. Vi vil begynne på begynnel
 
 ## Om versjonskontroll ##
 
-Hva er versjonskontroll, og hvorfor burdeu du bry deg? Versjonskontroll er et system som holder styr på forandringer i en fil, eller et sett av filer over tid, slik at du kan finne tilbake til spesifikke versjoner senere. Selv om eksemplene i denne boka viser kildekodefiler under versjonskontroll, kan man i realiteten bruke det på alle typer filer på en datamaskin.
+Hva er versjonskontroll, og hvorfor burde du bry deg? Versjonskontroll er et system som holder styr på forandringer i en fil, eller et sett av filer, over tid, slik at du kan finne tilbake til spesifikke versjoner senere. Selv om eksemplene i denne boka viser kildekodefiler under versjonskontroll, kan man i realiteten bruke det på alle typer filer på en datamaskin.
 
 Er du en grafisk designer eller arbeider med webdesign og ønsker å beholde alle versjoner av et bilde eller en layout (som du sannsynligvis vil), så er det lurt å bruke et Version Control System (VCS). Et VCS gjør det mulig for deg å: tilbakestille filer til en tidligere utgave, tilbakestille hele prosjektet til en tidligere utgave, sjekke forandringer over tid, se hvem som sist forandret noe som muligens forårsaker et problem, hvem som introduserte en sak og når, osv. Å benytte seg av et VCS betyr også at dersom du roter det til eller mister filer, kan du vanligvis komme tilbake opp å kjøre raskt og enkelt. I tillegg, så får du alt dette uten at det krever noe videre av deg eller systemet ditt.
 
-### Local Version Control Systems ###
+### Lokalt versjonsstyringssystem ###
 
-Many people’s version-control method of choice is to copy files into another directory (perhaps a time-stamped directory, if they’re clever). This approach is very common because it is so simple, but it is also incredibly error prone. It is easy to forget which directory you’re in and accidentally write to the wrong file or copy over files you don’t mean to.
+Mange folks valgte versjonskontrollmetode innebærer å kopiere filer til en annen mappe (kanskje med datomerking hvis de er smarte). Denne tilnærmingen er vanlig, fordi den er enkel, men det kan også fort gå galt. Det er lett å glemme hvilken mappe man befinner seg i og så ved et uhell skrive til feil fil, eller kopiere over filer man ikke mente.
 
-To deal with this issue, programmers long ago developed local VCSs that had a simple database that kept all the changes to files under revision control (see Figure 1-1).
+For å hanskes med dette problemet utviklet programmerere, for lenge siden, lokale VCSer der en enkel database holdt alle forandringer i filer som var under revisjonskontroll (se Figure 1-1).
 
 Insert 18333fig0101.png
-Figure 1-1. Local version control diagram.
+Figure 1-1. Lokalt versjonskontrolldiagram.
 
-One of the more popular VCS tools was a system called rcs, which is still distributed with many computers today. Even the popular Mac OS X operating system includes the rcs command when you install the Developer Tools. This tool basically works by keeping patch sets (that is, the differences between files) from one revision to another in a special format on disk; it can then recreate what any file looked like at any point in time by adding up all the patches.
+Et av de mer populære VCS-verktøyene var et system kalt rcs, som fremdeles distribueres med mange datamaskiner i dag. Selv det populære Mac OS X-operativsystemet inkluderer rcs-kommandoen når en installerer utviklerverktøyene. Dette verktøyet virker, enkelt fortalt, ved å beholde et sett av patcher (dvs, forskjellen mellom filene) fra en revisjon til en annen, i et spesielt format på disken; det kan så gjenskape hvordan enhver fil så ut på et hvilket som helst tidspunkt, ved å legge sammen alle patchene.
 
 ### Centralized Version Control Systems ###
 

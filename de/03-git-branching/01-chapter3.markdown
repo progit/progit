@@ -7,7 +7,7 @@ Nahezu jedes VCS unterstützt eine Form von Branching. Branching bedeutet, dass 
 
 <!--Some people refer to the branching model in Git as its “killer feature”  , and it certainly sets Git apart in the VCS community. Why is it so special? The way Git branches is incredibly lightweight, making branching operations nearly instantaneous and switching back and forth between branches generally just as fast. Unlike many other VCSs, Git encourages a workflow that branches and merges often, even multiple times in a day. Understanding and mastering this feature gives you a powerful and unique tool and can literally change the way that you develop.-->
 
-Manche Leute bezeichnen Gits Branching-Modell als dessen "Killer-Feature", was Git zweifellos von dem Rest der VCS-Community abhebt. Aber was macht es so besonders? Die Art und Weise, wie Git Branches behandelt, ist unglaublich leichtfüßig. Dies führt dazu, dass nahezu jede Branch-Operation verzögerungsfrei ausgeführt wird. Auch das Hin- und Herschalten zwischen einzelnen Entwicklungszweigen läuft genauso schnell ab. Im Gegensatz zu anderen VCS ermutigt Git zu einer Arbeitsweise mit häufigem Branching und Merging - oft mehrmals am Tag. Die Branching-Funktion zu verstehen und zu meistern gibt Dir ein mächtiges und einmaliges Werkzeug an die Hand und kann Deine Art zu entwickeln buchstäblich verändern.
+Manche Leute bezeichnen Gits Branching-Modell als dessen „Killer-Feature“, was Git zweifellos von dem Rest der VCS-Community abhebt. Aber was macht es so besonders? Die Art und Weise, wie Git Branches behandelt, ist unglaublich leichtfüßig. Dies führt dazu, dass nahezu jede Branch-Operation verzögerungsfrei ausgeführt wird. Auch das Hin- und Herschalten zwischen einzelnen Entwicklungszweigen läuft genauso schnell ab. Im Gegensatz zu anderen VCS ermutigt Git zu einer Arbeitsweise mit häufigem Branching und Merging – oft mehrmals am Tag. Die Branching-Funktion zu verstehen und zu meistern gibt Dir ein mächtiges und einmaliges Werkzeug an die Hand und kann Deine Art zu entwickeln buchstäblich verändern.
 
 <!--## What a Branch Is ##-->
 ## Was ist ein Branch? ##
@@ -91,7 +91,7 @@ Um zu einem anderen Branch zu wechseln, benutze das Kommando `git checkout`. Las
 
 <!--This moves HEAD to point to the testing branch (see Figure 3-6).-->
 
-Das lässt HEAD neuerdings auf den Branch "testing" verweisen (siehe Abbildung 3-6).
+Das lässt HEAD neuerdings auf den Branch „testing“ verweisen (siehe Abbildung 3-6).
 
 <!--Figure 3-6. HEAD points to another branch when you switch branches.-->
 
@@ -156,7 +156,7 @@ Branches können in Git spielend erstellt und entfernt werden, da sie nur kleine
 
 <!--This is in sharp contrast to the way most VCS tools branch, which involves copying all of the project’s files into a second directory. This can take several seconds or even minutes, depending on the size of the project, whereas in Git the process is always instantaneous. Also, because we’re recording the parents when we commit, finding a proper merge base for merging is automatically done for us and is generally very easy to do. These features help encourage developers to create and use branches often.-->
 
-Das steht im krassen Gegensatz zu dem Weg, den die meisten andere VCS Tools beim Thema Branching einschlagen. Diese kopieren oftmals jeden neuen Entwicklungszweig in ein weiteres Verzeichnis, was - je nach Projektgröße - mehrere Minuten in Anspruch nehmen kann, wohingegen Git diese Aufgabe sofort erledigt. Da wir außerdem immer den Ursprungs-Commit festhalten, lässt sich problemlos eine gemeinsame Basis für eine Zusammenführung finden und umsetzen. Diese Eigenschaft soll Entwickler ermutigen Entwicklungszweige häufig zu erstellen und zu nutzen.
+Das steht im krassen Gegensatz zu dem Weg, den die meisten andere VCS Tools beim Thema Branching einschlagen. Diese kopieren oftmals jeden neuen Entwicklungszweig in ein weiteres Verzeichnis, was – je nach Projektgröße – mehrere Minuten in Anspruch nehmen kann, wohingegen Git diese Aufgabe sofort erledigt. Da wir außerdem immer den Ursprungs-Commit festhalten, lässt sich problemlos eine gemeinsame Basis für eine Zusammenführung finden und umsetzen. Diese Eigenschaft soll Entwickler ermutigen Entwicklungszweige häufig zu erstellen und zu nutzen.
 
 <!--Let’s see why you should do so.-->
 
@@ -186,9 +186,9 @@ In diesem Augenblick kommt ein Anruf, dass ein kritisches Problem aufgetreten is
 3. After it’s tested, merge the hotfix branch, and push to production.
 4. Switch back to your original story and continue working.-->
 
-1. Geh zurück zu deinem "Produktiv"-Zweig.
+1. Geh zurück zu deinem „Produktiv“-Zweig.
 2. Erstelle eine Branch für den Hotfix.
-3. Nach dem Testen führst du den Hotfix-Branch mit dem "Produktiv"-Branch zusammen.
+3. Nach dem Testen führst du den Hotfix-Branch mit dem „Produktiv“-Branch zusammen.
 4. Schalte wieder auf deine alte Arbeit zurück und werkel weiter.
 
 <!--### Basic Branching ###-->
@@ -244,7 +244,7 @@ Nun bekommst du einen Anruf, in dem dir mitgeteilt wird, dass es ein Problem mit
 
 <!--However, before you do that, note that if your working directory or staging area has uncommitted changes that conflict with the branch you’re checking out, Git won’t let you switch branches. It’s best to have a clean working state when you switch branches. There are ways to get around this (namely, stashing and commit amending) that we’ll cover later. For now, you’ve committed all your changes, so you can switch back to your master branch:-->
 
-Beachte jedoch, dass dich Git den Branch nur wechseln lässt, wenn bisherige Änderungen in deinem Arbeitsverzeichnis oder deiner Staging-Area nicht in Konflikt mit dem Zweig stehen, zu dem du nun wechseln möchtest. Am besten es liegt ein sauberer Status vor wenn man den Branch wechselt. Wir werden uns später mit Wegen befassen, dieses Verhalten zu umgehen (namentlich "Stashing" und "Commit Ammending"). Vorerst aber hast du deine Änderungen bereits comitted, sodass du zu deinem MASTER-Branch zurückwechseln kannst.
+Beachte jedoch, dass dich Git den Branch nur wechseln lässt, wenn bisherige Änderungen in deinem Arbeitsverzeichnis oder deiner Staging-Area nicht in Konflikt mit dem Zweig stehen, zu dem du nun wechseln möchtest. Am besten es liegt ein sauberer Status vor wenn man den Branch wechselt. Wir werden uns später mit Wegen befassen, dieses Verhalten zu umgehen (namentlich „Stashing“ und „Commit Ammending“). Vorerst aber hast du deine Änderungen bereits comitted, sodass du zu deinem MASTER-Branch zurückwechseln kannst.
 
 	$ git checkout master
 	Switched to branch "master"
@@ -282,7 +282,7 @@ Mach deine Tests, stell sicher das sich der Hotfix verhält wie erwartet und fü
 
 <!--You’ll notice the phrase "Fast forward" in that merge. Because the commit pointed to by the branch you merged in was directly upstream of the commit you’re on, Git moves the pointer forward. To phrase that another way, when you try to merge one commit with a commit that can be reached by following the first commit’s history, Git simplifies things by moving the pointer forward because there is no divergent work to merge together — this is called a "fast forward".-->
 
-Du wirst die Mitteilung "Fast Forward" während des Zusammenführens bemerken. Da der neue Commit direkt von dem ursprünglichen Commit, auf den sich der nun eingebrachte Zweig bezieht, abstammt, bewegt Git einfach den Zeiger weiter. Mit anderen Worten kann Git den neuen Commit, durch verfolgen der Commitabfolge, direkt erreichen, dann bewegt es ausschließlich den Branch-Zeiger. Zu einer tatsächlichen Kombination der Commits besteht ja kein Anlass. Dieses Vorgehen wird "Fast Forward" genannt.
+Du wirst die Mitteilung „Fast Forward“ während des Zusammenführens bemerken. Da der neue Commit direkt von dem ursprünglichen Commit, auf den sich der nun eingebrachte Zweig bezieht, abstammt, bewegt Git einfach den Zeiger weiter. Mit anderen Worten kann Git den neuen Commit, durch verfolgen der Commitabfolge, direkt erreichen, dann bewegt es ausschließlich den Branch-Zeiger. Zu einer tatsächlichen Kombination der Commits besteht ja kein Anlass. Dieses Vorgehen wird „Fast Forward“ genannt.
 
 <!--Your change is now in the snapshot of the commit pointed to by the `master` branch, and you can deploy your change (see Figure 3-14).-->
 
@@ -425,7 +425,7 @@ Wenn du ein grafischen Tool zur Bereinigung benutzen willst, dann verwende `git 
 
 <!--If you want to use a merge tool other than the default (Git chose `opendiff` for me in this case because I ran the command on a Mac), you can see all the supported tools listed at the top after “merge tool candidates”. Type the name of the tool you’d rather use. In Chapter 7, we’ll discuss how you can change this default value for your environment.-->
 
-Wenn du ein anderes Tool anstelle des Standardwerkzeug für ein 'merge' verwenden möchtest (Git verwendet in meinem Fall `opendiff`, da ich auf einem Mac arbeite), dann kannst du alle unterstützten Werkzeuge oben - neben "merge tool candidates" - aufgelistet sehen. Tippe einfach den Namen deines gewünschten Werkzeugs ein. In Kapitel 7 besprechen wir, wie du diesen Standardwert in deiner Umgebung dauerhaft ändern kannst.
+Wenn du ein anderes Tool anstelle des Standardwerkzeug für ein 'merge' verwenden möchtest (Git verwendet in meinem Fall `opendiff`, da ich auf einem Mac arbeite), dann kannst du alle unterstützten Werkzeuge oben – neben „merge tool candidates“ – aufgelistet sehen. Tippe einfach den Namen deines gewünschten Werkzeugs ein. In Kapitel 7 besprechen wir, wie du diesen Standardwert in deiner Umgebung dauerhaft ändern kannst.
 
 <!--After you exit the merge tool, Git asks you if the merge was successful. If you tell the script that it was, it stages the file to mark it as resolved for you.-->
 
@@ -460,7 +460,7 @@ Wenn du zufrieden bist und du geprüft hast, dass alle Konflikte beseitigt wurde
 
 <!--You can modify that message with details about how you resolved the merge if you think it would be helpful to others looking at this merge in the future — why you did what you did, if it’s not obvious.-->
 
-Wenn du glaubst für zukünftige Betrachter des Commits könnte interessant sein warum du getan hast, was du getan hast, dann kannst du der Commit-Beschreibung noch zusätzliche Informationen hinzufügen - sofern das nicht trivial erscheint.
+Wenn du glaubst für zukünftige Betrachter des Commits könnte interessant sein warum du getan hast, was du getan hast, dann kannst du der Commit-Beschreibung noch zusätzliche Informationen hinzufügen – sofern das nicht trivial erscheint.
 
 <!--## Branch Management ##-->
 ## Branch Management ##
@@ -516,7 +516,7 @@ Die Liste zeigt dir den anderen Branch. Er enthält Arbeit, die noch nicht gemer
 
 <!--If you really do want to delete the branch and lose that work, you can force it with `-D`, as the helpful message points out.-->
 
-Wenn du den Branch trotzdem löschen willst - und damit alle Änderungen dieses Branches verlieren - kannst du das mit `git branch -D testing` machen.
+Wenn du den Branch trotzdem löschen willst – und damit alle Änderungen dieses Branches verlieren – kannst du das mit `git branch -D testing` machen.
 
 <!--## Branching Workflows ##-->
 ## Branching Workflows ##
@@ -534,7 +534,7 @@ Da Git das einfachen 3-Wege-'merge' verwendet, ist häufiges Zusammenführen von
 
 <!--Many Git developers have a workflow that embraces this approach, such as having only code that is entirely stable in their `master` branch — possibly only code that has been or will be released. They have another parallel branch named develop or next that they work from or use to test stability — it isn’t necessarily always stable, but whenever it gets to a stable state, it can be merged into `master`. It’s used to pull in topic branches (short-lived branches, like your earlier `iss53` branch) when they’re ready, to make sure they pass all the tests and don’t introduce bugs.-->
 
-Viele Git Entwickler verfolgen mit ihrem Workflow den Ansatz nur den stabilen Code in dem `master`-Branch zu halten - möglicherweise auch nur Code, der released wurde oder werden kann. Sie betreiben parallel einen anderen Branch zum Arbeiten oder Testen. Wenn dieser paralelle Zweig einen stabilen Status erreicht, kann er mit dem `master`-Branch zusammengeführt werden. Dies findet bei Themen bezogenen Branches (kurzfristigen Branches, wie der zuvor genante `iss53`-Branch) Anwendung, um sicherzustellen, dass dieser die Tests besteht und keine Fehler verursacht.
+Viele Git Entwickler verfolgen mit ihrem Workflow den Ansatz nur den stabilen Code in dem `master`-Branch zu halten – möglicherweise auch nur Code, der released wurde oder werden kann. Sie betreiben parallel einen anderen Branch zum Arbeiten oder Testen. Wenn dieser paralelle Zweig einen stabilen Status erreicht, kann er mit dem `master`-Branch zusammengeführt werden. Dies findet bei Themen bezogenen Branches (kurzfristigen Branches, wie der zuvor genante `iss53`-Branch) Anwendung, um sicherzustellen, dass dieser die Tests besteht und keine Fehler verursacht.
 
 <!--In reality, we’re talking about pointers moving up the line of commits you’re making. The stable branches are farther down the line in your commit history, and the bleeding-edge branches are farther up the history (see Figure 3-18).-->
 
@@ -557,7 +557,7 @@ Abbildung 3-19. Es könnte hilfreich sein, sich die Branches als Depots vorzuste
 <!--You can keep doing this for several levels of stability. Some larger projects also have a `proposed` or `pu` (proposed updates) branch that has integrated branches that may not be ready to go into the `next` or `master` branch. The idea is that your branches are at various levels of stability; when they reach a more stable level, they’re merged into the branch above them.
 Again, having multiple long-running branches isn’t necessary, but it’s often helpful, especially when you’re dealing with very large or complex projects.-->
 
-Das lässt sich für beliebig viele Stabilitätsabstufungen umsetzen. Manche größeren Projekte haben auch einen `proposed` (Vorgeschlagen) oder `pu` (proposed updates - vorgeschlagene Updates) Zweig mit Branches die vielleicht noch nicht bereit sind in den `next`- oder `master`-Branch integriert zu werden. Die Idee dahinter ist, dass deine Branches verschiedene Stabilitätsabstufungen repräsentieren. Sobald sie eine stabilere Stufe erreichen, werden sie in den nächsthöheren Branch vereinigt.
+Das lässt sich für beliebig viele Stabilitätsabstufungen umsetzen. Manche größeren Projekte haben auch einen `proposed` (Vorgeschlagen) oder `pu` (proposed updates – vorgeschlagene Updates) Zweig mit Branches die vielleicht noch nicht bereit sind in den `next`- oder `master`-Branch integriert zu werden. Die Idee dahinter ist, dass deine Branches verschiedene Stabilitätsabstufungen repräsentieren. Sobald sie eine stabilere Stufe erreichen, werden sie in den nächsthöheren Branch vereinigt.
 
 Nochmal, langfristig verschiedene Branches paralell laufen zu lassen ist nicht notwendig, aber oft hilfreich. Insbesondere wenn man es mit sehr großen oder komplexen Projekten zu tun hat.
 
@@ -592,7 +592,7 @@ Abbildung 3-21. Dein Verlauf nach Zusammenführung von `dumbidea` und `iss91v2`.
 
 <!--It’s important to remember when you’re doing all this that these branches are completely local. When you’re branching and merging, everything is being done only in your Git repository — no server communication is happening.-->
 
-Es ist wichtig sich daran zu erinnern, dass alle diese Branches nur lokal existieren. Wenn du Verzweigungen schaffst (branchst) und wieder zusammenführst (mergest), findet dies nur in deinem Git-Repository statt - es findet keine Server-Kommunikation statt.
+Es ist wichtig sich daran zu erinnern, dass alle diese Branches nur lokal existieren. Wenn du Verzweigungen schaffst (branchst) und wieder zusammenführst (mergest), findet dies nur in deinem Git-Repository statt – es findet keine Server-Kommunikation statt.
 
 <!--## Remote Branches ##-->
 ## Externe Branches ##
@@ -634,7 +634,7 @@ Abbildung 3-24. Das `git fetch`-Kommando aktualisiert deine externen Referenzen.
 
 <!--To demonstrate having multiple remote servers and what remote branches for those remote projects look like, let’s assume you have another internal Git server that is used only for development by one of your sprint teams. This server is at `git.team1.ourcompany.com`. You can add it as a new remote reference to the project you’re currently working on by running the `git remote add` command as we covered in Chapter 2. Name this remote `teamone`, which will be your shortname for that whole URL (see Figure 3-25).-->
 
-Um zu demonstrieren wie Branches auf verschiedenen Remote-Servern aussehen, stellen wir uns vor, dass du einen weiteren internen Git-Server besitzt, welcher nur von einem deiner Sprint-Teams zur Entwicklung genutzt wird. Diesen Server erreichen wir unter `git.team1.ourcompany.com`. Du kannst ihn, mit dem Git-Kommando `git remote add` - wie in Kapitel 2 beschrieben, deinem derzeitigen Arbeitsprojekt als weiteren Quell-Server hinzufügen. Gib dem Remote-Server den Namen `teamone`, welcher nun als Synonym für die ausgeschriebene Internetadresse dient (siehe Abbildung 3-25).
+Um zu demonstrieren wie Branches auf verschiedenen Remote-Servern aussehen, stellen wir uns vor, dass du einen weiteren internen Git-Server besitzt, welcher nur von einem deiner Sprint-Teams zur Entwicklung genutzt wird. Diesen Server erreichen wir unter `git.team1.ourcompany.com`. Du kannst ihn, mit dem Git-Kommando `git remote add` – wie in Kapitel 2 beschrieben, deinem derzeitigen Arbeitsprojekt als weiteren Quell-Server hinzufügen. Gib dem Remote-Server den Namen `teamone`, welcher nun als Synonym für die ausgeschriebene Internetadresse dient (siehe Abbildung 3-25).
 
 <!--Figure 3-25. Adding another server as a remote.-->
 
@@ -655,7 +655,7 @@ Abbildung 3-26. Du bekommst eine lokale Referenz auf `teamone`s `master`-Branch.
 
 <!--When you want to share a branch with the world, you need to push it up to a remote that you have write access to. Your local branches aren’t automatically synchronized to the remotes you write to — you have to explicitly push the branches you want to share. That way, you can use private branches for work you don’t want to share, and push up only the topic branches you want to collaborate on.-->
 
-Wenn du einen Branch mit der Welt teilen möchtest, musst du ihn auf einen externen Server laden, auf dem du Schreibrechte besitzt. Deine lokalen Zweige werden nicht automatisch mit den Remote-Servern synchronisiert wenn du etwas änderst - du musst die zu veröffentlichenden Branches explizit hochladen (pushen). Auf diesem Weg kannst du an privaten Zweigen arbeiten die du nicht veröffentlichen möchtest, und nur die Themen-Branches replizieren an denen du gemeinsam mit anderen entwickeln möchtest.
+Wenn du einen Branch mit der Welt teilen möchtest, musst du ihn auf einen externen Server laden, auf dem du Schreibrechte besitzt. Deine lokalen Zweige werden nicht automatisch mit den Remote-Servern synchronisiert wenn du etwas änderst – du musst die zu veröffentlichenden Branches explizit hochladen (pushen). Auf diesem Weg kannst du an privaten Zweigen arbeiten die du nicht veröffentlichen möchtest, und nur die Themen-Branches replizieren an denen du gemeinsam mit anderen entwickeln möchtest.
 
 <!--If you have a branch named `serverfix` that you want to work on with others, you can push it up the same way you pushed your first branch. Run `git push (remote) (branch)`:-->
 
@@ -671,7 +671,7 @@ Wenn du einen Zweig namens `serverfix` besitzt, an dem du mit anderen arbeiten m
 
 <!--This is a bit of a shortcut. Git automatically expands the `serverfix` branchname out to `refs/heads/serverfix:refs/heads/serverfix`, which means, “Take my serverfix local branch and push it to update the remote’s serverfix branch.” We’ll go over the `refs/heads/` part in detail in Chapter 9, but you can generally leave it off. You can also do `git push origin serverfix:serverfix`, which does the same thing — it says, “Take my serverfix and make it the remote’s serverfix.” You can use this format to push a local branch into a remote branch that is named differently. If you didn’t want it to be called `serverfix` on the remote, you could instead run `git push origin serverfix:awesomebranch` to push your local `serverfix` branch to the `awesomebranch` branch on the remote project.-->
 
-Hierbei handelt es sich um eine Abkürzung. Git erweitert die `serverfix`-Branchbezeichnung automatisch zu `refs/heads/serverfix:refs/heads/serverfix`, was soviel bedeutet wie “Nimm meinen lokalen `serverfix`-Branch und aktualisiere damit den `serverfix`-Branch auf meinem externen Server”. Wir werden den `refs/heads/`-Teil in Kapitel 9 noch näher beleuchten, du kannst ihn aber in der Regel weglassen. Du kannst auch `git push origin serverfix:serverfix` ausführen, was das gleiche bewirkt - es bedeutet “Nimm meinen `serverfix` und mach ihn zum externen `serverfix`”. Du kannst dieses Format auch benutzen um einen lokalen Zweig in einen externen Branch mit anderem Namen zu laden. Wenn du ihn auf dem externen Server nicht `serverfix` nennen möchtest, könntest du stattdessen `git push origin serverfix:awesomebranch` ausführen um deinen lokalen `serverfix`-Branch in den `awesomebranch`-Zweig in deinem externen Projekt zu laden.
+Hierbei handelt es sich um eine Abkürzung. Git erweitert die `serverfix`-Branchbezeichnung automatisch zu `refs/heads/serverfix:refs/heads/serverfix`, was soviel bedeutet wie “Nimm meinen lokalen `serverfix`-Branch und aktualisiere damit den `serverfix`-Branch auf meinem externen Server”. Wir werden den `refs/heads/`-Teil in Kapitel 9 noch näher beleuchten, du kannst ihn aber in der Regel weglassen. Du kannst auch `git push origin serverfix:serverfix` ausführen, was das gleiche bewirkt – es bedeutet “Nimm meinen `serverfix` und mach ihn zum externen `serverfix`”. Du kannst dieses Format auch benutzen um einen lokalen Zweig in einen externen Branch mit anderem Namen zu laden. Wenn du ihn auf dem externen Server nicht `serverfix` nennen möchtest, könntest du stattdessen `git push origin serverfix:awesomebranch` ausführen um deinen lokalen `serverfix`-Branch in den `awesomebranch`-Zweig in deinem externen Projekt zu laden.
 
 <!--The next time one of your collaborators fetches from the server, they will get a reference to where the server’s version of `serverfix` is under the remote branch `origin/serverfix`:-->
 
@@ -687,7 +687,7 @@ Das nächste Mal wenn einer deiner Mitarbeiter den aktuellen Status des Git-Proj
 
 <!--It’s important to note that when you do a fetch that brings down new remote branches, you don’t automatically have local, editable copies of them. In other words, in this case, you don’t have a new `serverfix` branch — you only have an `origin/serverfix` pointer that you can’t modify.-->
 
-Es ist wichtig festzuhalten, dass du mit Abrufen eines neuen externen Branches nicht automatisch eine lokale, bearbeitbare Kopie derselben erhältst. Mit anderen Worten, in diesem Fall bekommst du keinen neuen `serverfix`-Branch - sondern nur einen `origin/serverfix`-Zeiger den du nicht verändern kannst.
+Es ist wichtig festzuhalten, dass du mit Abrufen eines neuen externen Branches nicht automatisch eine lokale, bearbeitbare Kopie derselben erhältst. Mit anderen Worten, in diesem Fall bekommst du keinen neuen `serverfix`-Branch – sondern nur einen `origin/serverfix`-Zeiger den du nicht verändern kannst.
 
 <!--To merge this work into your current working branch, you can run `git merge origin/serverfix`. If you want your own `serverfix` branch that you can work on, you can base it off your remote branch:-->
 
@@ -710,7 +710,7 @@ Das Auschecken eines lokalen Branches von einem Remote-Branch erzeugt automatisc
 
 <!--When you clone a repository, it generally automatically creates a `master` branch that tracks `origin/master`. That’s why `git push` and `git pull` work out of the box with no other arguments. However, you can set up other tracking branches if you wish — ones that don’t track branches on `origin` and don’t track the `master` branch. The simple case is the example you just saw, running `git checkout -b [branch] [remotename]/[branch]`. If you have Git version 1.6.2 or later, you can also use the `-\-track` shorthand:-->
 
-Wenn du ein Repository klonst, wird automatisch ein `master`-Branch erzeugt, welcher `origin/master` verfolgt. Deshalb können `git push` und `git pull` ohne weitere Argumente aufgerufen werden. Du kannst natürlich auch eigene Tracking-Branches erzeugen - welche die nicht Zweige auf `origin` und dessen `master`-Branch verfolgen. Der einfachste Fall ist das bereits gesehene Beispiel in welchem du `git checkout -b [branch] [remotename]/[branch]` ausführst. Mit der Git-Version 1.6.2 oder später kannst du auch die `--track`-Kurzvariante nutzen:
+Wenn du ein Repository klonst, wird automatisch ein `master`-Branch erzeugt, welcher `origin/master` verfolgt. Deshalb können `git push` und `git pull` ohne weitere Argumente aufgerufen werden. Du kannst natürlich auch eigene Tracking-Branches erzeugen – welche die nicht Zweige auf `origin` und dessen `master`-Branch verfolgen. Der einfachste Fall ist das bereits gesehene Beispiel in welchem du `git checkout -b [branch] [remotename]/[branch]` ausführst. Mit der Git-Version 1.6.2 oder später kannst du auch die `--track`-Kurzvariante nutzen:
 
 	$ git checkout --track origin/serverfix
 	Branch serverfix set up to track remote branch refs/remotes/origin/serverfix.
@@ -733,7 +733,7 @@ Nun wird dein lokaler Branch `sf` automatisch push und pull auf `origin/serverfi
 
 <!--Suppose you’re done with a remote branch — say, you and your collaborators are finished with a feature and have merged it into your remote’s `master` branch (or whatever branch your stable codeline is in). You can delete a remote branch using the rather obtuse syntax `git push [remotename] :[branch]`. If you want to delete your `serverfix` branch from the server, you run the following:-->
 
-Stellen wir uns du bist fertig mit deinem Remote-Branch - sagen wir deine Mitarbeiter und du, Ihr seid fertig mit einer neuen Funktion und habt sie in den entfernten `master`-Branch (oder in welchem Zweig Ihr sonst den stabilen Code ablegt) gemerged. Du kannst einen Remote-Branch mit der unlogischen Syntax `git push [remotename] :[branch]` löschen. Wenn du deinen `serverfix`-Branch vom Server löschen möchtest, führe folgendes aus:
+Stellen wir uns du bist fertig mit deinem Remote-Branch – sagen wir deine Mitarbeiter und du, Ihr seid fertig mit einer neuen Funktion und habt sie in den entfernten `master`-Branch (oder in welchem Zweig Ihr sonst den stabilen Code ablegt) gemerged. Du kannst einen Remote-Branch mit der unlogischen Syntax `git push [remotename] :[branch]` löschen. Wenn du deinen `serverfix`-Branch vom Server löschen möchtest, führe folgendes aus:
 
 	$ git push origin :serverfix
 	To git@github.com:schacon/simplegit.git
@@ -741,7 +741,7 @@ Stellen wir uns du bist fertig mit deinem Remote-Branch - sagen wir deine Mitarb
 
 <!--Boom. No more branch on your server. You may want to dog-ear this page, because you’ll need that command, and you’ll likely forget the syntax. A way to remember this command is by recalling the `git push [remotename] [localbranch]:[remotebranch]` syntax that we went over a bit earlier. If you leave off the `[localbranch]` portion, then you’re basically saying, “Take nothing on my side and make it be `[remotebranch]`.”-->
 
-Boom. Kein Zweig mehr auf deinem Server. Du möchtest dir diese Seite vielleicht markieren, weil du dieses Kommando noch benötigen wirst und man leicht dessen Syntax vergisst. Ein Weg sich an dieses Kommando zu erinnern führt über die `git push [remotename] [localbranch]:[remotebranch]`-Snytax, welche wir bereits behandelt haben. Wenn du den `[localbranch]`-Teil weglässt, dann sagst du einfach "Nimm nichts von meiner Seite und mach es zu `[remotebranch]`".
+Boom. Kein Zweig mehr auf deinem Server. Du möchtest dir diese Seite vielleicht markieren, weil du dieses Kommando noch benötigen wirst und man leicht dessen Syntax vergisst. Ein Weg sich an dieses Kommando zu erinnern führt über die `git push [remotename] [localbranch]:[remotebranch]`-Snytax, welche wir bereits behandelt haben. Wenn du den `[localbranch]`-Teil weglässt, dann sagst du einfach „Nimm nichts von meiner Seite und mach es zu `[remotebranch]`“.
 
 <!--## Rebasing ##-->
 ## Rebasing ##
@@ -773,7 +773,7 @@ Abbildung 3-28. Das Zusammenführen eines Branches um die verschiedenen Arbeitsf
 
 <!--However, there is another way: you can take the patch of the change that was introduced in C3 and reapply it on top of C4. In Git, this is called _rebasing_. With the `rebase` command, you can take all the changes that were committed on one branch and replay them on another one.-->
 
-Wie auch immer, es gibt noch einen anderen Weg: du kannst den Patch der Änderungen - den wir in C3 eingeführt haben -  über C4 anwenden. Dieses Vorgehen nennt man in Git _rebasing_. Mit dem `rebase`-Kommando kannst du alle Änderungen die auf einem Branch angewendet wurden auf einen anderen Branch erneut anwenden.
+Wie auch immer, es gibt noch einen anderen Weg: du kannst den Patch der Änderungen – den wir in C3 eingeführt haben –  über C4 anwenden. Dieses Vorgehen nennt man in Git _rebasing_. Mit dem `rebase`-Kommando kannst du alle Änderungen die auf einem Branch angewendet wurden auf einen anderen Branch erneut anwenden.
 
 <!--In this example, you’d run the following:-->
 
@@ -804,11 +804,11 @@ Abbildung 3-30. Fast-forward des Master-Branches.
 
 <!--Now, the snapshot pointed to by C3' is exactly the same as the one that was pointed to by C5 in the merge example. There is no difference in the end product of the integration, but rebasing makes for a cleaner history. If you examine the log of a rebased branch, it looks like a linear history: it appears that all the work happened in series, even when it originally happened in parallel.-->
 
-Nun ist der Schnappschuss, auf den C3' zeigt, exakt der gleiche, wie der auf den C5 in dem Merge-Beispiel gezeigt hat. Bei dieser Zusammenführung entsteht kein unterschiedliches Produkt, durch Rebasing ensteht allerdings ein sauberer Verlauf. Bei genauerer Betrachtung der Historie entpuppt sich der Rebased-Branch als linearer Verlauf - es scheint als sei die ganze Arbeit in einer Serie entstanden, auch wenn sie in Wirklichkeit parallel stattfand.
+Nun ist der Schnappschuss, auf den C3' zeigt, exakt der gleiche, wie der auf den C5 in dem Merge-Beispiel gezeigt hat. Bei dieser Zusammenführung entsteht kein unterschiedliches Produkt, durch Rebasing ensteht allerdings ein sauberer Verlauf. Bei genauerer Betrachtung der Historie entpuppt sich der Rebased-Branch als linearer Verlauf – es scheint als sei die ganze Arbeit in einer Serie entstanden, auch wenn sie in Wirklichkeit parallel stattfand.
 
 <!--Often, you’ll do this to make sure your commits apply cleanly on a remote branch — perhaps in a project to which you’re trying to contribute but that you don’t maintain. In this case, you’d do your work in a branch and then rebase your work onto `origin/master` when you were ready to submit your patches to the main project. That way, the maintainer doesn’t have to do any integration work — just a fast-forward or a clean apply.-->
 
-Du wirst das häufig anwenden um sicherzustellen, dass sich deine Commits sauber in einen Remote-Branch integrieren - möglicherweise in einem Projekt bei dem du dich beteiligen möchtest, du jedoch nicht der Verantwortliche bist. In diesem Fall würdest du deine Arbeiten in einem eigenen Branch erledigen und im Anschluss deine Änderungen auf `origin/master` rebasen. Dann hätte der Verantwortliche nämliche keinen Aufwand mit der Integration - nur einen Fast-Forward oder eine saubere Integration (= Rebase?).
+Du wirst das häufig anwenden um sicherzustellen, dass sich deine Commits sauber in einen Remote-Branch integrieren – möglicherweise in einem Projekt bei dem du dich beteiligen möchtest, du jedoch nicht der Verantwortliche bist. In diesem Fall würdest du deine Arbeiten in einem eigenen Branch erledigen und im Anschluss deine Änderungen auf `origin/master` rebasen. Dann hätte der Verantwortliche nämliche keinen Aufwand mit der Integration – nur einen Fast-Forward oder eine saubere Integration (= Rebase?).
 
 <!--Note that the snapshot pointed to by the final commit you end up with, whether it’s the last of the rebased commits for a rebase or the final merge commit after a merge, is the same snapshot — it’s only the history that is different. Rebasing replays changes from one line of work onto another in the order they were introduced, whereas merging takes the endpoints and merges them together.-->
 
@@ -834,7 +834,7 @@ Stell dir vor du entscheidest dich deine clientseitigen Änderungen für einen R
 
 <!--This basically says, “Check out the client branch, figure out the patches from the common ancestor of the `client` and `server` branches, and then replay them onto `master`.” It’s a bit complex; but the result, shown in Figure 3-32, is pretty cool.-->
 
-Das bedeutet einfach “Checke den Client-Branch aus, finde die Patches heraus die auf dem gemeinsamen Vorfahr der `client`- und `server`-Branches basieren und wende sie erneut auf dem `master`-Branch an.” Das ist ein bisschen komplex, aber das Ergebnis - wie in Abbildung 3-32 - ist richtig cool.
+Das bedeutet einfach “Checke den Client-Branch aus, finde die Patches heraus die auf dem gemeinsamen Vorfahr der `client`- und `server`-Branches basieren und wende sie erneut auf dem `master`-Branch an.” Das ist ein bisschen komplex, aber das Ergebnis – wie in Abbildung 3-32 – ist richtig cool.
 
 <!--Figure 3-32. Rebasing a topic branch off another topic branch.-->
 

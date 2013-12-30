@@ -42,7 +42,7 @@ Wir werden gleich noch einmal genauer auf diese Befehle eingehen. Im Moment ist 
 
 <!--If you want to get a copy of an existing Git repository — for example, a project you’d like to contribute to — the command you need is `git clone`. If you’re familiar with other VCS systems such as Subversion, you’ll notice that the command is `clone` and not `checkout`. This is an important distinction — Git receives a copy of nearly all data that the server has. Every version of every file for the history of the project is pulled down when you run `git clone`. In fact, if your server disk gets corrupted, you can use any of the clones on any client to set the server back to the state it was in when it was cloned (you may lose some server-side hooks and such, but all the versioned data would be there — see *Chapter 4* for more details).-->
 
-Wenn du eine Kopie eines existierenden Git Repositorys anlegen willst - z.B. um an einem Projekt mitzuarbeiten - dann kannst du dazu den Befehl `git clone` verwenden. Wenn du schon mit anderen VCS Sytemen wie Subversion gearbeitet hast, wird dir auffallen, dass der Befehl `clone` heißt und nicht `checkout`. Dies ist ein wichtiger Unterschied, den du verstehen solltest. Git lädt eine Kopie aller Daten, die sich im existierenden Repository befinden, auf deinen Rechner. Mit `git clone` wird jede einzelne Version jeder einzelnen Datei in der Historie des Repositorys heruntergeladen. Wenn ein Repository auf einem Server einmal beschädigt wird (z.B. weil die Festplatte beschädigt wird), kann man tatsächlich jeden beliebigen Klon des Repositorys verwenden, um das Repository auf dem Server wieder in dem Zustand wieder herzustellen, in dem es sich befand, als es geklont wurde. (Es kann passieren, dass man einige auf dem Server vorhandenen Hooks verliert, aber alle versionierten Daten bleiben erhalten. In Kapitel 4 gehen wir darauf noch einmal genauer ein.)
+Wenn du eine Kopie eines existierenden Git Repositorys anlegen willst – z.B. um an einem Projekt mitzuarbeiten – dann kannst du dazu den Befehl `git clone` verwenden. Wenn du schon mit anderen VCS Sytemen wie Subversion gearbeitet hast, wird dir auffallen, dass der Befehl `clone` heißt und nicht `checkout`. Dies ist ein wichtiger Unterschied, den du verstehen solltest. Git lädt eine Kopie aller Daten, die sich im existierenden Repository befinden, auf deinen Rechner. Mit `git clone` wird jede einzelne Version jeder einzelnen Datei in der Historie des Repositorys heruntergeladen. Wenn ein Repository auf einem Server einmal beschädigt wird (z.B. weil die Festplatte beschädigt wird), kann man tatsächlich jeden beliebigen Klon des Repositorys verwenden, um das Repository auf dem Server wieder in dem Zustand wieder herzustellen, in dem es sich befand, als es geklont wurde. (Es kann passieren, dass man einige auf dem Server vorhandenen Hooks verliert, aber alle versionierten Daten bleiben erhalten. In Kapitel 4 gehen wir darauf noch einmal genauer ein.)
 
 <!--You clone a repository with `git clone [url]`. For example, if you want to clone the Ruby Git library called Grit, you can do so like this:-->
 
@@ -73,7 +73,7 @@ Du hast jetzt ein voll funktionsfähiges Git Repository und eine Arbeitskopie de
 
 <!--Remember that each file in your working directory can be in one of two states: *tracked* or *untracked*. *Tracked* files are files that were in the last snapshot; they can be *unmodified*, *modified*, or *staged*. *Untracked* files are everything else — any files in your working directory that were not in your last snapshot and are not in your staging area.  When you first clone a repository, all of your files will be tracked and unmodified because you just checked them out and haven’t edited anything.-->
 
-Jede Datei in deinem Arbeitsverzeichnis kann sich in einem von zwei Zuständen befinden: Änderungen werden verfolgt (engl. tracked) oder nicht (engl. untracked). Alle Dateien, die sich im letzten Snapshot (Commit) befanden, werden in der Versionskontrolle verfolgt. Sie können entweder unverändert (engl. unmodified), modifiziert (engl. modified) oder für den nächsten Commit vorgemerkt (engl. staged) sein. Alle anderen Dateien in deinem Arbeitsverzeichnis dagegen sind nicht versioniert: das sind all diejenigen Dateien, die nicht schon im letzten Snapshot enthalten waren und die sich nicht in der Staging Area befinden. Wenn Du ein Repository gerade geklont hast, sind alle Dateien versioniert und unverändert - du hast sie gerade ausgecheckt aber noch nicht verändert.
+Jede Datei in deinem Arbeitsverzeichnis kann sich in einem von zwei Zuständen befinden: Änderungen werden verfolgt (engl. tracked) oder nicht (engl. untracked). Alle Dateien, die sich im letzten Snapshot (Commit) befanden, werden in der Versionskontrolle verfolgt. Sie können entweder unverändert (engl. unmodified), modifiziert (engl. modified) oder für den nächsten Commit vorgemerkt (engl. staged) sein. Alle anderen Dateien in deinem Arbeitsverzeichnis dagegen sind nicht versioniert: das sind all diejenigen Dateien, die nicht schon im letzten Snapshot enthalten waren und die sich nicht in der Staging Area befinden. Wenn Du ein Repository gerade geklont hast, sind alle Dateien versioniert und unverändert – du hast sie gerade ausgecheckt aber noch nicht verändert.
 
 <!--As you edit files, Git sees them as modified, because you’ve changed them since your last commit. You *stage* these modified files and then commit all your staged changes, and the cycle repeats. This lifecycle is illustrated in Figure 2-1.-->
 
@@ -97,7 +97,7 @@ Das wichtigste Hilfsmittel, um den Zustand zu überprüfen, in dem sich die Date
 
 <!--This means you have a clean working directory — in other words, no tracked files are modified. Git also doesn’t see any untracked files, or they would be listed here. Finally, the command tells you which branch you’re on. For now, that is always `master`, which is the default; you won’t worry about it here. The next chapter will go over branches and references in detail.-->
 
-Dieser Zustand wird auch als sauberes Arbeitsverzeichnis (engl. clean working directory) bezeichnet. Mit anderen Worten, es gibt keine Dateien, die unter Versionskontrolle stehen und seit dem letzten Commit geändert wurden - andernfalls würden sie hier aufgelistet werden. Außerdem teilt dir der Befehl mit, in welchem Branch du dich gerade befindest. In diesem Beispiel ist dies der Branch `master`. Mach dir darüber im Moment keine Gedanken, wir werden im nächsten Kapitel auf Branches detailliert eingehen.
+Dieser Zustand wird auch als sauberes Arbeitsverzeichnis (engl. clean working directory) bezeichnet. Mit anderen Worten, es gibt keine Dateien, die unter Versionskontrolle stehen und seit dem letzten Commit geändert wurden – andernfalls würden sie hier aufgelistet werden. Außerdem teilt dir der Befehl mit, in welchem Branch du dich gerade befindest. In diesem Beispiel ist dies der Branch `master`. Mach dir darüber im Moment keine Gedanken, wir werden im nächsten Kapitel auf Branches detailliert eingehen.
 
 <!--Let’s say you add a new file to your project, a simple `README` file. If the file didn’t exist before, and you run `git status`, you see your untracked file like so:-->
 
@@ -114,7 +114,7 @@ Sagen wir du fügst eine neue `README` Datei zu deinem Projekt hinzu. Wenn die D
 
 <!--You can see that your new `README` file is untracked, because it’s under the “Untracked files” heading in your status output. Untracked basically means that Git sees a file you didn’t have in the previous snapshot (commit); Git won’t start including it in your commit snapshots until you explicitly tell it to do so. It does this so you don’t accidentally begin including generated binary files or other files that you did not mean to include. You do want to start including README, so let’s start tracking the file.-->
 
-Alle Dateien, die in der Sektion "Untracked files" aufgelistet werden, sind Dateien, die bisher nocht nicht versioniert sind. Dort wird jetzt auch die Datei `README` angezeigt. Mit anderen Worten, die Datei `README` wird in diesem Bereich gelistet, weil sie im letzen Snapshot (Commit) von Git nicht enthalten ist. Git nimmt eine solche Datei nicht automatisch in die Versionskontrolle auf, sondern man muss Git dazu ausdrücklich auffordern. Ansonsten würden generierte Binärdateien oder andere Dateien, die du nicht in deinem Repository haben willst, automatisch hinzugefügt werden. Das möchte man in den meisten Fällen vermeiden. Jetzt wollen wir aber Änderungen an der Datei `README` verfolgen und fügen sie deshalb zur Versionskontrolle hinzu.
+Alle Dateien, die in der Sektion „Untracked files“ aufgelistet werden, sind Dateien, die bisher nocht nicht versioniert sind. Dort wird jetzt auch die Datei `README` angezeigt. Mit anderen Worten, die Datei `README` wird in diesem Bereich gelistet, weil sie im letzen Snapshot (Commit) von Git nicht enthalten ist. Git nimmt eine solche Datei nicht automatisch in die Versionskontrolle auf, sondern man muss Git dazu ausdrücklich auffordern. Ansonsten würden generierte Binärdateien oder andere Dateien, die du nicht in deinem Repository haben willst, automatisch hinzugefügt werden. Das möchte man in den meisten Fällen vermeiden. Jetzt wollen wir aber Änderungen an der Datei `README` verfolgen und fügen sie deshalb zur Versionskontrolle hinzu.
 
 <!--### Tracking New Files ###-->
 ### Neue Dateien zur Versionskontrolle hinzufügen ###
@@ -139,7 +139,7 @@ Wenn du den `git status` Befehl erneut ausführst, siehst du, dass sich deine `R
 
 <!--You can tell that it’s staged because it’s under the “Changes to be committed” heading. If you commit at this point, the version of the file at the time you ran `git add` is what will be in the historical snapshot. You may recall that when you ran `git init` earlier, you then ran `git add (files)` — that was to begin tracking files in your directory. The `git add` command takes a path name for either a file or a directory; if it’s a directory, the command adds all the files in that directory recursively.-->
 
-Dass die Datei für den nächsten Commit vorgemerkt ist, siehst du daran, dass sie in der Sektion "Changes to be committed" aufgelistet ist. Wenn du jetzt einen Commit anlegst, wird der Snapshot den Zustand der Datei beinhalten, den sie zum Zeitpunkt des Befehls `git add` hatte. Du erinnerst dich daran, dass du, als du vorhin `git init` ausgeführt hast, anschließend `git add` ausgeführt hast: an dieser Stelle hast du die Dateien in deinem Verzeichnis der Versionskontrolle hinzugefügt. Der `git add` Befehl akzeptiert einen Pfadnamen einer Datei oder eines Verzeichnisses. Wenn du ein Verzeichnis angibst, fügt `git add` alle Dateien in diesem Verzeichnis und allen Unterverzeichnissen rekursiv hinzu.
+Dass die Datei für den nächsten Commit vorgemerkt ist, siehst du daran, dass sie in der Sektion „Changes to be committed“ aufgelistet ist. Wenn du jetzt einen Commit anlegst, wird der Snapshot den Zustand der Datei beinhalten, den sie zum Zeitpunkt des Befehls `git add` hatte. Du erinnerst dich daran, dass du, als du vorhin `git init` ausgeführt hast, anschließend `git add` ausgeführt hast: an dieser Stelle hast du die Dateien in deinem Verzeichnis der Versionskontrolle hinzugefügt. Der `git add` Befehl akzeptiert einen Pfadnamen einer Datei oder eines Verzeichnisses. Wenn du ein Verzeichnis angibst, fügt `git add` alle Dateien in diesem Verzeichnis und allen Unterverzeichnissen rekursiv hinzu.
 
 <!--### Staging Modified Files ###-->
 ### Geänderte Dateien stagen ###
@@ -163,7 +163,7 @@ Wenn du eine bereits versionierte Datei `benchmarks.rb` änderst und den `git st
 
 <!--The `benchmarks.rb` file appears under a section named “Changes not staged for commit” — which means that a file that is tracked has been modified in the working directory but not yet staged. To stage it, you run the `git add` command (it’s a multipurpose command — you use it to begin tracking new files, to stage files, and to do other things like marking merge-conflicted files as resolved). Let’s run `git add` now to stage the `benchmarks.rb` file, and then run `git status` again:-->
 
-Die Datei `benchmarks.rb` erscheint in der Sektion "Changes not staged for commit" - d.h., dass eine versionierte Datei im Arbeitsverzeichnis verändert worden ist, aber noch nicht für den Commit vorgemerkt wurde. Um sie vorzumerken, führst du den Befehl `git add` aus. (`git add` wird zu verschiedenen Zwecken eingesetzt. Man verwendet ihn, um neue Dateien zur Versionskontrolle hinzuzufügen, Dateien für einen Commit zu markieren und verschiedene andere Dinge - beispielsweise, einen Konflikt aus einem Merge als aufgelöst zu kennzeichnen.)
+Die Datei `benchmarks.rb` erscheint in der Sektion „Changes not staged for commit“ – d.h., dass eine versionierte Datei im Arbeitsverzeichnis verändert worden ist, aber noch nicht für den Commit vorgemerkt wurde. Um sie vorzumerken, führst du den Befehl `git add` aus. (`git add` wird zu verschiedenen Zwecken eingesetzt. Man verwendet ihn, um neue Dateien zur Versionskontrolle hinzuzufügen, Dateien für einen Commit zu markieren und verschiedene andere Dinge – beispielsweise, einen Konflikt aus einem Merge als aufgelöst zu kennzeichnen.)
 
 	$ git add benchmarks.rb
 	$ git status
@@ -196,7 +196,7 @@ Beide Dateien sind nun für den nächsten Commit vorgemerkt. Nehmen wir an, du w
 
 <!--What the heck? Now `benchmarks.rb` is listed as both staged and unstaged. How is that possible? It turns out that Git stages a file exactly as it is when you run the `git add` command. If you commit now, the version of `benchmarks.rb` as it was when you last ran the `git add` command is how it will go into the commit, not the version of the file as it looks in your working directory when you run `git commit`. If you modify a file after you run `git add`, you have to run `git add` again to stage the latest version of the file:-->
 
-Huch, was ist das? Jetzt wird `benchmarks.rb` sowohl in der Staging Area als auch als geändert aufgelistet. Die Erklärung dafür ist, dass Git eine Datei in exakt dem Zustand für den Commit vormerkt, in dem sie sich befindet, wenn du den Befehl `git add` ausführst. Wenn du den Commit jetzt anlegst, wird die Version der Datei `benchmarks.rb` diejenigen Inhalte haben, die sie hatte, als du `git add` zuletzt ausgeführt hast - nicht diejenigen, die sie in dem Moment hat, wenn du den Commit anlegst. Wenn du stattdessen die gegenwärtige Version im Commit haben willst, kannst du einfach erneut `git add` ausführen:
+Huch, was ist das? Jetzt wird `benchmarks.rb` sowohl in der Staging Area als auch als geändert aufgelistet. Die Erklärung dafür ist, dass Git eine Datei in exakt dem Zustand für den Commit vormerkt, in dem sie sich befindet, wenn du den Befehl `git add` ausführst. Wenn du den Commit jetzt anlegst, wird die Version der Datei `benchmarks.rb` diejenigen Inhalte haben, die sie hatte, als du `git add` zuletzt ausgeführt hast – nicht diejenigen, die sie in dem Moment hat, wenn du den Commit anlegst. Wenn du stattdessen die gegenwärtige Version im Commit haben willst, kannst du einfach erneut `git add` ausführen:
 
 	$ git add benchmarks.rb
 	$ git status
@@ -239,7 +239,7 @@ Folgende Regeln gelten in einer `.gitignore` Datei:
 
 <!--Glob patterns are like simplified regular expressions that shells use. An asterisk (`*`) matches zero or more characters; `[abc]` matches any character inside the brackets (in this case `a`, `b`, or `c`); a question mark (`?`) matches a single character; and brackets enclosing characters separated by a hyphen(`[0-9]`) matches any character in the range (in this case 0 through 9) .-->
 
-Glob Muster sind vereinfachte reguläre Ausdrücke, die von der Shell verwendet werden. Ein Stern (`*`) bezeichnet "kein oder mehrere Zeichen"; `[abc]` bezeichnet eines der in den eckigen Klammern angegebenen Zeichen (in diesem Fall also `a`, `b` oder `c`); ein Fragezeichen (`?`) bezeichnet ein beliebiges, einzelnes Zeichen; und eckige Klammern mit Zeichen, die von einem Bindestrich getrennt werden (`[0-9]`) bezeichnen ein Zeichen aus der jeweiligen Menge von Zeichen (in diesem Fall also aus der Menge der Zeichen von 0 bis 9).
+Glob Muster sind vereinfachte reguläre Ausdrücke, die von der Shell verwendet werden. Ein Stern (`*`) bezeichnet „kein oder mehrere Zeichen“; `[abc]` bezeichnet eines der in den eckigen Klammern angegebenen Zeichen (in diesem Fall also `a`, `b` oder `c`); ein Fragezeichen (`?`) bezeichnet ein beliebiges, einzelnes Zeichen; und eckige Klammern mit Zeichen, die von einem Bindestrich getrennt werden (`[0-9]`) bezeichnen ein Zeichen aus der jeweiligen Menge von Zeichen (in diesem Fall also aus der Menge der Zeichen von 0 bis 9).
 
 <!--Here is another example `.gitignore` file:-->
 
@@ -253,7 +253,7 @@ Hier ist ein weiteres Beispiel für eine `.gitignore` Datei:
 	# ignoriert eine TODO Datei nur im Wurzelverzeichnis, nicht aber
 	/TODO
 	# in Unterverzeichnissen
-	
+
 	# ignoriert alle Dateien im build/ Verzeichnis
 	build/
 	# ignoriert doc/notes.txt, aber nicht doc/server/arch.txt
@@ -264,7 +264,7 @@ Hier ist ein weiteres Beispiel für eine `.gitignore` Datei:
 
 <!--If the `git status` command is too vague for you — you want to know exactly what you changed, not just which files were changed — you can use the `git diff` command. We’ll cover `git diff` in more detail later; but you’ll probably use it most often to answer these two questions: What have you changed but not yet staged? And what have you staged that you are about to commit? Although `git status` answers those questions very generally, `git diff` shows you the exact lines added and removed — the patch, as it were.-->
 
-Wenn dir die Ausgabe des Befehl `git status` nicht aussagekräftig genug ist, weil du exakt wissen willst, was sich geändert hat - und nicht lediglich, welche Dateien geändert wurden - kannst du den `git diff` Befehl verwenden. Wir werden `git diff` später noch einmal im Detail besprechen, aber du wirst diesen Befehl in der Regel verwenden wollen, um eine der folgenden, zwei Fragen zu beantworten: Was hast du geändert, aber noch nicht für einen Commit vorgemerkt? Und welche Änderungen hast du für einen Commit bereits vorgemerkt? Während `git status` diese Fragen nur mit Dateinamen beantwortet, zeigt dir `git diff` exakt an, welche Zeilen hinzugefügt, geändert und entfernt wurden. Dies entspricht gewissermaßen einem Patch.
+Wenn dir die Ausgabe des Befehl `git status` nicht aussagekräftig genug ist, weil du exakt wissen willst, was sich geändert hat – und nicht lediglich, welche Dateien geändert wurden – kannst du den `git diff` Befehl verwenden. Wir werden `git diff` später noch einmal im Detail besprechen, aber du wirst diesen Befehl in der Regel verwenden wollen, um eine der folgenden, zwei Fragen zu beantworten: Was hast du geändert, aber noch nicht für einen Commit vorgemerkt? Und welche Änderungen hast du für einen Commit bereits vorgemerkt? Während `git status` diese Fragen nur mit Dateinamen beantwortet, zeigt dir `git diff` exakt an, welche Zeilen hinzugefügt, geändert und entfernt wurden. Dies entspricht gewissermaßen einem Patch.
 
 <!--Let’s say you edit and stage the `README` file again and then edit the `benchmarks.rb` file without staging it. If you run your `status` command, you once again see something like this:-->
 
@@ -327,7 +327,7 @@ Wenn du sehen willst, welche Änderungen in der Staging Area und somit für den 
 
 <!--It’s important to note that `git diff` by itself doesn’t show all changes made since your last commit — only changes that are still unstaged. This can be confusing, because if you’ve staged all of your changes, `git diff` will give you no output.-->
 
-Es ist wichtig, im Kopf zu behalten, dass `git diff` nicht alle Änderungen seit dem letzten Commit anzeigt - er zeigt lediglich diejenigen Änderungen an, die noch nicht in der Staging Area sind. Das kann verwirrend sein. Wenn du all deine Änderungen bereits für einen Commit vorgemerkt hast, zeigt `git diff` überhaupt nichts an.
+Es ist wichtig, im Kopf zu behalten, dass `git diff` nicht alle Änderungen seit dem letzten Commit anzeigt – er zeigt lediglich diejenigen Änderungen an, die noch nicht in der Staging Area sind. Das kann verwirrend sein. Wenn du all deine Änderungen bereits für einen Commit vorgemerkt hast, zeigt `git diff` überhaupt nichts an.
 
 <!--For another example, if you stage the `benchmarks.rb` file and then edit it, you can use `git diff` to see the changes in the file that are staged and the changes that are unstaged:-->
 
@@ -395,7 +395,7 @@ Nachdem du jetzt alle Änderungen, die du im nächsten Commit haben willst, in d
 
 <!--Doing so launches your editor of choice. (This is set by your shell’s `$EDITOR` environment variable — usually vim or emacs, although you can configure it with whatever you want using the `git config -\-global core.editor` command as you saw in *Chapter 1*).-->
 
-Wenn du diesen Befehl ausführst, wird Git den Texteditor deiner Wahl starten. (D.h. denjenigen Texteditor, der durch die `$EDITOR` Variable deiner Shell angegeben wird - normalerweise ist das vim oder emacs, aber du kannst jeden Editor deiner Wahl angeben. Wie in Kapitel 1 besprochen, kannst du dazu `git config --global core.editor` verwenden.)
+Wenn du diesen Befehl ausführst, wird Git den Texteditor deiner Wahl starten. (D.h. denjenigen Texteditor, der durch die `$EDITOR` Variable deiner Shell angegeben wird – normalerweise ist das vim oder emacs, aber du kannst jeden Editor deiner Wahl angeben. Wie in Kapitel 1 besprochen, kannst du dazu `git config --global core.editor` verwenden.)
 
 <!--The editor displays the following text (this example is a Vim screen):-->
 
@@ -440,7 +440,7 @@ Denke daran, dass jeder neue Commit denjenigen Snapshot aufzeichnet, den du in d
 
 <!--Although it can be amazingly useful for crafting commits exactly how you want them, the staging area is sometimes a bit more complex than you need in your workflow. If you want to skip the staging area, Git provides a simple shortcut. Providing the `-a` option to the `git commit` command makes Git automatically stage every file that is already tracked before doing the commit, letting you skip the `git add` part:-->
 
-Obwohl die Staging Area unglaublich nützlich ist, um genau diejenigen Commits anzulegen, die du in deiner Projekt Historie haben willst, ist sie manchmal auch ein bißchen umständlich. Git stellt dir deshalb eine Alternative zur Verfügung, mit der du die Staging Area überspringen kannst. Wenn du den Befehl `git commit` mit der Option `-a` ausführst, übernimmt Git automatisch alle Änderungen an dejenigen Dateien, die sich bereits unter Versionskontrolle befinden, in den Commit - so dass du auf diese Weise den Schritt `git add` weglassen kannst:
+Obwohl die Staging Area unglaublich nützlich ist, um genau diejenigen Commits anzulegen, die du in deiner Projekt Historie haben willst, ist sie manchmal auch ein bißchen umständlich. Git stellt dir deshalb eine Alternative zur Verfügung, mit der du die Staging Area überspringen kannst. Wenn du den Befehl `git commit` mit der Option `-a` ausführst, übernimmt Git automatisch alle Änderungen an dejenigen Dateien, die sich bereits unter Versionskontrolle befinden, in den Commit – so dass du auf diese Weise den Schritt `git add` weglassen kannst:
 
 	$ git status
 	# On branch master
@@ -462,11 +462,11 @@ Beachte, dass du in diesem Fall `git add` zuvor noch nicht ausgeführt hast, die
 
 <!--To remove a file from Git, you have to remove it from your tracked files (more accurately, remove it from your staging area) and then commit. The `git rm` command does that and also removes the file from your working directory so you don’t see it as an untracked file next time around.-->
 
-Um eine Datei aus der Git Versionskontrolle zu entfernen, muss diese von den verfolgten Dateien (genauer, aus der Staging Area) entfernt werden und dann mit einem Commit bestätigt werden. Der Befehl `git rm` tut genau das - und löscht die Datei außerdem aus dem Arbeitsverzeichnis, so dass sie dort nicht unbeabsichtigt (als eine nun unversionierte Datei) liegen bleibt.
+Um eine Datei aus der Git Versionskontrolle zu entfernen, muss diese von den verfolgten Dateien (genauer, aus der Staging Area) entfernt werden und dann mit einem Commit bestätigt werden. Der Befehl `git rm` tut genau das – und löscht die Datei außerdem aus dem Arbeitsverzeichnis, so dass sie dort nicht unbeabsichtigt (als eine nun unversionierte Datei) liegen bleibt.
 
 <!--If you simply remove the file from your working directory, it shows up under the “Changes not staged for commit” (that is, _unstaged_) area of your `git status` output:-->
 
-Wenn du einfach nur eine Datei aus dem Arbeitsverzeichnis löschst, wird sie in der Sektion "Changes not staged for commit" angezeigt, wenn du `git status` ausführst:
+Wenn du einfach nur eine Datei aus dem Arbeitsverzeichnis löschst, wird sie in der Sektion „Changes not staged for commit“ angezeigt, wenn du `git status` ausführst:
 
 	$ rm grit.gemspec
 	$ git status
@@ -495,7 +495,7 @@ Wenn du jetzt `git rm` ausführst, wird diese Änderung für den nächsten Commi
 
 <!--The next time you commit, the file will be gone and no longer tracked. If you modified the file and added it to the index already, you must force the removal with the `-f` option. This is a safety feature to prevent accidental removal of data that hasn’t yet been recorded in a snapshot and that can’t be recovered from Git.-->
 
-Nach dem nächsten Anlegen eines Commits, wird die Datei nicht mehr im Arbeitsverzeichnis liegen und sich nicht länger unter Versionskontrolle befinden. Wenn du die Datei zuvor geändert und diese Änderung bereits zur Staging Area hinzugefügt hattest, musst du die Option `-f` verwenden, um zu erzwingen, dass sie gelöscht wird. Dies ist eine Sicherheitsmaßnahme, um zu vermeiden, dass du versehentlich Daten löschst, die sich bisher noch nicht als Commit Snapshot in der Historie deines Projektes befinden - und deshalb auch nicht wiederhergestellt werden können.
+Nach dem nächsten Anlegen eines Commits, wird die Datei nicht mehr im Arbeitsverzeichnis liegen und sich nicht länger unter Versionskontrolle befinden. Wenn du die Datei zuvor geändert und diese Änderung bereits zur Staging Area hinzugefügt hattest, musst du die Option `-f` verwenden, um zu erzwingen, dass sie gelöscht wird. Dies ist eine Sicherheitsmaßnahme, um zu vermeiden, dass du versehentlich Daten löschst, die sich bisher noch nicht als Commit Snapshot in der Historie deines Projektes befinden – und deshalb auch nicht wiederhergestellt werden können.
 
 <!--Another useful thing you may want to do is to keep the file in your working tree but remove it from your staging area. In other words, you may want to keep the file on your hard drive but not have Git track it anymore. This is particularly useful if you forgot to add something to your `.gitignore` file and accidentally staged it, like a large log file or a bunch of `.a` compiled files. To do this, use the `-\-cached` option:-->
 
@@ -556,7 +556,7 @@ Allerdings kannst du genauso folgendes tun:
 
 <!--Git figures out that it’s a rename implicitly, so it doesn’t matter if you rename a file that way or with the `mv` command. The only real difference is that `mv` is one command instead of three — it’s a convenience function. More important, you can use any tool you like to rename a file, and address the add/rm later, before you commit.-->
 
-Git ist clever genug, selbst herauszufinden, dass du die Datei umbenannt hast. Du brauchst dies also nicht explizit mit dem `git mv` Befehl zu tun. Der einzige Unterschied ist, dass du mit `git mv` nur einen Befehl, nicht drei, ausführen musst - das ist natürlich etwas bequemer. Darüberhinaus kannst du aber Dateien auf jede beliebige Art und Weise extern umbenennen und dann später `git add` bzw. `git rm` verwenden, wenn du einen Commit zusammenstellst.
+Git ist clever genug, selbst herauszufinden, dass du die Datei umbenannt hast. Du brauchst dies also nicht explizit mit dem `git mv` Befehl zu tun. Der einzige Unterschied ist, dass du mit `git mv` nur einen Befehl, nicht drei, ausführen musst – das ist natürlich etwas bequemer. Darüberhinaus kannst du aber Dateien auf jede beliebige Art und Weise extern umbenennen und dann später `git add` bzw. `git rm` verwenden, wenn du einen Commit zusammenstellst.
 
 <!--## Viewing the Commit History ##-->
 ## Die Commit Historie anzeigen ##
@@ -567,7 +567,7 @@ Nachdem du einige Commits angelegt oder ein bestehendes Repository geklont hast,
 
 <!--These examples use a very simple project called `simplegit` that I often use for demonstrations. To get the project, run-->
 
-Die folgende Beispiele beziehen sich auf ein sehr simples Repository mit dem Namen "simplegit", das ich oft für Demonstationszwecke verwende:
+Die folgende Beispiele beziehen sich auf ein sehr simples Repository mit dem Namen „simplegit“, das ich oft für Demonstationszwecke verwende:
 
 	git clone git://github.com/schacon/simplegit-progit.git
 
@@ -738,7 +738,7 @@ Tabelle 2-1 zeigt einige nützliche Optionen, die von `format` akzeptiert werden
 
 <!--You may be wondering what the difference is between _author_ and _committer_. The _author_ is the person who originally wrote the patch, whereas the _committer_ is the person who last applied the patch. So, if you send in a patch to a project and one of the core members applies the patch, both of you get credit — you as the author and the core member as the committer. We’ll cover this distinction a bit more in *Chapter 5*.-->
 
-Du fragst dich vielleicht, was der Unterschied zwischen Autor und Committer ist. Der Autor ist diejenige Person, die eine Änderung ursprünglich vorgenommen hat. Der Committer dagegen ist diejenige Person, die den Commit angelegt hat. D.h., wenn du einen Patch an ein Projekt Team schickst und eines der Team Mitglieder den Patch akzeptiert und verwendet, wird beiden Anerkennung gezollt - sowohl dir als Autor als auch dem Teammitglied als Comitter. Wir werden auf diese Unterschiedung in Kapitel 5 noch einmal genauer eingehen.
+Du fragst dich vielleicht, was der Unterschied zwischen Autor und Committer ist. Der Autor ist diejenige Person, die eine Änderung ursprünglich vorgenommen hat. Der Committer dagegen ist diejenige Person, die den Commit angelegt hat. D.h., wenn du einen Patch an ein Projekt Team schickst und eines der Team Mitglieder den Patch akzeptiert und verwendet, wird beiden Anerkennung gezollt – sowohl dir als Autor als auch dem Teammitglied als Comitter. Wir werden auf diese Unterschiedung in Kapitel 5 noch einmal genauer eingehen.
 
 <!--The `oneline` and `format` options are particularly useful with another `log` option called `-\-graph`. This option adds a nice little ASCII graph showing your branch and merge history, which we can see in our copy of the Grit project repository:-->
 
@@ -758,7 +758,7 @@ Die `oneline` und `format` Optionen können außerdem zusammen mit einer weitere
 
 <!--Those are only some simple output-formatting options to `git log` — there are many more. Table 2-2 lists the options we’ve covered so far and some other common formatting options that may be useful, along with how they change the output of the `log` command.-->
 
-Das sind nur einige eher simple Format Optionen für die Ausgabe von `git log` - es gibt sehr viel mehr davon. Tabelle 2-2 listet diejenigen Optionen auf, die wir bisher besprochen haben, und einige weitere, die besonders nützlich sind:
+Das sind nur einige eher simple Format Optionen für die Ausgabe von `git log` – es gibt sehr viel mehr davon. Tabelle 2-2 listet diejenigen Optionen auf, die wir bisher besprochen haben, und einige weitere, die besonders nützlich sind:
 
 <!--	Option	Description
 	-p	Show the patch introduced with each commit.
@@ -779,7 +779,7 @@ Das sind nur einige eher simple Format Optionen für die Ausgabe von `git log` -
 	--name-only	Zeigt die Liste der geänderte Dateien nach der Commit Information.
 	--name-status	Zeigt die Liste der Dateien mit der hinzugefügt/geändert/entfernt Statistik.
 	--abbrev-commit	Zeigt nur die ersten Zeichen einer SHA-1 Checksumme, nicht alle 40.
-	--relative-date	Zeigt das Datum in relativem Format (z.B. "2 weeks ago"), nicht als vollständiges Datumsformat.
+	--relative-date	Zeigt das Datum in relativem Format (z.B. „2 weeks ago“), nicht als vollständiges Datumsformat.
 	--graph	Zeigt einen ASCII Graphen der Branch- und Merge-Historie neben der Ausgabe.
 	--pretty	Zeigt Commits in einem alternativen Format. Gültige Optionen sind: oneline, short, full, fuller und format (mit dem du dein eigenes Format spezifizieren kannst)
 
@@ -798,11 +798,11 @@ Darüber hinaus gibt es noch die hilfreichen Optionen `--since` und `--until`, w
 
 <!--This command works with lots of formats — you can specify a specific date (“2008-01-15”) or a relative date such as “2 years 1 day 3 minutes ago”.-->
 
-Das funktioniert mit einer Reihe von Formaten. Git akzeptiert sowohl ein vollständiges Datum ("2008-01-15") oder ein relatives Datum wie "2 years 1 day 3 minutes ago".
+Das funktioniert mit einer Reihe von Formaten. Git akzeptiert sowohl ein vollständiges Datum („2008-01-15“) oder ein relatives Datum wie „2 years 1 day 3 minutes ago“.
 
 <!--You can also filter the list to commits that match some search criteria. The `-\-author` option allows you to filter on a specific author, and the `-\-grep` option lets you search for keywords in the commit messages. (Note that if you want to specify both author and grep options, you have to add `-\-all-match` or the command will match commits with either.)-->
 
-Du kannst außerdem die Liste der Commits nach Suchkriterien filtern. Die `--author` Option erlaubt, nach einem bestimmten Autor zu suchen, und die `--grep` Option nach Stichworten in den Commit Meldungen. (Wenn du sowohl nach dem Autor als auch nach Stichworten suchen willst, musst du zusätzlich `--all-match` angeben - andernfalls zeigt der Befehl alle Commits, die entweder das eine oder das andere Kriterium erfüllen.)
+Du kannst außerdem die Liste der Commits nach Suchkriterien filtern. Die `--author` Option erlaubt, nach einem bestimmten Autor zu suchen, und die `--grep` Option nach Stichworten in den Commit Meldungen. (Wenn du sowohl nach dem Autor als auch nach Stichworten suchen willst, musst du zusätzlich `--all-match` angeben – andernfalls zeigt der Befehl alle Commits, die entweder das eine oder das andere Kriterium erfüllen.)
 
 <!--The last really useful option to pass to `git log` as a filter is a path. If you specify a directory or file name, you can limit the log output to commits that introduced a change to those files. This is always the last option and is generally preceded by double dashes (`-\-`) to separate the paths from the options.-->
 
@@ -884,7 +884,7 @@ Manchmal hat man einen Commit zu früh angelegt und möglicherweise vergessen, e
 
 <!--This command takes your staging area and uses it for the commit. If you’ve made no changes since your last commit (for instance, you run this command immediately after your previous commit), then your snapshot will look exactly the same and all you’ll change is your commit message.-->
 
-Dieser Befehl verwendet deine Staging Area für den Commit. Wenn du seit dem letzten Commit keine Änderungen vorgenommen hast (z.B. wenn du den Befehl unmittelbar nach einem Commit ausführst), wird der Snapshot exakt genauso aussehen wie der vorherige - alles, was du dann änderst, ist die Commit Meldung.
+Dieser Befehl verwendet deine Staging Area für den Commit. Wenn du seit dem letzten Commit keine Änderungen vorgenommen hast (z.B. wenn du den Befehl unmittelbar nach einem Commit ausführst), wird der Snapshot exakt genauso aussehen wie der vorherige – alles, was du dann änderst, ist die Commit Meldung.
 
 <!--The same commit-message editor fires up, but it already contains the message of your previous commit. You can edit the message the same as always, but it overwrites your previous commit.-->
 
@@ -900,7 +900,7 @@ Wenn du beispielsweise einen Commit angelegt hast und dann feststellst, dass du 
 
 <!--After these three commands, you end up with a single commit — the second commit replaces the results of the first.-->
 
-Diese drei Befehle legen einen einzigen neuen Commit an - der letzte Befehl ersetzt dabei das Ergebnis des ersten Befehls.
+Diese drei Befehle legen einen einzigen neuen Commit an – der letzte Befehl ersetzt dabei das Ergebnis des ersten Befehls.
 
 <!--### Unstaging a Staged File ###-->
 ### Änderungen aus der Staging Area entfernen ###
@@ -921,7 +921,7 @@ Die nächsten zwei Abschnitte gehen darauf ein, wie du Änderungen in der Stagin
 
 <!--Right below the “Changes to be committed” text, it says "use `git reset HEAD <file>...` to unstage". So, let’s use that advice to unstage the `benchmarks.rb` file:-->
 
-Direkt unter der Zeile "Changes to be committed" findest du den Hinweis "use `git reset HEAD <file>...` to unstage", d.h. "aus der Staging Area zu entfernen". Wir verwenden nun also diesen Befehl, um die Änderungen an der Datei `benchmarks.rb` aus der Staging Area zu nehmen:
+Direkt unter der Zeile „Changes to be committed“ findest du den Hinweis „use `git reset HEAD <file>...` to unstage“, d.h. „aus der Staging Area zu entfernen“. Wir verwenden nun also diesen Befehl, um die Änderungen an der Datei `benchmarks.rb` aus der Staging Area zu nehmen:
 
 	$ git reset HEAD benchmarks.rb
 	benchmarks.rb: locally modified
@@ -959,7 +959,7 @@ Was aber, wenn du die Änderungen an der Datei `benchmarks.rb` überhaupt nicht 
 
 <!--It tells you pretty explicitly how to discard the changes you’ve made (at least, the newer versions of Git, 1.6.1 and later, do this — if you have an older version, we highly recommend upgrading it to get some of these nicer usability features). Let’s do what it says:-->
 
-Das sagt ziemlich klar, was wir zu tun haben um die Änderungen an der Datei zu verwerfen (genauer gesagt, Git tut dies seit der Version 1.6.1 - wenn du eine ältere Version hast, empfehlen wir dir, sie zu aktualisieren). Wir führen den vorgeschlagenen Befehl also aus:
+Das sagt ziemlich klar, was wir zu tun haben um die Änderungen an der Datei zu verwerfen (genauer gesagt, Git tut dies seit der Version 1.6.1 – wenn du eine ältere Version hast, empfehlen wir dir, sie zu aktualisieren). Wir führen den vorgeschlagenen Befehl also aus:
 
 	$ git checkout -- benchmarks.rb
 	$ git status
@@ -972,7 +972,7 @@ Das sagt ziemlich klar, was wir zu tun haben um die Änderungen an der Datei zu 
 
 <!--You can see that the changes have been reverted. You should also realize that this is a dangerous command: any changes you made to that file are gone — you just copied another file over it. Don’t ever use this command unless you absolutely know that you don’t want the file. If you just need to get it out of the way, we’ll go over stashing and branching in the next chapter; these are generally better ways to go.-->
 
-Die Änderung wurde also rückgängig gemacht: sie taucht nicht mehr in der Liste der geänderten Dateien auf. Sei dir bewußt, dass dieser Befehl potentiell gefährlich ist, da er Änderungen an einer Datei vollständig verwirft. Es ist also ratsam, ihn nur dann zu verwenden, wenn du dir absolut sicher bist, dass du die Änderungen nicht mehr brauchst. Für Situationen, in denen Du eine Änderung lediglich vorläufig aus dem Weg räumen willst, werden wir im nächsten Kapitel noch auf Stashing und Branching eingehen - die dazu besser geeignet sind.
+Die Änderung wurde also rückgängig gemacht: sie taucht nicht mehr in der Liste der geänderten Dateien auf. Sei dir bewußt, dass dieser Befehl potentiell gefährlich ist, da er Änderungen an einer Datei vollständig verwirft. Es ist also ratsam, ihn nur dann zu verwenden, wenn du dir absolut sicher bist, dass du die Änderungen nicht mehr brauchst. Für Situationen, in denen Du eine Änderung lediglich vorläufig aus dem Weg räumen willst, werden wir im nächsten Kapitel noch auf Stashing und Branching eingehen – die dazu besser geeignet sind.
 
 <!--Remember, anything that is committed in Git can almost always be recovered. Even commits that were on branches that were deleted or commits that were overwritten with an `-\-amend` commit can be recovered (see *Chapter 9* for data recovery). However, anything you lose that was never committed is likely never to be seen again.-->
 
@@ -984,14 +984,14 @@ Beachte, dass alles was jemals in einem Commit in Git enthalten war, fast immer 
 <!--To be able to collaborate on any Git project, you need to know how to manage your remote repositories. Remote repositories are versions of your project that are hosted on the Internet or network somewhere. You can have several of them, each of which generally is either read-only or read/write for you. Collaborating with others involves managing these remote repositories and pushing and pulling data to and from them when you need to share work.
 Managing remote repositories includes knowing how to add remote repositories, remove remotes that are no longer valid, manage various remote branches and define them as being tracked or not, and more. In this section, we’ll cover these remote-management skills.-->
 
-Um mit anderen via Git zusammenzuarbeiten, musst du wissen, wie du auf externe (engl. "remote") Repositorys zugreifen kannst. Remote Repositorys sind Versionen deines Projektes, die im Internet oder irgendwo in einem anderen Netzwerk gespeichert sind. Du kannst mehrere solcher Repositorys haben und du kannst jedes davon entweder nur lesen oder lesen und schreiben. Mit anderen via Git zusammenzuarbeiten impliziert, solche Repositorys zu verwalten und Daten aus ihnen herunter- oder heraufzuladen, um deine Arbeit für andere verfügbar zu machen. Um Remote Repositorys zu verwalten, muss man wissen, wie man sie anlegt und wieder entfernt, wenn sie nicht mehr verwendet werden, wie man externe Branches verwalten und nachverfolgen kann, und mehr. In diesem Kapitel werden wir auf diese Aufgaben eingehen.
+Um mit anderen via Git zusammenzuarbeiten, musst du wissen, wie du auf externe (engl. „remote“) Repositorys zugreifen kannst. Remote Repositorys sind Versionen deines Projektes, die im Internet oder irgendwo in einem anderen Netzwerk gespeichert sind. Du kannst mehrere solcher Repositorys haben und du kannst jedes davon entweder nur lesen oder lesen und schreiben. Mit anderen via Git zusammenzuarbeiten impliziert, solche Repositorys zu verwalten und Daten aus ihnen herunter- oder heraufzuladen, um deine Arbeit für andere verfügbar zu machen. Um Remote Repositorys zu verwalten, muss man wissen, wie man sie anlegt und wieder entfernt, wenn sie nicht mehr verwendet werden, wie man externe Branches verwalten und nachverfolgen kann, und mehr. In diesem Kapitel werden wir auf diese Aufgaben eingehen.
 
 <!--### Showing Your Remotes ###-->
 ### Remote Repositorys anzeigen ###
 
 <!--To see which remote servers you have configured, you can run the `git remote` command. It lists the shortnames of each remote handle you’ve specified. If you’ve cloned your repository, you should at least see *origin* — that is the default name Git gives to the server you cloned from:-->
 
-Der `git remote` Befehl zeigt dir an, welche externen Server du für dein Projekt lokal konfiguriert hast, und listet die Kurzbezeichnungen für diese Remote Repository auf. Wenn du ein Repository geklont hast, solltest du mindestens `origin` sehen - welches der Standardname ist, den Git für denjenigen Server vergibt, von dem Du geklont hast:
+Der `git remote` Befehl zeigt dir an, welche externen Server du für dein Projekt lokal konfiguriert hast, und listet die Kurzbezeichnungen für diese Remote Repository auf. Wenn du ein Repository geklont hast, solltest du mindestens `origin` sehen – welches der Standardname ist, den Git für denjenigen Server vergibt, von dem Du geklont hast:
 
 	$ git clone git://github.com/schacon/ticgit.git
 	Initialized empty Git repository in /private/tmp/ticgit/.git/
@@ -1044,7 +1044,7 @@ Ich habe in vorangegangenen Kapiteln schon Beispiele dafür aufgezeigt, wie man 
 
 <!--Now you can use the string `pb` on the command line in lieu of the whole URL. For example, if you want to fetch all the information that Paul has but that you don’t yet have in your repository, you can run `git fetch pb`:-->
 
-Jetzt kannst du den Namen `pb` anstelle der vollständingen URL in verschiedenen Befehlen verwenden. Wenn du bespielsweise alle Informationen, die in Paul's, aber noch nicht in deinem eigenen Repository verfügbar sind, herunterladen willst, kannst du den Befehl `git fetch pb` verwenden:
+Jetzt kannst du den Namen `pb` anstelle der vollständingen URL in verschiedenen Befehlen verwenden. Wenn du bespielsweise alle Informationen, die in Pauls, aber noch nicht in deinem eigenen Repository verfügbar sind, herunterladen willst, kannst du den Befehl `git fetch pb` verwenden:
 
 	$ git fetch pb
 	remote: Counting objects: 58, done.
@@ -1057,7 +1057,7 @@ Jetzt kannst du den Namen `pb` anstelle der vollständingen URL in verschiedenen
 
 <!--Paul’s master branch is accessible locally as `pb/master` — you can merge it into one of your branches, or you can check out a local branch at that point if you want to inspect it.-->
 
-Paul's master Branch ist jetzt lokal auf deinem Rechner als `pb/master` verfügbar - du kannst ihn mit einem deiner eigenen Branches zusammenführen oder auf einen lokalen Branch wechseln, um damit zu arbeiten.
+Pauls master Branch ist jetzt lokal auf deinem Rechner als `pb/master` verfügbar – du kannst ihn mit einem deiner eigenen Branches zusammenführen oder auf einen lokalen Branch wechseln, um damit zu arbeiten.
 
 <!--### Fetching and Pulling from Your Remotes ###-->
 ### Änderungen aus Remote Repositorys herunterladen und herunterladen inkl. zusammenführen ###
@@ -1078,14 +1078,14 @@ Wenn du ein Repository geklont hast, legt der Befehl automatisch einen Verweis a
 
 <!--If you have a branch set up to track a remote branch (see the next section and *Chapter 3* for more information), you can use the `git pull` command to automatically fetch and then merge a remote branch into your current branch. This may be an easier or more comfortable workflow for you; and by default, the `git clone` command automatically sets up your local master branch to track the remote master branch on the server you cloned from (assuming the remote has a master branch). Running `git pull` generally fetches data from the server you originally cloned from and automatically tries to merge it into the code you’re currently working on.-->
 
-Wenn du allerdings einen Branch so aufgesetzt hast, dass er einem Remote Branch "folgt" (also einen "Tracking Branch", wir werden im nächsten Abschnitt und in Kapitel 3 noch genauer darauf eingehen), dann kannst du den Befehl `git pull` verwenden, um automatisch neue Daten herunterzuladen und den externen Branch gleichzeitig mit dem aktuellen, lokalen Branch zusammenzuführen. Das ist oft die bequemere Arbeitsweise. `git clone` setzt deinen lokalen master Branch deshalb standardmäßig so auf, dass er dem Remote master Branch des geklonten Repositorys folgt (sofern das Remote Repository einen master Branch hat). Wenn du dann `git pull` ausführst, wird Git die neuen Commits aus dem externen Repository holen und versuchen, sie automatisch mit dem Code zusammenzuführen, an dem du gerade arbeitest.
+Wenn du allerdings einen Branch so aufgesetzt hast, dass er einem Remote Branch „folgt“ (also einen „Tracking Branch“, wir werden im nächsten Abschnitt und in Kapitel 3 noch genauer darauf eingehen), dann kannst du den Befehl `git pull` verwenden, um automatisch neue Daten herunterzuladen und den externen Branch gleichzeitig mit dem aktuellen, lokalen Branch zusammenzuführen. Das ist oft die bequemere Arbeitsweise. `git clone` setzt deinen lokalen master Branch deshalb standardmäßig so auf, dass er dem Remote master Branch des geklonten Repositorys folgt (sofern das Remote Repository einen master Branch hat). Wenn du dann `git pull` ausführst, wird Git die neuen Commits aus dem externen Repository holen und versuchen, sie automatisch mit dem Code zusammenzuführen, an dem du gerade arbeitest.
 
 <!--### Pushing to Your Remotes ###-->
 ### Änderungen in ein Remote Repository hochladen ###
 
 <!--When you have your project at a point that you want to share, you have to push it upstream. The command for this is simple: `git push [remote-name] [branch-name]`. If you want to push your master branch to your `origin` server (again, cloning generally sets up both of those names for you automatically), then you can run this to push your work back up to the server:-->
 
-Wenn du mit deinem Projekt an einen Punkt gekommen bist, an dem du es anderen zur Verfügung stellen willst, kannst du deine Änderungen in ein gemeinsam genutztes Repository hochladen (engl. "push"). Der Befehl dafür ist einfach: `git push [remote-name] [branch-name]`. Wenn du deinen master Branch auf den `origin` Server hochladen willst (noch einmal, wenn du ein Repository klonst, setzt Git diesen Namen automatisch für dich), dann kannst du diesen Befehl verwenden:
+Wenn du mit deinem Projekt an einen Punkt gekommen bist, an dem du es anderen zur Verfügung stellen willst, kannst du deine Änderungen in ein gemeinsam genutztes Repository hochladen (engl. „push“). Der Befehl dafür ist einfach: `git push [remote-name] [branch-name]`. Wenn du deinen master Branch auf den `origin` Server hochladen willst (noch einmal, wenn du ein Repository klonst, setzt Git diesen Namen automatisch für dich), dann kannst du diesen Befehl verwenden:
 
 	$ git push origin master
 
@@ -1204,7 +1204,7 @@ Du kannst auch nach Tags mit einem bestimmten Muster suchen. Das Git Quellcode R
 
 <!--Git uses two main types of tags: lightweight and annotated. A lightweight tag is very much like a branch that doesn’t change — it’s just a pointer to a specific commit. Annotated tags, however, are stored as full objects in the Git database. They’re checksummed; contain the tagger name, e-mail, and date; have a tagging message; and can be signed and verified with GNU Privacy Guard (GPG). It’s generally recommended that you create annotated tags so you can have all this information; but if you want a temporary tag or for some reason don’t want to keep the other information, lightweight tags are available too.-->
 
-Git kennt im wesentlichen zwei Typen von Tags: einfache (engl. lightweight) und kommentierte (engl. annotated) Tags. Ein einfacher Tag ist wie ein Branch, der sich niemals ändert - es ist lediglich ein Zeiger auf einen bestimmten Commit. Kommentierte Tags dagegen werden als vollwertige Objekte in der Git Datenbank gespeichert. Sie haben eine Checksumme, beinhalten Namen und E-Mail Adresse desjenigen, der den Tag angelegt hat, das jeweilige Datum sowie eine Meldung. Sie können überdies mit GNU Privacy Guard (GPG) signiert und verifiziert werden. Generell empfiehlt sich deshalb, kommentierte Tags anzulegen. Wenn man aber aus irgendeinem Grund einen temporären Tag anlegen will, für den all diese zusätzlichen Informationen nicht nötig sind, dann kann man auf einfache Tags zurückgreifen.
+Git kennt im wesentlichen zwei Typen von Tags: einfache (engl. lightweight) und kommentierte (engl. annotated) Tags. Ein einfacher Tag ist wie ein Branch, der sich niemals ändert – es ist lediglich ein Zeiger auf einen bestimmten Commit. Kommentierte Tags dagegen werden als vollwertige Objekte in der Git Datenbank gespeichert. Sie haben eine Checksumme, beinhalten Namen und E-Mail Adresse desjenigen, der den Tag angelegt hat, das jeweilige Datum sowie eine Meldung. Sie können überdies mit GNU Privacy Guard (GPG) signiert und verifiziert werden. Generell empfiehlt sich deshalb, kommentierte Tags anzulegen. Wenn man aber aus irgendeinem Grund einen temporären Tag anlegen will, für den all diese zusätzlichen Informationen nicht nötig sind, dann kann man auf einfache Tags zurückgreifen.
 
 <!--### Annotated Tags ###-->
 ### Kommentierte Tags ###
@@ -1316,7 +1316,7 @@ Wenn du jetzt `git show` auf den Tag ausführst, siehst du keine der zusätzlich
 
 <!--To verify a signed tag, you use `git tag -v [tag-name]`. This command uses GPG to verify the signature. You need the signer’s public key in your keyring for this to work properly:-->
 
-Um einen signierten Tag zu verifizieren, kannst du `git tag -v [Tag Name]` verwenden. Dieser Befehl verwendet GPG, um die Signatur mit Hilfe des öffentlichen Schlüssels des Signierenden zu verifizieren - weshalb du diesen Schlüssel in deinem Schlüsselbund haben musst:
+Um einen signierten Tag zu verifizieren, kannst du `git tag -v [Tag Name]` verwenden. Dieser Befehl verwendet GPG, um die Signatur mit Hilfe des öffentlichen Schlüssels des Signierenden zu verifizieren – weshalb du diesen Schlüssel in deinem Schlüsselbund haben musst:
 
 	$ git tag -v v1.4.2.1
 	object 883653babd8ee7ea23e6a5c392bb739348b1eb61
@@ -1361,7 +1361,7 @@ Du kannst Commits jederzeit taggen, auch lange Zeit nachdem sie angelegt wurden.
 
 <!--Now, suppose you forgot to tag the project at `v1.2`, which was at the "updated rakefile" commit. You can add it after the fact. To tag that commit, you specify the commit checksum (or part of it) at the end of the command:-->
 
-Nehmen wir an, dass du vergessen hast, Version v1.2 des Projekts zu taggen und dass dies der Commit "updated rakefile" gewesen ist. Du kannst diesen jetzt im Nachhinein taggen, indem du die Checksumme des Commits (oder einen Teil davon) am Ende des Befehls angibst:
+Nehmen wir an, dass du vergessen hast, Version v1.2 des Projekts zu taggen und dass dies der Commit „updated rakefile“ gewesen ist. Du kannst diesen jetzt im Nachhinein taggen, indem du die Checksumme des Commits (oder einen Teil davon) am Ende des Befehls angibst:
 
 	$ git tag -a v1.2 9fceb02
 
@@ -1462,7 +1462,7 @@ D.h., wenn du `git co` schreibst und dann die Tab Taste zwei Mal drückst, erhä
 
 <!--This also works with options, which is probably more useful. For instance, if you’re running a `git log` command and can’t remember one of the options, you can start typing it and press Tab to see what matches:-->
 
-Das funktioniert auch mit Optionen - was oftmals noch hilfreicher ist. Wenn du beispielsweise `git log` verwenden willst und dich nicht an eine bestimmte Option erinnern kannst, schreibst du einfach den Befehl und drückst die Tab Taste, um die Optionen anzuzeigen:
+Das funktioniert auch mit Optionen – was oftmals noch hilfreicher ist. Wenn du beispielsweise `git log` verwenden willst und dich nicht an eine bestimmte Option erinnern kannst, schreibst du einfach den Befehl und drückst die Tab Taste, um die Optionen anzuzeigen:
 
 	$ git log --s<tab>
 	--shortstat  --since=  --src-prefix=  --stat   --summary

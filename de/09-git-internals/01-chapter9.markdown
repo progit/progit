@@ -277,7 +277,7 @@ Als nächstes speichern wir die beiden anderen Commit Objekte und referenzieren 
 
 <!--Each of the three commit objects points to one of the three snapshot trees you created. Oddly enough, you have a real Git history now that you can view with the `git log` command, if you run it on the last commit SHA-1:-->
 
-Jedes der drei Commit Objekte zeigt auf einen der drei Snapshopt Trees, die Du zuvor gespeichert hattest. Es mag dich überraschen, aber Du hast jetzt bereits eine vollständige Git Historie, die Du mit dem `git log` inspizieren kannst, indem Du den letzten Commit SHA-1 Hash angibst:
+Jedes der drei Commit Objekte zeigt auf einen der drei Snapshopt Trees, die Du zuvor gespeichert hattest. Es mag Dich überraschen, aber Du hast jetzt bereits eine vollständige Git Historie, die Du mit dem `git log` inspizieren kannst, indem Du den letzten Commit SHA-1 Hash angibst:
 
 	$ git log --stat 1a410e
 	commit 1a410efbd13591db07496601ebc7a059dd55cfe9
@@ -408,7 +408,7 @@ Diese Namen werden in Git intern als „references“ oder „refs“ bezeichnet
 
 <!--To create a new reference that will help you remember where your latest commit is, you can technically do something as simple as this:-->
 
-Um jetzt eine neue Referenz anzulegen, die Dir dabei hilft, dich zu erinnern, wo sich Dein letzten Commit befindet, könntest Du, technisch gesehen, Folgendes tun:
+Um jetzt eine neue Referenz anzulegen, die Dir dabei hilft, Dich zu erinnern, wo sich Dein letzten Commit befindet, könntest Du, technisch gesehen, Folgendes tun:
 
 	$ echo "1a410efbd13591db07496601ebc7a059dd55cfe9" > .git/refs/heads/master
 
@@ -459,7 +459,7 @@ Wenn Du Befehle wie `git branch (branchname)` verwendest, führt Git intern im w
 
 <!--The question now is, when you run `git branch (branchname)`, how does Git know the SHA-1 of the last commit? The answer is the HEAD file. The HEAD file is a symbolic reference to the branch you’re currently on. By symbolic reference, I mean that unlike a normal reference, it doesn’t generally contain a SHA-1 value but rather a pointer to another reference. If you look at the file, you’ll normally see something like this:-->
 
-Die Frage ist jetzt: wenn Du `git branch (branchname)` ausführst, woher weiß Git den SHA-1 des letzten Commits? Die Antwort ist: aus der HEAD Datei. Diese Datei ist eine symbolische Referenz auf den jeweiligen Branch, auf dem Du dich gerade befindest. Mit „symbolischer Referenz“ meine ich, dass sie (anders als eine „normale“ Referenz) keinen SHA-1 Hash enthält, sondern statt dessen auf eine andere Referenz zeigt. Wenn Du die HEAD Datei ansiehst, findest Du normalerweise etwas wie:
+Die Frage ist jetzt: wenn Du `git branch (branchname)` ausführst, woher weiß Git den SHA-1 des letzten Commits? Die Antwort ist: aus der HEAD Datei. Diese Datei ist eine symbolische Referenz auf den jeweiligen Branch, auf dem Du Dich gerade befindest. Mit „symbolischer Referenz“ meine ich, dass sie (anders als eine „normale“ Referenz) keinen SHA-1 Hash enthält, sondern statt dessen auf eine andere Referenz zeigt. Wenn Du die HEAD Datei ansiehst, findest Du normalerweise etwas wie:
 
 	$ cat .git/HEAD
 	ref: refs/heads/master
@@ -1354,8 +1354,8 @@ Das gepackte Repository umfasst jetzt nur noch 7K – sehr viel besser als die v
 
 <!--You should have a pretty good understanding of what Git does in the background and, to some degree, how it’s implemented. This chapter has covered a number of plumbing commands — commands that are lower level and simpler than the porcelain commands you’ve learned about in the rest of the book. Understanding how Git works at a lower level should make it easier to understand why it’s doing what it’s doing and also to write your own tools and helping scripts to make your specific workflow work for you.-->
 
-Du solltest jetzt ein gutes Verständnis davon haben, was Git im Hintergrund tut, und in einem gewissen Maße auch davon, wie es implementiert ist. In diesem Kapitel haben wir eine Reihe von Plumbing Befehlen besprochen, als Befehlen, die grundlegender und einfacher als die Porzellan Befehle sind, um die es im restlichen Buch ging. Dieses Verständnis sollte Dir helfen, zu verstehen, warum Git tut, was es tut – und natürlich auch dabei, Deine eigenen Werkzeuge und Hilfsskripte zu schreiben, um einen bestimmten Workflow für dich anzupassen.
+Du solltest jetzt ein gutes Verständnis davon haben, was Git im Hintergrund tut, und in einem gewissen Maße auch davon, wie es implementiert ist. In diesem Kapitel haben wir eine Reihe von Plumbing Befehlen besprochen, als Befehlen, die grundlegender und einfacher als die Porzellan Befehle sind, um die es im restlichen Buch ging. Dieses Verständnis sollte Dir helfen, zu verstehen, warum Git tut, was es tut – und natürlich auch dabei, Deine eigenen Werkzeuge und Hilfsskripte zu schreiben, um einen bestimmten Workflow für Dich anzupassen.
 
 <!--Git as a content-addressable filesystem is a very powerful tool that you can easily use as more than just a VCS. I hope you can use your newfound knowledge of Git internals to implement your own cool application of this technology and feel more comfortable using Git in more advanced ways.-->
 
-Git als ein Dateisystem, das Inhalte addressieren kann, ist ein äußerst mächtiges Werkzeug, das Du leicht als mehr als „nur“ als  (xxx) ein VCS einsetzen kannst. Ich hoffe, Du kannst Dein neugewonnenes Wissen der Git Interna nutzen, um Deine eigene tolle Anwendung dieser Technologie zu implementieren und dich wohler damit zu fühlen, Git auch in fortgeschrittener Weise zu benutzen.
+Git als ein Dateisystem, das Inhalte addressieren kann, ist ein äußerst mächtiges Werkzeug, das Du leicht als mehr als „nur“ als  (xxx) ein VCS einsetzen kannst. Ich hoffe, Du kannst Dein neugewonnenes Wissen der Git Interna nutzen, um Deine eigene tolle Anwendung dieser Technologie zu implementieren und Dich wohler damit zu fühlen, Git auch in fortgeschrittener Weise zu benutzen.

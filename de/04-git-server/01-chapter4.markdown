@@ -118,7 +118,7 @@ Die Vorteile von SSH sind vielseitig. Erstens, grundlegend musst Du es benutzen,
 
 <!--The negative aspect of SSH is that you can’t serve anonymous access of your repository over it. People must have access to your machine over SSH to access it, even in a read-only capacity, which doesn’t make SSH access conducive to open source projects. If you’re using it only within your corporate network, SSH may be the only protocol you need to deal with. If you want to allow anonymous read-only access to your projects, you’ll have to set up SSH for you to push over but something else for others to pull over.-->
 
-Die negative Seite von SSH ist, dass Du Deine Repositories nicht anonym darüber anbieten kannst. Die Leute müssen Zugriff auf Deine Maschine über SSH haben um zuzugreifen, auch mit einem Nur-Lese-Zugriff, was SSH nicht zuträglich zu Open-Source-Projekten macht. Wenn Du es nur innerhalb von Deinem Firmen-Netzwerk benutzt, SSH ist vielleicht das einzige Protokoll mit dem Du arbeiten musst. Wenn Du anonymen Nur-Lese-Zugriff zu Deinen Projekten erlauben willst, musst Du SSH für dich einsetzen um zu pushen, aber ein anderes Protokoll für andere um zu pullen.
+Die negative Seite von SSH ist, dass Du Deine Repositories nicht anonym darüber anbieten kannst. Die Leute müssen Zugriff auf Deine Maschine über SSH haben um zuzugreifen, auch mit einem Nur-Lese-Zugriff, was SSH nicht zuträglich zu Open-Source-Projekten macht. Wenn Du es nur innerhalb von Deinem Firmen-Netzwerk benutzt, SSH ist vielleicht das einzige Protokoll mit dem Du arbeiten musst. Wenn Du anonymen Nur-Lese-Zugriff zu Deinen Projekten erlauben willst, musst Du SSH für Dich einsetzen um zu pushen, aber ein anderes Protokoll für andere um zu pullen.
 
 <!--### The Git Protocol ###-->
 ### Das Git Protokoll ###
@@ -276,7 +276,7 @@ Es gibt ein paar Wege allen Mitgliedern Deines Teams Zugriff zu geben. Der erste
 
 <!--A second method is to create a single 'git' user on the machine, ask every user who is to have write access to send you an SSH public key, and add that key to the `~/.ssh/authorized_keys` file of your new 'git' user. At that point, everyone will be able to access that machine via the 'git' user. This doesn’t affect the commit data in any way — the SSH user you connect as doesn’t affect the commits you’ve recorded.-->
 
-Eine zweite Methode ist, einen einzigen ‚git‘-Benutzer auf der Maschine zu erstellen und jeden Benutzer, der Schreibzugriff haben soll, nach einem öffentliche SSH-Schlüssel zu fragen und diesen Schlüssel zu der `~/.ssh/authorized_keys`-Datei Deines neuen ‚git‘ Benutzers hinzuzufügen. Das beeinflusst die Commit-Daten in keiner Weise – der SSH-Benutzer, mit dem Du dich verbindest, beeinflusst die von Dir aufgezeichneten Commits nicht.
+Eine zweite Methode ist, einen einzigen ‚git‘-Benutzer auf der Maschine zu erstellen und jeden Benutzer, der Schreibzugriff haben soll, nach einem öffentliche SSH-Schlüssel zu fragen und diesen Schlüssel zu der `~/.ssh/authorized_keys`-Datei Deines neuen ‚git‘ Benutzers hinzuzufügen. Das beeinflusst die Commit-Daten in keiner Weise – der SSH-Benutzer, mit dem Du Dich verbindest, beeinflusst die von Dir aufgezeichneten Commits nicht.
 
 <!--Another way to do it is to have your SSH server authenticate from an LDAP server or some other centralized authentication source that you may already have set up. As long as each user can get shell access on the machine, any SSH authentication mechanism you can think of should work.-->
 
@@ -316,7 +316,7 @@ Zunächst wird bestätigt, wo Du den Schlüssel speichern möchtest (`.ssh/id_rs
 
 <!--Now, each user that does this has to send their public key to you or whoever is administrating the Git server (assuming you’re using an SSH server setup that requires public keys). All they have to do is copy the contents of the `.pub` file and e-mail it. The public keys look something like this:-->
 
-Jeder Benutzer der dies macht, muss seinen öffentlichen Schlüssel an sich senden oder wer auch immer den Git-Server administriert (angenommen Du benutzt eine SSH-Server Konfiguration, die öffentliche Schlüssel benötigt). Alles was die Benutzer tun müssen ist, den Inhalt der `.pub`-Datei zu kopieren und an dich per E-Mail zu schicken. Der öffentliche Schlüssel sieht etwa wie folgt aus:
+Jeder Benutzer der dies macht, muss seinen öffentlichen Schlüssel an sich senden oder wer auch immer den Git-Server administriert (angenommen Du benutzt eine SSH-Server Konfiguration, die öffentliche Schlüssel benötigt). Alles was die Benutzer tun müssen ist, den Inhalt der `.pub`-Datei zu kopieren und an Dich per E-Mail zu schicken. Der öffentliche Schlüssel sieht etwa wie folgt aus:
 
 	$ cat ~/.ssh/id_rsa.pub
 	ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAklOUpkDHrfHY17SbrmTIpNLTGK9Tjom/BWDSU
@@ -553,7 +553,7 @@ Das manuelle Verwalten der öffentlichen Benutzerschlüssel in der Datei `author
 
 <!--At this point, you may want to turn to a widely used software project called Gitosis. Gitosis is basically a set of scripts that help you manage the `authorized_keys` file as well as implement some simple access controls. The really interesting part is that the UI for this tool for adding people and determining access isn’t a web interface but a special Git repository. You set up the information in that project; and when you push it, Gitosis reconfigures the server based on that, which is cool.-->
 
-Vielleicht ist es deshalb sinnvoll, dass Du dich mit dem weit verbreiteten Projekt Gitosis beschäftigst. Gitosis ist im Grunde eine Sammlung von Skripts, die Dir dabei helfen, sowohl die Datei `authorized_keys` zu verwalten, als auch ein paar einfache Zugriffsberechtigungen zu setzen. Das wirklich interessante an diesem Werkzeug ist es, dass die Benutzeroberfläche zum Hinzufügen von Benutzern oder Setzen von Berechtigungen, kein Web Interface ist, sondern ein spezielles Git Repository. Die ganzen Informationen werden in diesem Projekt verwaltet und sobald dieses gepusht wird, konfiguriert Gitosis den Server auf Basis dieser Daten entsprechend um. Das ist ziemlich cool, oder?
+Vielleicht ist es deshalb sinnvoll, dass Du Dich mit dem weit verbreiteten Projekt Gitosis beschäftigst. Gitosis ist im Grunde eine Sammlung von Skripts, die Dir dabei helfen, sowohl die Datei `authorized_keys` zu verwalten, als auch ein paar einfache Zugriffsberechtigungen zu setzen. Das wirklich interessante an diesem Werkzeug ist es, dass die Benutzeroberfläche zum Hinzufügen von Benutzern oder Setzen von Berechtigungen, kein Web Interface ist, sondern ein spezielles Git Repository. Die ganzen Informationen werden in diesem Projekt verwaltet und sobald dieses gepusht wird, konfiguriert Gitosis den Server auf Basis dieser Daten entsprechend um. Das ist ziemlich cool, oder?
 
 <!--Installing Gitosis isn’t the simplest task ever, but it’s not too difficult. It’s easiest to use a Linux server for it — these examples use a stock Ubuntu 8.10 server.-->
 
@@ -745,7 +745,7 @@ Mit dieser Konfiguration kann John das Projekt klonen und kann neue Stände heru
 
 <!--If you have any issues, it may be useful to add `loglevel=DEBUG` under the `[gitosis]` section. If you’ve lost push access by pushing a messed-up configuration, you can manually fix the file on the server under `/home/git/.gitosis.conf` — the file from which Gitosis reads its info. A push to the project takes the `gitosis.conf` file you just pushed up and sticks it there. If you edit that file manually, it remains like that until the next successful push to the `gitosis-admin` project.-->
 
-Solltest Du Probleme mit Gitosis haben, hilft es Dir vielleicht, wenn Du den Eintrag `loglevel=DEBUG` in der Sektion `[gitosis]` hinzufügst. Wenn Du keinen Push auf das Verwaltungsrepository ausführen kannst und Du dich damit ausgeschlossen hast, kannst Du die Konfiguration unter `/home/git/.gitosis.conf` manuell bearbeiten. Diese Datei verwendet Gitosis als Konfigurationsdatei. Bei einem Push wird diese durch die im Verwaltungsrepository enthaltene Datei ersetzt. Wenn Du diese Datei also manuell änderst, bleibt diese bis zum nächsten erfolgreichen Push auf das Projekt `gitosis-admin` bestehen.
+Solltest Du Probleme mit Gitosis haben, hilft es Dir vielleicht, wenn Du den Eintrag `loglevel=DEBUG` in der Sektion `[gitosis]` hinzufügst. Wenn Du keinen Push auf das Verwaltungsrepository ausführen kannst und Du Dich damit ausgeschlossen hast, kannst Du die Konfiguration unter `/home/git/.gitosis.conf` manuell bearbeiten. Diese Datei verwendet Gitosis als Konfigurationsdatei. Bei einem Push wird diese durch die im Verwaltungsrepository enthaltene Datei ersetzt. Wenn Du diese Datei also manuell änderst, bleibt diese bis zum nächsten erfolgreichen Push auf das Projekt `gitosis-admin` bestehen.
 
 <!--## Gitolite ##-->
 ## Gitolite ##
@@ -876,7 +876,7 @@ Diese Regel gehört dann zum Regelsatz des `gitolite` Repository.
 
 <!--At this point you might be wondering how the access control rules are actually applied, so let’s go over that briefly.-->
 
-An dieser Stelle fragst Du dich vielleicht, wie die Zugriffsregeln eigentlich angewandt werden. Lass uns das kurz anschauen.
+An dieser Stelle fragst Du Dich vielleicht, wie die Zugriffsregeln eigentlich angewandt werden. Lass uns das kurz anschauen.
 
 <!--There are two levels of access control in Gitolite.  The first is at the repository level; if you have read (or write) access to *any* ref in the repository, then you have read (or write) access to the repository.  This is the only access control that Gitosis had.-->
 
@@ -1047,7 +1047,7 @@ Nachdem Du dies eingecheckt und gepusht hast, sollte Dein im Hintergrund laufend
 
 <!--If you decide not to use Gitosis, but you want to set up a Git daemon, you’ll have to run this on each project you want the Git daemon to serve:-->
 
-Wenn Du dich gegen Gitosis entschieden hast, aber trotzdem dem Git Daemon verwenden willst, musst Du auf dem Server für jedes Projekt, welches der Git Daemon zur Verfügung stellen soll, folgendes ausführen:
+Wenn Du Dich gegen Gitosis entschieden hast, aber trotzdem dem Git Daemon verwenden willst, musst Du auf dem Server für jedes Projekt, welches der Git Daemon zur Verfügung stellen soll, folgendes ausführen:
 
 	$ cd /path/to/project.git
 	$ touch git-daemon-export-ok

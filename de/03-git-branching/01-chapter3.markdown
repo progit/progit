@@ -14,7 +14,7 @@ Manche Leute bezeichnen Gits Branching-Modell als dessen „Killer-Feature“, w
 
 <!--To really understand the way Git does branching, we need to take a step back and examine how Git stores its data. As you may remember from Chapter 1, Git doesn’t store data as a series of changesets or deltas, but instead as a series of snapshots.-->
 
-Um wirklich zu verstehen wie Git Branching durchführt, müssen wir einen Schritt zurück gehen und untersuchen wie Git die Daten speichert. Wie Du dich vielleicht noch an Kapitel 1 erinnerst, speichert Git seine Daten nicht als Serie von Änderungen oder Unterschieden, sondern als Serie von Schnappschüssen.
+Um wirklich zu verstehen wie Git Branching durchführt, müssen wir einen Schritt zurück gehen und untersuchen wie Git die Daten speichert. Wie Du Dich vielleicht noch an Kapitel 1 erinnerst, speichert Git seine Daten nicht als Serie von Änderungen oder Unterschieden, sondern als Serie von Schnappschüssen.
 
 <!--When you commit in Git, Git stores a commit object that contains a pointer to the snapshot of the content you staged, the author and message metadata, and zero or more pointers to the commit or commits that were the direct parents of this commit: zero parents for the first commit, one parent for a normal commit, and multiple parents for a commit that results from a merge of two or more branches.-->
 
@@ -205,7 +205,7 @@ Abbildung 3-10. Eine kurze, einfache Commit-Historie
 
 <!--You’ve decided that you’re going to work on issue #53 in whatever issue-tracking system your company uses. To be clear, Git isn’t tied into any particular issue-tracking system; but because issue #53 is a focused topic that you want to work on, you’ll create a new branch in which to work. To create a branch and switch to it at the same time, you can run the `git checkout` command with the `-b` switch:-->
 
-Du hast dich dafür entschieden an dem Issue #53, des Issue-Trackers XY, zu arbeiten. Um eines klarzustellen, Git ist an kein Issue-Tracking-System gebunden. Da der Issue #53 allerdings ein Schwerpunktthema betrifft, wirst Du einen neuen Branch erstellen um daran zu arbeiten. Um in einem Arbeitsschritt einen neuen Branch zu erstellen und zu aktivieren kannst Du das Kommando `git checkout` mit der Option `-b` verwenden:
+Du hast Dich dafür entschieden an dem Issue #53, des Issue-Trackers XY, zu arbeiten. Um eines klarzustellen, Git ist an kein Issue-Tracking-System gebunden. Da der Issue #53 allerdings ein Schwerpunktthema betrifft, wirst Du einen neuen Branch erstellen um daran zu arbeiten. Um in einem Arbeitsschritt einen neuen Branch zu erstellen und zu aktivieren kannst Du das Kommando `git checkout` mit der Option `-b` verwenden:
 
 	$ git checkout -b iss53
 	Switched to a new branch "iss53"
@@ -244,14 +244,14 @@ Nun bekommst Du einen Anruf, in dem Dir mitgeteilt wird, dass es ein Problem mit
 
 <!--However, before you do that, note that if your working directory or staging area has uncommitted changes that conflict with the branch you’re checking out, Git won’t let you switch branches. It’s best to have a clean working state when you switch branches. There are ways to get around this (namely, stashing and commit amending) that we’ll cover later. For now, you’ve committed all your changes, so you can switch back to your master branch:-->
 
-Beachte jedoch, dass dich Git den Branch nur wechseln lässt, wenn bisherige Änderungen in Deinem Arbeitsverzeichnis oder Deiner Staging-Area nicht in Konflikt mit dem Zweig stehen, zu dem Du nun wechseln möchtest. Am besten es liegt ein sauberer Status vor wenn man den Branch wechselt. Wir werden uns später mit Wegen befassen, dieses Verhalten zu umgehen (namentlich „Stashing“ und „Commit Ammending“). Vorerst aber hast Du Deine Änderungen bereits comitted, sodass Du zu Deinem MASTER-Branch zurückwechseln kannst.
+Beachte jedoch, dass Dich Git den Branch nur wechseln lässt, wenn bisherige Änderungen in Deinem Arbeitsverzeichnis oder Deiner Staging-Area nicht in Konflikt mit dem Zweig stehen, zu dem Du nun wechseln möchtest. Am besten es liegt ein sauberer Status vor wenn man den Branch wechselt. Wir werden uns später mit Wegen befassen, dieses Verhalten zu umgehen (namentlich „Stashing“ und „Commit Ammending“). Vorerst aber hast Du Deine Änderungen bereits comitted, sodass Du zu Deinem MASTER-Branch zurückwechseln kannst.
 
 	$ git checkout master
 	Switched to branch "master"
 
 <!--At this point, your project working directory is exactly the way it was before you started working on issue #53, and you can concentrate on your hotfix. This is an important point to remember: Git resets your working directory to look like the snapshot of the commit that the branch you check out points to. It adds, removes, and modifies files automatically to make sure your working copy is what the branch looked like on your last commit to it.-->
 
-Zu diesem Zeitpunkt befindet sich das Arbeitsverzeichnis des Projektes in exakt dem gleichen Zustand, in dem es sich befand, als Du mit der Arbeit an Issue #53 begonnen hast und Du kannst dich direkt auf Deinen Hotfix konzentrieren. Dies ist ein wichtiger Moment um sich vor Augen zu halten, dass Git Dein Arbeitsverzeichnis auf den Zustand des Commits, auf den dieser Branch zeigt, zurücksetzt. Es erstellt, entfernt und verändert Dateien automatisch, um sicherzustellen, dass Deine Arbeitskopie haargenau so aussieht wie der Zweig nach Deinem letzten Commit.
+Zu diesem Zeitpunkt befindet sich das Arbeitsverzeichnis des Projektes in exakt dem gleichen Zustand, in dem es sich befand, als Du mit der Arbeit an Issue #53 begonnen hast und Du kannst Dich direkt auf Deinen Hotfix konzentrieren. Dies ist ein wichtiger Moment um sich vor Augen zu halten, dass Git Dein Arbeitsverzeichnis auf den Zustand des Commits, auf den dieser Branch zeigt, zurücksetzt. Es erstellt, entfernt und verändert Dateien automatisch, um sicherzustellen, dass Deine Arbeitskopie haargenau so aussieht wie der Zweig nach Deinem letzten Commit.
 
 <!--Next, you have a hotfix to make. Let’s create a hotfix branch on which to work until it’s completed (see Figure 3-13):-->
 
@@ -295,7 +295,7 @@ Abbildung 3-14. Der Master-Branch zeigt nach der Zusammenführung auf den gleich
 
 <!--After your super-important fix is deployed, you’re ready to switch back to the work you were doing before you were interrupted. However, first you’ll delete the `hotfix` branch, because you no longer need it — the `master` branch points at the same place. You can delete it with the `-d` option to `git branch`:-->
 
-Nachdem Dein superwichtiger Hotfix veröffentlicht wurde, kannst Du dich wieder Deiner ursprünglichen Arbeit zuwenden. Vorher wird sich allerdings des nun nutzlosen Hotfix-Zweiges entledigt, schließlich zeigt der Master-Branch ebenfalls auf die aktuelle Version. Du kannst ihn mit der `-d`-Option von `git branch` entfernen:
+Nachdem Dein superwichtiger Hotfix veröffentlicht wurde, kannst Du Dich wieder Deiner ursprünglichen Arbeit zuwenden. Vorher wird sich allerdings des nun nutzlosen Hotfix-Zweiges entledigt, schließlich zeigt der Master-Branch ebenfalls auf die aktuelle Version. Du kannst ihn mit der `-d`-Option von `git branch` entfernen:
 
 	$ git branch -d hotfix
 	Deleted branch hotfix (3a0874c).
@@ -402,7 +402,7 @@ Alles, was einen 'merge' Konflikt aufweist und nicht gelöst werden konnte, wird
 
 <!--This means the version in HEAD (your master branch, because that was what you had checked out when you ran your merge command) is the top part of that block (everything above the `=======`), while the version in your `iss53` branch looks like everything in the bottom part. In order to resolve the conflict, you have to either choose one side or the other or merge the contents yourself. For instance, you might resolve this conflict by replacing the entire block with this:-->
 
-Das heisst, die Version in HEAD (Deines 'master'-Branches, denn der wurde per 'checkout' aktiviert als Du das 'merge' gemacht hast) ist der obere Teil des Blocks (alles oberhalb von '======='), und die Version aus dem `iss53`-Branch sieht wie der darunter befindliche Teil aus. Um den Konflikt zu lösen, musst Du dich entweder für einen der beiden Teile entscheiden oder Du ersetzt den Teil komplett:
+Das heisst, die Version in HEAD (Deines 'master'-Branches, denn der wurde per 'checkout' aktiviert als Du das 'merge' gemacht hast) ist der obere Teil des Blocks (alles oberhalb von '======='), und die Version aus dem `iss53`-Branch sieht wie der darunter befindliche Teil aus. Um den Konflikt zu lösen, musst Du Dich entweder für einen der beiden Teile entscheiden oder Du ersetzt den Teil komplett:
 
 	<div id="footer">
 	please contact us at email.support@github.com
@@ -412,7 +412,7 @@ Das heisst, die Version in HEAD (Deines 'master'-Branches, denn der wurde per 'c
 If you want to use a graphical tool to resolve these issues, you can run `git mergetool`, which fires up an appropriate visual merge tool and walks you through the conflicts:-->
 
 Diese Lösung hat von beiden Teilen etwas und ich habe die Zeilen mit `<<<<<<<`, `=======`, und `>>>>>>>` komplett gelöscht. Nachdem Du alle problematischen Bereiche, in allen durch den Konflikt betroffenen Dateien, beseitigt hast, führe einfach `git add` für alle betroffenen Dateien aus und markieren sie damit als bereinigt. Dieses 'staging' der Dateien markiert sie für Git als bereinigt.
-Wenn Du ein grafischen Tool zur Bereinigung benutzen willst, dann verwende `git mergetool`. Das welches ein passendes grafisches 'merge'-Tool startet und dich durch die Konfliktbereiche führt:
+Wenn Du ein grafischen Tool zur Bereinigung benutzen willst, dann verwende `git mergetool`. Das welches ein passendes grafisches 'merge'-Tool startet und Dich durch die Konfliktbereiche führt:
 
 	$ git mergetool
 	merge tool candidates: kdiff3 tkdiff xxdiff meld gvimdiff opendiff emerge vimdiff
@@ -429,7 +429,7 @@ Wenn Du ein anderes Tool anstelle des Standardwerkzeug für ein 'merge' verwende
 
 <!--After you exit the merge tool, Git asks you if the merge was successful. If you tell the script that it was, it stages the file to mark it as resolved for you.-->
 
-Wenn Du das 'merge' Werkzeug beendest, fragt dich Git, ob das Zusammenführen erfolgreich war. Wenn Du mit 'Ja' antwortest, wird das Skript diese Dateien als gelöst markieren.
+Wenn Du das 'merge' Werkzeug beendest, fragt Dich Git, ob das Zusammenführen erfolgreich war. Wenn Du mit 'Ja' antwortest, wird das Skript diese Dateien als gelöst markieren.
 
 <!--You can run `git status` again to verify that all conflicts have been resolved:-->
 
@@ -523,7 +523,7 @@ Wenn Du den Branch trotzdem löschen willst – und damit alle Änderungen diese
 
 <!--Now that you have the basics of branching and merging down, what can or should you do with them? In this section, we’ll cover some common workflows that this lightweight branching makes possible, so you can decide if you would like to incorporate it into your own development cycle.-->
 
-Jetzt da Du die Grundlagen von 'branching' und 'merging' kennst, fragst Du dich sicher, was Du damit anfangen kannst. In diesem Abschnitt werden wir uns typische Workflows anschauen, die dieses leichtgewichtige 'branching' möglich macht. Und Du kannst dann entscheiden, ob Du es in Deinem eigene Entwicklungszyklus verwenden willst.
+Jetzt da Du die Grundlagen von 'branching' und 'merging' kennst, fragst Du Dich sicher, was Du damit anfangen kannst. In diesem Abschnitt werden wir uns typische Workflows anschauen, die dieses leichtgewichtige 'branching' möglich macht. Und Du kannst dann entscheiden, ob Du es in Deinem eigene Entwicklungszyklus verwenden willst.
 
 <!--### Long-Running Branches ###-->
 ### Langfristige Branches ###
@@ -583,7 +583,7 @@ Abbildung 3-20. Dein Commit-Verlauf mit verschiedenen Themen-Branches.
 
 <!--Now, let’s say you decide you like the second solution to your issue best (`iss91v2`); and you showed the `dumbidea` branch to your coworkers, and it turns out to be genius. You can throw away the original `iss91` branch (losing commits C5 and C6) and merge in the other two. Your history then looks like Figure 3-21.-->
 
-Nun, sagen wir Du hast dich entschieden die zweite Lösung des Fehlers (`iss91v2`) zu bevorzugen, außerdem hast den `dumbidea`-Branch Deinen Mitarbeitern gezeigt und es hat sich herausgestellt das er genial ist. Du kannst also den ursprünglichen `iss91`-Branch (unter Verlust der Commits C5 und C6) wegschmeißen und die anderen Beiden vereinen. Dein Verlauf sieht dann aus wie in Abbildung 3-21.
+Nun, sagen wir Du hast Dich entschieden die zweite Lösung des Fehlers (`iss91v2`) zu bevorzugen, außerdem hast den `dumbidea`-Branch Deinen Mitarbeitern gezeigt und es hat sich herausgestellt das er genial ist. Du kannst also den ursprünglichen `iss91`-Branch (unter Verlust der Commits C5 und C6) wegschmeißen und die anderen Beiden vereinen. Dein Verlauf sieht dann aus wie in Abbildung 3-21.
 
 <!--Figure 3-21. Your history after merging in dumbidea and iss91v2.-->
 
@@ -599,7 +599,7 @@ Es ist wichtig sich daran zu erinnern, dass alle diese Branches nur lokal existi
 
 <!--Remote branches are references to the state of branches on your remote repositories. They’re local branches that you can’t move; they’re moved automatically whenever you do any network communication. Remote branches act as bookmarks to remind you where the branches on your remote repositories were the last time you connected to them.-->
 
-Externe (Remote) Branches sind Referenzen auf den Zustand der Branches in Deinen externen Repositorys. Es sind lokale Branches die Du nicht verändern kannst, sie werden automatisch verändert wann immer Du eine Netzwerkoperation durchführst. Externe Branches verhalten sich wie Lesezeichen, um dich daran zu erinnern an welcher Position sich die Branches in Deinen externen Repositories befanden, als Du dich zuletzt mit ihnen verbunden hattest.
+Externe (Remote) Branches sind Referenzen auf den Zustand der Branches in Deinen externen Repositorys. Es sind lokale Branches die Du nicht verändern kannst, sie werden automatisch verändert wann immer Du eine Netzwerkoperation durchführst. Externe Branches verhalten sich wie Lesezeichen, um Dich daran zu erinnern an welcher Position sich die Branches in Deinen externen Repositories befanden, als Du Dich zuletzt mit ihnen verbunden hattest.
 
 <!--They take the form `(remote)/(branch)`. For instance, if you wanted to see what the `master` branch on your `origin` remote looked like as of the last time you communicated with it, you would check the `origin/master` branch. If you were working on an issue with a partner and they pushed up an `iss53` branch, you might have your own local `iss53` branch; but the branch on the server would point to the commit at `origin/iss53`.-->
 
@@ -706,7 +706,7 @@ Dies erstellt Dir einen lokalen bearbeitbaren Branch mit der Grundlage des `orig
 
 <!--Checking out a local branch from a remote branch automatically creates what is called a _tracking branch_. Tracking branches are local branches that have a direct relationship to a remote branch. If you’re on a tracking branch and type `git push`, Git automatically knows which server and branch to push to. Also, running `git pull` while on one of these branches fetches all the remote references and then automatically merges in the corresponding remote branch.-->
 
-Das Auschecken eines lokalen Branches von einem Remote-Branch erzeugt automatisch einen sogenannten _Tracking-Branch_. Tracking Branches sind lokale Branches mit einer direkten Beziehung zu dem Remote-Zweig. Wenn Du dich in einem Tracking-Branch befindest und `git push` eingibst, weiß Git automatisch zu welchem Server und Repository es pushen soll. Ebenso führt `git pull` in einem dieser Branches dazu, dass alle entfernten Referenzen gefetched und automatisch in den Zweig gemerged werden.
+Das Auschecken eines lokalen Branches von einem Remote-Branch erzeugt automatisch einen sogenannten _Tracking-Branch_. Tracking Branches sind lokale Branches mit einer direkten Beziehung zu dem Remote-Zweig. Wenn Du Dich in einem Tracking-Branch befindest und `git push` eingibst, weiß Git automatisch zu welchem Server und Repository es pushen soll. Ebenso führt `git pull` in einem dieser Branches dazu, dass alle entfernten Referenzen gefetched und automatisch in den Zweig gemerged werden.
 
 <!--When you clone a repository, it generally automatically creates a `master` branch that tracks `origin/master`. That’s why `git push` and `git pull` work out of the box with no other arguments. However, you can set up other tracking branches if you wish — ones that don’t track branches on `origin` and don’t track the `master` branch. The simple case is the example you just saw, running `git checkout -b [branch] [remotename]/[branch]`. If you have Git version 1.6.2 or later, you can also use the `-\-track` shorthand:-->
 
@@ -808,7 +808,7 @@ Nun ist der Schnappschuss, auf den C3' zeigt, exakt der gleiche, wie der auf den
 
 <!--Often, you’ll do this to make sure your commits apply cleanly on a remote branch — perhaps in a project to which you’re trying to contribute but that you don’t maintain. In this case, you’d do your work in a branch and then rebase your work onto `origin/master` when you were ready to submit your patches to the main project. That way, the maintainer doesn’t have to do any integration work — just a fast-forward or a clean apply.-->
 
-Du wirst das häufig anwenden um sicherzustellen, dass sich Deine Commits sauber in einen Remote-Branch integrieren – möglicherweise in einem Projekt bei dem Du dich beteiligen möchtest, Du jedoch nicht der Verantwortliche bist. In diesem Fall würdest Du Deine Arbeiten in einem eigenen Branch erledigen und im Anschluss Deine Änderungen auf `origin/master` rebasen. Dann hätte der Verantwortliche nämliche keinen Aufwand mit der Integration – nur einen Fast-Forward oder eine saubere Integration (= Rebase?).
+Du wirst das häufig anwenden um sicherzustellen, dass sich Deine Commits sauber in einen Remote-Branch integrieren – möglicherweise in einem Projekt bei dem Du Dich beteiligen möchtest, Du jedoch nicht der Verantwortliche bist. In diesem Fall würdest Du Deine Arbeiten in einem eigenen Branch erledigen und im Anschluss Deine Änderungen auf `origin/master` rebasen. Dann hätte der Verantwortliche nämliche keinen Aufwand mit der Integration – nur einen Fast-Forward oder eine saubere Integration (= Rebase?).
 
 <!--Note that the snapshot pointed to by the final commit you end up with, whether it’s the last of the rebased commits for a rebase or the final merge commit after a merge, is the same snapshot — it’s only the history that is different. Rebasing replays changes from one line of work onto another in the order they were introduced, whereas merging takes the endpoints and merges them together.-->
 
@@ -828,7 +828,7 @@ Abbildung 3-31. Ein Verlauf mit einem Themen-Branch basierend auf einem weiteren
 
 <!--Suppose you decide that you want to merge your client-side changes into your mainline for a release, but you want to hold off on the server-side changes until it’s tested further. You can take the changes on client that aren’t on server (C8 and C9) and replay them on your master branch by using the `-\-onto` option of `git rebase`:-->
 
-Stell Dir vor, Du entscheidest dich Deine clientseitigen Änderungen für einen Release in die Hauptlinie zu mergen, die serverseitigen Änderungen möchtest Du aber noch zurückhalten bis sie besser getestet wurden. Du kannst einfach die Änderungen am Client, die den Server nicht betreffen, (C8 und C9) mit der `--onto`-Option von `git rebase` erneut auf den Master-Branch anwenden:
+Stell Dir vor, Du entscheidest Dich Deine clientseitigen Änderungen für einen Release in die Hauptlinie zu mergen, die serverseitigen Änderungen möchtest Du aber noch zurückhalten bis sie besser getestet wurden. Du kannst einfach die Änderungen am Client, die den Server nicht betreffen, (C8 und C9) mit der `--onto`-Option von `git rebase` erneut auf den Master-Branch anwenden:
 
 	$ git rebase --onto master server client
 
@@ -855,7 +855,7 @@ Abbildung 3-33. Fast-forwarding Deines Master-Branches um die Client-Branch-Änd
 
 <!--Let’s say you decide to pull in your server branch as well. You can rebase the server branch onto the master branch without having to check it out first by running `git rebase [basebranch] [topicbranch]` — which checks out the topic branch (in this case, `server`) for you and replays it onto the base branch (`master`):-->
 
-Lass uns annehmen, Du entscheidest dich Deinen Server-Branch ebenfalls einzupflegen. Du kannst den Server-Branch auf den Master-Branch rebasen ohne diesen vorher auschecken zu müssen, indem Du das Kommando `git rebase [Basis-Branch] [Themen-Branch]` ausführst. Es macht für dich den Checkout des Themen-Branches (in diesem Fall `server`) und wiederholt ihn auf dem Basis-Branch (`master`):
+Lass uns annehmen, Du entscheidest Dich Deinen Server-Branch ebenfalls einzupflegen. Du kannst den Server-Branch auf den Master-Branch rebasen ohne diesen vorher auschecken zu müssen, indem Du das Kommando `git rebase [Basis-Branch] [Themen-Branch]` ausführst. Es macht für Dich den Checkout des Themen-Branches (in diesem Fall `server`) und wiederholt ihn auf dem Basis-Branch (`master`):
 
 	$ git rebase master server
 
@@ -900,7 +900,7 @@ Ahh, aber der ganze Spaß mit dem Rebasing kommt nicht ohne seine Schattenseiten
 
 <!--If you follow that guideline, you’ll be fine. If you don’t, people will hate you, and you’ll be scorned by friends and family.-->
 
-Wenn Du diesem Ratschlag folgst ist alles in Ordnung. Falls nicht, werden die Leute dich hassen und Du wirst von Deinen Freunden und Deiner Familie verachtet.
+Wenn Du diesem Ratschlag folgst ist alles in Ordnung. Falls nicht, werden die Leute Dich hassen und Du wirst von Deinen Freunden und Deiner Familie verachtet.
 
 <!--When you rebase stuff, you’re abandoning existing commits and creating new ones that are similar but different. If you push commits somewhere and others pull them down and base work on them, and then you rewrite those commits with `git rebase` and push them up again, your collaborators will have to re-merge their work and things will get messy when you try to pull their work back into yours.-->
 

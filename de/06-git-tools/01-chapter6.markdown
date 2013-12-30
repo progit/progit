@@ -204,7 +204,7 @@ Du kannst jetzt den vorletzten Commit mit `HEAD^` referenzieren, d.h. „den dir
 
 <!--You can also specify a number after the `^` — for example, `d921970^2` means "the second parent of d921970." This syntax is only useful for merge commits, which have more than one parent. The first parent is the branch you were on when you merged, and the second is the commit on the branch that you merged in:-->
 
-Außerdem kannst Du nach dem `^` eine Zahl angeben. Beispielsweise heißt `d921970^2`: „der zweite Vorfahr von d921970“. Diese Syntax ist allerdings nur für Merge Commits nützlich, die mehr als einen Vorfahren haben. Der erste Vorfahr ist der Branch auf dem Du dich beim Merge befandest, der zweite ist der Commit auf dem Branch den Du gemergt hast.
+Außerdem kannst Du nach dem `^` eine Zahl angeben. Beispielsweise heißt `d921970^2`: „der zweite Vorfahr von d921970“. Diese Syntax ist allerdings nur für Merge Commits nützlich, die mehr als einen Vorfahren haben. Der erste Vorfahr ist der Branch auf dem Du Dich beim Merge befandest, der zweite ist der Commit auf dem Branch den Du gemergt hast.
 
 	$ git show d921970^
 	commit 1c002dd4b536e7479fe34593e72e6c6c1819e53b
@@ -296,7 +296,7 @@ Dieser Befehl zeigt Dir alle Commits im gegenwärtigen, lokalen Branch, die noch
 
 <!--The double-dot syntax is useful as a shorthand; but perhaps you want to specify more than two branches to indicate your revision, such as seeing what commits are in any of several branches that aren’t in the branch you’re currently on. Git allows you to do this by using either the `^` character or `-\-not` before any reference from which you don’t want to see reachable commits. Thus these three commands are equivalent:-->
 
-Die Zwei-Punkte Syntax ist eine nützliche Abkürzung, aber möglicherweise willst Du mehr als nur zwei Branches angeben, um z.B. herauszufinden, welche Commits in einem beliebigen anderen Branch enthalten sind, ausgenommen in demjenigen, auf dem Du dich gerade befindest. Dazu kannst Du in Git das `^` Zeichen oder `--not` verwenden, um Commits auszuschließen, die von den angegebenen Referenzen aus erreichbar sind. D.h., die folgenden drei Befehle sind äquivalent:
+Die Zwei-Punkte Syntax ist eine nützliche Abkürzung, aber möglicherweise willst Du mehr als nur zwei Branches angeben, um z.B. herauszufinden, welche Commits in einem beliebigen anderen Branch enthalten sind, ausgenommen in demjenigen, auf dem Du Dich gerade befindest. Dazu kannst Du in Git das `^` Zeichen oder `--not` verwenden, um Commits auszuschließen, die von den angegebenen Referenzen aus erreichbar sind. D.h., die folgenden drei Befehle sind äquivalent:
 
 	$ git log refA..refB
 	$ git log ^refA refB
@@ -479,7 +479,7 @@ Mit diesen grundlegenden Befehlen kannst Du den interaktiven add Modus nutzen um
 
 <!--It’s also possible for Git to stage certain parts of files and not the rest. For example, if you make two changes to your simplegit.rb file and want to stage one of them and not the other, doing so is very easy in Git. From the interactive prompt, type `5` or `p` (for patch). Git will ask you which files you would like to partially stage; then, for each section of the selected files, it will display hunks of the file diff and ask if you would like to stage them, one by one:-->
 
-Es ist für Git auch möglich bestimmte Teile einer Datei zu stagen und nicht den Rest. Wenn Du z. B. 2 Veränderungen an der simplegit.rb machst und eine davon stagen willst und die andere nicht, ist dies sehr einfach in Git möglich. Wähle `5` oder `p` (für patch) auf dem interactive prompt. Git wird dich fragen welche Dateien Du teilweise stagen willst; dann wird es für jeden Abschnitt der gewählten Dateien diff hunks ausgeben und dich jeweils einzeln fragen ob Du sie stagen willst.
+Es ist für Git auch möglich bestimmte Teile einer Datei zu stagen und nicht den Rest. Wenn Du z. B. 2 Veränderungen an der simplegit.rb machst und eine davon stagen willst und die andere nicht, ist dies sehr einfach in Git möglich. Wähle `5` oder `p` (für patch) auf dem interactive prompt. Git wird Dich fragen welche Dateien Du teilweise stagen willst; dann wird es für jeden Abschnitt der gewählten Dateien diff hunks ausgeben und Dich jeweils einzeln fragen ob Du sie stagen willst.
 
 	diff --git a/lib/simplegit.rb b/lib/simplegit.rb
 	index dd5ecc4..57399e0 100644

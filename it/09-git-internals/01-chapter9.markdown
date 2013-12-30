@@ -488,10 +488,10 @@ Verificando l’albero risultate da questa commit vedrai qualcosa d’interessan
 
 Il blob è un oggetto differente, cioè, nonostante tu abbia aggiunto una sola riga alla fine di un file da 400 righe, Git memorizza il nuovo contenuto come un oggetto completamente nuovo:
 
-	$ git cat-file -s 05408d195263d853f09dca71d55116663690c27c
-	12908
+	$ du -b .git/objects/05/408d195263d853f09dca71d55116663690c27c
+	4109	.git/objects/05/408d195263d853f09dca71d55116663690c27c
 
-Ora hai sul disco due oggetti quasi identici da 12K. Non sarebbe carino se Git potesse memorizzarne solo una per intero e del secondo solo la differenza col primo?
+Ora hai sul disco due oggetti quasi identici da 4K. Non sarebbe carino se Git potesse memorizzarne solo una per intero e del secondo solo la differenza col primo?
 
 In effetti può farlo. Il formato iniziale con cui Git salva l’oggetto sul disco con un formato cosiddetto sciolto (*loose*). Però, occasionalmente, Git compatta molti di questi oggetti in un singolo file binario detto “pacchetto di file” (*packfile*) per risparmiare spazio ed essere più efficiente. Git lo fa se hai molti oggetti sciolti sparpagliati, se esegui il comando `git gc` o se fai la push verso un server remoto. Puoi farlo manualmente, per vedere cosa succede, eseguendo il comando `git gc`, che forza Git a comprimere gli oggetti:
 
@@ -628,7 +628,7 @@ You can also use the refspec to delete references from the remote server by runn
 
 	$ git push origin :topic
 
-Because the refspec is `<src>:<dst>`, by leaving off the `<src>` part, this basically says to make the topic branch on the remote nothing, which deletes it. 
+Because the refspec is `<src>:<dst>`, by leaving off the `<src>` part, this basically says to make the topic branch on the remote nothing, which deletes it.
 
 ## Transfer Protocols ##
 
@@ -650,7 +650,7 @@ Now you have a list of the remote references and SHAs. Next, you look for what t
 	=> GET HEAD
 	ref: refs/heads/master
 
-You need to check out the `master` branch when you’ve completed the process. 
+You need to check out the `master` branch when you’ve completed the process.
 At this point, you’re ready to start the walking process. Because your starting point is the `ca82a6` commit object you saw in the `info/refs` file, you start by fetching that:
 
 	=> GET objects/ca/82a6dff817ec66f44342007202690a93763949
@@ -801,8 +801,8 @@ The other thing `gc` will do is pack up your references into a single file. Supp
 
 If you run `git gc`, you’ll no longer have these files in the `refs` directory. Git will move them for the sake of efficiency into a file named `.git/packed-refs` that looks like this:
 
-	$ cat .git/packed-refs 
-	# pack-refs with: peeled 
+	$ cat .git/packed-refs
+	# pack-refs with: peeled
 	cac0cab538b970a37ea1e769cbbde608743bc96d refs/heads/experiment
 	ab1afef80fac8e34258ff41fc1b867c702daa24b refs/heads/master
 	cac0cab538b970a37ea1e769cbbde608743bc96d refs/tags/v1.0
@@ -872,10 +872,10 @@ It looks like the bottom commit is the one you lost, so you can recover it by cr
 	cac0cab538b970a37ea1e769cbbde608743bc96d second commit
 	fdf4fc3344e67ab068f836878b6c4951e3b15f3d first commit
 
-Cool — now you have a branch named `recover-branch` that is where your `master` branch used to be, making the first two commits reachable again. 
+Cool — now you have a branch named `recover-branch` that is where your `master` branch used to be, making the first two commits reachable again.
 Next, suppose your loss was for some reason not in the reflog — you can simulate that by removing `recover-branch` and deleting the reflog. Now the first two commits aren’t reachable by anything:
 
-	$ git branch –D recover-branch
+	$ git branch -D recover-branch
 	$ rm -Rf .git/logs/
 
 Because the reflog data is kept in the `.git/logs/` directory, you effectively have no reflog. How can you recover that commit at this point? One way is to use the `git fsck` utility, which checks your database for integrity. If you run it with the `--full` option, it shows you all objects that aren’t pointed to by another object:
@@ -907,7 +907,7 @@ To demonstrate, you’ll add a large file into your test repository, remove it i
 
 Oops — you didn’t want to add a huge tarball to your project. Better get rid of it:
 
-	$ git rm git.tbz2 
+	$ git rm git.tbz2
 	rm 'git.tbz2'
 	$ git commit -m 'oops - removed large tarball'
 	[master da3f30d] oops - removed large tarball

@@ -1,6 +1,6 @@
 # Deutsche Übersetzung #
 
-Die deutsche Übersetzung wird im Repository progit-de/progit verwaltet. Wenn Du an der deutschen Übersetzung mitarbeiten willst, dann melde dich am besten bei uns. Du kannst dazu einen Issue im Repository progit-de/progit erzeugen. Wir werden Dir dann einen Vorschlag machen, wie Du uns am besten helfen kannst. Der Workflow an sich ist unter Workflow beschrieben. Ein Status der Übersetzung der jeweiligen Kapitel findest Du unter "Status der Übersetzung".
+Die deutsche Übersetzung wird im Repository progit-de/progit verwaltet. Wenn Du an der deutschen Übersetzung mitarbeiten willst, dann melde Dich am besten bei uns. Du kannst dazu einen Issue im Repository progit-de/progit erzeugen. Wir werden Dir dann einen Vorschlag machen, wie Du uns am besten helfen kannst. Der Workflow an sich ist unter Workflow beschrieben. Ein Status der Übersetzung der jeweiligen Kapitel findest Du unter "Status der Übersetzung".
 
 Du kannst auch sofort mit der Übersetzung beginnen, allerdings besteht dann das Risiko, dass ein Kapitel doppelt übersetzt oder überarbeitet wird. Eventuell war Deine Arbeit dann umsonst.
 
@@ -8,7 +8,7 @@ Du kannst auch sofort mit der Übersetzung beginnen, allerdings besteht dann das
 
 Um am Projekt mitzuarbeiten, erstellst Du am besten erst einmal ein Fork des Repositorys progit-de/progit unter Deinem Account ("Fork this repo" Button).
 
-In diesem Projekt kannst Du dich nun austoben und Deinen Beitrag zur Übersetzung leisten.
+In diesem Projekt kannst Du Dich nun austoben und Deinen Beitrag zur Übersetzung leisten.
 
 Beispielhaftes Vorgehen:
 

@@ -3,11 +3,11 @@
 
 <!--You may have skipped to this chapter from a previous chapter, or you may have gotten here after reading the rest of the book — in either case, this is where you’ll go over the inner workings and implementation of Git. I found that learning this information was fundamentally important to understanding how useful and powerful Git is, but others have argued to me that it can be confusing and unnecessarily complex for beginners. Thus, I’ve made this discussion the last chapter in the book so you could read it early or later in your learning process. I leave it up to you to decide.-->
 
-Möglicherweise hast Du dieses Kapitel hier direkt aufgeschlagen, vorherige Kapitel ausgelassen, oder bist hierher gelangt, nachdem Du alle vorherigen Kapitel gelesen hast. Wie auch immer, in diesem Kapitel wirst Du mit mit den internen (xxx) und der Implementation von Git befassen. Meine eigene Erfahrung damit, diese Dinge zu lernen, war dass sie unerläßlich ist, um zu verstehen, wie unheimlich mächtig und flexibel Git ist. Allerdings gibt es Leute, die der Ansicht sind, dass sie auch verwirrend und unnötig komplex für Anfänger sein könne. Deshalb habe ich mich entschieden, dieses Kapitel an das Ende des Buches zu verlegen. Du kannst es, ganz wie es Dir beliebt, früher oder später einschieben.
+Möglicherweise hast Du dieses Kapitel hier direkt aufgeschlagen, vorherige Kapitel ausgelassen, oder bist hierher gelangt, nachdem Du alle vorherigen Kapitel gelesen hast. Wie auch immer, in diesem Kapitel wirst Du mit mit den internen (xxx) und der Implementation von Git befassen. Meine eigene Erfahrung damit, diese Dinge zu lernen, war dass sie unerlässlich ist, um zu verstehen, wie unheimlich mächtig und flexibel Git ist. Allerdings gibt es Leute, die der Ansicht sind, dass sie auch verwirrend und unnötig komplex für Anfänger sein könne. Deshalb habe ich mich entschieden, dieses Kapitel an das Ende des Buches zu verlegen. Du kannst es, ganz wie es Dir beliebt, früher oder später einschieben.
 
 <!--Now that you’re here, let’s get started. First, if it isn’t yet clear, Git is fundamentally a content-addressable filesystem with a VCS user interface written on top of it. You’ll learn more about what this means in a bit.-->
 
-Laß uns also loslegen. Zunächst will ich betonen, falls das bisher noch nicht klargeworden ist, dass Git im seinen Grundzügen ein Dateisystem ist, dessen Inhalte addressierbar sind (xxx content-addressable filesystem ??? xxx) und auf dem ein VCS Interface sitzt. Wir werden gleich genauer darauf eingehen, was das heißt.
+Lass uns also loslegen. Zunächst will ich betonen, falls das bisher noch nicht klargeworden ist, dass Git im seinen Grundzügen ein Dateisystem ist, dessen Inhalte addressierbar sind (xxx content-addressable filesystem ??? xxx) und auf dem ein VCS Interface sitzt. Wir werden gleich genauer darauf eingehen, was das heißt.
 
 <!--In the early days of Git (mostly pre 1.5), the user interface was much more complex because it emphasized this filesystem rather than a polished VCS. In the last few years, the UI has been refined until it’s as clean and easy to use as any system out there; but often, the stereotype lingers about the early Git UI that was complex and difficult to learn.-->
 
@@ -22,11 +22,11 @@ Die Dateisystem Ebene ist erstaunlich cool, weshalb ich in diesem Kapitel zuerst
 
 <!--This book covers how to use Git with 30 or so verbs such as `checkout`, `branch`, `remote`, and so on. But because Git was initially a toolkit for a VCS rather than a full user-friendly VCS, it has a bunch of verbs that do low-level work and were designed to be chained together UNIX style or called from scripts. These commands are generally referred to as "plumbing" commands, and the more user-friendly commands are called "porcelain" commands.-->
 
-In diesem Buch haben wir Git besprochen, indem wir vielleicht 30 Befehle wie `checkout`, `branch`, `remote` und so weiter verwendet haben. Weil Git aber ursprünglich als ein Werkzeugkasten konzipiert war, un nicht so sehr als ein komplettes, anwenderfreundliches VCS, gibt es auch eine Reihe von Befehlen, die ihre Arbeit auf einer sehr viel grundlegenderen Ebene verrichten. Viele davon sind ursprünglich entwickelt worden, um als UNIX Befehle miteinander verkettet zu werden oder aus Scripten heraus aufgerufen zu werden. Diese Befehle werden oft als „plumbing“ (xxx) Befehle zusammengefaßt, während die eher anwenderfreundlichen Befehle „porcelain“ (d.h. Porzellan) genannt werden.
+In diesem Buch haben wir Git besprochen, indem wir vielleicht 30 Befehle wie `checkout`, `branch`, `remote` und so weiter verwendet haben. Weil Git aber ursprünglich als ein Werkzeugkasten konzipiert war, un nicht so sehr als ein komplettes, anwenderfreundliches VCS, gibt es auch eine Reihe von Befehlen, die ihre Arbeit auf einer sehr viel grundlegenderen Ebene verrichten. Viele davon sind ursprünglich entwickelt worden, um als UNIX Befehle miteinander verkettet zu werden oder aus Scripten heraus aufgerufen zu werden. Diese Befehle werden oft als „plumbing“ (xxx) Befehle zusammengefasst, während die eher anwenderfreundlichen Befehle „porcelain“ (d.h. Porzellan) genannt werden.
 
 <!--The book’s first eight chapters deal almost exclusively with porcelain commands. But in this chapter, you’ll be dealing mostly with the lower-level plumbing commands, because they give you access to the inner workings of Git and help demonstrate how and why Git does what it does. These commands aren’t meant to be used manually on the command line, but rather to be used as building blocks for new tools and custom scripts.-->
 
-Die ersten acht Kapitel dieses Buches haben sich fast ausschließlich mit „porcelain“ Befehlen befaßt. In diesem Kapitel gehen wir dagegen auf die zugrundeliegenden „plumbing“ Befehle ein, u.a. weil sie Dir den Zugriff auf Gits innere Abläufe ermöglichen, und weil sie dabei helfen, zu verstehen, warum Git tut, was es tut. Diese Befehle sind nicht unbedingt dazu bestimmt direkt (xxx on the command line xxx) ausgeführt zu werden, sondern sind als Bausteine für Werkzeuge und Scripts gemeint.
+Die ersten acht Kapitel dieses Buches haben sich fast ausschließlich mit „porcelain“ Befehlen befasst. In diesem Kapitel gehen wir dagegen auf die zugrundeliegenden „plumbing“ Befehle ein, u.a. weil sie Dir den Zugriff auf Gits innere Abläufe ermöglichen, und weil sie dabei helfen, zu verstehen, warum Git tut, was es tut. Diese Befehle sind nicht unbedingt dazu bestimmt direkt (xxx on the command line xxx) ausgeführt zu werden, sondern sind als Bausteine für Werkzeuge und Scripts gemeint.
 
 <!--When you run `git init` in a new or existing directory, Git creates the `.git` directory, which is where almost everything that Git stores and manipulates is located. If you want to back up or clone your repository, copying this single directory elsewhere gives you nearly everything you need. This entire chapter basically deals with the stuff in this directory. Here’s what it looks like:-->
 
@@ -45,7 +45,7 @@ Wenn Du `git init` in einem neuen oder bereits bestehenden Verzeichnis ausführs
 
 <!--You may see some other files in there, but this is a fresh `git init` repository — it’s what you see by default. The `branches` directory isn’t used by newer Git versions, and the `description` file is only used by the GitWeb program, so don’t worry about those. The `config` file contains your project-specific configuration options, and the `info` directory keeps a global exclude file for ignored patterns that you don’t want to track in a .gitignore file. The `hooks` directory contains your client- or server-side hook scripts, which are discussed in detail in Chapter 7.-->
 
-Möglicherweise findest Du darin weitere Dateien. Obiges stammt aus einem mit `git init` neuangelegten Repository – das sind also die Standardinhalte. Der Ordner `branches` wird von neueren Git Versionen nicht mehr verwendet, und die Datei `descriptions` wird nur vom Programm GitWeb benötigt. Du kannst sie also ignorieren. Die Datei `config` enthält Deine Projekt-spezifischen Konfigurationsoptionen, und im Ordner `info` befindet sich eine Datei, die globale Dateiausschlußpatterns (xxx) enthält, die Du nicht in jeder .gitignore Datei neu spezifizieren willst. Das `hooks` Verzeichnis enthält die client- oder serverseitigen Hook Scripte, die wir in Kapitel 7 besprochen haben.
+Möglicherweise findest Du darin weitere Dateien. Obiges stammt aus einem mit `git init` neuangelegten Repository – das sind also die Standardinhalte. Der Ordner `branches` wird von neueren Git Versionen nicht mehr verwendet, und die Datei `descriptions` wird nur vom Programm GitWeb benötigt. Du kannst sie also ignorieren. Die Datei `config` enthält Deine Projekt-spezifischen Konfigurationsoptionen, und im Ordner `info` befindet sich eine Datei, die globale Dateiausschlusspatterns (xxx) enthält, die Du nicht in jeder .gitignore Datei neu spezifizieren willst. Das `hooks` Verzeichnis enthält die client- oder serverseitigen Hook Scripte, die wir in Kapitel 7 besprochen haben.
 
 <!--This leaves four important entries: the `HEAD` and `index` files and the `objects` and `refs` directories. These are the core parts of Git. The `objects` directory stores all the content for your database, the `refs` directory stores pointers into commit objects in that data (branches), the `HEAD` file points to the branch you currently have checked out, and the `index` file is where Git stores your staging area information. You’ll now look at each of these sections in detail to see how Git operates.-->
 
@@ -79,7 +79,7 @@ Git hat also ein Verzeichnis `objects` und darin die `pack` und `info` Unterverz
 
 <!--The `-w` tells `hash-object` to store the object; otherwise, the command simply tells you what the key would be. `-\-stdin` tells the command to read the content from stdin; if you don’t specify this, `hash-object` expects the path to a file. The output from the command is a 40-character checksum hash. This is the SHA-1 hash — a checksum of the content you’re storing plus a header, which you’ll learn about in a bit. Now you can see how Git has stored your data:-->
 
-Die Option `-w` weist `git hash-object` an, das Objekt zu speichern. Andernfalls würde Dir der Befehl lediglich den Schlüssel mitteilen. `--stdin` weist den Befehl an, den Inhalt von aus der Standardeingabe zu lesen. Wenn Du diese Option wegläßt, erwartet der Befehl zusätzlich einen Dateipfad. Die Ausgabe ist eine 40 Zeichen langer SHA-1 Hash, der eine Prüfsumme des gespeicherten Inhaltes darstellt (wir gehen auf diese Hashes gleich noch genauer ein). Git hat jetzt außerdem eine neue Datei in der Datenbank angelegt:
+Die Option `-w` weist `git hash-object` an, das Objekt zu speichern. Andernfalls würde Dir der Befehl lediglich den Schlüssel mitteilen. `--stdin` weist den Befehl an, den Inhalt von aus der Standardeingabe zu lesen. Wenn Du diese Option weglässt, erwartet der Befehl zusätzlich einen Dateipfad. Die Ausgabe ist eine 40 Zeichen langer SHA-1 Hash, der eine Prüfsumme des gespeicherten Inhaltes darstellt (wir gehen auf diese Hashes gleich noch genauer ein). Git hat jetzt außerdem eine neue Datei in der Datenbank angelegt:
 
 	$ find .git/objects -type f
 	.git/objects/d6/70460b4b4aece5915caf5c68d12f560a9fe3e4
@@ -148,7 +148,7 @@ Sich den SHA-1 Hash für jede Version merken zu müssen, ist allerdings nicht so
 
 <!--The next type you’ll look at is the tree object, which solves the problem of storing the filename and also allows you to store a group of files together. Git stores content in a manner similar to a UNIX filesystem, but a bit simplified. All the content is stored as tree and blob objects, with trees corresponding to UNIX directory entries and blobs corresponding more or less to inodes or file contents. A single tree object contains one or more tree entries, each of which contains a SHA-1 pointer to a blob or subtree with its associated mode, type, and filename. For example, the most recent tree in the simplegit project may look something like this:-->
 
-Als nächstes schauen wir uns den Objekttyp „Tree“ (Baum) an, der es ermöglicht, Dateinamen zu speichern und Dateien zu gruppieren. Git speichert Inhalte in einer ähnlichen Weise wie das UNIX Dateisystem, allerdings ein bißchen vereinfacht. Sie werden als Tree und Blob Objekte abgelegt, wobei die Trees mit UNIX Verzeichnis Einträgen korrespondieren und Blobs mehr oder weniger mit den inode Einträgen bzw. Datei Inhalten. Ein einzelnes Baum Objekt enthält einen oder mehrere Einträge, von denen jeder ein SHA-1 Hash ist, der wiederum einen Blob oder einen Untertree referenziert. Jeder dieser Einträge verfügt außerdem über einen Modus, Typ und Dateinamen. Beispielsweise sieht das aktuelle Tree Objekt im simplegit Projekt möglicherweise so aus:
+Als nächstes schauen wir uns den Objekttyp „Tree“ (Baum) an, der es ermöglicht, Dateinamen zu speichern und Dateien zu gruppieren. Git speichert Inhalte in einer ähnlichen Weise wie das UNIX Dateisystem, allerdings ein bisschen vereinfacht. Sie werden als Tree und Blob Objekte abgelegt, wobei die Trees mit UNIX Verzeichnis Einträgen korrespondieren und Blobs mehr oder weniger mit den inode Einträgen bzw. Datei Inhalten. Ein einzelnes Baum Objekt enthält einen oder mehrere Einträge, von denen jeder ein SHA-1 Hash ist, der wiederum einen Blob oder einen Untertree referenziert. Jeder dieser Einträge verfügt außerdem über einen Modus, Typ und Dateinamen. Beispielsweise sieht das aktuelle Tree Objekt im simplegit Projekt möglicherweise so aus:
 
 	$ git cat-file -p master^{tree}
 	100644 blob a906cb2a4a904a152e80877d4088654daad0c859      README
@@ -173,7 +173,7 @@ Bild 9-1. Vereinfachte Darstellung des Git Datenmodels.
 
 <!--You can create your own tree. Git normally creates a tree by taking the state of your staging area or index and writing a tree object from it. So, to create a tree object, you first have to set up an index by staging some files. To create an index with a single entry — the first version of your test.txt file — you can use the plumbing command `update-index`. You use this command to artificially add the earlier version of the test.txt file to a new staging area. You must pass it the `-\-add` option because the file doesn’t yet exist in your staging area (you don’t even have a staging area set up yet) and `-\-cacheinfo` because the file you’re adding isn’t in your directory but is in your database. Then, you specify the mode, SHA-1, and filename:-->
 
-Du kannst auch Deine eigenen Tree Objekte anlegen. Git erzeugt Trees normalerweise, indem es die Inhalte der Staging Area nimmt und als ein Tree Objekt speichert. D.h., um ein Tree Objekt anzulegen, mußt Du zunächst einen Index (d.h. eine Staging Area) erzeugen, indem Du einige Dateien hinzufügst. Um einen einzelnen Eintrag in den Index zu schreiben – z.B. die erste version der test.txt Datei – kannst Du den Plumbing Befehl `git update-index` verwenden, der eine frühere Version dieser Datei künstlich zu einer neuen Staging Area hinzufügt. Du mußt ihm die `--add` Option übergeben, weil die Datei bisher noch nicht in der Staging Area enthalten ist (Du hast ja bisher noch überhaupt keine Staging Area aufgesetzt), und die `--cacheinfo` Option, weil Du eine Datei hinzufügst, die sich nicht in Deinem Arbeitsverzeichnis befindet (xxx hu? xxx), sondern in der Datenbank. Du gibst außerdem den Modus, SHA-1 Hash und den Dateinamen an:
+Du kannst auch Deine eigenen Tree Objekte anlegen. Git erzeugt Trees normalerweise, indem es die Inhalte der Staging Area nimmt und als ein Tree Objekt speichert. D.h., um ein Tree Objekt anzulegen, musst Du zunächst einen Index (d.h. eine Staging Area) erzeugen, indem Du einige Dateien hinzufügst. Um einen einzelnen Eintrag in den Index zu schreiben – z.B. die erste version der test.txt Datei – kannst Du den Plumbing Befehl `git update-index` verwenden, der eine frühere Version dieser Datei künstlich zu einer neuen Staging Area hinzufügt. Du musst ihm die `--add` Option übergeben, weil die Datei bisher noch nicht in der Staging Area enthalten ist (Du hast ja bisher noch überhaupt keine Staging Area aufgesetzt), und die `--cacheinfo` Option, weil Du eine Datei hinzufügst, die sich nicht in Deinem Arbeitsverzeichnis befindet (xxx hu? xxx), sondern in der Datenbank. Du gibst außerdem den Modus, SHA-1 Hash und den Dateinamen an:
 
 	$ git update-index --add --cacheinfo 100644 \
 	  83baae61804e65cc73a7201a7252750c76066a30 test.txt
@@ -242,7 +242,7 @@ Bild 9-2. Die Datenstruktur des gegenwärtigen Git Repositories.
 
 <!--You have three trees that specify the different snapshots of your project that you want to track, but the earlier problem remains: you must remember all three SHA-1 values in order to recall the snapshots. You also don’t have any information about who saved the snapshots, when they were saved, or why they were saved. This is the basic information that the commit object stores for you.-->
 
-Du hast jetzt drei Trees, die verschiedene Snapshots Deines Projektes spezifizieren (xxx), die Du nachverfolgen willst. Das ursprüngliche Problem besteht aber weiterhin: Du mußt alle drei SHA-1 Hash Werte erinnern, um wieder an die Snapshots zu kommen. Ebenso fehlen Dir die Informationen darüber, wer die Snapshots gespeichert hat, wann sie gespeichert wurden und warum. Dies sind die drei Hauptinformationen, die ein Commit Objekt für uns speichert.
+Du hast jetzt drei Trees, die verschiedene Snapshots Deines Projektes spezifizieren (xxx), die Du nachverfolgen willst. Das ursprüngliche Problem besteht aber weiterhin: Du musst alle drei SHA-1 Hash Werte erinnern, um wieder an die Snapshots zu kommen. Ebenso fehlen Dir die Informationen darüber, wer die Snapshots gespeichert hat, wann sie gespeichert wurden und warum. Dies sind die drei Hauptinformationen, die ein Commit Objekt für uns speichert.
 
 <!--To create a commit object, you call `commit-tree` and specify a single tree SHA-1 and which commit objects, if any, directly preceded it. Start with the first tree you wrote:-->
 
@@ -310,7 +310,7 @@ Jedes der drei Commit Objekte zeigt auf einen der drei Snapshopt Trees, die Du z
 
 <!--Amazing. You’ve just done the low-level operations to build up a Git history without using any of the front ends. This is essentially what Git does when you run the `git add` and `git commit` commands — it stores blobs for the files that have changed, updates the index, writes out trees, and writes commit objects that reference the top-level trees and the commits that came immediately before them. These three main Git objects — the blob, the tree, and the commit — are initially stored as separate files in your `.git/objects` directory. Here are all the objects in the example directory now, commented with what they store:-->
 
-Fantastisch, oder? Du hast jetzt sämtliche low-level Operationen durchgeführt, die eine vollständige Git Historie aufbauen, ohne aber irgendwelche Git Frontend Befehle (xxx) zu verwenden. Im wesentlichen ist das derselbe Prozeß, der im Hintergrund stattfindet, wenn Du die Befehle `git add` und `git commit` ausführst. Sie speichern Blobs für die Dateien, die Du hinzugefügt oder geändert hast, aktualisieren den Index (d.h. die Staging Area), speichern Trees und legen Commit Objekte an, die die toplevel Trees und Commits referenzieren, die ihnen unmittelbar vorhergingen. Diese drei Hauptobjekte – Blob, Tree und Commit – werden zunächst als separate Dateien im `.git/objects` Verzeichnis gespeichert. Hier ist eine Liste aller Objekte, die sich in unserem Beispiel Repository jetzt in der Datenbank befinden – jeweils mit einem Kommentar darüber, was sie speichern:
+Fantastisch, oder? Du hast jetzt sämtliche low-level Operationen durchgeführt, die eine vollständige Git Historie aufbauen, ohne aber irgendwelche Git Frontend Befehle (xxx) zu verwenden. Im wesentlichen ist das derselbe Prozess, der im Hintergrund stattfindet, wenn Du die Befehle `git add` und `git commit` ausführst. Sie speichern Blobs für die Dateien, die Du hinzugefügt oder geändert hast, aktualisieren den Index (d.h. die Staging Area), speichern Trees und legen Commit Objekte an, die die toplevel Trees und Commits referenzieren, die ihnen unmittelbar vorhergingen. Diese drei Hauptobjekte – Blob, Tree und Commit – werden zunächst als separate Dateien im `.git/objects` Verzeichnis gespeichert. Hier ist eine Liste aller Objekte, die sich in unserem Beispiel Repository jetzt in der Datenbank befinden – jeweils mit einem Kommentar darüber, was sie speichern:
 
 	$ find .git/objects -type f
 	.git/objects/01/55eb4229851634a0f03eb265b69f5a2d56f341 # tree 2
@@ -393,7 +393,7 @@ Das ist alles – Du hast jetzt ein valides Git Blob Objekt geschrieben. Git Obj
 
 <!--You can run something like `git log 1a410e` to look through your whole history, but you still have to remember that `1a410e` is the last commit in order to walk that history to find all those objects. You need a file in which you can store the SHA-1 value under a simple name so you can use that pointer rather than the raw SHA-1 value.-->
 
-Du kannst Befehle wie `git log 1a410e` ausführen, um die Commit Historie zu inspizieren, aber dazu mußt Du Dir jeweils merken, dass `1a410e` der jeweils letzte Commit ist. Um diese SHA-1 Hashes mit einfacheren, verständlichen Namen zu referenzieren, verwendet Git weitere Dateien, in denen die Namen für Hashes gespeichert sind.
+Du kannst Befehle wie `git log 1a410e` ausführen, um die Commit Historie zu inspizieren, aber dazu musst Du Dir jeweils merken, dass `1a410e` der jeweils letzte Commit ist. Um diese SHA-1 Hashes mit einfacheren, verständlichen Namen zu referenzieren, verwendet Git weitere Dateien, in denen die Namen für Hashes gespeichert sind.
 
 <!--In Git, these are called "references" or "refs"; you can find the files that contain the SHA-1 values in the `.git/refs` directory. In the current project, this directory contains no files, but it does contain a simple structure:-->
 
@@ -577,7 +577,7 @@ Externe Referenzen unterscheiden sich von Branches (`refs/heads`) hauptsächlich
 
 <!--Let’s go back to the objects database for your test Git repository. At this point, you have 11 objects — 4 blobs, 3 trees, 3 commits, and 1 tag:-->
 
-Kommen wir noch einmal auf die Objekt Datenbank zurück, die Du für Dein Test Git Repository angelegt hast. Im Moment müßtest Du 11 Objekte haben: 4 Blobs, 3 Trees, 3 Commits und 1 Tag:
+Kommen wir noch einmal auf die Objekt Datenbank zurück, die Du für Dein Test Git Repository angelegt hast. Im Moment müsstest Du 11 Objekte haben: 4 Blobs, 3 Trees, 3 Commits und 1 Tag:
 
 	$ find .git/objects -type f
 	.git/objects/01/55eb4229851634a0f03eb265b69f5a2d56f341 # tree 2
@@ -623,7 +623,7 @@ Jetzt kannst Du mit `git cat-file` sehen, wie groß das Objekt ist:
 
 <!--Now, modify that file a little, and see what happens:-->
 
-Als nächste ändern wir die Datei ein bißchen, um zu sehen, was passiert:
+Als nächste ändern wir die Datei ein bisschen, um zu sehen, was passiert:
 
 	$ echo '# testing' >> repo.rb
 	$ git commit -am 'modified repo a bit'
@@ -678,7 +678,7 @@ Die verbleibenden Objekte sind diejenigen Blobs, die nicht von irgendeinem Commi
 
 <!--The other files are your new packfile and an index. The packfile is a single file containing the contents of all the objects that were removed from your filesystem. The index is a file that contains offsets into that packfile so you can quickly seek to a specific object. What is cool is that although the objects on disk before you ran the `gc` were collectively about 8K in size, the new packfile is only 4K. You’ve halved your disk usage by packing your objects.-->
 
-Die beiden neuen Dateien sind das Packfile und ein Index. Das Packfile ist eine einzelne Datei, die die Inhalte all der Dateien umfaßt, die jetzt aus dem Dateisystem entfernt worden sind. Der Index ist eine Datei, die auf Positionen von Objekten im Packfile zeigt, sodass Git schneller nach einem bestimmten Objekt suchen kann. Obwohl diese Objekte auf der Festplatte ingesamt 12K groß waren, bevor Du `git gc` ausgeführt hast, ist das Packfile jetzt nur 6K groß. D.h., Du hast den Platzverbrauch dadurch um die Hälfte reduziert. Toll, oder?
+Die beiden neuen Dateien sind das Packfile und ein Index. Das Packfile ist eine einzelne Datei, die die Inhalte all der Dateien umfasst, die jetzt aus dem Dateisystem entfernt worden sind. Der Index ist eine Datei, die auf Positionen von Objekten im Packfile zeigt, sodass Git schneller nach einem bestimmten Objekt suchen kann. Obwohl diese Objekte auf der Festplatte ingesamt 12K groß waren, bevor Du `git gc` ausgeführt hast, ist das Packfile jetzt nur 6K groß. D.h., Du hast den Platzverbrauch dadurch um die Hälfte reduziert. Toll, oder?
 
 <!--How does Git do this? When Git packs objects, it looks for files that are named and sized similarly, and stores just the deltas from one version of the file to the next. You can look into the packfile and see what Git did to save space. The `git verify-pack` plumbing command allows you to see what was packed up:-->
 
@@ -840,7 +840,7 @@ Man kann Refspecs außerdem verwenden, um Referenzen aus einem externen Reposito
 
 <!--Because the refspec is `<src>:<dst>`, by leaving off the `<src>` part, this basically says to make the topic branch on the remote nothing, which deletes it.-->
 
-Das Refspec Format ist `<quelle>:<ziel>`. Wenn man den `<ziel>` Teil wegläßt, dann heißt das im obigen Beispiel, dass man den `topic` Branch auf dem `origin` Server auf „nichts“ setzt, d.h. also löscht.
+Das Refspec Format ist `<quelle>:<ziel>`. Wenn man den `<ziel>` Teil weglässt, dann heißt das im obigen Beispiel, dass man den `topic` Branch auf dem `origin` Server auf „nichts“ setzt, d.h. also löscht.
 
 <!--## Transfer Protocols ##-->
 ## Transfer Protokolle ##
@@ -854,27 +854,27 @@ Git kann Daten zwischen zwei Repositories im wesentlichen auf zwei Arten transpo
 
 <!--Git transport over HTTP is often referred to as the dumb protocol because it requires no Git-specific code on the server side during the transport process. The fetch process is a series of GET requests, where the client can assume the layout of the Git repository on the server. Let’s follow the `http-fetch` process for the simplegit library:-->
 
-Gits HTTP Transfer Protokoll wird oft auch als „dummes“ Protokoll bezeichnet, weil es auf der Server Seite keinen Git-spezifischen Code benötigt. Der `fetch` Prozeß besteht aus einer Reihe von GET Requests, für die der Client Vorannahmen über das Layout des Git Repositories auf dem Server machen kann. Schauen wir uns den `http-fetch` Prozeß der `simplegit` Bibliothek an:
+Gits HTTP Transfer Protokoll wird oft auch als „dummes“ Protokoll bezeichnet, weil es auf der Server Seite keinen Git-spezifischen Code benötigt. Der `fetch` Prozess besteht aus einer Reihe von GET Requests, für die der Client Vorannahmen über das Layout des Git Repositories auf dem Server machen kann. Schauen wir uns den `http-fetch` Prozess der `simplegit` Bibliothek an:
 
 	$ git clone http://github.com/schacon/simplegit-progit.git
 
 <!--The first thing this command does is pull down the `info/refs` file. This file is written by the `update-server-info` command, which is why you need to enable that as a `post-receive` hook in order for the HTTP transport to work properly:-->
 
-Der Befehl lädt zunächst die `info/refs` Datei herunter. Diese Datei wird vom `update-server-info` Befehl geschrieben, den man als einen `post-receive` Hook einrichten muß, damit das HTTP Protokoll richtig funktionieren kann.
+Der Befehl lädt zunächst die `info/refs` Datei herunter. Diese Datei wird vom `update-server-info` Befehl geschrieben, den man als einen `post-receive` Hook einrichten muss, damit das HTTP Protokoll richtig funktionieren kann.
 
 	=> GET info/refs
 	ca82a6dff817ec66f44342007202690a93763949     refs/heads/master
 
 <!--Now you have a list of the remote references and SHAs. Next, you look for what the HEAD reference is so you know what to check out when you’re finished:-->
 
-Jetzt hat man eine Liste aller Referenzen und SHAs in diesem Repository. Als nächstes schaut man die HEAD Referenz nach, um zu wissen, was ausgecheckt werden muß:
+Jetzt hat man eine Liste aller Referenzen und SHAs in diesem Repository. Als nächstes schaut man die HEAD Referenz nach, um zu wissen, was ausgecheckt werden muss:
 
 	=> GET HEAD
 	ref: refs/heads/master
 
 <!--You need to check out the `master` branch when you’ve completed the process.-->
 
-D.h., wenn wir mit dem Prozeß fertig sind, wir müssen den `master` Branch auschecken.
+D.h., wenn wir mit dem Prozess fertig sind, wir müssen den `master` Branch auschecken.
 
 <!--At this point, you’re ready to start the walking process. Because your starting point is the `ca82a6` commit object you saw in the `info/refs` file, you start by fetching that:-->
 
@@ -921,14 +921,14 @@ Huch. Es sieht so aus als ob der Tree nicht im losen Format auf dem Server gespe
 
 <!--If this comes back with a list of alternate URLs, Git checks for loose files and packfiles there — this is a nice mechanism for projects that are forks of one another to share objects on disk. However, because no alternates are listed in this case, your object must be in a packfile. To see what packfiles are available on this server, you need to get the `objects/info/packs` file, which contains a listing of them (also generated by `update-server-info`):-->
 
-Wenn wir hier eine Liste alternativer URLs erhalten, schaut Git dort nach losen Dateien und Packfiles. Auf diese Weise können Repositories, die Forks von anderen Repositories sind, mit diesen Objekte im Dateisystem teilen. In unserem Fall sind allerdings keine Alternativen vorhanden, weshalb sich das gesuchte Objekt in einem Packfile befinden muß. Um die vorhandenen Packfiles nachzuschlagen, holt Git die `objects/info/packs` Datei, die eine entsprechende Auflistung enthält (und ebenfalls mit `update-server-info` erzeugt wird)
+Wenn wir hier eine Liste alternativer URLs erhalten, schaut Git dort nach losen Dateien und Packfiles. Auf diese Weise können Repositories, die Forks von anderen Repositories sind, mit diesen Objekte im Dateisystem teilen. In unserem Fall sind allerdings keine Alternativen vorhanden, weshalb sich das gesuchte Objekt in einem Packfile befinden muss. Um die vorhandenen Packfiles nachzuschlagen, holt Git die `objects/info/packs` Datei, die eine entsprechende Auflistung enthält (und ebenfalls mit `update-server-info` erzeugt wird)
 
 	=> GET objects/info/packs
 	P pack-816a9b2334da9953e530f27bcac22082a9f5b835.pack
 
 <!--There is only one packfile on the server, so your object is obviously in there, but you’ll check the index file to make sure. This is also useful if you have multiple packfiles on the server, so you can see which packfile contains the object you need:-->
 
-Es gibt nur ein einziges Packfile auf dem Server, weshalb sich unser Objekt darin befinden muß. Aber wir prüfen die Index Datei, um sicher zu sein. Gäbe es mehrere Packfiles auf dem Server, könnten wir auf diese Weise herausfinden, welches Packfile das gesuchte Objekt enthält:
+Es gibt nur ein einziges Packfile auf dem Server, weshalb sich unser Objekt darin befinden muss. Aber wir prüfen die Index Datei, um sicher zu sein. Gäbe es mehrere Packfiles auf dem Server, könnten wir auf diese Weise herausfinden, welches Packfile das gesuchte Objekt enthält:
 
 	=> GET objects/pack/pack-816a9b2334da9953e530f27bcac22082a9f5b835.idx
 	(4k of binary data)
@@ -972,18 +972,18 @@ Die Ausgabe des ganzen Vorgangs sieht dann in etwa so aus:
 
 <!--The HTTP method is simple but a bit inefficient. Using smart protocols is a more common method of transferring data. These protocols have a process on the remote end that is intelligent about Git — it can read local data and figure out what the client has or needs and generate custom data for it. There are two sets of processes for transferring data: a pair for uploading data and a pair for downloading data.-->
 
-Die HTTP Methode ist simpel, aber sie ist auch ein bißchen ineffizient. Deshalb ist es üblicher, ein smartes Protokoll für den Datentransfer zu verwenden. Diese Protokolle umfassen serverseitige Prozesse, die Wissen über Git besitzen. Sie können lokale Daten lesen und herausfinden, was auf dem Client schon vorhanden ist oder fehlt und darauf zugeschnitten Daten generieren. Es gibt zwei Sets von Prozessen für den Datentransfer: ein Paar für den Upload und ein Paar für den Download von Daten.
+Die HTTP Methode ist simpel, aber sie ist auch ein bisschen ineffizient. Deshalb ist es üblicher, ein smartes Protokoll für den Datentransfer zu verwenden. Diese Protokolle umfassen serverseitige Prozesse, die Wissen über Git besitzen. Sie können lokale Daten lesen und herausfinden, was auf dem Client schon vorhanden ist oder fehlt und darauf zugeschnitten Daten generieren. Es gibt zwei Sets von Prozessen für den Datentransfer: ein Paar für den Upload und ein Paar für den Download von Daten.
 
 <!--#### Uploading Data ####-->
 #### Daten hochladen ####
 
 <!--To upload data to a remote process, Git uses the `send-pack` and `receive-pack` processes. The `send-pack` process runs on the client and connects to a `receive-pack` process on the remote side.-->
 
-Um Daten an einen serverseitigen Prozeß zu schicken, verwendet Git die `send-pack` und `receive-pack` Prozesse. Der `send-pack` Prozeß läuft auf dem Client und verbindet sich mit einem `receive-pack` Prozeß auf dem Server.
+Um Daten an einen serverseitigen Prozess zu schicken, verwendet Git die `send-pack` und `receive-pack` Prozesse. Der `send-pack` Prozess läuft auf dem Client und verbindet sich mit einem `receive-pack` Prozess auf dem Server.
 
 <!--For example, say you run `git push origin master` in your project, and `origin` is defined as a URL that uses the SSH protocol. Git fires up the `send-pack` process, which initiates a connection over SSH to your server. It tries to run a command on the remote server via an SSH call that looks something like this:-->
 
-Nehmen wir z.B. an Du führst `git push origin master` in Deinem Projekt aus und `origin` ist als eine URL mit SSH Protokoll definiert. Git startet dann einen `send-pack` Prozeß, der eine SSH Verbindung zum Server initiiert. Dieser versucht, via SSH auf dem Server einen Befehl wie den folgenden auszuführen:
+Nehmen wir z.B. an Du führst `git push origin master` in Deinem Projekt aus und `origin` ist als eine URL mit SSH Protokoll definiert. Git startet dann einen `send-pack` Prozess, der eine SSH Verbindung zum Server initiiert. Dieser versucht, via SSH auf dem Server einen Befehl wie den folgenden auszuführen:
 
 	$ ssh -x git@github.com "git-receive-pack 'schacon/simplegit-progit.git'"
 	005bca82a6dff817ec66f4437202690a93763949 refs/heads/master report-status delete-refs
@@ -1000,7 +1000,7 @@ Jede Zeile beginnt mit einem 4 Byte Hexadezimalzahl Wert, der angibt, wie lang d
 
 <!--Now that it knows the server’s state, your `send-pack` process determines what commits it has that the server doesn’t. For each reference that this push will update, the `send-pack` process tells the `receive-pack` process that information. For instance, if you’re updating the `master` branch and adding an `experiment` branch, the `send-pack` response may look something like this:-->
 
-Nachdem Dein `send-pack` Prozeß jetzt den Zustand des Servers kennt, kann er als nächstes evaluieren, welche Commits lokal, aber nicht auf dem Server vorhanden sind. der `send-pack` Prozeß schickt diese Information für jede Referenz, auf die sich der `push` Befehl bezieht, an den `receive-pack` Prozeß. Wenn Du beispielsweise den `master` Branch aktualisierst und einen `experiment` Branch hinzufügst, dann könnte die Antwort auf `send-pack` so aussehen:
+Nachdem Dein `send-pack` Prozess jetzt den Zustand des Servers kennt, kann er als nächstes evaluieren, welche Commits lokal, aber nicht auf dem Server vorhanden sind. der `send-pack` Prozess schickt diese Information für jede Referenz, auf die sich der `push` Befehl bezieht, an den `receive-pack` Prozess. Wenn Du beispielsweise den `master` Branch aktualisierst und einen `experiment` Branch hinzufügst, dann könnte die Antwort auf `send-pack` so aussehen:
 
 	0085ca82a6dff817ec66f44342007202690a93763949  15027957951b64cf874c3557a0f3547bd83b3ff6 refs/heads/master report-status
 	00670000000000000000000000000000000000000000 cdfdb42577e2506715f8cfeacdbabc092bf63e8d refs/heads/experiment
@@ -1021,17 +1021,17 @@ Pro Referenz, die Du aktualisierst, schickt Git eine Zeile mit dem alten SHA, de
 
 <!--When you download data, the `fetch-pack` and `upload-pack` processes are involved. The client initiates a `fetch-pack` process that connects to an `upload-pack` process on the remote side to negotiate what data will be transferred down.-->
 
-Wenn Du Daten herunterlädst, sind daran die `fetch-pack` und `upload-pack` Prozesse beteiligt. Der Client startet einen `fetch-pack` Prozeß, der sich mit einem `upload-pack` Prozeß auf dem Server verbindet, um auszuhandeln, welche Daten heruntergeladen werden sollen.
+Wenn Du Daten herunterlädst, sind daran die `fetch-pack` und `upload-pack` Prozesse beteiligt. Der Client startet einen `fetch-pack` Prozess, der sich mit einem `upload-pack` Prozess auf dem Server verbindet, um auszuhandeln, welche Daten heruntergeladen werden sollen.
 
 <!--There are different ways to initiate the `upload-pack` process on the remote repository. You can run via SSH in the same manner as the `receive-pack` process. You can also initiate the process via the Git daemon, which listens on a server on port 9418 by default. The `fetch-pack` process sends data that looks like this to the daemon after connecting:-->
 
-Es gibt verschiedene Möglichkeiten, den `upload-pack` Prozeß auf dem Server zu starten: einerseits via SSH auf die gleiche Weise wie den `receive-pack` Prozeß. Und adnererseits über den Git Daemon, der standardmäßig auf dem Server auf dem Port 9418 läuft. Der `fetch-pack` Prozeß schickt etwa folgendes an den Daemon:
+Es gibt verschiedene Möglichkeiten, den `upload-pack` Prozess auf dem Server zu starten: einerseits via SSH auf die gleiche Weise wie den `receive-pack` Prozess. Und adnererseits über den Git Daemon, der standardmäßig auf dem Server auf dem Port 9418 läuft. Der `fetch-pack` Prozess schickt etwa folgendes an den Daemon:
 
 	003fgit-upload-pack schacon/simplegit-progit.git\0host=myserver.com\0
 
 <!--It starts with the 4 bytes specifying how much data is following, then the command to run followed by a null byte, and then the server’s hostname followed by a final null byte. The Git daemon checks that the command can be run and that the repository exists and has public permissions. If everything is cool, it fires up the `upload-pack` process and hands off the request to it.-->
 
-Diese Zeile beginnt wiederum mit 4 Bytes, die angeben, wieviel Daten folgen. Dann kommt der auszuführende Befehl und ein Null Byte, und schließlich der Hostname des Servers und ein weiteres Null Byte. Der Git Daemon prüft, ob der Befehl ausgeführt werden kann, das Repository existiert und Schreibzugriff erlaubt. Wenn alles stimmt, startet er den `upload-pack` Prozeß und gibt den Request dorthin weiter.
+Diese Zeile beginnt wiederum mit 4 Bytes, die angeben, wieviel Daten folgen. Dann kommt der auszuführende Befehl und ein Null Byte, und schließlich der Hostname des Servers und ein weiteres Null Byte. Der Git Daemon prüft, ob der Befehl ausgeführt werden kann, das Repository existiert und Schreibzugriff erlaubt. Wenn alles stimmt, startet er den `upload-pack` Prozess und gibt den Request dorthin weiter.
 
 <!--If you’re doing the fetch over SSH, `fetch-pack` instead runs something like this:-->
 
@@ -1051,11 +1051,11 @@ In beiden Fällen wird, nachdem `fetch-pack` verbunden ist, `upload-pack` eine A
 
 <!--This is very similar to what `receive-pack` responds with, but the capabilities are different. In addition, it sends back the HEAD reference so the client knows what to check out if this is a clone.-->
 
-Die Antwort ähnelt der, mit der `receive-pack` antwortet, aber die aufgelisteten Features sind andere. Zusätzlich wird die HEAD Referenz mitgeschickt, sodass der Client weiß, was er auschecken muß, falls es sich um einen Clone handelt.
+Die Antwort ähnelt der, mit der `receive-pack` antwortet, aber die aufgelisteten Features sind andere. Zusätzlich wird die HEAD Referenz mitgeschickt, sodass der Client weiß, was er auschecken muss, falls es sich um einen Clone handelt.
 
 <!--At this point, the `fetch-pack` process looks at what objects it has and responds with the objects that it needs by sending "want" and then the SHA it wants. It sends all the objects it already has with "have" and then the SHA. At the end of this list, it writes "done" to initiate the `upload-pack` process to begin sending the packfile of the data it needs:-->
 
-Der `fetch-pack` Prozeß inspiziert jetzt die vorhandenen Objekte und antwortet mit einer Liste von Objekten, wobei er das Schlüsselwort „want“ für Objekte verwendet, die benötigt werden, und „have“ für Objekte, die bereits vorhanden sind. Am Ende der Liste folgt das Schlüsselwort „done“. Der `upload-pack` Prozeß schickt dann ein Packfile mit allen benötigten Objekten:
+Der `fetch-pack` Prozess inspiziert jetzt die vorhandenen Objekte und antwortet mit einer Liste von Objekten, wobei er das Schlüsselwort „want“ für Objekte verwendet, die benötigt werden, und „have“ für Objekte, die bereits vorhanden sind. Am Ende der Liste folgt das Schlüsselwort „done“. Der `upload-pack` Prozess schickt dann ein Packfile mit allen benötigten Objekten:
 
 	0054want ca82a6dff817ec66f44342007202690a93763949 ofs-delta
 	0032have 085bb3bcb608e1e8451d4b2432f8ecbe6306e7e7
@@ -1071,7 +1071,7 @@ Das ist ein sehr einfaches Beispiel. In komplexeren Fällen unterstützt der Cli
 
 <!--Occasionally, you may have to do some cleanup — make a repository more compact, clean up an imported repository, or recover lost work. This section will cover some of these scenarios.-->
 
-Gelegentlich will man ein bißchen aufräumen – ein Repository verdichten, ein importiertes Repository entfernen (xxx) oder verloren gegangene Daten wieder herstellen. Dieses Kapitel wird sich mit einigen derartigen Szenarien befassen.
+Gelegentlich will man ein bisschen aufräumen – ein Repository verdichten, ein importiertes Repository entfernen (xxx) oder verloren gegangene Daten wieder herstellen. Dieses Kapitel wird sich mit einigen derartigen Szenarien befassen.
 
 <!--### Maintenance ###-->
 ### Wartung ###
@@ -1114,7 +1114,7 @@ Nachdem Du `git gc` ausgeführt hast, werden diese Dateien um der Effizienz will
 
 <!--If you update a reference, Git doesn’t edit this file but instead writes a new file to `refs/heads`. To get the appropriate SHA for a given reference, Git checks for that reference in the `refs` directory and then checks the `packed-refs` file as a fallback. However, if you can’t find a reference in the `refs` directory, it’s probably in your `packed-refs` file.-->
 
-Wenn Du eine Referenz bearbeitest, läßt Git diese Datei unverändert und schreibt statt dessen eine neue Datei nach `refs/heads`. Um einen SHA für eine Referenz nachzuschlagen, schaut Git zunächst im `refs` Verzeichnis und danach erst in der `packed-refs` Datei nach, falls nötig. Wenn eine Referenz also nicht im `refs` Verzeichnis liegt, befindet sie sich wahrscheinlich in `packed-refs` Datei.
+Wenn Du eine Referenz bearbeitest, lässt Git diese Datei unverändert und schreibt statt dessen eine neue Datei nach `refs/heads`. Um einen SHA für eine Referenz nachzuschlagen, schaut Git zunächst im `refs` Verzeichnis und danach erst in der `packed-refs` Datei nach, falls nötig. Wenn eine Referenz also nicht im `refs` Verzeichnis liegt, befindet sie sich wahrscheinlich in `packed-refs` Datei.
 
 <!--Notice the last line of the file, which begins with a `^`. This means the tag directly above is an annotated tag and that line is the commit that the annotated tag points to.-->
 
@@ -1221,7 +1221,7 @@ In diesem Fall findest Du den verlorenen Commit nach dem (xxx dangling xxx) Comm
 
 <!--There are a lot of great things about Git, but one feature that can cause issues is the fact that a `git clone` downloads the entire history of the project, including every version of every file. This is fine if the whole thing is source code, because Git is highly optimized to compress that data efficiently. However, if someone at any point in the history of your project added a single huge file, every clone for all time will be forced to download that large file, even if it was removed from the project in the very next commit. Because it’s reachable from the history, it will always be there.-->
 
-Git ist in vielerlei Hinsicht unschlagbar, aber es gibt auch Features, die Probleme verursachen können. Ein solches Problem kann darin bestehen, dass `git clone` die vollständige Historie eines Projektes herunter lädt, d.h. jede einzelne Version jeder einzelnen Datei. Das ist eine feine Sache, solange es sich um Quellcode handelt, den Git ist darauf optimiert, diese Art von Daten effizient zu komprimieren. Wenn allerdings irgendwann einmal eine einzelne, sehr große Datei zur Versionskontrolle hinzugefügt wurde, wird jeder Clone dieses Repositories diese Datei gezwungenermaßen herunter laden müssen – auch dann, wenn die Datei inzwischen aus dem Repository entfernt würde. Weil sie über die Historie erreichbar ist, muß die Datei vorhanden sein.
+Git ist in vielerlei Hinsicht unschlagbar, aber es gibt auch Features, die Probleme verursachen können. Ein solches Problem kann darin bestehen, dass `git clone` die vollständige Historie eines Projektes herunter lädt, d.h. jede einzelne Version jeder einzelnen Datei. Das ist eine feine Sache, solange es sich um Quellcode handelt, den Git ist darauf optimiert, diese Art von Daten effizient zu komprimieren. Wenn allerdings irgendwann einmal eine einzelne, sehr große Datei zur Versionskontrolle hinzugefügt wurde, wird jeder Clone dieses Repositories diese Datei gezwungenermaßen herunter laden müssen – auch dann, wenn die Datei inzwischen aus dem Repository entfernt würde. Weil sie über die Historie erreichbar ist, muss die Datei vorhanden sein.
 
 <!--This can be a huge problem when you’re converting Subversion or Perforce repositories into Git. Because you don’t download the whole history in those systems, this type of addition carries few consequences. If you did an import from another system or otherwise find that your repository is much larger than it should be, here is how you can find and remove large objects.-->
 
@@ -1229,7 +1229,7 @@ Hierin kann ein großes Problem bestehen, wenn Du Subversion oder Perforce Repos
 
 <!--Be warned: this technique is destructive to your commit history. It rewrites every commit object downstream from the earliest tree you have to modify to remove a large file reference. If you do this immediately after an import, before anyone has started to base work on the commit, you’re fine — otherwise, you have to notify all contributors that they must rebase their work onto your new commits.-->
 
-Sei Dir allerdings bewußt, dass diese Technik die Commit Historie zerstört. Sie schreibt angefangen beim ursprünglichen Tree jedes einzelne Commit Objekt neu, um die jeweilige, große Datei zu entfernen. Wenn Du das direkt nach einem Import tust, d.h. bevor jemand angefangen hat, auf der Basis eines Commits zu arbeiten, ist das in Ordnung – andernfalls müssen alle Mitarbeiter ihre Arbeit auf Deinen Commit rebasen.
+Sei Dir allerdings bewusst, dass diese Technik die Commit Historie zerstört. Sie schreibt angefangen beim ursprünglichen Tree jedes einzelne Commit Objekt neu, um die jeweilige, große Datei zu entfernen. Wenn Du das direkt nach einem Import tust, d.h. bevor jemand angefangen hat, auf der Basis eines Commits zu arbeiten, ist das in Ordnung – andernfalls müssen alle Mitarbeiter ihre Arbeit auf Deinen Commit rebasen.
 
 <!--To demonstrate, you’ll add a large file into your test repository, remove it in the next commit, find it, and remove it permanently from the repository. First, add a large object to your history:-->
 
@@ -1283,7 +1283,7 @@ Der `size-pack` Eintrag zeigt die Größe der Packfiles in Kilobytes, d.h. Dein 
 
 <!--First you have to find it. In this case, you already know what file it is. But suppose you didn’t; how would you identify what file or files were taking up so much space? If you run `git gc`, all the objects are in a packfile; you can identify the big objects by running another plumbing command called `git verify-pack` and sorting on the third field in the output, which is file size. You can also pipe it through the `tail` command because you’re only interested in the last few largest files:-->
 
-Zunächst mal müssen wir sie finden. In diesem Fall wissen wir bereits, um welche Datei es sich handelt. Aber nehmen wir an, wir wüßten es nicht. Wie würdest Du herausfinden, welche Datei (oder welche Dateien) so viel Platz verbrauchen? Wenn Du `git gc` laufen gelassen hast, werden sich alle Objekte in einem Packfile befinden. Du kannst dann große Objekte identifizieren, indem Du einen weiteren Plumbing Befehl, nämlich `git verify-pack` ausführst und nach dem dritten Feld der Ausgabe sortierst, d.h. der Dateigröße. Du kannst sie außerdem durch den `tail` Befehl leiten, denn Du bist ja nur an den wenigen größten Objekten interessiert:
+Zunächst mal müssen wir sie finden. In diesem Fall wissen wir bereits, um welche Datei es sich handelt. Aber nehmen wir an, wir wüssten es nicht. Wie würdest Du herausfinden, welche Datei (oder welche Dateien) so viel Platz verbrauchen? Wenn Du `git gc` laufen gelassen hast, werden sich alle Objekte in einem Packfile befinden. Du kannst dann große Objekte identifizieren, indem Du einen weiteren Plumbing Befehl, nämlich `git verify-pack` ausführst und nach dem dritten Feld der Ausgabe sortierst, d.h. der Dateigröße. Du kannst sie außerdem durch den `tail` Befehl leiten, denn Du bist ja nur an den wenigen größten Objekten interessiert:
 
 	$ git verify-pack -v .git/objects/pack/pack-3f8c0...bb.idx | sort -k 3 -n | tail -3
 	e3f094f522629ae358806b17daf78246c27c007b blob   1486 734 4667
@@ -1299,7 +1299,7 @@ Das größte Objekt ist ganz klar das letzte: es ist 2 MB groß. Um herauszufind
 
 <!--Now, you need to remove this file from all trees in your past. You can easily see what commits modified this file:-->
 
-Du mußt diese Datei jetzt aus allen Trees entfernen, in denen er sich befindet. Du kannst leicht herausfinden, welche Commits diese Datei verändert haben:
+Du musst diese Datei jetzt aus allen Trees entfernen, in denen er sich befindet. Du kannst leicht herausfinden, welche Commits diese Datei verändert haben:
 
 	$ git log --pretty=oneline --branches -- git.tbz2
 	da3f30d019005479c99eb4c3406225613985a1db oops - removed large tarball
@@ -1317,11 +1317,11 @@ Es geht also darum, alle Commits angefangen bei `6df76` neu zu schreiben, sodass
 
 <!--The `-\-index-filter` option is similar to the `-\-tree-filter` option used in Chapter 6, except that instead of passing a command that modifies files checked out on disk, you’re modifying your staging area or index each time. Rather than remove a specific file with something like `rm file`, you have to remove it with `git rm -\-cached` — you must remove it from the index, not from disk. The reason to do it this way is speed — because Git doesn’t have to check out each revision to disk before running your filter, the process can be much, much faster. You can accomplish the same task with `-\-tree-filter` if you want. The `-\-ignore-unmatch` option to `git rm` tells it not to error out if the pattern you’re trying to remove isn’t there. Finally, you ask `filter-branch` to rewrite your history only from the `6df7640` commit up, because you know that is where this problem started. Otherwise, it will start from the beginning and will unnecessarily take longer.-->
 
-Die `--index-filter` Option ist ähnlich der `--tree-filter` Option aus Kapitel 6. Allerdings übergibt man in diesem Fall nicht einen Befehl, der die Dateien verändert, die sich jeweils ausgecheckt auf der Festplatte befinden. Statt dessen verändert man jeweils die Staging Area bzw. den Index. Statt eine bestimmte Datei mit z.B: `rm file` zu entfernen, müssen wir also `git rm --cached` verwenden – denn wir wollen sie aus dem Index, nicht von der Festplatte löschen. Der Grund dafür ist einfach Geschwindigkeit: Git braucht nicht jede einzelne Revision auf die Festplatte auszuchecken, um den Filter anzuwenden. Auf diese Weise läuft der ganze Prozeß sehr viel schneller. Man kann dieselbe Aufgabe aber auch mit `--tree-filter` erledigen, wenn man will. Die Option `--ignore-match` weist Git an, nicht mit einer Fehlermeldung abzubrechen, wenn die Datei, die wir löschen wollen, nicht vorhanden ist. Außerdem teilen wir `filter-branch` mit, die Historie nur von dem Commit `6df7640` an umzuschreiben. Andernfalls würde der Befehl von ganz vorn beginnen und unnötig länger brauchen.
+Die `--index-filter` Option ist ähnlich der `--tree-filter` Option aus Kapitel 6. Allerdings übergibt man in diesem Fall nicht einen Befehl, der die Dateien verändert, die sich jeweils ausgecheckt auf der Festplatte befinden. Statt dessen verändert man jeweils die Staging Area bzw. den Index. Statt eine bestimmte Datei mit z.B: `rm file` zu entfernen, müssen wir also `git rm --cached` verwenden – denn wir wollen sie aus dem Index, nicht von der Festplatte löschen. Der Grund dafür ist einfach Geschwindigkeit: Git braucht nicht jede einzelne Revision auf die Festplatte auszuchecken, um den Filter anzuwenden. Auf diese Weise läuft der ganze Prozess sehr viel schneller. Man kann dieselbe Aufgabe aber auch mit `--tree-filter` erledigen, wenn man will. Die Option `--ignore-match` weist Git an, nicht mit einer Fehlermeldung abzubrechen, wenn die Datei, die wir löschen wollen, nicht vorhanden ist. Außerdem teilen wir `filter-branch` mit, die Historie nur von dem Commit `6df7640` an umzuschreiben. Andernfalls würde der Befehl von ganz vorn beginnen und unnötig länger brauchen.
 
 <!--Your history no longer contains a reference to that file. However, your reflog and a new set of refs that Git added when you did the `filter-branch` under `.git/refs/original` still do, so you have to remove them and then repack the database. You need to get rid of anything that has a pointer to those old commits before you repack:-->
 
-Deine Historie enthält jetzt nicht länger eine Referenz auf diese Datei. Dein Reflog und ein neues Set an Referenzen, die Git unter `.git/refs/original` angelegt hat, als Du `filter-branch` ausgeführt hast, tun das allerdings immer noch – also entfernen wir sie von dort und packen das Repository erneut. Bevor Du packst, mußt Du zuerst alles entfernen, was noch Referenzen auf das alte Objekt enthält:
+Deine Historie enthält jetzt nicht länger eine Referenz auf diese Datei. Dein Reflog und ein neues Set an Referenzen, die Git unter `.git/refs/original` angelegt hat, als Du `filter-branch` ausgeführt hast, tun das allerdings immer noch – also entfernen wir sie von dort und packen das Repository erneut. Bevor Du packst, musst Du zuerst alles entfernen, was noch Referenzen auf das alte Objekt enthält:
 
 	$ rm -Rf .git/refs/original
 	$ rm -Rf .git/logs/
@@ -1347,7 +1347,7 @@ Prüfen wir also, wieviel Platz wir damit eingespart haben:
 
 <!--The packed repository size is down to 7K, which is much better than 2MB. You can see from the size value that the big object is still in your loose objects, so it’s not gone; but it won’t be transferred on a push or subsequent clone, which is what is important. If you really wanted to, you could remove the object completely by running `git prune -\-expire`.-->
 
-Das gepackte Repository umfaßt jetzt nur noch 7K – sehr viel besser als die vorherigen 2MB. Du kannst an dem Wert `size` erkennen, dass sich die große Datei selbst jetzt immer noch in Deinen loosen Objekten befindet. Aber sie wird bei einem `git push` oder anschließenden `git clone` nicht übermittelt werden – und das war unser Ziel. Wenn Du das wirklich willst, kannst Du sie jetzt vollständig und endgültig mit `git prune --expire` aus Deinem Repository löschen.
+Das gepackte Repository umfasst jetzt nur noch 7K – sehr viel besser als die vorherigen 2MB. Du kannst an dem Wert `size` erkennen, dass sich die große Datei selbst jetzt immer noch in Deinen loosen Objekten befindet. Aber sie wird bei einem `git push` oder anschließenden `git clone` nicht übermittelt werden – und das war unser Ziel. Wenn Du das wirklich willst, kannst Du sie jetzt vollständig und endgültig mit `git prune --expire` aus Deinem Repository löschen.
 
 <!--## Summary ##-->
 ## Zusammenfassung ##

@@ -3,7 +3,7 @@
 
 <!--Now that you have a remote Git repository set up as a point for all the developers to share their code, and you’re familiar with basic Git commands in a local workflow, you’ll look at how to utilize some of the distributed workflows that Git affords you.-->
 
-Du hast jetzt ein externes Repository aufgesetzt, sodass alle Mitglieder des Teams ihren Code zur Verfügung stellen können, und Du hast dich mit den wesentlichen Git Befehlen für die Arbeit in einem lokalen Repository vertraut gemacht. Als nächstes werden wir uns einige Arbeitsabläufe für distribuierte Repositories ansehen, die Git dir ermöglicht.
+Du hast jetzt ein externes Repository aufgesetzt, sodass alle Mitglieder des Teams ihren Code zur Verfügung stellen können, und Du hast dich mit den wesentlichen Git Befehlen für die Arbeit in einem lokalen Repository vertraut gemacht. Als nächstes werden wir uns einige Arbeitsabläufe für distribuierte Repositories ansehen, die Git Dir ermöglicht.
 
 <!--In this chapter, you’ll see how to work with Git in a distributed environment as a contributor and an integrator. That is, you’ll learn how to contribute code successfully to a project and make it as easy on you and the project maintainer as possible, and also how to maintain a project successfully with a number of developers contributing.-->
 
@@ -96,7 +96,7 @@ Diese Art Workflow ist nicht unbedingt weit verbreitet, aber für große Projekt
 
 <!--These are some commonly used workflows that are possible with a distributed system like Git, but you can see that many variations are possible to suit your particular real-world workflow. Now that you can (I hope) determine which workflow combination may work for you, I’ll cover some more specific examples of how to accomplish the main roles that make up the different flows.-->
 
-Wir haben jetzt einige übliche Workflows besprochen, die in einem distribuierten System wie Git möglich sind. Natürlich kann man sie mannigfaltig abwandeln und miteinander kombinieren, um sie an ein spezielles reales Projekt und Team anzupassen. Nachdem Du jetzt hoffentlich in der Lage bist, dir einen Workflow vorzustellen, der für dich selbst Sinn macht, gehen wir auf einige etwas spezifischere Beispiele ein und darauf, wie man die verschiedenen Rollen umsetzen kann, die die Workflows ausmachen.
+Wir haben jetzt einige übliche Workflows besprochen, die in einem distribuierten System wie Git möglich sind. Natürlich kann man sie mannigfaltig abwandeln und miteinander kombinieren, um sie an ein spezielles reales Projekt und Team anzupassen. Nachdem Du jetzt hoffentlich in der Lage bist, Dir einen Workflow vorzustellen, der für dich selbst Sinn macht, gehen wir auf einige etwas spezifischere Beispiele ein und darauf, wie man die verschiedenen Rollen umsetzen kann, die die Workflows ausmachen.
 
 <!--## Contributing to a Project ##-->
 ## An einem Projekt mitarbeiten ##
@@ -175,7 +175,7 @@ Ein weitere Sache, der Du ein bißchen Aufmerksamkeit schenken solltest, ist die
 
 <!--If all your commit messages look like this, things will be a lot easier for you and the developers you work with. The Git project has well-formatted commit messages — I encourage you to run `git log -\-no-merges` there to see what a nicely formatted project-commit history looks like.-->
 
-Wenn Du Deine Commit Meldungen in dieser Weise formatierst, kannst Du dir und anderen eine Menge Ärger ersparen. Das Git Projekt selbst hat wohl-formatierte Commit Meldungen. Wir empfehlen, einmal `git log --no-merges` in diesem Repository auszuführen, um einen Eindruck zu erhalten, wie eine gute Commit History eines Projektes aussehen kann.
+Wenn Du Deine Commit Meldungen in dieser Weise formatierst, kannst Du Dir und anderen eine Menge Ärger ersparen. Das Git Projekt selbst hat wohl-formatierte Commit Meldungen. Wir empfehlen, einmal `git log --no-merges` in diesem Repository auszuführen, um einen Eindruck zu erhalten, wie eine gute Commit History eines Projektes aussehen kann.
 
 <!--In the following examples, and throughout most of this book, for the sake of brevity I don’t format messages nicely like this; instead, I use the `-m` option to `git commit`. Do as I say, not as I do.-->
 
@@ -715,7 +715,7 @@ Jetzt hast Du zwei Commits, die Du an die Mailingliste schicken willst. Du kanns
 
 <!--The `format-patch` command prints out the names of the patch files it creates. The `-M` switch tells Git to look for renames. The files end up looking like this:-->
 
-Der Befehl `git format-patch` zeigt dir die Namen der Patch Dateien an, die er erzeugt hat. (Die `-M` option weist Git an, nach umbenannten Dateien Ausschau zu halten.) Die Dateien sehen dann so aus:
+Der Befehl `git format-patch` zeigt Dir die Namen der Patch Dateien an, die er erzeugt hat. (Die `-M` option weist Git an, nach umbenannten Dateien Ausschau zu halten.) Die Dateien sehen dann so aus:
 
 	$ cat 0001-add-limit-to-log-function.patch
 	From 330090432754092d704da8e76ca5c05c198e71a8 Mon Sep 17 00:00:00 2001
@@ -813,7 +813,7 @@ Wir haben jetzt eine Reihe von Workflows besprochen, die für jeweils sehr versc
 
 <!--In addition to knowing how to effectively contribute to a project, you’ll likely need to know how to maintain one. This can consist of accepting and applying patches generated via `format-patch` and e-mailed to you, or integrating changes in remote branches for repositories you’ve added as remotes to your project. Whether you maintain a canonical repository or want to help by verifying or approving patches, you need to know how to accept work in a way that is clearest for other contributors and sustainable by you over the long run.-->
 
-Neben dem Wissen, das Du brauchst, um zu einem bestehenden Projekt Änderungen beizutragen, wirst Du vermutlich wissen wollen, wie Du selbst ein Projekt betreiben kannst. Dazu willst Du Patches akzeptieren und anwenden, die per `git format-patch` erzeugt und dir per E-Mail geschickt wurden. Oder Du willst Änderungen aus externen Branches übernehmen, die Du zu Deinem Projekt hinzugefügt hast. Ob Du nun für das Hauptrepository verantwortlich bist oder ob Du dabei helfen willst, Patches zu verifizieren und zu bestätigen – in beiden Fällen mußt Du wissen, wie Du Änderungen in einer Weise übernehmen kannst, die für andere Mitarbeiter nachvollziehbar und für dich selbst tragbar ist.
+Neben dem Wissen, das Du brauchst, um zu einem bestehenden Projekt Änderungen beizutragen, wirst Du vermutlich wissen wollen, wie Du selbst ein Projekt betreiben kannst. Dazu willst Du Patches akzeptieren und anwenden, die per `git format-patch` erzeugt und Dir per E-Mail geschickt wurden. Oder Du willst Änderungen aus externen Branches übernehmen, die Du zu Deinem Projekt hinzugefügt hast. Ob Du nun für das Hauptrepository verantwortlich bist oder ob Du dabei helfen willst, Patches zu verifizieren und zu bestätigen – in beiden Fällen mußt Du wissen, wie Du Änderungen in einer Weise übernehmen kannst, die für andere Mitarbeiter nachvollziehbar und für dich selbst tragbar ist.
 
 <!--### Working in Topic Branches ###-->
 ### In Topic Branches arbeiten ###
@@ -821,7 +821,7 @@ Neben dem Wissen, das Du brauchst, um zu einem bestehenden Projekt Änderungen b
 <!--When you’re thinking of integrating new work, it’s generally a good idea to try it out in a topic branch — a temporary branch specifically made to try out that new work. This way, it’s easy to tweak a patch individually and leave it if it’s not working until you have time to come back to it. If you create a simple branch name based on the theme of the work you’re going to try, such as `ruby_client` or something similarly descriptive, you can easily remember it if you have to abandon it for a while and come back later. The maintainer of the Git project tends to namespace these branches as well — such as `sc/ruby_client`, where `sc` is short for the person who contributed the work.
 As you’ll remember, you can create the branch based off your master branch like this:-->
 
-Wenn Du Änderungen von anderen übernehmen willst, ist normalerweise eine gute Idee, sie in einem Topic Branch auszuprobieren – d.h., einem temporären Branch, dessen Zweck nur darin besteht, die jeweiligen Änderungen auszuprobieren. Auf diese Weise ist es einfach, Patches ggf. anzupassen oder sie im Zweifelsfall im Topic Branch liegen zu lassen, wenn sie nicht funktionieren und Du im Moment nicht die Zeit hast, dich weiter damit zu befassen. Es ist empfehlenswert, Topic Branches Namen zu geben, die gut kommunizieren, worum es sich bei den jeweiligen Änderungen dreht, wie z.B. `ruby_client` oder etwas ähnlich aussagekräftiges, das dir hilft, dich daran zu erinnern. Der Projekt Betreiber des Git Projektes selbst vergibt Namensräume für solche Branches – wie z.B. `sc/ruby_client`, wobei `sc` ein Kürzel für den jeweiligen Autor des Patches ist. Wie Du inzwischen weißt, kannst Du einen neuen Branch, der auf dem gegenwärtigen `master` Branch basiert, wie folgt erzeugen (xxx falsch, das stimmt nur, wenn `master` der aktuelle Branch ist xxx):
+Wenn Du Änderungen von anderen übernehmen willst, ist normalerweise eine gute Idee, sie in einem Topic Branch auszuprobieren – d.h., einem temporären Branch, dessen Zweck nur darin besteht, die jeweiligen Änderungen auszuprobieren. Auf diese Weise ist es einfach, Patches ggf. anzupassen oder sie im Zweifelsfall im Topic Branch liegen zu lassen, wenn sie nicht funktionieren und Du im Moment nicht die Zeit hast, dich weiter damit zu befassen. Es ist empfehlenswert, Topic Branches Namen zu geben, die gut kommunizieren, worum es sich bei den jeweiligen Änderungen dreht, wie z.B. `ruby_client` oder etwas ähnlich aussagekräftiges, das Dir hilft, dich daran zu erinnern. Der Projekt Betreiber des Git Projektes selbst vergibt Namensräume für solche Branches – wie z.B. `sc/ruby_client`, wobei `sc` ein Kürzel für den jeweiligen Autor des Patches ist. Wie Du inzwischen weißt, kannst Du einen neuen Branch, der auf dem gegenwärtigen `master` Branch basiert, wie folgt erzeugen (xxx falsch, das stimmt nur, wenn `master` der aktuelle Branch ist xxx):
 
 	$ git branch sc/ruby_client master
 
@@ -872,7 +872,7 @@ Wenn dieser Befehl nichts ausgibt, sollte der Befehl sauber anwendbar sein.
 
 <!--If the contributor is a Git user and was good enough to use the `format-patch` command to generate their patch, then your job is easier because the patch contains author information and a commit message for you. If you can, encourage your contributors to use `format-patch` instead of `diff` to generate patches for you. You should only have to use `git apply` for legacy patches and things like that.-->
 
-Wenn der Autor des Patches selbst mit Git arbeitet, kann er dir das Leben leichter machen, indem er `git format-patch` verwender, um seinen Patch zu erzeugen: der Patch wird dann die Commit Informationen über den Autor sowie die Commit Meldung enthalten. Es ist also empfehlenswert, Entwickler darum zu bitten und zu ermutigen, `git format-patch` statt `git diff` zu verwenden. Du wirst dann `git apply` nur sehr selten anwenden müssen (xxx legacy patches ??? xxx)
+Wenn der Autor des Patches selbst mit Git arbeitet, kann er Dir das Leben leichter machen, indem er `git format-patch` verwender, um seinen Patch zu erzeugen: der Patch wird dann die Commit Informationen über den Autor sowie die Commit Meldung enthalten. Es ist also empfehlenswert, Entwickler darum zu bitten und zu ermutigen, `git format-patch` statt `git diff` zu verwenden. Du wirst dann `git apply` nur sehr selten anwenden müssen (xxx legacy patches ??? xxx)
 
 <!--To apply a patch generated by `format-patch`, you use `git am`. Technically, `git am` is built to read an mbox file, which is a simple, plain-text format for storing one or more e-mail messages in one text file. It looks something like this:-->
 
@@ -917,7 +917,7 @@ Das `Commit` Feld zeigt den Namen desjenigen, der den Patch angewendet hat und `
 
 <!--But it’s possible that the patch won’t apply cleanly. Perhaps your main branch has diverged too far from the branch the patch was built from, or the patch depends on another patch you haven’t applied yet. In that case, the `git am` process will fail and ask you what you want to do:-->
 
-Es ist allerdings möglich, dass der Patch nicht sauber auf den gegenwärtigen Code paßt. Möglicherweise unterscheidet sich der jeweilige Branch inzwischen erheblich von dem Zustand, in dem er sich befand, als die in dem Patch enthaltenen Änderungen geschrieben wurden. In dem Fall wird `git am` fehlschlagen und dir mitteilen, was zu tun ist:
+Es ist allerdings möglich, dass der Patch nicht sauber auf den gegenwärtigen Code paßt. Möglicherweise unterscheidet sich der jeweilige Branch inzwischen erheblich von dem Zustand, in dem er sich befand, als die in dem Patch enthaltenen Änderungen geschrieben wurden. In dem Fall wird `git am` fehlschlagen und Dir mitteilen, was zu tun ist:
 
 	$ git am 0001-seeing-if-this-helps-the-gem.patch
 	Applying: seeing if this helps the gem
@@ -977,7 +977,7 @@ Nachdem Du alle Patches in Deinem Topic Branch angewendet hast, kannst Du die Ä
 
 <!--If your contribution came from a Git user who set up their own repository, pushed a number of changes into it, and then sent you the URL to the repository and the name of the remote branch the changes are in, you can add them as a remote and do merges locally.-->
 
-Möglicherweise kommen die Änderungen aber nicht als Patch sondern von einem Git Anwender, der sein eigenes Repository aufgesetzt hat, seine Änderungen dorthin hochgeladen und dir dann die URL des Repositories und den Namen des Branches geschickt hat. In diesem Fall kannst Du das Repository als ein „remote“ (externes Repository) hinzufügen und die Änderungen lokal mergen.
+Möglicherweise kommen die Änderungen aber nicht als Patch sondern von einem Git Anwender, der sein eigenes Repository aufgesetzt hat, seine Änderungen dorthin hochgeladen und Dir dann die URL des Repositories und den Namen des Branches geschickt hat. In diesem Fall kannst Du das Repository als ein „remote“ (externes Repository) hinzufügen und die Änderungen lokal mergen.
 
 <!--For instance, if Jessica sends you an e-mail saying that she has a great new feature in the `ruby-client` branch of her repository, you can test it by adding the remote and checking out that branch locally:-->
 
@@ -989,11 +989,11 @@ Wenn Dir z.B. Jessica eine E-Mail schickt und mitteilt, dass sie ein großartige
 
 <!--If she e-mails you again later with another branch containing another great feature, you can fetch and check out because you already have the remote setup.-->
 
-Wenn sie dir später erneut eine E-Mail mit einem anderen Branch schickt, der ein anderes, großartiges Feature enthält, dann kannst Du diesen Branch direkt herunterladen und auschecken, weil Du das externe Repository noch konfiguriert hast.
+Wenn sie Dir später erneut eine E-Mail mit einem anderen Branch schickt, der ein anderes, großartiges Feature enthält, dann kannst Du diesen Branch direkt herunterladen und auschecken, weil Du das externe Repository noch konfiguriert hast.
 
 <!--This is most useful if you’re working with a person consistently. If someone only has a single patch to contribute once in a while, then accepting it over e-mail may be less time consuming than requiring everyone to run their own server and having to continually add and remove remotes to get a few patches. You’re also unlikely to want to have hundreds of remotes, each for someone who contributes only a patch or two. However, scripts and hosted services may make this easier — it depends largely on how you develop and how your contributors develop.-->
 
-Dies ist insbesondere nützlich, wenn Du mit jemandem regelmäßig zusammen arbeitest. Wenn jemand lediglich gelegentlich einen einzelnen Patch beiträgt, dann ist es wahrscheinlich weniger aufwendig, ihn per E-Mail zu akzeptieren, als von jedem zu erwarten, einen eigenen Server zu betreiben, und selbst ständig externe Repositories hinzuzufügen und zu entfernen. Du wirst kaum hunderte von externen Repositories verwalten wollen, nur um von jedem ein paar Änderungen zu erhalten. Auf der anderen Seite erleichtern dir Scripts und Hosted Services diesen Prozeß. Es hängt also alles davon ab, wie Du selbst und wie Deine Mitarbeiter entwickeln.
+Dies ist insbesondere nützlich, wenn Du mit jemandem regelmäßig zusammen arbeitest. Wenn jemand lediglich gelegentlich einen einzelnen Patch beiträgt, dann ist es wahrscheinlich weniger aufwendig, ihn per E-Mail zu akzeptieren, als von jedem zu erwarten, einen eigenen Server zu betreiben, und selbst ständig externe Repositories hinzuzufügen und zu entfernen. Du wirst kaum hunderte von externen Repositories verwalten wollen, nur um von jedem ein paar Änderungen zu erhalten. Auf der anderen Seite erleichtern Dir Scripts und Hosted Services diesen Prozeß. Es hängt also alles davon ab, wie Du selbst und wie Deine Mitarbeiter entwickeln.
 
 <!--The other advantage of this approach is that you get the history of the commits as well. Although you may have legitimate merge issues, you know where in your history their work is based; a proper three-way merge is the default rather than having to supply a `-3` and hope the patch was generated off a public commit to which you have access.-->
 
@@ -1042,7 +1042,7 @@ Wenn Du ein vollständiges Diff aller Änderungen sehen willst, die Dein Topic B
 
 <!--This command gives you a diff, but it may be misleading. If your `master` branch has moved forward since you created the topic branch from it, then you’ll get seemingly strange results. This happens because Git directly compares the snapshots of the last commit of the topic branch you’re on and the snapshot of the last commit on the `master` branch. For example, if you’ve added a line in a file on the `master` branch, a direct comparison of the snapshots will look like the topic branch is going to remove that line.-->
 
-Der Befehl gibt dir ein Diff aus, kann aber irreführend sein. Wenn im `master` Branch Änderungen committed wurden, seit der Branch angelegt wurde, erhältst Du scheinbar merkwürdige Ergebnisse. Das liegt daran, dass Git den Snapshot des letzten Commits des Topic Branches, in dem Du dich momentan befindest, mit dem letzten Commit des `master` Branches vergleicht. Wenn Du beispielsweise eine Zeile in einer Datei im `master` branch hinzugefügt hast, scheint der direkte Vergleich auszusagen, dass diese Zeile im Topic Branch entfernt wurde.
+Der Befehl gibt Dir ein Diff aus, kann aber irreführend sein. Wenn im `master` Branch Änderungen committed wurden, seit der Branch angelegt wurde, erhältst Du scheinbar merkwürdige Ergebnisse. Das liegt daran, dass Git den Snapshot des letzten Commits des Topic Branches, in dem Du dich momentan befindest, mit dem letzten Commit des `master` Branches vergleicht. Wenn Du beispielsweise eine Zeile in einer Datei im `master` branch hinzugefügt hast, scheint der direkte Vergleich auszusagen, dass diese Zeile im Topic Branch entfernt wurde.
 
 <!--If `master` is a direct ancestor of your topic branch, this isn’t a problem; but if the two histories have diverged, the diff will look like you’re adding all the new stuff in your topic branch and removing everything unique to the `master` branch.-->
 
@@ -1068,21 +1068,21 @@ Das ist natürlich nicht sonderlich bequem, weshalb Git eine Kurzform dafür def
 
 <!--This command shows you only the work your current topic branch has introduced since its common ancestor with master. That is a very useful syntax to remember.-->
 
-Dieser Befehl zeigt dir diejenigen Änderungen, die im Topic Branch eingeführt wurden, die aber noch nicht in `master` enthalten sind.
+Dieser Befehl zeigt Dir diejenigen Änderungen, die im Topic Branch eingeführt wurden, die aber noch nicht in `master` enthalten sind.
 
 <!--### Integrating Contributed Work ###-->
 ### Beiträge anderer integrieren ###
 
 <!--When all the work in your topic branch is ready to be integrated into a more mainline branch, the question is how to do it. Furthermore, what overall workflow do you want to use to maintain your project? You have a number of choices, so I’ll cover a few of them.-->
 
-Sobald Du die Änderungen in Deinem Topic Branch in einen dauerhafteren Branch übernehmen willst, fragt sich, wie Du das anstellen kannst. Und welchen generellen Workflow willst Du verwenden, um das Projekt zu pflegen? Wir werden eine Reihe von Möglichkeiten besprechen, die dir zur Verfügung stehen.
+Sobald Du die Änderungen in Deinem Topic Branch in einen dauerhafteren Branch übernehmen willst, fragt sich, wie Du das anstellen kannst. Und welchen generellen Workflow willst Du verwenden, um das Projekt zu pflegen? Wir werden eine Reihe von Möglichkeiten besprechen, die Dir zur Verfügung stehen.
 
 <!--#### Merging Workflows ####-->
 #### Merge Workflows ####
 
 <!--One simple workflow merges your work into your `master` branch. In this scenario, you have a `master` branch that contains basically stable code. When you have work in a topic branch that you’ve done or that someone has contributed and you’ve verified, you merge it into your master branch, delete the topic branch, and then continue the process.  If we have a repository with work in two branches named `ruby_client` and `php_client` that looks like Figure 5-19 and merge `ruby_client` first and then `php_client` next, then your history will end up looking like Figure 5-20.-->
 
-Eine einfache Möglichkeit besteht darin, Deine Arbeit einfach in den `master` Branch zu mergen. In diesem Workflow hast Du einen `master` Branch, der eine stabilen Code beinhaltet. Wenn Du Änderungen in einem Topic Branch hast, die von dir selbst oder jemand anderem geschrieben und die verifiziert sind, dann mergest Du diesen Topic Branch in den `master` Branch, löschst den Topic Branch und fährst mit diesem Prozeß so fort. Wenn es ein Repository mit zwei Branches gibt, die `ruby_client` und `php_client` heißen (wie in Bild 5-19), und Du mergest `ruby_client` zuerst und `php_client` danach, dann wird die Historie danach aussehen wie im Bild 5-20.
+Eine einfache Möglichkeit besteht darin, Deine Arbeit einfach in den `master` Branch zu mergen. In diesem Workflow hast Du einen `master` Branch, der eine stabilen Code beinhaltet. Wenn Du Änderungen in einem Topic Branch hast, die von Dir selbst oder jemand anderem geschrieben und die verifiziert sind, dann mergest Du diesen Topic Branch in den `master` Branch, löschst den Topic Branch und fährst mit diesem Prozeß so fort. Wenn es ein Repository mit zwei Branches gibt, die `ruby_client` und `php_client` heißen (wie in Bild 5-19), und Du mergest `ruby_client` zuerst und `php_client` danach, dann wird die Historie danach aussehen wie im Bild 5-20.
 
 <!--Figure 5-19. History with several topic branches.-->
 
@@ -1210,7 +1210,7 @@ Wenn Du Deine Tags signierst, könnte das Problem bestehen, dass Du den jeweilig
 
 <!--Then, you can directly import the key into the Git database by exporting it and piping that through `git hash-object`, which writes a new blob with those contents into Git and gives you back the SHA-1 of the blob:-->
 
-Dann kannst Du den Schlüssel direkt in die Git Datenbank importieren, indem Du ihn aus GPG exportierst und die Ausgabe nach `git hash-object` weiterreichst. Das schreibt ein neues Objekt mit dem Schlüssel in die Git Datenbank und gibt dir einen SHA-1 Hash zurück, der dieses Objekt referenziert:
+Dann kannst Du den Schlüssel direkt in die Git Datenbank importieren, indem Du ihn aus GPG exportierst und die Ausgabe nach `git hash-object` weiterreichst. Das schreibt ein neues Objekt mit dem Schlüssel in die Git Datenbank und gibt Dir einen SHA-1 Hash zurück, der dieses Objekt referenziert:
 
 	$ gpg -a --export F721C45A | git hash-object -w --stdin
 	659ef797d181633c87ec71ac3f9ba29fe5775b92
@@ -1254,7 +1254,7 @@ Der `git describe` Befehl funktioniert mit kommentierten Tags besser (d.h. Tags,
 
 <!--Now you want to release a build. One of the things you’ll want to do is create an archive of the latest snapshot of your code for those poor souls who don’t use Git. The command to do this is `git archive`:-->
 
-Du willst jetzt ein Release herausgeben. Dazu willst Du u.a. ein Archiv mit dem letzten Snapshot Deines Codes erzeugen, damit ihn auch arme Seelen herunterladen können, die Git nicht verwenden. Der folgende Befehl hilft dir dabei:
+Du willst jetzt ein Release herausgeben. Dazu willst Du u.a. ein Archiv mit dem letzten Snapshot Deines Codes erzeugen, damit ihn auch arme Seelen herunterladen können, die Git nicht verwenden. Der folgende Befehl hilft Dir dabei:
 
 	$ git archive master --prefix='project/' | gzip > `git describe master`.tar.gz
 	$ ls *.tar.gz
@@ -1301,4 +1301,4 @@ Du erhältst eine saubere Auflistung aller Commits seit `v1.0.1`, gruppiert nach
 
 <!--You should feel fairly comfortable contributing to a project in Git as well as maintaining your own project or integrating other users’ contributions. Congratulations on being an effective Git developer! In the next chapter, you’ll learn more powerful tools and tips for dealing with complex situations, which will truly make you a Git master.-->
 
-Du solltest dich jetzt einigermaßen vertraut damit fühlen, sowohl Beiträge bei einem bestehenden Projekt einzureichen als auch selbst ein eigenes Projekt zu betreiben und Beiträge anderer zu integrieren. Herzlichen Glückwunsch, Du bist jetzt ein erfolgreicher Git Entwickler! (xxx hä? xxx) Im nächsten Kapitel wirst Du weitere mächtige Git Werkzeuge und Tipps dafür kennenlernen, mit komplexen Situationen umzugehen – die einen wahren Git Meister aus dir werden. (xxx aha? xxx)
+Du solltest dich jetzt einigermaßen vertraut damit fühlen, sowohl Beiträge bei einem bestehenden Projekt einzureichen als auch selbst ein eigenes Projekt zu betreiben und Beiträge anderer zu integrieren. Herzlichen Glückwunsch, Du bist jetzt ein erfolgreicher Git Entwickler! (xxx hä? xxx) Im nächsten Kapitel wirst Du weitere mächtige Git Werkzeuge und Tipps dafür kennenlernen, mit komplexen Situationen umzugehen – die einen wahren Git Meister aus Dir werden. (xxx aha? xxx)

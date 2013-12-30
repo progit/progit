@@ -240,7 +240,7 @@ Abbildung 3-12. Der `iss53`-Branch hat mit Deiner Arbeit Schritt gehalten.
 
 <!--Now you get the call that there is an issue with the web site, and you need to fix it immediately. With Git, you don’t have to deploy your fix along with the `iss53` changes you’ve made, and you don’t have to put a lot of effort into reverting those changes before you can work on applying your fix to what is in production. All you have to do is switch back to your master branch.-->
 
-Nun bekommst Du einen Anruf, in dem dir mitgeteilt wird, dass es ein Problem mit der Internet-Seite gibt, das Du umgehend beheben sollst. Mit Git musst Du Deine Fehlerkorrektur nicht zusammen mit den `iss53`-Änderungen einbringen. Und Du musst keine Zeit damit verschwenden Deine bisherigen Änderungen rückgängig zu machen, bevor Du mit der Fehlerbehebung an der Produktionsumgebung beginnen kannst. Alles was Du tun musst, ist zu Deinem MASTER-Branch wechseln.
+Nun bekommst Du einen Anruf, in dem Dir mitgeteilt wird, dass es ein Problem mit der Internet-Seite gibt, das Du umgehend beheben sollst. Mit Git musst Du Deine Fehlerkorrektur nicht zusammen mit den `iss53`-Änderungen einbringen. Und Du musst keine Zeit damit verschwenden Deine bisherigen Änderungen rückgängig zu machen, bevor Du mit der Fehlerbehebung an der Produktionsumgebung beginnen kannst. Alles was Du tun musst, ist zu Deinem MASTER-Branch wechseln.
 
 <!--However, before you do that, note that if your working directory or staging area has uncommitted changes that conflict with the branch you’re checking out, Git won’t let you switch branches. It’s best to have a clean working state when you switch branches. There are ways to get around this (namely, stashing and commit amending) that we’ll cover later. For now, you’ve committed all your changes, so you can switch back to your master branch:-->
 
@@ -471,7 +471,7 @@ Du weißt jetzt, wie Du Branches erstellen, mergen und löschen kannst. Wir scha
 
 <!--The `git branch` command does more than just create and delete branches. If you run it with no arguments, you get a simple listing of your current branches:-->
 
-Das Kommando `git branch` kann mehr, als nur Branches zu erstellen oder zu löschen. Wenn Du es ohne weitere Argumente ausführst, wird es dir eine Liste mit Deinen aktuellen Branches anzeigen:
+Das Kommando `git branch` kann mehr, als nur Branches zu erstellen oder zu löschen. Wenn Du es ohne weitere Argumente ausführst, wird es Dir eine Liste mit Deinen aktuellen Branches anzeigen:
 
 	$ git branch
 	  iss53
@@ -480,7 +480,7 @@ Das Kommando `git branch` kann mehr, als nur Branches zu erstellen oder zu lösc
 
 <!--Notice the `*` character that prefixes the `master` branch: it indicates the branch that you currently have checked out. This means that if you commit at this point, the `master` branch will be moved forward with your new work. To see the last commit on each branch, you can run `git branch -v`:-->
 
-Das `*` vor dem `master`-Branch bedeutet, dass dies der gerade ausgecheckte Branch ist. Wenn Du also jetzt einen Commit erzeugst, wird dieser in den `master`-Branch gehen. Du kannst dir mit `git branch -v` ganz schnell für jeden Branch den letzten Commit anzeigen lassen:
+Das `*` vor dem `master`-Branch bedeutet, dass dies der gerade ausgecheckte Branch ist. Wenn Du also jetzt einen Commit erzeugst, wird dieser in den `master`-Branch gehen. Du kannst Dir mit `git branch -v` ganz schnell für jeden Branch den letzten Commit anzeigen lassen:
 
 	$ git branch -v
 	  iss53   93b412c fix javascript issue
@@ -508,7 +508,7 @@ Um alle Branches zu sehen, welche noch nicht gemergte Änderungen enthalten, kan
 
 <!--This shows your other branch. Because it contains work that isn’t merged in yet, trying to delete it with `git branch -d` will fail:-->
 
-Die Liste zeigt dir den anderen Branch. Er enthält Arbeit, die noch nicht gemergt wurde. Der Versuch, den Branch mit `git branch -d` zu löschen schlägt fehl:
+Die Liste zeigt Dir den anderen Branch. Er enthält Arbeit, die noch nicht gemergt wurde. Der Versuch, den Branch mit `git branch -d` zu löschen schlägt fehl:
 
 	$ git branch -d testing
 	error: The branch 'testing' is not an ancestor of your current HEAD.
@@ -570,11 +570,11 @@ Themen-Branches sind in jedem Projekt nützlich, egal bei welcher Größe. Ein T
 
 <!--You saw this in the last section with the `iss53` and `hotfix` branches you created. You did a few commits on them and deleted them directly after merging them into your main branch. This technique allows you to context-switch quickly and completely — because your work is separated into silos where all the changes in that branch have to do with that topic, it’s easier to see what has happened during code review and such. You can keep the changes there for minutes, days, or months, and merge them in when they’re ready, regardless of the order in which they were created or worked on.-->
 
-Du hast das im letzten Abschnitt an den von dir erstellten `iss53`- und `hotfix`-Branches gesehen. Du hast mehrere Commits auf sie angewendet und sie unmittelbar nach Zusammenführung mit Deinem Hauptzweig gelöscht. Diese Technik erlaubt es dir schnell und vollständig den Kontext zu wechseln. Da Deine Arbeit in verschiedene Depots aufgeteilt ist, in denen alle Änderungen unter die Thematik dieses Branches fallen, ist es leichter nachzuvollziehen was bei Code-Überprüfungen und ähnlichem geschehen ist.
+Du hast das im letzten Abschnitt an den von Dir erstellten `iss53`- und `hotfix`-Branches gesehen. Du hast mehrere Commits auf sie angewendet und sie unmittelbar nach Zusammenführung mit Deinem Hauptzweig gelöscht. Diese Technik erlaubt es Dir schnell und vollständig den Kontext zu wechseln. Da Deine Arbeit in verschiedene Depots aufgeteilt ist, in denen alle Änderungen unter die Thematik dieses Branches fallen, ist es leichter nachzuvollziehen was bei Code-Überprüfungen und ähnlichem geschehen ist.
 
 <!--Consider an example of doing some work (on `master`), branching off for an issue (`iss91`), working on it for a bit, branching off the second branch to try another way of handling the same thing (`iss91v2`), going back to your master branch and working there for a while, and then branching off there to do some work that you’re not sure is a good idea (`dumbidea` branch). Your commit history will look something like Figure 3-20.-->
 
-Stell dir Du arbeitest ein bisschen (in `master`), erstellst mal eben einen Branch für einen Fehler (`iss91`), arbeitest an dem für eine Weile, erstellst einen zweiten Branch um eine andere Problemlösung für den selben Fehler auszuprobieren (`iss91v2`), wechselst zurück zu Deinem MASTER-Branch, arbeitest dort ein bisschen und machst dann einen neuen Branch für etwas, wovon Du nicht weißt ob's eine gute Idee ist (`dumbidea`-Branch). Dein Commit-Verlauf wird wie in Abbildung 3-20 aussehen.
+Stell Dir vor, Du arbeitest ein bisschen (in `master`), erstellst mal eben einen Branch für einen Fehler (`iss91`), arbeitest an dem für eine Weile, erstellst einen zweiten Branch um eine andere Problemlösung für den selben Fehler auszuprobieren (`iss91v2`), wechselst zurück zu Deinem MASTER-Branch, arbeitest dort ein bisschen und machst dann einen neuen Branch für etwas, wovon Du nicht weißt ob's eine gute Idee ist (`dumbidea`-Branch). Dein Commit-Verlauf wird wie in Abbildung 3-20 aussehen.
 
 <!--Figure 3-20. Your commit history with multiple topic branches.-->
 
@@ -607,12 +607,12 @@ Externe Branches besitzen die Schreibweise `(Repository)/(Branch)`. Wenn Du beis
 
 <!--This may be a bit confusing, so let’s look at an example. Let’s say you have a Git server on your network at `git.ourcompany.com`. If you clone from this, Git automatically names it `origin` for you, pulls down all its data, creates a pointer to where its `master` branch is, and names it `origin/master` locally; and you can’t move it. Git also gives you your own `master` branch starting at the same place as origin’s `master` branch, so you have something to work from (see Figure 3-22).-->
 
-Das kann ein wenig verwirrend sein, lass uns also ein Besipiel betrachten. Nehmen wir an Du hättest in Deinem Netzwerk einen Git-Server mit der Adresse `git.ourcompany.com`. Wenn Du von ihm klonst, nennt Git ihn automatisch `origin` für dich, lädt all seine Daten herunter, erstellt einen Zeiger an die Stelle wo sein `master`-Branch ist und benennt es lokal `origin/master`; und er ist unveränderbar für dich. Git gibt dir auch einen eigenen `master`-Branch mit der gleichen Ausgangsposition wie origins `master`-Branch, damit Du einen Punkt für den Beginn Deiner Arbeiten hast (siehe Abbildung 3-22).
+Das kann ein wenig verwirrend sein, lass uns also ein Besipiel betrachten. Nehmen wir an Du hättest in Deinem Netzwerk einen Git-Server mit der Adresse `git.ourcompany.com`. Wenn Du von ihm klonst, nennt Git ihn automatisch `origin` für dich, lädt all seine Daten herunter, erstellt einen Zeiger an die Stelle wo sein `master`-Branch ist und benennt es lokal `origin/master`; und er ist unveränderbar für dich. Git gibt Dir auch einen eigenen `master`-Branch mit der gleichen Ausgangsposition wie origins `master`-Branch, damit Du einen Punkt für den Beginn Deiner Arbeiten hast (siehe Abbildung 3-22).
 
 <!--Figure 3-22. A Git clone gives you your own master branch and origin/master pointing to origin’s master branch.-->
 
 Insert 18333fig0322.png
-Abbildung 3-22. Ein 'git clone' gibt dir Deinen eigenen `master`-Branch und `origin/master`, welcher auf origins 'master'-Branch zeigt.
+Abbildung 3-22. Ein 'git clone' gibt Dir Deinen eigenen `master`-Branch und `origin/master`, welcher auf origins 'master'-Branch zeigt.
 
 <!--If you do some work on your local master branch, and, in the meantime, someone else pushes to `git.ourcompany.com` and updates its master branch, then your histories move forward differently. Also, as long as you stay out of contact with your origin server, your `origin/master` pointer doesn’t move (see Figure 3-23).-->
 
@@ -625,7 +625,7 @@ Abbildung 3-23. Lokales Arbeiten, während jemand auf Deinen externen Server hoc
 
 <!--To synchronize your work, you run a `git fetch origin` command. This command looks up which server origin is (in this case, it’s `git.ourcompany.com`), fetches any data from it that you don’t yet have, and updates your local database, moving your `origin/master` pointer to its new, more up-to-date position (see Figure 3-24).-->
 
-Um Deine Arbeit abzugleichen, führe ein `git fetch origin`-Kommando aus. Das Kommando schlägt nach welcher Server `orgin` ist (in diesem Fall `git.ourcompany.com`), holt alle Daten die dir bisher fehlen und aktualisiert Deine lokale Datenbank, indem es Deinen `orgin/master`-Zeiger auf seine neue aktuellere Position bewegt (siehe Abbildung 3-24).
+Um Deine Arbeit abzugleichen, führe ein `git fetch origin`-Kommando aus. Das Kommando schlägt nach welcher Server `orgin` ist (in diesem Fall `git.ourcompany.com`), holt alle Daten die Dir bisher fehlen und aktualisiert Deine lokale Datenbank, indem es Deinen `orgin/master`-Zeiger auf seine neue aktuellere Position bewegt (siehe Abbildung 3-24).
 
 <!--Figure 3-24. The git fetch command updates your remote references.-->
 
@@ -699,7 +699,7 @@ Um diese referenzierte Arbeit mit Deinem derzeitigen Arbeitsbranch zusammenzufü
 
 <!--This gives you a local branch that you can work on that starts where `origin/serverfix` is.-->
 
-Dies erstellt dir einen lokalen bearbeitbaren Branch mit der Grundlage des `origin/serverfix`-Zweiges.
+Dies erstellt Dir einen lokalen bearbeitbaren Branch mit der Grundlage des `origin/serverfix`-Zweiges.
 
 <!--### Tracking Branches ###-->
 ### Tracking Branches ###
@@ -741,7 +741,7 @@ Stellen wir uns Du bist fertig mit Deinem Remote-Branch – sagen wir Deine Mita
 
 <!--Boom. No more branch on your server. You may want to dog-ear this page, because you’ll need that command, and you’ll likely forget the syntax. A way to remember this command is by recalling the `git push [remotename] [localbranch]:[remotebranch]` syntax that we went over a bit earlier. If you leave off the `[localbranch]` portion, then you’re basically saying, “Take nothing on my side and make it be `[remotebranch]`.”-->
 
-Boom. Kein Zweig mehr auf Deinem Server. Du möchtest dir diese Seite vielleicht markieren, weil Du dieses Kommando noch benötigen wirst und man leicht dessen Syntax vergisst. Ein Weg sich an dieses Kommando zu erinnern führt über die `git push [remotename] [localbranch]:[remotebranch]`-Snytax, welche wir bereits behandelt haben. Wenn Du den `[localbranch]`-Teil weglässt, dann sagst Du einfach „Nimm nichts von meiner Seite und mach es zu `[remotebranch]`“.
+Boom. Kein Zweig mehr auf Deinem Server. Du möchtest Dir diese Seite vielleicht markieren, weil Du dieses Kommando noch benötigen wirst und man leicht dessen Syntax vergisst. Ein Weg sich an dieses Kommando zu erinnern führt über die `git push [remotename] [localbranch]:[remotebranch]`-Snytax, welche wir bereits behandelt haben. Wenn Du den `[localbranch]`-Teil weglässt, dann sagst Du einfach „Nimm nichts von meiner Seite und mach es zu `[remotebranch]`“.
 
 <!--## Rebasing ##-->
 ## Rebasing ##
@@ -828,7 +828,7 @@ Abbildung 3-31. Ein Verlauf mit einem Themen-Branch basierend auf einem weiteren
 
 <!--Suppose you decide that you want to merge your client-side changes into your mainline for a release, but you want to hold off on the server-side changes until it’s tested further. You can take the changes on client that aren’t on server (C8 and C9) and replay them on your master branch by using the `-\-onto` option of `git rebase`:-->
 
-Stell dir vor Du entscheidest dich Deine clientseitigen Änderungen für einen Release in die Hauptlinie zu mergen, die serverseitigen Änderungen möchtest Du aber noch zurückhalten bis sie besser getestet wurden. Du kannst einfach die Änderungen am Client, die den Server nicht betreffen, (C8 und C9) mit der `--onto`-Option von `git rebase` erneut auf den Master-Branch anwenden:
+Stell Dir vor, Du entscheidest dich Deine clientseitigen Änderungen für einen Release in die Hauptlinie zu mergen, die serverseitigen Änderungen möchtest Du aber noch zurückhalten bis sie besser getestet wurden. Du kannst einfach die Änderungen am Client, die den Server nicht betreffen, (C8 und C9) mit der `--onto`-Option von `git rebase` erneut auf den Master-Branch anwenden:
 
 	$ git rebase --onto master server client
 
@@ -926,7 +926,7 @@ Abbildung 3-37. Fetche mehrere Commits und merge sie in Deine Arbeit.
 
 <!--Next, the person who pushed the merged work decides to go back and rebase their work instead; they do a `git push -\-force` to overwrite the history on the server. You then fetch from that server, bringing down the new commits.-->
 
-Als nächstes entscheidet sich die Person, welche den Merge hochgeladen hat diesen rückgängig zu machen und stattdessen die Commits zu rebasen. Sie macht einen `git push --force` um den Verlauf auf dem Server zu überschreiben. Du lädst dir das Ganze dann mit den neuen Commits herunter.
+Als nächstes entscheidet sich die Person, welche den Merge hochgeladen hat diesen rückgängig zu machen und stattdessen die Commits zu rebasen. Sie macht einen `git push --force` um den Verlauf auf dem Server zu überschreiben. Du lädst Dir das Ganze dann mit den neuen Commits herunter.
 
 <!--Figure 3-38. Someone pushes rebased commits, abandoning commits you’ve based your work on.-->
 

@@ -7,7 +7,7 @@ Bis hierher hast Du die meisten täglichen Kommandos und Arbeitsweisen gelernt, 
 
 <!--Now you’ll explore a number of very powerful things that Git can do that you may not necessarily use on a day-to-day basis but that you may need at some point.-->
 
-Als nächstes werden wir einige sehr mächtige Werkzeuge besprechen, die dir Git zur Verfügung stellt. Du wirst zwar nicht unbedingt jeden Tag verwenden, aber mit Sicherheit an einem bestimmten Punkt gute brauchen können.
+Als nächstes werden wir einige sehr mächtige Werkzeuge besprechen, die Dir Git zur Verfügung stellt. Du wirst zwar nicht unbedingt jeden Tag verwenden, aber mit Sicherheit an einem bestimmten Punkt gute brauchen können.
 
 <!--## Revision Selection ##-->
 ## Revision Auswahl ##
@@ -88,11 +88,11 @@ Wenn es passiert, dass bei einem commit, ein Objekt mit dem gleichen SHA-1 hash 
 
 <!--However, you should be aware of how ridiculously unlikely this scenario is. The SHA-1 digest is 20 bytes or 160 bits. The number of randomly hashed objects needed to ensure a 50% probability of a single collision is about 2^80 (the formula for determining collision probability is `p = (n(n-1)/2) * (1/2^160))`. 2^80 is 1.2 x 10^24 or 1 million billion billion. That’s 1,200 times the number of grains of sand on the earth.-->
 
-Allerdings solltest Du dir bewusst machen wie unglaublich unwahrscheinlich dieses Szenario ist. Die Länge des SHA-1 hashs beträgt 20 bytes oder 160bits. Die Anzahl der Objekte die benötigt werden, um eine 50% Chance einer Kollision zu haben, beträgt ungefähr 2^80 (die Formel zum berechnen der Kollisionswahrscheinlichkeit lautet ‚p = (n(n-1)/2) * (1/2^160))‘. 2^80 ist somit 1.2 x 10^24 oder eine Trilliarden. Das ist 1200 mal die Anzahl der Sandkörner die es auf der Erde gibt.
+Allerdings solltest Du Dir bewusst machen wie unglaublich unwahrscheinlich dieses Szenario ist. Die Länge des SHA-1 hashs beträgt 20 bytes oder 160bits. Die Anzahl der Objekte die benötigt werden, um eine 50% Chance einer Kollision zu haben, beträgt ungefähr 2^80 (die Formel zum berechnen der Kollisionswahrscheinlichkeit lautet ‚p = (n(n-1)/2) * (1/2^160))‘. 2^80 ist somit 1.2 x 10^24 oder eine Trilliarden. Das ist 1200 mal die Anzahl der Sandkörner die es auf der Erde gibt.
 
 <!--Here’s an example to give you an idea of what it would take to get a SHA-1 collision. If all 6.5 billion humans on Earth were programming, and every second, each one was producing code that was the equivalent of the entire Linux kernel history (1 million Git objects) and pushing it into one enormous Git repository, it would take 5 years until that repository contained enough objects to have a 50% probability of a single SHA-1 object collision. A higher probability exists that every member of your programming team will be attacked and killed by wolves in unrelated incidents on the same night.-->
 
-Hier ist ein Beispiel welches dir eine Vorstellung davon geben wird was nötig ist um in SHA-1 eine Kollision zu bekommen. Wenn alle 6,5 Milliarden Menschen auf der Erde Programmieren würden und jeder jede Sekunde Code schreiben würde, der der gesamten Geschichte des Linux Kernels (1 Millionen Git Objekte) entspricht und diesen dann in ein gigantisches Git Repository übertragen würden, würde es fünf Jahre dauern bis das Repository genügend Objekte hätte um eine 50% Wahrscheinlichkeit für eine einzige SHA-1 Kollision aufzuweisen. Es ist wahrscheinlicher das jedes Mitglied Deines Programmierer Teams, unabhängig voneinander, in einer Nacht von Wölfen angegriffen und getötet wird.
+Hier ist ein Beispiel welches Dir eine Vorstellung davon geben wird was nötig ist um in SHA-1 eine Kollision zu bekommen. Wenn alle 6,5 Milliarden Menschen auf der Erde Programmieren würden und jeder jede Sekunde Code schreiben würde, der der gesamten Geschichte des Linux Kernels (1 Millionen Git Objekte) entspricht und diesen dann in ein gigantisches Git Repository übertragen würden, würde es fünf Jahre dauern bis das Repository genügend Objekte hätte um eine 50% Wahrscheinlichkeit für eine einzige SHA-1 Kollision aufzuweisen. Es ist wahrscheinlicher das jedes Mitglied Deines Programmierer Teams, unabhängig voneinander, in einer Nacht von Wölfen angegriffen und getötet wird.
 
 <!--### Branch References ###-->
 ### Branch Referenzen ###
@@ -289,7 +289,7 @@ Dies ist nützlich, wenn Du vorhast, den `experiment` Branch zu aktualisieren, u
 <!--This command shows you any commits in your current branch that aren’t in the `master` branch on your `origin` remote. If you run a `git push` and your current branch is tracking `origin/master`, the commits listed by `git log origin/master..HEAD` are the commits that will be transferred to the server.
 You can also leave off one side of the syntax to have Git assume HEAD. For example, you can get the same results as in the previous example by typing `git log origin/master..` — Git substitutes HEAD if one side is missing.-->
 
-Dieser Befehl zeigt dir alle Commits im gegenwärtigen, lokalen Branch, die noch nicht im `master` Branch des `origin` Repositories sind. D.h., der Befehl listet diejenigen Commits auf, die auf den Server transferiert würden, wenn Du `git push` benutzt und der aktuelle Branch `origin/master` trackt. Du kannst mit dieser Syntax außerdem eine Seite der beiden Punkte leer lassen. Git nimmt dann an, Du meinst an dieser Stelle HEAD. Z.B. kannst Du dieselben Commits wie im vorherigen Beispiel auch mit `git log origin/master..` anzeigen lassen. Git fügt dann HEAD auf der rechten Seite ein.
+Dieser Befehl zeigt Dir alle Commits im gegenwärtigen, lokalen Branch, die noch nicht im `master` Branch des `origin` Repositories sind. D.h., der Befehl listet diejenigen Commits auf, die auf den Server transferiert würden, wenn Du `git push` benutzt und der aktuelle Branch `origin/master` trackt. Du kannst mit dieser Syntax außerdem eine Seite der beiden Punkte leer lassen. Git nimmt dann an, Du meinst an dieser Stelle HEAD. Z.B. kannst Du dieselben Commits wie im vorherigen Beispiel auch mit `git log origin/master..` anzeigen lassen. Git fügt dann HEAD auf der rechten Seite ein.
 
 <!--#### Multiple Points ####-->
 #### Mehrfache Punkte (xxx) ####
@@ -319,7 +319,7 @@ Damit hast Du ein sehr mächtiges System von Abfragen zur Verfügung, mit denen 
 <!--The last major range-selection syntax is the triple-dot syntax, which specifies all the commits that are reachable by either of two references but not by both of them. Look back at the example commit history in Figure 6-1.
 If you want to see what is in `master` or `experiment` but not any common references, you can run-->
 
-Die letzte wichtige Syntax, mit der man Commit Reihen spezifizieren kann, ist die Drei-Punkte Syntax, die alle Commits anzeigt, die in einer der beiden Referenzen enthalten sind, aber nicht in beiden. Schau dir noch mal die Commit Historie in Bild 6-1- an. Wenn Du diejenigen Commits anzeigen willst, die in den `master` und `experiment` Branches, nicht aber in beiden Branches gleichzeitig  enthalten sind, dann kannst Du folgendes tun:
+Die letzte wichtige Syntax, mit der man Commit Reihen spezifizieren kann, ist die Drei-Punkte Syntax, die alle Commits anzeigt, die in einer der beiden Referenzen enthalten sind, aber nicht in beiden. Schau Dir noch mal die Commit Historie in Bild 6-1- an. Wenn Du diejenigen Commits anzeigen willst, die in den `master` und `experiment` Branches, nicht aber in beiden Branches gleichzeitig  enthalten sind, dann kannst Du folgendes tun:
 
 	$ git log master...experiment
 	F
@@ -329,11 +329,11 @@ Die letzte wichtige Syntax, mit der man Commit Reihen spezifizieren kann, ist di
 
 <!--Again, this gives you normal `log` output but shows you only the commit information for those four commits, appearing in the traditional commit date ordering.-->
 
-Dies gibt dir wiederum ein normale `log` Ausgabe, aber zeigt nur die Informationen dieser vier Commits – wie üblich sortiert nach dem Commit Datum.
+Dies gibt Dir wiederum ein normale `log` Ausgabe, aber zeigt nur die Informationen dieser vier Commits – wie üblich sortiert nach dem Commit Datum.
 
 <!--A common switch to use with the `log` command in this case is `-\-left-right`, which shows you which side of the range each commit is in. This helps make the data more useful:-->
 
-Eine nützliche Option für den `log` Befehl ist in diesem Fall `--left-right`. Sie zeigt dir an, in welchem der beiden Branches der jeweilige Commit enthalten ist, sodass die Ausgabe noch nützlicher ist:
+Eine nützliche Option für den `log` Befehl ist in diesem Fall `--left-right`. Sie zeigt Dir an, in welchem der beiden Branches der jeweilige Commit enthalten ist, sodass die Ausgabe noch nützlicher ist:
 
 	$ git log --left-right master...experiment
 	< F
@@ -448,7 +448,7 @@ Wenn Du wiederum Deinen Git status ansiehst, kannst Du sehen dass Du die TODO un
 
 <!--To see the diff of what you’ve staged, you can use the `6` or `d` (for diff) command. It shows you a list of your staged files, and you can select the ones for which you would like to see the staged diff. This is much like specifying `git diff -\-cached` on the command line:-->
 
-Um einen Diff dessen zu sehen, das Du gestaged hast, kannst Du den Befehl `6` oder `d` (für diff) nutzen. Dieser zeigt dir eine Liste der gestageden Dateien, und Du kannst diejenigen auswählen, von denen Du den gestageden Diff sehen willst. Dies ähnelt sehr dem Befehl `git diff --cached` auf der Kommandozeile.
+Um einen Diff dessen zu sehen, das Du gestaged hast, kannst Du den Befehl `6` oder `d` (für diff) nutzen. Dieser zeigt Dir eine Liste der gestageden Dateien, und Du kannst diejenigen auswählen, von denen Du den gestageden Diff sehen willst. Dies ähnelt sehr dem Befehl `git diff --cached` auf der Kommandozeile.
 
 	*** Commands ***
 	  1: status     2: update      3: revert     4: add untracked
@@ -472,7 +472,7 @@ Um einen Diff dessen zu sehen, das Du gestaged hast, kannst Du den Befehl `6` od
 
 <!--With these basic commands, you can use the interactive add mode to deal with your staging area a little more easily.-->
 
-Mit diesen grundlegenden Befehlen kannst Du den interaktiven add Modus nutzen um dir den Umgang mit Deiner Staging area etwas zu erleichtern.
+Mit diesen grundlegenden Befehlen kannst Du den interaktiven add Modus nutzen um Dir den Umgang mit Deiner Staging area etwas zu erleichtern.
 
 <!--### Staging Patches ###-->
 ### Patches stagen ###
@@ -695,7 +695,7 @@ Damit ist es auf einfache Art und Weise möglich, die gestashten Änderungen in 
 
 <!--Many times, when working with Git, you may want to revise your commit history for some reason. One of the great things about Git is that it allows you to make decisions at the last possible moment. You can decide what files go into which commits right before you commit with the staging area, you can decide that you didn’t mean to be working on something yet with the stash command, and you can rewrite commits that already happened so they look like they happened in a different way. This can involve changing the order of the commits, changing messages or modifying files in a commit, squashing together or splitting apart commits, or removing commits entirely — all before you share your work with others.-->
 
-Beim Arbeiten mit Git kommt es häufig vor, dass man seine Commit-Historie aus irgendeinem Grund noch einmal ändern möchte. Und das Tolle an Git ist, dass es dir die Möglichkeit bietet, Entscheidungen erst im allerletzten Moment zu treffen. Zum Beispiel bietet dir Git mit Hilfe der Staging-Area die Möglichkeit alle Dateien zu sammeln und kurz vor einem Commit zu entscheiden, welche Daten alle in einem Commit wandern sollen. Du kannst auch Deine Dateien, die sich geändert haben, aber noch nicht ins Repository eingepflegt werden sollen, mit dem Stash-Kommando in einem Zwischenspeicher ablegen. Außerdem kannst Du bereits verfasste Commits nachträglich noch einmal ändern, sodass sich die Historie so ändert, als wäre sie ganz anders vorangeschritten. Das kann man zum Beispiel durch Änderung der Reihenfolge der Commits, durch Ändern von Commit-Nachrichten, durch Modifikationen an Dateien innerhalb eines Commits, durch Zusammenfügen zweier Commits zu einem Commit oder durch Löschen eines Commits erreichen. Und das besondere daran: Das alles bevor Du Deine Arbeit mit anderen teilst und veröffentlichst.
+Beim Arbeiten mit Git kommt es häufig vor, dass man seine Commit-Historie aus irgendeinem Grund noch einmal ändern möchte. Und das Tolle an Git ist, dass es Dir die Möglichkeit bietet, Entscheidungen erst im allerletzten Moment zu treffen. Zum Beispiel bietet Dir Git mit Hilfe der Staging-Area die Möglichkeit alle Dateien zu sammeln und kurz vor einem Commit zu entscheiden, welche Daten alle in einem Commit wandern sollen. Du kannst auch Deine Dateien, die sich geändert haben, aber noch nicht ins Repository eingepflegt werden sollen, mit dem Stash-Kommando in einem Zwischenspeicher ablegen. Außerdem kannst Du bereits verfasste Commits nachträglich noch einmal ändern, sodass sich die Historie so ändert, als wäre sie ganz anders vorangeschritten. Das kann man zum Beispiel durch Änderung der Reihenfolge der Commits, durch Ändern von Commit-Nachrichten, durch Modifikationen an Dateien innerhalb eines Commits, durch Zusammenfügen zweier Commits zu einem Commit oder durch Löschen eines Commits erreichen. Und das besondere daran: Das alles bevor Du Deine Arbeit mit anderen teilst und veröffentlichst.
 
 <!--In this section, you’ll cover how to accomplish these very useful tasks so that you can make your commit history look the way you want before you share it with others.-->
 
@@ -741,7 +741,7 @@ Wenn Du zum Beispiel die letzten drei, oder eine oder mehrere der letzten drei C
 
 <!--Remember again that this is a rebasing command — every commit included in the range `HEAD~3..HEAD` will be rewritten, whether you change the message or not. Don’t include any commit you’ve already pushed to a central server — doing so will confuse other developers by providing an alternate version of the same change.-->
 
-Es ist wichtig, dass Du dir bewusst bist, dass mit diesem Rebase Befehl jeder Commit im Bereich `HEAD~3..HEAD` geändert wird, unabhängig davon, ob Du die Commit-Nachricht beziehungsweise den Schnappschuss änderst oder nicht. Der Rebase-Befehl sollte nie einen Commit beinhalten, der bereits an einen zentralen Server gepusht worden ist.
+Es ist wichtig, dass Du Dir bewusst bist, dass mit diesem Rebase Befehl jeder Commit im Bereich `HEAD~3..HEAD` geändert wird, unabhängig davon, ob Du die Commit-Nachricht beziehungsweise den Schnappschuss änderst oder nicht. Der Rebase-Befehl sollte nie einen Commit beinhalten, der bereits an einen zentralen Server gepusht worden ist.
 Hälst Du Dich nicht daran, werden sich andere Entwickler über Dich ärgern oder wundern, weil es jetzt eine alternative Version von der gleichen Änderung gibt.
 
 <!--Running this command gives you a list of commits in your text editor that looks something like this:-->
@@ -774,7 +774,7 @@ Vielleicht ist es Dir schon aufgefallen, die Commits werden genau in der umgekeh
 
 <!--Notice the reverse order. The interactive rebase gives you a script that it’s going to run. It will start at the commit you specify on the command line (`HEAD~3`) and replay the changes introduced in each of these commits from top to bottom. It lists the oldest at the top, rather than the newest, because that’s the first one it will replay.-->
 
-Siehst Du den Unterschied? Es ist genau die umgekehrte Reihenfolge. Ein interaktiver Rebase wird nach einem festen Schema, einer Art Skript, durchgeführt und der Texteditor zeigt dir an, wie dieses Skript genau ablaufen wird. Der Rebase startet bei dem Commit der in der Kommandozeile angegeben wird (`HEAD~3`) und führt die Änderungen, die durch jeden Commit hinzukommen, von oben nach unten aus. Das bedeteutet, dass anstatt dem neuesten, der älteste Commit ganz oben steht, weil dieser der erste Commit ist, der bearbeitet wird.
+Siehst Du den Unterschied? Es ist genau die umgekehrte Reihenfolge. Ein interaktiver Rebase wird nach einem festen Schema, einer Art Skript, durchgeführt und der Texteditor zeigt Dir an, wie dieses Skript genau ablaufen wird. Der Rebase startet bei dem Commit der in der Kommandozeile angegeben wird (`HEAD~3`) und führt die Änderungen, die durch jeden Commit hinzukommen, von oben nach unten aus. Das bedeteutet, dass anstatt dem neuesten, der älteste Commit ganz oben steht, weil dieser der erste Commit ist, der bearbeitet wird.
 
 <!--You need to edit the script so that it stops at the commit you want to edit. To do so, change the word pick to the word edit for each of the commits you want the script to stop after. For example, to modify only the third commit message, you change the file to look like this:-->
 
@@ -800,7 +800,7 @@ Nachdem Du das Skript gespeichert und den Editor beendet hast, setzt Git nun all
 
 <!--These instructions tell you exactly what to do. Type-->
 
-Diese Anweisungen zeigen dir sehr genau, was Du zu tun hast. Gib also den folgenden Befehl ein:
+Diese Anweisungen zeigen Dir sehr genau, was Du zu tun hast. Gib also den folgenden Befehl ein:
 
 	$ git commit --amend
 
@@ -812,7 +812,7 @@ Im sich öffnenden Texteditor kannst Du jetzt die Commit-Nachricht ändern und d
 
 <!--This command will apply the other two commits automatically, and then you’re done. If you change pick to edit on more lines, you can repeat these steps for each commit you change to edit. Each time, Git will stop, let you amend the commit, and continue when you’re finished.-->
 
-Der letzte Befehl speichert die letzten beiden Commits automatisch im Repository und der Rebase ist danach abgeschlossen. Wenn Du in einer weiteren Zeile „pick“ mit „edit“ ersetzt hast, kannst Du die oben dargestellten Schritte entsprechend noch einmal ausführen. Git wird nach jedem Commit anhalten und dir die Möglichkeit bieten, den Commit anzupassen. Danach kannst Du Git auffordern den Rebase fortzusetzen (`git rebase --continue`).
+Der letzte Befehl speichert die letzten beiden Commits automatisch im Repository und der Rebase ist danach abgeschlossen. Wenn Du in einer weiteren Zeile „pick“ mit „edit“ ersetzt hast, kannst Du die oben dargestellten Schritte entsprechend noch einmal ausführen. Git wird nach jedem Commit anhalten und Dir die Möglichkeit bieten, den Commit anzupassen. Danach kannst Du Git auffordern den Rebase fortzusetzen (`git rebase --continue`).
 
 <!--### Reordering Commits ###-->
 ### Reihenfolge von Commits verändern ###
@@ -1039,7 +1039,7 @@ Das ist enorm hilfreich. Für gewöhnlich erhälst Du damit als ursprünglichen 
 
 <!--Annotating a file helps if you know where the issue is to begin with. If you don’t know what is breaking, and there have been dozens or hundreds of commits since the last state where you know the code worked, you’ll likely turn to `git bisect` for help. The `bisect` command does a binary search through your commit history to help you identify as quickly as possible which commit introduced an issue.-->
 
-`git blame` kann dir sehr weiterhelfen, wenn Du bereits weißt an welcher Stelle das Problem liegt. Wenn Du aber nicht weißt, warum gewisse Dinge schief laufen, und es gibt inzwischen dutzende oder hunderte von Commits seit dem letzten funktionierenden Stand, dann solltest Du `git bisect` als Hilfestellung verwenden. Der `bisect` Befehl führt eine binäre Suche durch die Commit-Historie durch und hilft Dir auf schnelle Art und Weise die Commits zu bestimmen, die eventuell für das Problem verantwortlich sind.
+`git blame` kann Dir sehr weiterhelfen, wenn Du bereits weißt an welcher Stelle das Problem liegt. Wenn Du aber nicht weißt, warum gewisse Dinge schief laufen, und es gibt inzwischen dutzende oder hunderte von Commits seit dem letzten funktionierenden Stand, dann solltest Du `git bisect` als Hilfestellung verwenden. Der `bisect` Befehl führt eine binäre Suche durch die Commit-Historie durch und hilft Dir auf schnelle Art und Weise die Commits zu bestimmen, die eventuell für das Problem verantwortlich sind.
 
 <!--Let’s say you just pushed out a release of your code to a production environment, you’re getting bug reports about something that wasn’t happening in your development environment, and you can’t imagine why the code is doing that. You go back to your code, and it turns out you can reproduce the issue, but you can’t figure out what is going wrong. You can bisect the code to find out. First you run `git bisect start` to get things going, and then you use `git bisect bad` to tell the system that the current commit you’re on is broken. Then, you must tell bisect when the last known good state was, using `git bisect good [good_commit]`:-->
 
@@ -1069,7 +1069,7 @@ Git hat Dir jetzt einen weiteren Commit ausgecheckt und zwar wieder den mittlere
 
 <!--This commit is fine, and now Git has all the information it needs to determine where the issue was introduced. It tells you the SHA-1 of the first bad commit and show some of the commit information and which files were modified in that commit so you can figure out what happened that may have introduced this bug:-->
 
-Git checkt wieder den nächsten mittleren Commit aus und wir stellen fest, dass dieser in Ordnung ist. Ab jetzt hat Git alle notwendigen Informationen um festzustellen, in welchem Commit der Fehler eingebaut wurde. Git zeigt Dir dazu die SHA1 Prüfsumme des ersten fehlerhaften Commits an. Zusätzlich gibt es noch weitere Commit Informationen und welche Dateien in diesem Commit geändert wurden, an. Das sollte dir nun helfen, den Fehler näher zu bestimmen:
+Git checkt wieder den nächsten mittleren Commit aus und wir stellen fest, dass dieser in Ordnung ist. Ab jetzt hat Git alle notwendigen Informationen um festzustellen, in welchem Commit der Fehler eingebaut wurde. Git zeigt Dir dazu die SHA1 Prüfsumme des ersten fehlerhaften Commits an. Zusätzlich gibt es noch weitere Commit Informationen und welche Dateien in diesem Commit geändert wurden, an. Das sollte Dir nun helfen, den Fehler näher zu bestimmen:
 
 	$ git bisect good
 	b047b02ea83310a70fd603dc8cd7a6cd13d15c04 is first bad commit

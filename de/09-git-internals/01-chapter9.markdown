@@ -3,7 +3,7 @@
 
 <!--You may have skipped to this chapter from a previous chapter, or you may have gotten here after reading the rest of the book — in either case, this is where you’ll go over the inner workings and implementation of Git. I found that learning this information was fundamentally important to understanding how useful and powerful Git is, but others have argued to me that it can be confusing and unnecessarily complex for beginners. Thus, I’ve made this discussion the last chapter in the book so you could read it early or later in your learning process. I leave it up to you to decide.-->
 
-Möglicherweise hast Du dieses Kapitel hier direkt aufgeschlagen, vorherige Kapitel ausgelassen, oder bist hierher gelangt, nachdem Du alle vorherigen Kapitel gelesen hast. Wie auch immer, in diesem Kapitel wirst Du mit mit den internen (xxx) und der Implementation von Git befassen. Meine eigene Erfahrung damit, diese Dinge zu lernen, war dass sie unerläßlich ist, um zu verstehen, wie unheimlich mächtig und flexibel Git ist. Allerdings gibt es Leute, die der Ansicht sind, dass sie auch verwirrend und unnötig komplex für Anfänger sein könne. Deshalb habe ich mich entschieden, dieses Kapitel an das Ende des Buches zu verlegen. Du kannst es, ganz wie es dir beliebt, früher oder später einschieben.
+Möglicherweise hast Du dieses Kapitel hier direkt aufgeschlagen, vorherige Kapitel ausgelassen, oder bist hierher gelangt, nachdem Du alle vorherigen Kapitel gelesen hast. Wie auch immer, in diesem Kapitel wirst Du mit mit den internen (xxx) und der Implementation von Git befassen. Meine eigene Erfahrung damit, diese Dinge zu lernen, war dass sie unerläßlich ist, um zu verstehen, wie unheimlich mächtig und flexibel Git ist. Allerdings gibt es Leute, die der Ansicht sind, dass sie auch verwirrend und unnötig komplex für Anfänger sein könne. Deshalb habe ich mich entschieden, dieses Kapitel an das Ende des Buches zu verlegen. Du kannst es, ganz wie es Dir beliebt, früher oder später einschieben.
 
 <!--Now that you’re here, let’s get started. First, if it isn’t yet clear, Git is fundamentally a content-addressable filesystem with a VCS user interface written on top of it. You’ll learn more about what this means in a bit.-->
 
@@ -26,7 +26,7 @@ In diesem Buch haben wir Git besprochen, indem wir vielleicht 30 Befehle wie `ch
 
 <!--The book’s first eight chapters deal almost exclusively with porcelain commands. But in this chapter, you’ll be dealing mostly with the lower-level plumbing commands, because they give you access to the inner workings of Git and help demonstrate how and why Git does what it does. These commands aren’t meant to be used manually on the command line, but rather to be used as building blocks for new tools and custom scripts.-->
 
-Die ersten acht Kapitel dieses Buches haben sich fast ausschließlich mit „porcelain“ Befehlen befaßt. In diesem Kapitel gehen wir dagegen auf die zugrundeliegenden „plumbing“ Befehle ein, u.a. weil sie dir den Zugriff auf Gits innere Abläufe ermöglichen, und weil sie dabei helfen, zu verstehen, warum Git tut, was es tut. Diese Befehle sind nicht unbedingt dazu bestimmt direkt (xxx on the command line xxx) ausgeführt zu werden, sondern sind als Bausteine für Werkzeuge und Scripts gemeint.
+Die ersten acht Kapitel dieses Buches haben sich fast ausschließlich mit „porcelain“ Befehlen befaßt. In diesem Kapitel gehen wir dagegen auf die zugrundeliegenden „plumbing“ Befehle ein, u.a. weil sie Dir den Zugriff auf Gits innere Abläufe ermöglichen, und weil sie dabei helfen, zu verstehen, warum Git tut, was es tut. Diese Befehle sind nicht unbedingt dazu bestimmt direkt (xxx on the command line xxx) ausgeführt zu werden, sondern sind als Bausteine für Werkzeuge und Scripts gemeint.
 
 <!--When you run `git init` in a new or existing directory, Git creates the `.git` directory, which is where almost everything that Git stores and manipulates is located. If you want to back up or clone your repository, copying this single directory elsewhere gives you nearly everything you need. This entire chapter basically deals with the stuff in this directory. Here’s what it looks like:-->
 
@@ -57,7 +57,7 @@ Damit bleiben vier wichtige Einträge übrig: die Dateien `HEAD` und `index` und
 <!--Git is a content-addressable filesystem. Great. What does that mean?
 It means that at the core of Git is a simple key-value data store. You can insert any kind of content into it, and it will give you back a key that you can use to retrieve the content again at any time. To demonstrate, you can use the plumbing command `hash-object`, which takes some data, stores it in your `.git` directory, and gives you back the key the data is stored as. First, you initialize a new Git repository and verify that there is nothing in the `objects` directory:-->
 
-Git ist ein Dateisystem, das Inhalte addressieren kann. Prima. Aber was heißt das? Es bedeutet, dass Git im Kern nichts anderes ist als ein einfacher Key-Value-Store („Schlüssel-Wert-Speicher“). Du kannst darin jede Art von Inhalt ablegen und Git wird einen Schlüssel dafür zurückgeben, den Du dann verwenden kannst, um diesen Inhalt jederzeit nachzuschlagen. Um das auszuprobieren, kannst Du den Plumbing Befehl `hash-object` verwenden. Dieser nimmt einen Inhalt an, speichert ihn in Deinem `.git` Verzeichnis und gibt dir den Schlüssel zurück, unter dem der Inhalt gespeichert wurde. Dazu initialisierst Du als erstes ein neues Git Repository und verifizierst, dass das `objects` Verzeichnis leer ist:
+Git ist ein Dateisystem, das Inhalte addressieren kann. Prima. Aber was heißt das? Es bedeutet, dass Git im Kern nichts anderes ist als ein einfacher Key-Value-Store („Schlüssel-Wert-Speicher“). Du kannst darin jede Art von Inhalt ablegen und Git wird einen Schlüssel dafür zurückgeben, den Du dann verwenden kannst, um diesen Inhalt jederzeit nachzuschlagen. Um das auszuprobieren, kannst Du den Plumbing Befehl `hash-object` verwenden. Dieser nimmt einen Inhalt an, speichert ihn in Deinem `.git` Verzeichnis und gibt Dir den Schlüssel zurück, unter dem der Inhalt gespeichert wurde. Dazu initialisierst Du als erstes ein neues Git Repository und verifizierst, dass das `objects` Verzeichnis leer ist:
 
 	$ mkdir test
 	$ cd test
@@ -79,7 +79,7 @@ Git hat also ein Verzeichnis `objects` und darin die `pack` und `info` Unterverz
 
 <!--The `-w` tells `hash-object` to store the object; otherwise, the command simply tells you what the key would be. `-\-stdin` tells the command to read the content from stdin; if you don’t specify this, `hash-object` expects the path to a file. The output from the command is a 40-character checksum hash. This is the SHA-1 hash — a checksum of the content you’re storing plus a header, which you’ll learn about in a bit. Now you can see how Git has stored your data:-->
 
-Die Option `-w` weist `git hash-object` an, das Objekt zu speichern. Andernfalls würde dir der Befehl lediglich den Schlüssel mitteilen. `--stdin` weist den Befehl an, den Inhalt von aus der Standardeingabe zu lesen. Wenn Du diese Option wegläßt, erwartet der Befehl zusätzlich einen Dateipfad. Die Ausgabe ist eine 40 Zeichen langer SHA-1 Hash, der eine Prüfsumme des gespeicherten Inhaltes darstellt (wir gehen auf diese Hashes gleich noch genauer ein). Git hat jetzt außerdem eine neue Datei in der Datenbank angelegt:
+Die Option `-w` weist `git hash-object` an, das Objekt zu speichern. Andernfalls würde Dir der Befehl lediglich den Schlüssel mitteilen. `--stdin` weist den Befehl an, den Inhalt von aus der Standardeingabe zu lesen. Wenn Du diese Option wegläßt, erwartet der Befehl zusätzlich einen Dateipfad. Die Ausgabe ist eine 40 Zeichen langer SHA-1 Hash, der eine Prüfsumme des gespeicherten Inhaltes darstellt (wir gehen auf diese Hashes gleich noch genauer ein). Git hat jetzt außerdem eine neue Datei in der Datenbank angelegt:
 
 	$ find .git/objects -type f
 	.git/objects/d6/70460b4b4aece5915caf5c68d12f560a9fe3e4
@@ -230,7 +230,7 @@ Beachte, dass das Tree Objekt zwei Datei Einträge hat und dass der SHA-1 Hash d
 
 <!--If you created a working directory from the new tree you just wrote, you would get the two files in the top level of the working directory and a subdirectory named `bak` that contained the first version of the test.txt file. You can think of the data that Git contains for these structures as being like Figure 9-2.-->
 
-Wenn Du ein Arbeitsverzeichnis aus diesem neuen Tree Objekt auschecken würdest, würdest Du zwei Dateien im Hauptverzeichnis und ein Unterverzeichnis mit dem Namen `bak` erhalten, in dem sich die erste Version der Datei test.txt befindet. Du kannst dir die Daten, die Git für diese Strukturen speichert, in etwa wie in Bild 9-2 vorstellen.
+Wenn Du ein Arbeitsverzeichnis aus diesem neuen Tree Objekt auschecken würdest, würdest Du zwei Dateien im Hauptverzeichnis und ein Unterverzeichnis mit dem Namen `bak` erhalten, in dem sich die erste Version der Datei test.txt befindet. Du kannst Dir die Daten, die Git für diese Strukturen speichert, in etwa wie in Bild 9-2 vorstellen.
 
 <!--Figure 9-2. The content structure of your current Git data.-->
 
@@ -242,7 +242,7 @@ Bild 9-2. Die Datenstruktur des gegenwärtigen Git Repositories.
 
 <!--You have three trees that specify the different snapshots of your project that you want to track, but the earlier problem remains: you must remember all three SHA-1 values in order to recall the snapshots. You also don’t have any information about who saved the snapshots, when they were saved, or why they were saved. This is the basic information that the commit object stores for you.-->
 
-Du hast jetzt drei Trees, die verschiedene Snapshots Deines Projektes spezifizieren (xxx), die Du nachverfolgen willst. Das ursprüngliche Problem besteht aber weiterhin: Du mußt alle drei SHA-1 Hash Werte erinnern, um wieder an die Snapshots zu kommen. Ebenso fehlen dir die Informationen darüber, wer die Snapshots gespeichert hat, wann sie gespeichert wurden und warum. Dies sind die drei Hauptinformationen, die ein Commit Objekt für uns speichert.
+Du hast jetzt drei Trees, die verschiedene Snapshots Deines Projektes spezifizieren (xxx), die Du nachverfolgen willst. Das ursprüngliche Problem besteht aber weiterhin: Du mußt alle drei SHA-1 Hash Werte erinnern, um wieder an die Snapshots zu kommen. Ebenso fehlen Dir die Informationen darüber, wer die Snapshots gespeichert hat, wann sie gespeichert wurden und warum. Dies sind die drei Hauptinformationen, die ein Commit Objekt für uns speichert.
 
 <!--To create a commit object, you call `commit-tree` and specify a single tree SHA-1 and which commit objects, if any, directly preceded it. Start with the first tree you wrote:-->
 
@@ -393,7 +393,7 @@ Das ist alles – Du hast jetzt ein valides Git Blob Objekt geschrieben. Git Obj
 
 <!--You can run something like `git log 1a410e` to look through your whole history, but you still have to remember that `1a410e` is the last commit in order to walk that history to find all those objects. You need a file in which you can store the SHA-1 value under a simple name so you can use that pointer rather than the raw SHA-1 value.-->
 
-Du kannst Befehle wie `git log 1a410e` ausführen, um die Commit Historie zu inspizieren, aber dazu mußt Du dir jeweils merken, dass `1a410e` der jeweils letzte Commit ist. Um diese SHA-1 Hashes mit einfacheren, verständlichen Namen zu referenzieren, verwendet Git weitere Dateien, in denen die Namen für Hashes gespeichert sind.
+Du kannst Befehle wie `git log 1a410e` ausführen, um die Commit Historie zu inspizieren, aber dazu mußt Du Dir jeweils merken, dass `1a410e` der jeweils letzte Commit ist. Um diese SHA-1 Hashes mit einfacheren, verständlichen Namen zu referenzieren, verwendet Git weitere Dateien, in denen die Namen für Hashes gespeichert sind.
 
 <!--In Git, these are called "references" or "refs"; you can find the files that contain the SHA-1 values in the `.git/refs` directory. In the current project, this directory contains no files, but it does contain a simple structure:-->
 
@@ -408,7 +408,7 @@ Diese Namen werden in Git intern als „references“ oder „refs“ bezeichnet
 
 <!--To create a new reference that will help you remember where your latest commit is, you can technically do something as simple as this:-->
 
-Um jetzt eine neue Referenz anzulegen, die dir dabei hilft, dich zu erinnern, wo sich Dein letzten Commit befindet, könntest Du, technisch gesehen, Folgendes tun:
+Um jetzt eine neue Referenz anzulegen, die Dir dabei hilft, dich zu erinnern, wo sich Dein letzten Commit befindet, könntest Du, technisch gesehen, Folgendes tun:
 
 	$ echo "1a410efbd13591db07496601ebc7a059dd55cfe9" > .git/refs/heads/master
 
@@ -607,7 +607,7 @@ Git komprimiert die Inhalte dieser Dateien mit zlib und Du hast nicht sonderlich
 
 <!--If you look at the resulting tree, you can see the SHA-1 value your repo.rb file got for the blob object:-->
 
-Wenn Du dir den resultierenden Tree anschaust, findest Du den SHA-1 Hash, den die Datei `repo.rb` für das Blob Objekt erhalten hat:
+Wenn Du Dir den resultierenden Tree anschaust, findest Du den SHA-1 Hash, den die Datei `repo.rb` für das Blob Objekt erhalten hat:
 
 	$ git cat-file -p master^{tree}
 	100644 blob fa49b077972391ad58037050f2a75f74e3671e92      new.txt
@@ -1151,7 +1151,7 @@ Jetzt setzen wir den `master` Branch zurück auf den mittleren Commit.
 
 <!--You’ve effectively lost the top two commits — you have no branch from which those commits are reachable. You need to find the latest commit SHA and then add a branch that points to it. The trick is finding that latest commit SHA — it’s not like you’ve memorized it, right?-->
 
-Du hast damit die oberen beiden Commits verloren, d.h. es gibt keinen Branch mehr, von dem aus diese Commits erreichbar wären. Um sie wieder herzustellen kannst Du einen neuen Branch anlegen, der auf den SHA Hash des obersten (letzten) Commits zeigt. Der Trick besteht darin, diesen letzten Commit Hash heraus zu finden. Es ist ja nicht so, dass Du dir jederzeit all die Hashes merken könntest, oder?
+Du hast damit die oberen beiden Commits verloren, d.h. es gibt keinen Branch mehr, von dem aus diese Commits erreichbar wären. Um sie wieder herzustellen kannst Du einen neuen Branch anlegen, der auf den SHA Hash des obersten (letzten) Commits zeigt. Der Trick besteht darin, diesen letzten Commit Hash heraus zu finden. Es ist ja nicht so, dass Du Dir jederzeit all die Hashes merken könntest, oder?
 
 <!--Often, the quickest way is to use a tool called `git reflog`. As you’re working, Git silently records what your HEAD is every time you change it. Each time you commit or change branches, the reflog is updated. The reflog is also updated by the `git update-ref` command, which is another reason to use it instead of just writing the SHA value to your ref files, as we covered in the "Git References" section of this chapter earlier.  You can see where you’ve been at any time by running `git reflog`:-->
 
@@ -1229,7 +1229,7 @@ Hierin kann ein großes Problem bestehen, wenn Du Subversion oder Perforce Repos
 
 <!--Be warned: this technique is destructive to your commit history. It rewrites every commit object downstream from the earliest tree you have to modify to remove a large file reference. If you do this immediately after an import, before anyone has started to base work on the commit, you’re fine — otherwise, you have to notify all contributors that they must rebase their work onto your new commits.-->
 
-Sei dir allerdings bewußt, dass diese Technik die Commit Historie zerstört. Sie schreibt angefangen beim ursprünglichen Tree jedes einzelne Commit Objekt neu, um die jeweilige, große Datei zu entfernen. Wenn Du das direkt nach einem Import tust, d.h. bevor jemand angefangen hat, auf der Basis eines Commits zu arbeiten, ist das in Ordnung – andernfalls müssen alle Mitarbeiter ihre Arbeit auf Deinen Commit rebasen.
+Sei Dir allerdings bewußt, dass diese Technik die Commit Historie zerstört. Sie schreibt angefangen beim ursprünglichen Tree jedes einzelne Commit Objekt neu, um die jeweilige, große Datei zu entfernen. Wenn Du das direkt nach einem Import tust, d.h. bevor jemand angefangen hat, auf der Basis eines Commits zu arbeiten, ist das in Ordnung – andernfalls müssen alle Mitarbeiter ihre Arbeit auf Deinen Commit rebasen.
 
 <!--To demonstrate, you’ll add a large file into your test repository, remove it in the next commit, find it, and remove it permanently from the repository. First, add a large object to your history:-->
 
@@ -1354,7 +1354,7 @@ Das gepackte Repository umfaßt jetzt nur noch 7K – sehr viel besser als die v
 
 <!--You should have a pretty good understanding of what Git does in the background and, to some degree, how it’s implemented. This chapter has covered a number of plumbing commands — commands that are lower level and simpler than the porcelain commands you’ve learned about in the rest of the book. Understanding how Git works at a lower level should make it easier to understand why it’s doing what it’s doing and also to write your own tools and helping scripts to make your specific workflow work for you.-->
 
-Du solltest jetzt ein gutes Verständnis davon haben, was Git im Hintergrund tut, und in einem gewissen Maße auch davon, wie es implementiert ist. In diesem Kapitel haben wir eine Reihe von Plumbing Befehlen besprochen, als Befehlen, die grundlegender und einfacher als die Porzellan Befehle sind, um die es im restlichen Buch ging. Dieses Verständnis sollte dir helfen, zu verstehen, warum Git tut, was es tut – und natürlich auch dabei, Deine eigenen Werkzeuge und Hilfsskripte zu schreiben, um einen bestimmten Workflow für dich anzupassen.
+Du solltest jetzt ein gutes Verständnis davon haben, was Git im Hintergrund tut, und in einem gewissen Maße auch davon, wie es implementiert ist. In diesem Kapitel haben wir eine Reihe von Plumbing Befehlen besprochen, als Befehlen, die grundlegender und einfacher als die Porzellan Befehle sind, um die es im restlichen Buch ging. Dieses Verständnis sollte Dir helfen, zu verstehen, warum Git tut, was es tut – und natürlich auch dabei, Deine eigenen Werkzeuge und Hilfsskripte zu schreiben, um einen bestimmten Workflow für dich anzupassen.
 
 <!--Git as a content-addressable filesystem is a very powerful tool that you can easily use as more than just a VCS. I hope you can use your newfound knowledge of Git internals to implement your own cool application of this technology and feel more comfortable using Git in more advanced ways.-->
 

@@ -198,7 +198,7 @@ Zusätzlich hat jede dieser Einstellungen Unteroptionen, die Du benutzen kannst,
 
 <!--You can set the color to any of the following values: normal, black, red, green, yellow, blue, magenta, cyan, or white. If you want an attribute like bold in the previous example, you can choose from bold, dim, ul, blink, and reverse.-->
 
-Du kannst als Farben jeden der folgenden Werte verwenden: `normal`, `black`, `red`, `green`, `yellow`, `blue`, `magenta`, `cyan`, oder `white`. Falls Du ein Attribut wie z.B. die Fettschrift aus dem vorigen Beispiel verwenden willst, stehen dir folgende Werte zur Auswahl: `bold`, `dim`, `ul`, `blink`, und `reverse`.
+Du kannst als Farben jeden der folgenden Werte verwenden: `normal`, `black`, `red`, `green`, `yellow`, `blue`, `magenta`, `cyan`, oder `white`. Falls Du ein Attribut wie z.B. die Fettschrift aus dem vorigen Beispiel verwenden willst, stehen Dir folgende Werte zur Auswahl: `bold`, `dim`, `ul`, `blink`, und `reverse`.
 
 <!--See the `git config` manpage for all the subsettings you can configure, if you want to do that.-->
 
@@ -392,7 +392,7 @@ Diese Optionen gelten auch für den Rebase Befehl. Falls Du einen Commit gemacht
 
 <!--Not nearly as many configuration options are available for the server side of Git, but there are a few interesting ones you may want to take note of.-->
 
-Es gibt nicht annähernd so viele Konfigurationsmöglichkeiten für die Serverfunktionalitäten von Git, aber es gibt dabei einige interessante Parameter, die Du dir anschauen solltest.
+Es gibt nicht annähernd so viele Konfigurationsmöglichkeiten für die Serverfunktionalitäten von Git, aber es gibt dabei einige interessante Parameter, die Du Dir anschauen solltest.
 
 <!--#### receive.fsckObjects ####-->
 #### receive.fsckObjects ####
@@ -453,7 +453,7 @@ Mittels den Attributen ist es zum Beispiel möglich, verschiedene Merge Strategi
 
 <!--One cool trick for which you can use Git attributes is telling Git which files are binary (in cases it otherwise may not be able to figure out) and giving Git special instructions about how to handle those files. For instance, some text files may be machine generated and not diffable, whereas some binary files can be diffed — you’ll see how to tell Git which is which.-->
 
-Mit Hilfe der Git Attribute ist es dir möglich, Git mitzuteilen, welche Dateien binär sind (für den Fall, dass Git nicht in der Lage ist, dies selbst feszustellen) und wie Git diese behandeln soll. Es kann zum Beispiel sein, dass automatisiert, erstellte Textdateien nicht einfach verglichen werden können. Oder umgekehrt können manche Binärdateien leicht von einem Menschen verglichen werden. Ich werde jetzt aufzeigen, wie Du Git konfigurierst damit es solche Dateien unterscheiden kann.
+Mit Hilfe der Git Attribute ist es Dir möglich, Git mitzuteilen, welche Dateien binär sind (für den Fall, dass Git nicht in der Lage ist, dies selbst feszustellen) und wie Git diese behandeln soll. Es kann zum Beispiel sein, dass automatisiert, erstellte Textdateien nicht einfach verglichen werden können. Oder umgekehrt können manche Binärdateien leicht von einem Menschen verglichen werden. Ich werde jetzt aufzeigen, wie Du Git konfigurierst damit es solche Dateien unterscheiden kann.
 
 <!--#### Identifying Binary Files ####-->
 #### Binärdateien erkennen ####
@@ -501,7 +501,7 @@ Du kannst zwei Versionen nicht direkt vergleichen, außer Du checkst sie aus und
 
 <!--This tells Git that any file that matches this pattern (.doc) should use the "word" filter when you try to view a diff that contains changes. What is the "word" filter? You have to set it up. Here you’ll configure Git to use the `strings` program to convert Word documents into readable text files, which it will then diff properly:-->
 
-Dies weist Git an, dass auf jede Datei, die diesem Dateimuster (.doc) entspricht, der „word“ Filter angewandt werden soll, wenn Du versuchst, einen Diff mit Dateiunterschieden anzusehen. Was ist nun der „word“ Filter? Dieser muss von dir noch konfiguriert werden. Du kannst Git so konfigurieren, dass es das `strings` Programm verwendet um Word Dokumente in lesbare Textdateien zu konvertieren. Bei jedem Diff wird Git diese Konvertierung durchführen:
+Dies weist Git an, dass auf jede Datei, die diesem Dateimuster (.doc) entspricht, der „word“ Filter angewandt werden soll, wenn Du versuchst, einen Diff mit Dateiunterschieden anzusehen. Was ist nun der „word“ Filter? Dieser muss von Dir noch konfiguriert werden. Du kannst Git so konfigurieren, dass es das `strings` Programm verwendet um Word Dokumente in lesbare Textdateien zu konvertieren. Bei jedem Diff wird Git diese Konvertierung durchführen:
 
 	$ git config diff.word.textconv strings
 
@@ -602,7 +602,7 @@ Nun musst Du diese Datei noch ausführbar machen:
 
 <!--Now `git diff` will be able to tell you what changed in `.odt` files.-->
 
-Jetzt kann dir `git diff` aufzeigen, was sich in `.odt` Dateien geändert hat.
+Jetzt kann Dir `git diff` aufzeigen, was sich in `.odt` Dateien geändert hat.
 
 <!--##### Image files #####-->
 ##### Bilddateien #####
@@ -1355,4 +1355,4 @@ Diese Methode ist allerdings auch sehr langsam und meistens auch unnötig. Wenn 
 
 <!--You’ve covered most of the major ways that you can customize your Git client and server to best fit your workflow and projects. You’ve learned about all sorts of configuration settings, file-based attributes, and event hooks, and you’ve built an example policy-enforcing server. You should now be able to make Git fit nearly any workflow you can dream up.-->
 
-In diesem Kapitel hast Du die wichtigsten Möglichkeiten kennengelernt, wie Du Deinen Git Client und Git Server an Deine gewohnte Arbeitsweise und Projekte anpassen kannst. Wir haben eine große Auswahl an Konfigurationsparametern, dateibasierten Attributen und Hooks vorgestellt. Außerdem haben wir einen Server eingerichtet, der dafür sorgt, dass Deine vorgegebenen Richtlinien eingehalten werden. Du solltest jetzt in der Lage sein, Git an nahezu jeden Workflow anzupassen, den Du dir vorstellen kannst.
+In diesem Kapitel hast Du die wichtigsten Möglichkeiten kennengelernt, wie Du Deinen Git Client und Git Server an Deine gewohnte Arbeitsweise und Projekte anpassen kannst. Wir haben eine große Auswahl an Konfigurationsparametern, dateibasierten Attributen und Hooks vorgestellt. Außerdem haben wir einen Server eingerichtet, der dafür sorgt, dass Deine vorgegebenen Richtlinien eingehalten werden. Du solltest jetzt in der Lage sein, Git an nahezu jeden Workflow anzupassen, den Du Dir vorstellen kannst.

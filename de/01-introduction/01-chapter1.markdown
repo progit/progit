@@ -104,7 +104,7 @@ Seit seiner Geburt 2005 entwickelte sich Git kontinuierlich weiter und reifte zu
 
 <!--So, what is Git in a nutshell? This is an important section to absorb, because if you understand what Git is and the fundamentals of how it works, then using Git effectively will probably be much easier for you. As you learn Git, try to clear your mind of the things you may know about other VCSs, such as Subversion and Perforce; doing so will help you avoid subtle confusion when using the tool. Git stores and thinks about information much differently than these other systems, even though the user interface is fairly similar; understanding those differences will help prevent you from becoming confused while using it.-->
 
-Was also ist Git, in kurzen Worten? Es ist wichtig, den folgenden Abschnitt zu verstehen, in dem es um die grundlegenden Konzepte von Git geht. Das wird dich in die Lage versetzen, Git einfacher und effektiver anzuwenden. Versuche Dein vorhandenes Wissen über andere Versionskontrollsysteme, wie Subversion oder Perforce, zu ignorieren, während Du Git lernst. Git speichert und konzipiert Information anders als andere Systeme, auch wenn das Interface relativ ähnlich wirkt. Diese Unterschiede zu verstehen wird dir helfen, Verwirrung bei der Anwendung von Git zu vermeiden.
+Was also ist Git, in kurzen Worten? Es ist wichtig, den folgenden Abschnitt zu verstehen, in dem es um die grundlegenden Konzepte von Git geht. Das wird dich in die Lage versetzen, Git einfacher und effektiver anzuwenden. Versuche Dein vorhandenes Wissen über andere Versionskontrollsysteme, wie Subversion oder Perforce, zu ignorieren, während Du Git lernst. Git speichert und konzipiert Information anders als andere Systeme, auch wenn das Interface relativ ähnlich wirkt. Diese Unterschiede zu verstehen wird Dir helfen, Verwirrung bei der Anwendung von Git zu vermeiden.
 
 <!--### Snapshots, Not Differences ###-->
 ### Snapshots, nicht Diffs ###
@@ -144,7 +144,7 @@ Um beispielsweise die Historie des Projektes zu durchsuchen, braucht Git sie nic
 
 <!--This also means that there is very little you can’t do if you’re offline or off VPN. If you get on an airplane or a train and want to do a little work, you can commit happily until you get to a network connection to upload. If you go home and can’t get your VPN client working properly, you can still work. In many other systems, doing so is either impossible or painful. In Perforce, for example, you can’t do much when you aren’t connected to the server; and in Subversion and CVS, you can edit files, but you can’t commit changes to your database (because your database is offline). This may not seem like a huge deal, but you may be surprised what a big difference it can make.-->
 
-Dies bedeutet natürlich außerdem, dass es fast nichts gibt, was Du nicht tun kannst, bloß weil Du gerade offline bist oder keinen Zugriff auf ein VPN hast. Wenn Du im Flugzeug oder Zug ein wenig arbeiten willst, kannst Du problemlos Deine Arbeit committen und Deine Arbeit erst auf den Server pushen (hochladen), wenn Du wieder mit einem Netzwerk verbunden bist. Wenn Du zu Hause bist aber nicht auf das VPN zugreifen kannst, kannst Du dennoch arbeiten. Perforce z.B. erlaubt dir dagegen nicht sonderlich viel zu tun, solange Du nicht mit dem Server verbunden bist. Und in Subversion und CVS kannst Du Dateien zwar ändern, die Änderungen aber nicht in der Datenbank sichern (weil die Datenbank offline ist). Das mag auf den ersten Blick nicht nach einem großen Problem aussehen, aber Du wirst überrascht sein, was für einen großen Unterschied das ausmachen kann.
+Dies bedeutet natürlich außerdem, dass es fast nichts gibt, was Du nicht tun kannst, bloß weil Du gerade offline bist oder keinen Zugriff auf ein VPN hast. Wenn Du im Flugzeug oder Zug ein wenig arbeiten willst, kannst Du problemlos Deine Arbeit committen und Deine Arbeit erst auf den Server pushen (hochladen), wenn Du wieder mit einem Netzwerk verbunden bist. Wenn Du zu Hause bist aber nicht auf das VPN zugreifen kannst, kannst Du dennoch arbeiten. Perforce z.B. erlaubt Dir dagegen nicht sonderlich viel zu tun, solange Du nicht mit dem Server verbunden bist. Und in Subversion und CVS kannst Du Dateien zwar ändern, die Änderungen aber nicht in der Datenbank sichern (weil die Datenbank offline ist). Das mag auf den ersten Blick nicht nach einem großen Problem aussehen, aber Du wirst überrascht sein, was für einen großen Unterschied das ausmachen kann.
 
 <!--### Git Has Integrity ###-->
 ### Git stellt Integrität sicher ###
@@ -179,7 +179,7 @@ U.a. deshalb macht es so viel Spaß, mit Git zu arbeiten. Man kann mit Änderung
 
 <!--Now, pay attention. This is the main thing to remember about Git if you want the rest of your learning process to go smoothly. Git has three main states that your files can reside in: committed, modified, and staged. Committed means that the data is safely stored in your local database. Modified means that you have changed the file but have not committed it to your database yet. Staged means that you have marked a modified file in its current version to go into your next commit snapshot.-->
 
-Jetzt aufgepasst. Es folgt die wichtigste Information, die Du dir merken mußt, wenn Du Git lernen und Fallstricke vermeiden willst. Git definiert drei Haupt-Zustände, in denen sich eine Datei befinden kann: committed, modified („geändert“) und staged („vorgemerkt“). „Committed“ bedeutet, dass die Daten in der lokalen Datenbank gesichert sind. „Modified“ bedeutet, dass die Datei geändert, diese Änderung aber noch nicht committed wurde. „Staged“ bedeutet, dass Du eine geänderte Datei in ihrem gegenwärtigen Zustand für den nächsten Commit vorgemerkt hast.
+Jetzt aufgepasst. Es folgt die wichtigste Information, die Du Dir merken mußt, wenn Du Git lernen und Fallstricke vermeiden willst. Git definiert drei Haupt-Zustände, in denen sich eine Datei befinden kann: committed, modified („geändert“) und staged („vorgemerkt“). „Committed“ bedeutet, dass die Daten in der lokalen Datenbank gesichert sind. „Modified“ bedeutet, dass die Datei geändert, diese Änderung aber noch nicht committed wurde. „Staged“ bedeutet, dass Du eine geänderte Datei in ihrem gegenwärtigen Zustand für den nächsten Commit vorgemerkt hast.
 
 <!--This leads us to the three main sections of a Git project: the Git directory, the working directory, and the staging area.-->
 
@@ -230,7 +230,7 @@ Laß uns damit anfangen, Git tatsächlich zu verwenden. Der erste Schritt besteh
 
 <!--If you can, it’s generally useful to install Git from source, because you’ll get the most recent version. Each version of Git tends to include useful UI enhancements, so getting the latest version is often the best route if you feel comfortable compiling software from source. It is also the case that many Linux distributions contain very old packages; so unless you’re on a very up-to-date distro or are using backports, installing from source may be the best bet.-->
 
-Wenn es dir möglich ist, empfehlen wir, Git vom Quellcode aus zu installieren, weil Du die jeweils neueste Version erhältst. In der Regel bringt jede Version nützliche Verbesserungen (z.B. am Interface), sodass es sich lohnt die jeweils neueste Version zu verwenden – sofern Du natürlich damit klarkommst, Software aus dem Quellcode zu kompilieren. Viele Linux Distributionen umfassen sehr alte Git Versionen. Wenn Du also keine sehr aktuelle Distribution oder Backports (xxx) verwendest, empfehlen wir, diesen Weg in Erwägung ziehen.
+Wenn es Dir möglich ist, empfehlen wir, Git vom Quellcode aus zu installieren, weil Du die jeweils neueste Version erhältst. In der Regel bringt jede Version nützliche Verbesserungen (z.B. am Interface), sodass es sich lohnt die jeweils neueste Version zu verwenden – sofern Du natürlich damit klarkommst, Software aus dem Quellcode zu kompilieren. Viele Linux Distributionen umfassen sehr alte Git Versionen. Wenn Du also keine sehr aktuelle Distribution oder Backports (xxx) verwendest, empfehlen wir, diesen Weg in Erwägung ziehen.
 
 <!--To install Git, you need to have the following libraries that Git depends on: curl, zlib, openssl, expat, and libiconv. For example, if you’re on a system that has yum (such as Fedora) or apt-get (such as a Debian based system), you can use one of these commands to install all of the dependencies:-->
 
@@ -244,7 +244,7 @@ Um Git zu installieren, benötigst Du die folgenden Bibliotheken, die von Git ve
 
 <!--When you have all the necessary dependencies, you can go ahead and grab the latest snapshot from the Git web site:-->
 
-Nachdem Du die genannten Bibliotheken installiert hast, besorge dir die aktuelle Version des Git Quellcodes von der Git Webseite:
+Nachdem Du die genannten Bibliotheken installiert hast, besorge Dir die aktuelle Version des Git Quellcodes von der Git Webseite:
 
 	http://git-scm.com/download
 
@@ -274,7 +274,7 @@ Wenn Du Git unter Linux mit einem Installationsprogramm installieren willst, kan
 
 <!--Or if you’re on a Debian-based distribution like Ubuntu, try apt-get:-->
 
-Auf einem Debian-basierten System wie Ubuntu steht dir apt-get zur Verfügung:
+Auf einem Debian-basierten System wie Ubuntu steht Dir apt-get zur Verfügung:
 
 	$ apt-get install git
 
@@ -328,7 +328,7 @@ Nachdem Du jetzt Git auf Deinem System installiert hast, solltest Du Deine Git K
 
 <!--Git comes with a tool called git config that lets you get and set configuration variables that control all aspects of how Git looks and operates. These variables can be stored in three different places:-->
 
-Git umfasst das Werkzeug `git config`, das dir erlaubt, Konfigurationswerte zu verändern. Auf diese Weise kannst Du anpassen, wie Git aussieht und arbeitet. Diese Werte sind an drei verschiedenen Orten gespeichert:
+Git umfasst das Werkzeug `git config`, das Dir erlaubt, Konfigurationswerte zu verändern. Auf diese Weise kannst Du anpassen, wie Git aussieht und arbeitet. Diese Werte sind an drei verschiedenen Orten gespeichert:
 
 <!--*	`/etc/gitconfig` file: Contains values for every user on the system and all their repositories. If you pass the option` -\-system` to `git config`, it reads and writes from this file specifically.
 *	`~/.gitconfig` file: Specific to your user. You can make Git read and write to this file specifically by passing the `-\-global` option.
@@ -425,7 +425,7 @@ Beispielsweise erhältst Du die Hilfeseite für den `git config` Befehl so:
 <!--These commands are nice because you can access them anywhere, even offline.
 If the manpages and this book aren’t enough and you need in-person help, you can try the `#git` or `#github` channel on the Freenode IRC server (irc.freenode.net). These channels are regularly filled with hundreds of people who are all very knowledgeable about Git and are often willing to help.-->
 
-Die „manpage“ Dokumentation ist nützlich, weil Du sie jederzeit anzeigen kannst, auch wenn Du offline bist. Wenn dir die manpages und dieses Buch nicht ausreichen, kannst Du Deine Fragen auch in den Chaträumen `#git` oder `#github` auf dem Freenode IRC Server (irc.freenode.net) stellen. Diese Räume sind in der Regel sehr gut besucht. Normalerweise findet sich unter den hunderten von Anwendern, die oft sehr viel Erfahrung mit Git haben, irgendjemand, der Deine Fragen gern beantwortet.
+Die „manpage“ Dokumentation ist nützlich, weil Du sie jederzeit anzeigen kannst, auch wenn Du offline bist. Wenn Dir die manpages und dieses Buch nicht ausreichen, kannst Du Deine Fragen auch in den Chaträumen `#git` oder `#github` auf dem Freenode IRC Server (irc.freenode.net) stellen. Diese Räume sind in der Regel sehr gut besucht. Normalerweise findet sich unter den hunderten von Anwendern, die oft sehr viel Erfahrung mit Git haben, irgendjemand, der Deine Fragen gern beantwortet.
 
 <!--## Summary ##-->
 ## Zusammenfassung ##

@@ -1317,7 +1317,7 @@ Das war alles was ich über GitHub berichten möchte. Herausheben möchte ich ab
 
 <!--You have several options to get a remote Git repository up and running so that you can collaborate with others or share your work.-->
 
-Es stehen Dir viele Möglichkeiten offen, ein Remote-Repository einzurichten, so dass Du mit anderen Entwicklern zusammenarbeiten kannst und Deine Arbeit anderen zur Verfügung stellen kannst.
+Es stehen Dir viele Möglichkeiten offen, ein Remote-Repository einzurichten, sodass Du mit anderen Entwicklern zusammenarbeiten kannst und Deine Arbeit anderen zur Verfügung stellen kannst.
 
 <!--Running your own server gives you a lot of control and allows you to run the server within your own firewall, but such a server generally requires a fair amount of your time to set up and maintain. If you place your data on a hosted server, it’s easy to set up and maintain; however, you have to be able to keep your code on someone else’s servers, and some organizations don’t allow that.-->
 

@@ -116,7 +116,7 @@ Wenn Du sehen willst, auf welchen SHA-1 Wert ein Branch zeigt, oder wie unsere B
 
 <!--One of the things Git does in the background while you’re working away is keep a reflog — a log of where your HEAD and branch references have been for the last few months.-->
 
-Eine andere Sache, die während Deiner täglichen Arbeit im Hintergrund passiert ist, daß Git ein sogenanntes Reflog führt, d.h. ein Log darüber, wohin Deine HEAD und Branch Referenzen in den letzten Monaten jeweils gezeigt haben.
+Eine andere Sache, die während Deiner täglichen Arbeit im Hintergrund passiert ist, dass Git ein sogenanntes Reflog führt, d.h. ein Log darüber, wohin Deine HEAD und Branch Referenzen in den letzten Monaten jeweils gezeigt haben.
 
 <!--You can see your reflog by using `git reflog`:-->
 
@@ -170,7 +170,7 @@ Um Reflog Informationen in einem Format wie in `git log` anzeigen, kannst Du `gi
 
 <!--It’s important to note that the reflog information is strictly local — it’s a log of what you’ve done in your repository. The references won’t be the same on someone else’s copy of the repository; and right after you initially clone a repository, you’ll have an empty reflog, as no activity has occurred yet in your repository. Running `git show HEAD@{2.months.ago}` will work only if you cloned the project at least two months ago — if you cloned it five minutes ago, you’ll get no results.-->
 
-Es ist wichtig zu verstehen, daß das Reflog ausschließlich lokale Daten enthält. Es ist ein Log darüber, was Du in Deinem Repository getan hast, und es ist nie dasselbe wie in einem anderen Clone des selben Repositories. Direkt nachdem Du ein Repository geklont hast, ist das Reflog leer, weil noch keine weitere Aktivität stattgefunden hat. `git show HEAD@{2.months.ago}` funktioniert nur dann, wenn das Projekt mindestens zwei Monate alt ist – wenn Du es vor fünf Minuten erst geklont hast, erhältst Du keine Ergebnisse.
+Es ist wichtig zu verstehen, dass das Reflog ausschließlich lokale Daten enthält. Es ist ein Log darüber, was Du in Deinem Repository getan hast, und es ist nie dasselbe wie in einem anderen Clone des selben Repositories. Direkt nachdem Du ein Repository geklont hast, ist das Reflog leer, weil noch keine weitere Aktivität stattgefunden hat. `git show HEAD@{2.months.ago}` funktioniert nur dann, wenn das Projekt mindestens zwei Monate alt ist – wenn Du es vor fünf Minuten erst geklont hast, erhältst Du keine Ergebnisse.
 
 <!--### Ancestry References ###-->
 ### Vorfahren Referenzen ###
@@ -333,7 +333,7 @@ Dies gibt dir wiederum ein normale `log` Ausgabe, aber zeigt nur die Information
 
 <!--A common switch to use with the `log` command in this case is `-\-left-right`, which shows you which side of the range each commit is in. This helps make the data more useful:-->
 
-Eine nützliche Option für den `log` Befehl ist in diesem Fall `--left-right`. Sie zeigt dir an, in welchem der beiden Branches der jeweilige Commit enthalten ist, so daß die Ausgabe noch nützlicher ist:
+Eine nützliche Option für den `log` Befehl ist in diesem Fall `--left-right`. Sie zeigt dir an, in welchem der beiden Branches der jeweilige Commit enthalten ist, sodass die Ausgabe noch nützlicher ist:
 
 	$ git log --left-right master...experiment
 	< F
@@ -399,7 +399,7 @@ Um z.B. die TODO und index.html Dateien zu stagen, gibst Du die jeweiligen Zahle
 
 <!--The `*` next to each file means the file is selected to be staged. If you press Enter after typing nothing at the `Update>>` prompt, Git takes anything selected and stages it for you:-->
 
-Das `*` neben den Dateinamen bedeutet, daß die Datei ausgewählt ist und zur Staging Area hinzugefügt werden wird, sobald Du (bei einem sonst leeren `Update>>` Prompt) Enter drückst:
+Das `*` neben den Dateinamen bedeutet, dass die Datei ausgewählt ist und zur Staging Area hinzugefügt werden wird, sobald Du (bei einem sonst leeren `Update>>` Prompt) Enter drückst:
 
 	Update>>
 	updated 2 paths
@@ -415,7 +415,7 @@ Das `*` neben den Dateinamen bedeutet, daß die Datei ausgewählt ist und zur St
 
 <!--Now you can see that the TODO and index.html files are staged and the simplegit.rb file is still unstaged. If you want to unstage the TODO file at this point, you use the `3` or `r` (for revert) option:-->
 
-Du kannst sehen, daß die TODO und index.html Dateien jetzt gestaged sind, während simplegit.rb immer noch ungestaged ist. Wenn Du die TODO unstagen willst, kannst Du die Option `3` oder `r` (für revert) nutzen:
+Du kannst sehen, dass die TODO und index.html Dateien jetzt gestaged sind, während simplegit.rb immer noch ungestaged ist. Wenn Du die TODO unstagen willst, kannst Du die Option `3` oder `r` (für revert) nutzen:
 
 	*** Commands ***
 	  1: status     2: update      3: revert     4: add untracked
@@ -695,11 +695,11 @@ Damit ist es auf einfache Art und Weise möglich, die gestashten Änderungen in 
 
 <!--Many times, when working with Git, you may want to revise your commit history for some reason. One of the great things about Git is that it allows you to make decisions at the last possible moment. You can decide what files go into which commits right before you commit with the staging area, you can decide that you didn’t mean to be working on something yet with the stash command, and you can rewrite commits that already happened so they look like they happened in a different way. This can involve changing the order of the commits, changing messages or modifying files in a commit, squashing together or splitting apart commits, or removing commits entirely — all before you share your work with others.-->
 
-Beim Arbeiten mit Git kommt es häufig vor, dass man seine Commit-Historie aus irgendeinem Grund noch einmal ändern möchte. Und das Tolle an Git ist, dass es dir die Möglichkeit bietet, Entscheidungen erst im allerletzten Moment zu treffen. Zum Beispiel bietet dir Git mit Hilfe der Staging-Area die Möglichkeit alle Dateien zu sammeln und kurz vor einem Commit zu entscheiden, welche Daten alle in einem Commit wandern sollen. Du kannst auch Deine Dateien, die sich geändert haben, aber noch nicht ins Repository eingepflegt werden sollen, mit dem Stash-Kommando in einem Zwischenspeicher ablegen. Außerdem kannst Du bereits verfasste Commits nachträglich noch einmal ändern, so dass sich die Historie so ändert, als wäre sie ganz anders vorangeschritten. Das kann man zum Beispiel durch Änderung der Reihenfolge der Commits, durch Ändern von Commit-Nachrichten, durch Modifikationen an Dateien innerhalb eines Commits, durch Zusammenfügen zweier Commits zu einem Commit oder durch Löschen eines Commits erreichen. Und das besondere daran: Das alles bevor Du Deine Arbeit mit anderen teilst und veröffentlichst.
+Beim Arbeiten mit Git kommt es häufig vor, dass man seine Commit-Historie aus irgendeinem Grund noch einmal ändern möchte. Und das Tolle an Git ist, dass es dir die Möglichkeit bietet, Entscheidungen erst im allerletzten Moment zu treffen. Zum Beispiel bietet dir Git mit Hilfe der Staging-Area die Möglichkeit alle Dateien zu sammeln und kurz vor einem Commit zu entscheiden, welche Daten alle in einem Commit wandern sollen. Du kannst auch Deine Dateien, die sich geändert haben, aber noch nicht ins Repository eingepflegt werden sollen, mit dem Stash-Kommando in einem Zwischenspeicher ablegen. Außerdem kannst Du bereits verfasste Commits nachträglich noch einmal ändern, sodass sich die Historie so ändert, als wäre sie ganz anders vorangeschritten. Das kann man zum Beispiel durch Änderung der Reihenfolge der Commits, durch Ändern von Commit-Nachrichten, durch Modifikationen an Dateien innerhalb eines Commits, durch Zusammenfügen zweier Commits zu einem Commit oder durch Löschen eines Commits erreichen. Und das besondere daran: Das alles bevor Du Deine Arbeit mit anderen teilst und veröffentlichst.
 
 <!--In this section, you’ll cover how to accomplish these very useful tasks so that you can make your commit history look the way you want before you share it with others.-->
 
-In diesem Kapitel werden wir die nützlichen Arbeitsschritte besprechen, die Dir helfen Deine Commit-Historie Deinen Wünschen entsprechend zu gestalten, so dass Du Dein Ergebnis danach mit anderen teilen kannst und es damit Deinem gewünschten Ergebnis entspricht.
+In diesem Kapitel werden wir die nützlichen Arbeitsschritte besprechen, die Dir helfen Deine Commit-Historie Deinen Wünschen entsprechend zu gestalten, sodass Du Dein Ergebnis danach mit anderen teilen kannst und es damit Deinem gewünschten Ergebnis entspricht.
 
 <!--### Changing the Last Commit ###-->
 ### Ändern des letzten Commits ###

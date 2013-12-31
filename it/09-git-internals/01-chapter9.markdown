@@ -622,13 +622,13 @@ Se vogliono che Git lo faccia automaticamente ogni volta che eseguano `git push 
 
 Questo fa si che eseguendo `git push origin`, Git faccia sempre una *push* del `master` locale in `qa/master` del server remoto.
 
-### Deleting References ###
+### Eliminare i riferimenti ###
 
-You can also use the refspec to delete references from the remote server by running something like this:
+Puoi usare le specifiche di riferimento anche per eliminare dei riferimenti ai server remoti:
 
 	$ git push origin :topic
 
-Because the refspec is `<src>:<dst>`, by leaving off the `<src>` part, this basically says to make the topic branch on the remote nothing, which deletes it.
+Poiché il formato delle specifiche è `<src>:<dst>`, omettendo la parte `<src>` è come dire che il branch remoto è “niente” e quindi lo si cancella.
 
 ## Transfer Protocols ##
 

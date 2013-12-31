@@ -630,9 +630,9 @@ Puoi usare le specifiche di riferimento anche per eliminare dei riferimenti ai s
 
 Poiché il formato delle specifiche è `<src>:<dst>`, omettendo la parte `<src>` è come dire che il branch remoto è “niente” e quindi lo si cancella.
 
-## Transfer Protocols ##
+## Protocolli di trasferimento ##
 
-Git can transfer data between two repositories in two major ways: over HTTP and via the so-called smart protocols used in the `file://`, `ssh://`, and `git://` transports. This section will quickly cover how these two main protocols operate.
+Git può trasferire i dati tra i repository principalmente in due modi: attraverso l’HTTP e i c.d. protocolli intelligenti come usati da `file://`, `ssh://`, e `git://`. Questa sezione mostra rapidamente come funzionano questi protocolli.
 
 ### The Dumb Protocol ###
 

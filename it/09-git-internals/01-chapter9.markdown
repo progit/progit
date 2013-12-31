@@ -777,9 +777,9 @@ A questo punto il processo `fetch-pack` cerca quali oggetti ha già e risponde i
 
 Questo è il caso più semplice del protocollo di trasferimento. Nei casi più complessi il client supporta anche i metodi `multi_ack` o `side-band`, ma questo esempio mostra l’andirivieni dei processi del protocollo intelligente.
 
-## Maintenance and Data Recovery ##
+## Manutenzione e recupero dei dati ##
 
-Occasionally, you may have to do some cleanup — make a repository more compact, clean up an imported repository, or recover lost work. This section will cover some of these scenarios.
+A volte può essere necessario fare un po’ di pulizia del repository per renderlo più compatto, per ripulire un repository importato o recuperare del lavoro che è andato perso. Questa sezione tratta alcuni di questi scenari.
 
 ### Maintenance ###
 

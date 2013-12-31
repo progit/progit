@@ -634,29 +634,29 @@ Poiché il formato delle specifiche è `<src>:<dst>`, omettendo la parte `<src>`
 
 Git può trasferire i dati tra i repository principalmente in due modi: attraverso l’HTTP e i c.d. protocolli intelligenti come usati da `file://`, `ssh://`, e `git://`. Questa sezione mostra rapidamente come funzionano questi protocolli.
 
-### The Dumb Protocol ###
+### Il protocollo muto ###
 
-Git transport over HTTP is often referred to as the dumb protocol because it requires no Git-specific code on the server side during the transport process. The fetch process is a series of GET requests, where the client can assume the layout of the Git repository on the server. Let’s follow the `http-fetch` process for the simplegit library:
+Il trasferimento di Git attraverso l’HTTP viene spesso anche definito come protocollo muto perché non richiede di eseguire nessun codice specifico di Git durante il processo di trasferimento. Il processo per prendere gli aggiornamenti consiste in una serie di richieste GET, con il client che presuppone la struttura del repository Git sul server. Seguiamo il processo `http-fetch` per la libreria simplegit:
 
 	$ git clone http://github.com/schacon/simplegit-progit.git
 
-The first thing this command does is pull down the `info/refs` file. This file is written by the `update-server-info` command, which is why you need to enable that as a `post-receive` hook in order for the HTTP transport to work properly:
+La prima cosa che fa questo comando è scaricare il file `info/refs` che viene scritto dal comando `update-server-info`, che è il motivo per cui hai bisogno di abilitare l’hook `post-receive` perché il trasferimento su HTTP funzioni bene:
 
 	=> GET info/refs
 	ca82a6dff817ec66f44342007202690a93763949     refs/heads/master
 
-Now you have a list of the remote references and SHAs. Next, you look for what the HEAD reference is so you know what to check out when you’re finished:
+Ora hai una lista dei riferimenti remoti e dei vari hash SHA e cerchi quindi a cosa fa riferimento l’HEAD per sapere di cosa devi fare il check out quando avrai finito:
 
 	=> GET HEAD
 	ref: refs/heads/master
 
-You need to check out the `master` branch when you’ve completed the process.
-At this point, you’re ready to start the walking process. Because your starting point is the `ca82a6` commit object you saw in the `info/refs` file, you start by fetching that:
+Dovrai quindi fare il check out del `master` quando avrai finito di scaricare tutto.
+A questo punto sei pronti per iniziare il processo. Poiché il tuo punto di partenza è la commit `ca82a6`, che abbiamo trovato nel file `info/refs`, inizierai scaricandola così:
 
 	=> GET objects/ca/82a6dff817ec66f44342007202690a93763949
 	(179 bytes of binary data)
 
-You get an object back — that object is in loose format on the server, and you fetched it over a static HTTP GET request. You can zlib-uncompress it, strip off the header, and look at the commit content:
+Riceverai un oggetto, che sul server è in formato sciolto, attraverso una richiesta GET del protocollo HTTP. Puoi decomprimere l’oggetto con zlib, rimuovere l’intestazione e vedere il contenuto della commit:
 
 	$ git cat-file -p ca82a6dff817ec66f44342007202690a93763949
 	tree cfda3bf379e4f8dba8717dee55aab78aef7f4daf
@@ -666,7 +666,7 @@ You get an object back — that object is in loose format on the server, and you
 
 	changed the version number
 
-Next, you have two more objects to retrieve — `cfda3b`, which is the tree of content that the commit we just retrieved points to; and `085bb3`, which is the parent commit:
+Ora hai altri due oggetti da scaricare: `cfda3b`, che è l’albero a cui fa riferimento la commit che abbiamo appena scaricato, e `085bb3`, che è la commit precedente:
 
 	=> GET objects/08/5bb3bcb608e1e8451d4b2432f8ecbe6306e7e7
 	(179 bytes of data)

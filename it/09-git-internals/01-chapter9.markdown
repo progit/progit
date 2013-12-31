@@ -544,38 +544,38 @@ Dove il blob `9bc1d`, che ricorderai era la prima versione del file repo.rb, è 
 
 La cosa ancora più interessante è che può essere ricompresso in qualsiasi momento. Git ricomprime automaticamente il tuo database cercando sempre di risparmiare spazio. Puoi comunque ricomprimere il tuo database manualmente in qualsiasi momento, eseguendo il comando `git gc`.
 
-## I *Refspec* ##
+## Le specifiche di riferimento (*refspec*) ##
 
 In questo libro abbiamo sempre usato delle semplici mappature, dai branch remoti ai riferimenti locali, ma possono essere anche molto più complessi.
 Immagina di aggiungere un repository remoto:
 
 	$ git remote add origin git@github.com:schacon/simplegit-progit.git
 
-Questo aggiunge una sezione al tuo `.git/config` specificando, del repository remoto, il nome (`origin`), l’URL e il *refspec* per ottenere le modifiche remote:
+Questo aggiunge una sezione al tuo `.git/config` specificando, del repository remoto, il nome (`origin`), l’URL e le specifiche di riferimento per ottenere le modifiche remote:
 
 	[remote "origin"]
 	       url = git@github.com:schacon/simplegit-progit.git
 	       fetch = +refs/heads/*:refs/remotes/origin/*
 
-The format of the refspec is an optional `+`, followed by `<src>:<dst>`, where `<src>` is the pattern for references on the remote side and `<dst>` is where those references will be written locally. The `+` tells Git to update the reference even if it isn’t a fast-forward.
+Il formato delle specifiche di riferimento è un `+` (opzionale) seguito da `<src>:<dst>`, dove `<src>` è lo schema per i riferimenti remoti e `<dst>` per gli stessi salvati in locale. Il `+` dice a Git di aggiornare i riferimenti anche se non si tratta di un avanti-veloce (*fast-forward*).
 
-In the default case that is automatically written by a `git remote add` command, Git fetches all the references under `refs/heads/` on the server and writes them to `refs/remotes/origin/` locally. So, if there is a `master` branch on the server, you can access the log of that branch locally via
+Nel caso predefinito, che viene scritto da git quando si usa il comando `git remote add`, Git recupera tutti i riferimenti sul server di `refs/heads/` e li scrive localmente in `refs/remotes/origin/`. Quindi, se hai un branch `master` sul server, puoi accedere localmente al log di questo branch così:
 
 	$ git log origin/master
 	$ git log remotes/origin/master
 	$ git log refs/remotes/origin/master
 
-They’re all equivalent, because Git expands each of them to `refs/remotes/origin/master`.
+Sono tutti equivalenti perché Git li espande tutti a `refs/remotes/origin/master`.
 
-If you want Git instead to pull down only the `master` branch each time, and not every other branch on the remote server, you can change the fetch line to
+Se vuoi, invece di scaricare tutti i branch dal server, Git può scaricare solo il `master` cambiando la riga del fetch così
 
 	fetch = +refs/heads/master:refs/remotes/origin/master
 
-This is just the default refspec for `git fetch` for that remote. If you want to do something one time, you can specify the refspec on the command line, too. To pull the `master` branch on the remote down to `origin/mymaster` locally, you can run
+Questa è la specifica di riferimento predefinito per questo repository remoto quando si esegue il comando `git fetch`. Se vuoi fare qualcosa una sola volta, puoi sempre specificare le specifiche di riferimento alla riga di comando. Per fare un *pull* del `master` sul repository remoto dal branch locale `origin/mymaster`, puoi eseguire
 
 	$ git fetch origin master:refs/remotes/origin/mymaster
 
-You can also specify multiple refspecs. On the command line, you can pull down several branches like so:
+Puoi anche specificare più specifiche di riferimento alla riga di comando, per fare una *pull* di più branch allo stesso tempo:
 
 	$ git fetch origin master:refs/remotes/origin/mymaster \
 	   topic:refs/remotes/origin/topic
@@ -583,27 +583,27 @@ You can also specify multiple refspecs. On the command line, you can pull down s
 	 ! [rejected]        master     -> origin/mymaster  (non fast forward)
 	 * [new branch]      topic      -> origin/topic
 
-In this case, the  master branch pull was rejected because it wasn’t a fast-forward reference. You can override that by specifying the `+` in front of the refspec.
+In questo caso la *pull* verso il master è stata rifiutata perché non era un riferimento *fast-forward*. Puoi modificare questo comportamento aggiungendo un `+` prima delle specifiche di riferimento.
 
-You can also specify multiple refspecs for fetching in your configuration file. If you want to always fetch the master and experiment branches, add two lines:
+Puoi anche specificare più specifiche di riferimento nel tuo file di configurazione. Se vuoi prendere sempre il master e il branch sperimentale puoi aggiungere queste due righe:
 
 	[remote "origin"]
 	       url = git@github.com:schacon/simplegit-progit.git
 	       fetch = +refs/heads/master:refs/remotes/origin/master
 	       fetch = +refs/heads/experiment:refs/remotes/origin/experiment
 
-You can’t use partial globs in the pattern, so this would be invalid:
+Non puoi usare schemi parziali, e quindi l’impostazione seguente non è valida:
 
 	fetch = +refs/heads/qa*:refs/remotes/origin/qa*
 
-However, you can use namespacing to accomplish something like that. If you have a QA team that pushes a series of branches, and you want to get the master branch and any of the QA team’s branches but nothing else, you can use a config section like this:
+Ma puoi usare la nomenclatura per ottenere lo stesso risultato. Se hai un gruppo di QA che faccia la *push* di una serie di branch e tu vuoi prendere il master e qualsiasi branch del gruppo di QA e nient’altro, puoi usare questa configurazione:
 
 	[remote "origin"]
 	       url = git@github.com:schacon/simplegit-progit.git
 	       fetch = +refs/heads/master:refs/remotes/origin/master
 	       fetch = +refs/heads/qa/*:refs/remotes/origin/qa/*
 
-If you have a complex workflow process that has a QA team pushing branches, developers pushing branches, and integration teams pushing and collaborating on remote branches, you can namespace them easily this way.
+Se hai un flusso di lavoro complesso, dove il gruppo di QA e gli sviluppatori fanno la *push* di branch e il gruppo d’integrazione che fa la push e collabora su branch remoti, puoi enumerarli facilmente come abbiamo appena visto.
 
 ### Pushing Refspecs ###
 

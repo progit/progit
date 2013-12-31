@@ -671,12 +671,12 @@ Ora hai altri due oggetti da scaricare: `cfda3b`, che è l’albero a cui fa rif
 	=> GET objects/08/5bb3bcb608e1e8451d4b2432f8ecbe6306e7e7
 	(179 bytes of data)
 
-That gives you your next commit object. Grab the tree object:
+Che ti restituisce il seguente oggetto commit e scarica l’albero:
 
 	=> GET objects/cf/da3bf379e4f8dba8717dee55aab78aef7f4daf
 	(404 - Not Found)
 
-Oops — it looks like that tree object isn’t in loose format on the server, so you get a 404 response back. There are a couple of reasons for this — the object could be in an alternate repository, or it could be in a packfile in this repository. Git checks for any listed alternates first:
+Oops: sembra che l’oggetto sul server non sia in formato sciolto, e per questo hai ricevuto un errore 404. There are a couple of reasons for this — the object could be in an alternate repository, or it could be in a packfile in this repository. Git checks for any listed alternates first:
 
 	=> GET objects/info/http-alternates
 	(empty file)

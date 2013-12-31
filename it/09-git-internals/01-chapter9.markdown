@@ -715,20 +715,20 @@ L’intero output di questo processo appare così:
 
 ### Protocolli intelligenti ###
 
-Usare l’HTTP è un metodo semplice ma inefficiente. È molto più comune usare i protocolli intelligenti per il trasferimento dei dati. Questi protocolli usano un processo sul server remoto che conosce Git intelligentemente: possono leggere i dati locali e capire quali dati sono già sul client e quali devono invece essere trasferiti e generare quindi un flusso di dati personalizzato. Ci sono due gruppi di processi per trasferire i dati: una coppia per caricarli e una per scaricarli.
+Usare l’HTTP è un metodo semplice ma inefficiente. È molto più comune usare i protocolli intelligenti per il trasferimento dei dati. Questi protocolli usano un processo sul server remoto che conosce Git intelligentemente: possono leggere i dati locali e capire quali dati sono già sul client e quali devono invece essere trasferiti e generare quindi un flusso di dati personalizzato. Ci sono due gruppi di processi per trasferire i dati: una coppia per inviarli e una per scaricarli.
 
-#### Uploading Data ####
+#### Inviare dati ####
 
-To upload data to a remote process, Git uses the `send-pack` and `receive-pack` processes. The `send-pack` process runs on the client and connects to a `receive-pack` process on the remote side.
+Per inviare dati a un server remoto, Git usa i processi `send-pack` e `receive-pack`. Il processo `send-pack` viene eseguito sul client e lo connette al processo `receive-pack` sul server remoto.
 
-For example, say you run `git push origin master` in your project, and `origin` is defined as a URL that uses the SSH protocol. Git fires up the `send-pack` process, which initiates a connection over SSH to your server. It tries to run a command on the remote server via an SSH call that looks something like this:
+Diciamo, per esempio, che esegui il comando `git push origin master` nel tuo progetto, e `origin` è un URL che usa il protocollo SSH. Git avvia il processo `send-pack` che stabilisce una connessione al server con SSH e cerca di eseguire un comando sul server attraverso SSH:
 
 	$ ssh -x git@github.com "git-receive-pack 'schacon/simplegit-progit.git'"
 	005bca82a6dff817ec66f4437202690a93763949 refs/heads/master report-status delete-refs
 	003e085bb3bcb608e1e84b2432f8ecbe6306e7e7 refs/heads/topic
 	0000
 
-The `git-receive-pack` command immediately responds with one line for each reference it currently has — in this case, just the `master` branch and its SHA. The first line also has a list of the server’s capabilities (here, `report-status` and `delete-refs`).
+Il comando `git-receive-pack` risponde immediatamente con una riga per ogni riferimento che memorizza (in questo caso solo il branch `master` e i suoi hash SHA). La prima riga indica anche quali sono le operazioni possibili sul server (nel nostro caso `report-status` e `delete-refs`).
 
 Each line starts with a 4-byte hex value specifying how long the rest of the line is. Your first line starts with 005b, which is 91 in hex, meaning that 91 bytes remain on that line. The next line starts with 003e, which is 62, so you read the remaining 62 bytes. The next line is 0000, meaning the server is done with its references listing.
 

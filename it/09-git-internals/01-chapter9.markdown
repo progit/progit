@@ -799,7 +799,7 @@ Un’altra cosa che fa `gc` è quella di impacchettare i tuoi riferimenti in un 
 	.git/refs/tags/v1.0
 	.git/refs/tags/v1.1
 
-If you run `git gc`, you’ll no longer have these files in the `refs` directory. Git will move them for the sake of efficiency into a file named `.git/packed-refs` that looks like this:
+Se esegui `git gc` non avrai più questi file nella directory `refs` perché Git li sposterà, in nome dell’efficienza, in un file chiamato `.git/packed-refs`, che apparirà così:
 
 	$ cat .git/packed-refs
 	# pack-refs with: peeled
@@ -809,9 +809,9 @@ If you run `git gc`, you’ll no longer have these files in the `refs` directory
 	9585191f37f7b0fb9444f35a9bf50de191beadc2 refs/tags/v1.1
 	^1a410efbd13591db07496601ebc7a059dd55cfe9
 
-If you update a reference, Git doesn’t edit this file but instead writes a new file to `refs/heads`. To get the appropriate SHA for a given reference, Git checks for that reference in the `refs` directory and then checks the `packed-refs` file as a fallback. However, if you can’t find a reference in the `refs` directory, it’s probably in your `packed-refs` file.
+Se aggiorni un riferimento, Git non modificherà questo file, ma scriverà un nuovo file nella directory `refs/heads`. Per conoscere l’hash SHA di uno specifico riferimento, Git controlla se è nella directory `refs` e poi nel file `packed-refs` se non lo trova. In ogni caso, se non trovi un riferimento nella directory `refs`, questo sarà probabilmente sarà nel file `packed-refs`.
 
-Notice the last line of the file, which begins with a `^`. This means the tag directly above is an annotated tag and that line is the commit that the annotated tag points to.
+Nota l’ultima riga del file, quella che inizia con un `^`. Questo indica che il tag immediatamente precedente è un tag annotato e che quella linea è la commit a cui punta il tag annotato.
 
 ### Data Recovery ###
 

@@ -730,17 +730,17 @@ Diciamo, per esempio, che esegui il comando `git push origin master` nel tuo pro
 
 Il comando `git-receive-pack` risponde immediatamente con una riga per ogni riferimento che memorizza (in questo caso solo il branch `master` e i suoi hash SHA). La prima riga indica anche quali sono le operazioni possibili sul server (nel nostro caso `report-status` e `delete-refs`).
 
-Each line starts with a 4-byte hex value specifying how long the rest of the line is. Your first line starts with 005b, which is 91 in hex, meaning that 91 bytes remain on that line. The next line starts with 003e, which is 62, so you read the remaining 62 bytes. The next line is 0000, meaning the server is done with its references listing.
+Ogni riga inizia con un valore esadecimale da 4 byte che specifica la lunghezza del resto della riga. La nostra prima riga inizia con 005b, ovvero 91 in esadecimale, che significa che su questa riga restano altri 91 bytes. La riga successiva inizia con 003e, ovvero 62, e quindi leggerai gli altri 62 bytes. La riga successiva è 0000, che significa che la lista dei riferimenti sul server è finita.
 
-Now that it knows the server’s state, your `send-pack` process determines what commits it has that the server doesn’t. For each reference that this push will update, the `send-pack` process tells the `receive-pack` process that information. For instance, if you’re updating the `master` branch and adding an `experiment` branch, the `send-pack` response may look something like this:
+Ora che conosce lo stato del server, il tuo processo `send-pack` determina quali commit hai in locale e quali no. Per ogni riferimento che verrà aggiornato con questa push, il processo `send-pack` invia le informazioni al processo `receive-pack`. Per esempio, se stai aggiornando il branch `master` e aggiungendo il branch `experiment`, la risposta del `send-pack` sarà più o meno così:
 
 	0085ca82a6dff817ec66f44342007202690a93763949  15027957951b64cf874c3557a0f3547bd83b3ff6 refs/heads/master report-status
 	00670000000000000000000000000000000000000000 cdfdb42577e2506715f8cfeacdbabc092bf63e8d refs/heads/experiment
 	0000
 
-The SHA-1 value of all '0's means that nothing was there before — because you’re adding the experiment reference. If you were deleting a reference, you would see the opposite: all '0's on the right side.
+L’hash SHA-1 di tutti '0' significa che prima non c’era niente, perché stiamo aggiungendo il riferimento al branch sperimentale. Se invece stai cancellando un riferimento, vedrai l’opposto: gli ‘0’ saranno sul lato destro.
 
-Git sends a line for each reference you’re updating with the old SHA, the new SHA, and the reference that is being updated. The first line also has the client’s capabilities. Next, the client uploads a packfile of all the objects the server doesn’t have yet. Finally, the server responds with a success (or failure) indication:
+Git invia una riga per ogni riferimento che si sta aggiornando con l’SHA precedente, il nuovo e il riferimento che si sta aggiornando. La prima riga indica anche le operazioni possibili sul client. Il client invia al server un pacchetto con tutti gli oggetti che non ci sono ancora sul server e il server conclude il trasferimento indicando che il trasferimento è andato a buon fine o è fallito):
 
 	000Aunpack ok
 

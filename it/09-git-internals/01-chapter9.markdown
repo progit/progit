@@ -605,22 +605,22 @@ Ma puoi usare la nomenclatura per ottenere lo stesso risultato. Se hai un gruppo
 
 Se hai un flusso di lavoro complesso, dove il gruppo di QA e gli sviluppatori fanno la *push* di branch e il gruppo d’integrazione che fa la push e collabora su branch remoti, puoi enumerarli facilmente come abbiamo appena visto.
 
-### Pushing Refspecs ###
+### Le push con le specifiche di riferimento ###
 
-It’s nice that you can fetch namespaced references that way, but how does the QA team get their branches into a `qa/` namespace in the first place? You accomplish that by using refspecs to push.
+È bello che tu possa nominare i riferimenti in questo modo, ma come fanno, in primo luogo, i membri del gruppo di QA a mettere i loro branch in `qa/`? Puoi farlo usando le specifiche di riferimento anche per la *push*.
 
-If the QA team wants to push their `master` branch to `qa/master` on the remote server, they can run
+Se il gruppo di QA vuole fare la *push* del loro `master` in `qa/master` sul server remoto, possono eseguire
 
 	$ git push origin master:refs/heads/qa/master
 
-If they want Git to do that automatically each time they run `git push origin`, they can add a `push` value to their config file:
+Se vogliono che Git lo faccia automaticamente ogni volta che eseguano `git push origin` basta che aggiungano una riga `push` al loro file di configurazione:
 
 	[remote "origin"]
 	       url = git@github.com:schacon/simplegit-progit.git
 	       fetch = +refs/heads/*:refs/remotes/origin/*
 	       push = refs/heads/master:refs/heads/qa/master
 
-Again, this will cause a `git push origin` to push the local `master` branch to the remote `qa/master` branch by default.
+Questo fa si che eseguendo `git push origin`, Git faccia sempre una *push* del `master` locale in `qa/master` del server remoto.
 
 ### Deleting References ###
 

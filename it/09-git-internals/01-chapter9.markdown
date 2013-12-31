@@ -544,38 +544,38 @@ Dove il blob `9bc1d`, che ricorderai era la prima versione del file repo.rb, è 
 
 La cosa ancora più interessante è che può essere ricompresso in qualsiasi momento. Git ricomprime automaticamente il tuo database cercando sempre di risparmiare spazio. Puoi comunque ricomprimere il tuo database manualmente in qualsiasi momento, eseguendo il comando `git gc`.
 
-## The Refspec ##
+## Le specifiche di riferimento (*refspec*) ##
 
-Throughout this book, you’ve used simple mappings from remote branches to local references; but they can be more complex.
-Suppose you add a remote like this:
+In questo libro abbiamo sempre usato delle semplici mappature, dai branch remoti ai riferimenti locali, ma possono essere anche molto più complessi.
+Immagina di aggiungere un repository remoto:
 
 	$ git remote add origin git@github.com:schacon/simplegit-progit.git
 
-It adds a section to your `.git/config` file, specifying the name of the remote (`origin`), the URL of the remote repository, and the refspec for fetching:
+Questo aggiunge una sezione al tuo `.git/config` specificando, del repository remoto, il nome (`origin`), l’URL e le specifiche di riferimento per ottenere le modifiche remote:
 
 	[remote "origin"]
 	       url = git@github.com:schacon/simplegit-progit.git
 	       fetch = +refs/heads/*:refs/remotes/origin/*
 
-The format of the refspec is an optional `+`, followed by `<src>:<dst>`, where `<src>` is the pattern for references on the remote side and `<dst>` is where those references will be written locally. The `+` tells Git to update the reference even if it isn’t a fast-forward.
+Il formato delle specifiche di riferimento è un `+` (opzionale) seguito da `<src>:<dst>`, dove `<src>` è lo schema per i riferimenti remoti e `<dst>` per gli stessi salvati in locale. Il `+` dice a Git di aggiornare i riferimenti anche se non si tratta di un avanti-veloce (*fast-forward*).
 
-In the default case that is automatically written by a `git remote add` command, Git fetches all the references under `refs/heads/` on the server and writes them to `refs/remotes/origin/` locally. So, if there is a `master` branch on the server, you can access the log of that branch locally via
+Nel caso predefinito, che viene scritto da git quando si usa il comando `git remote add`, Git recupera tutti i riferimenti sul server di `refs/heads/` e li scrive localmente in `refs/remotes/origin/`. Quindi, se hai un branch `master` sul server, puoi accedere localmente al log di questo branch così:
 
 	$ git log origin/master
 	$ git log remotes/origin/master
 	$ git log refs/remotes/origin/master
 
-They’re all equivalent, because Git expands each of them to `refs/remotes/origin/master`.
+Sono tutti equivalenti perché Git li espande tutti a `refs/remotes/origin/master`.
 
-If you want Git instead to pull down only the `master` branch each time, and not every other branch on the remote server, you can change the fetch line to
+Se vuoi, invece di scaricare tutti i branch dal server, Git può scaricare solo il `master` cambiando la riga del fetch così
 
 	fetch = +refs/heads/master:refs/remotes/origin/master
 
-This is just the default refspec for `git fetch` for that remote. If you want to do something one time, you can specify the refspec on the command line, too. To pull the `master` branch on the remote down to `origin/mymaster` locally, you can run
+Questa è la specifica di riferimento predefinito per questo repository remoto quando si esegue il comando `git fetch`. Se vuoi fare qualcosa una sola volta, puoi sempre specificare le specifiche di riferimento alla riga di comando. Per fare un *pull* del `master` sul repository remoto dal branch locale `origin/mymaster`, puoi eseguire
 
 	$ git fetch origin master:refs/remotes/origin/mymaster
 
-You can also specify multiple refspecs. On the command line, you can pull down several branches like so:
+Puoi anche specificare più specifiche di riferimento alla riga di comando, per fare una *pull* di più branch allo stesso tempo:
 
 	$ git fetch origin master:refs/remotes/origin/mymaster \
 	   topic:refs/remotes/origin/topic
@@ -583,80 +583,80 @@ You can also specify multiple refspecs. On the command line, you can pull down s
 	 ! [rejected]        master     -> origin/mymaster  (non fast forward)
 	 * [new branch]      topic      -> origin/topic
 
-In this case, the  master branch pull was rejected because it wasn’t a fast-forward reference. You can override that by specifying the `+` in front of the refspec.
+In questo caso la *pull* verso il master è stata rifiutata perché non era un riferimento *fast-forward*. Puoi modificare questo comportamento aggiungendo un `+` prima delle specifiche di riferimento.
 
-You can also specify multiple refspecs for fetching in your configuration file. If you want to always fetch the master and experiment branches, add two lines:
+Puoi anche specificare più specifiche di riferimento nel tuo file di configurazione. Se vuoi prendere sempre il master e il branch sperimentale puoi aggiungere queste due righe:
 
 	[remote "origin"]
 	       url = git@github.com:schacon/simplegit-progit.git
 	       fetch = +refs/heads/master:refs/remotes/origin/master
 	       fetch = +refs/heads/experiment:refs/remotes/origin/experiment
 
-You can’t use partial globs in the pattern, so this would be invalid:
+Non puoi usare schemi parziali, e quindi l’impostazione seguente non è valida:
 
 	fetch = +refs/heads/qa*:refs/remotes/origin/qa*
 
-However, you can use namespacing to accomplish something like that. If you have a QA team that pushes a series of branches, and you want to get the master branch and any of the QA team’s branches but nothing else, you can use a config section like this:
+Ma puoi usare la nomenclatura per ottenere lo stesso risultato. Se hai un gruppo di QA che faccia la *push* di una serie di branch e tu vuoi prendere il master e qualsiasi branch del gruppo di QA e nient’altro, puoi usare questa configurazione:
 
 	[remote "origin"]
 	       url = git@github.com:schacon/simplegit-progit.git
 	       fetch = +refs/heads/master:refs/remotes/origin/master
 	       fetch = +refs/heads/qa/*:refs/remotes/origin/qa/*
 
-If you have a complex workflow process that has a QA team pushing branches, developers pushing branches, and integration teams pushing and collaborating on remote branches, you can namespace them easily this way.
+Se hai un flusso di lavoro complesso, dove il gruppo di QA e gli sviluppatori fanno la *push* di branch e il gruppo d’integrazione che fa la push e collabora su branch remoti, puoi enumerarli facilmente come abbiamo appena visto.
 
-### Pushing Refspecs ###
+### Le push con le specifiche di riferimento ###
 
-It’s nice that you can fetch namespaced references that way, but how does the QA team get their branches into a `qa/` namespace in the first place? You accomplish that by using refspecs to push.
+È bello che tu possa nominare i riferimenti in questo modo, ma come fanno, in primo luogo, i membri del gruppo di QA a mettere i loro branch in `qa/`? Puoi farlo usando le specifiche di riferimento anche per la *push*.
 
-If the QA team wants to push their `master` branch to `qa/master` on the remote server, they can run
+Se il gruppo di QA vuole fare la *push* del loro `master` in `qa/master` sul server remoto, possono eseguire
 
 	$ git push origin master:refs/heads/qa/master
 
-If they want Git to do that automatically each time they run `git push origin`, they can add a `push` value to their config file:
+Se vogliono che Git lo faccia automaticamente ogni volta che eseguano `git push origin` basta che aggiungano una riga `push` al loro file di configurazione:
 
 	[remote "origin"]
 	       url = git@github.com:schacon/simplegit-progit.git
 	       fetch = +refs/heads/*:refs/remotes/origin/*
 	       push = refs/heads/master:refs/heads/qa/master
 
-Again, this will cause a `git push origin` to push the local `master` branch to the remote `qa/master` branch by default.
+Questo fa si che eseguendo `git push origin`, Git faccia sempre una *push* del `master` locale in `qa/master` del server remoto.
 
-### Deleting References ###
+### Eliminare i riferimenti ###
 
-You can also use the refspec to delete references from the remote server by running something like this:
+Puoi usare le specifiche di riferimento anche per eliminare dei riferimenti ai server remoti:
 
 	$ git push origin :topic
 
-Because the refspec is `<src>:<dst>`, by leaving off the `<src>` part, this basically says to make the topic branch on the remote nothing, which deletes it.
+Poiché il formato delle specifiche è `<src>:<dst>`, omettendo la parte `<src>` è come dire che il branch remoto è “niente” e quindi lo si cancella.
 
-## Transfer Protocols ##
+## Protocolli di trasferimento ##
 
-Git can transfer data between two repositories in two major ways: over HTTP and via the so-called smart protocols used in the `file://`, `ssh://`, and `git://` transports. This section will quickly cover how these two main protocols operate.
+Git può trasferire i dati tra i repository principalmente in due modi: attraverso l’HTTP e i c.d. protocolli intelligenti come usati da `file://`, `ssh://`, e `git://`. Questa sezione mostra rapidamente come funzionano questi protocolli.
 
-### The Dumb Protocol ###
+### Il protocollo muto ###
 
-Git transport over HTTP is often referred to as the dumb protocol because it requires no Git-specific code on the server side during the transport process. The fetch process is a series of GET requests, where the client can assume the layout of the Git repository on the server. Let’s follow the `http-fetch` process for the simplegit library:
+Il trasferimento di Git attraverso l’HTTP viene spesso anche definito come protocollo muto perché non richiede di eseguire nessun codice specifico di Git durante il processo di trasferimento. Il processo per prendere gli aggiornamenti consiste in una serie di richieste GET, con il client che presuppone la struttura del repository Git sul server. Seguiamo il processo `http-fetch` per la libreria simplegit:
 
 	$ git clone http://github.com/schacon/simplegit-progit.git
 
-The first thing this command does is pull down the `info/refs` file. This file is written by the `update-server-info` command, which is why you need to enable that as a `post-receive` hook in order for the HTTP transport to work properly:
+La prima cosa che fa questo comando è scaricare il file `info/refs` che viene scritto dal comando `update-server-info`, che è il motivo per cui hai bisogno di abilitare l’hook `post-receive` perché il trasferimento su HTTP funzioni bene:
 
 	=> GET info/refs
 	ca82a6dff817ec66f44342007202690a93763949     refs/heads/master
 
-Now you have a list of the remote references and SHAs. Next, you look for what the HEAD reference is so you know what to check out when you’re finished:
+Ora hai una lista dei riferimenti remoti e dei vari hash SHA e cerchi quindi a cosa fa riferimento l’HEAD per sapere di cosa devi fare il check out quando avrai finito:
 
 	=> GET HEAD
 	ref: refs/heads/master
 
-You need to check out the `master` branch when you’ve completed the process.
-At this point, you’re ready to start the walking process. Because your starting point is the `ca82a6` commit object you saw in the `info/refs` file, you start by fetching that:
+Dovrai quindi fare il check out del `master` quando avrai finito di scaricare tutto.
+A questo punto sei pronti per iniziare il processo. Poiché il tuo punto di partenza è la commit `ca82a6`, che abbiamo trovato nel file `info/refs`, inizierai scaricandola così:
 
 	=> GET objects/ca/82a6dff817ec66f44342007202690a93763949
 	(179 bytes of binary data)
 
-You get an object back — that object is in loose format on the server, and you fetched it over a static HTTP GET request. You can zlib-uncompress it, strip off the header, and look at the commit content:
+Riceverai un oggetto, che sul server è in formato sciolto, attraverso una richiesta GET del protocollo HTTP. Puoi decomprimere l’oggetto con zlib, rimuovere l’intestazione e vedere il contenuto della commit:
 
 	$ git cat-file -p ca82a6dff817ec66f44342007202690a93763949
 	tree cfda3bf379e4f8dba8717dee55aab78aef7f4daf
@@ -666,7 +666,7 @@ You get an object back — that object is in loose format on the server, and you
 
 	changed the version number
 
-Next, you have two more objects to retrieve — `cfda3b`, which is the tree of content that the commit we just retrieved points to; and `085bb3`, which is the parent commit:
+Ora hai altri due oggetti da scaricare: `cfda3b`, che è l’albero a cui fa riferimento la commit che abbiamo appena scaricato, e `085bb3`, che è la commit precedente:
 
 	=> GET objects/08/5bb3bcb608e1e8451d4b2432f8ecbe6306e7e7
 	(179 bytes of data)

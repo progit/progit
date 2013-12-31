@@ -713,9 +713,9 @@ L’intero output di questo processo appare così:
 	walk 085bb3bcb608e1e8451d4b2432f8ecbe6306e7e7
 	walk a11bef06a3f659402fe7563abf99ad00de2209e6
 
-### The Smart Protocol ###
+### Protocolli intelligenti ###
 
-The HTTP method is simple but a bit inefficient. Using smart protocols is a more common method of transferring data. These protocols have a process on the remote end that is intelligent about Git — it can read local data and figure out what the client has or needs and generate custom data for it. There are two sets of processes for transferring data: a pair for uploading data and a pair for downloading data.
+Usare l’HTTP è un metodo semplice ma inefficiente. È molto più comune usare i protocolli intelligenti per il trasferimento dei dati. Questi protocolli usano un processo sul server remoto che conosce Git intelligentemente: possono leggere i dati locali e capire quali dati sono già sul client e quali devono invece essere trasferiti e generare quindi un flusso di dati personalizzato. Ci sono due gruppi di processi per trasferire i dati: una coppia per caricarli e una per scaricarli.
 
 #### Uploading Data ####
 

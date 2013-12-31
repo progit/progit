@@ -744,21 +744,21 @@ Git invia una riga per ogni riferimento che si sta aggiornando con l’SHA prece
 
 	000Aunpack ok
 
-#### Downloading Data ####
+#### Scaricare Data ####
 
-When you download data, the `fetch-pack` and `upload-pack` processes are involved. The client initiates a `fetch-pack` process that connects to an `upload-pack` process on the remote side to negotiate what data will be transferred down.
+Quando scarichi dei dati vengono invocati i processi `fetch-pack` e `upload-pack`. Il client avvia il processo `fetch-pack` che si connette al processo `upload-pack`, sul server remoto, per definire i dati che dovranno essere scaricati.
 
-There are different ways to initiate the `upload-pack` process on the remote repository. You can run via SSH in the same manner as the `receive-pack` process. You can also initiate the process via the Git daemon, which listens on a server on port 9418 by default. The `fetch-pack` process sends data that looks like this to the daemon after connecting:
+Ci sono diversi modi per avviare il processo `upload-pack` sul repository remote. Puoi eseguirlo con SSH, come abbiamo fatto per il processo `receive-pack`, ma puoi anche avviarlo con il demone Git, che si mette in ascolto sulla porta 9418. Una volta connesso, il processo `fetch-pack` invia al demone remoto una serie di dati che assomigliano a questi:
 
 	003fgit-upload-pack schacon/simplegit-progit.git\0host=myserver.com\0
 
-It starts with the 4 bytes specifying how much data is following, then the command to run followed by a null byte, and then the server’s hostname followed by a final null byte. The Git daemon checks that the command can be run and that the repository exists and has public permissions. If everything is cool, it fires up the `upload-pack` process and hands off the request to it.
+Inizia con 4 byte che indicano la quantità dei dati che seguiranno, quindi il comando da eseguire seguito da un byte *null* quindi il nome del server seguito da un altro byte *null*. Il demone Git verifica che il comando richiesto possa essere eseguito, che il repository esista e che sia accessibile pubblicamente. Se tutto va bene, avvia processo `upload-pack` e gli passa il controllo della request.
 
-If you’re doing the fetch over SSH, `fetch-pack` instead runs something like this:
+Se stai prendendo i dati con l’SSH, `fetch-pack` eseguirà qualcosa del genere:
 
 	$ ssh -x git@github.com "git-upload-pack 'schacon/simplegit-progit.git'"
 
-In either case, after `fetch-pack` connects, `upload-pack` sends back something like this:
+In entrambi i casi, dopo la connessione di `fetch-pack`, `upload-pack` restituisce qualcosa del genere:
 
 	0088ca82a6dff817ec66f44342007202690a93763949 HEAD\0multi_ack thin-pack \
 	  side-band side-band-64k ofs-delta shallow no-progress include-tag
@@ -766,16 +766,16 @@ In either case, after `fetch-pack` connects, `upload-pack` sends back something 
 	003e085bb3bcb608e1e8451d4b2432f8ecbe6306e7e7 refs/heads/topic
 	0000
 
-This is very similar to what `receive-pack` responds with, but the capabilities are different. In addition, it sends back the HEAD reference so the client knows what to check out if this is a clone.
+Questa risposta è simile a quella di `receive-pack`, ma ha delle caratteristiche diverse. Invia, in aggiunta, il riferimento all’HEAD così che se si sta facendo un clone, il client sappia di cosa debba fare il checkout.
 
-At this point, the `fetch-pack` process looks at what objects it has and responds with the objects that it needs by sending "want" and then the SHA it wants. It sends all the objects it already has with "have" and then the SHA. At the end of this list, it writes "done" to initiate the `upload-pack` process to begin sending the packfile of the data it needs:
+A questo punto il processo `fetch-pack` cerca quali oggetti ha già e risponde indicando gli oggetti di cui ha bisogno, inviando un "want" (voglio) e gli SHA che vuole. Invia anche gli hash degli oggetti che ha già, preceduti da "have" (ho). Alla fine di questa lista scrive "done" (fatto), per invitare il processo `upload-pack` a inviare il pacchetto con i dati di cui hai bisogno:
 
 	0054want ca82a6dff817ec66f44342007202690a93763949 ofs-delta
 	0032have 085bb3bcb608e1e8451d4b2432f8ecbe6306e7e7
 	0000
 	0009done
 
-That is a very basic case of the transfer protocols. In more complex cases, the client supports `multi_ack` or `side-band` capabilities; but this example shows you the basic back and forth used by the smart protocol processes.
+Questo è il caso più semplice del protocollo di trasferimento. Nei casi più complessi il client supporta anche i metodi `multi_ack` o `side-band`, ma questo esempio mostra l’andirivieni dei processi del protocollo intelligente.
 
 ## Maintenance and Data Recovery ##
 

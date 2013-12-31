@@ -781,17 +781,17 @@ Questo è il caso più semplice del protocollo di trasferimento. Nei casi più c
 
 A volte può essere necessario fare un po’ di pulizia del repository per renderlo più compatto, per ripulire un repository importato o recuperare del lavoro che è andato perso. Questa sezione tratta alcuni di questi scenari.
 
-### Maintenance ###
+### Manutenzione ###
 
-Occasionally, Git automatically runs a command called "auto gc". Most of the time, this command does nothing. However, if there are too many loose objects (objects not in a packfile) or too many packfiles, Git launches a full-fledged `git gc` command. The `gc` stands for garbage collect, and the command does a number of things: it gathers up all the loose objects and places them in packfiles, it consolidates packfiles into one big packfile, and it removes objects that aren’t reachable from any commit and are a few months old.
+Git, occasionalmente, esegue automaticamente il comando "auto gc". Il più delle volte questo comando non fa niente, ma se ci sono troppi oggetti sciolti (oggetti che non sono compressi in un pacchetto) o troppi pacchetti, Git esegue un vero e proprio `git gc`. `gc` sta per *garbage collect* (raccolta della spazzatura), e il comando fa una serie di cose:: raccoglie tutti gli oggetti sciolti e li compatta in un pacchetto, consolida i pacchetti in un pacchetto più grande e cancella gli oggetti che non sono raggiungibili da nessuna commit e siano più vecchi di qualche mese.
 
-You can run auto gc manually as follows:
+Puoi eseguire il comando “auto gc” così:
 
 	$ git gc --auto
 
-Again, this generally does nothing. You must have around 7,000 loose objects or more than 50 packfiles for Git to fire up a real gc command. You can modify these limits with the `gc.auto` and `gc.autopacklimit` config settings, respectively.
+Questo, lo ripetiamo, generalmente non farà niente: dovrai avere circa 7.000 oggetti sciolti o più di 50 pacchetti perché Git esegua la garbage collection vera e propria. Puoi modificare questi limiti cambiando, rispettivamente, i valori di `gc.auto` e `gc.autopacklimit` delle tue configurazioni.
 
-The other thing `gc` will do is pack up your references into a single file. Suppose your repository contains the following branches and tags:
+Un’altra cosa che fa `gc` è quella di impacchettare i tuoi riferimenti in un singolo file. Immagina che il tuo repository contenga i branch e i tag seguenti:
 
 	$ find .git/refs -type f
 	.git/refs/heads/experiment

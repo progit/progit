@@ -11,7 +11,7 @@ Zoals je kort in Hoofdstuk 1 gezien hebt, kun je Git configuratie instellingen s
 
 Nu zul je een paar van de meer interessante opties leren, die je op deze manier kunt instellen om je Git op maat te maken.
 
-Je zag wat eenvoudige Git configuratie details in het eerste hoofdstuk, maar ik zal ze hier nog eens snel laten zien. Git gebruikt een aantal configuratie bestanden om het niet-standaard gedrag dat je wil te bepalen. De eerste plaats waar Git kijkt voor deze waarden is in een `/etc/gitconfig` bestand, wat de waarden bevat voor alle gebruikers op het systeem en al hun repositories. Als je de optie `--systeem` aan `git config` meegeeft, leest en schrijft het specifiek naar dit bestand.
+Je zag wat eenvoudige Git configuratie details in het eerste hoofdstuk, maar ik zal ze hier nog eens snel laten zien. Git gebruikt een aantal configuratie bestanden om het niet-standaard gedrag dat je wil te bepalen. De eerste plaats waar Git kijkt voor deze waarden is in een `/etc/gitconfig` bestand, wat de waarden bevat voor alle gebruikers op het systeem en al hun repositories. Als je de optie `--system` aan `git config` meegeeft, leest en schrijft het specifiek naar dit bestand.
 
 De volgende plaats waar Git kijkt is het `~/.gitconfig` bestand, wat specifiek is voor iedere gebruiker. Je kunt er voor zorgen dat Git naar dit bestand leest en schrijft door de `--global` optie mee te geven.
 
@@ -389,7 +389,7 @@ De volgende keer dat je dit bestand uitchecked, injecteert Git de SHA van de blo
 
 Maar, het resultaat is slechts beperkt bruikbaar. Als je sleutelwoord vervanging in CVS of Subversion gebruikt hebt, kun je een tijdstempel toevoegen – de SHA is niet zo bruikbaar, omdat het vrij willekeurig is en je kunt niet zeggen of een SHA ouder of nieuwer is dan een andere.
 
-Het blijkt dat je je eigen filters voor het doen van vervanging bij commit/checkout kunt schrijven. Dit zijn de "clean" en "smudge" filters. In het `.gitattributes` bestand, kun je een filter op bepaalde paden instellen en dan scripts instellen die bestanden bewerkt vlak voordat ze gecommit worden ("clea", zie Figuur 7-2) en vlak voordat ze uitgechecked worden ("smudge", zie Figuur 7-3). De filters kunnen ingesteld worden zodat ze allerlei leuke dingen doen.
+Het blijkt dat je je eigen filters voor het doen van vervanging bij commit/checkout kunt schrijven. Dit zijn de "clean" en "smudge" filters. In het `.gitattributes` bestand, kun je een filter op bepaalde paden instellen en dan scripts instellen die bestanden bewerkt vlak voordat ze gecommit worden ("clean", zie Figuur 7-2) en vlak voordat ze uitgechecked worden ("smudge", zie Figuur 7-3). De filters kunnen ingesteld worden zodat ze allerlei leuke dingen doen.
 
 Insert 18333fig0702.png
 Figuur 7-2. Het “smudge” filter wordt bij checkout uitgevoerd.
@@ -397,7 +397,7 @@ Figuur 7-2. Het “smudge” filter wordt bij checkout uitgevoerd.
 Insert 18333fig0703.png
 Figuur 7-3. Het “clean” filter wordt uitgevoerd zodra bestanden worden gestaged.
 
-De originele commit boodschap voor deze functionaliteit geeft een eenvoudig voorbeeld hoe je al je C broncode door het `indent` programma kunt halen alvorens te committen. Je kunt het instellen door het filter attribuut in je `.gitattributes` bestand te veranderen zodat `*.c` bestanden door het "inden" filter gehaald worden:
+De originele commit boodschap voor deze functionaliteit geeft een eenvoudig voorbeeld hoe je al je C broncode door het `indent` programma kunt halen alvorens te committen. Je kunt het instellen door het filter attribuut in je `.gitattributes` bestand te veranderen zodat `*.c` bestanden door de "indent" filter gehaald worden:
 
 	*.c     filter=indent
 

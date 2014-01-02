@@ -744,7 +744,7 @@ Git invia una riga per ogni riferimento che si sta aggiornando con l’SHA prece
 
 	000Aunpack ok
 
-#### Scaricare Data ####
+#### Scaricare dati ####
 
 Quando scarichi dei dati vengono invocati i processi `fetch-pack` e `upload-pack`. Il client avvia il processo `fetch-pack` che si connette al processo `upload-pack`, sul server remoto, per definire i dati che dovranno essere scaricati.
 

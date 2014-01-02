@@ -1128,31 +1128,31 @@ Nó cũng hoạt động được với các lựa chọn/tham số, chắc ch�
 
 Đó là một mẹo rất hay và đôi khi có thể tiết kiệm thời gian đọc tài liệu cho bạn.
 
-### Git Aliases ###
+### Bí Danh Trong Git ###
 
-Git doesn’t infer your command if you type it in partially. If you don’t want to type the entire text of each of the Git commands, you can easily set up an alias for each command using `git config`. Here are a couple of examples you may want to set up:
+Git không thể phỏng đoán ra câu lệnh nếu như bạn chỉ gõ một phần của câu lệnh đó. Nếu bạn không muốn gõ toàn bộ từng câu lệnh, bạn có thể dễ dàng cài đặt một bí danh (alias) cho mỗi lệnh sử dụng `git config`. Sau đây là một số ví dụ có thể hữu ích cho bạn:
 
 	$ git config --global alias.co checkout
 	$ git config --global alias.br branch
 	$ git config --global alias.ci commit
 	$ git config --global alias.st status
 
-This means that, for example, instead of typing `git commit`, you just need to type `git ci`. As you go on using Git, you’ll probably use other commands frequently as well; in this case, don’t hesitate to create new aliases.
+Có nghĩa là, ví dụ, thay vì phải gõ `git commit`, bạn chỉ cần gõ `git ci`. Khi bạn bắt đầu sử dụng Git, chắc chắn bạn sẽ sử dụng cả các câu lệnh khác một cách thường xuyên; trong trường hợp này, đừng ngần ngại tạo thêm các bí danh mới. 
 
-This technique can also be very useful in creating commands that you think should exist. For example, to correct the usability problem you encountered with unstaging a file, you can add your own unstage alias to Git:
+Kỹ thuật này cũng có thể rất hữu ích trong việc tạo mới các câu lệnh mà bạn cho rằng sự tồn tại của chúng là cần thiết. Ví dụ như, để làm chính xác các vấn đề liên quan đến tính khả dụng mà bạn gặp phải khi bỏ tổ chức (unstaging) một tập tin, bạn có thể tự tạo bí danh riêng cho việc này:
 
 	$ git config --global alias.unstage 'reset HEAD --'
 
-This makes the following two commands equivalent:
+Lệnh này tương đương với hai câu lệnh sau:
 
 	$ git unstage fileA
 	$ git reset HEAD fileA
 
-This seems a bit clearer. It’s also common to add a `last` command, like this:
+Theo cách này thì nhìn có vẻ rõ ràng hơn. Một bí danh phổ biến khác là lệnh `last`, như sau:
 
 	$ git config --global alias.last 'log -1 HEAD'
 
-This way, you can see the last commit easily:
+Với cách này, bạn có thể xem được commit cuối cùng một cách dễ dàng:
 
 	$ git last
 	commit 66938dae3329c7aebe598c2246a8e6af90d04646
@@ -1163,10 +1163,10 @@ This way, you can see the last commit easily:
 
 	    Signed-off-by: Scott Chacon <schacon@example.com>
 
-As you can tell, Git simply replaces the new command with whatever you alias it to. However, maybe you want to run an external command, rather than a Git subcommand. In that case, you start the command with a `!` character. This is useful if you write your own tools that work with a Git repository. We can demonstrate by aliasing `git visual` to run `gitk`:
+Bạn cũng có thể tự nhận thấy rằng, Git thay thế lệnh mới với bất cứ tên gì bạn đặt cho nó. Tuy nhiên, cũng có thể bạn muốn chạy một lệnh bên ngoài, hơn là bản thân các lệnh trong Git. Trong trường hợp này, bạn bắt đầu lệnh đó với ký tự `!`. Nó khá hữu ích trong trường hợp bạn viết công cụ riêng của bạn để làm việc với Git. Một ví dụ minh họa là việc tạo bí danh cho `git visual` để chạy `gitk`: 
 
 	$ git config --global alias.visual '!gitk'
 
-## Summary ##
+## Tổng Kết ##
 
-At this point, you can do all the basic local Git operations — creating or cloning a repository, making changes, staging and committing those changes, and viewing the history of all the changes the repository has been through. Next, we’ll cover Git’s killer feature: its branching model.
+Đến bây giờ thì bạn đã có thể thực hiện các thao tác cơ bản của Git một cách cục bộ - tạo mới, sao chép kho chứa, tạo thay đổi, tổ chức và commit các thay đổi đó, và xem lịch sử của các thay đổi đã được thực hiện trên kho chứa. Trong phần tiếp theo, chúng ta sẽ đề cập tới một chức năng tuyệt vời của Git: mô hình phân nhánh.

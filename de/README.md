@@ -418,10 +418,10 @@ Bitte den Status nicht aktualisieren. Dies übernimmt ein Maintainer.
 </tr>
 <tr>
 <td>6.6</td>
-<td>Nein</td>
+<td>Ja</td>
 <td>Nein</td>
 <td>Ja</td>
-<td bgcolor="red">Übersetzung fehlt</td>
+<td bgcolor="yellow">Review notwendig</td>
 </tr>
 <tr>
 <td>6.7</td>

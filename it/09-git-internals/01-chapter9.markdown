@@ -934,7 +934,7 @@ Puoi eseguire anche il comando `count-objects` per vedere lo spazio che stai usa
 	prune-packable: 0
 	garbage: 0
 
-Il valore di `size-pack` è la dimensione del packfiles in kilobytes e quindi stai usando 2MB. Before the last commit, you were using closer to 2K — clearly, removing the file from the previous commit didn’t remove it from your history. Every time anyone clones this repository, they will have to clone all 2MB just to get this tiny project, because you accidentally added a big file. Let’s get rid of it.
+Il valore di `size-pack` è la dimensione del packfiles in kilobytes e quindi stai usando 2MB mentre prima dell’ultima commit usavi circa 2K. Cancellando il file dell’ultima commit ovviamente non lo elimina dalla cronologia e ogni volta che qualcuno colmerà il repository, dovrà scaricare tutti i 2MB avere questo progettino, solamente perché hai aggiunto per errore questo file grande. Vediamo di risolverlo.
 
 First you have to find it. In this case, you already know what file it is. But suppose you didn’t; how would you identify what file or files were taking up so much space? If you run `git gc`, all the objects are in a packfile; you can identify the big objects by running another plumbing command called `git verify-pack` and sorting on the third field in the output, which is file size. You can also pipe it through the `tail` command because you’re only interested in the last few largest files:
 

@@ -675,6 +675,7 @@ Bạn có thể xem lịch sử commit ở phần nửa trên của cửa sổ c
 
 ## Phục Hồi ##
 
+<<<<<<< HEAD
 Tại thời điểm bất kỳ, bạn có thể muốn phục hồi (undo) một phần nào đó. Bây giờ, chúng ta sẽ cùng xem xét một số công cụ cơ bản dùng cho việc phục hồi các thay đổi đã thực hiện. Hãy cẩn thận, bởi vì không phải lúc nào bạn cũng có thể làm được điều này. Đây là một trong số ít thuộc thành phần của Git mà bạn có thể mất dữ liệu nếu làm sai.
 
 ### Thay Đổi Commit Cuối Cùng ###
@@ -688,16 +689,40 @@ Lệnh này sử dụng khu vực tổ chức để commit. Nếu bạn không t
 Trình soạn thảo văn bản xuất hiện để bạn thay đổi thông điệp của commit, nhưng nó đã chứa nội dung thông điệp của commit trước đó. Bạn có thể sửa nội dung như thường lệ, và nó sẽ được ghi đè lên commit trước đó.
 
 Ví dụ, nếu như bạn thực hiện xong commit và rồi sau đó mới nhận ra rằng đã quên tổ chức các thay đổi trong tập tin bạn muốn để thêm vào commit đó, bạn có thể chạy lệnh sau:
+=======
+Tại thời điểm bất kỳ, bạn có thể muốn phục hồi một phần nào đó. 
+At any stage, you may want to undo something. Here, we’ll review a few basic tools for undoing changes that you’ve made. Be careful, because you can’t always revert some of these undos. This is one of the few areas in Git where you may lose some work if you do it wrong.
+
+### Changing Your Last Commit ###
+
+One of the common undos takes place when you commit too early and possibly forget to add some files, or you mess up your commit message. If you want to try that commit again, you can run commit with the `--amend` option:
+
+	$ git commit --amend
+
+This command takes your staging area and uses it for the commit. If you’ve made no changes since your last commit (for instance, you run this command immediately after your previous commit), then your snapshot will look exactly the same and all you’ll change is your commit message.
+
+The same commit-message editor fires up, but it already contains the message of your previous commit. You can edit the message the same as always, but it overwrites your previous commit.
+
+As an example, if you commit and then realize you forgot to stage the changes in a file you wanted to add to this commit, you can do something like this:
+>>>>>>> 97afd52236e597a39245aadb86b966c4757024b9
 
 	$ git commit -m 'initial commit'
 	$ git add forgotten_file
 	$ git commit --amend
 
+<<<<<<< HEAD
 Sau khi chạy ba lệnh này, kết quả cuối cùng cũng vẫn chỉ là một commit - commit thứ hai sẽ thay thế các kết quả của commit trước đó.
 
 ### Loại Bỏ Tập Tin Đã Tổ Chức ###
 
 Hai phần tiếp theo sẽ minh hoạ cho bạn thấy làm sao để thoả hiệp các thay đổi giữa khu vực tổ chức và thư mục làm việc. Cái hay ở đây là câu lệnh sử dụng để xác định trạng thái của hai khu vực đồng thời cũng gợi ý cho bạn làm sao thể phục hồi các thay đổi. Ví dụ như, giả sự bạn sửa nội dung của hai tập tin và muốn commit chúng làm hai lần riêng biệt nhau, nhưng bạn đã vô tình sử dụng `git add *` và tổ chức cả hai. Vậy làm thể nào để loại bỏ một trong hai khỏi khu vực tổ chức? Lệnh `git status` sẽ giúp bạn:
+=======
+After these three commands, you end up with a single commit — the second commit replaces the results of the first.
+
+### Unstaging a Staged File ###
+
+The next two sections demonstrate how to wrangle your staging area and working directory changes. The nice part is that the command you use to determine the state of those two areas also reminds you how to undo changes to them. For example, let’s say you’ve changed two files and want to commit them as two separate changes, but you accidentally type `git add *` and stage them both. How can you unstage one of the two? The `git status` command reminds you:
+>>>>>>> 97afd52236e597a39245aadb86b966c4757024b9
 
 	$ git add .
 	$ git status
@@ -709,7 +734,11 @@ Hai phần tiếp theo sẽ minh hoạ cho bạn thấy làm sao để thoả hi
 	#       modified:   benchmarks.rb
 	#
 
+<<<<<<< HEAD
 Ngay dưới phần "Thay đổi sắp được commit", nó chỉ ra rằng "sử dụng `git reset HEAD <file>...` để loại bỏ khỏi khu vực tổ chức". Vậy thì hãy làm theo gợi ý đó để loại bỏ tập tin `benchmarks.rb`:
+=======
+Right below the “Changes to be committed” text, it says "use `git reset HEAD <file>...` to unstage". So, let’s use that advice to unstage the `benchmarks.rb` file:
+>>>>>>> 97afd52236e597a39245aadb86b966c4757024b9
 
 	$ git reset HEAD benchmarks.rb
 	benchmarks.rb: locally modified
@@ -727,11 +756,19 @@ Ngay dưới phần "Thay đổi sắp được commit", nó chỉ ra rằng "s�
 	#       modified:   benchmarks.rb
 	#
 
+<<<<<<< HEAD
 Lệnh này hơi khác biệt một chút, nhưng nó hoạt động đúng như chúng ta mong đợi. Tập tin `benchmarks.rb` được thay đổi và một lần nữa lại trở thành chưa tổ chức.
 
 ### Phục Hồi Tập Tin Đã Thay Đổi ###
 
 Sẽ như thế nào khi bạn nhận ra rằng bạn không muốn giữ những thay đổi trong tập tin `benchmarks.rb`? Làm thế nào để dễ dàng phục hồi lại những thay đổi đó - phục hồi nó lại trạng thái giống như sau khi thực hiện commit cuối cùng (hoặc như sau khi sao chép (initialy cloned), hoặc như lúc bạn mới đưa chúng vào thư mục làm việc)? May mắn là, `git status` cũng sẽ cho bạn biết làm sao để thực hiện được việc đó. Trong thông báo đầu ra của ví dụ vừa rồi, khu vực tổ chức của chúng ta như sau:
+=======
+The command is a bit strange, but it works. The `benchmarks.rb` file is modified but once again unstaged.
+
+### Unmodifying a Modified File ###
+
+What if you realize that you don’t want to keep your changes to the `benchmarks.rb` file? How can you easily unmodify it — revert it back to what it looked like when you last committed (or initially cloned, or however you got it into your working directory)? Luckily, `git status` tells you how to do that, too. In the last example output, the unstaged area looks like this:
+>>>>>>> 97afd52236e597a39245aadb86b966c4757024b9
 
 	# Changes not staged for commit:
 	#   (use "git add <file>..." to update what will be committed)
@@ -740,7 +777,11 @@ Sẽ như thế nào khi bạn nhận ra rằng bạn không muốn giữ nhữn
 	#       modified:   benchmarks.rb
 	#
 
+<<<<<<< HEAD
 Nó chỉ cho bạn rõ ràng làm sao thể hủy những thay đổi vừa được thực hiện (ít nhất, phiên bản mới nhất của Git, 1.6.1 và mới hơn, hỗ trợ điều này - nếu bạn đang sử dụng phiên bản cũ hơn, chúng tôi khuyên bạn nên nâng cấp để có thể sử dụng được những các chức năng có tính khả dụng cao hơn). Hãy làm theo hướng dẫn:
+=======
+It tells you pretty explicitly how to discard the changes you’ve made (at least, the newer versions of Git, 1.6.1 and later, do this — if you have an older version, we highly recommend upgrading it to get some of these nicer usability features). Let’s do what it says:
+>>>>>>> 97afd52236e597a39245aadb86b966c4757024b9
 
 	$ git checkout -- benchmarks.rb
 	$ git status
@@ -751,6 +792,7 @@ Nó chỉ cho bạn rõ ràng làm sao thể hủy những thay đổi vừa đ�
 	#       modified:   README.txt
 	#
 
+<<<<<<< HEAD
 Bạn có thể thấy những thay đổi mà bạn vừa mới phục hồi. Bạn cũng nên nhận ra rằng đây là một câu lệnh nguy hiểm: bất kỳ thay đổi nào được thực hiện trên tập tin đó không còn nữa - bạn vừa mới sao chép một tập tin khác thay thế nó. Đừng nên sử dụng lệnh này trừ khi bạn biết rõ ràng rằng bạn không cần đến tập tin đó. Nếu bạn chỉ không muốn thấy nó nữa, chúng ta sẽ tìm hiểu về phân nhánh và lưu trữ (stashing) trong chương sau; chúng là các phương pháp thay thế tốt hơn. 
 
 Hãy nhớ là, bất cứ thứ gì đuợc commit vào Git luôn có thể phục hồi lại. Thậm chí cả các commit ở các nhánh đã bị xoá hoặc bị ghi đè bởi `--amend` (xem thêm về phục hồi dữ liệu ở *Chuơng 9*). Tuy nhiên, bất cứ thứ gì bị mất mà chưa đuợc commit thì không có cơ hội phục hồi lại.
@@ -763,6 +805,20 @@ Hãy nhớ là, bất cứ thứ gì đuợc commit vào Git luôn có thể ph�
 
 Để xem bạn đã cấu hình tới máy chủ từ xa nào, bạn có thể chạy lệnh `git remote`. Nó sẽ liệt kê tên ngắn gọn của mỗi máy chủ từ xa bạn đã chỉ định. 
 Nếu bạn sao chép nó từ một kho chứa có sẵn, ít nhất bạn sẽ thấy *bản gốc* (origin) - tên mặc định mà Git đặt cho phiên bản trên máy chủ mà bạn đã sao chép từ đó:
+=======
+You can see that the changes have been reverted. You should also realize that this is a dangerous command: any changes you made to that file are gone — you just copied another file over it. Don’t ever use this command unless you absolutely know that you don’t want the file. If you just need to get it out of the way, we’ll go over stashing and branching in the next chapter; these are generally better ways to go.
+
+Remember, anything that is committed in Git can almost always be recovered. Even commits that were on branches that were deleted or commits that were overwritten with an `--amend` commit can be recovered (see *Chapter 9* for data recovery). However, anything you lose that was never committed is likely never to be seen again.
+
+## Working with Remotes ##
+
+To be able to collaborate on any Git project, you need to know how to manage your remote repositories. Remote repositories are versions of your project that are hosted on the Internet or network somewhere. You can have several of them, each of which generally is either read-only or read/write for you. Collaborating with others involves managing these remote repositories and pushing and pulling data to and from them when you need to share work.
+Managing remote repositories includes knowing how to add remote repositories, remove remotes that are no longer valid, manage various remote branches and define them as being tracked or not, and more. In this section, we’ll cover these remote-management skills.
+
+### Showing Your Remotes ###
+
+To see which remote servers you have configured, you can run the `git remote` command. It lists the shortnames of each remote handle you’ve specified. If you’ve cloned your repository, you should at least see *origin* — that is the default name Git gives to the server you cloned from:
+>>>>>>> 97afd52236e597a39245aadb86b966c4757024b9
 
 	$ git clone git://github.com/schacon/ticgit.git
 	Initialized empty Git repository in /private/tmp/ticgit/.git/
@@ -775,13 +831,21 @@ Nếu bạn sao chép nó từ một kho chứa có sẵn, ít nhất bạn sẽ
 	$ git remote
 	origin
 
+<<<<<<< HEAD
 Bạn cũng có thể sử dụng tham số `-v` để hiển thị địa chỉ mà Git đã lưu tên rút gọn đó:  
+=======
+You can also specify `-v`, which shows you the URL that Git has stored for the shortname to be expanded to:
+>>>>>>> 97afd52236e597a39245aadb86b966c4757024b9
 
 	$ git remote -v
 	origin  git://github.com/schacon/ticgit.git (fetch)
 	origin  git://github.com/schacon/ticgit.git (push)
 
+<<<<<<< HEAD
 Nếu bạn có nhiều hơn một máy chủ từ xa, lệnh này sẽ liệt kê hết tất cả. Ví dụ, kho chứa Grit sẽ hiện thị tuơng tự như sau:
+=======
+If you have more than one remote, the command lists them all. For example, my Grit repository looks something like this.
+>>>>>>> 97afd52236e597a39245aadb86b966c4757024b9
 
 	$ cd grit
 	$ git remote -v
@@ -791,11 +855,19 @@ Nếu bạn có nhiều hơn một máy chủ từ xa, lệnh này sẽ liệt k
 	koke      git://github.com/koke/grit.git
 	origin    git@github.com:mojombo/grit.git
 
+<<<<<<< HEAD
 Điều này có nghĩa là bạn có thể "kéo" những đóng góp từ bất kỳ nguời dùng nào ở trên một cách dễ dàng. Nhưng chú ý là chỉ máy chủ nguyên bản từ xa (origin remote) là có địa chỉ SSH, do vậy nó là cái duy nhất mà tôi có thể đẩy lên (chúng ta sẽ tìm hiều tại sao trong *Chuơng 4*).
 
 ### Thêm Các Kho Chứa Từ Xa ###
 
 Tôi đã đề cập và đưa một số ví dụ minh họa về việc thêm mới các kho chứa từ xa trong các phần trước, nhưng bây giờ chúng ta sẽ nói sâu hơn về nó. Để thêm mới một kho chứa Git từ xa như là một tên rút gọn để bạn có thể tham khảo dễ dàng, hãy chạy lệnh `git remote add [shortname] [url]`: 
+=======
+This means we can pull contributions from any of these users pretty easily. But notice that only the origin remote is an SSH URL, so it’s the only one I can push to (we’ll cover why this is in *Chapter 4*).
+
+### Adding Remote Repositories ###
+
+I’ve mentioned and given some demonstrations of adding remote repositories in previous sections, but here is how to do it explicitly. To add a new remote Git repository as a shortname you can reference easily, run `git remote add [shortname] [url]`:
+>>>>>>> 97afd52236e597a39245aadb86b966c4757024b9
 
 	$ git remote
 	origin
@@ -804,7 +876,11 @@ Tôi đã đề cập và đưa một số ví dụ minh họa về việc thêm
 	origin	git://github.com/schacon/ticgit.git
 	pb	git://github.com/paulboone/ticgit.git
 
+<<<<<<< HEAD
 Bây giờ bạn có thể sử dụng `pb` trong các câu lệnh, nó có tác dụng tương đương với một địa chỉ hoàn chỉnh. Ví dụ, nếu bạn muốn duyệt qua/truy cập tất cả thông tin mà Paul có mà bạn chưa có trong kho chứa, bạn có thể chạy lệnh `git fetch pb`: 
+=======
+Now you can use the string `pb` on the command line in lieu of the whole URL. For example, if you want to fetch all the information that Paul has but that you don’t yet have in your repository, you can run `git fetch pb`:
+>>>>>>> 97afd52236e597a39245aadb86b966c4757024b9
 
 	$ git fetch pb
 	remote: Counting objects: 58, done.
@@ -815,6 +891,7 @@ Bây giờ bạn có thể sử dụng `pb` trong các câu lệnh, nó có tác
 	 * [new branch]      master     -> pb/master
 	 * [new branch]      ticgit     -> pb/ticgit
 
+<<<<<<< HEAD
 Nhánh chính của Paul có thể truy cập cục bộ như là `pb/master` - bạn có thể gộp nó vào các nhánh của bạn, hoặc sử dụng nó như là một nhánh cục bộ ở thời điểm đó nếu như bạn muốn kiểm tra nó.  
 
 ### Truy Cập Và Kéo Về Từ Máy Chủ Trung Tâm ###
@@ -840,6 +917,33 @@ Lệnh này chỉ hoạt động nếu bạn sao chép từ một máy chủ mà
 ### Kiểm Tra Một Máy Chủ Trung Tâm ###
 
 Nếu bạn muốn xem chi tiết hơn các thông tin về một kho chứa trung tâm nào đó, bạn có thể sử dụng lệnh `git remote show [tên-trung-tâm]`. Nếu như bạn chạy lệnh này với một tên rút gọn, như là `origin`, bạn sẽ thấy tương tự như sau:
+=======
+Paul’s master branch is accessible locally as `pb/master` — you can merge it into one of your branches, or you can check out a local branch at that point if you want to inspect it.
+
+### Fetching and Pulling from Your Remotes ###
+
+As you just saw, to get data from your remote projects, you can run:
+
+	$ git fetch [remote-name]
+
+The command goes out to that remote project and pulls down all the data from that remote project that you don’t have yet. After you do this, you should have references to all the branches from that remote, which you can merge in or inspect at any time. (We’ll go over what branches are and how to use them in much more detail in *Chapter 3*.)
+
+If you clone a repository, the command automatically adds that remote repository under the name *origin*. So, `git fetch origin` fetches any new work that has been pushed to that server since you cloned (or last fetched from) it. It’s important to note that the `fetch` command pulls the data to your local repository — it doesn’t automatically merge it with any of your work or modify what you’re currently working on. You have to merge it manually into your work when you’re ready.
+
+If you have a branch set up to track a remote branch (see the next section and *Chapter 3* for more information), you can use the `git pull` command to automatically fetch and then merge a remote branch into your current branch. This may be an easier or more comfortable workflow for you; and by default, the `git clone` command automatically sets up your local master branch to track the remote master branch on the server you cloned from (assuming the remote has a master branch). Running `git pull` generally fetches data from the server you originally cloned from and automatically tries to merge it into the code you’re currently working on.
+
+### Pushing to Your Remotes ###
+
+When you have your project at a point that you want to share, you have to push it upstream. The command for this is simple: `git push [remote-name] [branch-name]`. If you want to push your master branch to your `origin` server (again, cloning generally sets up both of those names for you automatically), then you can run this to push your work back up to the server:
+
+	$ git push origin master
+
+This command works only if you cloned from a server to which you have write access and if nobody has pushed in the meantime. If you and someone else clone at the same time and they push upstream and then you push upstream, your push will rightly be rejected. You’ll have to pull down their work first and incorporate it into yours before you’ll be allowed to push. See *Chapter 3* for more detailed information on how to push to remote servers.
+
+### Inspecting a Remote ###
+
+If you want to see more information about a particular remote, you can use the `git remote show [remote-name]` command. If you run this command with a particular shortname, such as `origin`, you get something like this:
+>>>>>>> 97afd52236e597a39245aadb86b966c4757024b9
 
 	$ git remote show origin
 	* remote origin
@@ -850,9 +954,15 @@ Nếu bạn muốn xem chi tiết hơn các thông tin về một kho chứa tru
 	    master
 	    ticgit
 
+<<<<<<< HEAD
 Lệnh này liệt kê địa chỉ của kho chứa trung tâm cũng như thông tin các nhánh đang theo dõi. Nó cho bạn biết rằng nếu như bạn đang ở nhánh master và chạy lệnh git pull, nó sẽ tự động gộp nhánh này với nhánh trung tâm sau khi truy xuất toàn bộ các tham chiếu từ xa. Nó cũng liệt kê tất cả các tham chiếu từ xa mà nó đã kéo xuống đó.
 
 Đây là một ví dụ đơn giản mà bạn thường xuyên gặp phải. Khi bạn sử dụng Git thường xuyên hơn, bạn sẽ thường thấy nhiều thông tin hơn từ lệnh `git remote show`:
+=======
+It lists the URL for the remote repository as well as the tracking branch information. The command helpfully tells you that if you’re on the master branch and you run `git pull`, it will automatically merge in the master branch on the remote after it fetches all the remote references. It also lists all the remote references it has pulled down.
+
+That is a simple example you’re likely to encounter. When you’re using Git more heavily, however, you may see much more information from `git remote show`:
+>>>>>>> 97afd52236e597a39245aadb86b966c4757024b9
 
 	$ git remote show origin
 	* remote origin
@@ -876,25 +986,40 @@ Lệnh này liệt kê địa chỉ của kho chứa trung tâm cũng như thôn
 	  Local branch pushed with 'git push'
 	    master:master
 
+<<<<<<< HEAD
 Lệnh này hiển thị nhánh nào tự động được đẩy lên khi bạn chạy `git push` trên một nhánh nhất định. Nó cũng cho bạn thấy nhánh nào trên máy chủ trung tâm mà bạn chưa có, nhánh nào bạn có mà đã bị xóa trên máy chủ, và các nhánh nào sẽ tự động được gộp khi chạy lệnh `git pull`. 
 
 ### Xóa Và Đổi Tên Từ Xa ###
 
 Nếu như bạn muốn đổi tên một tham chiếu, trong những phiên bản gần đây của Git bạn có thể chạy `git remote rename` để đổi tên rút gọn cho một kho chứa từ xa nào đó. Ví dụ, nếu bạn muốn đổi tên `pb` thành `paul`, bạn có thể dùng lệnh `git remote rename`:
+=======
+This command shows which branch is automatically pushed when you run `git push` on certain branches. It also shows you which remote branches on the server you don’t yet have, which remote branches you have that have been removed from the server, and multiple branches that are automatically merged when you run `git pull`.
+
+### Removing and Renaming Remotes ###
+
+If you want to rename a reference, in newer versions of Git you can run `git remote rename` to change a remote’s shortname. For instance, if you want to rename `pb` to `paul`, you can do so with `git remote rename`:
+>>>>>>> 97afd52236e597a39245aadb86b966c4757024b9
 
 	$ git remote rename pb paul
 	$ git remote
 	origin
 	paul
 
+<<<<<<< HEAD
 Lệnh này đồng thời cũng sẽ thay đổi cả tên các nhánh trung tâm/từ xa của bạn. Các tham chiếu trước đây như `pb/master` sẽ đổi thành `paul/master`.
 
 Nếu bạn muốn xóa một tham chiếu đi vì lý do nào đó - bạn đã chuyển máy chủ và không còn sử dụng một bản sao nhất định, hoặc có thể một người dùng nào đó không còn đóng góp vào dự án nữa - bạn có thể sử dụng `git remote rm`:
+=======
+It’s worth mentioning that this changes your remote branch names, too. What used to be referenced at `pb/master` is now at `paul/master`.
+
+If you want to remove a reference for some reason — you’ve moved the server or are no longer using a particular mirror, or perhaps a contributor isn’t contributing anymore — you can use `git remote rm`:
+>>>>>>> 97afd52236e597a39245aadb86b966c4757024b9
 
 	$ git remote rm paul
 	$ git remote
 	origin
 
+<<<<<<< HEAD
 ## Đánh Dấu ##
 
 Cũng giống như đa số các hệ quản trị phiên bản khác, Git có khả năng đánh dấu (tag) các mốc quan trọng trong lịch sử của dự án. Nhìn chung, mọi người sử dụng chức năng này để đánh dấu các thời điểm phát hành (ví dụ như `v1.0`). Trong phần này bạn sẽ được học làm sao để liệt kê các tag hiện có, làm sao để tạo mới tag, và các loại tag khác nhau hiện có. 
@@ -902,14 +1027,29 @@ Cũng giống như đa số các hệ quản trị phiên bản khác, Git có k
 ### Liệt Kê Tag ###
 
 Liệt kê các tag hiện có trong Git khá là đơn giản. Bạn chỉ cần gõ `git tag`:
+=======
+## Tagging ##
+
+Like most VCSs, Git has the ability to tag specific points in history as being important. Generally, people use this functionality to mark release points (`v1.0`, and so on). In this section, you’ll learn how to list the available tags, how to create new tags, and what the different types of tags are.
+
+### Listing Your Tags ###
+
+Listing the available tags in Git is straightforward. Just type `git tag`:
+>>>>>>> 97afd52236e597a39245aadb86b966c4757024b9
 
 	$ git tag
 	v0.1
 	v1.3
 
+<<<<<<< HEAD
 Lệnh này sẽ liệt kê các tag được sắp xếp theo thứ tự bảng chứ cái; thứ tự mà nó xuất hiện không thực sự quan trọng lắm.
 
 Bạn cũng có thể tìm kiếm một tag sử dụng mẫu (pattern). Ví dụ, trong kho chứa mã nguồn của Git có chứa hơn 240 tag. Nếu như bạn chỉ quan tâm đến các tag thuộc dải 1.4.2, bạn có thể chạy lệnh sau:
+=======
+This command lists the tags in alphabetical order; the order in which they appear has no real importance.
+
+You can also search for tags with a particular pattern. The Git source repo, for instance, contains more than 240 tags. If you’re only interested in looking at the 1.4.2 series, you can run this:
+>>>>>>> 97afd52236e597a39245aadb86b966c4757024b9
 
 	$ git tag -l 'v1.4.2.*'
 	v1.4.2.1
@@ -917,6 +1057,7 @@ Bạn cũng có thể tìm kiếm một tag sử dụng mẫu (pattern). Ví d�
 	v1.4.2.3
 	v1.4.2.4
 
+<<<<<<< HEAD
 ### Thêm Tag Mới ###
 
 Git sử dụng hai loại tag chính: lightweight và annotated. Một lightweigh tag (hạng nhẹ) giống như một nhánh mà không có sự thay đổi - nó chỉ trỏ đến một commit nào đó. Annotated (chú thích) tag, thì lại được lưu trữ như là những đối tượng đầy đủ trong cơ sở dữ liệu của Git. Chúng được băm; chứa tên người tag, địa chỉ email và ngày tháng; có thông điệp kèm theo; và có thể được ký và xác thực bằng GNU Privacy Guard (GPG). Thông thường, annotated tag được khuyến khích sử dụng hơn vì nó có chứa các thông tin trên; tuy nhiên nếu như bạn muốn một tag tạm thời hoặc vì một lý do nào đó bạn không muốn lưu trữ các thông tin trên, lightweight tag là sự lựa chọn hợp lý hơn.
@@ -924,6 +1065,15 @@ Git sử dụng hai loại tag chính: lightweight và annotated. Một lightwei
 ### Annotated Tags ###
 
 Tạo một tag chú thích (annnotated) trong Git rất đơn giản. Cách dễ nhất là sử dụng `-a` khi bạn chạy lệnh `tag`:
+=======
+### Creating Tags ###
+
+Git uses two main types of tags: lightweight and annotated. A lightweight tag is very much like a branch that doesn’t change — it’s just a pointer to a specific commit. Annotated tags, however, are stored as full objects in the Git database. They’re checksummed; contain the tagger name, e-mail, and date; have a tagging message; and can be signed and verified with GNU Privacy Guard (GPG). It’s generally recommended that you create annotated tags so you can have all this information; but if you want a temporary tag or for some reason don’t want to keep the other information, lightweight tags are available too.
+
+### Annotated Tags ###
+
+Creating an annotated tag in Git is simple. The easiest way is to specify `-a` when you run the `tag` command:
+>>>>>>> 97afd52236e597a39245aadb86b966c4757024b9
 
 	$ git tag -a v1.4 -m 'my version 1.4'
 	$ git tag
@@ -931,9 +1081,15 @@ Tạo một tag chú thích (annnotated) trong Git rất đơn giản. Cách d�
 	v1.3
 	v1.4
 
+<<<<<<< HEAD
 Tham số `-m` được sử dụng để truyền vào nội dung/thông điệp cho tag. Nếu như bạn không chỉ định nội dung cho một annotated tag, Git sẽ mở trình soạn thảo và yêu cầu bạn nhập nội dung vào đó.
 
 Bạn có thể xem được thông tin của tag cùng với commit được tag bằng cách sử dụng lệnh `git show`:
+=======
+The `-m` specifies a tagging message, which is stored with the tag. If you don’t specify a message for an annotated tag, Git launches your editor so you can type it in.
+
+You can see the tag data along with the commit that was tagged by using the `git show` command:
+>>>>>>> 97afd52236e597a39245aadb86b966c4757024b9
 
 	$ git show v1.4
 	tag v1.4
@@ -948,18 +1104,30 @@ Bạn có thể xem được thông tin của tag cùng với commit được ta
 
 	    Merge branch 'experiment'
 
+<<<<<<< HEAD
 Nó sẽ hiện thị thông tin người tag, ngày commit được tag, và thông báo chú thích trước khi hiện thông tin của commit.
 
 ### Signed Tags ###
 
 Bạn cũng có thể ký các tag của bạn sử dụng GPG, giải sử bạn có một private key. Tất cả những gì bạn cần phải làm là sử dụng `-s` thay vì `-a`:
+=======
+That shows the tagger information, the date the commit was tagged, and the annotation message before showing the commit information.
+
+### Signed Tags ###
+
+You can also sign your tags with GPG, assuming you have a private key. All you have to do is use `-s` instead of `-a`:
+>>>>>>> 97afd52236e597a39245aadb86b966c4757024b9
 
 	$ git tag -s v1.5 -m 'my signed 1.5 tag'
 	You need a passphrase to unlock the secret key for
 	user: "Scott Chacon <schacon@gee-mail.com>"
 	1024-bit DSA key, ID F721C45A, created 2009-02-09
 
+<<<<<<< HEAD
 Nếu bạn chạy lệnh `git show` trên tag đó, bạn có thể thấy được chữ ký GPG của bạn được đính kèm theo nó:
+=======
+If you run `git show` on that tag, you can see your GPG signature attached to it:
+>>>>>>> 97afd52236e597a39245aadb86b966c4757024b9
 
 	$ git show v1.5
 	tag v1.5
@@ -981,11 +1149,19 @@ Nếu bạn chạy lệnh `git show` trên tag đó, bạn có thể thấy đư
 
 	    Merge branch 'experiment'
 
+<<<<<<< HEAD
 Một lát nữa, bạn sẽ được học làm sao để kiểm tra/xác minh (verify) các tag đã được ký.
 
 ### Lightweight Tags ###
 
 Một cách khác để tag các commit là sử dụng lightweight tag. Cơ bản nó là mã băm của một commit được lưu lại vào trong một tập tin - ngoài ra không còn thông tin nào khác. Để tạo một lightweight tag, bạn không sử dụng `-a`, `-s`, hay `-m`:
+=======
+A bit later, you’ll learn how to verify signed tags.
+
+### Lightweight Tags ###
+
+Another way to tag commits is with a lightweight tag. This is basically the commit checksum stored in a file — no other information is kept. To create a lightweight tag, don’t supply the `-a`, `-s`, or `-m` option:
+>>>>>>> 97afd52236e597a39245aadb86b966c4757024b9
 
 	$ git tag v1.4-lw
 	$ git tag
@@ -995,7 +1171,11 @@ Một cách khác để tag các commit là sử dụng lightweight tag. Cơ b�
 	v1.4-lw
 	v1.5
 
+<<<<<<< HEAD
 Lần này, nếu bạn chạy `git show` trên tag đó, bạn sẽ không thấy các thông tin bổ sung nữa. Lệnh này chỉ show commit mà thôi:
+=======
+This time, if you run `git show` on the tag, you don’t see the extra tag information. The command just shows the commit:
+>>>>>>> 97afd52236e597a39245aadb86b966c4757024b9
 
 	$ git show v1.4-lw
 	commit 15027957951b64cf874c3557a0f3547bd83b3ff6
@@ -1005,9 +1185,15 @@ Lần này, nếu bạn chạy `git show` trên tag đó, bạn sẽ không th�
 
 	    Merge branch 'experiment'
 
+<<<<<<< HEAD
 ### Xác Thực Các Tag ###
 
 Để xác thực một tag đã được ký, bạn sử dụng `git tag -v [tên-tag]`. Lệnh này sử dụng GPG để xác minh chữ ký. Bạn cần phải có public key của người ký để có thể thực hiện được điều này:
+=======
+### Verifying Tags ###
+
+To verify a signed tag, you use `git tag -v [tag-name]`. This command uses GPG to verify the signature. You need the signer’s public key in your keyring for this to work properly:
+>>>>>>> 97afd52236e597a39245aadb86b966c4757024b9
 
 	$ git tag -v v1.4.2.1
 	object 883653babd8ee7ea23e6a5c392bb739348b1eb61
@@ -1023,15 +1209,25 @@ Lần này, nếu bạn chạy `git show` trên tag đó, bạn sẽ không th�
 	gpg:                 aka "[jpeg image of size 1513]"
 	Primary key fingerprint: 3565 2A26 2040 E066 C9A7  4A7D C0C6 D9A4 F311 9B9A
 
+<<<<<<< HEAD
 Nếu như bạn không có public key của người ký, bạn sẽ thấy thông báo như sau:
+=======
+If you don’t have the signer’s public key, you get something like this instead:
+>>>>>>> 97afd52236e597a39245aadb86b966c4757024b9
 
 	gpg: Signature made Wed Sep 13 02:08:25 2006 PDT using DSA key ID F3119B9A
 	gpg: Can't check signature: public key not found
 	error: could not verify the tag 'v1.4.2.1'
 
+<<<<<<< HEAD
 ### Tag Muộn ###
 
 Bạn cũng có thể tag các commit mà bạn đã thực hiện trước đó. Giả sử lịch sử commit của bạn giống như sau:
+=======
+### Tagging Later ###
+
+You can also tag commits after you’ve moved past them. Suppose your commit history looks like this:
+>>>>>>> 97afd52236e597a39245aadb86b966c4757024b9
 
 	$ git log --pretty=oneline
 	15027957951b64cf874c3557a0f3547bd83b3ff6 Merge branch 'experiment'
@@ -1045,11 +1241,19 @@ Bạn cũng có thể tag các commit mà bạn đã thực hiện trước đó
 	964f16d36dfccde844893cac5b347e7b3d44abbc commit the todo
 	8a5cbc430f1a9c3d00faaeffd07798508422908a updated readme
 
+<<<<<<< HEAD
 Bây giờ, giả sử bạn quên không tag dự án ở phiên bản `v1.2`, tương đương với commit "updated rakefile". Bạn vẫn có thể thêm tag vào lúc này. Để làm được điều bạn bạn cần chỉ định mã băm của commit (hoặc một phần của nó) ở cuối lệnh:
 
 	$ git tag -a v1.2 -m 'version 1.2' 9fceb02
 
 Bạn có thể thấy là commit đã được tag:
+=======
+Now, suppose you forgot to tag the project at `v1.2`, which was at the "updated rakefile" commit. You can add it after the fact. To tag that commit, you specify the commit checksum (or part of it) at the end of the command:
+
+	$ git tag -a v1.2 -m 'version 1.2' 9fceb02
+
+You can see that you’ve tagged the commit:
+>>>>>>> 97afd52236e597a39245aadb86b966c4757024b9
 
 	$ git tag
 	v0.1
@@ -1072,9 +1276,15 @@ Bạn có thể thấy là commit đã được tag:
 	    updated rakefile
 	...
 
+<<<<<<< HEAD
 ### Chia Sẻ Các Tag ###
 
 Mặc định, lệnh `git push` không "truyền" (transfer) các tag lên máy chủ trung tâm. Bạn phải chỉ định một cách rõ ràng để có thể đẩy các tag lên máy chủ để sau khi đã tạo ra chúng. Quá trình này giống như chia sẽ cách nhánh trung tâm - bạn có thể chạy `git push origin [tên-tag]`.
+=======
+### Sharing Tags ###
+
+By default, the `git push` command doesn’t transfer tags to remote servers. You will have to explicitly push tags to a shared server after you have created them.  This process is just like sharing remote branches — you can run `git push origin [tagname]`.
+>>>>>>> 97afd52236e597a39245aadb86b966c4757024b9
 
 	$ git push origin v1.5
 	Counting objects: 50, done.
@@ -1084,7 +1294,11 @@ Mặc định, lệnh `git push` không "truyền" (transfer) các tag lên máy
 	To git@github.com:schacon/simplegit.git
 	* [new tag]         v1.5 -> v1.5
 
+<<<<<<< HEAD
 Nếu bạn có rất nhiều tag muốn đẩy lên cùng một lúc, bạn có thể sử dụng tham số `--tags` cho lệnh `git push`. Nó sẽ truyền tất cả các tag chưa được đồng bộ lên máy chủ.
+=======
+If you have a lot of tags that you want to push up at once, you can also use the `--tags` option to the `git push` command.  This will transfer all of your tags to the remote server that are not already there.
+>>>>>>> 97afd52236e597a39245aadb86b966c4757024b9
 
 	$ git push origin --tags
 	Counting objects: 50, done.
@@ -1098,6 +1312,7 @@ Nếu bạn có rất nhiều tag muốn đẩy lên cùng một lúc, bạn có
 	 * [new tag]         v1.4-lw -> v1.4-lw
 	 * [new tag]         v1.5 -> v1.5
 
+<<<<<<< HEAD
 Bây giờ, nếu ai đó sao chép hoặc kéo dữ liệu từ kho chứa của bạn, họ sẽ cũng sẽ có được tất cả các tag.
 
 ## Mẹo Nhỏ ##
@@ -1115,28 +1330,62 @@ Nếu như bạn muốn cài đặt công cụ gợi ý này cho tất cả ngư
 Nếu bạn đang sử dụng Git Bash trên Windows - mặc định khi cài đặt Git trên Windows sử dụng msysGit, chức năng gợi ý đã được cấu hình sẵn.
 
 Ấn phím Tab khi bạn gõ một câu lệnh Git, nó sẽ trả về một tập hợp các gợi ý cho bạn chọn:
+=======
+Now, when someone else clones or pulls from your repository, they will get all your tags as well.
+
+## Tips and Tricks ##
+
+Before we finish this chapter on basic Git, a few little tips and tricks may make your Git experience a bit simpler, easier, or more familiar. Many people use Git without using any of these tips, and we won’t refer to them or assume you’ve used them later in the book; but you should probably know how to do them.
+
+### Auto-Completion ###
+
+If you use the Bash shell, Git comes with a nice auto-completion script you can enable. Download it directly from the Git source code at https://github.com/git/git/blob/master/contrib/completion/git-completion.bash . Copy this file to your home directory, and add this to your `.bashrc` file:
+
+	source ~/git-completion.bash
+
+If you want to set up Git to automatically have Bash shell completion for all users, copy this script to the `/opt/local/etc/bash_completion.d` directory on Mac systems or to the `/etc/bash_completion.d/` directory on Linux systems. This is a directory of scripts that Bash will automatically load to provide shell completions.
+
+If you’re using Windows with Git Bash, which is the default when installing Git on Windows with msysGit, auto-completion should be preconfigured.
+
+Press the Tab key when you’re writing a Git command, and it should return a set of suggestions for you to pick from:
+>>>>>>> 97afd52236e597a39245aadb86b966c4757024b9
 
 	$ git co<tab><tab>
 	commit config
 
+<<<<<<< HEAD
 Trong trường hợp này, gõ `git co` và sau đó gõ Tab hai lần sẽ cho bạn gợi ý commit và config. Gõ thêm `m<tab>` để có được lệnh `git commit` tự động.
 
 Nó cũng hoạt động được với các lựa chọn/tham số, chắc chắn rất hữu ích. Ví dụ như nếu bạn đang chạy lệnh `git log` và không nhớ một trong các lựa chọn, bạn có thể bắt đầu gõ và ấn Tab để xem lệnh nào thỏa mãn:
+=======
+In this case, typing `git co` and then pressing the Tab key twice suggests commit and config. Adding `m<tab>` completes `git commit` automatically.
+
+This also works with options, which is probably more useful. For instance, if you’re running a `git log` command and can’t remember one of the options, you can start typing it and press Tab to see what matches:
+>>>>>>> 97afd52236e597a39245aadb86b966c4757024b9
 
 	$ git log --s<tab>
 	--shortstat  --since=  --src-prefix=  --stat   --summary
 
+<<<<<<< HEAD
 Đó là một mẹo rất hay và đôi khi có thể tiết kiệm thời gian đọc tài liệu cho bạn.
 
 ### Bí Danh Trong Git ###
 
 Git không thể phỏng đoán ra câu lệnh nếu như bạn chỉ gõ một phần của câu lệnh đó. Nếu bạn không muốn gõ toàn bộ từng câu lệnh, bạn có thể dễ dàng cài đặt một bí danh (alias) cho mỗi lệnh sử dụng `git config`. Sau đây là một số ví dụ có thể hữu ích cho bạn:
+=======
+That’s a pretty nice trick and may save you some time and documentation reading.
+
+### Git Aliases ###
+
+Git doesn’t infer your command if you type it in partially. If you don’t want to type the entire text of each of the Git commands, you can easily set up an alias for each command using `git config`. Here are a couple of examples you may want to set up:
+>>>>>>> 97afd52236e597a39245aadb86b966c4757024b9
 
 	$ git config --global alias.co checkout
 	$ git config --global alias.br branch
 	$ git config --global alias.ci commit
 	$ git config --global alias.st status
 
+<<<<<<< HEAD
 Có nghĩa là, ví dụ, thay vì phải gõ `git commit`, bạn chỉ cần gõ `git ci`. Khi bạn bắt đầu sử dụng Git, chắc chắn bạn sẽ sử dụng cả các câu lệnh khác một cách thường xuyên; trong trường hợp này, đừng ngần ngại tạo thêm các bí danh mới. 
 
 Kỹ thuật này cũng có thể rất hữu ích trong việc tạo mới các câu lệnh mà bạn cho rằng sự tồn tại của chúng là cần thiết. Ví dụ như, để làm chính xác các vấn đề liên quan đến tính khả dụng mà bạn gặp phải khi bỏ tổ chức (unstaging) một tập tin, bạn có thể tự tạo bí danh riêng cho việc này:
@@ -1144,15 +1393,32 @@ Kỹ thuật này cũng có thể rất hữu ích trong việc tạo mới các
 	$ git config --global alias.unstage 'reset HEAD --'
 
 Lệnh này tương đương với hai câu lệnh sau:
+=======
+This means that, for example, instead of typing `git commit`, you just need to type `git ci`. As you go on using Git, you’ll probably use other commands frequently as well; in this case, don’t hesitate to create new aliases.
+
+This technique can also be very useful in creating commands that you think should exist. For example, to correct the usability problem you encountered with unstaging a file, you can add your own unstage alias to Git:
+
+	$ git config --global alias.unstage 'reset HEAD --'
+
+This makes the following two commands equivalent:
+>>>>>>> 97afd52236e597a39245aadb86b966c4757024b9
 
 	$ git unstage fileA
 	$ git reset HEAD fileA
 
+<<<<<<< HEAD
 Theo cách này thì nhìn có vẻ rõ ràng hơn. Một bí danh phổ biến khác là lệnh `last`, như sau:
 
 	$ git config --global alias.last 'log -1 HEAD'
 
 Với cách này, bạn có thể xem được commit cuối cùng một cách dễ dàng:
+=======
+This seems a bit clearer. It’s also common to add a `last` command, like this:
+
+	$ git config --global alias.last 'log -1 HEAD'
+
+This way, you can see the last commit easily:
+>>>>>>> 97afd52236e597a39245aadb86b966c4757024b9
 
 	$ git last
 	commit 66938dae3329c7aebe598c2246a8e6af90d04646
@@ -1163,6 +1429,7 @@ Với cách này, bạn có thể xem được commit cuối cùng một cách d
 
 	    Signed-off-by: Scott Chacon <schacon@example.com>
 
+<<<<<<< HEAD
 Bạn cũng có thể tự nhận thấy rằng, Git thay thế lệnh mới với bất cứ tên gì bạn đặt cho nó. Tuy nhiên, cũng có thể bạn muốn chạy một lệnh bên ngoài, hơn là bản thân các lệnh trong Git. Trong trường hợp này, bạn bắt đầu lệnh đó với ký tự `!`. Nó khá hữu ích trong trường hợp bạn viết công cụ riêng của bạn để làm việc với Git. Một ví dụ minh họa là việc tạo bí danh cho `git visual` để chạy `gitk`: 
 
 	$ git config --global alias.visual '!gitk'
@@ -1170,3 +1437,12 @@ Bạn cũng có thể tự nhận thấy rằng, Git thay thế lệnh mới v�
 ## Tổng Kết ##
 
 Đến bây giờ thì bạn đã có thể thực hiện các thao tác cơ bản của Git một cách cục bộ - tạo mới, sao chép kho chứa, tạo thay đổi, tổ chức và commit các thay đổi đó, và xem lịch sử của các thay đổi đã được thực hiện trên kho chứa. Trong phần tiếp theo, chúng ta sẽ đề cập tới một chức năng tuyệt vời của Git: mô hình phân nhánh.
+=======
+As you can tell, Git simply replaces the new command with whatever you alias it to. However, maybe you want to run an external command, rather than a Git subcommand. In that case, you start the command with a `!` character. This is useful if you write your own tools that work with a Git repository. We can demonstrate by aliasing `git visual` to run `gitk`:
+
+	$ git config --global alias.visual '!gitk'
+
+## Summary ##
+
+At this point, you can do all the basic local Git operations — creating or cloning a repository, making changes, staging and committing those changes, and viewing the history of all the changes the repository has been through. Next, we’ll cover Git’s killer feature: its branching model.
+>>>>>>> 97afd52236e597a39245aadb86b966c4757024b9

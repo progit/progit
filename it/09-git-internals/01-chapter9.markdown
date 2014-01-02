@@ -213,7 +213,7 @@ Ora hai una vera e propria cronologia di Git che puoi consultare con il comando 
 	Author: Scott Chacon <schacon@gmail.com>
 	Date:   Fri May 22 18:15:24 2009 -0700
 
-	    third commit
+	    terza commit
 
 	 bak/test.txt |    1 +
 	 1 files changed, 1 insertions(+), 0 deletions(-)
@@ -222,7 +222,7 @@ Ora hai una vera e propria cronologia di Git che puoi consultare con il comando 
 	Author: Scott Chacon <schacon@gmail.com>
 	Date:   Fri May 22 18:14:29 2009 -0700
 
-	    second commit
+	    seconda commit
 
 	 new.txt  |    1 +
 	 test.txt |    2 +-
@@ -232,7 +232,7 @@ Ora hai una vera e propria cronologia di Git che puoi consultare con il comando 
 	Author: Scott Chacon <schacon@gmail.com>
 	Date:   Fri May 22 18:09:34 2009 -0700
 
-	    first commit
+	    prima commit
 
 	 test.txt |    1 +
 	 1 files changed, 1 insertions(+), 0 deletions(-)
@@ -322,9 +322,9 @@ Per creare un nuovo riferimento che ti aiuterà a ricordare dov'è la tua ultima
 Ora puoi usare il riferimento appena creato al posto del valore SHA-1 nei tuoi comandi Git:
 
 	$ git log --pretty=oneline  master
-	1a410efbd13591db07496601ebc7a059dd55cfe9 third commit
-	cac0cab538b970a37ea1e769cbbde608743bc96d second commit
-	fdf4fc3344e67ab068f836878b6c4951e3b15f3d first commit
+	1a410efbd13591db07496601ebc7a059dd55cfe9 terza commit
+	cac0cab538b970a37ea1e769cbbde608743bc96d seconda commit
+	fdf4fc3344e67ab068f836878b6c4951e3b15f3d prima commit
 
 Questo però non ti incoraggia a modificare direttamente i file di riferimento. Git fornisce un comando sicuro per farlo se vuoi aggiornare un riferimento, chiamato `update-ref`:
 
@@ -337,8 +337,8 @@ Questo è quello che si definisce branch in Git: un semplice puntatore o riferim
 Il tuo branch conterrà solo il lavoro da quella commit in poi:
 
 	$ git log --pretty=oneline test
-	cac0cab538b970a37ea1e769cbbde608743bc96d second commit
-	fdf4fc3344e67ab068f836878b6c4951e3b15f3d first commit
+	cac0cab538b970a37ea1e769cbbde608743bc96d seconda commit
+	fdf4fc3344e67ab068f836878b6c4951e3b15f3d prima commit
 
 Ora, il tuo database Git assomiglia concettualmente alla Figura 9-4.
 
@@ -453,8 +453,8 @@ Git comprime il contenuto di questi file con zlib e, poiché non stai memorizzan
 
 	$ curl http://github.com/mojombo/grit/raw/master/lib/grit/repo.rb > repo.rb
 	$ git add repo.rb 
-	$ git commit -m 'added repo.rb'
-	[master 484a592] added repo.rb
+	$ git commit -m ‘aggiunto repo.rb'
+	[master 484a592] aggiunto repo.rb
 	 3 files changed, 459 insertions(+), 2 deletions(-)
 	 delete mode 100644 bak/test.txt
 	 create mode 100644 repo.rb
@@ -475,8 +475,8 @@ Puoi quindi usare `git cat-file` per vedere le dimensioni dell’oggetto:
 Modifica un po’ il file e guarda che succede:
 
 	$ echo '# testing' >> repo.rb 
-	$ git commit -am 'modified repo a bit'
-	[master ab1afef] modified repo a bit
+	$ git commit -am 'modificato un poco il repository'
+	[master ab1afef] modificato un poco il repository
 	 1 files changed, 1 insertions(+), 0 deletions(-)
 
 Verificando l’albero risultate da questa commit vedrai qualcosa d’interessante:
@@ -820,20 +820,20 @@ Durante il tuo lavoro quotidiano può capitare che, accidentalmente, perda una c
 Qui c’è un esempio di un hard-resets del master nel tuo repository di test su una vecchia commit e recuperare poi le commit perse. Prima di tutto verifica lo stato del tuo repository:
 
 	$ git log --pretty=oneline
-	ab1afef80fac8e34258ff41fc1b867c702daa24b modified repo a bit
-	484a59275031909e19aadb7c92262719cfcdf19a added repo.rb
-	1a410efbd13591db07496601ebc7a059dd55cfe9 third commit
-	cac0cab538b970a37ea1e769cbbde608743bc96d second commit
-	fdf4fc3344e67ab068f836878b6c4951e3b15f3d first commit
+	ab1afef80fac8e34258ff41fc1b867c702daa24b modificato un poco il repository
+	484a59275031909e19aadb7c92262719cfcdf19a aggiunto repo.rb
+	1a410efbd13591db07496601ebc7a059dd55cfe9 terza commit
+	cac0cab538b970a37ea1e769cbbde608743bc96d seconda commit
+	fdf4fc3344e67ab068f836878b6c4951e3b15f3d prima commit
 
 Muovi ora il branch `master` a una commit centrale:
 
 	$ git reset --hard 1a410efbd13591db07496601ebc7a059dd55cfe9
-	HEAD is now at 1a410ef third commit
+	HEAD is now at 1a410ef terza commit
 	$ git log --pretty=oneline
-	1a410efbd13591db07496601ebc7a059dd55cfe9 third commit
-	cac0cab538b970a37ea1e769cbbde608743bc96d second commit
-	fdf4fc3344e67ab068f836878b6c4951e3b15f3d first commit
+	1a410efbd13591db07496601ebc7a059dd55cfe9 terza commit
+	cac0cab538b970a37ea1e769cbbde608743bc96d seconda commit
+	fdf4fc3344e67ab068f836878b6c4951e3b15f3d prima commit
 
 Così facendo hai perso le due commit più recenti: questa commit non sono più raggiungibili in nessun modo. Devi scoprire l’hash SHA dell’ultima commit e aggiungere quindi un branch che vi punti. Il trucco è trovare l’hash SHA dell’ultima commit: non è come lo ricordavi, vero?
 
@@ -852,7 +852,7 @@ Qui vediamo le due commit di cui abbiamo fatto il checkout, ma qui non ci sono p
 	Author: Scott Chacon <schacon@gmail.com>
 	Date:   Fri May 22 18:22:37 2009 -0700
 
-	    third commit
+	    terza commit
 
 	commit ab1afef80fac8e34258ff41fc1b867c702daa24b
 	Reflog: HEAD@{1} (Scott Chacon <schacon@gmail.com>)
@@ -860,17 +860,17 @@ Qui vediamo le due commit di cui abbiamo fatto il checkout, ma qui non ci sono p
 	Author: Scott Chacon <schacon@gmail.com>
 	Date:   Fri May 22 18:15:24 2009 -0700
 
-	     modified repo a bit
+	     modificato un poco il repository
 
 It looks like the bottom commit is the one you lost, so you can recover it by creating a new branch at that commit. For example, you can start a branch named `recover-branch` at that commit (ab1afef):
 
 	$ git branch recover-branch ab1afef
 	$ git log --pretty=oneline recover-branch
-	ab1afef80fac8e34258ff41fc1b867c702daa24b modified repo a bit
-	484a59275031909e19aadb7c92262719cfcdf19a added repo.rb
-	1a410efbd13591db07496601ebc7a059dd55cfe9 third commit
-	cac0cab538b970a37ea1e769cbbde608743bc96d second commit
-	fdf4fc3344e67ab068f836878b6c4951e3b15f3d first commit
+	ab1afef80fac8e34258ff41fc1b867c702daa24b modificato un poco il repository
+	484a59275031909e19aadb7c92262719cfcdf19a aggiunto repo.rb
+	1a410efbd13591db07496601ebc7a059dd55cfe9 terza commit
+	cac0cab538b970a37ea1e769cbbde608743bc96d seconda commit
+	fdf4fc3344e67ab068f836878b6c4951e3b15f3d prima commit
 
 Bello: ora sembra che tu abbia un branch chiamato `recover-branch` dov’era il tuo branch `master` precedentemente, rendendo nuovamente raggiungibili le due commit.
 Immagina che le commit perse, per qualche ragione, non appaiano nel reflog: puoi simularlo cancellando il branch `recover-branch` e il reflog. Ora le due commit non sono più raggiungibili da niente:

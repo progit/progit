@@ -9,7 +9,7 @@ Nelle prime versioni di Git (principalmente pre 1.5) l'interfaccia utente era mo
 
 Il filesystem indirizzabile per contenuto è veramente formidabile, quindi in questo capitolo inizierò parlandone. Imparerai quindi il meccanismo di trasporto e le attività per la manutenzione del repository con le potresti dover aver a che fare.
 
-## Impianto e sanitari ##
+## Impianto e sanitari (*Plumbing* e *Porcelain*) ##
 
 Questo libro parla di come usare Git utilizzando più di 30 termini come `checkout`, `branch`, `remote` e così via. Poiché Git è stato inizialmente sviluppato come un insieme di strumenti per un VCS, piuttosto che un completo VCS user-friendly, ha un mucchio di termini per fare lavori di basso livello e progettati per essere concatenati insieme nello stile UNIX o invocati da script. Di solito ci si riferisce a questi comandi come "plumbing" (impianto), mentre i comandi più user-friendly sono detti comandi "porcelain" (sanitari).
 

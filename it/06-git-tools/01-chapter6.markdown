@@ -128,12 +128,10 @@ eseguire il comando 'git log -g':
 
 E' importante notare che l'informazione del *reflog* è strettamente locale: è un log di cosa hai fatto nel tuo *repository*. I riferimenti non saranno uguali sui cloni degli altri. Appena dopo aver clonato un *repository* il tuo reflog sarà vuoto perché ancora non hai svolto nessuna attività sul tuo *repository*. Eseguendo 'git show HEAD@{2.months.ago}' funzionerà solo se hai clonato il progetto almeno due mesi fa: se è stato clonato cinque minuti fa non otterrai nessun risultato.
 
-### Riferimenti di discendenza ###
+### Riferimenti ancestrali ###
 
-L'altro modo per specificare un *commit* è attraverso la sua discendenza. Se
-viene posizionato un `^` alla fine di un riferimento, Git lo interpreta come il
-genitore di quel determinato *commit*.
-Supponiamo che si guardi la lista delle modifiche effettuate nel progetto:
+L'altro modo principale per specificare una *commit* è attraverso i suoi ascendenti. Se metti un `^` alla fine di un riferimento, Git lo risolve interpretandolo come il padre
+padre di quella determinata *commit*. Immagina di guardare la cronologia del tuo progetto:
 
 	$ git log --pretty=format:'%h %s' --graph
 	* 734713b fixed refs handling, added gc auto, updated tests
@@ -145,8 +143,7 @@ Supponiamo che si guardi la lista delle modifiche effettuate nel progetto:
 	* 1c36188 ignore *.gem
 	* 9b29157 add open3_detach to gemspec file list
 
-E' possibile vedere il precedente *commit* specificando `HEAD^`, che significa
-"il genitore di HEAD":
+È possibile vedere la *commit* precedente specificando `HEAD^`, che significa "il genitore di HEAD":
 
 	$ git show HEAD^
 	commit d921970aadf03b3cf0e71becdaab3147ba71cdef

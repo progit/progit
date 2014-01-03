@@ -837,7 +837,7 @@ Muovi ora il branch `master` a una commit centrale:
 
 Così facendo hai perso le due commit più recenti: questa commit non sono più raggiungibili in nessun modo. Devi scoprire l’hash SHA dell’ultima commit e aggiungere quindi un branch che vi punti. Il trucco è trovare l’hash SHA dell’ultima commit: non è come lo ricordavi, vero?
 
-Spesso il modo più veloce è usare `git reflog`. Mentre lavori Git memorizza silenziosamente lo stato del tuo HEAD ogni volta che lo cambi. IL reflog viene aggiornato ogni volta che fai una commit o cambi un branch. Il reflog viene aggiornato anche dal comando `git update-ref`, che è un’altra buona ragione per usarlo, invece di scrivere direttamente il valore dell’SHA nei tuoi file ref, come abbiamo visto nella sezione “I Riferimenti di Git" in questo stesso capitolo. Eseguendo `git reflog` puoi vedere dov’eri in qualsiasi dato momento:
+Spesso il modo più veloce è usare `git reflog`. Mentre lavori Git memorizza silenziosamente lo stato del tuo HEAD ogni volta che lo cambi. Il reflog viene aggiornato ogni volta che fai una commit o cambi un branch. Il reflog viene aggiornato anche dal comando `git update-ref`, che è un’altra buona ragione per usarlo, invece di scrivere direttamente il valore dell’SHA nei tuoi file ref, come abbiamo visto nella sezione “I Riferimenti di Git" in questo stesso capitolo. Eseguendo `git reflog` puoi vedere dov’eri in qualsiasi dato momento:
 
 	$ git reflog
 	1a410ef HEAD@{0}: 1a410efbd13591db07496601ebc7a059dd55cfe9: updating HEAD

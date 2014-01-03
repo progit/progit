@@ -14,7 +14,7 @@ Als nächstes werden wir einige sehr mächtige Werkzeuge besprechen, die Dir Git
 
 <!--Git allows you to specify specific commits or a range of commits in several ways. They aren’t necessarily obvious but are helpful to know.-->
 
-Git erlaubt dir, Commits auf verschiedenste Art und Weise auszuwählen. Diese sind nicht immer offensichtlich, aber es ist hilfreich diese zu kennen.
+Git erlaubt Dir, Commits auf verschiedenste Art und Weise auszuwählen. Diese sind nicht immer offensichtlich, aber es ist hilfreich diese zu kennen.
 
 <!--### Single Revisions ###-->
 ### Einzelne Revisionen ###
@@ -145,7 +145,7 @@ Außerdem kannst Du dieselbe Syntax verwenden, um eine Zeitspanne anzugeben. Um 
 
 <!--That shows you where the branch tip was yesterday. This technique only works for data that’s still in your reflog, so you can’t use it to look for commits older than a few months.-->
 
-Das zeigt dir, wo der `master` Branch gestern war. Diese Technik funktioniert nur mit Daten, die noch im Reflog sind, d.h. man kann sie nicht für Commits verwenden, die ein älter sind als ein paar Monate.
+Das zeigt Dir, wo der `master` Branch gestern war. Diese Technik funktioniert nur mit Daten, die noch im Reflog sind, d.h. man kann sie nicht für Commits verwenden, die ein älter sind als ein paar Monate.
 
 <!--To see reflog information formatted like the `git log` output, you can run `git log -g`:-->
 
@@ -527,7 +527,7 @@ Im Allgemeinen, wirst Du `y` oder `n` nutzen wenn Du jeden Hunk stagen willst, a
 
 <!--The status of the simplegit.rb file is interesting. It shows you that a couple of lines are staged and a couple are unstaged. You’ve partially staged this file. At this point, you can exit the interactive adding script and run `git commit` to commit the partially staged files.-->
 
-Der Status der simplegit.rb ist interessant. Er zeigt dir, dass ein paar Zeilen gestagd und ein paar ungestaged sind. Du hast diese Datei teilweise gestaged. An dieser Stelle kannst Du das interaktive add Skript verlassen und `git commit` ausführen, um die teilweise gestageden Dateien zu commiten.
+Der Status der simplegit.rb ist interessant. Er zeigt Dir, dass ein paar Zeilen gestagd und ein paar ungestaged sind. Du hast diese Datei teilweise gestaged. An dieser Stelle kannst Du das interaktive add Skript verlassen und `git commit` ausführen, um die teilweise gestageden Dateien zu commiten.
 
 <!--Finally, you don’t need to be in interactive add mode to do the partial-file staging — you can start the same script by using `git add -p` or `git add -\-patch` on the command line.-->
 
@@ -1368,7 +1368,7 @@ In diesem Fall muss man das Verzeichnis entweder an einen anderen Ort verschiebe
 
 <!--The last main caveat that many people run into involves switching from subdirectories to submodules. If you’ve been tracking files in your project and you want to move them out into a submodule, you must be careful or Git will get angry at you. Assume that you have the rack files in a subdirectory of your project, and you want to switch it to a submodule. If you delete the subdirectory and then run `submodule add`, Git yells at you:-->
 
-Die letzte Falle in die viele Leute tappen, tritt auf, wenn man bereits vorhandene Verzeichnisse in Submodule umwandeln will. Wenn man also Dateien, die bereits von Git verwaltet werden, entfernen und in ein entsprechendes Submodul verschieben möchte, muss man vorsichtig sein. Ansonsten können schwer zu behebende Probleme mit Git auftreten. Nehmen wir zum Beispiel an, dass Du die Dateien vom Rack Projekt in ein Unterverzeichnis Deines Projekts abgelegt hast und diese jetzt aber in ein Submodul verschieben möchtest. Wenn Du das Unterverzeichnis einfach löschst und dann den Befehl `submodule add` ausführst, zeigt dir Git folgende Fehlermeldung an:  
+Die letzte Falle in die viele Leute tappen, tritt auf, wenn man bereits vorhandene Verzeichnisse in Submodule umwandeln will. Wenn man also Dateien, die bereits von Git verwaltet werden, entfernen und in ein entsprechendes Submodul verschieben möchte, muss man vorsichtig sein. Ansonsten können schwer zu behebende Probleme mit Git auftreten. Nehmen wir zum Beispiel an, dass Du die Dateien vom Rack Projekt in ein Unterverzeichnis Deines Projekts abgelegt hast und diese jetzt aber in ein Submodul verschieben möchtest. Wenn Du das Unterverzeichnis einfach löschst und dann den Befehl `submodule add` ausführst, zeigt Dir Git folgende Fehlermeldung an:  
 
 	$ rm -Rf rack/
 	$ git submodule add git@github.com:schacon/rack.git rack
@@ -1406,7 +1406,7 @@ Dann musst Du das Submodul-Verzeichnis `rack` an einen anderen Ort verschieben, 
 
 <!--Then, when you switch back, you get an empty `rack` directory. You can either run `git submodule update` to reclone, or you can move your `/tmp/rack` directory back into the empty directory.-->
 
-Wenn man dann wieder in den Zweig mit dem Submodul zurückwechseln will, erhält man ein leeres Verzeichnis `rack`. Um dieses zu befüllen, kannst du entweder `git submodule update` ausführen oder Du kannst Deine Kopie von `/tmp/rack` wieder an den ursprünglichen Ort wiederherstellen.
+Wenn man dann wieder in den Zweig mit dem Submodul zurückwechseln will, erhält man ein leeres Verzeichnis `rack`. Um dieses zu befüllen, kannst Du entweder `git submodule update` ausführen oder Du kannst Deine Kopie von `/tmp/rack` wieder an den ursprünglichen Ort wiederherstellen.
 
 <!--## Subtree Merging ##-->
 ## Subtree Merging ##

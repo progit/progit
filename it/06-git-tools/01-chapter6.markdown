@@ -171,11 +171,8 @@ Puoi anche specificare un numero dopo `^`: per esempio `d921970^2` significa
 
 	    Some rdoc changes
 
-Un altro modo riferimento ancestrale è `~`. Questo si riferisce anche al primo genitore, quindi `HEAD~` e `HEAD^` sono equivalenti. La differenza si nota
-quando viene specificato un numero.
-`HEAD~2` significa "il primo genitore del primo genitore", o "il nonno" -
-attraversa i primi genitori il numero di volte specificato. Per esempio, nella
-lista mostrata precedentemente, `HEAD~3` sarebbe
+Un altro modo riferimento ancestrale è `~`. Questo si riferisce anche al genitore, quindi `HEAD~` e `HEAD^` sono equivalenti. La differenza si nota quando specifichi un numero. `HEAD~2` significa "il genitore del genitore", o "il nonno”: attraversa i primi genitori il numero di volte che specifichi. Per esempio, nella
+cronologia precedente, `HEAD~3` sarebbe
 
 	$ git show HEAD~3
 	commit 1c3618887afb5fbcbea25b7c013f4e2114448b8d
@@ -184,8 +181,7 @@ lista mostrata precedentemente, `HEAD~3` sarebbe
 
 	    ignore *.gem
 
-Potrebbe essere anche scritto come `HEAD^^^`, che è sempre il primo genitore del
-primo genitore del primo genitore:
+Che può anche essere scritto come `HEAD^^^` che, di nuovo, è sempre il genitore del genitore del genitore:
 
 	$ git show HEAD^^^
 	commit 1c3618887afb5fbcbea25b7c013f4e2114448b8d
@@ -194,6 +190,4 @@ primo genitore del primo genitore:
 
 	    ignore *.gem
 
-E' possibile anche combinare queste sintassi - si può prendere il secondo
-genitore del precedente riferimento (assumendo che si tratti di un *merge
-commit*) usando `HEAD~3^2`, e così via.            
+È anche possibile combinare queste sintassi: puoi prendere il nonno del riferimento precedente (assumendo che si tratti di una commit di *merge*) usando `HEAD~3^2`, e così via.            

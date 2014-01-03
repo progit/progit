@@ -94,25 +94,20 @@ Puoi consultare il reflog con il comando 'git reflog':
 	1c36188... HEAD@{5}: rebase -i (squash): updating HEAD
 	7e05da5... HEAD@{6}: rebase -i (pick): updating HEAD
 
-Ogni volta che il *branch* è aggiornato, Git registra l'informazione in questa
-lista temporanea. Si possono specificare anche *commit* più vecchi. Se si vuole
-vedere il quinto valore precedente della *HEAD* del proprio *repository*, si può
-usare il riferimento '@{n}' che si vede nel *output* di reflog:
+Ogni volta che un *branch* viene aggiornato per qualsiasi ragione, Git memorizza questa informazione in questa cronologia temporanea. E puoi anche specificare *commit* più vecchie. Se vuoi vedere la cronologia a partire dalla quinta commit più vecchia a partire dalla *HEAD* del tuo *repository*, puoi usare il riferimento '@{n}' che vedi nel *output* di reflog:
 
 	$ git show HEAD@{5}
 
-Si può anche usare questa sintassi per vedere dove era un *branch* una certa
-quantità di tempo fa. Per esempio, per vedere dov'era il 'master' *branch* ieri,
-si può scrivere:
+Puoi usare usare questa sintassi anche per vedere dove era un *branch* a una certa data. Se vuoi vedere, per esempio, dov'era il 'master' *branch* ieri, puoi scrivere:
 
 	$ git show master@{yesterday}
 
 Questo mostra dove era il *branch* ieri. Questa tecnica funziona solo per i dati
-che sono ancora nel *reflog*, non è possibile usarla per vedere *commit* più
-vecchi di qualche mese.
+che sono ancora nel *reflog* e non puoi quindi usarla per vedere *commit* più
+vecchie di qualche mese.
 
-Per vedere le informazioni del *reflog* formattate come il '*git log*', si può
-lanciare il comando 'git log -g':
+Per vedere le informazioni del *reflog* formattate come l’output di '*git log*', puoi
+eseguire il comando 'git log -g':
 
 	$ git log -g master
 	commit 734713bc047d87bf7eac9674765ae793478c50d3
@@ -131,12 +126,7 @@ lanciare il comando 'git log -g':
 
 	    Merge commit 'phedders/rdocs'
 
-E' importante notare che l'informazione del *reflog* è strettamente locale - è
-un log di cosa è stato fatto nel proprio *repository*. I riferimenti non saranno
-uguali nella copia del *repository* tenuta da qualcun altro.
-Lanciare 'git show HEAD@{2.months-ago}' funzionerà solo se il progetto è stato
-clonato almeno due mesi fa - se è stato clonato cinque minuti prima non verrà
-restituito alcun risultato.
+E' importante notare che l'informazione del *reflog* è strettamente locale: è un log di cosa hai fatto nel tuo *repository*. I riferimenti non saranno uguali sui cloni degli altri. Appena dopo aver clonato un *repository* il tuo reflog sarà vuoto perché ancora non hai svolto nessuna attività sul tuo *repository*. Eseguendo 'git show HEAD@{2.months.ago}' funzionerà solo se hai clonato il progetto almeno due mesi fa: se è stato clonato cinque minuti fa non otterrai nessun risultato.
 
 ### Riferimenti di discendenza ###
 

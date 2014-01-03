@@ -51,10 +51,8 @@ Git riesce a capire un valore SHA-1 intero da uno corto, abbreviato. Se usi l’
 	085bb3b removed unnecessary test code
 	a11bef0 first commit
 
-Generalmente, da otto a dieci caratteri sono più che sufficienti per essere
-univoci all'interno di un progetto.
-Uno dei progetti Git più grandi, il kernel Linux, inizia a necessitare 12
-caratteri, dei 40 possibili, per rimanere univoco.
+Da otto a dieci caratteri sono, generalmente, più che sufficienti per essere
+univoci all'interno di un progetto. Uno dei progetti Git più grandi, il kernel di Linux, inizia a necessitare 12 caratteri, dei 40 possibili, per essere univoco.
 
 ### Una breve nota su SHA-1 ###
 

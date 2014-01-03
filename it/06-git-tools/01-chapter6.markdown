@@ -79,12 +79,11 @@ Se vuoi vedere a quale SHA specifico punti un *branch*, o se vuoi vedere a quale
 	$ git rev-parse topic1
 	ca82a6dff817ec66f44342007202690a93763949
 
-### RefLog ###
+### Nomi brevi di RefLog ###
 
-Una delle cose che Git fa mentre si lavora è tenere un reflog - un log sui
-riferimenti di *HEAD* e *branch* degli ultimi mesi.
+Una delle cose che Git fa dietro le quinte è aggiornare il file reflog, che memorizza silenziosamente la posizione negli ultimi mesi del tuo HEAD e dei riferimenti ai tuoi branch , ogni volta che li cambi.
 
-E' possibile vedere il reflog usando il comando 'git reflog':
+Puoi consultare il reflog con il comando 'git reflog':
 
 	$ git reflog
 	734713b... HEAD@{0}: commit: fixed refs handling, added gc auto, updated

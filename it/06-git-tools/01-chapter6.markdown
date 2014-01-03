@@ -153,11 +153,9 @@ Puoi quindi vedere la *commit* precedente specificando `HEAD^`, che significa "i
 
 	    Merge commit 'phedders/rdocs'
 
-Si può anche specificare un numero dopo `^` - per esempio, `d921970^2` significa
-"il secondo genitore di d921870." Questa sintassi è utile per fare il *merge* di
-*commit* che hanno più di un genitore.
-Il primo genitore è il *branch* dove ci si trova al momento del *merge*, e il
-secondo è il *commit* sul *branch* di cui è stato fatto il *merge*:
+Puoi anche specificare un numero dopo `^`: per esempio `d921970^2` significa
+"il secondo genitore di d921870." Questa sintassi è utile solo per fare il *merge* di
+*commit* che hanno più di un genitore. Il primo genitore è il *branch* dove ti trovi al momento del *merge*, e il secondo è la *commit* sul *branch* da cui hai fatto il *merge*:
 
 	$ git show d921970^
 	commit 1c002dd4b536e7479fe34593e72e6c6c1819e53b

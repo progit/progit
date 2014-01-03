@@ -171,8 +171,7 @@ Puoi anche specificare un numero dopo `^`: per esempio `d921970^2` significa
 
 	    Some rdoc changes
 
-Un altro modo per specificare la discendenza è `~`. Anche questo si riferisce al
-primo genitore, quindi `HEAD~` e `HEAD^` sono equivalenti. La differenza si nota
+Un altro modo riferimento ancestrale è `~`. Questo si riferisce anche al primo genitore, quindi `HEAD~` e `HEAD^` sono equivalenti. La differenza si nota
 quando viene specificato un numero.
 `HEAD~2` significa "il primo genitore del primo genitore", o "il nonno" -
 attraversa i primi genitori il numero di volte specificato. Per esempio, nella

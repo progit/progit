@@ -14,14 +14,9 @@ Puoi fare riferimento a una singola commit usando l’hash SHA-1 attribuito, ma 
 
 ### SHA breve ###
 
-Git è abbastanza intelligente da capire a quale *commit* ci si riferisce se si
-fornisce i primi caratteri, purché il codice SHA-1 sia di almeno quattro
-caratteri e univoco - solo un oggetto nel *repository* corrente inizia con quel
-SHA-1 parziale.
+Git è abbastanza intelligente da capire a quale *commit* ti riferisci scrivi i primi caratteri purché il codice SHA-1 sia di almeno quattro caratteri e sia univoco, ovvero che un solo oggetti nel *repository* attuale inizi con quel SHA-1.
 
-Per esempio, per vedere uno specifico *commit*, supponiamo che venga eseguito un
-comando 'git log' e venga identificato un *commit* dove sono state aggiunte
-certe funzionalità:
+Per vedere per esempio una *commit*  specifica, immaginiamo di eseguire 'git log' e venga identificata una *commit* dove sono state aggiunte determinate funzionalità:
 
 	$ git log
 	commit 734713bc047d87bf7eac9674765ae793478c50d3
@@ -43,18 +38,13 @@ certe funzionalità:
 
 	    added some blame and merge stuff
 
-In questo caso, scegliamo '1c002dd....' Se viene eseguito 'git show' su quel
-*commit*, i seguenti comandi sono equivalenti (assumendo che le versioni più
-corte siano univoche):            
+In questo caso scegliamo '1c002dd....'. Se vuoi eseguire 'git show' su quella *commit*, i seguenti comandi sono equivalenti (assumendo che le versioni più brevi siano univoche):            
 
 	$ git show 1c002dd4b536e7479fe34593e72e6c6c1819e53b
 	$ git show 1c002dd4b536e7479f
 	$ git show 1c002d
 
-Git riesce a capire una corta, univoca abbreviazione del valore SHA-1. Se viene
-passato '--abbrev-commit' al comando 'git-log', l'*output* userà valori più
-corti ma li manterrà unici; in maniera predefinita utilizza sette caratteri ma
-se necessario ne userà di più per mantenere il codice SHA-1 univoco:
+Git riesce a capire un valore SHA-1 intero da uno corto, abbreviato. Se usi l’opzione '--abbrev-commit' col comando 'git-log', l'*output* userà valori più corti ma garantirà che siano unici: di default usa sette caratteri ma ne userà di più se sarà necessario per mantenere l’univocità del valore SHA-1:
 
 	$ git log --abbrev-commit --pretty=oneline
 	ca82a6d changed the version number

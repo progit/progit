@@ -56,6 +56,7 @@ univoci all'interno di un progetto. Uno dei progetti Git più grandi, il kernel 
 
 ### Una breve nota su SHA-1 ###
 
+Arriva un momento in cui molte persone si preoccupano che 
 Un sacco di gente si preoccupa ad un certo punto che, per una qualche casualità,
 potrebbe avere due oggetti nel proprio *repository* che abbiano lo stesso hash
 SHA-1. Cosa accadrebbe a quel punto?

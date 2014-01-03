@@ -196,4 +196,9 @@ Che può anche essere scritto come `HEAD^^^` che, di nuovo, è sempre il genitor
 
 Ora che sai come specificare delle commit singole, vediamo come specificare intervalli di commit. Ciò è particolarmente utile per gestire i tuoi branch: se hai molti branch puoi usare gli intervalli per rispondere a domande come “cosa c’è nel tuo branch di cui io non ho ancora fatto il merge?”
 
+#### Doppio punto ####
 
+Il modo più comune per specificare un intervallo è con il doppio punto che, praticamente, chiede a Git di risolvere l’intervallo tra commit che sia raggiungibile da una commit, ma che non sia raggiungibile dall’altra. Per esempio, immaginiamo di avere una cronologia come nell’immagine 6-1
+
+Insert 18333fig0601.png
+Figure 6-1. Esempio di cronologia per selezione di intervalli.

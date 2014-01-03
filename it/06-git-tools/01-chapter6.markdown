@@ -143,7 +143,7 @@ padre di quella determinata *commit*. Immagina di guardare la cronologia del tuo
 	* 1c36188 ignore *.gem
 	* 9b29157 add open3_detach to gemspec file list
 
-È possibile vedere la *commit* precedente specificando `HEAD^`, che significa "il genitore di HEAD":
+Puoi quindi vedere la *commit* precedente specificando `HEAD^`, che significa "il genitore di HEAD":
 
 	$ git show HEAD^
 	commit d921970aadf03b3cf0e71becdaab3147ba71cdef

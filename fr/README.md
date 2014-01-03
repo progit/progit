@@ -2,10 +2,8 @@
 
 ## Dépôt de référence ##
 
-Le dépot de référence de la traduction française est situé ici :
-https://github.com/progit-fr/progit
-
-C'est le dépôt de fusion des travaux sur la branche fr, avant de lancer les requêtes de tirage sur le dépôt principal Progit.
+Comme le mainteneur des traductions du livre est français, le dépot de référence de la traduction française est situé ici.
+https://github.com/progit/progit
 
 ## Liste de diffusion ##
 
@@ -15,7 +13,7 @@ Si vous travaillez ou souhaitez travailler sur la traduction française de Progi
 
 ## Workflow ##
 
-Pour simplifier la gestion et utiliser pleinement les capacités de Git et Github, la manière la plus directe de collaborer consiste à faire un fork sur Github du dépôt progit-fr/progit sur votre propre compte pour y générer vos modifications, si possible sur une branche thématique.
+Pour simplifier la gestion et utiliser pleinement les capacités de Git et Github, la manière la plus directe de collaborer consiste à faire un fork sur Github du dépôt progit/progit sur votre propre compte pour y générer vos modifications, si possible sur une branche thématique.
 
 Ensuite, il suffit de lancer une requête de tirage pour nous avertir que les modifications peuvent être revues et intégrées.
 

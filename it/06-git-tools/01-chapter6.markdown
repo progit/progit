@@ -67,25 +67,14 @@ questo scenario. Il codice SHA-1 è di 20 bytes o 160 bits. Il numero di oggetti
 Ecco un esempio per dare un'idea di cosa ci vorrebbe per ottenere una collisione
 SHA-1. Se tutti i 6.5 miliardi di esseri umani sulla Terra programmassero e, ogni secondo, ognuno scrivesse codice che fosse equivalente all'intera cronologia del kernel Linux (1 milione di oggetti Git) e ne facesse la push su un enorme *repository* Git, ci vorrebbero 5 anni per contenere abbastanza oggetti in quel *repository* per avere il 50% di possibilità di una singola collisione di oggetti SHA-1. Esiste una probabilità più alta che ogni membro del tuo gruppo di sviluppo, per pura coincidenza, venga attaccato e ucciso da dei lupi nella stessa notte.
 
-### Riferimenti al *branch* ###
+### Riferimenti ai *branch* ###
 
-La strada più diretta per specificare un *commit* richiede che punti ad un
-riferimento di un *branch*. A quel punto potrebbe essere usato il nome del
-*branch* in qualsiasi comando Git che richiede un oggetto *commit* o un valore
-SHA-1. Per esempio, se si vuole mostrare l'ultimo oggetto *commit* di un
-*branch*, i seguenti comandi sono equivalenti, ammesso che il *branch* 'topic1'
-punti a 'ca82a6d':
+Il modo più diretto per specificare una *commit* è avere un *branch* che vi faccia riferimento, che ti permetterebbe di usare il nome del *branch* in qualsiasi comando Git che richieda un oggetto *commit* o un valore SHA-1. Se vuoi, per esempio, mostrare l'ultima *commit* di un *branch*, i seguenti comandi sono equivalenti, supponendo che il *branch* 'topic1' punti a 'ca82a6d':
 
 	$ git show ca82a6dff817ec66f44342007202690a93763949
 	$ git show topic1
 
-Se si vuole vedere a quale specifico SHA un *branch* punta, o se si vuole vedere
-a cosa si riduce ognuno di questi esempi in termini di SHA, si può usare un
-*plumbing tool* di Git chiamato 'rev-parse'. Nel Capitolo 9 ci sono più informazioni
-sui *plumbing tool*; sostanzialmente, 'rev-parse' esiste per operazioni di basso
-livello e non è concepito per essere usato in operazioni quotidiane. Comunque,
-può essere d'aiuto a volte quanto c'è bisogno di vedere cosa succede realmente.
-A quel punto si può lanciare 'rev-parse' sul proprio *branch*.
+Se vuoi vedere a quale SHA specifico punti un *branch*, o se vuoi vedere a quale SHA puntino questi esempi, puoi usare il comando 'rev-parse' di Git, che fa parte dei comandi *plumbing* . Nel Capitolo 9 trovi maggiori informazioni sui comandi *plumbing*: brevemente, 'rev-parse' esiste per operazioni di basso livello e non è concepito per essere usato nelle operazioni quotidiane. Può Comunque essere d'aiuto quando hai bisogno di vedere cosa sta succedendo. Puoi quindi eseguire 'rev-parse' su tuo *branch*.
 
 	$ git rev-parse topic1
 	ca82a6dff817ec66f44342007202690a93763949

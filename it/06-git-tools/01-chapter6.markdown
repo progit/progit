@@ -1,28 +1,16 @@
 # Git Tools #
 
-Fin'ora sono stati imparati la maggior parte dei comandi giornalieri a i
-workflow che potrebbero essere necessari a gestire e mantenere un repository Git
-per il controllo del codice sorgente.
-Sono state compiute le attività di base per il tracciamento e il commit dei
-file, ed è stato sfruttato il potere della *staging area* e argomenti leggeri il
-*branching* (ramificazione) e il *merge*.
+Finora hai imparato la la maggior parte dei comandi d’uso quotidiani e i workflow che potrebbero essere necessari a gestire e mantenere un repository per il controllo del codice sorgente con Git. Hai eseguito le attività di base per il tracciamento e la commit dei file, e hai sfruttato il potere della *staging area* e il *branch* (la ramificazione) e il *merge* di argomenti dall’impatto leggero.
 
-Ora verrà esplorato un numero di cose veramente potenti che Git può fare che non
-vengono necessariamente usate di base quotidianamente ma che potrebbero servire
-ad un certo punto.
+Vedremo ora una serie di potenzialità di Git che potresti non usare quotidianamente, ma di cui potresti averne bisogno a un certo punto.
 
 ## Selezione della revisione ##
 
-Git permette di specificare determinati *commit* o una serie di *commit* in
-diversi modi.
-Non sono necessariamente evidenti ma può essere d'aiuto conoscerli.
+Git ti permette di specificare una o più *commit* in diversi modi. Non sono sempre ovvi, ma è utile conoscerli.
 
-### Singola revisione ###
+### Singole versioni ###
 
-E' possibile ovviamente riferirsi a un *commit* tramite l'hash SHA-1 che viene
-dato, ma ci sono modi più alla portata degli umani per riferirsi ai *commit*.
-Questa sezione delinea i diversi modi con cui ci si può riferire ad un singolo
-commit.
+Puoi fare riferimento a una singola commit usando l’hash SHA-1 attribuito, ma ci sono altri metodi più amichevoli per fare riferimento a una *commit*. Questa sezione delinea i modi con cui ci si può riferire a una singolo commit.
 
 ### SHA breve ###
 

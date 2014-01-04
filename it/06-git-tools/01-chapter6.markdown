@@ -222,3 +222,17 @@ Questo è utile se vuoi mantenere il branch `experiment` aggiornato e sapere di 
 Questo comando mostra tutte le commit nel tuo branch che non sono nel branch `master` del tuo repository remoto `origin`. Se esegui `git push` quando il tuo branch è associato a `origin/master`, le commit elencate da `git log origin/master..HEAD` saranno le commit che saranno inviate al server.
 Puoi anche omettere una delle parti della sintassi, e Git assumerà che sia HEAD. Puoi per esempio ottenere lo stesso risultato dell’esempio precedente scrivendo `git log origin/master..`: Git sostituisce la parte mancante con HEAD.
 
+#### Punti multipli ####
+
+La sintassi del doppio punto è utile come la stenografia, ma potresti voler specificare più di due branch, così come vedere le commit che sono nei vari branch e che non sono nel tuo branch attuale. Git ti permette di farlo sia con il carattere `^` che con l’opzione `--not` prima di ciascun riferimento del quale vuoi vedere le commit non raggiungibili. Quindi questi tre comandi sono equivalenti:
+
+	$ git log refA..refB
+	$ git log ^refA refB
+	$ git log refB --not refA
+
+Questo è interessante, perché con questa sintassi puoi specificare più di due riferimenti nella tua query, cosa che non puoi fare con il doppio punto. Se per esempio vuoi vedere tutte le commit che siano raggiungibili da `refA` o da `refB` ma non da `refC` puoi usare una delle seguenti alternative:
+
+	$ git log refA refB ^refC
+	$ git log refA refB --not refC
+
+Questo la rende un sistema potente di query di revisione che dovrebbe aiutarti a capire cosa c’è nei tuo branch.

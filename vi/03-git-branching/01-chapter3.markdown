@@ -355,39 +355,39 @@ Sẽ dễ hình dung hơn khi nghĩ về chúng như là các xi-lô, nơi mà t
 Insert 18333fig0319.png
 Hình 3-19. Có lẽ sẽ dễ hiểu hơn khi coi các nhánh là các xi-lô.
 
-Bạn có thể tiếp tục làm theo cách này cho nhiều tầng ổn định khác nhau. Nhiều dự án lớn có nhánh `proposed` hoặc `pu` (proposed updates) được sử dụng cho các nhánh chưa đủ điều kiện để tích hợp vào `next` hoặc `master`. 
+Bạn có thể tiếp tục làm theo cách này cho nhiều tầng ổn định khác nhau. Nhiều dự án lớn có nhánh `proposed` hoặc `pu` (proposed updates) được sử dụng cho các nhánh chưa đủ điều kiện để tích hợp vào `next` hoặc `master`. Ý tưởng ở đây là, các nhánh ở các tầng khác nhau của sự ổn định; khi chúng đạt tới một mức ổn định hơn nào đó, chúng sẽ được tích hợp vào tầng trên nó. 
+Tóm lại, có nhiều nhánh tồn lại lâu dài không thật sự cần thiết, nhưng nó thường rất hữu ích, đặc biệt là khi bạn làm việc với các dự án lớn và phức tạp.
 
-You can keep doing this for several levels of stability. Some larger projects also have a `proposed` or `pu` (proposed updates) branch that has integrated branches that may not be ready to go into the `next` or `master` branch. The idea is that your branches are at various levels of stability; when they reach a more stable level, they’re merged into the branch above them.
-Again, having multiple long-running branches isn’t necessary, but it’s often helpful, especially when you’re dealing with very large or complex projects.
+### Nhánh Chủ Đề ###
 
-### Topic Branches ###
+Nhánh chủ đề (topic branches) thì ngược lại, nó lại khá hữu ích cho các dự án ở bất kỳ cỡ nào. Một nhánh chủ đề là nhánh có vòng đời ngắn mà bạn tạo để phát triển một tính năng nào đó hoặc tương tự. Nó giống như một thứ gì đó mà bạn chưa từng làm với một VCS trước đây bởi vì nhìn chung nó đòi hỏi rất nhiều nỗ lực để tạo mới cũng như tích hợp các nhánh lại với nhau.
 
-Topic branches, however, are useful in projects of any size. A topic branch is a short-lived branch that you create and use for a single particular feature or related work. This is something you’ve likely never done with a VCS before because it’s generally too expensive to create and merge branches. But in Git it’s common to create, work on, merge, and delete branches several times a day.
+Như bạn đã thấy trong phần trước với các nhánh `iss53` và `hotfix` bạn đã tạo ra. Bạn thực hiện một số commit trên đó và xóa chúng đi ngay sau khi tính hợp chúng lại với nhánh chính. Kỹ thuật này cho phép bạn chuyển ngữ cảnh một cách nhanh chóng và toàn diện - vì công việc của bạn tách biệt hoàn toàn ở các xi-lô nơi mà tất cả các thay đổi ở nhánh đó chỉ liên quan đến chủ đề đó, điều này khiến cho việc xem xét lại (review) mã nguồn hoặc tương tự trở nên dễ dàng hơn rất nhiều. Bạn có thể giữ các thay đổi ở đó trong bất kỳ khoảng thời gian nào bạn muốn, có thể tính bằng phút, ngày, hoặc tháng, và sau đó tích hợp lại khi chúng đã sẵn sàng, không quan trọng thứ tự chúng được tạo ra hay làm việc.
 
-You saw this in the last section with the `iss53` and `hotfix` branches you created. You did a few commits on them and deleted them directly after merging them into your main branch. This technique allows you to context-switch quickly and completely — because your work is separated into silos where all the changes in that branch have to do with that topic, it’s easier to see what has happened during code review and such. You can keep the changes there for minutes, days, or months, and merge them in when they’re ready, regardless of the order in which they were created or worked on.
-
-Consider an example of doing some work (on `master`), branching off for an issue (`iss91`), working on it for a bit, branching off the second branch to try another way of handling the same thing (`iss91v2`), going back to your master branch and working there for a while, and then branching off there to do some work that you’re not sure is a good idea (`dumbidea` branch). Your commit history will look something like Figure 3-20.
+Hãy cùng xét một ví dụ về thực hiện một số công việc (trên nhánh `master`), tạo nhánh cho một vấn đề cần giải quyết (`iss91`), làm việc trên đó một chút, tạo một nhánh thứ hai cùng giải quyết vấn đề đó nhưng theo một cách khác (`iss91v2`), quay trở lại nhánh `master` và làm việc trong một khoảng thời gian nhất định, sau đó tạo một nhánh khác từ đó cho một ý tưởng mà bạn không chắc chắn là nó có phải là ý hay hay không (nhánh `dumbidea`). Lúc này lịch sử commit của bạn sẽ giống Hình 3-20.
 
 Insert 18333fig0320.png
-Figure 3-20. Your commit history with multiple topic branches.
+Hình 3-20. Lịch sử commit với nhiều nhánh chủ đề.
 
-Now, let’s say you decide you like the second solution to your issue best (`iss91v2`); and you showed the `dumbidea` branch to your coworkers, and it turns out to be genius. You can throw away the original `iss91` branch (losing commits C5 and C6) and merge in the other two. Your history then looks like Figure 3-21.
+Bây giờ, giả sử bạn quyết định lựa chọn cách giải quyết thứ hai (`iss91v2`); và bạn trình bày ý tưởng `dumbidea` cho các đồng nghiệp, điều mà bạn không ngờ tới rằng mọi người lại cho đó là một ý tưởng tuyệt vời. Bạn đã có thể bỏ đi nhánh ban đầu `iss91` (mất commit C5 và C6) và tích hợp hai commit còn lại. Lịch sử của bạn lúc này sẽ giống Hình 3-21.
 
 Insert 18333fig0321.png
-Figure 3-21. Your history after merging in dumbidea and iss91v2.
+Hình 3-21. Lịch sử commit sau khi tích hợp dumbidea và iss91v2.
 
-It’s important to remember when you’re doing all this that these branches are completely local. When you’re branching and merging, everything is being done only in your Git repository — no server communication is happening.
+Ghi nhớ một điều quan trọng là khi bạn làm tất cả những việc này, các nhánh hoàn toàn nằm ở máy nội bộ. Khi bạn phân nhánh và tích hợp, tất cả mọi thứ xảy ra trên kho chứa Git của bạn - không có giao tiếp tới máy chủ nào xảy ra.
 
-## Remote Branches ##
+## Nhánh Từ Xa ##
 
-Remote branches are references to the state of branches on your remote repositories. They’re local branches that you can’t move; they’re moved automatically whenever you do any network communication. Remote branches act as bookmarks to remind you where the branches on your remote repositories were the last time you connected to them.
+Nhánh từ xa là các tham chiếu tới trạng thái của các nhánh trên kho chứa từ xa/trung tâm của bạn. Chúng là các nhánh nội bộ mà bạn không thể di chuyển; chúng chỉ di chuyển một cách tự động mỗi khi bạn thực hiện bất kỳ giao tiếp nào qua mạng lưới. Nhánh từ xa hoạt động như là các bookmark (dấu) để nhắc nhở bạn các nhánh trên kho chứa trung tâm của bạn ở đâu vào lần cuối cùng bạn kết nối tới.
 
-They take the form `(remote)/(branch)`. For instance, if you wanted to see what the `master` branch on your `origin` remote looked like as of the last time you communicated with it, you would check the `origin/master` branch. If you were working on an issue with a partner and they pushed up an `iss53` branch, you might have your own local `iss53` branch; but the branch on the server would point to the commit at `origin/iss53`.
+Chúng có dạng `(remote)/(branch)`. Ví dụ, nếu bạn muốn xem nhánh `master` trên nhánh từ xa `origin` của bạn như thế nào từ lần giao tiếp cuối cùng, bạn sẽ dùng `origin/master`. Nếu bạn đang giải quyết một vấn đề với đối tác và họ đẩy dữ liệu lên nhánh `iss53`, bạn có thể có riêng nhánh `iss53` trên máy nội bộ; nhưng nhánh trên máy chủ sẽ trỏ tới commit tại `origin/iss53`.
 
-This may be a bit confusing, so let’s look at an example. Let’s say you have a Git server on your network at `git.ourcompany.com`. If you clone from this, Git automatically names it `origin` for you, pulls down all its data, creates a pointer to where its `master` branch is, and names it `origin/master` locally; and you can’t move it. Git also gives you your own `master` branch starting at the same place as origin’s `master` branch, so you have something to work from (see Figure 3-22).
+Điều này có thể hơi khó hiểu một chút, vậy hãy cùng xem một ví dụ. Giả sử bạn có một máy chủ Git trên mạng của bạn tại địa chỉ `git.ourcompany.com`. Nếu bạn tạo bản sao từ đây, Git sẽ tự động đặt tên nó là `origin` cho bạn, tải về toàn bộ dữ liệu, tạo một con trỏ tới nhánh `master` và đặt tên nội bộ cho nó là `origin/master`; và bạn không thể di chuyển nó. Git cũng cung cấp cho bạn nhánh `master` riêng, bắt đầu cùng một vị trí với `master` của origin để cho bạn có thể bắt đầu làm việc (xem Hình 3-22).
 
 Insert 18333fig0322.png
-Figure 3-22. A Git clone gives you your own master branch and origin/master pointing to origin’s master branch.
+Hình 3-22. Một bản sao Git cung cấp cho bạn nhánh master riêng và nhánh origin/master trỏ tới nhánh master của origin.
+
+
 
 If you do some work on your local master branch, and, in the meantime, someone else pushes to `git.ourcompany.com` and updates its master branch, then your histories move forward differently. Also, as long as you stay out of contact with your origin server, your `origin/master` pointer doesn’t move (see Figure 3-23).
 

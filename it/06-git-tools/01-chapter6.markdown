@@ -198,7 +198,7 @@ Ora che sai come specificare delle commit singole, vediamo come specificare inte
 
 #### Due punti ####
 
-Il modo più comune per specificare un intervallo è con il doppio punto che, praticamente, chiede a Git di risolvere l’intervallo tra commit che sia raggiungibile da una commit, ma che non sia raggiungibile dall’altra. Per esempio, immaginiamo di avere una cronologia come nell’immagine 6-1
+Il modo più comune per specificare un intervallo è con i due punti che, praticamente, chiedono a Git di risolvere l’intervallo tra commit che sia raggiungibile da una commit, ma che non sia raggiungibile dall’altra. Per esempio, immaginiamo di avere una cronologia come nell’immagine 6-1
 
 Insert 18333fig0601.png
 Figure 6-1. Esempio di cronologia per selezione di intervalli.
@@ -224,15 +224,38 @@ Puoi anche omettere una delle parti della sintassi, e Git assumerà che sia HEAD
 
 #### Punti multipli ####
 
-La sintassi del doppio punto è utile come la stenografia, ma potresti voler specificare più di due branch, così come vedere le commit che sono nei vari branch e che non sono nel tuo branch attuale. Git ti permette di farlo sia con il carattere `^` che con l’opzione `--not` prima di ciascun riferimento del quale vuoi vedere le commit non raggiungibili. Quindi questi tre comandi sono equivalenti:
+La sintassi dei due punti è utile come la stenografia, ma potresti voler specificare più di due branch, così come vedere le commit che sono nei vari branch e che non sono nel tuo branch attuale. Git ti permette di farlo sia con il carattere `^` che con l’opzione `--not` prima di ciascun riferimento del quale vuoi vedere le commit non raggiungibili. Quindi questi tre comandi sono equivalenti:
 
 	$ git log refA..refB
 	$ git log ^refA refB
 	$ git log refB --not refA
 
-Questo è interessante, perché con questa sintassi puoi specificare più di due riferimenti nella tua query, cosa che non puoi fare con il doppio punto. Se per esempio vuoi vedere tutte le commit che siano raggiungibili da `refA` o da `refB` ma non da `refC` puoi usare una delle seguenti alternative:
+Questo è interessante, perché con questa sintassi puoi specificare più di due riferimenti nella tua query, cosa che non puoi fare con i due punti. Se per esempio vuoi vedere tutte le commit che siano raggiungibili da `refA` o da `refB` ma non da `refC` puoi usare una delle seguenti alternative:
 
 	$ git log refA refB ^refC
 	$ git log refA refB --not refC
 
 Questo la rende un sistema potente di query di revisione che dovrebbe aiutarti a capire cosa c’è nei tuo branch.
+
+#### Tre punti ####
+
+L’ultima sintassi per la selezione di intervalli è quella dei tre punti che indica tutte le commit raggiungibili da ciascuno dei riferimenti ma non da entrambi. Rivedi la cronologia delle commit nella Figura 6-1.
+Se vuoi vedere cosa sia in `master` o in `experiment` ma non i riferimenti comuni puoi eseguire questo comando
+
+	$ git log master...experiment
+	F
+	E
+	D
+	C
+
+Che ti mostra l’output normale del *log*, ma solo con le informazioni di quelle quattro commit nel solito ordinamento cronologico.
+
+In questo è comune usare il parametro `--left-right` con il comando `log`, che mostra da che parte è la commit nell’intervallo selezionato, che rende i dati molto più utili:
+
+	$ git log --left-right master...experiment
+	< F
+	< E
+	> D
+	> C
+
+Con questi strumenti puoi dire facilmente a Git quale o quali commit vuoi ispezionare.

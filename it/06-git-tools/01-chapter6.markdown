@@ -490,6 +490,10 @@ Devi quindi spostare la directory del modulo `rack` prima di poter tornare al br
 
 Ora, quando tornerai indietro, troverai la directory `rack` vuota. Ora puoi eseguire `git submodule update` per ripopolarla o rispostare la directory `/tmp/rack` nella directory vuota.
 
+## Subtree Merging ##
+
+Ora che hai visto quali sono le difficoltà del sistema dei moduli vediamo un’alternativa per risolvere lo stesso problema. Quando Git fa dei merge vede prima quello di cui deve fare il merge e poi decide quale sia la strategia migliore da usare. Se stai facendo il merge due branch Git userà la strategia _ricorsiva_ (*recursive* in inglese). Se stai facendo il merge di più di due branch Git userà la strategia del polpo (*octopus* in inglese). Queste strategie sono scelte automaticamente, perché la strategia ricorsiva può gestire situazioni complesse di merge a tre vie (quando ci sono per esempio più antenati), ma può gestire solamente due branch alla volta. La strategia del polpo può gestire branch multipli ma agisce con più cautela per evitare conflitti difficili da risolvere, ed è quindi scelta come strategia predefinita se stai facendo il merge di più di due branch.
+
 ## Sommario ##
 
 Hai visto numerosi strumenti avanzati che ti permettono di manipolare le tue commit e la tua area di staging in modo più preciso. Quando incontrassi dei problemi dovresti essere facilmente in grado di capire quale commit li ha generati, quando e chi ne è l’autore. Se desideri usare dei sotto-progetti nel tuo progetto e hai appreso alcuni modi per soddisfare tali esigenze. A questo punto dovresti essere in grado di fare in Git la maggior parte delle cose sulla riga di comando di uso quotidiano, e sentirti a tuo agio facendole.

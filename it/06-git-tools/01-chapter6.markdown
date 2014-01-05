@@ -298,3 +298,4 @@ Prima di tutto nota il file `.gitmodules`: è un file di configurazione che memo
 	      path = rack
 	      url = git://github.com/chneukirchen/rack.git
 
+Se hai più di un modulo, avrei più voci in questo file. È importante notare che anche questo file è versionato con tutti gli altri file, come il tuo `.gitignore` e viene trasferito con tutto il resto del tuo progetto. Questo è il modo in cui gli altri che clonano questo progetto sanno dove trovare i progetti dei moduli.

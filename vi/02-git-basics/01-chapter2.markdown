@@ -107,7 +107,7 @@ Hãy sửa một tập tin đang được theo dõi. Nếu bạn sửa một t�
 	#	modified:   benchmarks.rb
 	#
 
-Tập tin `benchmarks.rb` nằm trong danh sách "Các thay đổi chưa được tổ chức/đánh dấu để commit" - có nghĩa là một tập tin đang được theo dõi đã bị thay đổi trong thư mục làm việc nhưng chưa được "staged". Để làm việc này, bạn chạy lệnh `git add` (đó là một câu lệnh đa chức năng - bạn có thể dùng nó để bắt đầu theo dõi tập tin, tổ chức tập tin, hoặc các việc khác như đánh dấu đã giải quyết xong các tập tin có nội dung mâu thuẫn nhau khi gộp). Chạy `git add` để "stage" tập tin `benchmarks.rb` và sau đó chạy lại lệnh `git status`: 
+Tập tin `benchmarks.rb` nằm trong danh sách "Các thay đổi chưa được tổ chức/đánh dấu để commit" - có nghĩa là một tập tin đang được theo dõi đã bị thay đổi trong thư mục làm việc nhưng chưa được "staged". Để làm việc này, bạn chạy lệnh `git add` (đó là một câu lệnh đa chức năng - bạn có thể dùng nó để bắt đầu theo dõi tập tin, tổ chức tập tin, hoặc các việc khác như đánh dấu đã giải quyết xong các tập tin có nội dung mâu thuẫn nhau khi tích hợp). Chạy `git add` để "stage" tập tin `benchmarks.rb` và sau đó chạy lại lệnh `git status`: 
 
 	$ git add benchmarks.rb
 	$ git status
@@ -589,7 +589,7 @@ The lines must be formatted as follows
 
 Có thể bạn băn khoăn về sự khác nhau giữa _tác giả_ (author) và _người commit_ (committer). _Tác giả_ là người đầu tiên viết bản vá (patch), trong khi đó _người commit_ là người cuối cùng áp dụng miếng vá đó. Như vậy, nếu bạn gửi một bản vá cho một dự án và một trong các thành viên chính của dự án "áp dụng" (chấp nhận) bản vá đó, cả hai sẽ cùng được ghi nhận công trạng (credit) - bạn với vai trò là tác giả và thành viên của dự án trong vai trò người commit. Chúng ta sẽ bàn kỹ hơn một chút về sự khác nhau này trong *Chương 5*.
 
-Lựa chọn `oneline` và `formar` đặc biệt hữu ích khi sử dụng với một tham số khác của `log` là `--graph`. Khi sử dụng, tham số này sẽ thêm một biểu đồ sử dụng dựa trên các ký tự ASCII hiển thị nhánh và lịch sử gộp các tập tin của bạn, chúng ta có thể thấy trong dự án Grit như sau:
+Lựa chọn `oneline` và `format` đặc biệt hữu ích khi sử dụng với một tham số khác của `log` là `--graph`. Khi sử dụng, tham số này sẽ thêm một biểu đồ sử dụng dựa trên các ký tự ASCII hiển thị nhánh và lịch sử tích hợp các tập tin của bạn, chúng ta có thể thấy trong dự án Grit như sau:
 
 	$ git log --pretty=format:"%h %s" --graph
 	* 2d3acf9 ignore errors from SIGCHLD on trap
@@ -619,7 +619,7 @@ The lines must be formatted as follows
 	--name-status	Hiển thị các tập tin bị ảnh hưởng với các thông tin như thêm mới/sửa/xoá.
 	--abbrev-commit	Chỉ hiện thị một số ký tự đầu của mã băm SHA-1 thay vì tất cả 40.
 	--relative-date	Hiển thị ngày ở định dạng tương đối (ví dụ, "2 weeks ago") thay vì định dạng đầy đủ.
-	--graph	Hiển thị biểu đồ ASCII của nhánh và lịch sử gộp cùng với thông tin đầu ra khác.
+	--graph	Hiển thị biểu đồ ASCII của nhánh và lịch sử tích hợp cùng với thông tin đầu ra khác.
 	--pretty	Hiện thị các commit sử dụng một định dạng khác. Các lựa chọn bao gồm oneline, short, full, fuller và format (cho phép bạn sử dụng định dạng riêng).
 	--oneline	Một lựa chọn ngắn, thuận tiện cho `--pretty=oneline --abbrev-commit`.
 
@@ -651,7 +651,7 @@ The lines must be formatted as follows
 	--author	Chỉ hiện thị các commit mà tên tác giả thoả mãn điều kiện nhất định.
 	--committer	Chỉ hiện thị các commit mà tên người commit thoả mãn điều kiện nhất định.
 
-Ví dụ, bạn muốn xem các commit đã thay đổi các tập tin thử nghiệm trong lịch sử mã nguồn của Git, được commit bởi Junio Hâmno trng tháng 10 năm 2008 mà chưa được gộp/trộn, bạn có thể chạy lệnh sau:
+Ví dụ, bạn muốn xem các commit đã thay đổi các tập tin thử nghiệm trong lịch sử mã nguồn của Git, được commit bởi Junio Hâmno trng tháng 10 năm 2008 mà chưa được tích hợp/gộp, bạn có thể chạy lệnh sau:
 
 	$ git log --pretty="%h - %s" --author=gitster --since="2008-10-01" \
 	   --before="2008-11-01" --no-merges -- t/
@@ -815,7 +815,7 @@ Bây giờ bạn có thể sử dụng `pb` trong các câu lệnh, nó có tác
 	 * [new branch]      master     -> pb/master
 	 * [new branch]      ticgit     -> pb/ticgit
 
-Nhánh chính của Paul có thể truy cập cục bộ như là `pb/master` - bạn có thể gộp nó vào các nhánh của bạn, hoặc sử dụng nó như là một nhánh cục bộ ở thời điểm đó nếu như bạn muốn kiểm tra nó.  
+Nhánh chính của Paul có thể truy cập cục bộ như là `pb/master` - bạn có thể tích hợp nó vào các nhánh của bạn, hoặc sử dụng nó như là một nhánh cục bộ ở thời điểm đó nếu như bạn muốn kiểm tra nó.  
 
 ### Truy Cập Và Kéo Về Từ Máy Chủ Trung Tâm ###
 
@@ -823,11 +823,11 @@ Như bạn vừa thấy, để lấy dữ liệu của các dự án từ xa v�
 
 	$ git fetch [remote-name]
 
-Lệnh này sẽ truy cập vào dự án từ xa đó và kéo xuống toàn bộ dữ liệu mà bạn chưa có trong đó cho bạn. Sau khi thực hiện xong bước này, bạn đã có các tham chiếu đến toàn bộ các nhánh của dự án từ xa đó, nơi mà bạn có thể gộp hoặc kiểm tra bất kỳ thời điểm nào. (Chúng ta sẽ đề cập chi tiết hơn về nhánh là gì và sử dụng chúng như thế nào ở *Chương 3*.)
+Lệnh này sẽ truy cập vào dự án từ xa đó và kéo xuống toàn bộ dữ liệu mà bạn chưa có trong đó cho bạn. Sau khi thực hiện xong bước này, bạn đã có các tham chiếu đến toàn bộ các nhánh của dự án từ xa đó, nơi mà bạn có thể tích hợp hoặc kiểm tra bất kỳ thời điểm nào. (Chúng ta sẽ đề cập chi tiết hơn về nhánh là gì và sử dụng chúng như thế nào ở *Chương 3*.)
 
-Nếu bạn tạo bản sao từ một kho chứa nào đó khác, lệnh này sẽ tự động kho chứa từ xa đó vào dưới tên *origin*. Vì thế, `git fetch origin` sẽ truy xuất (fetch) bất kỳ thay đổi mới nào được đẩy lên trên máy chủ từ sau khi bạn sao chép (hoặc lần truy xuất cuối cùng). Hãy ghi nhớ một điều quan trọng là lệnh `fetch` kéo tất cả dữ liệu về kho chứa trên máy của bạn - nó không tự động gộp với bất kỳ thay đổi nào mà bạn đang thực hiện. Bạn phải gộp nó một cách thủ không vào kho chứa nội bộ khi đã sẵn sàng.
+Nếu bạn tạo bản sao từ một kho chứa nào đó khác, lệnh này sẽ tự động kho chứa từ xa đó vào dưới tên *origin*. Vì thế, `git fetch origin` sẽ truy xuất (fetch) bất kỳ thay đổi mới nào được đẩy lên trên máy chủ từ sau khi bạn sao chép (hoặc lần truy xuất cuối cùng). Hãy ghi nhớ một điều quan trọng là lệnh `fetch` kéo tất cả dữ liệu về kho chứa trên máy của bạn - nó không tự động tích hợp với bất kỳ thay đổi nào mà bạn đang thực hiện. Bạn phải tích hợp nó một cách thủ không vào kho chứa nội bộ khi đã sẵn sàng.
 
-Nếu bạn có một nhánh được cài đặt để theo dõi một nhánh từ xa khác (xem phần tiếp theo và *Chương 3* để biết thêm chi tiết), bạn có thể sử dụng lệnh `git pull` để tự động truy xuất và sau đó gộp nhánh từ xa vào nhánh nội bộ. Đây có thể là cách dễ dàng và thoải mái hơn cho bạn; và mặc định thì, lệnh `git clone` tự động cài đặt nhánh chính nội bộ (local master branch) để theo dõi nhanh chính trên máy chủ từ xa (remote master branch) - nơi mà bạn sao chép về, (giả sử máy chủ từ xa có một nhánh chính). Thường thì khi chạy lệnh `git pull` nó sẽ truy xuất dữ liệu từ máy chủ trung tâm nơi lần đầu bạn sao chép và cố gắng tự động gộp chúng vào kho chứa hiện thời nơi bạn đang làm việc. 
+Nếu bạn có một nhánh được cài đặt để theo dõi một nhánh từ xa khác (xem phần tiếp theo và *Chương 3* để biết thêm chi tiết), bạn có thể sử dụng lệnh `git pull` để tự động truy xuất và sau đó tích hợp nhánh từ xa vào nhánh nội bộ. Đây có thể là cách dễ dàng và thoải mái hơn cho bạn; và mặc định thì, lệnh `git clone` tự động cài đặt nhánh chính nội bộ (local master branch) để theo dõi nhanh chính trên máy chủ từ xa (remote master branch) - nơi mà bạn sao chép về, (giả sử máy chủ từ xa có một nhánh chính). Thường thì khi chạy lệnh `git pull` nó sẽ truy xuất dữ liệu từ máy chủ trung tâm nơi lần đầu bạn sao chép và cố gắng tự động tích hợp chúng vào kho chứa hiện thời nơi bạn đang làm việc. 
 
 ### Đẩy Lên Máy Chủ Trung Tâm ###
 
@@ -835,7 +835,7 @@ Nếu bạn có một nhánh được cài đặt để theo dõi một nhánh t
 
 	$ git push origin master
 
-Lệnh này chỉ hoạt động nếu bạn sao chép từ một máy chủ mà trên đó bạn được cấp phép quyền ghi và chưa có ai khác đẩy dữ liệu lên tại thời điểm đó. Nếu bạn và ai khác cùng sao chép tại cùng một thời điểm; người kia đẩy ngược lên, sau đó bạn cũng muốn đẩy lên, thì hành động của bạn sẽ bị từ chối ngay tức khắc. Trước hết bạn phải thực hiện kéo các thay đổi mà người đó đã thực hiện và sát nhập/gộp nó vào của bạn, sau đó bạn mới được phép đẩy lên. Xem *Chương 3* để hiểu chi tiết hơn về làm thế nào để đẩy lên máy chủ trung tâm. 
+Lệnh này chỉ hoạt động nếu bạn sao chép từ một máy chủ mà trên đó bạn được cấp phép quyền ghi và chưa có ai khác đẩy dữ liệu lên tại thời điểm đó. Nếu bạn và ai khác cùng sao chép tại cùng một thời điểm; người kia đẩy ngược lên, sau đó bạn cũng muốn đẩy lên, thì hành động của bạn sẽ bị từ chối ngay tức khắc. Trước hết bạn phải thực hiện kéo các thay đổi mà người đó đã thực hiện và tích hợp/gộp nó vào của bạn, sau đó bạn mới được phép đẩy lên. Xem *Chương 3* để hiểu chi tiết hơn về làm thế nào để đẩy lên máy chủ trung tâm. 
 
 ### Kiểm Tra Một Máy Chủ Trung Tâm ###
 
@@ -850,7 +850,7 @@ Nếu bạn muốn xem chi tiết hơn các thông tin về một kho chứa tru
 	    master
 	    ticgit
 
-Lệnh này liệt kê địa chỉ của kho chứa trung tâm cũng như thông tin các nhánh đang theo dõi. Nó cho bạn biết rằng nếu như bạn đang ở nhánh master và chạy lệnh git pull, nó sẽ tự động gộp nhánh này với nhánh trung tâm sau khi truy xuất toàn bộ các tham chiếu từ xa. Nó cũng liệt kê tất cả các tham chiếu từ xa mà nó đã kéo xuống đó.
+Lệnh này liệt kê địa chỉ của kho chứa trung tâm cũng như thông tin các nhánh đang theo dõi. Nó cho bạn biết rằng nếu như bạn đang ở nhánh master và chạy lệnh git pull, nó sẽ tự động tích hợp nhánh này với nhánh trung tâm sau khi truy xuất toàn bộ các tham chiếu từ xa. Nó cũng liệt kê tất cả các tham chiếu từ xa mà nó đã kéo xuống đó.
 
 Đây là một ví dụ đơn giản mà bạn thường xuyên gặp phải. Khi bạn sử dụng Git thường xuyên hơn, bạn sẽ thường thấy nhiều thông tin hơn từ lệnh `git remote show`:
 
@@ -876,7 +876,7 @@ Lệnh này liệt kê địa chỉ của kho chứa trung tâm cũng như thôn
 	  Local branch pushed with 'git push'
 	    master:master
 
-Lệnh này hiển thị nhánh nào tự động được đẩy lên khi bạn chạy `git push` trên một nhánh nhất định. Nó cũng cho bạn thấy nhánh nào trên máy chủ trung tâm mà bạn chưa có, nhánh nào bạn có mà đã bị xóa trên máy chủ, và các nhánh nào sẽ tự động được gộp khi chạy lệnh `git pull`. 
+Lệnh này hiển thị nhánh nào tự động được đẩy lên khi bạn chạy `git push` trên một nhánh nhất định. Nó cũng cho bạn thấy nhánh nào trên máy chủ trung tâm mà bạn chưa có, nhánh nào bạn có mà đã bị xóa trên máy chủ, và các nhánh nào sẽ tự động được tích hợp khi chạy lệnh `git pull`. 
 
 ### Xóa Và Đổi Tên Từ Xa ###
 

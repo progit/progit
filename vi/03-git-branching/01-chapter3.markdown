@@ -376,11 +376,11 @@ Hình 3-21. Lịch sử commit sau khi tích hợp dumbidea và iss91v2.
 
 Ghi nhớ một điều quan trọng là khi bạn làm tất cả những việc này, các nhánh hoàn toàn nằm ở máy nội bộ. Khi bạn phân nhánh và tích hợp, tất cả mọi thứ xảy ra trên kho chứa Git của bạn - không có giao tiếp tới máy chủ nào xảy ra.
 
-## Nhánh Từ Xa ##
+## Nhánh Remote ##
 
-Nhánh từ xa là các tham chiếu tới trạng thái của các nhánh trên kho chứa từ xa/trung tâm của bạn. Chúng là các nhánh nội bộ mà bạn không thể di chuyển; chúng chỉ di chuyển một cách tự động mỗi khi bạn thực hiện bất kỳ giao tiếp nào qua mạng lưới. Nhánh từ xa hoạt động như là các bookmark (dấu) để nhắc nhở bạn các nhánh trên kho chứa trung tâm của bạn ở đâu vào lần cuối cùng bạn kết nối tới.
+Nhánh từ xa (remote) là các tham chiếu tới trạng thái của các nhánh trên kho chứa trung tâm của bạn. Chúng là các nhánh nội bộ mà bạn không thể di chuyển; chúng chỉ di chuyển một cách tự động mỗi khi bạn thực hiện bất kỳ giao tiếp nào qua mạng lưới. Nhánh remote hoạt động như là các bookmark (dấu) để nhắc nhở bạn các nhánh trên kho chứa trung tâm của bạn ở đâu vào lần cuối cùng bạn kết nối tới.
 
-Chúng có dạng `(remote)/(branch)`. Ví dụ, nếu bạn muốn xem nhánh `master` trên nhánh từ xa `origin` của bạn như thế nào từ lần giao tiếp cuối cùng, bạn sẽ dùng `origin/master`. Nếu bạn đang giải quyết một vấn đề với đối tác và họ đẩy dữ liệu lên nhánh `iss53`, bạn có thể có riêng nhánh `iss53` trên máy nội bộ; nhưng nhánh trên máy chủ sẽ trỏ tới commit tại `origin/iss53`.
+Chúng có dạng `(remote)/(branch)`. Ví dụ, nếu bạn muốn xem nhánh `master` trên nhánh remote `origin` của bạn như thế nào từ lần giao tiếp cuối cùng, bạn sẽ dùng `origin/master`. Nếu bạn đang giải quyết một vấn đề với đối tác và họ đẩy dữ liệu lên nhánh `iss53`, bạn có thể có riêng nhánh `iss53` trên máy nội bộ; nhưng nhánh trên máy chủ sẽ trỏ tới commit tại `origin/iss53`.
 
 Điều này có thể hơi khó hiểu một chút, vậy hãy cùng xem một ví dụ. Giả sử bạn có một máy chủ Git trên mạng của bạn tại địa chỉ `git.ourcompany.com`. Nếu bạn tạo bản sao từ đây, Git sẽ tự động đặt tên nó là `origin` cho bạn, tải về toàn bộ dữ liệu, tạo một con trỏ tới nhánh `master` và đặt tên nội bộ cho nó là `origin/master`; và bạn không thể di chuyển nó. Git cũng cung cấp cho bạn nhánh `master` riêng, bắt đầu cùng một vị trí với `master` của origin để cho bạn có thể bắt đầu làm việc (xem Hình 3-22).
 

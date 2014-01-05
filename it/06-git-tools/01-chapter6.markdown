@@ -305,3 +305,31 @@ L'altro elenco in stato git uscita `` è la voce rack. Se si esegue `git diff` s
 Sebbene `rack` sia una directory della tua directory di lavoro, Git lo vede come un modulo e non tiene traccia del suo contenuto quando non sei in quella directory. Git invece lo memorizza come una commit particolare da quel repository. Quando committi delle modifiche in quella directory, il super-project nota che l’HEAD è cambiato e registra la commit esatta dove sei; In questo modo, quando altri clonano questo progetto, possono ricreare esattamente l'ambiente.
 
 Questo è un punto importante con i moduli: li memorizzi come la ‘commit esatta dove sono. Non puoi memorizzare un modulo su `master` o qualche altro riferimento simbolico.
+
+Quando committi vedi una cosa simile:
+
+	$ git commit -m 'first commit with submodule rack'
+	[master 0550271] first commit with submodule rack
+	 2 files changed, 4 insertions(+), 0 deletions(-)
+	 create mode 100644 .gitmodules
+	 create mode 160000 rack
+
+Nota il modo 160000 di ogni voce di rack. Questo è un modo speciale di Git che significa che stai memorizzando una commit per una directory piuttosto che una subdirectory o un file.
+
+Puoi trattare la directory `rack` come un progetto separato e puoi aggiornare occasionalmente il tuo super-project con un puntatore all’ultima commit del sotto-project. Tutti i comandi di Git lavorano indipendentemente nelle due directories:
+
+	$ git log -1
+	commit 0550271328a0038865aad6331e620cd7238601bb
+	Author: Scott Chacon <schacon@gmail.com>
+	Date:   Thu Apr 9 09:03:56 2009 -0700
+
+	    first commit with submodule rack
+	$ cd rack/
+	$ git log -1
+	commit 08d709f78b8c5b0fbeb7821e37fa53e69afcf433
+	Author: Christian Neukirchen <chneukirchen@gmail.com>
+	Date:   Wed Mar 25 14:49:04 2009 +0100
+
+	    Document version change
+
+### Clonare un progetto con moduli ###

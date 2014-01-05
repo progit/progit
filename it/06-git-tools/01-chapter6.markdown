@@ -425,3 +425,7 @@ e mandarmi un’email e cazziarlo.
 A volte gli sviluppatori vogliono scaricare una combinazione di subdirectory di un progetto grande, a seconda del team in cui lavorano. Questo è comune se vieni da CVS o Subversion, dove hai definito un modulo o un insieme di subdirectory e vuoi mantenere questo tipo di flusso di lavoro.
 
 Un buon modo per farlo in Git è quello di rendere ciascuna sottodirectory un repository Git separato e creare quindi un repository Git con il super-progetto che contenga più moduli. Un vantaggio di questo approccio è che puoi definire meglio i rapporti tra i progetti con tag e branch nei super-progetti.
+
+## Sommario ##
+
+Hai visto numerosi strumenti avanzati che ti permettono di manipolare le tue commit e la tua area di staging in modo più preciso. Quando incontrassi dei problemi dovresti essere facilmente in grado di capire quale commit li ha generati, quando e chi ne è l’autore. Se desideri usare dei sotto-progetti nel tuo progetto e hai appreso alcuni modi per soddisfare tali esigenze. A questo punto dovresti essere in grado di fare in Git la maggior parte delle cose sulla riga di comando di uso quotidiano, e sentirti a tuo agio facendole.

@@ -457,6 +457,39 @@ Cambiare branch in progetti con dei moduli può essere difficile. Se crei un nuo
 
 Devi rimuoverla o spostarla e in entrambi i casi dovrai riclonarla quando torni al branch precedente e puoi quindi perdere le modifiche locali o i branch di cui non hai ancora fatto una push.
 
+L'ultima avvertimento riguarda il passaggio da subdirectory a moduli. Se stai versionando dei file tuo nel progetto e vuoi spostarli in un modulo, è necessario devi fare attenzione, altrimenti Git si arrabbierà. Supponi di avere i file di rack in una directory del tuo progetto e decidi di trasformarla in un modulo. Se elimini la directory ed esegui il comando `submodule add`, Git ti strillerà:
+
+	$ rm -Rf rack/
+	$ git submodule add git@github.com:schacon/rack.git rack
+	'rack' already exists in the index
+
+Devi prima rimuovere la directory `rack` dalla tua area di staging per poter quindi aggiungerla come modulo:
+
+	$ git rm -r rack
+	$ git submodule add git@github.com:schacon/rack.git rack
+	Initialized empty Git repository in /opt/testsub/rack/.git/
+	remote: Counting objects: 3184, done.
+	remote: Compressing objects: 100% (1465/1465), done.
+	remote: Total 3184 (delta 1952), reused 2770 (delta 1675)
+	Receiving objects: 100% (3184/3184), 677.42 KiB | 88 KiB/s, done.
+	Resolving deltas: 100% (1952/1952), done.
+
+Immagina ora di averlo fatto in un branch. Se ora torni a un branch dove quei file sono ancora nell’albero corrente piuttosto che nel modulo vedrai questo errore:
+
+	$ git checkout master
+	error: Untracked working tree file 'rack/AUTHORS' would be overwritten by merge.
+	(errore: il file 'rack/AUTHORS' non è versionato e sarà sovrascritto)
+
+Devi quindi spostare la directory del modulo `rack` prima di poter tornare al branch che non ce l’aveva:
+
+	$ mv rack /tmp/
+	$ git checkout master
+	Switched to branch "master"
+	$ ls
+	README	rack
+
+Ora, quando tornerai indietro, troverai la directory `rack` vuota. Ora puoi eseguire `git submodule update` per ripopolarla o rispostare la directory `/tmp/rack` nella directory vuota.
+
 ## Sommario ##
 
 Hai visto numerosi strumenti avanzati che ti permettono di manipolare le tue commit e la tua area di staging in modo più preciso. Quando incontrassi dei problemi dovresti essere facilmente in grado di capire quale commit li ha generati, quando e chi ne è l’autore. Se desideri usare dei sotto-progetti nel tuo progetto e hai appreso alcuni modi per soddisfare tali esigenze. A questo punto dovresti essere in grado di fare in Git la maggior parte delle cose sulla riga di comando di uso quotidiano, e sentirti a tuo agio facendole.

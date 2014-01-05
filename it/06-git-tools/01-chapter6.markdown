@@ -527,6 +527,10 @@ Ora hai la root del progetto Rack nel tuo branch `rack_branch` e il tuo progetto
 	$ ls
 	README
 
+Ora vuoi inviare il progetto Rack nel tuo progetto `master` come una sottodirectory e in Git puoi farlo con `git read-tree`. Conoscerai meglio `read-tree` e i suoi amici nel Capitolo 9, ma per ora sappi che legge la radice di un branch nella tua area di staging della tua directory di lavoro. Sei appena ritornato nel tuo branch `master` e hai scaricato il branch `rack` nella directory `rack` del branch `master` del tuo progetto principale:
+
+	$ git read-tree --prefix=rack/ -u rack_branch
+
 ## Sommario ##
 
 Hai visto numerosi strumenti avanzati che ti permettono di manipolare le tue commit e la tua area di staging in modo più preciso. Quando incontrassi dei problemi dovresti essere facilmente in grado di capire quale commit li ha generati, quando e chi ne è l’autore. Se desideri usare dei sotto-progetti nel tuo progetto e hai appreso alcuni modi per soddisfare tali esigenze. A questo punto dovresti essere in grado di fare in Git la maggior parte delle cose sulla riga di comando di uso quotidiano, e sentirti a tuo agio facendole.

@@ -387,33 +387,31 @@ Chúng có dạng `(remote)/(branch)`. Ví dụ, nếu bạn muốn xem nhánh `
 Insert 18333fig0322.png
 Hình 3-22. Một bản sao Git cung cấp cho bạn nhánh master riêng và nhánh origin/master trỏ tới nhánh master của origin.
 
-
-
-If you do some work on your local master branch, and, in the meantime, someone else pushes to `git.ourcompany.com` and updates its master branch, then your histories move forward differently. Also, as long as you stay out of contact with your origin server, your `origin/master` pointer doesn’t move (see Figure 3-23).
+Nếu bạn thực hiện một số thay đổi trên nhánh `master` nội bộ, và cùng thời điểm đó, một người nào đó đẩy lên `git.ourcompany.com` và cập nhật nhánh master của nó, thì lịch sử của bạn sẽ di chuyển về phía trước khác đi. Miễn là bạn không kết nối tới máy chủ thì con trỏ `origin/master` sẽ vẫn không đổi (xem Hình 3-23).
 
 Insert 18333fig0323.png
-Figure 3-23. Working locally and having someone push to your remote server makes each history move forward differently.
+Hình 3-23. Làm việc nội bộ và ai đó đẩy lên máy chủ khiến cho lịch sử thay đổi khác biệt nhau.
 
-To synchronize your work, you run a `git fetch origin` command. This command looks up which server origin is (in this case, it’s `git.ourcompany.com`), fetches any data from it that you don’t yet have, and updates your local database, moving your `origin/master` pointer to its new, more up-to-date position (see Figure 3-24).
+Để đồng bộ hóa các thay đổi, bạn chạy lệnh `git fetch origin`. Lệnh này sẽ tìm kiếm máy chủ nào là origin (trong trường hợp này là `git.ourcompany.com`), truy xuất toàn bộ dữ liệu mà bạn chưa có từ đó, và cập nhật cơ sở dữ liệu nội bộ của bạn, di chuyển con trỏ `origin/master` tới vị trí mới được cập nhật (xem Hình 3-24).
 
 Insert 18333fig0324.png
-Figure 3-24. The git fetch command updates your remote references.
+Hình 3-24. Lệnh git fetch cập nhật các tham chiếu từ xa.
 
-To demonstrate having multiple remote servers and what remote branches for those remote projects look like, let’s assume you have another internal Git server that is used only for development by one of your sprint teams. This server is at `git.team1.ourcompany.com`. You can add it as a new remote reference to the project you’re currently working on by running the `git remote add` command as we covered in Chapter 2. Name this remote `teamone`, which will be your shortname for that whole URL (see Figure 3-25).
+Để minh họa cho việc có nhiều máy chủ từ xa và các nhánh từ xa của các dự án thuộc các máy chủ đó, giả sử bạn có một máy chủ Git nội bộ khác sử dụng riêng cho các nhóm "thần tốc". Máy chủ này có địa chỉ là `git.team1.ourcompany.com`. Bạn có thể thêm nó như là một tham chiếu từ xa tới dự án bạn đang làm việc bằng cách chạy lệnh `git remote add` như đã giới thiệu ở Chương 2. Đặt tên cho remote đó là `teamone`, đó sẽ là tên rút gọn thay thế cho địa chỉ đầy đủ kia (xem Hình 3-25).
 
 Insert 18333fig0325.png
-Figure 3-25. Adding another server as a remote.
+Hình 3-25. Thêm một máy chủ từ xa khác.
 
-Now, you can run `git fetch teamone` to fetch everything the remote `teamone` server has that you don’t have yet. Because that server has a subset of the data your `origin` server has right now, Git fetches no data but sets a remote branch called `teamone/master` to point to the commit that `teamone` has as its `master` branch (see Figure 3-26).
+Bây giờ bạn có thể chạy lệnh `git fetch teamone` để truy xất toàn bộ nội dung mà bạn chưa có từ máy chủ `teamone`. Bởi vì máy chủ đó có chứa một tập con dữ liệu từ máy chủ `origin` đang có, Git không truy xuất dữ liệu nào cả mà thiết lập một nhánh từ xa mới là `teamone/master` để trỏ tới commit mà `teamone` đang có như là nhánh `master` (xem Hình 3-26).
 
 Insert 18333fig0326.png
-Figure 3-26. You get a reference to teamone’s master branch position locally.
+Hình 3-26. Bạn sẽ có một tham chiếu tới vị trí nội bộ của nhánh `master` của teamone.
 
-### Pushing ###
+### Đẩy Lên ###
 
-When you want to share a branch with the world, you need to push it up to a remote that you have write access to. Your local branches aren’t automatically synchronized to the remotes you write to — you have to explicitly push the branches you want to share. That way, you can use private branches for work you don’t want to share, and push up only the topic branches you want to collaborate on.
+Khi bạn muốn chia sẻ một nhánh với mọi người, bạn cẩn phải đẩy nó lên một máy chủ mà bạn có quyền ghi trên đó. Nhánh nội bộ của bạn sẽ không tự động thực hiện quá trình đồng bộ hóa - mà bạn phải tự đẩy lên cách nhánh mà bạn muốn chia sẻ. Theo cách này, bạn có thể có các nhánh riêng tư cho những công việc mà bạn không muốn chia sẻ, và chỉ đẩy lên các nhánh chủ đề mà bạn muốn mọi người cùng tham gia đóng góp.
 
-If you have a branch named `serverfix` that you want to work on with others, you can push it up the same way you pushed your first branch. Run `git push (remote) (branch)`:
+Nếu bạn có một nhánh là `serverfix` mà bạn muốn mọi người cùng cộng tác, bạn có thể đẩy nó lên theo cách mà chúng ta đã làm đối với nhánh đầu tiên. Chạy `git push (remote) (branch)`:
 
 	$ git push origin serverfix
 	Counting objects: 20, done.
@@ -423,9 +421,9 @@ If you have a branch named `serverfix` that you want to work on with others, you
 	To git@github.com:schacon/simplegit.git
 	 * [new branch]      serverfix -> serverfix
 
-This is a bit of a shortcut. Git automatically expands the `serverfix` branchname out to `refs/heads/serverfix:refs/heads/serverfix`, which means, “Take my serverfix local branch and push it to update the remote’s serverfix branch.” We’ll go over the `refs/heads/` part in detail in Chapter 9, but you can generally leave it off. You can also do `git push origin serverfix:serverfix`, which does the same thing — it says, “Take my serverfix and make it the remote’s serverfix.” You can use this format to push a local branch into a remote branch that is named differently. If you didn’t want it to be called `serverfix` on the remote, you could instead run `git push origin serverfix:awesomebranch` to push your local `serverfix` branch to the `awesomebranch` branch on the remote project.
+Đây là một cách làm tắt. Git tự động mở rộng nhánh `serverfix` thành `refs/heads/serverfix:refs/heads/serverfix`, có nghĩa là, "Hãy sử dụng nhánh nội bộ serverfix của tôi và đẩy nó lên để cập nhật nhánh serverfix trên máy chủ từ xa." Chúng ta sẽ đi sâu vào phần `refs/heads/` ở Chương 9, nhưng bạn thường có thể bỏ qua nó. Bạn cũng có thể chạy lệnh sau `git push origin serverfix:serverfix`, cách này cũng cho kết quả tương tự - nó có nghĩa là "Hãy sử dụng serverfix của tôi để tạo một serverfix trên máy chủ". Bạn có thể sử dụng định dạng này để đẩy một nhánh nội bộ lên một nhánh từ xa với một tên khác. Nếu bạn không muốn gọi nó là `serverfix` trên máy chủ, bạn có thể chạy lệnh sau `git push origin serverfix:awesomebranch` để đẩy nhánh nội bộ `serverfix` vào nhánh `awesomebranch` trên máy chủ trung tâm. 
 
-The next time one of your collaborators fetches from the server, they will get a reference to where the server’s version of `serverfix` is under the remote branch `origin/serverfix`:
+Lần tới một trong các đồng nghiệp của bạn truy xuất nó từ trên máy chủ, họ sẽ có một tham chiếu tới phiên bản trên máy chủ của `serverfix` dưới tên `origin/serverfix`:
 
 	$ git fetch origin
 	remote: Counting objects: 20, done.
@@ -435,165 +433,166 @@ The next time one of your collaborators fetches from the server, they will get a
 	From git@github.com:schacon/simplegit
 	 * [new branch]      serverfix    -> origin/serverfix
 
-It’s important to note that when you do a fetch that brings down new remote branches, you don’t automatically have local, editable copies of them. In other words, in this case, you don’t have a new `serverfix` branch — you only have an `origin/serverfix` pointer that you can’t modify.
+Điều quan trọng cần chú ý ở đây là khi bạn truy xuất dữ liệu từ máy chủ mà có kèm theo nhánh mới, Git sẽ không tự động tạo phiên bản nội bộ của nhánh đó. Nói cách khác, trong trường hợp này, bạn sẽ không có nhánh `serverfix` mới - bạn chỉ có một con trỏ tới `origin/serverfix` mà bạn không thể chỉnh sửa.
 
-To merge this work into your current working branch, you can run `git merge origin/serverfix`. If you want your own `serverfix` branch that you can work on, you can base it off your remote branch:
+Để tích hợp công việc hiện tại vào nhánh bạn đang làm việc, bạn có thể chạy `git merge origin/serverfix`. Nếu bạn muốn nhánh `serverfix` riêng để có thể làm việc trên đó, bạn có thể tách nó ra khỏi nhánh trung tâm bằng cách:
 
 	$ git checkout -b serverfix origin/serverfix
 	Branch serverfix set up to track remote branch refs/remotes/origin/serverfix.
 	Switched to a new branch "serverfix"
 
-This gives you a local branch that you can work on that starts where `origin/serverfix` is.
+Cách này sẽ tạo cho bạn một nhánh nội bộ mà bạn có thể làm việc, bắt đầu cùng một vị trí với `origin/serverfix`.
 
-### Tracking Branches ###
+### Theo Dõi Các Nhánh ###
 
-Checking out a local branch from a remote branch automatically creates what is called a _tracking branch_. Tracking branches are local branches that have a direct relationship to a remote branch. If you’re on a tracking branch and type `git push`, Git automatically knows which server and branch to push to. Also, running `git pull` while on one of these branches fetches all the remote references and then automatically merges in the corresponding remote branch.
+Check out một nhánh nội bộ từ một nhánh trung tâm tự động tạo ra một _tracking branch_. Tracking branches là các nhánh nội bộ có liên quan trực tiếp với một nhánh trung tâm. Nếu bạn đang ở trên một tracking branch và chạy `git push`, Git tự động biết nó sẽ phải đẩy lên nhánh nào, máy chủ nào. Ngoài ra, chạy `git pull` khi đang ở trên một trong những nhánh này sẽ truy xuất toàn bộ các tham chiếu từ xa và sau đó tự động tích hợp chúng với các nhánh từ xa tương ứng.
 
-When you clone a repository, it generally automatically creates a `master` branch that tracks `origin/master`. That’s why `git push` and `git pull` work out of the box with no other arguments. However, you can set up other tracking branches if you wish — ones that don’t track branches on `origin` and don’t track the `master` branch. The simple case is the example you just saw, running `git checkout -b [branch] [remotename]/[branch]`. If you have Git version 1.6.2 or later, you can also use the `--track` shorthand:
+Khi bạn tạo bản sao của một kho chứa, thông thường Git tự động tạp một nhánh `master` để theo dõi `origin/master`. Đó là lý do tại sao `git push` và `git pull` có thể chạy tốt mà không cần bất kỳ tham số nào. Tuy nhiên, bạn có thể cài đặt các tracking branch khác nếu muốn - các nhánh này không theo dõi nhánh trên `origin` cũng như `master`. Một ví dụ đơn giản giống như bạn vừa thấy: `git checkout -b [branch] [remotename]/[branch]`. Nếu bạn đang sử dụng Git phiên bản 1.6.2 trở lên, bạn có thể sử dụng `--track`:
 
 	$ git checkout --track origin/serverfix
 	Branch serverfix set up to track remote branch refs/remotes/origin/serverfix.
 	Switched to a new branch "serverfix"
 
-To set up a local branch with a different name than the remote branch, you can easily use the first version with a different local branch name:
+Để cài đặt một nhánh nội bộ sử dụng tên khác với tên mặc định trên nhánh trung tâm, bạn có thể dễ dàng sử dụng phiên bản đầu tiên với một tên nội bộ khác:
 
 	$ git checkout -b sf origin/serverfix
 	Branch sf set up to track remote branch refs/remotes/origin/serverfix.
 	Switched to a new branch "sf"
 
-Now, your local branch sf will automatically push to and pull from origin/serverfix.
+Bây giờ, nhánh nội bộ sf sẽ tự động "kéo và đẩy" từ origin/serverfix.
 
-### Deleting Remote Branches ###
+### Xóa Nhánh Trung Tâm ###
 
-Suppose you’re done with a remote branch — say, you and your collaborators are finished with a feature and have merged it into your remote’s `master` branch (or whatever branch your stable codeline is in). You can delete a remote branch using the rather obtuse syntax `git push [remotename] :[branch]`. If you want to delete your `serverfix` branch from the server, you run the following:
+Giả sử bạn và đồng nghiệp đã hoàn thành một chức năng nào đó và đã tích hợp nó vào nhánh `master` trung tâm (hoặc bất kỳ nhánh nào khác sử dụng cho việc lưu trữ các phiên bản ổn định). Bạn có thể xóa một nhánh trung tâm đi sử dụng cú pháp sau `git push [remotename] :[branch]`. Nếu bạn muốn xóa nhánh `serverfix` trên máy chủ, bạn có thể chạy lệnh sau:
 
 	$ git push origin :serverfix
 	To git@github.com:schacon/simplegit.git
 	 - [deleted]         serverfix
 
-Boom. No more branch on your server. You may want to dog-ear this page, because you’ll need that command, and you’ll likely forget the syntax. A way to remember this command is by recalling the `git push [remotename] [localbranch]:[remotebranch]` syntax that we went over a bit earlier. If you leave off the `[localbranch]` portion, then you’re basically saying, “Take nothing on my side and make it be `[remotebranch]`.”
+Vậy là đã xong, nhánh đó đã bị xóa khỏi máy chủ. Có thể bạn muốn đánh dấu trang này lại, vì bạn sẽ cần đến câu lệnh này và có thể bạn sẽ quên cú pháp của nó. Một cách để nhớ lệnh này là xem lại cú pháp chúng ta đã nhắc tới trước đó `git push [remotename] [localbranch]:[remotebranch]`. Nếu bạn bỏ qua phần `[localbranch]`, thì cơ bản bạn đang thực hiện "Không sử dụng gì từ phía nội bộ để tạo nhánh `[remotebranch]`."
 
 ## Rebasing ##
 
-In Git, there are two main ways to integrate changes from one branch into another: the `merge` and the `rebase`. In this section you’ll learn what rebasing is, how to do it, why it’s a pretty amazing tool, and in what cases you won’t want to use it.
+Trong Git, có hai cách chính để tích hợp các thay đổi từ nhánh này vào nhánh khác: đó là `merge` và `rebase`. Trong phần này bạn sẽ được tìm hiểu rebase là gì, sử dụng nó như thế nào, tại sao nó được coi là một công cụ khá tuyệt vời, và trong trường hợp nào thì không nên sử dụng nó.
 
-### The Basic Rebase ###
+### Cơ Bản về Rebase ###
 
-If you go back to an earlier example from the Merge section (see Figure 3-27), you can see that you diverged your work and made commits on two different branches.
+Nếu bạn xem lại ví dụ trước trong phần Tích Hợp (xem Hình 3-27), bạn có thể thấy rằng bạn đã phân nhánh công việc của bạn và thực hiện commit trên hai nhánh khác nhau.
 
 Insert 18333fig0327.png
-Figure 3-27. Your initial diverged commit history.
+Hình 3-17. Lần phân nhánh đầu tiên.
 
-The easiest way to integrate the branches, as we’ve already covered, is the `merge` command. It performs a three-way merge between the two latest branch snapshots (C3 and C4) and the most recent common ancestor of the two (C2), creating a new snapshot (and commit), as shown in Figure 3-28.
+Cách đơn giản nhất để tích hợp các nhánh, như chúng ta đã đề cập từ trước, đó là lệnh `merge`. Nó thực hiện tích hợp 3-chiều giữa hai snapshot mới nhất của hai nhánh (C3 và C4) và cha chung gần nhất của cả hai (C2), tạo mới một snapshot khác (và commit), như trong Hình 3-28.
 
 Insert 18333fig0328.png
-Figure 3-28. Merging a branch to integrate the diverged work history.
+Hình 3-28. Gộp nhánh lại để hợp nhất công việc bị tách ra trước đây.
 
-However, there is another way: you can take the patch of the change that was introduced in C3 and reapply it on top of C4. In Git, this is called _rebasing_. With the `rebase` command, you can take all the changes that were committed on one branch and replay them on another one.
+Tuy nhiên, còn có một cách khác: bạn có thể sử dụng bản vá của thay đổi được đưa ra ở C3 và áp dụng nó lên trên C4. Trong Git, đây được gọi là _rebasing_. Bằng cách sử dụng lệnh `rebase`, bạn có thể sử dụng tất cả các thay đổi được commit ở một nhánh và "chạy lại" (replay) chúng trên một nhánh khác.
 
-In this example, you’d run the following:
+Trong ví dụ này, bạn thực hiện như sau:
 
 	$ git checkout experiment
 	$ git rebase master
 	First, rewinding head to replay your work on top of it...
 	Applying: added staged command
 
-It works by going to the common ancestor of the two branches (the one you’re on and the one you’re rebasing onto), getting the diff introduced by each commit of the branch you’re on, saving those diffs to temporary files, resetting the current branch to the same commit as the branch you are rebasing onto, and finally applying each change in turn. Figure 3-29 illustrates this process.
+Nó thực hiện bằng cách đi tới commit cha chung của hai nhánh (nhánh bạn đang làm việc và nhánh bạn đang muốn rebase), tìm sự khác biệt trong mỗi commit của nhánh mà bạn đang làm việc, lưu lại các thay đổi đó vào một tập tin tạm thời, khôi phục lại nhánh hiện tại về cùng một commit với nhánh bạn đang rebase, và cuối cùng áp dụng lần lượt các thay đổi. Hình 3-29 minh họa toàn bộ quá trình này.
 
 Insert 18333fig0329.png
-Figure 3-29. Rebasing the change introduced in C3 onto C4.
+Hình 3-29. Quá trình rebase thay đổi ở C3 vào C4.
 
-At this point, you can go back to the master branch and do a fast-forward merge (see Figure 3-30).
+Đến lúc này, bạn có thể quay lại nhánh `master` và thực hiện fast-forward merge (xem Hình 3-30).
 
 Insert 18333fig0330.png
-Figure 3-30. Fast-forwarding the master branch.
+Hình 3-30. Di chuyển nhánh master lên phía trước.
 
-Now, the snapshot pointed to by C3' is exactly the same as the one that was pointed to by C5 in the merge example. There is no difference in the end product of the integration, but rebasing makes for a cleaner history. If you examine the log of a rebased branch, it looks like a linear history: it appears that all the work happened in series, even when it originally happened in parallel.
+Bây giờ snapshot mà C3 trỏ tới cũng giống như snapshot được trở tới bởi C5 trong ví dụ sử dụng merge. Không có sự khác biệt nào khi so sánh kết quả của hai phương pháp này, nhưng sử dụng rebase sẽ cho chúng ta lịch sử rõ ràng hơn. Nếu bạn xem xét lịch sử của nhánh mà chúng ta rebase vào, nó giống như một đường thẳng: mọi thứ dường như xảy ra theo trình tự, thậm chí ban đầu nó diễn ra song song.
 
-Often, you’ll do this to make sure your commits apply cleanly on a remote branch — perhaps in a project to which you’re trying to contribute but that you don’t maintain. In this case, you’d do your work in a branch and then rebase your work onto `origin/master` when you were ready to submit your patches to the main project. That way, the maintainer doesn’t have to do any integration work — just a fast-forward or a clean apply.
 
-Note that the snapshot pointed to by the final commit you end up with, whether it’s the last of the rebased commits for a rebase or the final merge commit after a merge, is the same snapshot — it’s only the history that is different. Rebasing replays changes from one line of work onto another in the order they were introduced, whereas merging takes the endpoints and merges them together.
+Bình thường, bạn sử dụng cách này để đảm bảo rằng các commit được áp dụng một cách rõ ràng, rành mạch trên nhánh remote - có lẽ là một dự án mà bạn đang đóng góp chứ không phải duy trì nó. Trong trường hợp này, bạn thực hiện công việc trên một nhánh và sau đó rebase trở lại nhánh `origin/master` khi đã sẵn sàng. Theo cách này thì người duy trì dự án đó không phải thực hiện việc tích hợp - mà chỉ chi chuyển tiến lên phía trước (fast-forwar) hoặc đơn giản là áp dụng chúng vào.
 
-### More Interesting Rebases ###
+Lưu ý rằng snapshot được trỏ tới bởi commit cuối cùng, cho dù nó là kết quả của việc rebase hay merge, thì nó vẫn giống nhau - chỉ khác nhau về các bước thực hiện mà thôi. Quá trình rebase được thực hiện bằng cách thực hiện lại các thay đổi từ nhánh này qua nhánh khác theo thứ tự chúng đã được thực hiện, trong khi đó merge lại lấy hai điểm kết thúc và gộp chúng lại với nhau.
 
-You can also have your rebase replay on something other than the rebase branch. Take a history like Figure 3-31, for example. You branched a topic branch (`server`) to add some server-side functionality to your project, and made a commit. Then, you branched off that to make the client-side changes (`client`) and committed a few times. Finally, you went back to your server branch and did a few more commits.
+### Rebase Nâng Cao ###
+
+Bạn cũng có thể thực hiện rebase trên một đối tượng khác mà không phải là nhánh rebase. Xem ví dụ Hình 3-31. Bạn tạo một nhánh chủ để (`server`) để thêm một số tính năng server-side vào dự án, và thực hiện một số commit. Sau đó bạn tạo một nhánh khác để thực hiện một số thay đổi cho phía client (`client`) và cũng commit vài lần. Cuối cùng, bạn quay trở lại nhánh server và thực hiện thêm một số commit nữa.
 
 Insert 18333fig0331.png
-Figure 3-31. A history with a topic branch off another topic branch.
+Hình 3-31. Nhánh chủ đề được tạo từ một nhánh chủ đề khác.
 
-Suppose you decide that you want to merge your client-side changes into your mainline for a release, but you want to hold off on the server-side changes until it’s tested further. You can take the changes on client that aren’t on server (C8 and C9) and replay them on your master branch by using the `--onto` option of `git rebase`:
+Giả sử bạn quyết định tích hợp các thay đổi phía client vào nhánh chính cho bản phát hành sắp tới, nhưng bạn vẫn muốn giữ các thay đổi server-side cho đến khi nó được kiểm tra kỹ lưỡng. Bạn có thể lấy các thay đổi ở client mà không có mặt ở server (C8 và C9) sau đó chạy lại (replay) chúng trên nhánh master bằng cách sử dụng lựa chọn `--onto` cho lệnh `git rebase`:
 
 	$ git rebase --onto master server client
 
-This basically says, “Check out the client branch, figure out the patches from the common ancestor of the `client` and `server` branches, and then replay them onto `master`.” It’s a bit complex; but the result, shown in Figure 3-32, is pretty cool.
+Lệnh này cơ bản nói rằng, "Hãy check out nhánh client, tìm ra các bản vá từ commit chung của nhánh `client` và `server`, sau đó thực thi lại vào nhánh `master`." Nó hơi phức tạp một chút nhưng kết quả như Hình 3-32 thì lại rất tuyệt.
 
 Insert 18333fig0332.png
-Figure 3-32. Rebasing a topic branch off another topic branch.
+Hình 3-32. Quá trình rebase nhánh chủ đề khỏi một nhánh chủ đề khác.
 
-Now you can fast-forward your master branch (see Figure 3-33):
+Bây giờ bạn có thể di chuyển con trỏ của nhánh master tiến lên phía trước (xem Hình 3-33):
 
 	$ git checkout master
 	$ git merge client
 
 Insert 18333fig0333.png
-Figure 3-33. Fast-forwarding your master branch to include the client branch changes.
+Hình 3-33. Di chuyển nhánh master lên phía trước để bao gồm các thay đổi của nhánh client.
 
-Let’s say you decide to pull in your server branch as well. You can rebase the server branch onto the master branch without having to check it out first by running `git rebase [basebranch] [topicbranch]` — which checks out the topic branch (in this case, `server`) for you and replays it onto the base branch (`master`):
+Giả sử rằng bạn quyết định kéo về cả nhánh trên máy chủ. Bạn có thể rebase nhánh trên máy chủ đó vào nhánh master mà không phải checkout trước bằng lệnh `git rebase [basebranch] [topicbranch]` - lệnh này sẽ checkout nhánh chủ để (trong trường hợp này là `server`) cho bạn và áp dụng lại các thay đổi vào nhánh cơ sở (base) `master`:
 
 	$ git rebase master server
 
-This replays your `server` work on top of your `master` work, as shown in Figure 3-34.
+Lệnh này sẽ thực hiện lại các thay đổi trên nhánh `server` chèn vào nhánh `master` như trong Hình 3-34.
 
 Insert 18333fig0334.png
-Figure 3-34. Rebasing your server branch on top of your master branch.
+Hình 3-34. Rebase nhánh server chèn lên nhánh master. 
 
-Then, you can fast-forward the base branch (`master`):
+Sau đó bạn có thể di chuyển con trỏ nhánh base (`master`):
 
 	$ git checkout master
 	$ git merge server
 
-You can remove the `client` and `server` branches because all the work is integrated and you don’t need them anymore, leaving your history for this entire process looking like Figure 3-35:
+Bạn có thể xóa nhánh `client` và `server` vì tất cả công việc đã được tích hợp vào master và bạn không cần đến chúng nữa, lịch sử quả toàn bộ quá trình vừa rồi giống như Hình 3-35:
 
 	$ git branch -d client
 	$ git branch -d server
 
 Insert 18333fig0335.png
-Figure 3-35. Final commit history.
+Hình 3-35. Lịch sử commit cuối cùng.
 
-### The Perils of Rebasing ###
+### Rủi Ro của Rebase ###
 
-Ahh, but the bliss of rebasing isn’t without its drawbacks, which can be summed up in a single line:
+Mặc dù rebase rất hữu ích nhưng nó cũng có không ít những mặt hạn chế, điều này có thể tổng kết bằng câu sau đây:
 
-**Do not rebase commits that you have pushed to a public repository.**
+**Không được rebase các commit mà bạn đã đẩy lên một kho chứa công khai.**
 
-If you follow that guideline, you’ll be fine. If you don’t, people will hate you, and you’ll be scorned by friends and family.
+Miễn là bạn làm theo hướng dẫn này, sẽ không có chuyện gì xảy ra. Nếu không, mọi người sẽ ghét bạn, và bạn sẽ bị bạn bè và gia đình coi thường.
 
-When you rebase stuff, you’re abandoning existing commits and creating new ones that are similar but different. If you push commits somewhere and others pull them down and base work on them, and then you rewrite those commits with `git rebase` and push them up again, your collaborators will have to re-merge their work and things will get messy when you try to pull their work back into yours.
+Khi bạn thực hiện rebase, bạn đang bỏ đi các commit đã tồn tại và tái tạo lại các commit mới tương tự nhưng thực ra khác biệt. Nếu bạn đẩy commit ở một nơi nào đó và mọi người kéo xuống máy của họ, sau đó bạn sửa lại các commit đó bằng lệnh `git rebase` và đẩy lên một lần nữa, đồng nghiệp của bạn sẽ phải tích hợp lại công việc của họ và mọi thứ sẽ rối tung lên khi bạn cố gắng kéo các thay đổi của họ ngược lại máy bạn.
 
-Let’s look at an example of how rebasing work that you’ve made public can cause problems. Suppose you clone from a central server and then do some work off that. Your commit history looks like Figure 3-36.
+Hãy cùng xem một ví dụ làm sao việc rebase công khai có thể gây sự cố. Giả sử bạn tạo bản sao từ một máy chủ trung tâm và thực hiện một số thay đổi từ đó. Lịch sử commit của bạn sẽ giống như Hình 3-36.
 
 Insert 18333fig0336.png
-Figure 3-36. Clone a repository, and base some work on it.
+Hình 3-36. Tạo bản sao một kho chứa, và base một số thay đổi vào đó.
 
-Now, someone else does more work that includes a merge, and pushes that work to the central server. You fetch them and merge the new remote branch into your work, making your history look something like Figure 3-37.
+Bây giờ, một người khác thực hiện một số thay đổi khác có kèm theo một lần tích hợp (merge), và đẩy lên máy chủ trung tâm. Bạn truy xuất chúng và tích hợp nhánh trung tâm mới đó vào của bạn, lúc này lịch sử của bạn sẽ giống như Hình 3-37.
 
 Insert 18333fig0337.png
-Figure 3-37. Fetch more commits, and merge them into your work.
+Hình 3-37. Truy xuất thêm các commit và tích hợp lại.
 
-Next, the person who pushed the merged work decides to go back and rebase their work instead; they do a `git push --force` to overwrite the history on the server. You then fetch from that server, bringing down the new commits.
+Tiếp theo, người đã đẩy tích hợp đó quyết định lại và rebase lại những thay đổi của họ; họ thực hiện `git push --force` để ghi đè lịch sử trên máy chủ. Sau đó bạn truy xuất lại dữ liệu từ máy chủ, đưa về các commit mới.
 
 Insert 18333fig0338.png
-Figure 3-38. Someone pushes rebased commits, abandoning commits you’ve based your work on.
+Hình 3-38. Một người nào đó đẩy lên các commit rebase, bỏ đi các commit có chứa thay đổi của bạn.
 
-At this point, you have to merge this work in again, even though you’ve already done so. Rebasing changes the SHA-1 hashes of these commits so to Git they look like new commits, when in fact you already have the C4 work in your history (see Figure 3-39).
+Lúc này, bạn phải tích hợp lại một lần nữa các thay đổi này, mặc dù trước đó bạn đã làm rồi. Quá trình rebase thay đổi mã băm SHA-1 của các commit này vì thế đối với Git chúng giống như các commit mới, mà thực tế thì bạn đã có C4 trong lịch sử của bạn (xem Hình 3-39).
 
 Insert 18333fig0339.png
-Figure 3-39. You merge in the same work again into a new merge commit.
+Hình 3-39. Bạn tích hợp các thay đổi tương tự lại một lần nữa vào một commit tích hợp mới.
 
-You have to merge that work in at some point so you can keep up with the other developer in the future. After you do that, your commit history will contain both the C4 and C4' commits, which have different SHA-1 hashes but introduce the same work and have the same commit message. If you run a `git log` when your history looks like this, you’ll see two commits that have the same author date and message, which will be confusing. Furthermore, if you push this history back up to the server, you’ll reintroduce all those rebased commits to the central server, which can further confuse people.
+Bạn phải tích hợp thay đổi đó để có thể theo kịp với các lập trình viên khác về sau này. Sau khi thực hiện việc này, lịch sử commit của bạn sẽ bao gồm cả hai commit C4 và C4' có mã SHA-1 khác nhau nhưng lại có cùng chung nội dung thay đổi cũng như thông điệp commit. Nếu bạn chạy lệnh `git log` trong trường hợp này bạn sẽ thấy hai commit cùng chung ngày commit và thông điệp, điều này sẽ gây khó hiểu cho bạn. Hơn nữa, nếu bạn đẩy chúng ngược lên máy chủ, bạn sẽ đưa vào một lần nữa tất cả các commit đã rebase đó và sẽ gây khó hiểu cho nhiều người khác nữa.
 
-If you treat rebasing as a way to clean up and work with commits before you push them, and if you only rebase commits that have never been available publicly, then you’ll be fine. If you rebase commits that have already been pushed publicly, and people may have based work on those commits, then you may be in for some frustrating trouble.
+Nếu bạn sử dụng rebase như là cách để dọn dẹp các commit trước khi đẩy chúng lên, và nếu như bạn chỉ rebase commit chưa bao giờ được công khai, thì sẽ không có chuyện gì xảy ra. Nếu bạn rebase các commit đã được công khai và mọi người có thể đã tích hợp (base) nó vào công việc của họ thì bạn có thể gặp phải các vấn đề thực sự khó chị.
 
-## Summary ##
+## Tổng Kết ##
 
-We’ve covered basic branching and merging in Git. You should feel comfortable creating and switching to new branches, switching between branches and merging local branches together.  You should also be able to share your branches by pushing them to a shared server, working with others on shared branches and rebasing your branches before they are shared.
+Chúng ta đã đề cập tới các khái niệm cơ bản về phân nhánh và tích hợp trong Git. Bạn nên nắm vững việc tạo mới, di chuyển giữa các nhánh và tích hợp các nhánh nội bộ lại với nhau. Bạn cũng nên có khả năng chia sẽ các nhánh bằng cách đẩy chúng lên một máy chủ trung tâm, cộng tác với các thành viên khác trên các nhánh dùng chung và rebase chúng trước khi chia sẻ.

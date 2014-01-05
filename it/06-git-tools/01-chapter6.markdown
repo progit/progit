@@ -267,3 +267,34 @@ Capita spesso che, mentre stai lavorando a un progetto, debba includerne un altr
 Vediamo un esempio. Immagina di stare sviluppando un sito web creando dei feed Atom e, invece di scrivere da zero il codice per generare il contenuto Atom, decidi di utilizzare una libreria. Molto probabilmente dovrai includere del codice da una libreria condivisa come un’installazione di CPAN o una gem di Ruby, o copiare il sorgente nel tuo progetto. Il problema dell’includere la libreria è che è difficile personalizzarla e spesso più difficile da distribuire, perché è necessario assicurarsi che ogni client abbia a disposizione quella libreria. Il problema di includere il codice nel tuo progetto è che è difficile incorporare le modifiche eventualmente fatte nel progetto iniziale quando questo venisse aggiornato.
 
 Git risolve questo problema utilizzando i moduli. I moduli consentono di avere un repository Git come una directory di un altro repository Git, che ti permette di clonare un altro repository nel tuo progetto e mantenere le commit separate.
+
+### Lavorare con i moduli ###
+
+Si supponga di voler aggiungere la libreria Rack (un’interfaccia gateway per server web in Ruby) al progetto, mantenendo le tue modifiche alla libreria e continuando a integrare le modifiche fatte a monte alla libreria. La prima cosa da fare è clonare il repository esterno nella subdirectory: aggiungi i progetti esterni come moduli col comando `git modulo aggiungono`:
+
+	$ git submodule add git://github.com/chneukirchen/rack.git rack
+	Initialized empty Git repository in /opt/subtest/rack/.git/
+	remote: Counting objects: 3181, done.
+	remote: Compressing objects: 100% (1534/1534), done.
+	remote: Total 3181 (delta 1951), reused 2623 (delta 1603)
+	Receiving objects: 100% (3181/3181), 675.42 KiB | 422 KiB/s, done.
+	Resolving deltas: 100% (1951/1951), done.
+
+Ora, all'interno del tuo progetto, hai la directory `rack` che contiene il progetto Rack. Puoi andare in questa directory, fare le tue modifiche e aggiungere il tuo repository remoto per fare la push delle tue modifiche e prendere quelle disponibili, così come incorporare le modifiche del repository originale, e molto altro. Se esegui `git status` subito dopo aver aggiunto il modulo, vedrai due cose:
+
+	$ git status
+	# On branch master
+	# Changes to be committed:
+	#   (use "git reset HEAD <file>..." to unstage)
+	#
+	#      new file:   .gitmodules
+	#      new file:   rack
+	#
+
+Prima di tutto nota il file `.gitmodules`: è un file di configurazione che memorizza la mappatura tra l’URL del progetto e la directory locale dove lo hai scaricato:
+
+	$ cat .gitmodules
+	[submodule "rack"]
+	      path = rack
+	      url = git://github.com/chneukirchen/rack.git
+

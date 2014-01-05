@@ -536,6 +536,16 @@ Quando fai la commit sembra che tutti i file di Rack siano nella directory, come
 	$ git checkout rack_branch
 	$ git pull
 
+Tutte le modifiche del progetto Rack project vengono incorporate e sono pronte per essere committate in locale. Puoi fare anche l’opposto: modificare la directory `rack` e poi fare il merge nel branch `rack_branch` per inviarlo al mantenitore o farne la push al server remoto.
+
+Per fare un confronto tra quello che hai nella directory `rack` e il codice nel branch `rack_branch` (e vedere se devi fare un merge o meno) non puoi usare il normale comando `diff`: devi usare invece `git diff-tree` con il branch con cui vuoi fare il confronto:
+
+	$ git diff-tree -p rack_branch
+
+O confrontare quello che c’è nella directory `rack` con quello che c’era nel branch `master` l’ultima volta che l’hai scaricato, col comando
+
+	$ git diff-tree -p rack_remote/master
+
 ## Sommario ##
 
 Hai visto numerosi strumenti avanzati che ti permettono di manipolare le tue commit e la tua area di staging in modo più preciso. Quando incontrassi dei problemi dovresti essere facilmente in grado di capire quale commit li ha generati, quando e chi ne è l’autore. Se desideri usare dei sotto-progetti nel tuo progetto e hai appreso alcuni modi per soddisfare tali esigenze. A questo punto dovresti essere in grado di fare in Git la maggior parte delle cose sulla riga di comando di uso quotidiano, e sentirti a tuo agio facendole.

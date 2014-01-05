@@ -333,3 +333,60 @@ Puoi trattare la directory `rack` come un progetto separato e puoi aggiornare oc
 	    Document version change
 
 ### Clonare un progetto con moduli ###
+
+Cloneremo ora un progetto con dei moduli. Quando ne ricevi uno, avrai una directory che contiene i moduli, ma nessun file:
+
+	$ git clone git://github.com/schacon/myproject.git
+	Initialized empty Git repository in /opt/myproject/.git/
+	remote: Counting objects: 6, done.
+	remote: Compressing objects: 100% (4/4), done.
+	remote: Total 6 (delta 0), reused 0 (delta 0)
+	Receiving objects: 100% (6/6), done.
+	$ cd myproject
+	$ ls -l
+	total 8
+	-rw-r--r--  1 schacon  admin   3 Apr  9 09:11 README
+	drwxr-xr-x  2 schacon  admin  68 Apr  9 09:11 rack
+	$ ls rack/
+	$
+
+La directory `rack` c’è, ma è vuota. Devi eseguire due comandi: `git submodule init` per inizializzare il tuo file di configurazione locale e `git submodule update` per scaricare tutti i dati del progetto e scaricare le commit opportune elencate nel tuo super-progetto:
+
+	$ git submodule init
+	Submodule 'rack' (git://github.com/chneukirchen/rack.git) registered for path 'rack'
+	$ git submodule update
+	Initialized empty Git repository in /opt/myproject/rack/.git/
+	remote: Counting objects: 3181, done.
+	remote: Compressing objects: 100% (1534/1534), done.
+	remote: Total 3181 (delta 1951), reused 2623 (delta 1603)
+	Receiving objects: 100% (3181/3181), 675.42 KiB | 173 KiB/s, done.
+	Resolving deltas: 100% (1951/1951), done.
+	Submodule path 'rack': checked out '08d709f78b8c5b0fbeb7821e37fa53e69afcf433'
+
+Ora la tua directory `rack` è nello stesso stato in cui era quando hai committal precedentemente. Se qualche altro sviluppatore facesse delle modifiche a rack e le committasse, quando tu scaricherai quel riferimento e lo integrerai nel tuo repository vedrai qualcosa di strano:
+
+	$ git merge origin/master
+	Updating 0550271..85a3eee
+	Fast forward
+	 rack |    2 +-
+	 1 files changed, 1 insertions(+), 1 deletions(-)
+	[master*]$ git status
+	# On branch master
+	# Changes not staged for commit:
+	#   (use "git add <file>..." to update what will be committed)
+	#   (use "git checkout -- <file>..." to discard changes in working directory)
+	#
+	#      modified:   rack
+	#
+
+Quello di cui hai fatto il merge è fondamentalmente un cambiamento al puntatore del tuo modulo, ma non aggiorna il codice nella directory del modulo e sembra quindi che la tua directory di lavoro sia in uno stato ‘sporco’:
+
+	$ git diff
+	diff --git a/rack b/rack
+	index 6c5e70b..08d709f 160000
+	--- a/rack
+	+++ b/rack
+	@@ -1 +1 @@
+	-Subproject commit 6c5e70b984a60b3cecd395edd5b48a7575bf58e0
+	+Subproject commit 08d709f78b8c5b0fbeb7821e37fa53e69afcf433
+

@@ -589,7 +589,7 @@ The lines must be formatted as follows
 
 Có thể bạn băn khoăn về sự khác nhau giữa _tác giả_ (author) và _người commit_ (committer). _Tác giả_ là người đầu tiên viết bản vá (patch), trong khi đó _người commit_ là người cuối cùng áp dụng miếng vá đó. Như vậy, nếu bạn gửi một bản vá cho một dự án và một trong các thành viên chính của dự án "áp dụng" (chấp nhận) bản vá đó, cả hai sẽ cùng được ghi nhận công trạng (credit) - bạn với vai trò là tác giả và thành viên của dự án trong vai trò người commit. Chúng ta sẽ bàn kỹ hơn một chút về sự khác nhau này trong *Chương 5*.
 
-Lựa chọn `oneline` và `formar` đặc biệt hữu ích khi sử dụng với một tham số khác của `log` là `--graph`. Khi sử dụng, tham số này sẽ thêm một biểu đồ sử dụng dựa trên các ký tự ASCII hiển thị nhánh và lịch sử tích hợp các tập tin của bạn, chúng ta có thể thấy trong dự án Grit như sau:
+Lựa chọn `oneline` và `format` đặc biệt hữu ích khi sử dụng với một tham số khác của `log` là `--graph`. Khi sử dụng, tham số này sẽ thêm một biểu đồ sử dụng dựa trên các ký tự ASCII hiển thị nhánh và lịch sử tích hợp các tập tin của bạn, chúng ta có thể thấy trong dự án Grit như sau:
 
 	$ git log --pretty=format:"%h %s" --graph
 	* 2d3acf9 ignore errors from SIGCHLD on trap

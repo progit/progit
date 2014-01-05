@@ -390,3 +390,32 @@ Quello di cui hai fatto il merge è fondamentalmente un cambiamento al puntatore
 	-Subproject commit 6c5e70b984a60b3cecd395edd5b48a7575bf58e0
 	+Subproject commit 08d709f78b8c5b0fbeb7821e37fa53e69afcf433
 
+Questo succede perché il tuo puntatore del modulo non è lo stesso della directory del modulo. Per correggerlo devi eseguire di nuovo `git submodule update` again:
+
+	$ git submodule update
+	remote: Counting objects: 5, done.
+	remote: Compressing objects: 100% (3/3), done.
+	remote: Total 3 (delta 1), reused 2 (delta 0)
+	Unpacking objects: 100% (3/3), done.
+	From git@github.com:schacon/rack
+	   08d709f..6c5e70b  master     -> origin/master
+	Submodule path 'rack': checked out '6c5e70b984a60b3cecd395edd5b48a7575bf58e0'
+
+E devi farlo ogni volta che scarichi delle modifiche al modulo nel progetto principale: è strano, ma funziona.
+
+Un problema comune si verifica quando uno sviluppatore fa delle modifiche in un modulo ma non le trasmette al server pubblico, ma committa il puntatore a questo stato quando fa la pusg del superproject. Quando altri sviluppatori provano ad eseguire `git submodule update`, il sistema del modulo non riesce a trovare la commit a cui fa riferimento perché esiste solo sul sistema del primo sviluppatore. Quando ciò accade, viene visualizzato un errore come questo:
+
+	$ git submodule update
+	fatal: reference isn’t a tree: 6c5e70b984a60b3cecd395edd5b48a7575bf58e0
+	Unable to checkout '6c5e70b984a60b3cecd395edd5ba7575bf58e0' in submodule path 'rack'
+
+Devi quindi vedere chi è stato l’ultimo a cambiare il modulo:
+
+	$ git log -1 rack
+	commit 85a3eee996800fcfa91e2119372dd4172bf76678
+	Author: Scott Chacon <schacon@gmail.com>
+	Date:   Thu Apr 9 09:19:14 2009 -0700
+
+	    added a submodule reference I will never make public. hahahahaha!
+
+e mandarmi un’email e cazziarlo.

@@ -419,3 +419,9 @@ Devi quindi vedere chi è stato l’ultimo a cambiare il modulo:
 	    added a submodule reference I will never make public. hahahahaha!
 
 e mandarmi un’email e cazziarlo.
+
+### Super-progetto ###
+
+A volte gli sviluppatori vogliono scaricare una combinazione di subdirectory di un progetto grande, a seconda del team in cui lavorano. Questo è comune se vieni da CVS o Subversion, dove hai definito un modulo o un insieme di subdirectory e vuoi mantenere questo tipo di flusso di lavoro.
+
+Un buon modo per farlo in Git è quello di rendere ciascuna sottodirectory un repository Git separato e creare quindi un repository Git con il super-progetto che contenga più moduli. Un vantaggio di questo approccio è che puoi definire meglio i rapporti tra i progetti con tag e branch nei super-progetti.

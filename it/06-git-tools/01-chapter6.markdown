@@ -300,11 +300,20 @@ Prima di tutto nota il file `.gitmodules`: è un file di configurazione che memo
 
 Se hai più di un modulo, avrei più voci in questo file. È importante notare che anche questo file è versionato con tutti gli altri file, come il tuo `.gitignore` e viene trasferito con tutto il resto del tuo progetto. Questo è il modo in cui gli altri che clonano questo progetto sanno dove trovare i progetti dei moduli.
 
-L'altro elenco in stato git uscita `` è la voce rack. Se si esegue `git diff` su questo, si vede qualcosa di interessante:
+L'altro elenco in stato git uscita `git status` è la voce rack. Se si esegue `git diff` su questo, si vede qualcosa di interessante:
 
-Sebbene `rack` sia una directory della tua directory di lavoro, Git lo vede come un modulo e non tiene traccia del suo contenuto quando non sei in quella directory. Git invece lo memorizza come una commit particolare da quel repository. Quando committi delle modifiche in quella directory, il super-project nota che l’HEAD è cambiato e registra la commit esatta dove sei; In questo modo, quando altri clonano questo progetto, possono ricreare esattamente l'ambiente.
+	$ git diff --cached rack
+	diff --git a/rack b/rack
+	new file mode 160000
+	index 0000000..08d709f
+	--- /dev/null
+	+++ b/rack
+	@@ -0,0 +1 @@
+	+Subproject commit 08d709f78b8c5b0fbeb7821e37fa53e69afcf433
 
-Questo è un punto importante con i moduli: li memorizzi come la ‘commit esatta dove sono. Non puoi memorizzare un modulo su `master` o qualche altro riferimento simbolico.
+Sebbene `rack` sia una subdirectory della tua directory di lavoro, Git lo vede come un modulo e non tiene traccia del suo contenuto quando non sei in quella directory. Git invece lo memorizza come una commit particolare da quel repository. Quando committi delle modifiche in quella directory, il super-project nota che l’HEAD è cambiato e registra la commit esatta dove sei; In questo modo, quando altri clonano questo progetto, possono ricreare esattamente l'ambiente.
+
+Questo è un punto importante con i moduli: li memorizzi come la commit esatta dove sono. Non puoi memorizzare un modulo su `master` o qualche altro riferimento simbolico.
 
 Quando committi vedi una cosa simile:
 

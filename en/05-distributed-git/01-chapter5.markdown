@@ -532,7 +532,26 @@ First, you need to set up the imap section in your `~/.gitconfig` file. You can 
 	  sslverify = false
 
 If your IMAP server doesn’t use SSL, the last two lines probably aren’t necessary, and the host value will be `imap://` instead of `imaps://`.
-When that is set up, you can use `git send-email` to place the patch series in the Drafts folder of the specified IMAP server:
+When that is set up, you can use `git imap-send` to place the patch series in the Drafts folder of the specified IMAP server:
+
+	$ cat *.patch |git imap-send
+	Resolving imap.gmail.com... ok
+	Connecting to [74.125.142.109]:993... ok
+	Logging in...
+	sending 2 messages
+	100% (2/2) done
+
+At this point, you should be able to go to your Drafts folder, change the To field to the mailing list you’re sending the patch to, possibly CC the maintainer or person responsible for that section, and send it off.
+
+You can also send the patches through an SMTP server. As before, you can set each value separately with a series of `git config` commands, or you can add them manually in the sendemail section in your `~/.gitconfig` file:
+
+	[sendemail]
+	  smtpencryption = tls
+	  smtpserver = smtp.gmail.com
+	  smtpuser = user@gmail.com
+	  smtpserverport = 587
+
+After this is done, you can use `git send-email` to send your patches:
 
 	$ git send-email *.patch
 	0001-added-limit-to-log-function.patch
@@ -558,8 +577,6 @@ Then, Git spits out a bunch of log information looking something like this for e
 	References: <y>
 
 	Result: OK
-
-At this point, you should be able to go to your Drafts folder, change the To field to the mailing list you’re sending the patch to, possibly CC the maintainer or person responsible for that section, and send it off.
 
 ### Summary ###
 

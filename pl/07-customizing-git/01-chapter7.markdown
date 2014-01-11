@@ -132,7 +132,7 @@ Teraz, możesz podpisywać tagi bez konieczności wskazywania za każdym razem k
 
 #### core.excludesfile ####
 
-Możesz umieścić wzorce w pliku `.gitignore` w swoim projekcie, aby Git nie śledził ich i nie próbował dodawać do przechowalni po wykonaniu komendy `git add`, jak wspomniałem już w rozdziale 2. Możesz jednak przechowywać te informacje w innym pliku, znajdującym się poza drzewem projektu, możesz wskazać Gitowi loikalizację tego pliku za pomocą ustawienia `core.excludesfile`. Po prostu ustaw ją na ścieżkę wskazującą na plik, który ma zawartość podobną do tej, którą ma `.gitignore`.
+Możesz umieścić wzorce w pliku `.gitignore` w swoim projekcie, aby Git nie śledził ich i nie próbował dodawać do przechowalni po wykonaniu komendy `git add`, jak wspomniałem już w rozdziale 2. Możesz jednak przechowywać te informacje w innym pliku, znajdującym się poza drzewem projektu, możesz wskazać Gitowi lokalizację tego pliku za pomocą ustawienia `core.excludesfile`. Po prostu ustaw ją na ścieżkę wskazującą na plik, który ma zawartość podobną do tej, którą ma `.gitignore`.
 
 <!-- You can put patterns in your project’s `.gitignore` file to have Git not see them as untracked files or try to stage them when you run `git add` on them, as discussed in Chapter 2. However, if you want another file outside of your project to hold those values or have extra values, you can tell Git where that file is with the `core.excludesfile` setting. Simply set it to the path of a file that has content similar to what a `.gitignore` file would have. -->
 
@@ -317,27 +317,36 @@ Jeżeli uruchomić tą komendę, zamiast ustawienia plików `extMerge` i `extDif
 
 <!-- ### Formatting and Whitespace ### -->
 
-Problemy związane z formatowaniem i białymi znakami są jednym z bardziej uciążliwych i wyrafinowanych problemów, które wielu deweloperów może spotkać podczas współpracy, szczególnie jeżeli korzystają z różnych systemów operacyjnych. Bardzo łatwo można wprowadzić zmiany w łatach lub innych modyfikacjach, które 
-
-Git posiada kilka opcji konfiguracyjnych, które pomagają rozwiązać te problemy.
+Problemy związane z formatowaniem i białymi znakami są jednymi z bardziej uciążliwych i wyrafinowanych, które wielu deweloperów mogą spotkać podczas pracy, szczególnie jeżeli korzystają z różnych systemów operacyjnych. Bardzo łatwo można je wprowadzić w łatach lub modyfikacjach, poprzez samoistne dodanie ich przez edytor tekstowy, lub dodanie znaku powrotu karetki na końcach linii przez programistów korzystających z systemu Windows. Git posiada kilka opcji konfiguracyjnych, które pomagają rozwiązać te problemy.
 
 <!-- Formatting and whitespace issues are some of the more frustrating and subtle problems that many developers encounter when collaborating, especially cross-platform. It’s very easy for patches or other collaborated work to introduce subtle whitespace changes because editors silently introduce them or Windows programmers add carriage returns at the end of lines they touch in cross-platform projects. Git has a few configuration options to help with these issues. -->
 
 #### core.autocrlf ####
 
-If you’re programming on Windows or using another system but working with people who are programming on Windows, you’ll probably run into line-ending issues at some point. This is because Windows uses both a carriage-return character and a linefeed character for newlines in its files, whereas Mac and Linux systems use only the linefeed character. This is a subtle but incredibly annoying fact of cross-platform work.
 
-Git can handle this by auto-converting CRLF line endings into LF when you commit, and vice versa when it checks out code onto your filesystem. You can turn on this functionality with the `core.autocrlf` setting. If you’re on a Windows machine, set it to `true` — this converts LF endings into CRLF when you check out code:
+Jeżeli programujesz na systemie Windows, lub używasz innego systemu, ale współpracujesz z osobami które programują na tym systemie, prawdopodobnie będziesz miał w pewnym momencie problemy związane ze znakami końca linii. Dzieje się tak dlatego, ponieważ system Windows używa obu znaków powrotu karetki i nowej linii w celu oznaczenia końca wiersza w swoich plikach, a tymczasem w systemach Mac i Linux użwany jest jedynie znak nowej linii. To jest subtelny, ale bardzo irytujący fakt przy współpracy na wielu platformach.
+
+<!-- If you’re programming on Windows or using another system but working with people who are programming on Windows, you’ll probably run into line-ending issues at some point. This is because Windows uses both a carriage-return character and a linefeed character for newlines in its files, whereas Mac and Linux systems use only the linefeed character. This is a subtle but incredibly annoying fact of cross-platform work. -->
+
+Git może to obsłużyć poprzez automatyczną konwersję linii CRLF na LF, gdy wykonujesz commit, i odwrotnie podczas pobierania kodu na dysk. Możesz włączyć tą funkcjonalność za pomocą ustawienia `core.autocrlf`. Jeżeli pracujesz na systemie Windows, ustaw jej wartość na `true` - zamieni to znaki LF na CRLS podczas pobierania kodu.
+
+<!-- Git can handle this by auto-converting CRLF line endings into LF when you commit, and vice versa when it checks out code onto your filesystem. You can turn on this functionality with the `core.autocrlf` setting. If you’re on a Windows machine, set it to `true` — this converts LF endings into CRLF when you check out code: -->
 
 	$ git config --global core.autocrlf true
 
-If you’re on a Linux or Mac system that uses LF line endings, then you don’t want Git to automatically convert them when you check out files; however, if a file with CRLF endings accidentally gets introduced, then you may want Git to fix it. You can tell Git to convert CRLF to LF on commit but not the other way around by setting `core.autocrlf` to input:
+Jeżeli pracujesz na systemie Linux lub Mac, który używa znaków LF oznaczających koniec wiersza, nie będziesz chciał, aby Git automatycznie konwertował je podczas pobierania kodu; jednakże, jeżeli zostanie przez pomyłkę wgrany plik z zakończeniami CRLF, możesz chcieć aby Git je poprawił. Możesz wskazać Git, aby konwertował znaki CRLF na LF podczas commita, ale nie w odwrotną stronę ustawiając `core.autocrlf` na input:
+
+<!-- If you’re on a Linux or Mac system that uses LF line endings, then you don’t want Git to automatically convert them when you check out files; however, if a file with CRLF endings accidentally gets introduced, then you may want Git to fix it. You can tell Git to convert CRLF to LF on commit but not the other way around by setting `core.autocrlf` to input: -->
 
 	$ git config --global core.autocrlf input
 
-This setup should leave you with CRLF endings in Windows checkouts but LF endings on Mac and Linux systems and in the repository.
+Takie ustawienia powinny zachować znaki CRLF na systemach Windows, oraz LF na systemach Mac i Linux, oraz w repozytorium.
 
-If you’re a Windows programmer doing a Windows-only project, then you can turn off this functionality, recording the carriage returns in the repository by setting the config value to `false`:
+<!-- This setup should leave you with CRLF endings in Windows checkouts but LF endings on Mac and Linux systems and in the repository. -->
+
+Jeżeli jesteś programistą tworzącym aplikację przeznaczoną wyłącznie na systemy Windows, możesz zupełnie wyłączyć tą funkcjonalność przez ustawienie wartości false, przez co znaki powrotu karetki również będą zapisywanie w repozytorium.
+
+<!-- If you’re a Windows programmer doing a Windows-only project, then you can turn off this functionality, recording the carriage returns in the repository by setting the config value to `false`: -->
 
 	$ git config --global core.autocrlf false
 

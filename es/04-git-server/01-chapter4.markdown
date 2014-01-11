@@ -361,9 +361,9 @@ En este punto, es posible que desees cambiar a un popular programa llamado Gitos
 
 Instalar Gitosis no es precisamente sencillo. Pero tampoco demasiado complicado. Es más sencillo hacerlo si utilizas un servidor Linux --estos ejemplos se han hecho sobre un servidor Ubuntu 8.10--.
 
-Gitosis necesita de ciertas herramientas Python, por lo que la  primera tarea será instalar el paquete de herramientas Pyton. En Ubuntu viene como el paquete python-stuptools:
+Gitosis necesita de ciertas herramientas Python, por lo que la  primera tarea será instalar el paquete de herramientas Pyton. En Ubuntu viene como el paquete python-setuptools:
 
-	$ apt-get install python-setuptools
+	$ sudo apt-get install python-setuptools
 
 A continuación, has de clonar e instalar Gitosis desde el repositorio principal de su proyecto:
 

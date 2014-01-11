@@ -309,7 +309,7 @@ Git jest wstępnie skonfigurowany do używania wielu innych narzędzi do łącze
 
 	$ git config --global merge.tool kdiff3
 
-Jeżeli uruchomić tą komendę, zamiast ustawienia plików `extMerge` i `extDiff`, Git będzie używał KDiff3 do rozwiązywania konfliktów i standardowego narzędzia Git diff do pokazywania różnic.
+Jeżeli uruchomić tę komendę, zamiast ustawienia plików `extMerge` i `extDiff`, Git będzie używał KDiff3 do rozwiązywania konfliktów i standardowego narzędzia Git diff do pokazywania różnic.
 
 <!-- If you run this instead of setting up the `extMerge` and `extDiff` files, Git will use KDiff3 for merge resolution and the normal Git diff tool for diffs. -->
 

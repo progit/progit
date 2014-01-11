@@ -133,7 +133,7 @@ Po pierwsze, nie chcesz wgrywać żadnych błędów związanych z poprawkami pus
     +    def command(git_cmd)XXXX
 
 
-Jeżeli uruchomisz tą komendę przed commit-em, dowiesz się czy zamierzasz wgrać zmiany które mogą zdenerwować innych programistów.
+Jeżeli uruchomisz tę komendę przed commit-em, dowiesz się czy zamierzasz wgrać zmiany które mogą zdenerwować innych programistów.
 
 <!-- If you run that command before committing, you can tell if you’re about to commit whitespace issues that may annoy other developers. -->
 

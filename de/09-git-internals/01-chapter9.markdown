@@ -54,8 +54,8 @@ Damit bleiben vier wichtige Einträge übrig: die Dateien `HEAD` und `index` und
 <!--## Git Objects ##-->
 ## Git Objekte ##
 
-<!--Git is a content-addressable filesystem. Great. What does that mean?
-It means that at the core of Git is a simple key-value data store. You can insert any kind of content into it, and it will give you back a key that you can use to retrieve the content again at any time. To demonstrate, you can use the plumbing command `hash-object`, which takes some data, stores it in your `.git` directory, and gives you back the key the data is stored as. First, you initialize a new Git repository and verify that there is nothing in the `objects` directory:-->
+<!--Git is a content-addressable filesystem. Great. What does that mean?-->
+<!--It means that at the core of Git is a simple key-value data store. You can insert any kind of content into it, and it will give you back a key that you can use to retrieve the content again at any time. To demonstrate, you can use the plumbing command `hash-object`, which takes some data, stores it in your `.git` directory, and gives you back the key the data is stored as. First, you initialize a new Git repository and verify that there is nothing in the `objects` directory:-->
 
 Git ist ein Dateisystem, das Inhalte addressieren kann. Prima. Aber was heißt das? Es bedeutet, dass Git im Kern nichts anderes ist als ein einfacher Key-Value-Store („Schlüssel-Wert-Speicher“). Du kannst darin jede Art von Inhalt ablegen und Git wird einen Schlüssel dafür zurückgeben, den Du dann verwenden kannst, um diesen Inhalt jederzeit nachzuschlagen. Um das auszuprobieren, kannst Du den Plumbing Befehl `hash-object` verwenden. Dieser nimmt einen Inhalt an, speichert ihn in Deinem `.git` Verzeichnis und gibt Dir den Schlüssel zurück, unter dem der Inhalt gespeichert wurde. Dazu initialisierst Du als erstes ein neues Git Repository und verifizierst, dass das `objects` Verzeichnis leer ist:
 
@@ -718,8 +718,8 @@ Außerdem ist toll, dass ein Repository jederzeit neu gepackt werden kann. Git m
 <!--## The Refspec ##-->
 ## Die Refspec ##
 
-<!--Throughout this book, you’ve used simple mappings from remote branches to local references; but they can be more complex.
-Suppose you add a remote like this:-->
+<!--Throughout this book, you’ve used simple mappings from remote branches to local references; but they can be more complex.-->
+<!--Suppose you add a remote like this:-->
 
 In diesem Buch haben wir bisher einfache Mappings von externen Branches auf lokale Referenzen verwendet. Sie können aber auch durchaus komplex sein. Nehmen wir an, Du hast ein externes Repository wie folgt definiert:
 
@@ -1194,8 +1194,8 @@ Es sieht also so aus, als sei der untere Commit derjenige, den Du verloren hast,
 	cac0cab538b970a37ea1e769cbbde608743bc96d second commit
 	fdf4fc3344e67ab068f836878b6c4951e3b15f3d first commit
 
-<!--Cool — now you have a branch named `recover-branch` that is where your `master` branch used to be, making the first two commits reachable again.
-Next, suppose your loss was for some reason not in the reflog — you can simulate that by removing `recover-branch` and deleting the reflog. Now the first two commits aren’t reachable by anything:-->
+<!--Cool — now you have a branch named `recover-branch` that is where your `master` branch used to be, making the first two commits reachable again.-->
+<!--Next, suppose your loss was for some reason not in the reflog — you can simulate that by removing `recover-branch` and deleting the reflog. Now the first two commits aren’t reachable by anything:-->
 
 Sehr gut. Du hast jetzt einen neuen Branch `recover-branch`, der diejenigen Commits enthält, die sich zuvor in Deinem `master` Branch befanden. Damit hast Du wieder Zugriff auf die beiden verloren gegangenen Commits. Als nächstes nehmen wir aber außerdem an, dass diese verlorenen Commits aus irgendeinem Grunde nicht im Reflog enthalten sind – Du kannst das z.B. simulieren, indem Du den Branch `recover-branch` und das Reflog löschst. Damit sind die beiden Commits jetzt von nirgendwo her mehr erreichbar:
 

@@ -227,10 +227,10 @@ Die erste Zeile weist Git an, alle Dateien zu ignorieren, die mit einem `.o` ode
 
 Folgende Regeln gelten in einer `.gitignore` Datei:
 
-<!--*	Blank lines or lines starting with `#` are ignored.
-*	Standard glob patterns work.
-*	You can end patterns with a forward slash (`/`) to specify a directory.
-*	You can negate a pattern by starting it with an exclamation point (`!`).-->
+<!--*	Blank lines or lines starting with `#` are ignored.-->
+<!--*	Standard glob patterns work.-->
+<!--*	You can end patterns with a forward slash (`/`) to specify a directory.-->
+<!--*	You can negate a pattern by starting it with an exclamation point (`!`).-->
 
 *	Leere Zeilen oder Zeilen, die mit `#` beginnen, werden ignoriert.
 *	Standard `glob` Muster funktionieren.
@@ -386,8 +386,8 @@ und `git diff --cached`, um zu sehen, was für den nächsten Commit vorgesehen i
 <!--### Committing Your Changes ###-->
 ### Einen Commit erzeugen ###
 
-<!--Now that your staging area is set up the way you want it, you can commit your changes. Remember that anything that is still unstaged — any files you have created or modified that you haven’t run `git add` on since you edited them — won’t go into this commit. They will stay as modified files on your disk.
-In this case, the last time you ran `git status`, you saw that everything was staged, so you’re ready to commit your changes. The simplest way to commit is to type `git commit`:-->
+<!--Now that your staging area is set up the way you want it, you can commit your changes. Remember that anything that is still unstaged — any files you have created or modified that you haven’t run `git add` on since you edited them — won’t go into this commit. They will stay as modified files on your disk.-->
+<!--In this case, the last time you ran `git status`, you saw that everything was staged, so you’re ready to commit your changes. The simplest way to commit is to type `git commit`:-->
 
 Nachdem Du jetzt alle Änderungen, die Du im nächsten Commit haben willst, in Deiner Staging Area gesammelt hast, kannst Du den Commit anlegen. Denke daran, dass Änderungen, die nicht in der Staging Area sind (also alle Änderungen, die Du vorgenommen hast, seit Du zuletzt `git add` ausgeführt hast), auch nicht in den Commit aufgenommen werden. Sie werden ganz einfach weiterhin als geänderte Dateien im Arbeitsverzeichnis verbleiben. In unserem Beispiel haben wir gesehen, dass alle Änderungen vorgemerkt waren, als wir zuletzt `git status` ausgeführt haben, also können wir den Commit jetzt anlegen. Das geht am einfachsten mit dem Befehl:
 
@@ -644,8 +644,8 @@ Eine sehr nützliche Option ist `-p`. Sie zeigt die Änderungen an, die in einem
 	-end
 	\ No newline at end of file
 
-<!--This option displays the same information but with a diff directly following each entry. This is very helpful for code review or to quickly browse what happened during a series of commits that a collaborator has added.
-You can also use a series of summarizing options with `git log`. For example, if you want to see some abbreviated stats for each commit, you can use the `-\-stat` option:-->
+<!--This option displays the same information but with a diff directly following each entry. This is very helpful for code review or to quickly browse what happened during a series of commits that a collaborator has added.-->
+<!--You can also use a series of summarizing options with `git log`. For example, if you want to see some abbreviated stats for each commit, you can use the `-\-stat` option:-->
 
 Diese Option zeigt also im Prinzip die gleiche Information wie zuvor, aber zusätzlich zu jedem Eintrag ein Diff. Das ist nützlich, um einen Code Review zu machen oder eben mal eine Reihe von Commits durchzuschauen, die ein Mitarbeiter angelegt hat. Außerdem gibt es verschiedene Optionen, die nützlich sind, um Dinge zusammenzufassen. Beispielsweise kannst Du eine kurze Statistik über jeden Commit mit der Option `--stat` anzeigen lassen:
 
@@ -679,8 +679,8 @@ Diese Option zeigt also im Prinzip die gleiche Information wie zuvor, aber zusä
 	 lib/simplegit.rb |   25 +++++++++++++++++++++++++
 	 3 files changed, 54 insertions(+), 0 deletions(-)
 
-<!--As you can see, the `-\-stat` option prints below each commit entry a list of modified files, how many files were changed, and how many lines in those files were added and removed. It also puts a summary of the information at the end.
-Another really useful option is `-\-pretty`. This option changes the log output to formats other than the default. A few prebuilt options are available for you to use. The `oneline` option prints each commit on a single line, which is useful if you’re looking at a lot of commits. In addition, the `short`, `full`, and `fuller` options show the output in roughly the same format but with less or more information, respectively:-->
+<!--As you can see, the `-\-stat` option prints below each commit entry a list of modified files, how many files were changed, and how many lines in those files were added and removed. It also puts a summary of the information at the end.-->
+<!--Another really useful option is `-\-pretty`. This option changes the log output to formats other than the default. A few prebuilt options are available for you to use. The `oneline` option prints each commit on a single line, which is useful if you’re looking at a lot of commits. In addition, the `short`, `full`, and `fuller` options show the output in roughly the same format but with less or more information, respectively:-->
 
 Die `--stat` Option zeigt unterhalb jedes Commits eine kurze Statistik über die jeweiligen Änderungen an: welche Dateien geändert wurden und wieviele Zeilen insgesamt hinzugefügt oder entfernt wurden. Eine weitere nützliche Option ist `--pretty`. Diese Option ändert das Format der Ausgabe und es gibt eine Anzahl mitgelieferter Formate. Das `oneline` Format listet jeden Commit in einer einzigen Zeile, was nützlich ist, wenn Du eine große Anzahl von Commits durchsuchen willst. Die `short`, `full` und `fuller` Formate zeigen die Commits in ähnlicher Form an, aber mit jeweils mehr oder weniger Informationen.
 
@@ -702,22 +702,22 @@ Eines der interessantesten Formate ist `format`, das Dir erlaubt, Dein eigenes F
 
 Tabelle 2-1 zeigt einige nützliche Optionen, die von `format` akzeptiert werden:
 
-<!--	Option	Description of Output
-	%H	Commit hash
-	%h	Abbreviated commit hash
-	%T	Tree hash
-	%t	Abbreviated tree hash
-	%P	Parent hashes
-	%p	Abbreviated parent hashes
-	%an	Author name
-	%ae	Author e-mail
-	%ad	Author date (format respects the -\-date= option)
-	%ar	Author date, relative
-	%cn	Committer name
-	%ce	Committer email
-	%cd	Committer date
-	%cr	Committer date, relative
-	%s	Subject-->
+<!--	Option	Description of Output-->
+<!--	%H	Commit hash-->
+<!--	%h	Abbreviated commit hash-->
+<!--	%T	Tree hash-->
+<!--	%t	Abbreviated tree hash-->
+<!--	%P	Parent hashes-->
+<!--	%p	Abbreviated parent hashes-->
+<!--	%an	Author name-->
+<!--	%ae	Author e-mail-->
+<!--	%ad	Author date (format respects the -\-date= option)-->
+<!--	%ar	Author date, relative-->
+<!--	%cn	Committer name-->
+<!--	%ce	Committer email-->
+<!--	%cd	Committer date-->
+<!--	%cr	Committer date, relative-->
+<!--	%s	Subject-->
 
 	Option	Beschreibung
 	%H	Commit Hash
@@ -760,17 +760,17 @@ Die `oneline` und `format` Optionen können außerdem zusammen mit einer weitere
 
 Das sind nur einige eher simple Format Optionen für die Ausgabe von `git log` – es gibt sehr viel mehr davon. Tabelle 2-2 listet diejenigen Optionen auf, die wir bisher besprochen haben, und einige weitere, die besonders nützlich sind:
 
-<!--	Option	Description
-	-p	Show the patch introduced with each commit.
-	-\-stat	Show statistics for files modified in each commit.
-	-\-shortstat	Display only the changed/insertions/deletions line from the -\-stat command.
-	-\-name-only	Show the list of files modified after the commit information.
-	-\-name-status	Show the list of files affected with added/modified/deleted information as well.
-	-\-abbrev-commit	Show only the first few characters of the SHA-1 checksum instead of all 40.
-	-\-relative-date	Display the date in a relative format (for example, “2 weeks ago”) instead of using the full date format.
-	-\-graph	Display an ASCII graph of the branch and merge history beside the log output.
-	-\-pretty	Show commits in an alternate format. Options include oneline, short, full, fuller, and format (where you specify your own format).
-	-\-oneline	A convenience option short for `-\-pretty=oneline -\-abbrev-commit`.-->
+<!--	Option	Description-->
+<!--	-p	Show the patch introduced with each commit.-->
+<!--	-\-stat	Show statistics for files modified in each commit.-->
+<!--	-\-shortstat	Display only the changed/insertions/deletions line from the -\-stat command.-->
+<!--	-\-name-only	Show the list of files modified after the commit information.-->
+<!--	-\-name-status	Show the list of files affected with added/modified/deleted information as well.-->
+<!--	-\-abbrev-commit	Show only the first few characters of the SHA-1 checksum instead of all 40.-->
+<!--	-\-relative-date	Display the date in a relative format (for example, “2 weeks ago”) instead of using the full date format.-->
+<!--	-\-graph	Display an ASCII graph of the branch and merge history beside the log output.-->
+<!--	-\-pretty	Show commits in an alternate format. Options include oneline, short, full, fuller, and format (where you specify your own format).-->
+<!--	-\-oneline	A convenience option short for `-\-pretty=oneline -\-abbrev-commit`.-->
 
 	Option	Beschreibung
 	-p	Zeigt den Patch, der einem Commit entspricht.
@@ -812,12 +812,12 @@ Eine letzte sehr nützliche Option, die von `git log` akzeptiert wird, ist ein P
 
 Tabelle 2-3 zeigt die besprochenen und einige weitere, übliche Optionen:
 
-<!--	Option	Description
-	-(n)	Show only the last n commits
-	-\-since, -\-after	Limit the commits to those made after the specified date.
-	-\-until, -\-before	Limit the commits to those made before the specified date.
-	-\-author	Only show commits in which the author entry matches the specified string.
-	-\-committer	Only show commits in which the committer entry matches the specified string.-->
+<!--	Option	Description-->
+<!--	-(n)	Show only the last n commits-->
+<!--	-\-since, -\-after	Limit the commits to those made after the specified date.-->
+<!--	-\-until, -\-before	Limit the commits to those made before the specified date.-->
+<!--	-\-author	Only show commits in which the author entry matches the specified string.-->
+<!--	-\-committer	Only show commits in which the committer entry matches the specified string.-->
 
 	Option	Beschreibung
 	-(n)	Begrenzt die Ausgabe auf die letzten n commits
@@ -981,8 +981,8 @@ Beachte, dass alles was jemals in einem Commit in Git enthalten war, fast immer 
 <!--## Working with Remotes ##-->
 ## Mit externen Repositorys arbeiten ##
 
-<!--To be able to collaborate on any Git project, you need to know how to manage your remote repositories. Remote repositories are versions of your project that are hosted on the Internet or network somewhere. You can have several of them, each of which generally is either read-only or read/write for you. Collaborating with others involves managing these remote repositories and pushing and pulling data to and from them when you need to share work.
-Managing remote repositories includes knowing how to add remote repositories, remove remotes that are no longer valid, manage various remote branches and define them as being tracked or not, and more. In this section, we’ll cover these remote-management skills.-->
+<!--To be able to collaborate on any Git project, you need to know how to manage your remote repositories. Remote repositories are versions of your project that are hosted on the Internet or network somewhere. You can have several of them, each of which generally is either read-only or read/write for you. Collaborating with others involves managing these remote repositories and pushing and pulling data to and from them when you need to share work.-->
+<!--Managing remote repositories includes knowing how to add remote repositories, remove remotes that are no longer valid, manage various remote branches and define them as being tracked or not, and more. In this section, we’ll cover these remote-management skills.-->
 
 Um mit anderen via Git zusammenzuarbeiten, musst Du wissen, wie Du auf externe (engl. „remote“) Repositorys zugreifen kannst. Remote Repositorys sind Versionen Deines Projektes, die im Internet oder irgendwo in einem anderen Netzwerk gespeichert sind. Du kannst mehrere solcher Repositorys haben und Du kannst jedes davon entweder nur lesen oder lesen und schreiben. Mit anderen via Git zusammenzuarbeiten impliziert, solche Repositorys zu verwalten und Daten aus ihnen herunter- oder heraufzuladen, um Deine Arbeit für andere verfügbar zu machen. Um Remote Repositorys zu verwalten, muss man wissen, wie man sie anlegt und wieder entfernt, wenn sie nicht mehr verwendet werden, wie man externe Branches verwalten und nachverfolgen kann, und mehr. In diesem Kapitel werden wir auf diese Aufgaben eingehen.
 

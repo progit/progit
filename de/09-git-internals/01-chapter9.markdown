@@ -618,7 +618,7 @@ Wenn Du Dir den resultierenden Tree anschaust, findest Du den SHA-1 Hash, den di
 
 Jetzt kannst Du mit `git cat-file` sehen, wie groß das Objekt ist:
 
-	$ Du -b .git/objects/9b/c1dc421dcd51b4ac296e3e5b6e2a99cf44391e
+	$ du -b .git/objects/9b/c1dc421dcd51b4ac296e3e5b6e2a99cf44391e
 	4102	.git/objects/9b/c1dc421dcd51b4ac296e3e5b6e2a99cf44391e
 
 <!--Now, modify that file a little, and see what happens:-->
@@ -643,7 +643,7 @@ Wenn Du jetzt den Tree anschaust, der durch den Commit angelegt wurde, findest D
 
 Das Blob ist ein anderes, d.h. obwohl Du lediglich eine einzige Zeile an das Ende einer 400 Zeilen langen Datei angehängt hast, speichert Git den Inhalt jetzt als ein ganz neues Objekt:
 
-	$ Du -b .git/objects/05/408d195263d853f09dca71d55116663690c27c
+	$ du -b .git/objects/05/408d195263d853f09dca71d55116663690c27c
 	4109	.git/objects/05/408d195263d853f09dca71d55116663690c27c
 
 <!--You have two nearly identical 4K objects on your disk. Wouldn’t it be nice if Git could store one of them in full but then the second object only as the delta between it and the first?-->

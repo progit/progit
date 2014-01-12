@@ -245,6 +245,20 @@ Glob Muster sind vereinfachte reguläre Ausdrücke, die von der Shell verwendet 
 
 Hier ist ein weiteres Beispiel für eine `.gitignore` Datei:
 
+<!--	# a comment - this is ignored-->
+<!--	# no .a files-->
+<!--	*.a-->
+<!--	# but do track lib.a, even though you're ignoring .a files above-->
+<!--	!lib.a-->
+<!--	# only ignore the root TODO file, not subdir/TODO-->
+<!--	/TODO-->
+<!--	# ignore all files in the build/ directory-->
+<!--	build/-->
+<!--	# ignore doc/notes.txt, but not doc/server/arch.txt-->
+<!--	doc/*.txt-->
+<!--	# ignore all .txt files in the doc/ directory-->
+<!--	doc/**/*.txt-->
+
 	# ein Kommentar - dieser wird ignoriert
 	# ignoriert alle Dateien, die mit .a enden
 	*.a
@@ -252,12 +266,16 @@ Hier ist ein weiteres Beispiel für eine `.gitignore` Datei:
 	!lib.a
 	# ignoriert eine TODO Datei nur im Wurzelverzeichnis, nicht aber
 	/TODO
-	# in Unterverzeichnissen
-
 	# ignoriert alle Dateien im build/ Verzeichnis
 	build/
 	# ignoriert doc/notes.txt, aber nicht doc/server/arch.txt
 	doc/*.txt
+	# ignoriert alle .txt Dateien unterhalb des doc/ Verzeichnis
+	doc/**/*.txt
+
+<!--A `**/` pattern is available in Git since version 1.8.2.-->
+
+Die Kombination `**/` wurde in der Git Version 1.8.2 eingeführt.
 
 <!--### Viewing Your Staged and Unstaged Changes ###-->
 ### Die Änderungen in der Staging Area durchsehen ###
@@ -617,11 +635,13 @@ Eine sehr nützliche Option ist `-p`. Sie zeigt die Änderungen an, die in einem
 	index a874b73..8f94139 100644
 	--- a/Rakefile
 	+++ b/Rakefile
-	@@ -5,7 +5,7 @@ require 'rake/gempackagetask'
+	@@ -5,5 +5,5 @@ require 'rake/gempackagetask'
 	 spec = Gem::Specification.new do |s|
+	     s.name      =   "simplegit"
 	-    s.version   =   "0.1.0"
 	+    s.version   =   "0.1.1"
 	     s.author    =   "Scott Chacon"
+	     s.email     =   "schacon@gee-mail.com
 
 	commit 085bb3bcb608e1e8451d4b2432f8ecbe6306e7e7
 	Author: Scott Chacon <schacon@gee-mail.com>
@@ -645,9 +665,36 @@ Eine sehr nützliche Option ist `-p`. Sie zeigt die Änderungen an, die in einem
 	\ No newline at end of file
 
 <!--This option displays the same information but with a diff directly following each entry. This is very helpful for code review or to quickly browse what happened during a series of commits that a collaborator has added.-->
+
+Diese Option zeigt also im Prinzip die gleiche Information wie zuvor, aber zusätzlich zu jedem Eintrag ein Diff. Das ist nützlich, um einen Code Review zu machen oder eben mal eine Reihe von Commits durchzuschauen, die ein Mitarbeiter angelegt hat.
+
+<!--Sometimes it's easier to review changes on the word level rather than on the line level. There is a `-\-word-diff` option available in Git, that you can append to the `git log -p` command to get word diff instead of normal line by line diff. Word diff format is quite useless when applied to source code, but it comes in handy when applied to large text files, like books or your dissertation. Here is an example:-->
+
+Manchmal ist es einfacher Änderungen an Hand der Wörter anstatt zeilenbasiert zu überprüfen. Git bietet dafür die Option `--word-diff`, welche man an den Befehl `git log -p` anhängen kann. Man weist Git damit an, einen Vergleich auf Basis der Wörter anstatt Zeile für Zeile durchzuführen. Dieser Vergleich ist ziemlich nutzlos wenn man Änderungen innerhalb von Quellcode vergleicht. Beim Vergleich von langen Textdateien zeigt er aber seine Stärke. Er bietet sich zum Beispiel für Bücher oder wissenschaftliche Texte an. Hierzu ein Beispiel:
+
+	$ git log -U1 --word-diff
+	commit ca82a6dff817ec66f44342007202690a93763949
+	Author: Scott Chacon <schacon@gee-mail.com>
+	Date:   Mon Mar 17 21:52:11 2008 -0700
+
+	    changed the version number
+
+	diff --git a/Rakefile b/Rakefile
+	index a874b73..8f94139 100644
+	--- a/Rakefile
+	+++ b/Rakefile
+	@@ -7,3 +7,3 @@ spec = Gem::Specification.new do |s|
+	    s.name      =   "simplegit"
+	    s.version   =   [-"0.1.0"-]{+"0.1.1"+}
+	    s.author    =   "Scott Chacon"
+
+<!--As you can see, there is no added and removed lines in this output as in a normal diff. Changes are shown inline instead. You can see the added word enclosed in `{+ +}` and removed one enclosed in `[- -]`. You may also want to reduce the usual three lines context in diff output to only one line, as the context is now words, not lines. You can do this with `-U1` as we did in the example above.-->
+
+Wie man in der Ausgabe sehen kann, zeigt dieser Vergleich nicht an, welche Zeilen hinzugekommen und welche entfallen sind. Stattdessen werden Änderungen innerhalb der Zeilen dargestellt. Mit der Sequenz `{+ +}` wird ein neu hinzugekommes Wort gekennzeichnet, mit `[- -]` ein Wort, welches entfernt wurde. Normalerweise zeigt Git bei einem Vergleich drei zusätzliche Zeilen ober- und unterhalb der eigentlichen Änderung an. Bei einem Textvergleich reicht meist eine zusätzliche Zeile. Man kann dies mit der Option `-U1` erreichen, so wie in dem oben gezeigten Beispiel.
+
 <!--You can also use a series of summarizing options with `git log`. For example, if you want to see some abbreviated stats for each commit, you can use the `-\-stat` option:-->
 
-Diese Option zeigt also im Prinzip die gleiche Information wie zuvor, aber zusätzlich zu jedem Eintrag ein Diff. Das ist nützlich, um einen Code Review zu machen oder eben mal eine Reihe von Commits durchzuschauen, die ein Mitarbeiter angelegt hat. Außerdem gibt es verschiedene Optionen, die nützlich sind, um Dinge zusammenzufassen. Beispielsweise kannst Du eine kurze Statistik über jeden Commit mit der Option `--stat` anzeigen lassen:
+Außerdem gibt es verschiedene Optionen, die nützlich sind, um Dinge zusammenzufassen. Beispielsweise kannst Du eine kurze Statistik über jeden Commit mit der Option `--stat` anzeigen lassen:
 
 	$ git log --stat
 	commit ca82a6dff817ec66f44342007202690a93763949
@@ -762,6 +809,7 @@ Das sind nur einige eher simple Format Optionen für die Ausgabe von `git log` �
 
 <!--	Option	Description-->
 <!--	-p	Show the patch introduced with each commit.-->
+<!--	-\-word-diff	Show the patch in a word diff format.-->
 <!--	-\-stat	Show statistics for files modified in each commit.-->
 <!--	-\-shortstat	Display only the changed/insertions/deletions line from the -\-stat command.-->
 <!--	-\-name-only	Show the list of files modified after the commit information.-->
@@ -774,6 +822,7 @@ Das sind nur einige eher simple Format Optionen für die Ausgabe von `git log` �
 
 	Option	Beschreibung
 	-p	Zeigt den Patch, der einem Commit entspricht.
+	--word-diff	Führt den Vergleich Wort für Wort, anstatt Zeile für Zeile aus.
 	--stat	Zeigt Statistiken über die in einem Commit geänderten Dateien und eingefügten/entfernten Zeilen.
 	--shortstat	Zeigt nur die Kurzstatistik über eingefügte/entfernte Zeilen aus der `--stat` Option.
 	--name-only	Zeigt die Liste der geänderte Dateien nach der Commit Information.
@@ -1363,7 +1412,7 @@ Du kannst Commits jederzeit taggen, auch lange Zeit nachdem sie angelegt wurden.
 
 Nehmen wir an, dass Du vergessen hast, Version v1.2 des Projekts zu taggen und dass dies der Commit „updated rakefile“ gewesen ist. Du kannst diesen jetzt im Nachhinein taggen, indem Du die Checksumme des Commits (oder einen Teil davon) am Ende des Befehls angibst:
 
-	$ git tag -a v1.2 9fceb02
+	$ git tag -a v1.2 -m 'version 1.2' 9fceb02
 
 <!--You can see that you’ve tagged the commit:-->
 
@@ -1435,11 +1484,11 @@ Bevor wir zum Ende dieses Grundlagenkapitels kommen, möchten wir noch einige Ti
 <!--### Auto-Completion ###-->
 ### Auto-Vervollständigung ###
 
-<!--If you use the Bash shell, Git comes with a nice auto-completion script you can enable. Download the Git source code, and look in the `contrib/completion` directory; there should be a file called `git-completion.bash`. Copy this file to your home directory, and add this to your `.bashrc` file:-->
+<!--If you use the Bash shell, Git comes with a nice auto-completion script you can enable. Download it directly from the Git source code at https://github.com/git/git/blob/master/contrib/completion/git-completion.bash . Copy this file to your home directory, and add this to your `.bashrc` file:-->
 
-Wenn Du die Bash Shell verwendest, dann kannst Du ein Skript für die Git Auto-Vervollständigung einbinden. Ein solches Skript wird mit Git zusammen ausgeliefert. Wenn Du den Git Quellcode heruntergeladen hast, findest Du im Verzeichnis `contrib/completion` die Datei `git-completion.bash`. Kopiere diese Datei in Dein Home Verzeichnis  und füge die folgende Zeile in Deine `.bashrc` Datei hinzu:
+Wenn Du die Bash Shell verwendest, dann kannst Du ein Skript für die Git Auto-Vervollständigung einbinden. Du kannst dieses Skript direkt aus den Git Quellen von https://github.com/git/git/blob/master/contrib/completion/git-completion.bash herunterladen. Kopiere diese Datei in Dein Home Verzeichnis  und füge die folgende Zeile in Deine `.bashrc` Datei hinzu:
 
-	source ~/.git-completion.bash
+	source ~/git-completion.bash
 
 <!--If you want to set up Git to automatically have Bash shell completion for all users, copy this script to the `/opt/local/etc/bash_completion.d` directory on Mac systems or to the `/etc/bash_completion.d/` directory on Linux systems. This is a directory of scripts that Bash will automatically load to provide shell completions.-->
 

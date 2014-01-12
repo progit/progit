@@ -24,12 +24,12 @@ Wenn Du in Git committest, speichert Git ein sogenanntes Commit-Objekt. Dieses e
 
 Um das zu verdeutlichen, lass uns annehmen, Du hast ein Verzeichnis mit drei Dateien, die Du alle zu der Staging-Area hinzufügst und in einem Commit verpackst. Durch das Stagen der Dateien erzeugt Git für jede Datei eine Prüfsumme (der SHA-1 Hash, den wir in Kapitel 1 erwähnt haben), speichert diese Version der Datei im Git-Repository (Git referenziert auf diese als Blobs) und fügt die Prüfsumme der Staging-Area hinzu:
 
-	$ git add README test.rb LICENSE2
+	$ git add README test.rb LICENSE
 	$ git commit -m 'initial commit of my project'
 
-<!--When you create the commit by running `git commit`, Git checksums each subdirectory (in this case, just the root project directory) and stores those tree objects in the Git repository. Git then creates a commit object that has the metadata and a pointer to the root project tree so it can re-create that snapshot when needed.-->
+<!--Running `git commit` checksums all project directories and stores them as `tree` objects in the Git repository. Git then creates a `commit` object that has the metadata and a pointer to the root project `tree` object so it can re-create that snapshot when needed.-->
 
-Wenn Du einen Commit mit dem Kommando `git commit` erstellst, erzeugt Git für jedes Unterverzeichnis eine Prüfsumme (in diesem Fall nur für das Root-Verzeichnis) und speichert diese drei Objekte im Git Repository. Git erzeugt dann ein Commit Objekt, das die Metadaten und den Zeiger zur Wurzel des Projektbaums enthält, um bei Bedarf den Snapshot erneut erzeugen zu können.
+Wenn Du einen Commit mit dem Kommando `git commit` erstellst, erzeugt Git für jedes Projektverzeichnis eine Prüfsumme und speichert diese als sogenanntes `tree`-Objekt im Git Repository. Git erzeugt dann ein Commit Objekt, das die Metadaten und den Zeiger zum `tree`-Objekt des Wurzelverzeichnis enthält, um bei Bedarf den Snapshot erneut erzeugen zu können.
 
 <!--Your Git repository now contains five objects: one blob for the contents of each of your three files, one tree that lists the contents of the directory and specifies which file names are stored as which blobs, and one commit with the pointer to that root tree and all the commit metadata. Conceptually, the data in your Git repository looks something like Figure 3-1.-->
 
@@ -255,7 +255,7 @@ Zu diesem Zeitpunkt befindet sich das Arbeitsverzeichnis des Projektes in exakt 
 
 Nun hast Du einen Hotfix zu erstellen. Lass uns dazu einen Hotfix-Branch erstellen, an dem Du bis zu dessen Fertigstellung arbeitest (siehe Abbildung 3-13):
 
-	$ git checkout -b 'hotfix'
+	$ git checkout -b hotfix
 	Switched to a new branch "hotfix"
 	$ vim index.html
 	$ git commit -a -m 'fixed the broken email address'
@@ -485,9 +485,9 @@ Das `*` vor dem `master`-Branch bedeutet, dass dies der gerade ausgecheckte Bran
 	* master  7a98805 Merge branch 'iss53'
 	  testing 782fd34 add scott to the author list in the readmes
 
-<!--Another useful option to figure out what state your branches are in is to filter this list to branches that you have or have not yet merged into the branch you’re currently on. The useful `-\-merged` and `-\-no-merged` options have been available in Git since version 1.5.6 for this purpose. To see which branches are already merged into the branch you’re on, you can run `git branch -\-merged`:-->
+<!--Another useful option to figure out what state your branches are in is to filter this list to branches that you have or have not yet merged into the branch you’re currently on. There are useful `-\-merged` and `-\-no-merged` options available in Git for this purpose. To see which branches are already merged into the branch you’re on, you can run `git branch -\-merged`:-->
 
-Mit einer weiteren nützlichen Option kannst Du herausfinden, in welchem Zustand Deine Branches sind: welche der Branches wurden bereits in den aktuellen Branch gemergt und welche wurden es nicht. Die Optionen heißen `--merged` und `--no-merged` und sind seit Version 1.5.6 in Git dabei. Um herauszufinden, welche Branches schon in den aktuell ausgecheckten gemergt wurden, kannst Du einfach `git branch --merged` aufrufen:
+Mit einer weiteren nützlichen Option kannst Du herausfinden, in welchem Zustand Deine Branches sind: welche der Branches wurden bereits in den aktuellen Branch gemergt und welche wurden es nicht. Für diesen Zweck gibt es in Git die Optionen `--merged` und `--no-merged`. Um herauszufinden, welche Branches schon in den aktuell ausgecheckten gemergt wurden, kannst Du einfach `git branch --merged` aufrufen:
 
 	$ git branch --merged
 	  iss53
@@ -510,7 +510,7 @@ Die Liste zeigt Dir den anderen Branch. Er enthält Arbeit, die noch nicht gemer
 
 	$ git branch -d testing
 	error: The branch 'testing' is not an ancestor of your current HEAD.
-	If you are sure you want to delete it, run `git branch -D testing`.
+	If you are sure you want to delete it, run 'git branch -D testing'.
 
 <!--If you really do want to delete the branch and lose that work, you can force it with `-D`, as the helpful message points out.-->
 
@@ -722,7 +722,7 @@ Um einen lokalen Branch mit einem anderem Namen als der Remote-Branch, kannst Du
 	Branch sf set up to track remote branch refs/remotes/origin/serverfix.
 	Switched to a new branch "sf"
 
-<!--Now, your local branch sf will automatically push to and pull from origin/serverfix.-->
+<!--Now, your local branch `sf` will automatically push to and pull from `origin/serverfix`.-->
 
 Nun wird Dein lokaler Branch `sf` automatisch push und pull auf `origin/serverfix` durchführen.
 

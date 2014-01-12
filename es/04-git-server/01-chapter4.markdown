@@ -404,9 +404,8 @@ Y ya estás preparado para trabajar. Si lo has configurado todo correctamente, p
 	fatal: unrecognized command 'gitosis-serve schacon@quaternion'
 	  Connection to gitserver closed.
 
-Indicandote que Gitosis te ha reconocido, pero te está hechando debido a que no estás intentando lanzar ningún comando Git. Por tanto, intentalo con un comando Git real --por ejemplo, clonar el propio repositorio de control de Gitosis 
-
-	a tu ordenador personal-- 
+Indicandote que Gitosis te ha reconocido, pero te está hechando debido a que no estás intentando lanzar ningún comando Git. Por tanto, intentalo con un comando Git real --por ejemplo, clonar el propio repositorio de control de Gitosis a tu ordenador personal-- 
+	
 	$ git clone git@gitserver:gitosis-admin.git
 
 Con ello, tendrás una carpeta denominada 'gitosis-admin', con dos partes principales dentro de ella:

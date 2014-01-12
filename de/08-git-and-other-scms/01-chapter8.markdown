@@ -517,7 +517,7 @@ Dies erzeugt Dir die Log-Ausgabe im XML-Format — Du suchst damit nach den Auto
 
 Du kannst diese Datei dann `git svn` zur Verfügung stellen um das Tool dabei zu unterstützen, die Autoreninformationen besser zu mappen. Du kannst `git svn` ebenfalls mitteilen, dass es die Metadaten nicht einbeziehen soll, die Subversion normalerweise importiert, indem Du dem `clone` oder `init` Kommando die `--no-metadata`-Option mitgibst.
 
-	$ git-svn clone http://my-project.googlecode.com/svn/ \
+	$ git svn clone http://my-project.googlecode.com/svn/ \
 	      --authors-file=users.txt --no-metadata -s my_project
 
 <!--Now you should have a nicer Subversion import in your `my_project` directory. Instead of commits that look like this-->

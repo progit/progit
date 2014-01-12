@@ -1322,7 +1322,7 @@ Dann kannst Du diesem Entwickler eine E-Mail schreiben und ihn auf seinen Fehler
 
 In manchen großen Projekten möchten die Entwickler die Arbeit in verschiedenen Verzeichnissen aufteilen, sodass das jeweilige Team in diesen Verzeichnissen arbeiten kann. Man trifft diese Vorgehensweise häufig an, wenn ein Team gerade von CVS oder Subversion nach Git gewechselt hat, im alten System ein Modul oder eine Sammlung von solchen Unterverzeichnissen gebildet hat und diesen Arbeitsablauf weiterhin verwenden möchte.
 
-<!--A good way to do this in Git is to make each of the subfolders a separate Git repository and then create superproject Git repositories that contain multiple submodules. A benefit of this approach is that you can more specifically define the relationships between the projects with tags and branches in the superprojects.-->
+<!--A good way to do this in Git is to make each of the subdirectories a separate Git repository and then create superproject Git repositories that contain multiple submodules. A benefit of this approach is that you can more specifically define the relationships between the projects with tags and branches in the superprojects.-->
 
 In Git kann man diese Vorgehensweise gut abbilden, indem man für jedes Unterverzeichnis ein neues Git Repository erzeugt. Zusätzlich kann man dann ein Superprojekt erzeugen und die ganzen Git Repositorys als Submodul hinzufügen.  Ein Vorteil dabei ist, dass man mit Hilfe von Tags und Branches im Superprojekt das Verhältnis der einzelnen Submodule zueinander festhalten kann.
 

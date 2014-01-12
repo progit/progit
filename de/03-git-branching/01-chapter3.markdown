@@ -24,13 +24,12 @@ Wenn Du in Git committest, speichert Git ein sogenanntes Commit-Objekt. Dieses e
 
 Um das zu verdeutlichen, lass uns annehmen, Du hast ein Verzeichnis mit drei Dateien, die Du alle zu der Staging-Area hinzufügst und in einem Commit verpackst. Durch das Stagen der Dateien erzeugt Git für jede Datei eine Prüfsumme (der SHA-1 Hash, den wir in Kapitel 1 erwähnt haben), speichert diese Version der Datei im Git-Repository (Git referenziert auf diese als Blobs) und fügt die Prüfsumme der Staging-Area hinzu:
 
-	$ git add README test.rb LICENSE2
+	$ git add README test.rb LICENSE
 	$ git commit -m 'initial commit of my project'
 
-<!--
-When you create the commit by running `git commit`, Git checksums each subdirectory (in this case, just the root project directory) and stores those tree objects in the Git repository. Git then creates a commit object that has the metadata and a pointer to the root project tree so it can re-create that snapshot when needed.-->
+<!--Running `git commit` checksums all project directories and stores them as `tree` objects in the Git repository. Git then creates a `commit` object that has the metadata and a pointer to the root project `tree` object so it can re-create that snapshot when needed.-->
 
-Wenn Du einen Commit mit dem Kommando `git commit` erstellst, erzeugt Git für jedes Unterverzeichnis eine Prüfsumme (in diesem Fall nur für das Root-Verzeichnis) und speichert diese drei Objekte im Git Repository. Git erzeugt dann ein Commit Objekt, das die Metadaten und den Zeiger zur Wurzel des Projektbaums enthält, um bei Bedarf den Snapshot erneut erzeugen zu können.
+Wenn Du einen Commit mit dem Kommando `git commit` erstellst, erzeugt Git für jedes Projektverzeichnis eine Prüfsumme und speichert diese als sogenanntes `tree`-Objekt im Git Repository. Git erzeugt dann ein Commit Objekt, das die Metadaten und den Zeiger zum `tree`-Objekt des Wurzelverzeichnis enthält, um bei Bedarf den Snapshot erneut erzeugen zu können.
 
 <!--Your Git repository now contains five objects: one blob for the contents of each of your three files, one tree that lists the contents of the directory and specifies which file names are stored as which blobs, and one commit with the pointer to that root tree and all the commit metadata. Conceptually, the data in your Git repository looks something like Figure 3-1.-->
 
@@ -140,8 +139,7 @@ Lass uns ein paar Änderungen machen und mit einem Commit festhalten:
 	$ vim test.rb
 	$ git commit -a -m 'made other changes'
 
-<!--
-Now your project history has diverged (see Figure 3-9). You created and switched to a branch, did some work on it, and then switched back to your main branch and did other work. Both of those changes are isolated in separate branches: you can switch back and forth between the branches and merge them together when you’re ready. And you did all that with simple `branch` and `checkout` commands.-->
+<!--Now your project history has diverged (see Figure 3-9). You created and switched to a branch, did some work on it, and then switched back to your main branch and did other work. Both of those changes are isolated in separate branches: you can switch back and forth between the branches and merge them together when you’re ready. And you did all that with simple `branch` and `checkout` commands.-->
 
 Nun verzweigen sich die Projektverläufe (siehe Abbildung 3-9). Du hast einen Branch erstellt und zu ihm gewechselt, hast ein bisschen gearbeitet, bist zu Deinem Haupt-Zweig zurückgekehrt und hast da was ganz anderes gemacht. Beide Arbeiten existieren vollständig unabhängig voneinander in zwei unterschiedlichen Branches. Du kannst beliebig zwischen den beiden Zweigen wechseln und sie zusammenführen, wenn Du meinst es wäre soweit. Und das alles hast Du mit simplen `branch` und `checkout`-Befehlen vollbracht.
 
@@ -169,9 +167,9 @@ Lass uns mal sehen, warum Du das machen solltest.
 
 Lass uns das Ganze an einem Beispiel durchgehen, dessen Workflow zum Thema Branching und Zusammenführen Du im echten Leben verwenden kannst. Folge einfach diesen Schritten:
 
-<!--1. Do work on a web site.
-2. Create a branch for a new story you’re working on.
-3. Do some work in that branch.-->
+<!--1. Do work on a web site.-->
+<!--2. Create a branch for a new story you’re working on.-->
+<!--3. Do some work in that branch.-->
 
 1. Arbeite an einer Webseite.
 2. Erstell einen Branch für irgendeine neue Geschichte, an der Du arbeitest.
@@ -181,10 +179,10 @@ Lass uns das Ganze an einem Beispiel durchgehen, dessen Workflow zum Thema Branc
 
 In diesem Augenblick kommt ein Anruf, dass ein kritisches Problem aufgetreten ist und sofort gelöst werden muss. Du machst folgendes:
 
-<!--1. Revert back to your production branch.
-2. Create a branch to add the hotfix.
-3. After it’s tested, merge the hotfix branch, and push to production.
-4. Switch back to your original story and continue working.-->
+<!--1. Revert back to your production branch.-->
+<!--2. Create a branch to add the hotfix.-->
+<!--3. After it’s tested, merge the hotfix branch, and push to production.-->
+<!--4. Switch back to your original story and continue working.-->
 
 1. Geh zurück zu Deinem „Produktiv“-Zweig.
 2. Erstelle eine Branch für den Hotfix.
@@ -257,7 +255,7 @@ Zu diesem Zeitpunkt befindet sich das Arbeitsverzeichnis des Projektes in exakt 
 
 Nun hast Du einen Hotfix zu erstellen. Lass uns dazu einen Hotfix-Branch erstellen, an dem Du bis zu dessen Fertigstellung arbeitest (siehe Abbildung 3-13):
 
-	$ git checkout -b 'hotfix'
+	$ git checkout -b hotfix
 	Switched to a new branch "hotfix"
 	$ vim index.html
 	$ git commit -a -m 'fixed the broken email address'
@@ -408,8 +406,8 @@ Das heisst, die Version in HEAD (Deines 'master'-Branches, denn der wurde per 'c
 	please contact us at email.support@github.com
 	</div>
 
-<!--This resolution has a little of each section, and I’ve fully removed the `<<<<<<<`, `=======`, and `>>>>>>>` lines. After you’ve resolved each of these sections in each conflicted file, run `git add` on each file to mark it as resolved. Staging the file marks it as resolved in Git.
-If you want to use a graphical tool to resolve these issues, you can run `git mergetool`, which fires up an appropriate visual merge tool and walks you through the conflicts:-->
+<!--This resolution has a little of each section, and I’ve fully removed the `<<<<<<<`, `=======`, and `>>>>>>>` lines. After you’ve resolved each of these sections in each conflicted file, run `git add` on each file to mark it as resolved. Staging the file marks it as resolved in Git.-->
+<!--If you want to use a graphical tool to resolve these issues, you can run `git mergetool`, which fires up an appropriate visual merge tool and walks you through the conflicts:-->
 
 Diese Lösung hat von beiden Teilen etwas und ich habe die Zeilen mit `<<<<<<<`, `=======`, und `>>>>>>>` komplett gelöscht. Nachdem Du alle problematischen Bereiche, in allen durch den Konflikt betroffenen Dateien, beseitigt hast, führe einfach `git add` für alle betroffenen Dateien aus und markieren sie damit als bereinigt. Dieses 'staging' der Dateien markiert sie für Git als bereinigt.
 Wenn Du ein grafischen Tool zur Bereinigung benutzen willst, dann verwende `git mergetool`. Das welches ein passendes grafisches 'merge'-Tool startet und Dich durch die Konfliktbereiche führt:
@@ -487,9 +485,9 @@ Das `*` vor dem `master`-Branch bedeutet, dass dies der gerade ausgecheckte Bran
 	* master  7a98805 Merge branch 'iss53'
 	  testing 782fd34 add scott to the author list in the readmes
 
-<!--Another useful option to figure out what state your branches are in is to filter this list to branches that you have or have not yet merged into the branch you’re currently on. The useful `-\-merged` and `-\-no-merged` options have been available in Git since version 1.5.6 for this purpose. To see which branches are already merged into the branch you’re on, you can run `git branch -\-merged`:-->
+<!--Another useful option to figure out what state your branches are in is to filter this list to branches that you have or have not yet merged into the branch you’re currently on. There are useful `-\-merged` and `-\-no-merged` options available in Git for this purpose. To see which branches are already merged into the branch you’re on, you can run `git branch -\-merged`:-->
 
-Mit einer weiteren nützlichen Option kannst Du herausfinden, in welchem Zustand Deine Branches sind: welche der Branches wurden bereits in den aktuellen Branch gemergt und welche wurden es nicht. Die Optionen heißen `--merged` und `--no-merged` und sind seit Version 1.5.6 in Git dabei. Um herauszufinden, welche Branches schon in den aktuell ausgecheckten gemergt wurden, kannst Du einfach `git branch --merged` aufrufen:
+Mit einer weiteren nützlichen Option kannst Du herausfinden, in welchem Zustand Deine Branches sind: welche der Branches wurden bereits in den aktuellen Branch gemergt und welche wurden es nicht. Für diesen Zweck gibt es in Git die Optionen `--merged` und `--no-merged`. Um herauszufinden, welche Branches schon in den aktuell ausgecheckten gemergt wurden, kannst Du einfach `git branch --merged` aufrufen:
 
 	$ git branch --merged
 	  iss53
@@ -512,7 +510,7 @@ Die Liste zeigt Dir den anderen Branch. Er enthält Arbeit, die noch nicht gemer
 
 	$ git branch -d testing
 	error: The branch 'testing' is not an ancestor of your current HEAD.
-	If you are sure you want to delete it, run `git branch -D testing`.
+	If you are sure you want to delete it, run 'git branch -D testing'.
 
 <!--If you really do want to delete the branch and lose that work, you can force it with `-D`, as the helpful message points out.-->
 
@@ -554,8 +552,8 @@ Es ist leichter sich die verschiedenen Branches als Arbeitsdepots vorzustellen, 
 Insert 18333fig0319.png
 Abbildung 3-19. Es könnte hilfreich sein, sich die Branches als Depots vorzustellen.
 
-<!--You can keep doing this for several levels of stability. Some larger projects also have a `proposed` or `pu` (proposed updates) branch that has integrated branches that may not be ready to go into the `next` or `master` branch. The idea is that your branches are at various levels of stability; when they reach a more stable level, they’re merged into the branch above them.
-Again, having multiple long-running branches isn’t necessary, but it’s often helpful, especially when you’re dealing with very large or complex projects.-->
+<!--You can keep doing this for several levels of stability. Some larger projects also have a `proposed` or `pu` (proposed updates) branch that has integrated branches that may not be ready to go into the `next` or `master` branch. The idea is that your branches are at various levels of stability; when they reach a more stable level, they’re merged into the branch above them.-->
+<!--Again, having multiple long-running branches isn’t necessary, but it’s often helpful, especially when you’re dealing with very large or complex projects.-->
 
 Das lässt sich für beliebig viele Stabilitätsabstufungen umsetzen. Manche größeren Projekte haben auch einen `proposed` (Vorgeschlagen) oder `pu` (proposed updates – vorgeschlagene Updates) Zweig mit Branches die vielleicht noch nicht bereit sind in den `next`- oder `master`-Branch integriert zu werden. Die Idee dahinter ist, dass Deine Branches verschiedene Stabilitätsabstufungen repräsentieren. Sobald sie eine stabilere Stufe erreichen, werden sie in den nächsthöheren Branch vereinigt.
 
@@ -724,7 +722,7 @@ Um einen lokalen Branch mit einem anderem Namen als der Remote-Branch, kannst Du
 	Branch sf set up to track remote branch refs/remotes/origin/serverfix.
 	Switched to a new branch "sf"
 
-<!--Now, your local branch sf will automatically push to and pull from origin/serverfix.-->
+<!--Now, your local branch `sf` will automatically push to and pull from `origin/serverfix`.-->
 
 Nun wird Dein lokaler Branch `sf` automatisch push und pull auf `origin/serverfix` durchführen.
 

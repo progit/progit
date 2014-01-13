@@ -54,7 +54,7 @@ Ci sono alcuni workflow utilizzati comunemente che sono possibili con un sistema
 
 ## Contribuire ad un Progetto ##
 
-Sai quali sono i diversi worlflows, e dovresti avere chiari i fondamentali utilizzi di Git. In questa sezione, parleremo di alcuni metodi comuni per contribuire ad un progetto.
+Conosci i diversi worlflow e dovresti aver chiaro i fondamentali di Git. In questa sezione imparerai alcuni metodi comuni per contribuire a un progetto.
 
 La difficoltà maggiore nel descrivere questo processo, è che ci sono molte variazioni su come può venir fatto. Data la natura flessibile di Git, la gente può lavorare insieme in molti modi, ed è difficile descrivere come dovresti contribuire ad un progetto - ogni progetto è diverso. Alcune delle variabili coinvolte sono la quantità di contributori attivi, il workflow deciso, il tuo tipo di accesso per commit, ed eventualmente il metodo di contribuzione esterno.
 

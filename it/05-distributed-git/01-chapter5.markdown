@@ -10,15 +10,15 @@ A differenza dei gestori di versione centralizzati (CVCS), la natura distribuita
 
 ### Workflow centralizzato ###
 
-Nei sistemi centralizzati, generalmente c'è un modo solo di collaborare. Un fulcro centrale, o repository, può accettare il codice e tutti sincronizzano il lavoro con questo. Un numero di sviluppatori sono nodi - rispetto al fulcro - e restano sincronizzati rispetto ad un luogo centrale (vedi Figura 5-1).
+Nei sistemi centralizzati, generalmente c'è un solo modo per collaborare: il flusso centralizzato. Un nucleo centrale, c.d. repository, può accettare il codice e tutti sincronizzano il proprio lavoro con questo nucleo. Un numero di sviluppatori sono nodi - utenti del nucleo - e restano sincronizzati con questo nucleo centrale (vedi Figura 5-1).
 
 Insert 18333fig0501.png
 Figura 5-1. Worlflow centralizzato
 
-Questo significa che se due sviluppatori clonano dal fulcro ed entrambi fanno dei cambiamenti, il primo sviluppatore che eseguirà un push verso il fulcro non avrà problemi. Il secondo invece, dovrà unire al proprio il lavoro effettuato dal primo, prima di fare un push dei cambiamenti, per non sovrascrivere il lavoro del primo. Questo accade in Git come in Subversion (o un altro CVCS), e funziona tranquillamente in Git.
+Questo significa che se due sviluppatori clonano dal nucleo ed entrambi fanno dei cambiamenti, il primo sviluppatore che trasmetterà le proprie modifiche al nucleo non avrà problemi. Il secondo, invece, dovrà prima unire al proprio lavoro quello del primo e quindi potrà inviare i suoi cambiamenti, per non sovrascrivere il lavoro del primo. Questo accade in Git come in Subversion (o un altro CVCS), e questo modello funziona tranquillamente in Git.
 
-Se hai un piccolo team, o nella tua azienda sono già abituati ad un workflow centralizzato, puoi facilmente continuare ad utilizzare questo metodo con Git. Semplicemente crea un singolo repository, e dai ad ognuno la possibilità di effettuare un push; Git non lascerà agli utenti la possibilità di sovrascriversi l'un l'altro. Se uno sviluppatore clona, esegue dei cambiamenti, e poi prova a fare un push delle proprie modifiche dopo che un altro utente ha cambiato qualcosa, il server si rifiuterà di consentire l'operazione. L'utente sarà avvisato che sta cercando di fare un push di una copia non aggiornata, e non sarà capace di caricare le proprie modifiche finché non le unirà con quelle effettuate dagli altri.
-Questo metodo è utilizzato da tanti dato che è il paradigma che molti conoscono e a cui sono abituati.
+Se hai un piccolo gruppo, o nella tua azienda siete già abituati ad un workflow centralizzato, puoi facilmente continuare ad utilizzare questo metodo con Git. Crea un singolo repository e dai a ognuno del tuo gruppo la possibilità di effettuare una push; Git non lascerà agli utenti la possibilità di sovrascrivere il lavoro di un l'altro. Se uno sviluppatore clona, fa dei cambiamenti, e poi prova a fare una push delle proprie modifiche dopo che un altro utente abbia già inviato le proprie modifiche, il server rifiuterà le modifiche dell'ultimo. Questi sarà avvisato che sta cercando di fare la push di una copia non aggiornata e non potrà caricare le proprie modifiche finché non le unirà con quelle effettuate dagli altri.
+Molti usano questo metodo perché sono abituati a lavorare con questo paradigma.
 
 ### Workflow con manager d'integrazione ###
 

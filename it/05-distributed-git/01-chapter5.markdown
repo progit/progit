@@ -22,19 +22,19 @@ Molti usano questo metodo perché sono abituati a lavorare con questo paradigma.
 
 ### Workflow con manager d'integrazione ###
 
-Dato che Git ti consente di avere multipli repositories, è possibile avere un workflow dove ogni sviluppatore ha accesso in scrittura al proprio pubblico respository, e accesso in lettura a quello degli altri. In questo scenario spesso esiste un repository che rappresenta il progetto "ufficiale". Per contribuire an progetto di questo tipo, devi creare il tuo clone pubblico del progetto e fare un push delle tue modifiche verso il progetto e successivamente chiedere al mantenitore del progetto di fare un pull delle tue modifiche. Questi può aggiungere il tuo repository come remoto, testarlo localmente, unirlo al proprio ramo e fare un push verso il proprio repository. Il processo funziona così (vedi Figura 5-2):
+Poiché Git permette di avere repository multipli, è possibile avere un workflow dove ogni sviluppatore ha accesso in scrittura al proprio respository pubblico e accesso in lettura a quello degli altri. Questo scenario spesso prevede anche un repository classico che rappresenta il progetto "ufficiale". Per contribuire a progetti di questo tipo, devi creare il tuo clone pubblico del progetto e inviarvi (con una push) le tue modifiche e successivamente chiedere al mantenitore del progetto di fare una pull delle stesse. Questi può aggiungere il tuo repository come remoto, testarlo localmente, unirlo al proprio branch e fare una push verso il proprio repository. Il processo funziona così (vedi Figura 5-2):
 
-1.  Il mantenitore del progetto fa un push del proprio repository pubblico.
-2.  Un contributore clona il reposiory ed esegue dei cambiamenti.
-3.  Il contributore fa un push dei propri cambiamenti.
-4.  Il contributore invia al mantenitore una e-mail chiedendo di fare un pull dei cambiamenti.
+1.  Il mantenitore del progetto fa le push sul proprio repository pubblico.
+2.  Un contributore clona il reposiory ed fa delle cambiamenti.
+3.  Il contributore invia le modifiche al suo repository pubblico.
+4.  Il contributore invia al mantenitore una e-mail chiedendo di fare una pull dei cambiamenti.
 5.  Il mantenitore aggiunge il repository del contributore come remoto e fa un merge in locale dei cambiamenti.
-6.  Il mantenitore fa un push dei cambiamenti (compresi quelli aggiunti dal contributore) verso il repository principale.
+6.  Il mantenitore fa una push dei cambiamenti (compresi quelli aggiunti dal contributore) verso il repository principale.
 
 Insert 18333fig0502.png
 Figura 5-2. Workflow con manager d'integrazione
 
-Questo è un workflow comune con siti come GitHub, dove è facile eseguire un fork di un progetto e fare un push dei propri cambiamenti nel proprio fork, in modo che tutti possano accedervi. Uno dei maggiori vantaggi di questo approccio è che puoi continuare il tuo lavoro, ed il mantenitore del repository principale può eseguire un pull dei tuoi cambiamenti in qualsiasi momento. I contributori non devono aspettare che il progetto incorpori i propri camiamenti, ed ognuno può lavorare per conto suo.
+Questo è un workflow comune con siti come GitHub, dove è facile eseguire un fork di un progetto e inviare le tue modifiche al tuo fork, in modo che tutti possano accedervi. Uno dei vantaggi principali di questo approccio è che puoi continuare il tuo lavoro mentre il mantenitore del repository principale può eseguire una pull dei tuoi cambiamenti in qualsiasi momento. I contributori non devono aspettare che il progetto incorpori le modifiche: ognuno può lavorare per conto suo.
 
 ### Workflow con Dittatori e Tenenti ###
 

@@ -22,7 +22,7 @@ Molti usano questo metodo perché sono abituati a lavorare con questo paradigma.
 
 ### Workflow con manager d'integrazione ###
 
-Poiché Git permette di avere repository multipli, è possibile avere un workflow dove ogni sviluppatore ha accesso in scrittura al proprio respository pubblico e accesso in lettura a quello degli altri. Questo scenario spesso prevede anche un repository classico che rappresenta il progetto "ufficiale". Per contribuire a progetti di questo tipo, devi creare il tuo clone pubblico del progetto e inviarvi (con una push) le tue modifiche e successivamente chiedere al mantenitore del progetto di fare una pull delle stesse. Questi può aggiungere il tuo repository come remoto, testarlo localmente, unirlo al proprio branch e fare una push verso il proprio repository. Il processo funziona così (vedi Figura 5-2):
+Poiché Git permette di avere repository multipli, è possibile avere un workflow dove ogni sviluppatore ha accesso in scrittura al proprio repository pubblico e accesso in lettura a quello degli altri. Questo scenario spesso prevede anche un repository classico che rappresenta il progetto "ufficiale". Per contribuire a progetti di questo tipo, devi creare il tuo clone pubblico del progetto e inviarvi (con una push) le tue modifiche e successivamente chiedere al mantenitore del progetto di fare una pull delle stesse. Questi può aggiungere il tuo repository come remoto, testarlo localmente, unirlo al proprio branch e fare una push verso il proprio repository. Il processo funziona così (vedi Figura 5-2):
 
 1.  Il mantenitore del progetto fa le push sul proprio repository pubblico.
 2.  Un contributore clona il reposiory ed fa delle cambiamenti.
@@ -38,7 +38,7 @@ Questo è un workflow comune con siti come GitHub, dove è facile eseguire un fo
 
 ### Workflow con Dittatore e Tenenti ###
 
-Questa è una variante del workflow con multipli repository. E' generalmente usata da grandi progetti con centinaia di collaboratori; un esempio famoso è il Kernel Linux. Molti manager d'integrazione sono in carica di certe parti del repository; sono chiamati tenenti. Tutti i tenenti hanno un manager d'integrazione conosciuto come "dittatore benevolo". Il repository del dittatore benevolo funziona come repository di riferimento dal quale tutti i collaboratori eseguono un pull. Il flusso di lavoro è il seguente (vedi Figura 5-3):
+Questa è una variante del workflow con repository multipli. È generalmente usata da grandi progetti con centinaia di collaboratori; un esempio famoso è il Kernel Linux. Molti manager d'integrazione sono in carica di certe parti del repository; sono chiamati tenenti. Tutti i tenenti hanno un manager d'integrazione conosciuto come "dittatore benevolo". Il repository del dittatore benevolo funziona come repository di riferimento dal quale tutti i collaboratori eseguono un pull. Il flusso di lavoro è il seguente (vedi Figura 5-3):
 
 1.  Normali sviluppatori lavorano nel loro ramo ed eseguono un rebase del proprio lavoro sul master. Il ramo master è quello del dittatore.
 2.  I tenenti eseguono l'unione del lavoro degli sviluppatori nel ramo master.

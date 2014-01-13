@@ -66,7 +66,7 @@ Il problema successivo riguarda i tuoi permessi per effettuare commit. Il workfl
 
 Tutte queste domande possono influire sul modo in cui contribuisci al progetto e quale tipo di workflow sia quello preferito o disponibile. Illustrerò gli aspetti di ciascuno di questi in una serie di casi d'uso, dal più semplice al più complesso: dovresti essere capace di definire il workflow specifico per il tuo caso basandoti su questi esempi.
 
-### Linee guida per il commit ###
+### Linee guida per le commit ###
 
 Prima di guardare ai casi specifici, una breve nota riguardo ai messaggi di commit. Avere una linea guida per creare commit e aderirvi rende il lavoro con Git e la collaborazione con altri molto più semplice. Il progetto Git fornisce un documento che da alcuni suggerimenti per la creazione di messaggi di commit - puoi leggerlo nel codice sorgente di Git nel file `Documentation/SubmittingPatches`.
 

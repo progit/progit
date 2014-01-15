@@ -528,7 +528,26 @@ Insert 18333fig0518.png
 	  port = 993
 	  sslverify = false
 
-IMAP サーバーで SSL を使っていない場合は、最後の二行はおそらく不要でしょう。そして host のところが `imaps://` ではなく `imap://` となります。ここまでの設定が終われば、`git send-email` を実行して IMAP サーバーの Drafts フォルダにパッチを置くことができるようになります。
+IMAP サーバーで SSL を使っていない場合は、最後の二行はおそらく不要でしょう。そして host のところが `imaps://` ではなく `imap://` となります。ここまでの設定が終われば、`git imap-send` を実行して IMAP サーバーの Drafts フォルダにパッチを置くことができるようになります。
+
+    $ cat *.patch |git imap-send
+    Resolving imap.gmail.com... ok
+    Connecting to [74.125.142.109]:993... ok
+    Logging in...
+    sending 2 messages
+    100% (2/2) done
+
+あとは、Drafts フォルダに移動して To フィールドをメーリングリストのアドレスに変更し (おそらく CC には担当メンテなのアドレスを入れ)、送信できるようになりました。
+
+SMTP サーバーを使ってパッチを送ることもできます。IMAP サーバー同様、設定は `git config` コマンドで順に設定してもいいですし、`~/.gitconfig` ファイルの sendmail セクションに直接入力してもかまいません。
+
+    [sendemail]
+      smtpencryption = tls
+      smtpserver = smtp.gmail.com
+      smtpuser = user@gmail.com
+      smtpserverport = 587
+
+設定が追加できたら、`git send-email` を実行してパッチを送信します。
 
 	$ git send-email *.patch
 	0001-added-limit-to-log-function.patch
@@ -554,8 +573,6 @@ Git はその後、各パッチについてこのようなログ情報をはき�
 	References: <y>
 
 	Result: OK
-
-あとは、Drafts フォルダに移動して To フィールドをメーリングリストのアドレスに変更し (おそらく CC には担当メンテなのアドレスを入れ)、送信できるようになりました。
 
 ### まとめ ###
 

@@ -458,7 +458,7 @@ Insert 18333fig0326.png
 	Branch sf set up to track remote branch refs/remotes/origin/serverfix.
 	Switched to a new branch "sf"
 
-これで、ローカルブランチ sf が自動的に origin/serverfix を追跡するようになりました。
+これで、ローカルブランチ sf が自動的に `origin/serverfix` を追跡するようになりました。
 
 ### リモートブランチの削除 ###
 

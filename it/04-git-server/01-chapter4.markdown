@@ -716,7 +716,7 @@ Puoi controllare quali progetti GitWeb lascia sfogliare agli utenti via browser 
 
 Ora, se fai il commit ed il push del progetto, GitWeb automaticamente inizierà a mostrare il progetto iphone.
 
-## Hosted Git ##
+## Hosting Git ##
 
 Se non vuoi svolgere tutto il lavoro di configurazione di un tuo server Git, hai varie opzioni per ospitare i tuoi progetti Git su un sito esterno e dedicato. Fare questo offre un numero di vantaggi: un sito di hosting è generalmente veloce da configurare ed è facile avviare un progetto su questo, e non sono necessari spese di mantenimento o controllo del server. Se imposti e avvi il tuo server interno, puoi comunque voler utilizzare un hosting pubblico per i progetti a codice aperto — è generalmente più facile per una comunità open source trovarti ed aiutarti.
 

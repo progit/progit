@@ -258,7 +258,7 @@ Nachdem Du jetzt einzelne Commits spezifizieren kannst, schauen wir uns an, wie 
 
 <!--The most common range specification is the double-dot syntax. This basically asks Git to resolve a range of commits that are reachable from one commit but aren’t reachable from another. For example, say you have a commit history that looks like Figure 6-1.-->
 
-Die gängigste Weise, Commit-Reihen anzugeben, ist die Zwei-Punkte-Notation. Allgemein gesagt evaluiert Git eine Reihe von Commits, die von einem Commit aus erreichbar sind, nicht aber von einem anderen (xxx ??? xxx). Nehmen wir z.B. an, Du hättest eine Commit-Historie wie die folgende (Bild 6-1).
+Die gängigste Weise, Commit-Reihen anzugeben, ist die Zwei-Punkte-Notation. Allgemein gesagt liefert Git damit eine Reihe von Commits, die von dem einem Commit aus erreichbar sind, allerdings nicht von dem anderen aus. Nehmen wir z.B. an, Du hättest eine Commit-Historie wie die folgende (Bild 6-1).
 
 <!--Figure 6-1. Example history for range selection.-->
 
@@ -292,7 +292,7 @@ Dies ist nützlich, wenn Du vorhast, den `experiment`-Branch zu aktualisieren, u
 Dieser Befehl zeigt Dir alle Commits im gegenwärtigen, lokalen Branch, die noch nicht im `master`-Branch des `origin` Repositorys sind. D.h., der Befehl listet diejenigen Commits auf, die auf den Server transferiert würden, wenn Du `git push` benutzt und der aktuelle Branch `origin/master` trackt. Du kannst mit dieser Syntax außerdem eine Seite der beiden Punkte leer lassen. Git nimmt dann an, Du meinst an dieser Stelle HEAD. Z.B. kannst Du dieselben Commits wie im vorherigen Beispiel auch mit `git log origin/master..` anzeigen lassen. Git fügt dann HEAD auf der rechten Seite ein.
 
 <!--#### Multiple Points ####-->
-#### Mehrfache Punkte (xxx) ####
+#### Mehrere Bezugspunkte ####
 
 <!--The double-dot syntax is useful as a shorthand; but perhaps you want to specify more than two branches to indicate your revision, such as seeing what commits are in any of several branches that aren’t in the branch you’re currently on. Git allows you to do this by using either the `^` character or `-\-not` before any reference from which you don’t want to see reachable commits. Thus these three commands are equivalent:-->
 
@@ -373,7 +373,7 @@ Wie Du siehst, zeigt dieser Befehl eine andere Ansicht der Staging-Area an – i
 Danach folgt eine Liste von Befehlen wie, u.a., Dateien ganz oder teilweise stagen und unstagen, nicht versionskontrollierte Dateien hinzufügen, Diffs der gestageten Änderungen anzeigen etc.
 
 <!--### Staging and Unstaging Files ###-->
-### Dateien stagen und unstagen (xxx) ###
+### Hinzufügen und Enfernen von Dateien aus der Staging-Area ###
 
 <!--If you type `2` or `u` at the `What now>` prompt, the script prompts you for which files you want to stage:-->
 

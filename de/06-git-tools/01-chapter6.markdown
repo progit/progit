@@ -95,7 +95,7 @@ Allerdings solltest Du Dir bewusst machen, wie unglaublich unwahrscheinlich dies
 Hier ist ein Beispiel, das Dir eine Vorstellung davon gibt, was nötig ist, um in SHA-1 eine Kollision zu bekommen. Wenn alle 6,5 Milliarden Menschen auf der Erde programmieren würden und jeder jede Sekunde Code schreiben würde, der der gesamten Geschichte des Linux-Kernels (1 Million Git-Objekte) entspricht, und diesen dann in ein gigantisches Git-Repository übertragen würde, würde es fünf Jahre dauern, bis das Repository genügend Objekte hätte, um eine 50% Wahrscheinlichkeit für eine einzige SHA-1-Kollision aufzuweisen. Es ist wahrscheinlicher, dass jedes Mitglied Deines Programmierer-Teams, unabhängig voneinander, in einer Nacht von Wölfen angegriffen und getötet wird.
 
 <!--### Branch References ###-->
-### Branch Referenzen ###
+### Branch-Referenzen ###
 
 <!--The most straightforward way to specify a commit requires that it have a branch reference pointed at it. Then, you can use a branch name in any Git command that expects a commit object or SHA-1 value. For instance, if you want to show the last commit object on a branch, the following commands are equivalent, assuming that the `topic1` branch points to `ca82a6d`:-->
 
@@ -274,7 +274,7 @@ Du willst jetzt herausfinden, welche Änderungen in Deinem `experiment`-Branch s
 
 <!--If, on the other hand, you want to see the opposite — all commits in `master` that aren’t in `experiment` — you can reverse the branch names. `experiment..master` shows you everything in `master` not reachable from `experiment`:-->
 
-Wenn Du allerdings – anders herum – diejenigen Commits anzeigen willst, die in `master`, aber noch nicht in `experiment` sind, kannst Du die Branch Namen umdrehen: `experiment..master` zeigt „alles in `master`, das nicht in `experiment` enthalten ist“.
+Wenn Du allerdings – anders herum – diejenigen Commits anzeigen willst, die in `master`, aber noch nicht in `experiment` sind, kannst Du die Branch-Namen umdrehen: `experiment..master` zeigt „alles in `master`, das nicht in `experiment` enthalten ist“.
 
 	$ git log experiment..master
 	F
@@ -314,7 +314,7 @@ Das ist praktisch, weil Du auf diese Weise mehr als nur zwei Referenzen angeben 
 Damit hast Du ein sehr mächtiges System von Abfragen zur Verfügung, mit denen Du herausfinden kannst, was in welchen Deiner Branches enthalten ist.
 
 <!--#### Triple Dot ####-->
-#### Drei-Punkte Syntax ####
+#### Drei-Punkte-Syntax ####
 
 <!--The last major range-selection syntax is the triple-dot syntax, which specifies all the commits that are reachable by either of two references but not by both of them. Look back at the example commit history in Figure 6-1.-->
 <!--If you want to see what is in `master` or `experiment` but not any common references, you can run-->
@@ -472,7 +472,7 @@ Um einen Diff dessen zu sehen, das Du gestaget hast, kannst Du den Befehl `6` od
 
 <!--With these basic commands, you can use the interactive add mode to deal with your staging area a little more easily.-->
 
-Mit diesen grundlegenden Befehlen kannst Du den interaktiven add Modus nutzen, um Dir den Umgang mit Deiner Staging-Area etwas zu erleichtern.
+Mit diesen grundlegenden Befehlen kannst Du den interaktiven Hinzufüge-Modus nutzen, um Dir den Umgang mit Deiner Staging-Area etwas zu erleichtern.
 
 <!--### Staging Patches ###-->
 ### Patches stagen ###
@@ -895,7 +895,7 @@ Man kann mit Git einen einzelnen Commit auch aufsplitten. Das bedeutet, man setz
 
 <!--When you save and exit the editor, Git rewinds to the parent of the first commit in your list, applies the first commit (`f7f3f6d`), applies the second (`310154e`), and drops you to the console. There, you can do a mixed reset of that commit with `git reset HEAD^`, which effectively undoes that commit and leaves the modified files unstaged. Now you can take the changes that have been reset, and create multiple commits out of them. Simply stage and commit files until you have several commits, and run `git rebase -\-continue` when you’re done:-->
 
-Nach dem Speichern und Schließen des Editors, setzt Git die Änderungen entsprechend zurück und wendet den ersten (`f7f3f6d`) und zweiten (`310154e`) Commit an und wechselt danach zurück zur Kommandozeile. Jetzt hast Du die Möglichkeit den letzten Commit zurückzusetzen, ohne dass die Änderungen im Arbeitsverzeichnis zurückgesetzt werden. Das heißt, der Commit im Repository wird gelöscht, aber Deine Änderungen im Arbeitsverzeichnis gehen nicht verloren. Um dies durchzuführen, kannst Du den Befehl `git reset HEAD^` verwenden. Jetzt kannst Du die gewünschten Änderungen für den ersten Commit zur Staging Area hinzufügen und danach einchecken. Diesen Vorgang kannst Du beliebig wiederholen, bis alle Änderungen eingecheckt sind. Wenn Du fertig bist, kannst Du den Rebase mit `git rebase --continue` fortsetzen beziehungsweise abschließen:
+Nach dem Speichern und Schließen des Editors, setzt Git die Änderungen entsprechend zurück und wendet den ersten (`f7f3f6d`) und zweiten (`310154e`) Commit an und wechselt danach zurück zur Kommandozeile. Jetzt hast Du die Möglichkeit den letzten Commit zurückzusetzen, ohne dass die Änderungen im Arbeitsverzeichnis zurückgesetzt werden. Das heißt, der Commit im Repository wird gelöscht, aber Deine Änderungen im Arbeitsverzeichnis gehen nicht verloren. Um dies durchzuführen, kannst Du den Befehl `git reset HEAD^` verwenden. Jetzt kannst Du die gewünschten Änderungen für den ersten Commit zur Staging-Area hinzufügen und danach einchecken. Diesen Vorgang kannst Du beliebig wiederholen, bis alle Änderungen eingecheckt sind. Wenn Du fertig bist, kannst Du den Rebase mit `git rebase --continue` fortsetzen beziehungsweise abschließen:
 
 	$ git reset HEAD^
 	$ git add README
@@ -1131,7 +1131,7 @@ Nehmen wir einmal an, dass Du die Rack-Bibliothek (eine Ruby-Gateway-Schnittstel
 
 <!--Now you have the Rack project under a subdirectory named `rack` within your project. You can go into that subdirectory, make changes, add your own writable remote repository to push your changes into, fetch and merge from the original repository, and more. If you run `git status` right after you add the submodule, you see two things:-->
 
-Innerhalb Deines Projekts befindet sich nun im Unterverzeichnis `rack` das komplette Rack-Projekt. Man kann jetzt in diesem Verzeichnis Änderungen vornehmen und ein eigenes Remote Repository mit Schreibrechten, zu welchem man pushen kann, hinzufügen. Ebenso ist es möglich, Änderungen von den Rack-Entwicklern in sein Repository zu laden und diese mit den eigenen Ergebnissen zu mergen. Im Prinzip kann man innerhalb eines Submoduls die gleichen Vorgänge, wie in einem normalen Repository ausführen. Vorher müssen wir aber noch ein paar weitere Dinge zu Submodulen besprechen. Wenn Du gleich nach dem Hinzufügen des Submoduls, den Befehl `git status` ausführst, wirst Du gleich zwei Dinge bemerken:
+Innerhalb Deines Projekts befindet sich nun im Unterverzeichnis `rack` das komplette Rack-Projekt. Man kann jetzt in diesem Verzeichnis Änderungen vornehmen und ein eigenes Remote-Repository mit Schreibrechten, zu welchem man pushen kann, hinzufügen. Ebenso ist es möglich, Änderungen von den Rack-Entwicklern in sein Repository zu laden und diese mit den eigenen Ergebnissen zu mergen. Im Prinzip kann man innerhalb eines Submoduls die gleichen Vorgänge, wie in einem normalen Repository ausführen. Vorher müssen wir aber noch ein paar weitere Dinge zu Submodulen besprechen. Wenn Du gleich nach dem Hinzufügen des Submoduls, den Befehl `git status` ausführst, wirst Du gleich zwei Dinge bemerken:
 
 	$ git status
 	# On branch master

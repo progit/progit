@@ -63,6 +63,50 @@ Beispiel:
 
 * Bei englischen Nomen, die auf "y" enden, wird beim Plural nur ein einzelnes "s" angehängt (kein ies). Siehe hierzu auch http://www.duden.de/sprachwissen/sprachratgeber/crashkurs--in-25-schritten-zur-neuen-rechtschreibung
 
+#### Schreibweise von verschiedenen Git-Begriffen ####
+
+##### A - D #####
+
+* Branch (Plural: Branches)
+* Branch-Name
+* Branch-Referenz (Plural: Branch-Referenzen)
+* Commit
+* Commit-Datum
+* Commit-ID
+* Commit-Objekt (Plural: Commit-Objekte)
+* Commit-Nachricht
+* Drei-Punkte-Syntax
+
+##### E - H #####
+
+* Git-Repository
+* HEAD
+* HEAD-Referenz
+
+##### I - Q #####
+
+* der Klon (Plural: Klone)
+* Low-Level-Operation
+
+##### R - T #####
+
+* Reflog-Ausgabe
+* Remote-Repository
+* Repository (Plural: Repositorys)
+* SHA-1
+* SHA-1-Hash (Genitiv: SHA-1-Hashes)
+* SHA-1-Hashwert (Plural: SHA-1-Hashwerte) 
+* SHA-1-Prüfsumme
+* SHA-1-Wert
+* stagen (gestaget, ungestaget)
+* Staging-Area
+* Stash
+* stashen
+
+##### U - Z #####
+
+* Zwei-Punkte-Syntax
+
 ### Übersetzung von Git spezifischen Begriffen ###
 
 Wir versuchen die englischen Fachbegriffe, die in der Welt von Git existieren, zu benutzen. Zusätzlich versuchen wir aber immer, dass ein neu eingeführter Git-spezifischer Begriff, auch auf Deutsch erklärt wird.
@@ -379,63 +423,63 @@ Bitte den Status nicht aktualisieren. Dies übernimmt ein Maintainer.
 <td>Ja</td>
 <td>Nein</td>
 <td>Ja</td>
-<td bgcolor="yellow">Review notwendig</td>
+<td bgcolor="green">Ok</td>
 </tr>
 <tr>
 <td>6.1</td>
 <td>Ja</td>
 <td>Nein</td>
 <td>Ja</td>
-<td bgcolor="yellow">Review notwendig</td>
+<td bgcolor="green">Ok</td>
 </tr>
 <tr>
 <td>6.2</td>
 <td>Ja</td>
 <td>Nein</td>
 <td>Ja</td>
-<td bgcolor="yellow">Review notwendig</td>
+<td bgcolor="green">Ok</td>
 </tr>
 <tr>
 <td>6.3</td>
 <td>Ja</td>
 <td>Nein</td>
 <td>Ja</td>
-<td bgcolor="yellow">Review notwendig</td>
+<td bgcolor="green">Ok</td>
 </tr>
 <tr>
 <td>6.4</td>
 <td>Ja</td>
 <td>Nein</td>
 <td>Ja</td>
-<td bgcolor="yellow">Review notwendig</td>
+<td bgcolor="green">Ok</td>
 </tr>
 <tr>
 <td>6.5</td>
 <td>Ja</td>
 <td>Nein</td>
 <td>Ja</td>
-<td bgcolor="yellow">Review notwendig</td>
+<td bgcolor="green">Ok</td>
 </tr>
 <tr>
 <td>6.6</td>
 <td>Ja</td>
 <td>Nein</td>
 <td>Ja</td>
-<td bgcolor="yellow">Review notwendig</td>
+<td bgcolor="green">Ok</td>
 </tr>
 <tr>
 <td>6.7</td>
 <td>Nein</td>
 <td>Nein</td>
 <td>Ja</td>
-<td bgcolor="red">Übersetzung fehlt</td>
+<td bgcolor="green">Ok</td>
 </tr>
 <tr>
 <td>6.8</td>
 <td>Nein</td>
 <td>Nein</td>
 <td>Ja</td>
-<td bgcolor="red">Übersetzung fehlt</td>
+<td bgcolor="green">Ok</td>
 </tr>
 <tr>
 <td>7</td>

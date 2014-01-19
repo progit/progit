@@ -942,7 +942,7 @@ Die Option `--tree-filer` führt den nachfolgenden Befehl nach jedem Auschecken 
 
 <!--You’ll be able to watch Git rewriting trees and commits and then move the branch pointer at the end. It’s generally a good idea to do this in a testing branch and then hard-reset your master branch after you’ve determined the outcome is what you really want. To run `filter-branch` on all your branches, you can pass `-\-all` to the command.-->
 
-Git informiert Dich über den Fortschritt dieses Vorgangs und Du siehst, wie jeder Commit angepasst wird und der Zeiger auf den Branch auf den letzten Commit gesetzt wird. Es ist empfehlenswert, diesen Befehl in einem Testzweig durchzuführen. Wenn das Ergebnis, wie gewünscht ausfällt, kann man danach den Master-Branch auf diesen Testzweig setzen. Wenn man an den Befehl `filter-branch` die Option `--all` anfügt, führt Git diesen Vorgang für jeden vorhandenen Zweig aus.
+Git informiert Dich über den Fortschritt dieses Vorgangs und Du siehst, wie jeder Commit angepasst wird und der Zeiger auf den Branch auf den letzten Commit gesetzt wird. Es ist empfehlenswert, diesen Befehl in einem Testzweig durchzuführen. Wenn das Ergebnis, wie gewünscht ausfällt, kann man danach den Branch master auf diesen Testzweig setzen. Wenn man an den Befehl `filter-branch` die Option `--all` anfügt, führt Git diesen Vorgang für jeden vorhandenen Zweig aus.
 
 <!--#### Making a Subdirectory the New Root ####-->
 #### Aus einem Unterverzeichnis das neue Wurzelverzeichnis machen ####
@@ -1471,7 +1471,7 @@ Wenn Du jetzt einen Commit ausführst, erscheint es einem so, als ob die ganzen 
 
 <!--Then, you can merge those changes back into your master branch. You can use `git merge -s subtree` and it will work fine; but Git will also merge the histories together, which you probably don’t want. To pull in the changes and prepopulate the commit message, use the `-\-squash` and `-\-no-commit` options as well as the `-s subtree` strategy option:-->
 
-Danach kann man diese Änderungen wieder in den master-Branch mergen. Wenn man den Befehl `git merge -s subtree` verwendet, sollte dies einwandfrei funktionieren. Allerdings wird Git bei Ausführen dieses Befehls auch die jeweilige Historie mergen, was Du wahrscheinlich nicht haben möchtest. Um nun die Änderungen zu holen und eine entsprechende Commit-Nachricht vorzubereiten, hängt man einfach `--squash`, `--no-commit` und natürlich `-s subtree` als Option an:
+Danach kann man diese Änderungen wieder in den Branch master mergen. Wenn man den Befehl `git merge -s subtree` verwendet, sollte dies einwandfrei funktionieren. Allerdings wird Git bei Ausführen dieses Befehls auch die jeweilige Historie mergen, was Du wahrscheinlich nicht haben möchtest. Um nun die Änderungen zu holen und eine entsprechende Commit-Nachricht vorzubereiten, hängt man einfach `--squash`, `--no-commit` und natürlich `-s subtree` als Option an:
 
 	$ git checkout master
 	$ git merge --squash -s subtree --no-commit rack_branch
@@ -1480,7 +1480,7 @@ Danach kann man diese Änderungen wieder in den master-Branch mergen. Wenn man d
 
 <!--All the changes from your Rack project are merged in and ready to be committed locally. You can also do the opposite — make changes in the `rack` subdirectory of your master branch and then merge them into your `rack_branch` branch later to submit them to the maintainers or push them upstream.-->
 
-Die ganzen Änderungen des Rack-Projekts wurden nun zusammengeführt, Du musst jetzt nur noch einen entsprechenden Commit durchführen. Man kann aber auch genau das Gegenteil machen: Man führt Änderungen im Unterverzeichnis `rack` des master-Branches aus und mergt diese dann später in den Zweig `rack_branch`. Diesen kann man dann den Entwicklern des Rack-Projekts zur Verfügung stellen.
+Die ganzen Änderungen des Rack-Projekts wurden nun zusammengeführt, Du musst jetzt nur noch einen entsprechenden Commit durchführen. Man kann aber auch genau das Gegenteil machen: Man führt Änderungen im Unterverzeichnis `rack` des Branches master aus und mergt diese dann später in den Zweig `rack_branch`. Diesen kann man dann den Entwicklern des Rack-Projekts zur Verfügung stellen.
 
 <!--To get a diff between what you have in your `rack` subdirectory and the code in your `rack_branch` branch — to see if you need to merge them — you can’t use the normal `diff` command. Instead, you must run `git diff-tree` with the branch you want to compare to:-->
 

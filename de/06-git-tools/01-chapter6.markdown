@@ -479,7 +479,7 @@ Mit diesen grundlegenden Befehlen kannst Du den interaktiven Hinzufüge-Modus nu
 
 <!--It’s also possible for Git to stage certain parts of files and not the rest. For example, if you make two changes to your simplegit.rb file and want to stage one of them and not the other, doing so is very easy in Git. From the interactive prompt, type `5` or `p` (for patch). Git will ask you which files you would like to partially stage; then, for each section of the selected files, it will display hunks of the file diff and ask if you would like to stage them, one by one:-->
 
-Es ist für Git auch möglich, bestimmte Teile einer Datei zu stagen und nicht den Rest. Wenn Du z.B. 2 Veränderungen an der simplegit.rb machst und eine davon stagen willst und die andere nicht, ist dies sehr einfach in Git möglich. Wähle `5` oder `p` (für patch) auf dem interaktiven Prompt. Git wird Dich fragen, welche Dateien Du teilweise stagen willst; dann wird es für jeden Abschnitt der gewählten Dateien Diff-Ausschnitte ausgeben und Dich jeweils einzeln fragen, ob Du sie stagen willst.
+Es ist für Git auch möglich, bestimmte Teile einer Datei zu stagen und nicht den Rest. Wenn Du z.B. zwei Veränderungen an der simplegit.rb machst und eine davon stagen willst und die andere nicht, ist dies sehr einfach in Git möglich. Wähle `5` oder `p` (für patch) auf dem interaktiven Prompt. Git wird Dich fragen, welche Dateien Du teilweise stagen willst; dann wird es für jeden Abschnitt der gewählten Dateien Diff-Ausschnitte ausgeben und Dich jeweils einzeln fragen, ob Du sie stagen willst.
 
 	diff --git a/lib/simplegit.rb b/lib/simplegit.rb
 	index dd5ecc4..57399e0 100644

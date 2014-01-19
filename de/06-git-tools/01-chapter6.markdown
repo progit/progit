@@ -76,7 +76,7 @@ Git kann auch selber eine Kurzform für Deine einzigartigen SHA-1-Werte erzeugen
 Generell kann man sagen, dass acht bis zehn Zeichen mehr als ausreichend in einem Projekt sind, um eindeutig zu bleiben. Eines der größten Git-Projekte, der Linux-Kernel, fängt langsam an 12 von maximal 40 Zeichen zu nutzen, um eindeutig zu bleiben.
 
 <!--### A SHORT NOTE ABOUT SHA-1 ###-->
-### EINE KURVE NOTIZ ÜBER SHA-1 ###
+### Ein kurzer Hinweis zu SHA-1 ###
 
 <!--A lot of people become concerned at some point that they will, by random happenstance, have two objects in their repository that hash to the same SHA-1 value. What then?-->
 

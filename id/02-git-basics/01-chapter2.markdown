@@ -101,13 +101,13 @@ Mari kita ubah sebuah berkas yang sudah terpantau. Jika Anda mengubah berkas yan
 	#
 	#	new file:   README
 	#
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add <file>..." to update what will be committed)
 	#
 	#	modified:   benchmarks.rb
 	#
 
-Berkas benchmarks.rb terlihat di bawah bagian yang bernama "Changed but not updated" - yang berarti bahwa sebuah berkas terpantau telah berubah di dalam direktori kerja namun belum masuk ke area stage. Untuk memasukkannya ke area stage, Anda menjalankan perintah `git add` (perintah ini adalah perintah multiguna - Anda menggunakannya untuk mulai memantau berkas baru, untuk memasukkannya ke area stage, dan untuk melakukan hal lain seperti menandai berkas terkonflik menjadi terpecahkan). Mari kita sekarang jalankan `git add` untuk memasukkan berkas benchmarks.rb ke dalam area stage, dan jalankan `git status` lagi:
+Berkas benchmarks.rb terlihat di bawah bagian yang bernama "Changes not staged for commit" - yang berarti bahwa sebuah berkas terpantau telah berubah di dalam direktori kerja namun belum masuk ke area stage. Untuk memasukkannya ke area stage, Anda menjalankan perintah `git add` (perintah ini adalah perintah multiguna - Anda menggunakannya untuk mulai memantau berkas baru, untuk memasukkannya ke area stage, dan untuk melakukan hal lain seperti menandai berkas terkonflik menjadi terpecahkan). Mari kita sekarang jalankan `git add` untuk memasukkan berkas benchmarks.rb ke dalam area stage, dan jalankan `git status` lagi:
 
 	$ git add benchmarks.rb
 	$ git status
@@ -130,7 +130,7 @@ Kedua file sekarang berada di area stage dan akan masuk ke dalam commit Anda ber
 	#	new file:   README
 	#	modified:   benchmarks.rb
 	#
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add <file>..." to update what will be committed)
 	#
 	#	modified:   benchmarks.rb
@@ -170,11 +170,16 @@ Pola Glob adalah seperti regular expression yang disederhanakan yang biasanya di
 Berikut adalah contoh lain dari isi berkas .gitignore:
 
 	# sebuah komentar – akan diabaikan
-	*.a       # abaikan berkas .a
-	!lib.a    # tapi pantau lib.a, walaupun Anda abaikan berkas .a di atas
-	/TODO     # hanya abaikan berkas TODO yang berada di rooto, bukan di subdir/TODO
-	build/    # abaikan semua berkas di dalam direktori build/
-	doc/*.txt # abaikan doc/notes.txt, tapi bukan doc/server/arch.txt
+	# abaikan berkas .a
+	*.a
+	# tapi pantau lib.a, walaupun Anda abaikan berkas .a di atas
+	!lib.a
+	# hanya abaikan berkas TODO yang berada di rooto, bukan di subdir/TODO
+	/TODO
+	# abaikan semua berkas di dalam direktori build/
+	build/
+	# abaikan doc/notes.txt, tapi bukan doc/server/arch.txt
+	doc/*.txt
 
 ### Melihat Perubahan di Area Stage dan di luar Area Stage ###
 
@@ -189,7 +194,7 @@ Mari kita anggap Anda mengubah dan memasukkan berkas README ke area stage lagi d
 	#
 	#	new file:   README
 	#
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add <file>..." to update what will be committed)
 	#
 	#	modified:   benchmarks.rb
@@ -244,7 +249,7 @@ Sebagai contoh lain, jika Anda memasukkan berkas benchmarks.rb ke area stage dan
 	#
 	#	modified:   benchmarks.rb
 	#
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#
 	#	modified:   benchmarks.rb
 	#
@@ -325,7 +330,7 @@ Walaupun dapat menjadi sangat berguna untuk menata commit tepat sebagaimana Anda
 	$ git status
 	# On branch master
 	#
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#
 	#	modified:   benchmarks.rb
 	#
@@ -339,13 +344,13 @@ Perhatikan bagaimana Anda tidak perlu menjalankan `git add` terhadap berkas benc
 
 Untuk menghapus sebuah berkas dari Git, Anda harus menghapusnya dari berkas terpantau (lebih tepatnya, mengpus dari area stage) dan kemudian commit. Perintah `git rm` melakukan hal tadi dan juga menghapus berkas tersebut dari direktori kerja Anda sehingga Anda tidak melihatnya sebagai berkas yang tak terpantau nantinya.
 
-Jika Anda hanya menghapus berkas dari direktori kerja Anda, berkas tersebut akan muncul di bagian "Changed but not updated" (yaitu, di luar area stage) dari keluaran `git status` Anda:
+Jika Anda hanya menghapus berkas dari direktori kerja Anda, berkas tersebut akan muncul di bagian "Changes not staged for commit" (yaitu, di luar area stage) dari keluaran `git status` Anda:
 
 	$ rm grit.gemspec
 	$ git status
 	# On branch master
 	#
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add/rm <file>..." to update what will be committed)
 	#
 	#       deleted:    grit.gemspec
@@ -670,7 +675,7 @@ Tepat di bawah tulisan "Changes to be committed", tercantum anjuran untuk menggu
 	#
 	#       modified:   README.txt
 	#
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add <file>..." to update what will be committed)
 	#   (use "git checkout -- <file>..." to discard changes in working directory)
 	#
@@ -683,7 +688,7 @@ Perintahnya terlihat agak aneh, tetapi menyelesaikan masalah. Berkas benchmarks.
 
 Apa yang terjadi jika Anda menyadari bahwa Anda tidak ingin menyimpan perubahan terhadap berkas benchmarks.rb? Bgaimana kita dapat dengan mudah mengembalikan berkas tersebut ke keadaan yang sama dengan saat Anda melakukan commit terakhir (atau saat awal menduplikasi, atau bagaimanapun Anda mendapatkannya ketika masuk ke direktori kerja Anda)? Untungnya, `git status` memberitahu Anda lagi bagaimana untuk melakukan hal itu. Pada contoh keluaran sebelumnya, area direktori kerja terlihat seperti berikut:
 
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add <file>..." to update what will be committed)
 	#   (use "git checkout -- <file>..." to discard changes in working directory)
 	#
@@ -1115,7 +1120,7 @@ Dengan demikian, Anda dapat melihat commit terakhir dengan lebih mudah:
 
 Sebagaimana yang dapat Anda katakan, Git secara sederhana menggantikan perintah-perintah baru dengan apapun yang Anda alias kan. Namun demikian, mungkin Anda ingin menjalankan perintah eksternal, dan bukannya Git subcommand. Dalam kasus ini, Anda dapat mulai perintahnya dengan karakter `!`. Hal ini berguna jika Anda ingin membuat alat Anda sendiri yang bekerja terhadap repositori Git. Kita dapat mendemokannya dengan membuat alias `git visual` untuk menjalankan `gitk`:
 
-	$ git config --global alias.visual "!gitk"
+	$ git config --global alias.visual '!gitk'
 
 ## Simpulan ##
 

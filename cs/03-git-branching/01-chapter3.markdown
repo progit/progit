@@ -1,164 +1,164 @@
-# Git Branching #
+# Větve v systému Git #
 
-Nearly every VCS has some form of branching support. Branching means you diverge from the main line of development and continue to do work without messing with that main line. In many VCS tools, this is a somewhat expensive process, often requiring you to create a new copy of your source code directory, which can take a long time for large projects.
+Téměř každý systém VCS podporuje do určité míry větvení. Větvení znamená, že se můžete odloučit od hlavní linie vývoje a pokračovat v práci, aniž byste tuto hlavní linii zanášeli. V mnoha VCS nástrojích se může jednat o poněkud náročný proces, který často vyžaduje vytvoření nové kopie adresáře se zdrojovým kódem. To může – zvláště u velkých projektů – trvat poměrně dlouho.
 
-Some people refer to the branching model in Git as its “killer feature,” and it certainly sets Git apart in the VCS community. Why is it so special? The way Git branches is incredibly lightweight, making branching operations nearly instantaneous and switching back and forth between branches generally just as fast. Unlike many other VCSs, Git encourages a workflow that branches and merges often, even multiple times in a day. Understanding and mastering this feature gives you a powerful and unique tool and can literally change the way that you develop.
+Někteří lidé mluví o modelu větvení v systému Git jako o jeho exkluzivní funkci. Není sporu o tom, že je Git díky tomuto modelu v komunitě VCS poměrně jedinečný. V čem je jeho větvení ojedinělé? Větvení je v systému Git neuvěřitelně lehké a operace s ním související probíhají téměř okamžitě. Stejně rychlé je i přepínání mezi jednotlivými větvemi. Na rozdíl od ostatních systémů VCS Git podporuje způsob práce s bohatým větvením a častým slučováním, a to i několikrát za den. Pokud tuto funkci pochopíte a zvládnete její ovládání, dostanete do ruky výkonný a unikátní nástroj, který doslova změní váš pohled na vývoj.
 
-## What a Branch Is ##
+## Co je to větev ##
 
-To really understand the way Git does branching, we need to take a step back and examine how Git stores its data. As you may remember from Chapter 1, Git doesn’t store data as a series of changesets or deltas, but instead as a series of snapshots.
+Abychom skutečně pochopili, jak funguje v systému Git větvení, budeme se muset vrátit o krok zpět a podívat se, jak Git ukládá data. Jak si možná vzpomínáte z kapitoly 1, Git neukládá data jako sérii změn nebo rozdílů, ale jako sérii snímků.
 
-When you commit in Git, Git stores a commit object that contains a pointer to the snapshot of the content you staged, the author and message metadata, and zero or more pointers to the commit or commits that were the direct parents of this commit: zero parents for the first commit, one parent for a normal commit, and multiple parents for a commit that results from a merge of two or more branches.
+Zapíšete-li v systému Git revizi, Git uloží objekt revize, obsahující ukazatel na snímek obsahu, který jste určili k zapsání, metadata o autorovi a zprávě a nula nebo více ukazatelů na revizi nebo revize, které byly přímými rodiči této revize – žádné rodiče nemá první revize, jednoho rodiče má běžná revize a několik rodičů mají revize, které vznikly sloučením ze dvou či více větví.
 
-To visualize this, let’s assume that you have a directory containing three files, and you stage them all and commit. Staging the files checksums each one (the SHA-1 hash we mentioned in Chapter 1), stores that version of the file in the Git repository (Git refers to them as blobs), and adds that checksum to the staging area:
+Pro ilustraci předpokládejme, že máte adresář se třemi soubory, které připravíte k zapsání a následně zapíšete. S připravením souborů k zapsání proběhne u každého z nich kontrolní součet (o otisku SHA-1 jsme se zmínili v kapitole 1), daná verze souborů se uloží v repozitáři Git (Git na ně odkazuje jako na bloby) a přidá jejich kontrolní součet do oblasti připravených změn:
 
 	$ git add README test.rb LICENSE
 	$ git commit -m 'initial commit of my project'
 
-When you create the commit by running `git commit`, Git checksums each subdirectory (in this case, just the root project directory) and stores those tree objects in the Git repository. Git then creates a commit object that has the metadata and a pointer to the root project tree so it can re-create that snapshot when needed.
+Vytvoříte-li revizi příkazem `git commit`, provede Git kontrolní součet každého adresáře (v tomto případě pouze kořenového adresáře projektu) a uloží tyto objekty stromu v repozitáři Git. Poté vytvoří objekt revize s metadaty a ukazatelem na kořenový strom projektu, aby mohl v případě potřeby tento snímek obnovit.
 
-Your Git repository now contains five objects: one blob for the contents of each of your three files, one tree that lists the contents of the directory and specifies which file names are stored as which blobs, and one commit with the pointer to that root tree and all the commit metadata. Conceptually, the data in your Git repository looks something like Figure 3-1.
+Váš repozitář Git nyní obsahuje pět objektů: jeden blob pro obsah každého ze tří vašich souborů, jeden strom, který zaznamenává obsah adresáře a udává, které názvy souborů jsou uloženy jako který blob, a jednu revizi s ukazatelem na kořenový strom a se všemi metadaty revize. Data ve vašem repozitáři Git se dají schematicky znázornit jako na obrázku 3-1.
 
-Insert 18333fig0301.png 
-Figure 3-1. Single commit repository data
+Insert 18333fig0301.png
+Obrázek 3-1. Repozitář s daty jedné revize
 
-If you make some changes and commit again, the next commit stores a pointer to the commit that came immediately before it. After two more commits, your history might look something like Figure 3-2.
+Jestliže v souborech provedete změny a zapíšete je, další revize uloží ukazatel na revizi, jež jí bezprostředně předcházela. Po dalších dvou revizích bude vaše historie vypadat jako na obrázku 3-2.
 
-Insert 18333fig0302.png 
-Figure 3-2. Git object data for multiple commits 
+Insert 18333fig0302.png
+Obrázek 3-2. Data objektů Git pro několik revizí
 
-A branch in Git is simply a lightweight movable pointer to one of these commits. The default branch name in Git is master. As you initially make commits, you’re given a master branch that points to the last commit you made. Every time you commit, it moves forward automatically.
+Větev je v systému Git jen snadno přemístitelným ukazatelem na jednu z těchto revizí. Výchozím názvem větve v systému Git je `master` (hlavní větev). Při prvním zapisování revizí dostanete hlavní větev, jež bude ukazovat na poslední revizi, kterou jste zapsali. Pokaždé, když zapíšete novou revizi, větev se automaticky posune vpřed.
 
-Insert 18333fig0303.png 
-Figure 3-3. Branch pointing into the commit data’s history
+Insert 18333fig0303.png
+Obrázek 3-3. Větev ukazující do historie dat revizí
 
-What happens if you create a new branch? Well, doing so creates a new pointer for you to move around. Let’s say you create a new branch called testing. You do this with the `git branch` command:
+Co se stane, když vytvoříte novou větev? Ano, nová větev znamená vytvoření nového ukazatele, s nímž můžete pohybovat. Řekněme, že vytvoříte novou větev a nazvete ji testing. Učiníte tak příkazem `git branch`:
 
 	$ git branch testing
 
-This creates a new pointer at the same commit you’re currently on (see Figure 3-4).
+Tento příkaz vytvoří nový ukazatel na stejné revizi, na níž se právě nacházíte (viz obrázek 3-4).
 
-Insert 18333fig0304.png 
-Figure 3-4. Multiple branches pointing into the commit’s data history
+Insert 18333fig0304.png
+Obrázek 3-4. Několik větví ukazujících do historie dat revizí
 
-How does Git know what branch you’re currently on? It keeps a special pointer called HEAD. Note that this is a lot different than the concept of HEAD in other VCSs you may be used to, such as Subversion or CVS. In Git, this is a pointer to the local branch you’re currently on. In this case, you’re still on master. The git branch command only created a new branch — it didn’t switch to that branch (see Figure 3-5).
+Jak Git pozná, na jaké větvi se právě nacházíte? Používá speciální ukazatel zvaný HEAD. Nenechte se mást, tento HEAD je velmi odlišný od všech koncepcí v ostatních systémech VCS, na něž jste možná zvyklí, jako Subversion nebo CVS. V systému Git se jedná o ukazatel na lokální větev, na níž se právě nacházíte. V našem případě jste však stále ještě na hlavní větvi. Příkazem git branch jste pouze vytvořili novou větev, zatím jste na ni nepřepnuli (viz obrázek 3-5).
 
-Insert 18333fig0305.png 
-Figure 3-5. HEAD file pointing to the branch you’re on
+Insert 18333fig0305.png
+Obrázek 3-5. Soubor HEAD ukazující na větev, na níž se nacházíte.
 
-To switch to an existing branch, you run the `git checkout` command. Let’s switch to the new testing branch:
+Chcete-li přepnout na existující větev, spusťte příkaz `git checkout`. My můžeme přepnout na novou větev testing:
 
 	$ git checkout testing
 
-This moves HEAD to point to the testing branch (see Figure 3-6).
+Tímto příkazem přesunete ukazatel HEAD tak, že ukazuje na větev testing (viz obrázek 3-6).
 
 Insert 18333fig0306.png
-Figure 3-6. HEAD points to another branch when you switch branches.
+Obrázek 3-6. Soubor HEAD ukazuje po přepnutí na jinou větev.
 
-What is the significance of that? Well, let’s do another commit:
+A jaký to má smysl? Dobře, proveďme další revizi:
 
 	$ vim test.rb
 	$ git commit -a -m 'made a change'
 
-Figure 3-7 illustrates the result.
+Obrázek 3-7 ukazuje výsledek.
 
-Insert 18333fig0307.png 
-Figure 3-7. The branch that HEAD points to moves forward with each commit.
+Insert 18333fig0307.png
+Obrázek 3-7. Větev, na niž ukazuje soubor HEAD, se posouvá vpřed s každou revizí.
 
-This is interesting, because now your testing branch has moved forward, but your master branch still points to the commit you were on when you ran `git checkout` to switch branches. Let’s switch back to the master branch:
+Výsledek je zajímavý z toho důvodu, že se větev `testing` posunula vpřed, zatímco větev `master` stále ukazuje na revizi, na níž jste se nacházeli v okamžiku, kdy jste spustili příkaz `git checkout` a přepnuli tím větve. Přepněme zpět na větev `master`.
 
 	$ git checkout master
 
-Figure 3-8 shows the result.
+Výsledek ukazuje obrázek 3-8.
 
-Insert 18333fig0308.png 
-Figure 3-8. HEAD moves to another branch on a checkout.
+Insert 18333fig0308.png
+Obrázek 3-8. Ukazatel HEAD se po příkazu git checkout přesune na jinou větev.
 
-That command did two things. It moved the HEAD pointer back to point to the master branch, and it reverted the files in your working directory back to the snapshot that master points to. This also means the changes you make from this point forward will diverge from an older version of the project. It essentially rewinds the work you’ve done in your testing branch temporarily so you can go in a different direction.
+Tento příkaz provedl dvě věci. Přemístil ukazatel `HEAD` zpět, takže nyní ukazuje na větev `master`, a vrátil soubory ve vašem pracovním adresáři zpět ke snímku, na nějž větev `master` ukazuje. To také znamená, že změny, které od teď provedete, se odštěpí od starší verze projektu. V podstatě dočasně vrátíte všechny změny, které jste provedli ve větvi testing, a vydáte se jiným směrem.
 
-Let’s make a few changes and commit again:
+Proveďme pár změn a zapišme další revizi:
 
 	$ vim test.rb
 	$ git commit -a -m 'made other changes'
 
-Now your project history has diverged (see Figure 3-9). You created and switched to a branch, did some work on it, and then switched back to your main branch and did other work. Both of those changes are isolated in separate branches: you can switch back and forth between the branches and merge them together when you’re ready. And you did all that with simple `branch` and `checkout` commands.
+Nyní se historie vašeho projektu rozdělila (viz obrázek 3-9). Vytvořili jste novou větev, přepnuli jste na ni, provedli jste v ní změny a poté jste přepnuli zpět na hlavní větev, v níž jste rovněž provedli změny. Oboje tyto změny jsou oddělené na samostatných větvích. Můžete mezi nimi přepínat tam a zpět, a až uznáte za vhodné, můžete je sloučit. To vše jste provedli pomocí jednoduchých příkazů `branch` a `checkout`.
 
-Insert 18333fig0309.png 
-Figure 3-9. The branch histories have diverged.
+Insert 18333fig0309.png
+Obrázek 3-9. Historie větví se rozdělila.
 
-Because a branch in Git is in actuality a simple file that contains the 40 character SHA-1 checksum of the commit it points to, branches are cheap to create and destroy. Creating a new branch is as quick and simple as writing 41 bytes to a file (40 characters and a newline).
+Vzhledem k tomu, že větev v systému Git tvoří jeden jednoduchý soubor, obsahující 40 znaků kontrolního součtu SHA-1 revize, na niž ukazuje, je snadné větve vytvářet i odstraňovat. Vytvořit novou větev je právě tak snadné a rychlé jako zapsat 41 bytů do souboru (40 znaků a jeden nový řádek).
 
-This is in sharp contrast to the way most VCS tools branch, which involves copying all of the project’s files into a second directory. This can take several seconds or even minutes, depending on the size of the project, whereas in Git the process is always instantaneous. Also, because we’re recording the parents when we commit, finding a proper merge base for merging is automatically done for us and is generally very easy to do. These features help encourage developers to create and use branches often.
+Tato metoda se výrazně liší od způsobu, jakým probíhá větvení v ostatních nástrojích VCS, kde je nutné zkopírovat všechny soubory projektu do jiného adresáře. To může zabrat – podle velikosti projektu – několik sekund i minut, zatímco v systému Git probíhá tento proces vždy okamžitě. A protože při zapisování revize zaznamenáváme její rodiče, probíhá vyhledávání příslušné základny pro sloučení automaticky a je většinou velmi snadné. Tyto funkce slouží k tomu, aby se vývojáři nebáli vytvářet a používat nové větve.
 
-Let’s see why you should do so.
+Podívejme se, jaké výhody jim z toho plynou.
 
-## Basic Branching and Merging ##
+## Základy větvení a slučování ##
 
-Let’s go through a simple example of branching and merging with a workflow that you might use in the real world. You’ll follow these steps:
+Vytvořme si jednoduchý příklad větvení a slučování s pracovním postupem, který můžete využít i v reálném životě. Budete provádět tyto kroky:
 
-1.	Do work on a web site.
-2.	Create a branch for a new story you’re working on.
-3.	Do some work in that branch.
+1.  Pracujete na webových stránkách.
+2.  Vytvoříte větev pro novou část stránek, v níž budete pracovat.
+3.  Vytvoříte práci v této větvi.
 
-At this stage, you’ll receive a call that another issue is critical and you need a hotfix. You’ll do the following:
+V tomto okamžiku vám zavolají, že se vyskytla jiná kritická chyba, která vyžaduje hotfix. Uděláte následující:
 
-1.	Revert back to your production branch.
-2.	Create a branch to add the hotfix.
-3.	After it’s tested, merge the hotfix branch, and push to production.
-4.	Switch back to your original story and continue working.
+1.  Vrátíte se zpět na produkční větev.
+2.  Vytvoříte větev pro přidání hotfixu.
+3.  Po úspěšném otestování začleníte větev s hotfixem a odešlete ji do produkce.
+4.  Přepnete zpět na svou původní část a pokračujete v práci.
 
-### Basic Branching ###
+### Základní větvení ###
 
-First, let’s say you’re working on your project and have a couple of commits already (see Figure 3-10).
+Řekněme, že pracujete na projektu a už jste vytvořili několik revizí (viz obrázek 3-10).
 
-Insert 18333fig0310.png 
-Figure 3-10. A short and simple commit history
+Insert 18333fig0310.png
+Obrázek 3-10. Krátká a jednoduchá historie revizí
 
-You’ve decided that you’re going to work on issue #53 in whatever issue-tracking system your company uses. To be clear, Git isn’t tied into any particular issue-tracking system; but because issue #53 is a focused topic that you want to work on, you’ll create a new branch in which to work. To create a branch and switch to it at the same time, you can run the `git checkout` command with the `-b` switch:
+Rozhodli jste se, že budete pracovat na chybě č. 53, ať už vaše společnost používá jakýkoli systém sledování chyb. Přesněji řečeno, Git není začleněn do žádného konkrétního systému sledování chyb, ale protože je chyba č. 53 významná a chcete na ní pracovat, vytvoříte si pro ni novou větev. Abyste vytvořili novou větev a rovnou na ni přepnuli, můžete spustit příkaz `git checkout` s přepínačem `-b`:
 
 	$ git checkout -b iss53
 	Switched to a new branch "iss53"
 
-This is shorthand for 
+Tímto způsobem jste spojili dva příkazy:
 
 	$ git branch iss53
 	$ git checkout iss53
 
-Figure 3-11 illustrates the result.
+Obrázek 3-11 ukazuje výsledek.
 
-Insert 18333fig0311.png 
-Figure 3-11. Creating a new branch pointer
+Insert 18333fig0311.png
+Obrázek 3-11. Vytvoření nového ukazatele na větev
 
-You work on your web site and do some commits. Doing so moves the `iss53` branch forward, because you have it checked out (that is, your HEAD is pointing to it; see Figure 3-12):
+Pracujete na webových stránkách a zapíšete několik revizí. S každou novou revizí se větev `iss53` posune vpřed, protože jste provedli její checkout (to znamená, že jste na ni přepnuli a ukazuje na ni soubor HEAD – viz obrázek 3-12):
 
 	$ vim index.html
 	$ git commit -a -m 'added a new footer [issue 53]'
 
-Insert 18333fig0312.png 
-Figure 3-12. The iss53 branch has moved forward with your work.
+Insert 18333fig0312.png
+Obrázek 3-12. Větev iss53 se s vaší prací posouvá vpřed.
 
-Now you get the call that there is an issue with the web site, and you need to fix it immediately. With Git, you don’t have to deploy your fix along with the `iss53` changes you’ve made, and you don’t have to put a lot of effort into reverting those changes before you can work on applying your fix to what is in production. All you have to do is switch back to your master branch.
+V tomto okamžiku vám zavolají, že se na webových stránkách vyskytl problém, který musíte okamžitě vyřešit. Jelikož pracujete v systému Git, nemusíte svou opravu vytvářet uprostřed změn, které jste provedli v části `iss53`, ani nemusíte dělat zbytečnou práci, abyste všechny tyto změny vrátili, než budete moci začít pracovat na opravě produkční verze stránek. Jediné, co teď musíte udělat, je přepnout zpět na hlavní větev.
 
-However, before you do that, note that if your working directory or staging area has uncommitted changes that conflict with the branch you’re checking out, Git won’t let you switch branches. It’s best to have a clean working state when you switch branches. There are ways to get around this (namely, stashing and commit amending) that we’ll cover later. For now, you’ve committed all your changes, so you can switch back to your master branch:
+Než tak učiníte, zkontrolujte, zda nemáte v pracovním adresáři nebo v oblasti připravených změn nezapsané změny, které kolidují s větví, jejíž checkout provádíte. V takovém případě by vám Git přepnutí větví nedovolil. Při přepínání větví je ideální, pokud máte čistý pracovní stav. Existují způsoby, jak toho docílit (jmenovitě odložení a doplnění revize), těm se však budeme věnovat až později. Pro tuto chvíli jste zapsali všechny provedené změny a můžete přepnout zpět na hlavní větev.
 
 	$ git checkout master
 	Switched to branch "master"
 
-At this point, your project working directory is exactly the way it was before you started working on issue #53, and you can concentrate on your hotfix. This is an important point to remember: Git resets your working directory to look like the snapshot of the commit that the branch you check out points to. It adds, removes, and modifies files automatically to make sure your working copy is what the branch looked like on your last commit to it.
+V tomto okamžiku vypadá váš pracovní adresář přesně tak, jak vypadal, než jste začali pracovat na chybě č. 53, a vy se nyní můžete soustředit na rychlou opravu. Na paměti byste však stále měli mít následující: Git vždy vrátí pracovní adresář do stejného stavu, jak vypadal snímek revize, na niž ukazuje větev, jejíž checkout nyní provádíte. Automaticky budou přidány, odstraněny a upraveny soubory tak, aby byla vaše pracovní kopie totožná se stavem větve v okamžiku, kdy jste na ni zapsali poslední revizi.
 
-Next, you have a hotfix to make. Let’s create a hotfix branch on which to work until it’s completed (see Figure 3-13):
+Nyní přichází na řadu hotfix. Vytvořme větev s hotfixem, v níž budeme pracovat, dokud nebude oprava hotová (viz obrázek 3-13):
 
-	$ git checkout -b 'hotfix'
+	$ git checkout -b hotfix
 	Switched to a new branch "hotfix"
 	$ vim index.html
 	$ git commit -a -m 'fixed the broken email address'
 	[hotfix]: created 3a0874c: "fixed the broken email address"
 	 1 files changed, 0 insertions(+), 1 deletions(-)
 
-Insert 18333fig0313.png 
-Figure 3-13. hotfix branch based back at your master branch point
+Insert 18333fig0313.png
+Obrázek 3-13. Větev „hotfix“ začleněná zpět v místě hlavní větve
 
-You can run your tests, make sure the hotfix is what you want, and merge it back into your master branch to deploy to production. You do this with the `git merge` command:
+Můžete provádět testování, ujistit se, že hotfix splňuje všechny požadavky, a pak můžete větev začlenit (merge) zpět do hlavní větve, aby byla připravena do produkce. Učiníte tak příkazem `git merge`:
 
 	$ git checkout master
 	$ git merge hotfix
@@ -167,19 +167,19 @@ You can run your tests, make sure the hotfix is what you want, and merge it back
 	 README |    1 -
 	 1 files changed, 0 insertions(+), 1 deletions(-)
 
-You’ll notice the phrase "Fast forward" in that merge. Because the commit pointed to by the branch you merged in was directly upstream of the commit you’re on, Git moves the pointer forward. To phrase that another way, when you try to merge one commit with a commit that can be reached by following the first commit’s history, Git simplifies things by moving the pointer forward because there is no divergent work to merge together — this is called a "fast forward".
+Při sloučení jste si možná všimli spojení „Fast forward“ (rychle vpřed). Jelikož revize, na niž ukazovala větev, do níž jste začleňovali, byla v přímé linii s revizí, na níž jste se nacházeli, Git přesunul ukazatel vpřed. Jinými slovy: pokud se pokoušíte sloučit jednu revizi s revizí druhou, k níž lze dospět následováním historie první revize, Git proces zjednoduší a přesune ukazatel vpřed, protože neexistuje žádná rozdílná práce, kterou by bylo třeba sloučit. Tomuto postupu se říká „rychle vpřed“.
 
-Your change is now in the snapshot of the commit pointed to by the `master` branch, and you can deploy your change (see Figure 3-14).
+Vaše změna je nyní obsažena ve snímku revize, na niž ukazuje hlavní větev `master`, a vy můžete pokračovat v provádění změn (viz obrázek 3-14).
 
-Insert 18333fig0314.png 
-Figure 3-14. Your master branch points to the same place as your hotfix branch after the merge.
+Insert 18333fig0314.png
+Obrázek 3-14. Hlavní větev ukazuje po sloučení na stejné místo jako větev „hotfix“.
 
-After that your super-important fix is deployed, you’re ready to switch back to the work you were doing before you were interrupted. However, first you’ll delete the `hotfix` branch, because you no longer need it — the `master` branch points at the same place. You can delete it with the `-d` option to `git branch`:
+Poté, co jste dokončili práci na bezodkladné opravě, můžete přepnout zpět na práci, jíž jste se věnovali před telefonátem. Nejprve však smažete větev `hotfix`, kterou teď už nebudete potřebovat – větev `master` ukazuje na totéž místo. Větev smažete přidáním parametru `-d` k příkazu `git branch`:
 
 	$ git branch -d hotfix
 	Deleted branch hotfix (3a0874c).
 
-Now you can switch back to your work-in-progress branch on issue #53 and continue working on it (see Figure 3-15):
+Nyní můžete přepnout zpět na větev s rozdělanou prací a pokračovat na chybě č. 53 (viz obrázek 3-15):
 
 	$ git checkout iss53
 	Switched to branch "iss53"
@@ -188,14 +188,14 @@ Now you can switch back to your work-in-progress branch on issue #53 and continu
 	[iss53]: created ad82d7a: "finished the new footer [issue 53]"
 	 1 files changed, 1 insertions(+), 0 deletions(-)
 
-Insert 18333fig0315.png 
-Figure 3-15. Your iss53 branch can move forward independently.
+Insert 18333fig0315.png
+Obrázek 3-15. Větev iss53 může nezávisle postupovat vpřed.
 
-It’s worth noting here that the work you did in your `hotfix` branch is not contained in the files in your `iss53` branch. If you need to pull it in, you can merge your `master` branch into your `iss53` branch by running `git merge master`, or you can wait to integrate those changes until you decide to pull the `iss53` branch back into `master` later.
+Za zmínku stojí, že práce, kterou jste udělali ve větvi `hotfix`, není obsažena v souborech ve větvi `iss53`. Pokud potřebujete tyto změny do větve natáhnout, můžete začlenit větev `master` do větve `iss53` – použijte příkaz `git merge master`. Druhou možností je s integrací změn vyčkat a provést ji až ve chvíli, kdy budete chtít větev `iss53` natáhnout zpět do větve `master`.
 
-### Basic Merging ###
+### Základní slučování ###
 
-Suppose you’ve decided that your issue #53 work is complete and ready to be merged into your `master` branch. In order to do that, you’ll merge in your `iss53` branch, much like you merged in your `hotfix` branch earlier. All you have to do is check out the branch you wish to merge into and then run the `git merge` command:
+Předpokládejme, že jste dokončili práci na chybě č. 53 a nyní byste ji rádi začlenili do větve `master`. Učiníte tak začleněním větve `iss53`, které bude probíhat velmi podobně jako předchozí začlenění větve `hotfix`. Jediné, co pro to musíte udělat, je přepnout na větev, do níž chcete tuto větev začlenit, a spustit příkaz `git merge`.
 
 	$ git checkout master
 	$ git merge iss53
@@ -203,44 +203,44 @@ Suppose you’ve decided that your issue #53 work is complete and ready to be me
 	 README |    1 +
 	 1 files changed, 1 insertions(+), 0 deletions(-)
 
-This looks a bit different than the `hotfix` merge you did earlier. In this case, your development history has diverged from some older point. Because the commit on the branch you’re on isn’t a direct ancestor of the branch you’re merging in, Git has to do some work. In this case, Git does a simple three-way merge, using the two snapshots pointed to by the branch tips and the common ancestor of the two. Figure 3-16 highlights the three snapshots that Git uses to do its merge in this case.
+Toto už se trochu liší od začlenění větve `hotfix`, které jste prováděli před chvílí. V tomto případě se historie vývoje od určitého bodu v minulosti rozbíhala. Vzhledem k tomu, že revize na větvi, na níž se nacházíte, není přímým předkem větve, kterou chcete začlenit, Git bude muset podniknout určité kroky. Git v tomto případě provádí jednoduché třícestné sloučení: vychází ze dvou snímků, na které ukazují větve, a jejich společného předka. Obrázek 3-16 označuje ony tři snímky, které Git v tomto případě použije ke sloučení.
 
-Insert 18333fig0316.png 
-Figure 3-16. Git automatically identifies the best common-ancestor merge base for branch merging.
+Insert 18333fig0316.png
+Obrázek 3-16. Git automaticky identifikuje nejvhodnějšího společného předka jako základnu pro sloučení větví.
 
-Instead of just moving the branch pointer forward, Git creates a new snapshot that results from this three-way merge and automatically creates a new commit that points to it (see Figure 3-17). This is referred to as a merge commit and is special in that it has more than one parent.
+Git tentokrát neposune ukazatel větve vpřed, ale vytvoří nový snímek jako výsledek tohoto třícestného sloučení a automaticky vytvoří novou revizi, která bude na snímek ukazovat (viz obrázek 3-17). Takové revizi se říká revize sloučením (merge commit) a její zvláštností je to, že má více než jednoho rodiče.
 
-It’s worth pointing out that Git determines the best common ancestor to use for its merge base; this is different than CVS or Subversion (before version 1.5), where the developer doing the merge has to figure out the best merge base for themselves. This makes merging a heck of a lot easier in Git than in these other systems.
+Na tomto místě bych chtěl zopakovat, že Git určuje nejvhodnějšího společného předka, který bude použit jako základna pro sloučení, automaticky. Liší se tím od systému CVS i Subversion (před verzí 1.5), kde musí vývojář při slučování najít nejvhodnější základnu pro sloučení sám. Slučování větví je tak v systému Git o poznání jednodušší než v těchto ostatních systémech.
 
-Insert 18333fig0317.png 
-Figure 3-17. Git automatically creates a new commit object that contains the merged work.
+Insert 18333fig0317.png
+Obrázek 3-17. Git automaticky vytvoří nový objekt revize, který obsahuje sloučenou práci.
 
-Now that your work is merged in, you have no further need for the `iss53` branch. You can delete it and then manually close the ticket in your ticket-tracking system:
+Nyní, když jste svou práci sloučili, větev `iss53` už nebudete potřebovat. Můžete ji smazat a poté ručně zavřít tiket v systému sledování tiketů:
 
 	$ git branch -d iss53
 
-### Basic Merge Conflicts ###
+### Základní konflikty při slučování ###
 
-Occasionally, this process doesn’t go smoothly. If you changed the same part of the same file differently in the two branches you’re merging together, Git won’t be able to merge them cleanly. If your fix for issue #53 modified the same part of a file as the `hotfix`, you’ll get a merge conflict that looks something like this:
+Může se stát, že sloučení neproběhne bez problémů. Pokud jste tutéž část jednoho souboru změnili odlišně ve dvou větvích, které chcete sloučit, Git je nebude umět sloučit čistě. Pokud se oprava chyby č. 53 týkala stejné části souboru jako větev `hotfix`, dojde ke konfliktu při slučování (merge conflict). Vypadá zhruba takto:
 
 	$ git merge iss53
 	Auto-merging index.html
 	CONFLICT (content): Merge conflict in index.html
 	Automatic merge failed; fix conflicts and then commit the result.
 
-Git hasn’t automatically created a new merge commit. It has paused the process while you resolve the conflict. If you want to see which files are unmerged at any point after a merge conflict, you can run `git status`:
+Git nepřistoupil k automatickému vytvoření nové revize sloučením. Prozatím pozastavil celý proces do doby, než konflikt vyřešíte. Chcete-li kdykoli po konfliktu zjistit, které soubory zůstaly nesloučeny, spusťte příkaz `git status`:
 
 	[master*]$ git status
 	index.html: needs merge
 	# On branch master
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add <file>..." to update what will be committed)
 	#   (use "git checkout -- <file>..." to discard changes in working directory)
 	#
 	#	unmerged:   index.html
 	#
 
-Anything that has merge conflicts and hasn’t been resolved is listed as unmerged. Git adds standard conflict-resolution markers to the files that have conflicts, so you can open them manually and resolve those conflicts. Your file contains a section that looks something like this:
+Vše, co při sloučení kolidovalo a nebylo vyřešeno, je označeno jako „unmerged“ (nesloučeno). Git přidává ke kolidujícím souborům standardní poznámky o řešení konfliktů (conflict-resolution markers), takže je můžete ručně otevřít a konflikty vyřešit. Jedna část vašeho souboru bude vypadat zhruba takto:
 
 	<<<<<<< HEAD:index.html
 	<div id="footer">contact : email.support@github.com</div>
@@ -250,14 +250,14 @@ Anything that has merge conflicts and hasn’t been resolved is listed as unmerg
 	</div>
 	>>>>>>> iss53:index.html
 
-This means the version in HEAD (your master branch, because that was what you had checked out when you ran your merge command) is the top part of that block (everything above the `=======`), while the version in your `iss53` branch looks like everything in the bottom part. In order to resolve the conflict, you have to either choose one side or the other or merge the contents yourself. For instance, you might resolve this conflict by replacing the entire block with this:
+To znamená, že verze ve větvi s ukazatelem HEAD (vaše hlavní větev – v té jste se nacházeli při provádění příkazu merge) je uvedena v horní části tohoto bloku (všechno nad oddělovačem `=======`), verze obsažená ve větvi `iss53` je vše, co se nachází v dolní části. Chcete-li vzniklý konflikt vyřešit, musíte buď vybrat jednu z obou stran, nebo konflikt sloučit sami. Tento konflikt můžete vyřešit například nahrazením celého bloku tímto textem:
 
 	<div id="footer">
 	please contact us at email.support@github.com
 	</div>
 
-This resolution has a little of each section, and I’ve fully removed the `<<<<<<<`, `=======`, and `>>>>>>>` lines. After you’ve resolved each of these sections in each conflicted file, run `git add` on each file to mark it as resolved. Staging the file marks it as resolved in Git.
-If you want to use a graphical tool to resolve these issues, you can run `git mergetool`, which fires up an appropriate visual merge tool and walks you through the conflicts:
+Toto řešení obsahuje trochu z každé části a zcela jsem odstranil řádky `<<<<<<<`, `=======` a `>>>>>>>`. Poté, co vyřešíte všechny tyto části ve všech kolidujících souborech, spusťte pro každý soubor příkaz `git add`, jímž ho označíte jako vyřešený. Připravení souboru k zápisu ho v systému Git označí jako vyřešený.
+Chcete-li k vyřešení problémů použít grafický nástroj, můžete spustit příkaz `git mergetool`, kterým otevřete příslušný vizuální nástroj pro slučování, a ten vás všemi konflikty provede:
 
 	$ git mergetool
 	merge tool candidates: kdiff3 tkdiff xxdiff meld gvimdiff opendiff emerge vimdiff
@@ -268,11 +268,11 @@ If you want to use a graphical tool to resolve these issues, you can run `git me
 	  {remote}: modified
 	Hit return to start merge resolution tool (opendiff):
 
-If you want to use a merge tool other than the default (Git chose `opendiff` for me in this case because I ran the command on a Mac), you can see all the supported tools listed at the top after “merge tool candidates”. Type the name of the tool you’d rather use. In Chapter 7, we’ll discuss how you can change this default value for your environment.
+Chcete-li použít jiný než výchozí nástroj pro slučování (Git mi v tomto případě vybral `opendiff`, protože jsem příkaz zadal v systému Mac), všechny podporované nástroje jsou uvedeny na začátku výstupu v části „merge tool candidates“ (možné nástroje pro slučování). Zadejte název nástroje, který chcete použít. V kapitole 7 probereme, jak lze tuto výchozí hodnotu pro vaše prostředí změnit.
 
-After you exit the merge tool, Git asks you if the merge was successful. If you tell the script that it was, it stages the file to mark it as resolved for you.
+Až nástroj pro slučování zavřete, Git se vás zeptá, zda sloučení proběhlo úspěšně. Pokud skriptu oznámíte, že ano, připraví soubor k zapsání a tím ho označí jako vyřešený.
 
-You can run `git status` again to verify that all conflicts have been resolved:
+Ještě jednou můžete spustit příkaz `git status`, abyste si ověřili, že byly všechny konflikty vyřešeny:
 
 	$ git status
 	# On branch master
@@ -282,7 +282,7 @@ You can run `git status` again to verify that all conflicts have been resolved:
 	#	modified:   index.html
 	#
 
-If you’re happy with that, and you verify that everything that had conflicts has been staged, you can type `git commit` to finalize the merge commit. The commit message by default looks something like this:
+Pokud jste s výsledkem spokojeni a ujistili jste se, že všechny kolidující soubory jsou připraveny k zapsání, můžete zadat příkaz `git commit` a dokončit revizi sloučením. Zpráva revize má v takovém případě přednastavenu tuto podobu:
 
 	Merge branch 'iss53'
 
@@ -295,124 +295,124 @@ If you’re happy with that, and you verify that everything that had conflicts h
 	# and try again.
 	#
 
-You can modify that message with details about how you resolved the merge if you think it would be helpful to others looking at this merge in the future — why you did what you did, if it’s not obvious.
+Pokud myslíte, že to může být pro spolupracovníky, kteří si jednou budou toto sloučení prohlížet, užitečné, můžete tuto zprávu upravit a doplnit o podrobnosti, jak jste sloučení vyřešili – pokud to není zřejmé, můžete okomentovat, co jste udělali a proč právě takto.
 
-## Branch Management ##
+## Správa větví ##
 
-Now that you’ve created, merged, and deleted some branches, let’s look at some branch-management tools that will come in handy when you begin using branches all the time.
+Nyní, když jste vytvořili, sloučili a odstranili své první větve, můžeme se podívat na pár nástrojů ke správě větví, které se vám budou hodit, až začnete s větvemi pracovat pravidelně.
 
-The `git branch` command does more than just create and delete branches. If you run it with no arguments, you get a simple listing of your current branches:
+Příkaz `git branch` umí víc, než jen vytvářet a mazat větve. Pokud ho spustíte bez dalších parametrů, získáte prostý výpis všech aktuálních větví:
 
 	$ git branch
 	  iss53
 	* master
 	  testing
 
-Notice the `*` character that prefixes the `master` branch: it indicates the branch that you currently have checked out. This means that if you commit at this point, the `master` branch will be moved forward with your new work. To see the last commit on each branch, you can run `git branch –v`:
+Všimněte si znaku `*`, který předchází větvi `master`. Označuje větev, na níž se právě nacházíte. Pokud tedy nyní zapíšete revizi, vaše nová práce posune vpřed větev `master`. Chcete-li zobrazit poslední revizi na každé větvi, spusťte příkaz `git branch -v`:
 
 	$ git branch -v
 	  iss53   93b412c fix javascript issue
 	* master  7a98805 Merge branch 'iss53'
 	  testing 782fd34 add scott to the author list in the readmes
 
-Another useful option to figure out what state your branches are in is to filter this list to branches that you have or have not yet merged into the branch you’re currently on. The useful `--merged` and `--no-merged` options have been available in Git since version 1.5.6 for this purpose. To see which branches are already merged into the branch you’re on, you can run `git branch –merged`:
+Další užitečnou funkcí ke zjištění stavu vašich větví je filtrování tohoto seznamu podle větví, které byly/nebyly začleněny do větve, na níž se právě nacházíte. K tomuto účelu slouží v systému Git od verze 1.5.6 užitečné příkazy `--merged` a `--no-merged`. Chcete-li zjistit, které větve už byly začleněny do větve, na níž se nacházíte, spusťte příkaz `git branch --merged`:
 
 	$ git branch --merged
 	  iss53
 	* master
 
-Because you already merged in `iss53` earlier, you see it in your list. Branches on this list without the `*` in front of them are generally fine to delete with `git branch -d`; you’ve already incorporated their work into another branch, so you’re not going to lose anything.
+Jelikož už jste větev `iss53` začlenili, nyní se zobrazí ve výpisu. Větve v tomto seznamu, které nejsou označeny `*`, lze většinou snadno smazat příkazem `git branch -d`. Jejich obsah už jste převzali do jiné větve, a tak jejich odstraněním nepřijdete o žádnou práci.
 
-To see all the branches that contain work you haven’t yet merged in, you can run `git branch --no-merged`:
+Chcete-li zobrazit větve, které obsahují dosud nezačleněnou práci, spusťte příkaz `git branch --no-merged`:
 
 	$ git branch --no-merged
 	  testing
 
-This shows your other branch. Because it contains work that isn’t merged in yet, trying to delete it with `git branch -d` will fail:
+Nyní se zobrazila jiná větev. Jelikož obsahuje práci, která ještě nebyla začleněna, bude pokus o její smazání příkazem `git branch -d` neúspěšný:
 
 	$ git branch -d testing
 	error: The branch 'testing' is not an ancestor of your current HEAD.
 	If you are sure you want to delete it, run 'git branch -D testing'.
 
-If you really do want to delete the branch and lose that work, you can force it with `-D`, as the helpful message points out.
+Pokud chcete větev skutečně odstranit a zahodit práci, kterou obsahuje, můžete si to vynutit parametrem `-D` (jak napovídá užitečná zpráva pod řádkem s chybovým hlášením).
 
-## Branching Workflows ##
+## Možnosti při práci s větvemi ##
 
-Now that you have the basics of branching and merging down, what can or should you do with them? In this section, we’ll cover some common workflows that this lightweight branching makes possible, so you can decide if you would like to incorporate it into your own development cycle.
+Teď, když jste absolvovali základní seznámení s větvemi a jejich slučováním, nabízí se otázka, k čemu je to vlastně dobré. Proto se v této části podíváme na některé běžné pracovní postupy, které vám neobyčejně snadné větvení umožňuje, a můžete se zamyslet nad tím, zda větve při své vývojářské práci využijete, či nikoli.
 
-### Long-Running Branches ###
+### Dlouhé větve ###
 
-Because Git uses a simple three-way merge, merging from one branch into another multiple times over a long period is generally easy to do. This means you can have several branches that are always open and that you use for different stages of your development cycle; you can merge regularly from some of them into others.
+Vzhledem k tomu, že Git používá jednoduché třícestné slučování, je velmi snadné začleňovat jednu větev do druhé i několikrát v rámci dlouhého časového intervalu. Můžete tak mít několik větví, které jsou stále otevřené a které používáte pro různé fáze vývojového cyklu. Pravidelně můžete začleňovat práci z jedné větve do ostatních.
 
-Many Git developers have a workflow that embraces this approach, such as having only code that is entirely stable in their `master` branch — possibly only code that has been or will be released. They have another parallel branch named develop or next that they work from or use to test stability — it isn’t necessarily always stable, but whenever it gets to a stable state, it can be merged into `master`. It’s used to pull in topic branches (short-lived branches, like your earlier `iss53` branch) when they’re ready, to make sure they pass all the tests and don’t introduce bugs.
+Mnoho vývojářů systému Git používá pracovní postup, při němž je tato metoda zcela ideální. Ve větvi `master` mají pouze kód, který je stoprocentně stabilní — třeba jen kód, který byl nebo bude součástí vydání. Kromě ní mají další paralelní větev, pojmenovanou `develop` nebo `next`, v níž skutečně pracují nebo testují stabilitu kódu. Tato větev nemusí být nutně stabilní, ale jakmile se dostane do stabilního stavu, může být začleněna do větve `master`. Používá se k natahování tematických větví (těch dočasných, jako byla vaše větev `iss53`) ve chvíli, kdy je k tomu vše připraveno a nehrozí, že práce neprojde testy nebo bude způsobovat chyby.
 
-In reality, we’re talking about pointers moving up the line of commits you’re making. The stable branches are farther down the line in your commit history, and the bleeding-edge branches are farther up the history (see Figure 3-18).
+Ve skutečnosti hovoříme o ukazatelích pohybujících se vzhůru po linii revizí, které zapisujete. Stabilní větve leží v linii historie revizí níže a nové, neověřené větve se nacházejí nad nimi (viz obrázek 3-18).
 
-Insert 18333fig0318.png 
-Figure 3-18. More stable branches are generally farther down the commit history.
+Insert 18333fig0318.png
+Obrázek 3-18. Stabilnější větve většinou leží v historii revizí níže.
 
-It’s generally easier to think about them as work silos, where sets of commits graduate to a more stable silo when they’re fully tested (see Figure 3-19).
+Snáze si je můžeme představit jako pracovní zásobníky, v nichž se sada revizí dostává do stabilnějšího zásobníku, když úspěšně absolvovala testování (viz obrázek 3-19).
 
-Insert 18333fig0319.png 
-Figure 3-19. It may be helpful to think of your branches as silos.
+Insert 18333fig0319.png
+Obrázek 3-19. Větve si můžeme představit jako zásobníky
 
-You can keep doing this for several levels of stability. Some larger projects also have a `proposed` or `pu` (proposed updates) branch that has integrated branches that may not be ready to go into the `next` or `master` branch. The idea is that your branches are at various levels of stability; when they reach a more stable level, they’re merged into the branch above them.
-Again, having multiple long-running branches isn’t necessary, but it’s often helpful, especially when you’re dealing with very large or complex projects.
+Tento postup lze použít hned pro několik úrovní stability. Některé větší projekty mají také větev `proposed` nebo `pu` (proposed updates, návrh aktualizací) s integrovanými větvemi, které nemusí být nutně způsobilé k začlenění do větve `next` nebo `master`. Idea je taková, že se větve nacházejí na různé úrovni stability. Jakmile dosáhnou stability o stupeň vyšší, jsou začleněny do větve nad nimi.
+Není nutné používat při práci několik dlouhých větví, ale často to může být užitečné, zejména pokud pracujete ve velmi velkých nebo komplexních projektech.
 
-### Topic Branches ###
+### Tematické větve ###
 
-Topic branches, however, are useful in projects of any size. A topic branch is a short-lived branch that you create and use for a single particular feature or related work. This is something you’ve likely never done with a VCS before because it’s generally too expensive to create and merge branches. But in Git it’s common to create, work on, merge, and delete branches several times a day.
+Naproti tomu tematické větve se vám budou hodit v projektech jakékoli velikosti. Tematická větev (topic branch) je krátkodobá větev, kterou vytvoříte a používáte pro jediný konkrétní účel nebo práci. Je to záležitost, do které byste se ve VCS asi raději nikdy nepustili, protože vytvářet a slučovat větve je v něm opravdu složité. V systému Git naopak není výjimkou vytvářet, používat, slučovat a mazat větve i několikrát denně.
 
-You saw this in the last section with the `iss53` and `hotfix` branches you created. You did a few commits on them and deleted them directly after merging them into your main branch. This technique allows you to context-switch quickly and completely — because your work is separated into silos where all the changes in that branch have to do with that topic, it’s easier to see what has happened during code review and such. You can keep the changes there for minutes, days, or months, and merge them in when they’re ready, regardless of the order in which they were created or worked on.
+Viděli jste to v předchozí části, kdy jste si vytvořili větve `iss53` a `hotfix`. Provedli jste v nich pár revizí a smazali jste je hned po začlenění změn do hlavní větve. Tato technika umožňuje rychlé a kompletní kontextové přepínání. Protože je vaše práce rozdělena do zásobníků, kde všechny změny v jedné větvi souvisí s jedním tématem, je při kontrole kódu snazší dohledat, čeho se změny týkaly apod. Změny tu můžete uchovávat několik minut, dní i měsíců a začlenit je přesně ve vhodnou chvíli. Na pořadí, v jakém byly větve vytvořeny nebo vyvíjeny, nezáleží.
 
-Consider an example of doing some work (on `master`), branching off for an issue (`iss91`), working on it for a bit, branching off the second branch to try another way of handling the same thing (`iss91v2`), going back to your master branch and working there for a while, and then branching off there to do some work that you’re not sure is a good idea (`dumbidea` branch). Your commit history will look something like Figure 3-20.
+Uvažujme nyní následující situaci: pracujete na projektu v hlavní větvi (`master`), odbočíte z ní k vyřešení jednoho problému (`iss91`), chvíli na něm pracujete, ale vytvoříte ještě další větev, abyste zkusili jiné řešení stejné chyby (`iss91v2`). Pak se vrátíte zpět na hlavní větev, kde pokračujete v práci, než dostanete nápad, který by se možná mohl osvědčit, a tak pro něj vytvoříte další větev (`dumbidea`). Historie revizí bude vypadat zhruba jako na obrázku 3-20.
 
-Insert 18333fig0320.png 
-Figure 3-20. Your commit history with multiple topic branches
+Insert 18333fig0320.png
+Obrázek 3-20. Historie revizí s několika tematickými větvemi
 
-Now, let’s say you decide you like the second solution to your issue best (`iss91v2`); and you showed the `dumbidea` branch to your coworkers, and it turns out to be genius. You can throw away the original `iss91` branch (losing commits C5 and C6) and merge in the other two. Your history then looks like Figure 3-21.
+Řekněme, že se nyní rozhodnete, že druhé řešení vašeho problému bude vhodnější (`iss91v2`). Dále jste také ukázali svůj nápad ve větvi `dumbidea` kolegům a ti ho považují za geniální. Původní větev `iss91` tak nyní můžete zahodit (s ní i revize C5 a C6) a začlenit zbylé dvě větve. Vaši historii v tomto stavu znázorňuje obrázek 3-21.
 
-Insert 18333fig0321.png 
-Figure 3-21. Your history after merging in dumbidea and iss91v2
+Insert 18333fig0321.png
+Obrázek 3-21. Vaše historie po začlenění větví „dumbidea“ a „iss91v2“
 
-It’s important to remember when you’re doing all this that these branches are completely local. When you’re branching and merging, everything is being done only in your Git repository — no server communication is happening.
+Při tom všem, co nyní děláte, je důležité mít na paměti, že všechny tyto větve jsou čistě lokální. Veškeré větvení a slučování se odehrává pouze v repozitáři Git, neprobíhá žádná komunikace se serverem.
 
-## Remote Branches ##
+## Vzdálené větve ##
 
-Remote branches are references to the state of branches on your remote repositories. They’re local branches that you can’t move; they’re moved automatically whenever you do any network communication. Remote branches act as bookmarks to remind you where the branches on your remote repositories were the last time you connected to them.
+Vzdálené větve jsou reference (tj. odkazy) na stav větví ve vašich vzdálených repozitářích. Jsou to lokální větve, které nemůžete přesouvat. Přesouvají se automaticky při síťové komunikaci. Vzdálené větve slouží jako záložky, které vám připomínají, kde byly větve ve vzdálených repozitářích, když jste se k nim naposledy připojili.
 
-They take the form `(remote)/(branch)`. For instance, if you wanted to see what the `master` branch on your `origin` remote looked like as of the last time you communicated with it, you would check the `origin/master` branch. If you were working on an issue with a partner and they pushed up an `iss53` branch, you might have your own local `iss53` branch; but the branch on the server would point to the commit at `origin/iss53`.
+Vzdálené větve mají podobu `(vzdálený repozitář)/(větev)`. Například: Chcete-li zjistit, jak vypadala větev `master` na vašem vzdáleném serveru `origin`, když jste s ní naposledy komunikovali, budete hledat větev `origin/master`. Pokud pracujete s kolegou na stejném problému a on odešle na server větev s názvem `iss53`, může se stát, že i vy máte jednu z lokálních větví pojmenovanou jako `iss53`. Větev na serveru však ukazuje na revizi označenou jako `origin/iss53`.
 
-This may be a bit confusing, so let’s look at an example. Let’s say you have a Git server on your network at `git.ourcompany.com`. If you clone from this, Git automatically names it `origin` for you, pulls down all its data, creates a pointer to where its `master` branch is, and names it `origin/master` locally; and you can’t move it. Git also gives you your own `master` branch starting at the same place as origin’s `master` branch, so you have something to work from (see Figure 3-22).
+Mohlo by to být trochu matoucí, takže si uveďme příklad. Řekněme, že máte v síti server Git označený `git.ourcompany.com`. Pokud provedete klonování z tohoto serveru, Git ho automaticky pojmenuje `origin`, stáhne z něj všechna data, vytvoří ukazatel, který bude označovat jeho větev `master`, a lokálně ji pojmenuje `origin/master`. Tuto větev nemůžete přesouvat. Git vám rovněž vytvoří vaši vlastní větev `master`, která bude začínat ve stejném místě jako větev `master` serveru `origin`. Máte tak definován výchozí bod pro svoji práci (viz obrázek 3-22).
 
-Insert 18333fig0322.png 
-Figure 3-22. A Git clone gives you your own master branch and origin/master pointing to origin’s master branch.
+Insert 18333fig0322.png
+Obrázek 3-22. Příkaz git clone vám vytvoří vlastní hlavní větev a větev origin/master, ukazující na hlavní větev serveru origin.
 
-If you do some work on your local master branch, and, in the meantime, someone else pushes to `git.ourcompany.com` and updates its master branch, then your histories move forward differently. Also, as long as you stay out of contact with your origin server, your `origin/master` pointer doesn’t move (see Figure 3-23).
+Pokud nyní budete pracovat na své lokální hlavní větvi a někdo z kolegů mezitím pošle svou práci na server `git.ourcompany.com` a aktualizuje jeho hlavní větev, budou se vaše historie vyvíjet odlišně. A dokud zůstanete od serveru origin odpojeni, váš ukazatel `origin/master` se nemůže přemístit (viz obrázek 3-23).
 
-Insert 18333fig0323.png 
-Figure 3-23. Working locally and having someone push to your remote server makes each history move forward differently.
+Insert 18333fig0323.png
+Obrázek 3-23. Pokud pracujete lokálně a někdo jiný odešle svou práci na vzdálený server, obě historie se rozejdou.
 
-To synchronize your work, you run a `git fetch origin` command. This command looks up which server origin is (in this case, it’s `git.ourcompany.com`), fetches any data from it that you don’t yet have, and updates your local database, moving your `origin/master` pointer to its new, more up-to-date position (see Figure 3-24).
+K synchronizaci své práce použijte příkaz `git fetch origin`. Tento příkaz zjistí, který server je „origin“ (v našem případě je to `git.ourcompany.com`), vyzvedne z něj všechna data, která ještě nemáte, a aktualizuje vaši lokální databázi. Při tom přemístí ukazatel `origin/master` na novou, aktuálnější pozici (viz obrázek 3-24).
 
-Insert 18333fig0324.png 
-Figure 3-24. The git fetch command updates your remote references.
+Insert 18333fig0324.png
+Obrázek 3-24. Příkaz git fetch aktualizuje vaše reference na vzdálený server.
 
-To demonstrate having multiple remote servers and what remote branches for those remote projects look like, let’s assume you have another internal Git server that is used only for development by one of your sprint teams. This server is at `git.team1.ourcompany.com`. You can add it as a new remote reference to the project you’re currently working on by running the `git remote add` command as we covered in Chapter 2. Name this remote `teamone`, which will be your shortname for that whole URL (see Figure 3-25).
+Abychom si mohli ukázat, jak se pracuje s několika vzdálenými servery a jak vypadají vzdálené větve takových vzdálených projektů, předpokládejme, že máte ještě další interní server Git, který při vývoji používá pouze jeden z vašich sprint teamů. Tento server se nachází na `git.team1.ourcompany.com`. Můžete ho přidat jako novou vzdálenou referenci k projektu, na němž právě pracujete – spusťte příkaz `git remote add` (viz kapitola 2). Pojmenujte tento vzdálený server jako `teamone`, což bude zkrácený název pro celou URL adresu (viz obrázek 3-25).
 
-Insert 18333fig0325.png 
-Figure 3-25. Adding another server as a remote
+Insert 18333fig0325.png
+Obrázek 3-25. Přidání dalšího vzdáleného serveru.
 
-Now, you can run `git fetch teamone` to fetch everything server has that you don’t have yet. Because that server is a subset of the data your `origin` server has right now, Git fetches no data but sets a remote branch called `teamone/master` to point to the commit that `teamone` has as its `master` branch (see Figure 3-26).
+Nyní můžete spustit příkaz `git fetch teamone`, který ze vzdáleného serveru `teamone` vyzvedne vše, co ještě nemáte. Protože je tento server podmnožinou dat, která jsou právě na serveru `origin`, Git nevyzvedne žádná data, ale nastaví vzdálenou větev nazvanou `teamone/master` tak, aby ukazovala na revizi, kterou má server `teamone` nastavenou jako větev `master` (viz obrázek 3-26).
 
-Insert 18333fig0326.png 
-Figure 3-26. You get a reference to teamone’s master branch position locally.
+Insert 18333fig0326.png
+Obrázek 3-26. Lokálně získáte referenci na pozici hlavní větve serveru teamone.
 
-### Pushing ###
+### Odesílání ###
 
-When you want to share a branch with the world, you need to push it up to a remote that you have write access to. Your local branches aren’t automatically synchronized to the remotes you write to — you have to explicitly push the branches you want to share. That way, you can use private branches for work you don’t want to share, and push up only the topic branches you want to collaborate on.
+Chcete-li svou větev sdílet s okolním světem, musíte ji odeslat na vzdálený server, k němuž máte oprávnění pro zápis. Vaše lokální větve nejsou automaticky synchronizovány se vzdálenými servery, na něž zapisujete – ty, které chcete sdílet, musíte explicitně odeslat. Tímto způsobem si můžete zachovat soukromé větve pro práci, kterou nehodláte sdílet, a odesílat pouze tematické větve, na nichž chcete spolupracovat.
 
-If you have a branch named `serverfix` that you want to work on with others, you can push it up the same way you pushed your first branch. Run `git push (remote) (branch)`:
+Máte-li větev s názvem `serverfix`, na níž chcete spolupracovat s ostatními, můžete ji odeslat stejným způsobem, jakým jste odesílali svou první větev. Spusťte příkaz `git push (server) (větev)`:
 
 	$ git push origin serverfix
 	Counting objects: 20, done.
@@ -422,9 +422,9 @@ If you have a branch named `serverfix` that you want to work on with others, you
 	To git@github.com:schacon/simplegit.git
 	 * [new branch]      serverfix -> serverfix
 
-This is a bit of a shortcut. Git automatically expands the `serverfix` branchname out to `refs/heads/serverfix:refs/heads/serverfix`, which means, “Take my serverfix local branch and push it to update the remote’s serverfix branch.” We’ll go over the `refs/heads/` part in detail in Chapter 9, but you can generally leave it off. You can also do `git push origin serverfix:serverfix`, which does the same thing — it says, “Take my serverfix and make it the remote’s serverfix.” You can use this format to push a local branch into a remote branch that is named differently. If you didn’t want it to be called `serverfix` on the remote, you could instead run `git push origin serverfix:awesomebranch` to push your local `serverfix` branch to the `awesomebranch` branch on the remote project.
+Toto je zkrácená verze příkazu. Git automaticky rozšíří název větve `serverfix` na `refs/heads/serverfix:refs/heads/serverfix`, což znamená: „Vezmi mou lokální větev `serverfix` a odešli ji na vzdálený server, kde aktualizuje tamní větev `serverfix`.“ Části `refs/heads/` se budeme podrobněji věnovat v kapitole 9, pro většinu uživatelů však nebude zajímavá. Můžete rovněž zadat příkaz `git push origin serverfix:serverfix`, který provede totéž. Systému Git říká: „Vezmi mou větev `serverfix` a udělej z ní `serverfix` na vzdáleném serveru.“ Tento formát můžete použít k odeslání lokální větve do vzdálené větve, která se jmenuje jinak. Pokud jste nechtěli, aby se větev na vzdáleném serveru jmenovala `serverfix`, mohli jste zadat příkaz ve tvaru `git push origin serverfix:awesomebranch`. Vaše lokální větev `serverfix` by byla odeslána do větve `awesomebranch` ve vzdáleném projektu.
 
-The next time one of your collaborators fetches from the server, they will get a reference to where the server’s version of `serverfix` is under the remote branch `origin/serverfix`:
+Až bude příště některý z vašich spolupracovníků vyzvedávat data ze serveru, obdrží referenci o tom, kde se nachází serverová verze větve `serverfix` ve vzdálené větvi `origin/serverfix`:
 
 	$ git fetch origin
 	remote: Counting objects: 20, done.
@@ -434,165 +434,165 @@ The next time one of your collaborators fetches from the server, they will get a
 	From git@github.com:schacon/simplegit
 	 * [new branch]      serverfix    -> origin/serverfix
 
-It’s important to note that when you do a fetch that brings down new remote branches, you don’t automatically have local, editable copies of them. In other words, in this case, you don’t have a new `serverfix` branch — you only have an `origin/serverfix` pointer that you can’t modify.
+Tady je důležité upozornit, že pokud vyzvedáváte data a stáhnete s nimi i nové vzdálené větve, nemáte automaticky jejich lokální, editovatelné kopie. Jinak řečeno: v tomto případě nebudete mít novou větev `serverfix`, budete mít pouze ukazatel `origin/serverfix`, který nemůžete měnit.
 
-To merge this work into your current working branch, you can run `git merge origin/serverfix`. If you want your own `serverfix` branch that you can work on, you can base it off your remote branch:
+Chcete-li začlenit tato data do své aktuální pracovní větve, spusťte příkaz `git merge origin/serverfix`. Chcete-li mít vlastní větev `serverfix`, na níž budete pracovat, můžete ji ze vzdálené větve vyvázat:
 
 	$ git checkout -b serverfix origin/serverfix
 	Branch serverfix set up to track remote branch refs/remotes/origin/serverfix.
 	Switched to a new branch "serverfix"
 
-This gives you a local branch that you can work on that starts where `origin/serverfix` is.
+Tímto způsobem získáte lokální větev, na níž můžete pracovat a která začíná na pozici `origin/serverfix`.
 
-### Tracking Branches ###
+### Sledující větve ###
 
-Checking out a local branch from a remote branch automatically creates what is called a _tracking branch_. Tracking branches are local branches that have a direct relationship to a remote branch. If you’re on a tracking branch and type git push, Git automatically knows which server and branch to push to. Also, running `git pull` while on one of these branches fetches all the remote references and then automatically merges in the corresponding remote branch.
+Checkoutem lokální větve ze vzdálené větve automaticky vytvoříte tzv. Sledující větev (angl. tracking branch). Sledující větve jsou lokální větve s přímým vztahem ke vzdálené větvi. Pokud se nacházíte na Sledující větvi a zadáte příkaz `git push`, Git automaticky ví, na který server a do které větve má data odeslat. Také příkazem `git pull` zadaným na sledovací větvi vyzvednete všechny vzdálené reference a Git poté odpovídající vzdálenou větev automaticky začlení.
 
-When you clone a repository, it generally automatically creates a `master` branch that tracks `origin/master`. That’s why `git push` and `git pull` work out of the box with no other arguments. However, you can set up other tracking branches if you wish — ones that don’t track branches on `origin` and don’t track the `master` branch. The simple case is the example you just saw, running `git checkout -b [branch] [remotename]/[branch]`. If you have Git version 1.6.2 or later, you can also use the `--track` shorthand:
+Pokud klonujete repozitář, většinou se vytvoří větev `master`, která bude sledovat větev `origin/master`. To je také důvod, proč příkazy `git push` a `git pull` fungují i bez dalších parametrů. Pokud chcete, můžete nastavit i jiné sledující větve – takové, které nebudou sledovat větve na serveru `origin` a nebudou sledovat hlavní větev `master`. Jednoduchým případem je příklad, který jste právě viděli: spuštění příkazu `git checkout -b [větev] [vzdálený server]/[větev]`. Máte-li Git ve verzi 1.6.2 nebo novější, můžete použít také zkrácenou variantu `--track`:
 
 	$ git checkout --track origin/serverfix
 	Branch serverfix set up to track remote branch refs/remotes/origin/serverfix.
 	Switched to a new branch "serverfix"
 
-To set up a local branch with a different name than the remote branch, you can easily use the first version with a different local branch name:
+Chcete-li nastavit lokální větev s jiným názvem, než má vzdálená větev, můžete jednoduše použít první variantu s odlišným názvem lokální větve:
 
 	$ git checkout -b sf origin/serverfix
 	Branch sf set up to track remote branch refs/remotes/origin/serverfix.
 	Switched to a new branch "sf"
 
-Now, your local branch sf will automatically push to and pull from origin/serverfix.
+Vaše lokální větev „sf“ bude nyní automaticky stahovat data ze vzdálené větve origin/serverfix a bude do ní i odesílat.
 
-### Deleting Remote Branches ###
+### Mazání vzdálených větví ###
 
-Suppose you’re done with a remote branch — say, you and your collaborators are finished with a feature and have merged it into your remote’s `master` branch (or whatever branch your stable codeline is in). You can delete a remote branch using the rather obtuse syntax `git push [remotename] :[branch]`. If you want to delete your `serverfix` branch from the server, you run the following:
+Předpokládejme, že už nepotřebujete jednu ze vzdálených větví. Spolu se svými spolupracovníky jste dokončili určitou funkci a začlenili jste ji do větve `master` na vzdáleném serveru (nebo do jakékoli jiné větve, kterou používáte pro stabilní kód). Vzdálenou větev nyní můžete smazat pomocí poněkud neohrabané syntaxe `git push [vzdálený server] :[větev]`. Chcete-li ze serveru odstranit větev `serverfix`, můžete to provést takto:
 
 	$ git push origin :serverfix
 	To git@github.com:schacon/simplegit.git
 	 - [deleted]         serverfix
 
-Boom. No more branch on your server. You may want to dog-ear this page, because you’ll need that command, and you’ll likely forget the syntax. A way to remember this command is by recalling the `git push [remotename] [localbranch]:[remotebranch]` syntax that we went over a bit earlier. If you leave off the `[localbranch]` portion, then you’re basically saying, “Take nothing on my side and make it be `[remotebranch]`.”
+Šup! A větev je ze serveru pryč. Na této stránce si možná chcete ohnout rožek, protože tento příkaz budete určitě potřebovat, ale jeho syntaxi pravděpodobně zapomenete. Zapamatovat si jej ale můžete tak, že si vybavíte příkaz `git push [vzdálený server] [lokální větev]:[vzdálená větev]`, o kterém jsme se zmínili před chvílí. Pokud vynecháte složku `[lokální větev]`, pak v podstatě říkáte: „Neber na mé straně nic a toto nic teď bude `[vzdálená větev]`.“
 
-## Rebasing ##
+## Přeskládání ##
 
-In Git, there are two main ways to integrate changes from one branch into another: the `merge` and the `rebase`. In this section you’ll learn what rebasing is, how to do it, why it’s a pretty amazing tool, and in what cases you won’t want to use it.
+V systému Git existují dvě základní možnosti, jak integrovat změny z jedné větve do druhé: sloučení (neboli začlenění) příkazem `merge` a přeskládání příkazem `rebase`. V této části se dozvíte, co to je přeskládání, jak ho provést, v čem spočívají výhody tohoto nástroje a v jakých případech ho rozhodně nepoužívat.
 
-### The Basic Rebase ###
+### Základní přeskládání ###
 
-If you go back to an earlier example from the Merge section (see Figure 3-27), you can see that you diverged your work and made commits on two different branches.
+Pokud se vrátíme k našemu dřívějšímu příkladu z části o slučování větví (viz obrázek 3-27), vidíme, že jsme svoji práci rozdělili a vytvářeli revize ve dvou různých větvích.
 
-Insert 18333fig0327.png 
-Figure 3-27. Your initial diverged commit history
+Insert 18333fig0327.png
+Obrázek 3-27. Vaše původně rozdělená historie revizí
 
-The easiest way to integrate the branches, as we’ve already covered, is the `merge` command. It performs a three-way merge between the two latest branch snapshots (C3 and C4) and the most recent common ancestor of the two (C2), creating a new snapshot (and commit), as shown in Figure 3-28.
+Víme, že nejjednodušším způsobem, jak integrovat větve, je příkaz `merge`. Ten provede třícestné sloučení mezi dvěma posledními snímky (C3 a C4) a jejich nejmladším společným předkem (C2), přičemž vytvoří nový snímek (a novou revizi) – viz obrázek 3-28.
 
-Insert 18333fig0328.png 
-Figure 3-28. Merging a branch to integrate the diverged work history
+Insert 18333fig0328.png
+Obrázek 3-28. Integrace rozdělené historie sloučením větví
 
-However, there is another way: you can take the patch of the change that was introduced in C3 and reapply it on top of C4. In Git, this is called _rebasing_. With the `rebase` command, you can take all the changes that were committed on one branch and replay them on another one.
+Existuje však ještě jiný způsob. Můžete vzít záplatu se změnou, kterou jste provedli revizí C3, a aplikovat ji na vrcholu revize C4. V systému Git se tato metoda nazývá přeskládání (rebasing). Příkazem `rebase` vezmete všechny změny, které byly zapsány na jedné větvi, a necháte je znovu provést na jiné větvi.
 
-In this example, you’d run the following:
+V našem případě tedy provedete následující:
 
 	$ git checkout experiment
 	$ git rebase master
 	First, rewinding head to replay your work on top of it...
 	Applying: added staged command
 
-It works by going to the common ancestor of the two branches (the one you’re on and the one you’re rebasing onto), getting the diff introduced by each commit of the branch you’re on, saving those diffs to temporary files, resetting the current branch to the same commit as the branch you are rebasing onto, and finally applying each change in turn. Figure 3-29 illustrates this process.
+Přeskládání funguje takto: systém najde společného předka obou větví (větve, na níž se nacházíte, a větve, na kterou přeskládáváte), provede příkaz diff pro všechny revize větve, na níž se nacházíte, uloží zjištěné rozdíly do dočasných souborů, vrátí aktuální větev na stejnou revizi jako větev, na kterou přeskládáváte, a nakonec po jedné aplikuje všechny změny. Tento proces je naznačen na obrázku 3-29.
 
-Insert 18333fig0329.png 
-Figure 3-29. Rebasing the change introduced in C3 onto C4
+Insert 18333fig0329.png
+Obrázek 3-29. Přeskládání změny provedené v revizi C3 na revizi C4
 
-At this point, you can go back to the master branch and do a fast-forward merge (see Figure 3-30).
+Nyní můžete přejít zpět na hlavní větev a provést sloučení „rychle vpřed“ (viz obrázek 3-30).
 
-Insert 18333fig0330.png 
-Figure 3-30. Fast-forwarding the master branch
+Insert 18333fig0330.png
+Obrázek 3-30. „Rychle vpřed“ po hlavní větvi
 
-Now, the snapshot pointed to by C3 is exactly the same as the one that was pointed to by C5 in the merge example. There is no difference in the end product of the integration, but rebasing makes for a cleaner history. If you examine the log of a rebased branch, it looks like a linear history: it appears that all the work happened in series, even when it originally happened in parallel.
+Snímek, na který nyní ukazuje revize C3, je zcela totožný se snímkem, na který v příkladu v části o slučování ukazovala C5. V koncových produktech integrace není žádný rozdíl, výsledkem přeskládání je však čistší historie. Pokud si prohlížíte log přeskládané větve, vypadá jako lineární historie – zdá se, jako by veškerá práce probíhala v jedné linii, ačkoli původně byla paralelní.
 
-Often, you’ll do this to make sure your commits apply cleanly on a remote branch — perhaps in a project to which you’re trying to contribute but that you don’t maintain. In this case, you’d do your work in a branch and then rebase your work onto `origin/master` when you were ready to submit your patches to the main project. That way, the maintainer doesn’t have to do any integration work — just a fast-forward or a clean apply.
+Tuto metodu budete často používat v situaci, kdy chcete mít jistotu, že byly vaše revize čistě aplikovány na vzdálenou větev – např. v projektu, do nějž chcete přidat příspěvek, který ale nespravujete. V takovém případě budete pracovat ve své větvi, a až budete mít připraveny záplaty k odeslání do hlavního projektu, přeskládáte svou práci na větev `origin/master`. Správce v tomto případě nemusí provádět žádnou integraci, provede pouze posun „rychle vpřed“ nebo čistou aplikaci.
 
-Note that the snapshot pointed to by the final commit you end up with, whether it’s the last of the rebased commits for a rebase or the final merge commit after a merge, is the same snapshot — it’s only the history that is different. Rebasing replays changes from one line of work onto another in the order they were introduced, whereas merging takes the endpoints and merges them together.
+Ještě jednou bychom chtěli upozornit, že snímek, na který ukazuje závěrečná revize – ať už se jedná o poslední z přeskládaných revizí po přeskládání, nebo poslední revizi sloučením jako výsledek začlenění – je vždy stejný. Jediné, co se liší, je historie. Přeskládání provede změny učiněné v jedné linii práce ještě jednou v jiné linii, a to v pořadí, v jakém byly provedeny. Sloučení naproti tomu vezme koncové body větví a sloučí je dohromady.
 
-### More Interesting Rebases ###
+### Zajímavější možnosti přeskládání ###
 
-You can also have your rebase replay on something other than the rebase branch. Take a history like Figure 3-31, for example. You branched a topic branch (`server`) to add some server-side functionality to your project, and made a commit. Then, you branched off that to make the client-side changes (`client`) and committed a few times. Finally, you went back to your server branch and did a few more commits.
+Opětovné provedení změn pomocí příkazu rebase můžete využít i jiným účelům než jen k přeskládání větve. Vezměme například historii na obrázku 3-31. Vytvořili jste novou tematickou větev (`server`), pomocí níž chcete do svého projektu přidat funkci na straně serveru, a zapsali jste revizi. Poté jste tuto větev opustili a začali pracovat na změnách na straně klienta (`client`). I tady jste zapsali několik revizí. Nakonec jste se vrátili na větev `server` a zapsali tu další revize.
 
-Insert 18333fig0331.png 
-Figure 3-31. A history with a topic branch off another topic branch
+Insert 18333fig0331.png
+Obrázek 3-31. Historie s tematickou větví obsahující další tematickou větev.
 
-Suppose you decide that you want to merge your client-side changes into your mainline for a release, but you want to hold off on the server-side changes until it’s tested further. You can take the changes on client that aren’t on server (C8 and C9) and replay them on your master branch by using the `--onto` option of `git rebase`:
+Předpokládejme, že nyní chcete začlenit změny provedené na straně klienta do své hlavní linie k vydání, ale prozatím chcete počkat se změnami na straně serveru, dokud nebudou pečlivě otestovány. Můžete vzít změny na větvi client, které nejsou na větvi server (C8 a C9), a nechat je znovu provést na hlavní větvi. Použijte k tomu příkaz `git rebase` v kombinaci s parametrem `--onto`:
 
 	$ git rebase --onto master server client
 
-This basically says, “Check out the client branch, figure out the patches from the common ancestor of the `client` and `server` branches, and then replay them onto `master`.” It’s a bit complex; but the result, shown in Figure 3-32, is pretty cool.
+Tím v podstatě říkáte: „Proveď checkout větve `client`, zjisti záplaty ze společného předka větví `client` a `server` a znovu je aplikuj na hlavní větev `master`.“ Postup je možná trochu složitý, ale výsledek, znázorněný na obrázku 3-32, stojí opravdu za to.
 
-Insert 18333fig0332.png 
-Figure 3-32. Rebasing a topic branch off another topic branch
+Insert 18333fig0332.png
+Obrázek 3-32. Přeskládání tematické větve, která byla součástí jiné tematické větve 72.
 
-Now you can fast-forward your master branch (see Figure 3-33):
+Nyní můžete posunout hlavní větev „rychle vpřed“ (viz obrázek 3-33):
 
 	$ git checkout master
 	$ git merge client
 
-Insert 18333fig0333.png 
-Figure 3-33. Fast-forwarding your master branch to include the client branch changes
+Insert 18333fig0333.png
+Obrázek 3-33. Posun hlavní větve rychle vpřed na konec změn přeskládaných z větve client
 
-Let’s say you decide to pull in your server branch as well. You can rebase the server branch onto the master branch without having to check it out first by running `git rebase [basebranch] [topicbranch]` — which checks out the topic branch (in this case, `server`) for you and replays it onto the base branch (`master`):
+Řekněme, že se později rozhodnete natáhnout i větev server. Větev server můžete přeskládat na hlavní větev příkazem `git rebase [základna] [tematická větev]`. Příkaz provede checkout tematické větve (v tomto případě větve `server`) a přeskládá její změny na základnu (angl. base branch, v tomto případě `master`):
 
 	$ git rebase master server
 
-This replays your `server` work on top of your `master` work, as shown in Figure 3-34.
+Příkaz provede změny obsažené ve větvi `server` ještě jednou na vrcholu větve `master`, jak je znázorněno na obrázku 3-34.
 
-Insert 18333fig0334.png 
-Figure 3-34. Rebasing your server branch on top of your master branch
+Insert 18333fig0334.png
+Obrázek 3-34. Přeskládání větve server na vrcholu hlavní větve.
 
-Then, you can fast-forward the base branch (`master`):
+Poté se můžete přesunout „rychle vpřed“ po základně (větev `master`):
 
 	$ git checkout master
 	$ git merge server
 
-You can remove the `client` and `server` branches because all the work is integrated and you don’t need them anymore, leaving your history for this entire process looking like Figure 3-35:
+Poté můžete větev `client` i `server` smazat, protože všechna práce z nich je integrována a tyto větve už nebudete potřebovat. Vaše historie pak bude vypadat jako na obrázku 3-35:
 
 	$ git branch -d client
 	$ git branch -d server
 
-Insert 18333fig0335.png 
-Figure 3-35. Final commit history
+Insert 18333fig0335.png
+Obrázek 3-35. Konečná historie revizí
 
-### The Perils of Rebasing ###
+### Rizika spojená s přeskládáním ###
 
-Ahh, but the bliss of rebasing isn’t without its drawbacks, which can be summed up in a single line:
+Přeskládání sice nabízí určité výhody, má však také svá úskalí. Ta se dají shrnout do jedné věty:
 
-**Do not rebase commits that you have pushed to a public repository.**
+Neprovádějte přeskládání u revizí, které jste odeslali do veřejného repozitáře.
 
-If you follow that guideline, you’ll be fine. If you don’t, people will hate you, and you’ll be scorned by friends and family.
+Budete-li se touto zásadou řídit, nemusíte se přeskládání obávat. V opačném případě vás čeká opovržení ostatních, rodina a přátelé vás zapřou.
 
-When you rebase stuff, you’re abandoning existing commits and creating new ones that are similar but different. If you push commits somewhere and others pull them down and base work on them, and then you rewrite those commits with `git rebase` and push them up again, your collaborators will have to re-merge their work and things will get messy when you try to pull their work back into yours.
+Při přeskládání dat zahodíte existující revize a vytvoříte nové, které jsou jim podobné, ale přesto jiné. Pokud odešlete svou práci, ostatní si ji stáhnou a založí na nich svou práci. A vy potom tyto revize přepíšete příkazem `git rebase` a znovu je odešlete, vaši spolupracovníci do ní budou muset znovu začlenit svou práci a ve všem nastane chaos, až se pokusíte natáhnout jejich práci zpět do své.
 
-Let’s look at an example of how rebasing work that you’ve made public can cause problems. Suppose you clone from a central server and then do some work off that. Your commit history looks like Figure 3-36.
+Podívejme se na malý příklad, jaké problémy může přeskládání již zveřejněných dat způsobit. Představme si situaci, kdy jste naklonovali repozitář z centrálního serveru a provedli jste v něm několik změn. Vaše historie revizí bude vypadat jako na obrázku 3-36.
 
-Insert 18333fig0336.png 
-Figure 3-36. Clone a repository, and base some work on it.
+Insert 18333fig0336.png
+Obrázek 3-36. Naklonovali jste repozitář a provedli v něm změny.
 
-Now, someone else does more work that includes a merge, and pushes that work to the central server. You fetch them and merge the new remote branch into your work, making your history look something like Figure 3-37.
+Někdo jiný teď provede jiné úpravy, jejichž součástí bude i začlenění, a odešle svou práci na centrální server. Vy tyto změny vyzvednete a začleníte novou vzdálenou větev do své práce – vaše historie teď vypadá jako na obrázku 3-37.
 
-Insert 18333fig0337.png 
-Figure 3-37. Fetch more commits, and merge them into your work.
+Insert 18333fig0337.png
+Obrázek 3-37. Vyzvedli jste další revize a začlenili je do své práce.
 
-Next, the person who pushed the merged work decides to go back and rebase their work instead; they do a `git push --force` to overwrite the history on the server. You then fetch from that server, bringing down the new commits.
+Jenže osoba, která odeslala a začlenila své změny, se rozhodne vrátit a svou práci raději přeskládat. Provede příkaz `git push --force` a přepíše historii na serveru. Vy poté znovu vyzvednete data ze serveru a stáhnete nové revize.
 
-Insert 18333fig0338.png 
-Figure 3-38. Someone pushes rebased commits, abandoning commits you’ve based your work on.
+Insert 18333fig0338.png
+Obrázek 3-38. Kdosi odeslal přeskládané revize a zahodil ty, na nichž jste založili svou práci.
 
-At this point, you have to merge this work in again, even though you’ve already done so. Rebasing changes the SHA-1 hashes of these commits so to Git they look like new commits, when in fact you already have the C4 work in your history (see Figure 3-39).
+V tuto chvíli vám nezbývá, než změny znovu začlenit do své práce, ačkoli už jste je jednou začlenili. Přeskládáním se změnily otisky SHA-1 těchto revizí, a Git je proto považuje za nové revize, přestože změny označené jako C4 už jsou ve skutečnosti ve vaší historii obsaženy (viz obrázek 3-39).
 
-Insert 18333fig0339.png 
-Figure 3-39. You merge in the same work again into a new merge commit.
+Insert 18333fig0339.png
+Obrázek 3-39. Znovu jste začlenili stejnou práci do nové revize sloučením.
 
-You have to merge that work in at some point so you can keep up with the other developer in the future. After you do that, your commit history will contain both the C4 and C4' commits, which have different SHA-1 hashes but introduce the same work and have the same commit message. If you run a `git log` when your history looks like this, you’ll see two commits that have the same author date and message, which will be confusing. Furthermore, if you push this history back up to the server, you’ll reintroduce all those rebased commits to the central server, which can further confuse people.
+Vy musíte tyto změny ve vhodném okamžiku začlenit do své práce, abyste do budoucna neztratili kontakt s ostatními vývojáři. Vaše historie pak bude obsahovat revize C4 i C4’, které mají obě jiný otisk SHA-1, ale představují stejnou práci a nesou i stejnou zprávu k revizi. Pokud s takovouto historií spustíte příkaz `git log`, nastane zmatečná situace, kdy se zobrazí dvě revize se stejným datem autora i stejnou zprávou k revizi. Pokud pak tuto historii odešlete zpět na server, znovu provedete všechny tyto přeskládané revize na centrálním serveru, což bude zmatečné i pro vaše spolupracovníky.
 
-If you treat rebasing as a way to clean up and work with commits before you push them, and if you only rebase commits that have never been available publicly, then you’ll be fine. If you rebase commits that have already been pushed publicly, and people may have based work on those commits, then you may be in for some frustrating trouble.
+Budete-li používat přeskládání jako metodu vyčištění a práce s revizemi předtím, než je odešlete, a budete-li přeskládávat pouze revize, které dosud nikdy nebyly zveřejněny, nemusíte se žádných problémů obávat. Jestliže ale přeskládáte revize, které už byly zveřejněny a někdo na nich mohl založit svou práci, můžete si tím nepěkně zavařit.
 
-## Summary ##
+## Shrnutí ##
 
-We’ve covered basic branching and merging in Git. You should feel comfortable creating and switching to new branches, switching between branches and merging local branches together.  You should also be able to share your branches by pushing them to a shared server, working with others on shared branches and rebasing your branches before they are shared.
+V této kapitole jsme se věnovali základům větvení a slučování. Neměli byste teď mít problém s vytvářením větví, přepínáním na nové i existující větve ani se slučováním lokálních větví. Měli byste také umět odeslat své větve ke sdílení na server, spolupracovat s ostatními na sdílených větvích a před odesláním větve přeskládat.

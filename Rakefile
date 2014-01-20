@@ -1,5 +1,7 @@
-require 'rake/clean'
+# encoding: UTF-8
 
+require 'rake/clean'
+require 'redcarpet'
 
 $lang = ENV['language']
 $lang ||= 'en'
@@ -9,7 +11,7 @@ namespace :epub do
 	INDEX_FILEPATH = File.join(TMP_DIR, 'progit.html')
 	TARGET_FILEPATH = "progit-#{$lang}.epub"
 	
-	SOURCE_FILES = FileList.new(File.join($lang, '**', '*.markdown')).sort
+	SOURCE_FILES = FileList.new(File.join($lang, '0*', '*.markdown')).sort
 	CONVERTED_MK_FILES = SOURCE_FILES.pathmap(File.join(TMP_DIR, '%f'))
 	HTML_FILES = CONVERTED_MK_FILES.ext('html') 
 	
@@ -59,7 +61,7 @@ namespace :epub do
 		
 		mk_file = File.open(mk_filename, 'r') do |mk|
 			html_file = File.open(html_filename, 'w') do |html|
-				code = Maruku.new(mk.read).to_html
+				code = Maruku.new(mk.read.encode("UTF-8")).to_html
 				code.gsub!(/^(<h.) (id='[^']+?')/, '\1')
 				html << code
 				html << "\n"
@@ -148,4 +150,93 @@ namespace :epub do
 	CLEAN << INDEX_FILEPATH
 	CLEAN << TMP_DIR
 	CLOBBER << TARGET_FILEPATH
+end
+
+namespace :pdf do
+        desc "generate a pdf"
+        task :generate  do
+                system("bash makepdfs")
+        end
+end
+
+class StderrDecorator
+  def <<(x)
+    $stderr<< "#{x}"
+    if x.match /REXML/
+      raise ""
+    end
+  end
+end
+
+namespace :ci do
+
+  desc "Continuous Integration"   
+  task :check do
+    require 'maruku'
+    langs = FileList.new('??')+FileList.new('??-??')
+    if ENV['debug'] && $lang
+      langs = [$lang]
+    else
+      excluded_langs = [
+        ]
+      excluded_langs.each do |lang|
+        puts "excluding #{lang}: known to fail"
+      end
+      langs -= excluded_langs
+    end
+    error_code = false
+    chapter_figure = {
+      "01-introduction"       => 7,
+      "02-git-basics"         => 2,
+      "03-git-branching"      => 39,
+      "04-git-server"         => 15,
+      "05-distributed-git"    => 27,
+      "06-git-tools"          => 1,
+      "07-customizing-git"    => 3,
+      "08-git-and-other-scms" => 0,
+      "09-git-internals"      => 4}
+    langs.each do |lang|
+      print "processing #{lang} "
+      mark = ''
+      source_files = FileList.new(File.join(lang, '0*', '*.markdown')).sort
+      source_files.each do |mk_filename|
+        mk_file = File.open(mk_filename, 'r') do |mk|
+          mark+= mk.read.encode("UTF-8")
+        end
+        src_file = File.open(mk_filename, 'r')
+        figure_count = 0
+        until src_file.eof?
+          line = src_file.readline
+          matches = line.match /^#/
+          if matches
+            if line.match /^(#+).*#[[:blank:]]+$/
+              print "\nBadly formatted title in #{mk_filename}: #{line}\n"
+ 	      error_code = true
+            end
+          end
+          if line.match /^\s*Insert\s(.*)/
+            figure_count = figure_count + 1
+          end
+        end
+	# This extraction is a bit contorted, because the pl translation renamed
+	# the files, so the match is done on the directories.
+        tab_fig_count = chapter_figure[File.basename(File.dirname(mk_filename))]
+        expected_figure_count = tab_fig_count ? tab_fig_count:0
+        if figure_count > expected_figure_count
+          print "\nToo many figures declared in #{mk_filename}\n"
+          error_code = true
+        end
+      end
+      begin
+        code = Maruku.new(mark, :on_error => :raise, :error_stream => StderrDecorator.new)
+        print "OK\n"
+      rescue
+        print "KO\n"
+        print $!
+        error_code = true
+      end
+    end
+    fail "At least one language conversion failed" if error_code
+  end
+
 end

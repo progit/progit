@@ -10,10 +10,61 @@ revision control - śledzenie plików, śledzenie zmian
 
 snapshot - migawka, wersja plików
 
-workflow - schemat pracy
+workflow - schemat pracy, przepływ pracy
 
 commit - commit, zatwierdzenie
 
 staging area - przechowalnia
 
 staged - w przechowalni, śledzony
+
+unstage - usunąć z przechowalni
+
+contributor - współpracownik, współautor, uczestnik
+
+contribute - wgrać
+
+integrator - integrator
+
+maintainer - opiekun
+
+rebase - zmiana bazy
+
+dictator - dyktator
+
+lieutenant - porucznik
+
+commit message - komentarz do zmiany
+
+changeset - zestaw zmian
+
+fork - rozwidlenie
+
+cherry pick - pobrać część zmian, wybiórcze pobranie zmian
+
+namespace - przestrzeń nazw
+
+merge - scalenie, łączenie
+
+fast-forward - przesunięcie
+
+checkout - pobranie
+
+blob - obiekt binarny
+
+build - kompilacja, wersja
+
+reflog - reflog
+
+stash - schowek
+
+dirty state - zmieniony stan, zmodyfikowany stan
+
+submodule - moduł zależny, moduł zdalny, podmoduł
+
+subproject - podprojekt
+
+plumbing command - komenda potokowa
+
+
+

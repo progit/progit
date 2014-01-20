@@ -43,12 +43,8 @@ zh-tw:
   indent: "文"
 ja:
   langrule: "\\XeTeXlinebreakskip=0em plus 0.1em minus 0.01em\n\\XeTeXlinebreakpenalty=0"
-#  font: Japan
-#  font: Sazanami Mincho
-  font: IPAPMincho
+  font: IPAexMincho
   bold: VL PGothic
-#  bold: Sazanami Gothic
-#  bold: IPAPGothic
   mono: VL Gothic
   prechap: "第"
   postchap: "章"
@@ -60,6 +56,7 @@ ja:
   fig: "図"
   tab: "表"
   indent: "あ"
+  thanks: "これは､書籍 Pro Git のPDF版です｡クリエイティブ・コモンズ 表示 - 非営利 - 継承 3.0(CC BY-NC-SA 3.0)ライセンスの下に提供されています｡Git を学ぶ際の助けになれば幸いです｡もし役にたったなら､書籍の方もぜひよろしくお願いします｡ \\url{http://tinyurl.com/amazonprogit}\\newline Pro Git 日本語版電子書籍(PDF/EPUB/MOBI)を \\url{http://progit-ja.github.io/} で公開しています｡誤訳の指摘､訳文の改善提案､その他ご意見がありましたら､そちらからお願いいたします｡また､Pro Git 日本語版の翻訳､改善にご尽力いただいた皆さんに､厚く御礼申し上げます｡"
 ru:
   prechap: "Глава "
   presect: "Раздел "
@@ -68,6 +65,8 @@ ru:
   tab: "Таблица "
   dql: "«"
   dqr: "»"
+  langrule: "\\frenchspacing"
+  thanks: "Это PDF-версия книги Pro Git. Текст книги находится под лицензией Creative Commons Attribution-Non Commercial-Share Alike 3.0. Надеемся, она вам понравится и поможет изучить Git. Если хотите, можете поддержать автора и Apress, купив бумажную версию книги на английском языке на Amazon: \\url{http://tinyurl.com/amazonprogit}.\\newline На сайте перевода книги на русский язык, расположенного по адресу \\url{https://github.com/GArik/progit/wiki}, можно проверить наличие новых версий книги, оставить сообщение об ошибке в тексте, а также скачать книгу в других форматах."
 cs:
   prechap: "Kapitola "
   presect: "Oddíl "
@@ -76,13 +75,23 @@ cs:
   fig: "Obrázek "
   tab: "Tabulka "
 fr:
-  langrule: "\\frenchspacing"
   prechap: "Chapitre "
   presect: "Section "
-  fig: "Figure "
+  fig: "figure "
   tab: "Tableau "
+  font: Linux Libertine
+  mono: Courier New
+  con: "Table des matières"
+  langrule: "\\frenchspacing\\usepackage{fontspec}\n\\fontspec[Ligatures={Common}]{Linux Libertine}\n"
+  thanks: "Ce fichier PDF est la traduction française du livre Pro Git. Il est publié sous license Creative Commons Attribution-Non Commercial-Share Alike 3.0. J'espère que vous l'apprécierez, qu'il vous permettra d'apprendre à utiliser Git et que vous aiderez Apress en achetant le livre original sur Amazon : \\url{http://tinyurl.com/amazonprogit}"
   dql: "«\\,"
   dqr: "\\,»"
+es:
+  prechap: "Capítulo "
+  presect: "Sección "
+  fig: "Figura "
+  tab: "Tabla "
+  con: "Contenidos "  
 mk:
   fig: "Слика"
   con: "Содржина"
@@ -91,25 +100,45 @@ mk:
   dql: "„"
   dqr: "“"
   tab: "Табела"
+no-nb:
+  dql: "«"
+  dqr: "»"
+  thanks: "Dette er PDF filen for innholdet til boken Pro Git. Den er lisensiert under Creative Commons Attribution-Non Commercial-Share Alike 3.0 lisensen. Jeg håper du vil ha nytte av den, jeg håper den vil hjelpe deg til å lære Git, og jeg håper du vil støtte Apress og meg ved å kjøpe en kopi av denne boken hos Amazon: \\url{http://tinyurl.com/amazonprogit}"
 de:
   langrule: "\\frenchspacing"
+  prechap: "Kapitel "
+  presect: "Abschnitt "
+  fig: "Abbildung "
+  tab: "Tabelle "
+  con: "Inhaltsverzeichnis"
   dql: "„"
   dqr: "“"
+  thanks: "Dies ist die PDF-Datei des Buches „Pro Git“. Es ist lizenziert unter der „Creative Commons Attribution-Non Commercial-Share Alike“-Lizenz. Ich hoffe, es gefällt dir, ich hoffe, es hilft dir, Git zu lernen, und ich hoffe, dass du Apress und mich unterstützt, indem du ein gedrucktes Exemplar des Buches über Amazon bestellst: \\url{http://tinyurl.com/amazonprogit}"
 ko:
   langrule: "\\XeTeXlinebreakskip=0em plus 0.1em minus 0.01em\n\\XeTeXlinebreakpenalty=0"
-  font: UnBatang
-  bold: UnGraphic
-  mono: UnDotum
+  font: NanumBarunGothic
+  bold: "{* Bold}"
+  mono: NanumGothicCoding
   prechap: ""
   postchap: "장"
   presect: ""
   postsect: "절"
+  indent: " "
   con: "목차"
   fig: "그림"
   tab: "표"
- by:
+  thanks: "지금 보시는 문서는 Pro Git 책에 대한 PDF 파일입니다. 본 문서는 Creative Commons 저작자표시-비영리조건-동일조건변경허락 3.0(Creative Commons Attribution-Non Commercial-Share Alike 3.0) 라이센스를 따릅니다. 여러분이 Git을 이해하는데 도움이 되기를 희망합니다. 종이로 출판된 책을 Amazon 웹사이트 \\url{http://tinyurl.com/amazonprogit} 에서 구입하여 저를 비롯한 Apress에도 도움을 주시기를 기대하겠습니다.\\newline한국어 번역판도 인사이트를 통해 종이로 출판됐습니다. 한국어 번역에 대한 자세한 정보는 \\url{https://github.com/progit/progit/tree/master/ko}에서 확인 바람니다."
+be:
   prechap: "Глава "
   presect: "Раздзел "
   con: "Змест"
   fig: "Малюнак "
   tab: "Табліца "
+pl:
+  prechap: "Rozdział "
+  presect: "Dział "
+  con: "Spis treści"
+  fig: "Rysunek "
+  tab: "Tabela "
+  indent: "\\qquad"
+  thanks: "Jest to plik PDF z zawartością książki Pro Git. Rozpowszechniana jest ona na licencji Creative Commons Attribution-Non Commercial-Share Alike 3.0. Mam nadzieję, że spodoba Ci się, że pomoże nauczyć się Gita, oraz mam nadzieję, że wesprzesz wydawnictwo Apress oraz mnie poprzez kupno papierowej wersji tej książki na Amazon: \\url{http://tinyurl.com/amazonprogit}"

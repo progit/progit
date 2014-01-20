@@ -100,13 +100,13 @@ Insert 18333fig0201.png
 	#
 	#	new file:   README
 	#
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add <file>..." to update what will be committed)
 	#
 	#	modified:   benchmarks.rb
 	#
 
-Фајлот benchmarks.rb се појавува по делот именуван како “Changed but not updated” - што значи дека се внесени промени во фајл (од вашиот работен директориум) кој е веќе следен но сеуште не е поставен на сцена. За да го поставите на сцена ја извршувате командата `git add` (ова е повеќе наменска команда - се користи за да почнете да следите некој фајл, за да поставите на сцена некој фајл и за други работи, како на пример означување на фајлови кај кои има merge конфликт како разрешени т.е. без merge конфликт). Ајде сега да ја извршиме командата `git add` за да го поставиме на сцена фајлот benchmarks.rb и потоа повторно ќе ја извршиме `git status` командата:
+Фајлот benchmarks.rb се појавува по делот именуван како “Changes not staged for commit” - што значи дека се внесени промени во фајл (од вашиот работен директориум) кој е веќе следен но сеуште не е поставен на сцена. За да го поставите на сцена ја извршувате командата `git add` (ова е повеќе наменска команда - се користи за да почнете да следите некој фајл, за да поставите на сцена некој фајл и за други работи, како на пример означување на фајлови кај кои има merge конфликт како разрешени т.е. без merge конфликт). Ајде сега да ја извршиме командата `git add` за да го поставиме на сцена фајлот benchmarks.rb и потоа повторно ќе ја извршиме `git status` командата:
 
 	$ git add benchmarks.rb
 	$ git status
@@ -129,7 +129,7 @@ Insert 18333fig0201.png
 	#	new file:   README
 	#	modified:   benchmarks.rb
 	#
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add <file>..." to update what will be committed)
 	#
 	#	modified:   benchmarks.rb
@@ -169,11 +169,16 @@ Glob patterns are like simplified regular expressions that shells use. An asteri
 Here is another example .gitignore file:
 
 	# a comment – this is ignored
-	*.a       # no .a files
-	!lib.a    # but do track lib.a, even though you're ignoring .a files above
-	/TODO     # only ignore the root TODO file, not subdir/TODO
-	build/    # ignore all files in the build/ directory
-	doc/*.txt # ignore doc/notes.txt, but not doc/server/arch.txt
+	# no .a files
+	*.a
+	# but do track lib.a, even though you're ignoring .a files above
+	!lib.a
+	# only ignore the root TODO file, not subdir/TODO
+	/TODO
+	# ignore all files in the build/ directory
+	build/
+	# ignore doc/notes.txt, but not doc/server/arch.txt
+	doc/*.txt
 
 ### Viewing Your Staged and Unstaged Changes ###
 
@@ -188,7 +193,7 @@ Let’s say you edit and stage the README file again and then edit the benchmark
 	#
 	#	new file:   README
 	#
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add <file>..." to update what will be committed)
 	#
 	#	modified:   benchmarks.rb
@@ -243,7 +248,7 @@ For another example, if you stage the benchmarks.rb file and then edit it, you c
 	#
 	#	modified:   benchmarks.rb
 	#
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#
 	#	modified:   benchmarks.rb
 	#
@@ -324,7 +329,7 @@ Although it can be amazingly useful for crafting commits exactly how you want th
 	$ git status
 	# On branch master
 	#
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#
 	#	modified:   benchmarks.rb
 	#
@@ -338,13 +343,13 @@ Notice how you don’t have to run `git add` on the benchmarks.rb file in this c
 
 To remove a file from Git, you have to remove it from your tracked files (more accurately, remove it from your staging area) and then commit. The `git rm` command does that and also removes the file from your working directory so you don’t see it as an untracked file next time around.
 
-If you simply remove the file from your working directory, it shows up under the “Changed but not updated” (that is, _unstaged_) area of your `git status` output:
+If you simply remove the file from your working directory, it shows up under the “Changes not staged for commit” (that is, _unstaged_) area of your `git status` output:
 
 	$ rm grit.gemspec
 	$ git status
 	# On branch master
 	#
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add/rm <file>..." to update what will be committed)
 	#
 	#       deleted:    grit.gemspec
@@ -669,7 +674,7 @@ Right below the “Changes to be committed” text, it says use `git reset HEAD 
 	#
 	#       modified:   README.txt
 	#
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add <file>..." to update what will be committed)
 	#   (use "git checkout -- <file>..." to discard changes in working directory)
 	#
@@ -682,7 +687,7 @@ The command is a bit strange, but it works. The benchmarks.rb file is modified b
 
 What if you realize that you don’t want to keep your changes to the benchmarks.rb file? How can you easily unmodify it — revert it back to what it looked like when you last committed (or initially cloned, or however you got it into your working directory)? Luckily, `git status` tells you how to do that, too. In the last example output, the unstaged area looks like this:
 
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add <file>..." to update what will be committed)
 	#   (use "git checkout -- <file>..." to discard changes in working directory)
 	#
@@ -1113,7 +1118,7 @@ This way, you can see the last commit easily:
 
 As you can tell, Git simply replaces the new command with whatever you alias it for. However, maybe you want to run an external command, rather than a Git subcommand. In that case, you start the command with a `!` character. This is useful if you write your own tools that work with a Git repository. We can demonstrate by aliasing `git visual` to run `gitk`:
 
-	$ git config --global alias.visual "!gitk"
+	$ git config --global alias.visual '!gitk'
 
 ## Summary ##
 

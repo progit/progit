@@ -47,7 +47,7 @@ Pamiętaj, że każdy plik w twoim katalogu roboczym może być w jednym z dwóc
 Kiedy zmieniasz pliki, Git rozpoznaje je jako zmodyfikowane, ponieważ różnią się od ostatniej zatwierdzonej zmiany. Zmodyfikowane pliki umieszczasz w poczekalni, a następnie zatwierdzasz oczekujące tam zmiany i tak powtarza się cały cykl. Przedstawia go Diagram 2-1.
 
 Insert 18333fig0201.png 
-Diagram 2-1. Cykl życia stanu twoich plików.
+Figure 2-1. Cykl życia stanu twoich plików.
 
 ### Sprawdzanie stanu twoich plików ###
 
@@ -59,7 +59,7 @@ Podstawowe narzędzie używane do sprawdzenia stanu plików to polecenie `git st
 
 Oznacza to, że posiadasz czysty katalog roboczy — innymi słowy nie zawiera on śledzonych i zmodyfikowanych plików. Git nie widzi także żadnych plików nieśledzonych, w przeciwnym wypadku wyświetliłby ich listę. W końcu polecenie pokazuje również gałąź, na której aktualnie pracujesz. Póki co, jest to zawsze master, wartość domyślna; nie martw się tym jednak teraz. Następny rozdział w szczegółach omawia gałęzie oraz odniesienia.
 
-Powiedzmy, że dodajesz do repozytorium nowy plik, prosty plik README. Jeżeli nie istniał on wcześniej, po uruchomieniu `git status` zobaczysz go jako plik nieśledzony, jak poniżej:
+Powiedzmy, że dodajesz do repozytorium nowy, prosty plik README. Jeżeli nie istniał on wcześniej, po uruchomieniu `git status` zobaczysz go jako plik nieśledzony, jak poniżej:
 
 	$ vim README
 	$ git status
@@ -101,13 +101,13 @@ Zmodyfikujmy teraz plik, który był już śledzony. Jeśli zmienisz śledzony w
 	#
 	#	new file:   README
 	#
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add <file>..." to update what will be committed)
 	#
 	#	modified:   benchmarks.rb
 	#
 
-Plik `benchmarks.rb` pojawia się w sekcji „Changed but bit updated“ (Zmienione ale nie zaktualizowane), co oznacza, że śledzony plik został zmodyfikowany, ale zmiany nie trafiły jeszcze do poczekalni. Aby je tam wysłać, uruchom polecenie `git add` (jest to wielozadaniowe polecenie — używa się go do rozpoczynania śledzenia nowych plików, umieszczania ich w poczekalni, oraz innych zadań, takich jak oznaczanie rozwiązanych konfliktów scalania). Uruchom zatem `git add` by umieścić `benchmarks.rb` w poczekalni, a następnie ponownie wykonaj `git status`:
+Plik `benchmarks.rb` pojawia się w sekcji „Changes not staged for commit“ (Zmienione ale nie zaktualizowane), co oznacza, że śledzony plik został zmodyfikowany, ale zmiany nie trafiły jeszcze do poczekalni. Aby je tam wysłać, uruchom polecenie `git add` (jest to wielozadaniowe polecenie — używa się go do rozpoczynania śledzenia nowych plików, umieszczania ich w poczekalni, oraz innych zadań, takich jak oznaczanie rozwiązanych konfliktów scalania). Uruchom zatem `git add` by umieścić `benchmarks.rb` w poczekalni, a następnie ponownie wykonaj `git status`:
 
 	$ git add benchmarks.rb
 	$ git status
@@ -119,7 +119,7 @@ Plik `benchmarks.rb` pojawia się w sekcji „Changed but bit updated“ (Zmieni
 	#	modified:   benchmarks.rb
 	#
 
-Oba pliki znajdują się już w poczekalni i zostaną uwzględnione podczas kolejnego zatwierdzenie zmian. Załóżmy, że w tym momencie przypomniałeś sobie o dodatkowej małej zmianie, którą koniecznie chcesz wprowadzić do pliku `benchmarks.rb` jeszcze przed zatwierdzeniem. Otwierasz go zatem, wprowadzasz zmianę i jesteś gotowy do zatwierdzenia. Uruchom jednak `git status` raz jeszcze:
+Oba pliki znajdują się już w poczekalni i zostaną uwzględnione podczas kolejnego zatwierdzenia zmian. Załóżmy, że w tym momencie przypomniałeś sobie o dodatkowej małej zmianie, którą koniecznie chcesz wprowadzić do pliku `benchmarks.rb` jeszcze przed zatwierdzeniem. Otwierasz go zatem, wprowadzasz zmianę i jesteś gotowy do zatwierdzenia. Uruchom jednak `git status` raz jeszcze:
 
 	$ vim benchmarks.rb 
 	$ git status
@@ -130,7 +130,7 @@ Oba pliki znajdują się już w poczekalni i zostaną uwzględnione podczas kole
 	#	new file:   README
 	#	modified:   benchmarks.rb
 	#
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add <file>..." to update what will be committed)
 	#
 	#	modified:   benchmarks.rb
@@ -170,11 +170,16 @@ Wyrażenia glob są jak uproszczone wyrażenia regularne, używane przez powłok
 Poniżej znajdziesz kolejny przykład pliku `.gitignore`:
 
 	# komentarz — ta linia jest ignorowana
-	*.a       # żadnych plików .a
-	!lib.a    # ale uwzględniaj lib.a, pomimo ignorowania .a w linijce powyżej
-	/TODO     # ignoruj plik TODO w katalogu głównym, ale nie podkatalog/TODO
-	build/    # ignoruj wszystkie pliki znajdujące się w katalogu build/
-	doc/*.txt # ignoruj doc/notatki.txt, ale nie doc/server/arch.txt
+	# żadnych plików .a
+	*.a
+	# ale uwzględniaj lib.a, pomimo ignorowania .a w linijce powyżej
+	!lib.a
+	# ignoruj plik TODO w katalogu głównym, ale nie podkatalog/TODO
+	/TODO
+	# ignoruj wszystkie pliki znajdujące się w katalogu build/
+	build/
+	# ignoruj doc/notatki.txt, ale nie doc/server/arch.txt
+	doc/*.txt
 
 ### Podgląd zmian w poczekalni i poza nią ###
 
@@ -189,7 +194,7 @@ Powiedzmy, że zmieniłeś i ponownie dodałeś do poczekalni plik README, a nas
 	#
 	#	new file:   README
 	#
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add <file>..." to update what will be committed)
 	#
 	#	modified:   benchmarks.rb
@@ -244,7 +249,7 @@ Jeszcze jeden przykład — jeżeli wyślesz do poczekalni plik `benchmarks.rb`,
 	#
 	#	modified:   benchmarks.rb
 	#
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#
 	#	modified:   benchmarks.rb
 	#
@@ -326,7 +331,7 @@ Chociaż poczekalnia może być niesamowicie przydatna przy ustalaniu rewizji do
 	$ git status
 	# On branch master
 	#
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#
 	#	modified:   benchmarks.rb
 	#
@@ -338,15 +343,15 @@ Zauważ, że w tym wypadku przed zatwierdzeniem zmian i wykonaniem rewizji nie m
 
 ### Usuwanie plików ###
 
-Aby usunąć plik z Gita, należy go najpierw wyrzucić ze zbioru plików śledzonych, a następnie zatwierdzić zmiany. Służy do tego polecenie `git -rm`, które dodatkowo usuwa plik z katalogu roboczego. Nie zobaczysz go już zatem w sekcji plików nieśledzonych przy następnej okazji.
+Aby usunąć plik z Gita, należy go najpierw wyrzucić ze zbioru plików śledzonych, a następnie zatwierdzić zmiany. Służy do tego polecenie `git rm`, które dodatkowo usuwa plik z katalogu roboczego. Nie zobaczysz go już zatem w sekcji plików nieśledzonych przy następnej okazji.
 
-Jeżeli po prostu usuniesz plik z katalogu roboczego i wykonasz polecenie `git status` zobaczysz go w sekcji "Zmienione ale nie zaktualizowane" (Changed but not updated) (czyli, poza poczekalnią):
+Jeżeli po prostu usuniesz plik z katalogu roboczego i wykonasz polecenie `git status` zobaczysz go w sekcji "Zmienione ale nie zaktualizowane" (Changes not staged for commit) (czyli, poza poczekalnią):
 
 	$ rm grit.gemspec
 	$ git status
 	# On branch master
 	#
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add/rm <file>..." to update what will be committed)
 	#
 	#       deleted:    grit.gemspec
@@ -446,7 +451,7 @@ Duża liczba opcji polecenia `git log` oraz ich różnorodność pozwalają na d
 
 Jedną z najprzydatniejszych opcji jest `-p`. Pokazuje ona różnice wprowadzone z każdą rewizją. Dodatkowo możesz użyć opcji `-2` aby ograniczyć zbiór do dwóch ostatnich wpisów:
 
-	$ git log â€“p -2
+	$ git log -p -2
 	commit ca82a6dff817ec66f44342007202690a93763949
 	Author: Scott Chacon <schacon@gee-mail.com>
 	Date:   Mon Mar 17 21:52:11 2008 -0700
@@ -584,13 +589,13 @@ Są to jedynie podstawowe opcje formatowania wyjścia polecenia `git log` - jest
 
 Jako dodatek do opcji formatowania, git log przyjmuje także zestaw parametrów ograniczających wynik do określonego podzbioru. Jeden z takich parametrów pokazaliśmy już wcześniej: opcja `-2`, która spowodowała pokazanie jedynie dwóch ostatnich rewizji. Oczywiście, możesz podać ich dowolną liczbę - `-<n>`, gdzie `n` jest liczbą całkowitą. Na co dzień raczej nie będziesz używał jej zbyt często, ponieważ Git domyślnie przekazuje wynik do narzędzia stronicującego, w skutek czego i tak jednocześnie widzisz tylko jedną jego stronę.
 
-Inaczej jest z w przypadku opcji ograniczania w czasie takich jak `--sience` (od) oraz `--until` (do) które są wyjątkowo przydatne. Na przykład, poniższe polecenie pobiera listę zmian dokonanych w ciągu ostatnich dwóch tygodni:
+Inaczej jest z w przypadku opcji ograniczania w czasie takich jak `--since` (od) oraz `--until` (do) które są wyjątkowo przydatne. Na przykład, poniższe polecenie pobiera listę zmian dokonanych w ciągu ostatnich dwóch tygodni:
 
 	$ git log --since=2.weeks
 
 Polecenie to obsługuje mnóstwo formatów - możesz uściślić konkretną datę (np. "2008-01-15") lub podać datę względną jak np. 2 lata 1 dzień 3 minuty temu.
 
-Możesz także odfiltrować listę pozostawiając jedynie rewizje spełniające odpowiednie kryteria wyszukiwania. Opcja `--author` pozwala wybierać po konkretnym autorze, a opcja `--grep` na wyszukiwanie po słowach kluczowych zawartych w notkach zmian. (Zauważ, że jeżeli potrzebujesz określić zarówno autora jak i słowa kluczowe, musisz dodać opcję `--all-match` - w przeciwnym razie polecenie dopasuje jedynie wg jednego z kryteriów)
+Możesz także odfiltrować listę pozostawiając jedynie rewizje spełniające odpowiednie kryteria wyszukiwania. Opcja `--author` pozwala wybierać po konkretnym autorze, a opcja `--grep` na wyszukiwanie po słowach kluczowych zawartych w notkach zmian. (Zauważ, że jeżeli potrzebujesz określić zarówno autora jak i słowa kluczowe, musisz dodać opcję `--all-match` - w przeciwnym razie polecenie dopasuje jedynie wg jednego z kryteriów).
 
 Ostatnią, szczególnie przydatną opcją, akceptowaną przez `git log` jako filtr, jest ścieżka. Możesz dzięki niej ograniczyć wynik wyłącznie do rewizji, które modyfikują podane pliki. Jest to zawsze ostatnia w kolejności opcja i musi być poprzedzona podwójnym myślnikiem `--`, tak żeby oddzielić ścieżki od pozostałych opcji.
 
@@ -598,7 +603,7 @@ W tabeli 2-3 znajduje się ta jak i kilka innych często używanych opcji.
 
 	Opcja	Opis
 	-(n)	Pokaż tylko ostatnie n rewizji.
-	--sience, --after	Ogranicza rewizje do tych wykonanych po określonej dacie.
+	--since, --after	Ogranicza rewizje do tych wykonanych po określonej dacie.
 	--until, --before	Ogranicza rewizje do tych wykonanych przed określoną datą.
 	--author	Pokazuje rewizje, których wpis autora pasuje do podanego.
 	--committer	Pokazuje jedynie te rewizje w których osoba zatwierdzająca zmiany pasuje do podanej.
@@ -621,7 +626,7 @@ Z prawie 20000 rewizji w historii kodu Gita, podane polecenie wyłowiło jedynie
 Do wyświetlania historii rewizji możesz także użyć narzędzi okienkowych - być może spodoba ci się na przykład napisany w Tcl/Tk program o nazwie gitk, który jest dystrybuowany wraz z Gitem. Gitk to proste narzędzie do wizualizacji wyniku polecenia `git log` i akceptuje ono prawie wszystkie, wcześniej wymienione, opcje filtrowania. Po uruchomieniu gitk z linii poleceń powinieneś zobaczyć okno podobne do widocznego na ekranie 2-2.
 
 Insert 18333fig0202.png 
-Ekran 2-2. Graficzny interfejs programu gitk przedstawiający historię rewizji.
+Figure 2-2. Graficzny interfejs programu gitk przedstawiający historię rewizji.
 
 Historia wraz z grafem przodków znajduje się w górnej połówce okna. W dolnej części znajdziesz przeglądarkę różnic pokazującą zmiany wnoszone przez wybraną rewizję.
 
@@ -672,7 +677,7 @@ Tekst znajdujący się zaraz pod nagłówkiem zmian do zatwierdzenia mówi "uży
 	#
 	#       modified:   README.txt
 	#
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add <file>..." to update what will be committed)
 	#   (use "git checkout -- <file>..." to discard changes in working directory)
 	#
@@ -685,7 +690,7 @@ Polecenie wygląda odrobinę dziwacznie, ale działa. Plik benchmarks.rb ciągle
 
 Co jeśli okaże się, że nie chcesz jednak zatrzymać zmian wykonanych w pliku benchmarks.rb? W jaki sposób łatwo cofnąć wprowadzone modyfikacje czyli przywrócić plik do stanu w jakim był po ostatniej rewizji (lub początkowym sklonowaniu, lub jakkolwiek dostał się do katalogu roboczego)? Z pomocą przybywa raz jeszcze polecenie `git status`. W ostatnim przykładzie, pliki będące poza poczekalnią wyglądają następująco:
 
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add <file>..." to update what will be committed)
 	#   (use "git checkout -- <file>..." to discard changes in working directory)
 	#
@@ -766,7 +771,7 @@ Teraz możesz używać nazwy pb zamiast całego adresu URL. Na przykład, jeżel
 	 * [new branch]      master     -> pb/master
 	 * [new branch]      ticgit     -> pb/ticgit
 
-Główna gałąź (master) Paula jest dostępna lokalnie jako `pb\master` - możesz scalić ją do którejś z własnych gałęzi lub, jeśli chcesz, jedynie ją przejrzeć przełączając się do lokalnej gałęzi.
+Główna gałąź (master) Paula jest dostępna lokalnie jako `pb/master` - możesz scalić ją do którejś z własnych gałęzi lub, jeśli chcesz, jedynie ją przejrzeć przełączając się do lokalnej gałęzi.
 
 ### Pobieranie i wciąganie zmian ze zdalnych repozytoriów (polecenia fetch i pull) ###
 
@@ -870,7 +875,7 @@ Możesz także wyszukiwać etykiety za pomocą wzorca. Na przykład, repozytoriu
 
 ### Tworzenie etykiet ###
 
-Git używa 2 głównych rodzajów etykiet: lekkich i opisanych. Pierwsze z nich - lekkie - zachowują się mniej więcej tak jak gałąź, która się nie zmienia - jest to tylko wskaźnik do konkretnej rewizji. Z kolei, etykiety opisane są przechowywane jako pełne obiekty w bazie danych Gita. Są one opatrywane sumą kontrolną, zawierają nazwisko osoby etykietującej, jej adres e-mail oraz datę; ponadto, posiadają notkę etykiety, oraz mogą być podpisywane i weryfikowane za pomocą GNU Privacy Guard (GPG). Ogólnie zaleca się aby przy tworzeniu etykiet opisanych uwzględniać wszystkie te infromacje; a jeżeli potrzebujesz jedynie etykiety tymczasowej albo z innych powodów nie potrzebujesz tych wszystkich danych, możesz po prostu użyć etykiety lekkiej.
+Git używa 2 głównych rodzajów etykiet: lekkich i opisanych. Pierwsze z nich - lekkie - zachowują się mniej więcej tak jak gałąź, która się nie zmienia - jest to tylko wskaźnik do konkretnej rewizji. Z kolei, etykiety opisane są przechowywane jako pełne obiekty w bazie danych Gita. Są one opatrywane sumą kontrolną, zawierają nazwisko osoby etykietującej, jej adres e-mail oraz datę; ponadto, posiadają notkę etykiety, oraz mogą być podpisywane i weryfikowane za pomocą GNU Privacy Guard (GPG). Ogólnie zaleca się aby przy tworzeniu etykiet opisanych uwzględniać wszystkie te informacje; a jeżeli potrzebujesz jedynie etykiety tymczasowej albo z innych powodów nie potrzebujesz tych wszystkich danych, możesz po prostu użyć etykiety lekkiej.
 
 ### Etykiety opisane ###
 
@@ -1061,7 +1066,7 @@ Jeśli używasz powłoki Bash, Git jest wyposażony w poręczny skrypt auto-uzup
 
 	source ~/.git-completion.bash
 
-Jeśli chcesz ustawić Gita tak, żeby automatycznie pozwalał na auto-uzupełnianie wszystkim użytkownikom, skopiuj wymieniony skrypt do katalogu `/opt/local/etc/bash_completion.d` na systamach Mac, lub do `/etc/bash_completion.d/` w Linuxie. Jest to katalog skryptów ładowanych automatycznie przez Basha, dzięki czemu opcja zostanie włączona wszystkim użytkownikom.
+Jeśli chcesz ustawić Gita tak, żeby automatycznie pozwalał na auto-uzupełnianie wszystkim użytkownikom, skopiuj wymieniony skrypt do katalogu `/opt/local/etc/bash_completion.d` na systemach Mac, lub do `/etc/bash_completion.d/` w Linuxie. Jest to katalog skryptów ładowanych automatycznie przez Basha, dzięki czemu opcja zostanie włączona wszystkim użytkownikom.
 
 Jeśli używasz Windows wraz z narzędziem Git Bash, które jest domyślnie instalowane wraz wraz z msysGit, auto-uzupełnianie powinno być pre-konfigurowane i dostępne od razu.
 

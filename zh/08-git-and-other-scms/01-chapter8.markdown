@@ -70,7 +70,7 @@ Git 中所有 Subversion 桥接命令的基础是 `git svn` 。所有的命令�
 	Checked out HEAD:
 	 file:///tmp/test-svn/branches/my-calc-branch r76
 
-这相当于针对所提供的 URL 运行了两条命令—— `git svn init` 加上 `gitsvn fetch` 。可能会花上一段时间。我们所用的测试项目仅仅包含 75 次提交并且它的代码量不算大，所以只有几分钟而已。不过，Git 仍然需要提取每一个版本，每次一个，再逐个提交。对于一个包含成百上千次提交的项目，花掉的时间则可能是几小时甚至数天。
+这相当于针对所提供的 URL 运行了两条命令—— `git svn init` 加上 `git svn fetch` 。可能会花上一段时间。我们所用的测试项目仅仅包含 75 次提交并且它的代码量不算大，所以只有几分钟而已。不过，Git 仍然需要提取每一个版本，每次一个，再逐个提交。对于一个包含成百上千次提交的项目，花掉的时间则可能是几小时甚至数天。
 
 `-T trunk -b branches -t tags` 告诉 Git 该 Subversion 仓库遵循了基本的分支和标签命名法则。如果你的主干(译注：trunk，相当于非分布式版本控制里的master分支，代表开发的主线），分支或者标签以不同的方式命名，则应做出相应改变。由于该法则的常见性，可以使用 `-s` 来代替整条命令，它意味着标准布局（s 是 Standard layout 的首字母），也就是前面选项的内容。下面的命令有相同的效果：
 
@@ -108,7 +108,7 @@ Git 中所有 Subversion 桥接命令的基础是 `git svn` 。所有的命令�
 
 这里有两个远程服务器：一个名为 `gitserver` ，具有一个 `master`分支；另一个叫 `origin`，具有 `master` 和 `testing` 两个分支。
 
-注意本例中通过 `git svn` 导入的远程引用，（Subversion 的)标签是当作远程分支添加的，而不是真正的 Git 标签。导入的 Subversion 仓库仿佛是有一个带有不同分支的 tags 远程服务器。
+注意本例中通过 `git svn` 导入的远程引用，（Subversion 的）标签是当作远程分支添加的，而不是真正的 Git 标签。导入的 Subversion 仓库仿佛是有一个带有不同分支的 tags 远程服务器。
 
 ### 提交到 Subversion ###
 
@@ -190,7 +190,7 @@ Git 中所有 Subversion 桥接命令的基础是 `git svn` 。所有的命令�
 
 这一点需要牢记，因为它的结果是推送之后项目处于一个不完整存在与任何主机上的状态。如果做出的修改无法兼容但没有产生冲突，则可能造成一些很难确诊的难题。这和使用 Git 服务器是不同的——在 Git 世界里，发布之前，你可以在客户端系统里完整的测试项目的状态，而在 SVN 永远都没法确保提交前后项目的状态完全一样。
 
-及时还没打算进行提交，你也应该用这个命令从 Subversion 服务器拉取最新修改。`sit svn fetch` 能获取最新的数据，不过 `git svn rebase` 才会在获取之后在本地进行更新 。
+即使还没打算进行提交，你也应该用这个命令从 Subversion 服务器拉取最新修改。`sit svn fetch` 能获取最新的数据，不过 `git svn rebase` 才会在获取之后在本地进行更新 。
 
 	$ git svn rebase
 	       M      generate_descriptor_proto.sh
@@ -235,8 +235,7 @@ Subversion 的分支和 Git 中的不尽相同；避免过多的使用可能是�
 
 #### 创建新的 SVN 分支 ####
 
-要在 Subversion 中建立一个新分支，需要运行 `git svn branch [分支名]`
-To create a new branch in Subversion, you run `git svn branch [branchname]`:
+要在 Subversion 中建立一个新分支，需要运行 `git svn branch [分支名]` ：
 
 	$ git svn branch opera
 	Copying file:///tmp/test-svn/trunk at r87 to file:///tmp/test-svn/branches/opera...
@@ -247,7 +246,7 @@ To create a new branch in Subversion, you run `git svn branch [branchname]`:
 	Successfully followed parent
 	r89 = 9b6fe0b90c5c9adf9165f700897518dbc54a7cbf (opera)
 
-相当于在 Subversion 中的 `svn copy trunk branches/opera` 命令并且对 Subversion 服务器进行了相关操作。值得提醒的是它没有检出和转换到那个分支；如果现在进行提交，将提交到服务器上的 `trunk`， 而非 `opera`。
+这相当于在 Subversion 中的 `svn copy trunk branches/opera` 命令，并会对 Subversion 服务器进行相关操作。值得注意的是它没有检出和转换到那个分支；如果现在进行提交，将提交到服务器上的 `trunk`， 而非 `opera`。
 
 ### 切换当前分支 ###
 
@@ -354,7 +353,7 @@ Git 通过搜寻提交历史中 Subversion 分支的头部来决定 dcommit 的�
 
 ### Subversion ###
 
-读过前一节有关 `git svn` 的内容以后，你应该能轻而易举的根据其中的指导来 `git svn clone` 一个仓库了；然后，停止 Subversion 的使用，向一个新 Git server 推送，并开始使用它。想保留历史记录，所画的时间应该不过就是从 Subversion 服务器拉取数据的时间（可能要等上好一会就是了）。
+读过前一节有关 `git svn` 的内容以后，你应该能轻而易举的根据其中的指导来 `git svn clone` 一个仓库了；然后，停止 Subversion 的使用，向一个新 Git server 推送，并开始使用它。想保留历史记录，所花的时间应该不过就是从 Subversion 服务器拉取数据的时间（可能要等上好一会就是了）。
 
 然而，这样的导入并不完美；而且还要花那么多时间，不如干脆一次把它做对！首当其冲的任务是作者信息。在 Subversion，每个提交者在都在主机上有一个用户名，记录在提交信息中。上节例子中多处显示了 `schacon` ，比如 `blame` 的输出以及 `git svn log`。如果想让这条信息更好的映射到 Git 作者数据里，则需要 从 Subversion 用户名到 Git 作者的一个映射关系。建立一个叫做 `user.txt` 的文件，用如下格式表示映射关系：
 
@@ -363,7 +362,8 @@ Git 通过搜寻提交历史中 Subversion 分支的头部来决定 dcommit 的�
 
 通过该命令可以获得 SVN 作者的列表：
 
-	$ svn log --xml | grep author | sort -u | perl -pe 's/.>(.?)<./$1 = /'
+	$ svn log ^/ --xml | grep -P "^<author" | sort -u | \
+	      perl -pe 's/<author>(.*?)<\/author>/$1 = /' > users.txt
 
 它将输出 XML 格式的日志——你可以找到作者，建立一个单独的列表，然后从 XML 中抽取出需要的信息。（显而易见，本方法要求主机上安装了`grep`，`sort` 和 `perl`.）然后把输出重定向到 user.txt 文件，然后就可以在每一项的后面添加相应的 Git 用户数据。
 
@@ -406,7 +406,11 @@ Git 通过搜寻提交历史中 Subversion 分支的头部来决定 dcommit 的�
 	$ cp -Rf .git/refs/remotes/* .git/refs/heads/
 	$ rm -Rf .git/refs/remotes
 
-现在所有的旧分支都变成真正的 Git 分支，所有的旧标签也变成真正的 Git 标签。最后一项工作就是把新建的 Git 服务器添加为远程服务器并且向它推送。为了让所有的分支和标签都得到上传，我们使用这条命令：
+现在所有的旧分支都变成真正的 Git 分支，所有的旧标签也变成真正的 Git 标签。最后一项工作就是把新建的 Git 服务器添加为远程服务器并且向它推送。下面是新增远程服务器的例子：
+
+	$ git remote add origin git@my-git-server:myrepository.git
+
+为了让所有的分支和标签都得到上传，我们使用这条命令：
 
 	$ git push origin --all
 
@@ -496,7 +500,7 @@ Git 通过搜寻提交历史中 Subversion 分支的头部来决定 dcommit 的�
 
 为了导入到一个 Git 目录，我们首先回顾一下 Git 储存数据的方式。你可能还记得，Git 本质上是一个 commit 对象的链表，每一个对象指向一个内容的快照。而这里需要做的工作就是告诉 `fast-import` 内容快照的位置，什么样的 commit 数据指向它们，以及它们的顺序。我们采取一次处理一个快照的策略，为每一个内容目录建立对应的 commit ，每一个 commit 与之前的建立链接。
 
-正如在第七章 "Git 执行策略一例" 一节中一样，我们将使用 Ruby 来编写这个脚本，因为它是我日常使用的语言而且阅读起来简单一些。你可以用任何其他熟悉的语言来重写这个例子——它仅需要把必要的信息打印到标准输出而已。同时，如果你在使用 Windows，这意味着你要特别留意不要在换行的时候引入回车符（译注：carriage returns，Windows换行时加入的符号，通常说的\r ）—— Git 的 fast-import 对仅使用换行符（LF）而非 Windows 的回车符（CRLF）要求非常严格。
+正如在第七章 "Git 执行策略一例" 一节中一样，我们将使用 Ruby 来编写这个脚本，因为它是我日常使用的语言而且阅读起来简单一些。你可以用任何其他熟悉的语言来重写这个例子——它仅需要把必要的信息打印到标准输出而已。同时，如果你在使用 Windows，这意味着你要特别留意不要在换行的时候引入回车符（译注：carriage returns，Windows 换行时加入的符号，通常说的 `\r` ）—— Git 的 fast-import 对仅使用换行符（LF）而非 Windows 的回车符（CRLF）要求非常严格。
 
 首先，进入目标目录并且找到所有子目录，每一个子目录将作为一个快照被导入为一个 commit。我们将依次进入每一个子目录并打印所需的命令来导出它们。脚本的主循环大致是这样：
 

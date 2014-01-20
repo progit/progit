@@ -14,7 +14,7 @@ Git puede usar cuatro protocolos principales para transferir datos: Local, Secur
 
 Merece destacar que, con la excepción del protocolo HTTP, todos los demás protocolos requieren que Git esté instalado y operativo en el servidor.
 
-### Procolo Local ###
+### Protocolo Local ###
 
 El más básico es el _Protocolo Local_, donde el repositorio remoto es simplemente otra carpeta en el disco. Se utiliza habitualmente cuando todos los miembros del equipo tienen acceso a un mismo sistema de archivos, como por ejemplo un punto de montaje NFS, o en los casos en que todos se conectan al mismo ordenador. Aunque este último caso no es precisamente el ideal, ya que todas las instancias del repositorio estarían en la misma máquina; aumentando las posibilidades de una pérdida catastrófica.
 
@@ -52,7 +52,7 @@ Probablemente, SSH sea el protocolo más habitual para Git. Debido a disponibili
 
 Para clonar un repositorio a través de SSH, puedes indicar una URL ssh:// tal como:
 
-	$ git clone ssh://user@server:project.git
+	$ git clone ssh://user@server/project.git
 
 O puedes prescindir del protocolo; Git asume SSH si no indicas nada expresamente: $ git clone user@server:project.git
 
@@ -68,7 +68,7 @@ El aspecto negativo de SSH es su imposibilidad para dar acceso anónimo al repos
 
 ### El Protocolo Git ###
 
-El protocolo Git  es un demonio (daemon) especial, que viene incorporado con Git. Escucha por un puerto dedicado (9418), y nos da un servicio similar al del protocolo SSH; pero sin ningún tipo de autentificación. Para que un repositorio pueda exponerse a través del protocolo Git, tienes que crear en él un archivo 'git-export-daemon-ok'; sin este archivo, el demonio no hará disponible el repositorio. Pero, aparte de esto, no hay ninguna otra medida de seguridad. O el repositorio está disponible para que cualquiera lo pueda clonar, o no lo está. Lo cual significa que, normalmente, no se podrá enviar (push) a través de este protocolo. Aunque realmente si que puedes habilitar el envio, si lo haces, dada la total falta de ningún mecanismo de autentificación, cualquiera que encuentre la URL a tu proyecto en Internet, podrá enviar (push) contenidos a él. Ni que decir tiene que esto solo lo necesitarás en contadas ocasiones.
+El protocolo Git  es un demonio (daemon) especial, que viene incorporado con Git. Escucha por un puerto dedicado (9418), y nos da un servicio similar al del protocolo SSH; pero sin ningún tipo de autentificación. Para que un repositorio pueda exponerse a través del protocolo Git, tienes que crear en él un archivo 'git-daemon-export-ok'; sin este archivo, el demonio no hará disponible el repositorio. Pero, aparte de esto, no hay ninguna otra medida de seguridad. O el repositorio está disponible para que cualquiera lo pueda clonar, o no lo está. Lo cual significa que, normalmente, no se podrá enviar (push) a través de este protocolo. Aunque realmente si que puedes habilitar el envio, si lo haces, dada la total falta de ningún mecanismo de autentificación, cualquiera que encuentre la URL a tu proyecto en Internet, podrá enviar (push) contenidos a él. Ni que decir tiene que esto solo lo necesitarás en contadas ocasiones.
 
 ### Ventajas ###
 
@@ -290,7 +290,7 @@ Si utilizas una versión de Git anterior a la 1.6, el comando 'mv' no es necesar
 
 Lo que significa que cada vez que envias (push) algo al servidor vía SSH, Git lanzará este comando y actualizará así los archivos necesarios para HTTP fetching. (_i_pendientedetraducir) 
 
-A continuación, has de añadir una entrada VirtualHost al archivo de configuración de Apache, fijando su raiz de documentos a la ubicación donde tengas tus proyectos Git. Aquí, estamos asumiendo que tienes un DNS comodin para redirigir '*.gitserver' hacia cualquier máquina que estés utilizando para todo esto:
+A continuación, has de añadir una entrada VirtualHost al archivo de configuración de Apache, fijando su raiz de documentos a la ubicación donde tengas tus proyectos Git. Aquí, estamos asumiendo que tienes un DNS comodin para redirigir `*.gitserver` hacia cualquier máquina que estés utilizando para todo esto:
 
 	<VirtualHost *:80>
 	    ServerName git.gitserver
@@ -361,9 +361,9 @@ En este punto, es posible que desees cambiar a un popular programa llamado Gitos
 
 Instalar Gitosis no es precisamente sencillo. Pero tampoco demasiado complicado. Es más sencillo hacerlo si utilizas un servidor Linux --estos ejemplos se han hecho sobre un servidor Ubuntu 8.10--.
 
-Gitosis necesita de ciertas herramientas Python, por lo que la  primera tarea será instalar el paquete de herramientas Pyton. En Ubuntu viene como el paquete python-stuptools:
+Gitosis necesita de ciertas herramientas Python, por lo que la  primera tarea será instalar el paquete de herramientas Pyton. En Ubuntu viene como el paquete python-setuptools:
 
-	$ apt-get install python-setuptools
+	$ sudo apt-get install python-setuptools
 
 A continuación, has de clonar e instalar Gitosis desde el repositorio principal de su proyecto:
 
@@ -404,9 +404,8 @@ Y ya estás preparado para trabajar. Si lo has configurado todo correctamente, p
 	fatal: unrecognized command 'gitosis-serve schacon@quaternion'
 	  Connection to gitserver closed.
 
-Indicandote que Gitosis te ha reconocido, pero te está hechando debido a que no estás intentando lanzar ningún comando Git. Por tanto, intentalo con un comando Git real --por ejemplo, clonar el propio repositorio de control de Gitosis 
-
-	a tu ordenador personal-- 
+Indicandote que Gitosis te ha reconocido, pero te está hechando debido a que no estás intentando lanzar ningún comando Git. Por tanto, intentalo con un comando Git real --por ejemplo, clonar el propio repositorio de control de Gitosis a tu ordenador personal-- 
+	
 	$ git clone git@gitserver:gitosis-admin.git
 
 Con ello, tendrás una carpeta denominada 'gitosis-admin', con dos partes principales dentro de ella:
@@ -571,7 +570,7 @@ Si no quieres realizar todo el trabajo de preparar tu propio servidor Git, tiene
 
 Actualmente tienes un gran número de opciones del alojamiento, cada una con sus ventajas y desventajas. Para obtener una lista actualizada, puedes mirar en la página GitHosting del wiki principal de Git:
 
-	http://git.or.cz/gitwiki/GitHosting
+	https://git.wiki.kernel.org/index.php/GitHosting
 
 Por ser imposible el cubrir todos ellos, y porque da la casualidad de que trabajo en uno de ellos, concretamente, en esta sección veremos cómo crear una cuenta y nuevos proyectos albergados en 'GitHub'. Así podrás hacerte una idea de cómo suelen funcionar estos alberges externos. 
 

@@ -1,897 +1,896 @@
-# Distributed Git #
+# Git Distribuído #
 
-Now that you have a remote Git repository set up as a point for all the developers to share their code, and you’re familiar with basic Git commands in a local workflow, you’ll look at how to utilize some of the distributed workflows that Git affords you.
+Agora que você tem um repositório Git remoto configurado como um ponto para todos os desenvolvedores compartilharem seu código, e você está familiarizado com os comandos básicos do Git em um fluxo de trabalho local, você vai ver como utilizar alguns dos fluxos de trabalho distribuídos que o Git lhe proporciona.
 
-In this chapter, you’ll see how to work with Git in a distributed environment as a contributor and an integrator. That is, you’ll learn how to contribute code successfully to a project and make it as easy on you and the project maintainer as possible, and also how to maintain a project successfully with a number of developers contributing.
+Neste capítulo, você verá como trabalhar com Git em um ambiente distribuído como colaborador e integrador. Ou seja, você vai aprender como contribuir código para um projeto da melhor forma possível para você e para os responsáveis do projeto, e também como manter um projeto de sucesso com uma grande quantidade de desenvolvedores.
 
-## Distributed Workflows ##
+## Fluxos de Trabalho Distribuídos ##
 
-Unlike Centralized Version Control Systems (CVCSs), the distributed nature of Git allows you to be far more flexible in how developers collaborate on projects. In centralized systems, every developer is a node working more or less equally on a central hub. In Git, however, every developer is potentially both a node and a hub — that is, every developer can both contribute code to other repositories and maintain a public repository on which others can base their work and which they can contribute to. This opens a vast range of workflow possibilities for your project and/or your team, so I’ll cover a few common paradigms that take advantage of this flexibility. I’ll go over the strengths and possible weaknesses of each design; you can choose a single one to use, or you can mix and match features from each.
+Ao contrário de Sistemas de Controle de Versão Centralizados (CVCSs), a natureza distribuída do Git lhe permite ser muito mais flexível na forma como os desenvolvedores podem colaborar em projetos. Nos sistemas centralizados, cada desenvolvedor é um nó trabalhando de forma mais ou menos igual em um hub (centralizador). No Git, no entanto, cada desenvolvedor é potencialmente nó e hub — ou seja, cada desenvolvedor pode contribuir com código para outros repositórios e ao mesmo tempo pode manter um repositório público em que outros podem basear seu trabalho e que eles podem contribuir. Isso abre uma vasta gama de possibilidades de fluxo de trabalho para o seu projeto e sua equipe, então eu vou cobrir alguns paradigmas mais comuns que se aproveitam dessa flexibilidade. Vou passar as vantagens e possíveis desvantagens de cada configuração, você pode escolher uma para usar ou combinar características de cada uma.
 
-### Centralized Workflow ###
+### Fluxo de Trabalho Centralizado ###
 
-In centralized systems, there is generally a single collaboration model—the centralized workflow. One central hub, or repository, can accept code, and everyone synchronizes their work to it. A number of developers are nodes — consumers of that hub — and synchronize to that one place (see Figure 5-1).
+Com sistemas centralizados normalmente há apenas um modelo de colaboração, centralizado. Um hub central, ou repositório, pode aceitar o código, e todos sincronizam o seu trabalho com ele. Vários desenvolvedores são nós — consumidores do hub — e sincronizam em um lugar único (ver Figura 5-1).
 
-Insert 18333fig0501.png 
-Figure 5-1. Centralized workflow
+Insert 18333fig0501.png
+Figura 5-1. Fluxo de Trabalho Centralizado.
 
-This means that if two developers clone from the hub and both make changes, the first developer to push their changes back up can do so with no problems. The second developer must merge in the first one’s work before pushing changes up, so as not to overwrite the first developer’s changes. This concept is true in Git as it is in Subversion (or any CVCS), and this model works perfectly in Git.
+Isto significa que se dois desenvolvedores clonam o hub e ambos fazem alterações, o primeiro desenvolvedor a dar push de suas alterações pode fazê-lo sem problemas. O segundo desenvolvedor deve fazer merge do trabalho do primeiro antes de dar push, de modo a não substituir as alterações do primeiro desenvolvedor. Isso vale para o Git assim como o Subversion (ou qualquer CVCS), e este modelo funciona perfeitamente no Git.
 
-If you have a small team or are already comfortable with a centralized workflow in your company or team, you can easily continue using that workflow with Git. Simply set up a single repository, and give everyone on your team push access; Git won’t let users overwrite each other. If one developer clones, makes changes, and then tries to push their changes while another developer has pushed in the meantime, the server will reject that developer’s changes. They will be told that they’re trying to push non-fast-forward changes and that they won’t be able to do so until they fetch and merge.
-This workflow is attractive to a lot of people because it’s a paradigm that many are familiar and comfortable with.
+Se você tem uma equipe pequena ou se já estão confortáveis com um fluxo de trabalho centralizado em sua empresa ou equipe, você pode facilmente continuar usando esse fluxo de trabalho com o Git. Basta criar um único repositório, e dar a todos em sua equipe acesso para dar push; o Git não deixará os usuários sobrescreverem uns aos outros. Se um desenvolvedor clona, faz alterações, e depois tenta dar push enquanto outro desenvolvedor já deu push com novas alterações nesse meio tempo, o servidor irá rejeitar as novas alterações. Ele será informado que está tentando dar push que não permite fast-forward (avanço rápido) e que não será capaz de fazê-lo até que baixe as últimas alterações e faça merge.
+Esse fluxo de trabalho é atraente para muita gente porque é um paradigma que muitos estão familiarizados e confortáveis.
 
-### Integration-Manager Workflow ###
+### Fluxo de Trabalho do Gerente de Integração ###
 
-Because Git allows you to have multiple remote repositories, it’s possible to have a workflow where each developer has write access to their own public repository and read access to everyone else’s. This scenario often includes a canonical repository that represents the "official" project. To contribute to that project, you create your own public clone of the project and push your changes to it. Then, you can send a request to the maintainer of the main project to pull in your changes. They can add your repository as a remote, test your changes locally, merge them into their branch, and push back to their repository. The process works as follow (see Figure 5-2):
+Como o Git permite que você tenha múltiplos repositórios remotos, é possível ter um fluxo de trabalho onde cada desenvolvedor tem acesso de escrita a seu próprio repositório público e acesso de leitura a todos os outros. Este cenário, muitas vezes inclui um repositório canônico que representa o projeto "oficial". Para contribuir com esse projeto, você cria o seu próprio clone público do projeto e guarda suas alterações nele. Depois, você pode enviar uma solicitação para o responsável do projeto principal para puxar as suas alterações. Eles podem adicionar o repositório como um repositório remoto, testar localmente as suas alterações, fazer merge em um branch e propagá-las para o repositório principal. O processa funciona da seguinte maneira (veja Figura 5-2):
 
-1.	The project maintainer pushes to their public repository.
-2.	A contributor clones that repository and makes changes.
-3.	The contributor pushes to their own public copy.
-4.	The contributor sends the maintainer an e-mail asking them to pull changes.
-5.	The maintainer adds the contributor’s repo as a remote and merges locally.
-6.	The maintainer pushes merged changes to the main repository.
+1. O mantenedor do projeto propaga as alterações para seu repositório público.
+2. O desenvolvedor clona o repositório e faz alterações.
+3. O desenvolvedor dá push das alterações para sua própria cópia pública.
+4. O desenvolvedor envia um e-mail pedindo para o mantenedor puxar as alterações (pull request).
+5. O mantenedor adiciona o repositório do desenvolvedor como um repositório remoto e faz merge das alterações localmente.
+6. O mantenedor dá push das alterações mescladas para o repositório principal.
 
-Insert 18333fig0502.png 
-Figure 5-2. Integration-manager workflow
+Insert 18333fig0502.png
+Figura 5-2. Fluxo de trabalho de Gerente de Integração.
 
-This is a very common workflow with sites like GitHub, where it’s easy to fork a project and push your changes into your fork for everyone to see. One of the main advantages of this approach is that you can continue to work, and the maintainer of the main repository can pull in your changes at any time. Contributors don’t have to wait for the project to incorporate their changes — each party can work at their own pace.
+Este é um fluxo de trabalho muito comum em sites como GitHub, onde é fácil de fazer uma fork (forquilha ou bifurcação, porque o histórico não-linear é uma árvore) de um projeto e dar push das suas alterações para que todos possam ver. Uma das principais vantagens desta abordagem é que você pode continuar a trabalhar, e o mantenedor do repositório principal pode puxar as alterações a qualquer momento. Desenvolvedores não tem que esperar o projeto incorporar as suas mudanças — cada um pode trabalhar em seu próprio ritmo.
 
-### Dictator and Lieutenants Workflow ###
+### Fluxo de Trabalho de Ditador e Tenentes ###
 
-This is a variant of a multiple-repository workflow. It’s generally used by huge projects with hundreds of collaborators; one famous example is the Linux kernel. Various integration managers are in charge of certain parts of the repository; they’re called lieutenants. All the lieutenants have one integration manager known as the benevolent dictator. The benevolent dictator’s repository serves as the reference repository from which all the collaborators need to pull. The process works like this (see Figure 5-3):
+Esta é uma variante de um fluxo de trabalho de múltiplos repositórios. É geralmente usado por grandes projetos com centenas de colaboradores. Um exemplo famoso é o kernel do Linux. Vários gerentes de integração são responsáveis ​​por certas partes do repositório, eles são chamados tenentes (liutenants). Todos os tenentes têm um gerente de integração conhecido como o ditador benevolente (benevolent dictator). O repositório do ditador benevolente serve como repositório de referência a partir do qual todos os colaboradores devem se basear. O processo funciona assim (veja Figura 5-3):
 
-1.	Regular developers work on their topic branch and rebase their work on top of master. The master branch is that of the dictator.
-2.	Lieutenants merge the developers’ topic branches into their master branch.
-3.	The dictator merges the lieutenants’ master branches into the dictator’s master branch.
-4.	The dictator pushes their master to the reference repository so the other developers can rebase on it.
+1. Desenvolvedores regulares trabalham em seu topic branch e baseiam seu trabalho sobre o `master`. O branch `master` é o do ditador.
+2. Tenentes fazem merge dos topic branches dos desenvolvedores em seus `master`.
+3. O ditador faz merge dos branches `master` dos tenentes em seu branch `master`.
+4. O ditador dá push das alterações de seu `master` para o repositório de referência para que os desenvolvedores possam fazer rebase em cima dele.
 
-Insert 18333fig0503.png  
-Figure 5-3. Benevolent dictator workflow
+Insert 18333fig0503.png
+Figura 5-3. Fluxo de Trabalho do Ditador Benevolente.
 
-This kind of workflow isn’t common but can be useful in very big projects or in highly hierarchical environments, because as it allows the project leader (the dictator) to delegate much of the work and collect large subsets of code at multiple points before integrating them.
+Este tipo de fluxo de trabalho não é comum, mas pode ser útil em projetos muito grandes ou em ambientes altamente hierárquicos, porque ele permite ao líder do projeto (o ditador) delegar grande parte do trabalho e recolher grandes subconjuntos do código em vários pontos antes de integrar eles.
 
-These are some commonly used workflows that are possible with a distributed system like Git, but you can see that many variations are possible to suit your particular real-world workflow. Now that you can (I hope) determine which workflow combination may work for you, I’ll cover some more specific examples of how to accomplish the main roles that make up the different flows.
+Estes são alguns fluxos de trabalho comumente utilizados que são possíveis com um sistema distribuído como Git, mas você pode ver que muitas variações são possíveis para se adequar ao seu fluxo de trabalho particular. Agora que você pode (espero eu) determinar qual a combinação de fluxo de trabalho pode funcionar para você, eu vou cobrir alguns exemplos mais específicos de como realizar os principais papéis que compõem os diferentes fluxos.
 
-## Contributing to a Project ##
+## Contribuindo Para Um Projeto ##
 
-You know what the different workflows are, and you should have a pretty good grasp of fundamental Git usage. In this section, you’ll learn about a few common patterns for contributing to a project.
+Você conhece os diferentes fluxos de trabalho que existem, e você deve ter um conhecimento muito bom do uso essencial do Git. Nesta seção, você aprenderá sobre alguns protocolos comuns para contribuir para um projeto.
 
-The main difficulty with describing this process is that there are a huge number of variations on how it’s done. Because Git is very flexible, people can and do work together many ways, and it’s problematic to describe how you should contribute to a project — every project is a bit different. Some of the variables involved are active contributor size, chosen workflow, your commit access, and possibly the external contribution method.
+A principal dificuldade em descrever este processo é o grande número de variações sobre a forma como ele é feito. Porque Git é muito flexível, as pessoas podem e trabalham juntos de muitas maneiras diferentes, é problemático descrever como você deve contribuir com um projeto — cada projeto é um pouco diferente. Algumas das variáveis ​​envolvidas são o tamanho da base de contribuintes ativos, fluxo de trabalho escolhido, permissões e possivelmente o método de contribuição externa.
 
-The first variable is active contributor size. How many users are actively contributing code to this project, and how often? In many instances, you’ll have two or three developers with a few commits a day, or possibly less for somewhat dormant projects. For really large companies or projects, the number of developers could be in the thousands, with dozens or even hundreds of patches coming in each day. This is important because with more and more developers, you run into more issues with making sure your code applies cleanly or can be easily merged. Changes you submit may be rendered obsolete or severely broken by work that is merged in while you were working or while your changes were waiting to be approved or applied. How can you keep your code consistently up to date and your patches valid?
+A primeira variável é o tamanho da base de contribuintes ativos. Quantos usuários estão ativamente contribuindo código para este projeto, e com que frequência? Em muitos casos, você tem dois ou três desenvolvedores com alguns commits por dia ou menos ainda em projetos mais adormecidos. Para as empresas ou projetos realmente grandes, o número de desenvolvedores poderia ser na casa dos milhares, com dezenas ou mesmo centenas de patches chegando todo dia. Isto é importante porque, com mais e mais desenvolvedores, você encontra mais problemas para assegurar que seu código se aplica corretamente ou pode ser facilmente incorporado. As alterações que você faz poderão se tornar obsoletas ou severamente danificadas pelo trabalho que foi incorporado enquanto você estava trabalhando ou quando as alterações estavam esperando para ser aprovadas e aplicadas. Como você pode manter o seu código consistentemente atualizado e suas correções válidas?
 
-The next variable is the workflow in use for the project. Is it centralized, with each developer having equal write access to the main codeline? Does the project have a maintainer or integration manager who checks all the patches? Are all the patches peer-reviewed and approved? Are you involved in that process? Is a lieutenant system in place, and do you have to submit your work to them first?
+A próxima variável é o fluxo de trabalho em uso para o projeto. É centralizado, com cada desenvolvedor tendo acesso igual de escrita ao repositório principal? O projeto tem um mantenedor ou gerente de integração que verifica todos os patches? Todos os patches são revisados e aprovados? Você está envolvido nesse processo? Há um sistema de tenentes, e você tem que enviar o seu trabalho a eles?
 
-The next issue is your commit access. The workflow required in order to contribute to a project is much different if you have write access to the project than if you don’t. If you don’t have write access, how does the project prefer to accept contributed work? Does it even have a policy? How much work are you contributing at a time? How often do you contribute?
+A questão seguinte é o seu acesso de commit. O fluxo de trabalho necessário para contribuir para um projeto é muito diferente se você tiver acesso de gravação para o projeto do que se você não tiver. Se você não tem acesso de gravação, como é que o projeto prefere aceitar contribuições? Há uma política sobre essa questão? Quanto trabalho você contribui de cada vez? Com que frequência você contribui?
 
-All these questions can affect how you contribute effectively to a project and what workflows are preferred or available to you. I’ll cover aspects of each of these in a series of use cases, moving from simple to more complex; you should be able to construct the specific workflows you need in practice from these examples.
+Todas estas questões podem afetar a forma que você contribui para um projeto e quais fluxos de trabalho são melhores para você. Falarei sobre os aspectos de cada um deles em uma série de casos de uso, movendo-se do mais simples ao mais complexo, você deve ser capaz de construir os fluxos de trabalho específicos que você precisa na prática a partir desses exemplos.
 
-### Commit Guidelines ###
+### Diretrizes de Commit ###
 
-Before you start looking at the specific use cases, here’s a quick note about commit messages. Having a good guideline for creating commits and sticking to it makes working with Git and collaborating with others a lot easier. The Git project provides a document that lays out a number of good tips for creating commits from which to submit patches — you can read it in the Git source code in the `Documentation/SubmittingPatches` file.
+Antes de você começar a olhar para os casos de uso específicos, aqui está uma breve nota sobre as mensagens de commit. Ter uma boa orientação para a criação de commits e aderir a ela torna o trabalho com Git e a colaboração com os demais muito mais fácil. O projeto Git fornece um documento que estabelece uma série de boas dicas para a criação de commits para submeter patches — você pode lê-lo no código-fonte do Git no arquivo `Documentation/SubmittingPatches`.
 
-First, you don’t want to submit any whitespace errors. Git provides an easy way to check for this — before you commit, run `git diff --check`, which identifies possible whitespace errors and lists them for you. Here is an example, where I’ve replaced a red terminal color with `X`s:
+Primeiro, você não quer submeter nenhum problema de espaços em branco (whitespace errors). Git oferece uma maneira fácil de verificar isso — antes de fazer commit, execute `git diff --check` para listar possíveis problemas de espaços em branco. Aqui está um exemplo, onde a cor vermelha no terminal foi substituída por `X`s:
 
-	$ git diff --check
-	lib/simplegit.rb:5: trailing whitespace.
-	+    @git_dir = File.expand_path(git_dir)XX
-	lib/simplegit.rb:7: trailing whitespace.
-	+ XXXXXXXXXXX
-	lib/simplegit.rb:26: trailing whitespace.
-	+    def command(git_cmd)XXXX
+    $ git diff --check
+    lib/simplegit.rb:5: trailing whitespace.
+    +    @git_dir = File.expand_path(git_dir)XX
+    lib/simplegit.rb:7: trailing whitespace.
+    + XXXXXXXXXXX
+    lib/simplegit.rb:26: trailing whitespace.
+    +    def command(git_cmd)XXXX
 
-If you run that command before committing, you can tell if you’re about to commit whitespace issues that may annoy other developers.
+Se você executar esse comando antes de fazer commit, você pode dizer se você está prestes a fazer commit com problemas de espaços em branco que pode incomodar outros desenvolvedores.
 
-Next, try to make each commit a logically separate changeset. If you can, try to make your changes digestible — don’t code for a whole weekend on five different issues and then submit them all as one massive commit on Monday. Even if you don’t commit during the weekend, use the staging area on Monday to split your work into at least one commit per issue, with a useful message per commit. If some of the changes modify the same file, try to use `git add --patch` to partially stage files (covered in detail in Chapter 6). The project snapshot at the tip of the branch is identical whether you do one commit or five, as long as all the changes are added at some point, so try to make things easier on your fellow developers when they have to review your changes. This approach also makes it easier to pull out or revert one of the changesets if you need to later. Chapter 6 describes a number of useful Git tricks for rewriting history and interactively staging files — use these tools to help craft a clean and understandable history.
+Em seguida, tente fazer de cada commit um conjunto de mudanças (changeset) logicamente separado. Se você puder, tente fazer suas alterações fáceis de lidar — não fique programando um fim de semana inteiro para resolver cinco problemas diferentes e então fazer um commit maciço com todas as alterações na segunda-feira. Mesmo se você não faça commits durante o fim de semana, use a "staging area" na segunda-feira para dividir o seu trabalho em pelo menos um commit por problema, com uma mensagem útil em cada commit. Se algumas das alterações modificarem o mesmo arquivo, tente usar `git add --patch` para preparar partes de arquivos (coberto em detalhes no *Capítulo 6*). O snapshot do projeto no final do branch é idêntico se você fizer um ou cinco commits, desde que todas as mudanças tenham sido adicionadas em algum momento. Então tente tornar as coisas mais fáceis para seus colegas desenvolvedores quando eles tiverem que revisar as suas alterações. Essa abordagem também torna mais fácil puxar ou reverter algum dos changesets se você precisar mais tarde. O *Capítulo 6* descreve uma série de truques úteis do Git para reescrever o histórico e adicionar as alterações de forma interativa — use essas ferramentas para ajudar a construir um histórico limpo e compreensível.
 
-The last thing to keep in mind is the commit message. Getting in the habit of creating quality commit messages makes using and collaborating with Git a lot easier. As a general rule, your messages should start with a single line that’s no more than about 50 characters and that describes the changeset concisely, followed by a blank line, followed by a more detailed explanation. The Git project requires that the more detailed explanation include your motivation for the change and contrast its implementation with previous behavior — this is a good guideline to follow. It’s also a good idea to use the imperative present tense in these messages. In other words, use commands. Instead of "I added tests for" or "Adding tests for," use "Add tests for."
-Here is a template originally written by Tim Pope at tpope.net:
+Uma última coisa que precisamos ter em mente é a mensagem de commit. Adquirir o hábito de criar mensagens de commit de qualidade torna o uso e colaboração com Git muito mais fácil. Como regra geral, as suas mensagens devem começar com uma única linha com não mais que cerca de 50 caracteres e que descreve o changeset de forma concisa, seguido por uma linha em branco e uma explicação mais detalhada. O projeto Git exige que a explicação mais detalhada inclua a sua motivação para a mudança e que contraste a sua implementação com o comportamento anterior — esta é uma boa orientação a seguir. Também é uma boa ideia usar o tempo verbal presente da segunda pessoa nestas mensagens. Em outras palavras, utilizar comandos. Ao invés de "Eu adicionei testes para" ou "Adicionando testes para", usar "Adiciona testes para". Esse é um modelo originalmente escrito por Tim Pope em `tpope.net`:
 
-	Short (50 chars or less) summary of changes
+    Breve (50 caracteres ou menos) resumo das mudanças
 
-	More detailed explanatory text, if necessary.  Wrap it to about 72
-	characters or so.  In some contexts, the first line is treated as the
-	subject of an email and the rest of the text as the body.  The blank
-	line separating the summary from the body is critical (unless you omit
-	the body entirely); tools like rebase can get confused if you run the
-	two together.
+    Texto explicativo mais detalhado, se necessário. Separe em linhas de
+    72 caracteres ou menos. Em alguns contextos a primeira linha é
+    tratada como assunto do e-mail e o resto como corpo. A linha em branco
+    separando o resumo do corpo é crítica (a não ser que o corpo não seja
+    incluído); ferramentas como rebase podem ficar confusas se você usar
+    os dois colados.
 
-	Further paragraphs come after blank lines.
+    Parágrafos adicionais vem após linhas em branco.
 
-	 - Bullet points are okay, too
+     - Tópicos também podem ser usados
 
-	 - Typically a hyphen or asterisk is used for the bullet, preceded by a
-	   single space, with blank lines in between, but conventions vary here
+     - Tipicamente um hífen ou asterisco é utilizado para marcar tópicos,
+       precedidos de um espaço único, com linhas em branco entre eles, mas
+       convenções variam nesse item
 
-If all your commit messages look like this, things will be a lot easier for you and the developers you work with. The Git project has well-formatted commit messages — I encourage you to run `git log --no-merges` there to see what a nicely formatted project-commit history looks like.
+Se todas as suas mensagens de commit parecerem com essa, as coisas serão bem mais fáceis para você e para os desenvolvedores que trabalham com você. O projeto Git tem mensagens de commit bem formatadas — eu encorajo você a executar `git log --no-merges` lá para ver como um histórico de commits bem formatados se parece.
 
-In the following examples, and throughout most of this book, for the sake of brevity I don’t format messages nicely like this; instead, I use the `-m` option to `git commit`. Do as I say, not as I do.
+Nos exemplos a seguir e durante a maior parte desse livro, para ser breve eu não formatarei mensagens dessa forma; em vez disso eu usarei a opção `-m` em `git commit`. Faça como eu digo, não faça como eu faço.
 
-### Private Small Team ###
+### Pequena Equipe Privada ###
 
-The simplest setup you’re likely to encounter is a private project with one or two other developers. By private, I mean closed source — not read-accessible to the outside world. You and the other developers all have push access to the repository.
+A configuração mais simples que você encontrará é um projeto privado com um ou dois desenvolvedores. Por privado, eu quero dizer código fechado — não acessível para o mundo de fora. Você e os outros desenvolvedores todos têm acesso para dar push de alterações para o repositório.
 
-In this environment, you can follow a workflow similar to what you might do when using Subversion or another centralized system. You still get the advantages of things like offline committing and vastly simpler branching and merging, but the workflow can be very similar; the main difference is that merges happen client-side rather than on the server at commit time.
-Let’s see what it might look like when two developers start to work together with a shared repository. The first developer, John, clones the repository, makes a change, and commits locally. (I’m replacing the protocol messages with `...` in these examples to shorten them somewhat.)
+Nesse ambiente, você pode seguir um fluxo de trabalho similar ao que você usaria com Subversion ou outro sistema centralizado. Você ainda tem as vantagens de coisas como commit offline e facilidade de lidar com branches e merges, mas o fluxo de trabalho pode ser bastante similar; a principal diferença é que merges acontecem no lado do cliente ao invés de no servidor durante o commit. Vamos ver como isso fica quando dois desenvolvedores começam a trabalhar juntos com um repositório compartilhado. O primeiro desenvolvedor, John, clona o repositório, faz alterações e realiza o commit localmente. (Eu estou substituindo as mensagens de protocolo com `...` nesses exemplos para diminuí-los um pouco)
 
-	# John's Machine
-	$ git clone john@githost:simplegit.git
-	Initialized empty Git repository in /home/john/simplegit/.git/
-	...
-	$ cd simplegit/
-	$ vim lib/simplegit.rb 
-	$ git commit -am 'removed invalid default value'
-	[master 738ee87] removed invalid default value
-	 1 files changed, 1 insertions(+), 1 deletions(-)
+    # Máquina do John
+    $ git clone john@githost:simplegit.git
+    Initialized empty Git repository in /home/john/simplegit/.git/
+    ...
+    $ cd simplegit/
+    $ vim lib/simplegit.rb
+    $ git commit -am 'removed invalid default value'
+    [master 738ee87] removed invalid default value
+     1 files changed, 1 insertions(+), 1 deletions(-)
 
-The second developer, Jessica, does the same thing — clones the repository and commits a change:
+O segundo desenvolvedor, Jessica, faz a mesma coisa — clona o repositório e faz um commit:
 
-	# Jessica's Machine
-	$ git clone jessica@githost:simplegit.git
-	Initialized empty Git repository in /home/jessica/simplegit/.git/
-	...
-	$ cd simplegit/
-	$ vim TODO 
-	$ git commit -am 'add reset task'
-	[master fbff5bc] add reset task
-	 1 files changed, 1 insertions(+), 0 deletions(-)
+    # Máquina da Jessica
+    $ git clone jessica@githost:simplegit.git
+    Initialized empty Git repository in /home/jessica/simplegit/.git/
+    ...
+    $ cd simplegit/
+    $ vim TODO
+    $ git commit -am 'add reset task'
+    [master fbff5bc] add reset task
+     1 files changed, 1 insertions(+), 0 deletions(-)
 
-Now, Jessica pushes her work up to the server:
+Agora, Jessica dá push do trabalho dela para o servidor:
 
-	# Jessica's Machine
-	$ git push origin master
-	...
-	To jessica@githost:simplegit.git
-	   1edee6b..fbff5bc  master -> master
+    # Máquina da Jessica
+    $ git push origin master
+    ...
+    To jessica@githost:simplegit.git
+       1edee6b..fbff5bc  master -> master
 
-John tries to push his change up, too:
+John tenta dar push de suas alterações também:
 
-	# John's Machine
-	$ git push origin master
-	To john@githost:simplegit.git
-	 ! [rejected]        master -> master (non-fast forward)
-	error: failed to push some refs to 'john@githost:simplegit.git'
+    # Máquina do John
+    $ git push origin master
+    To john@githost:simplegit.git
+     ! [rejected]        master -> master (non-fast forward)
+    error: failed to push some refs to 'john@githost:simplegit.git'
 
-John isn’t allowed to push because Jessica has pushed in the meantime. This is especially important to understand if you’re used to Subversion, because you’ll notice that the two developers didn’t edit the same file. Although Subversion automatically does such a merge on the server if different files are edited, in Git you must merge the commits locally. John has to fetch Jessica’s changes and merge them in before he will be allowed to push:
+John não consegue dar push porque Jessica deu push de outras alterações nesse meio tempo. Isso é especialmente importante de entender se você está acostumado com Subversion porque você irá perceber que dois desenvolvedores não editaram o mesmo arquivo. Enquanto o Subversion faz merge automaticamente no servidor se duas pessoas não editarem o mesmo arquivo, no Git você deve sempre fazer merge dos commits localmente. John tem que baixar as alterações de Jessica e fazer merge antes de poder dar push das alterações:
 
-	$ git fetch origin
-	...
-	From john@githost:simplegit
-	 + 049d078...fbff5bc master     -> origin/master
+    $ git fetch origin
+    ...
+    From john@githost:simplegit
+     + 049d078...fbff5bc master     -> origin/master
 
-At this point, John’s local repository looks something like Figure 5-4.
+Nesse ponto, o repositório local de John se parece com a Figura 5-4.
 
-Insert 18333fig0504.png 
-Figure 5-4. John’s initial repository
+Insert 18333fig0504.png
+Figura 5-4. Repositório inicial de John.
 
-John has a reference to the changes Jessica pushed up, but he has to merge them into his own work before he is allowed to push:
+John tem uma referência para as alterações que Jessica fez, mas ele tem que fazer merge com seu próprio trabalho para poder dar push das suas próprias alterações:
 
-	$ git merge origin/master
-	Merge made by recursive.
-	 TODO |    1 +
-	 1 files changed, 1 insertions(+), 0 deletions(-)
+    $ git merge origin/master
+    Merge made by recursive.
+     TODO |    1 +
+     1 files changed, 1 insertions(+), 0 deletions(-)
 
-The merge goes smoothly — John’s commit history now looks like Figure 5-5.
+O merge funciona — o histórico de commits do John agora se parece com a Figura 5-5.
 
-Insert 18333fig0505.png 
-Figure 5-5. John’s repository after merging origin/master
+Insert 18333fig0505.png
+Figura 5-5. Repositório do John depois de fazer merge em `origin/master`.
 
-Now, John can test his code to make sure it still works properly, and then he can push his new merged work up to the server:
+Agora John pode testar seu código para ter certeza que ele ainda funciona, e então ele pode dar push de seu novo trabalho mesclado para o servidor:
 
-	$ git push origin master
-	...
-	To john@githost:simplegit.git
-	   fbff5bc..72bbc59  master -> master
+    $ git push origin master
+    ...
+    To john@githost:simplegit.git
+       fbff5bc..72bbc59  master -> master
 
-Finally, John’s commit history looks like Figure 5-6.
+Finalmente, o histórico de commits de John se parece com a Figura 5-6.
 
-Insert 18333fig0506.png 
-Figure 5-6. John’s history after pushing to the origin server
+Insert 18333fig0506.png
+Figura 5-6. O histórico de John depois de ter dado push para o servidor de origem (remote `origin`).
 
-In the meantime, Jessica has been working on a topic branch. She’s created a topic branch called `issue54` and done three commits on that branch. She hasn’t fetched John’s changes yet, so her commit history looks like Figure 5-7.
+Nesse meio tempo, Jessica tem trabalhado em um "topic branch". Ela criou um "topic branch" chamado `issue54` e fez três commits naquele branch. Ela não baixou as alterações de John ainda, então o histórico de commits dela se parece com a Figura 5-7.
 
-Insert 18333fig0507.png 
-Figure 5-7. Jessica’s initial commit history
+Insert 18333fig0507.png
+Figura 5-7. Histórico inicial de commits de Jessica.
 
-Jessica wants to sync up with John, so she fetches:
+Jessica quer sincronizar com John, então ela faz fetch:
 
-	# Jessica's Machine
-	$ git fetch origin
-	...
-	From jessica@githost:simplegit
-	   fbff5bc..72bbc59  master     -> origin/master
+    # Máquina da Jessica
+    $ git fetch origin
+    ...
+    From jessica@githost:simplegit
+       fbff5bc..72bbc59  master     -> origin/master
 
-That pulls down the work John has pushed up in the meantime. Jessica’s history now looks like Figure 5-8.
+Isso baixa o trabalho que John tinha empurrado (push). o histórico de Jessica agora se parece com a Figura 5-8.
 
-Insert 18333fig0508.png 
-Figure 5-8. Jessica’s history after fetching John’s changes
+Insert 18333fig0508.png
+Figura 5-8. O histórico de Jessica depois de baixar as alterações de John.
 
-Jessica thinks her topic branch is ready, but she wants to know what she has to merge her work into so that she can push. She runs `git log` to find out:
+Jessica pensa que seu "topic branch" está pronto, mas ela quer saber com o que ela precisa fazer merge para poder dar push de seu trabalho. Ela executa `git log` para descobrir:
 
-	$ git log --no-merges origin/master ^issue54
-	commit 738ee872852dfaa9d6634e0dea7a324040193016
-	Author: John Smith <jsmith@example.com>
-	Date:   Fri May 29 16:01:27 2009 -0700
+    $ git log --no-merges origin/master ^issue54
+    commit 738ee872852dfaa9d6634e0dea7a324040193016
+    Author: John Smith <jsmith@example.com>
+    Date:   Fri May 29 16:01:27 2009 -0700
 
-	    removed invalid default value
+        removed invalid default value
 
-Now, Jessica can merge her topic work into her master branch, merge John’s work (`origin/master`) into her `master` branch, and then push back to the server again. First, she switches back to her master branch to integrate all this work:
+Agora, Jessica pode fazer merge de seu topic branch no branch `master`, fazer merge do trabalho de John (`origin/master`) em seu branch `master` e finalmente dar push para o servidor. Primeiro, ela troca para o seu branch `master` para integrar todo esse trabalho:
 
-	$ git checkout master
-	Switched to branch "master"
-	Your branch is behind 'origin/master' by 2 commits, and can be fast-forwarded.
+    $ git checkout master
+    Switched to branch "master"
+    Your branch is behind 'origin/master' by 2 commits, and can be fast-forwarded.
 
-She can merge either `origin/master` or `issue54` first — they’re both upstream, so the order doesn’t matter. The end snapshot should be identical no matter which order she chooses; only the history will be slightly different. She chooses to merge in `issue54` first:
+Ela pode fazer merge de `origin/master` ou `issue54` primeiro — ambos são upstream (atualizados), então a ordem não importa. O snapshot final deve ser idêntico, não importa a ordem que ela escolher; apenas o histórico será levemente diferente. Ela escolhe fazer merge de `issue54` primeiro:
 
-	$ git merge issue54
-	Updating fbff5bc..4af4298
-	Fast forward
-	 README           |    1 +
-	 lib/simplegit.rb |    6 +++++-
-	 2 files changed, 6 insertions(+), 1 deletions(-)
+    $ git merge issue54
+    Updating fbff5bc..4af4298
+    Fast forward
+     README           |    1 +
+     lib/simplegit.rb |    6 +++++-
+     2 files changed, 6 insertions(+), 1 deletions(-)
 
-No problems occur; as you can see it, was a simple fast-forward. Now Jessica merges in John’s work (`origin/master`):
+Não acontece nenhum problema; como você pode ver, foi um simples fast-forward. Agora Jessica faz merge do trabalho de John (`origin/master`):
 
-	$ git merge origin/master
-	Auto-merging lib/simplegit.rb
-	Merge made by recursive.
-	 lib/simplegit.rb |    2 +-
-	 1 files changed, 1 insertions(+), 1 deletions(-)
+    $ git merge origin/master
+    Auto-merging lib/simplegit.rb
+    Merge made by recursive.
+     lib/simplegit.rb |    2 +-
+     1 files changed, 1 insertions(+), 1 deletions(-)
 
-Everything merges cleanly, and Jessica’s history looks like Figure 5-9.
+Tudo mesclou perfeitamente, e o histórico de Jessica agora se parece com a Figura 5-9.
 
-Insert 18333fig0509.png 
-Figure 5-9. Jessica’s history after merging John’s changes
+Insert 18333fig0509.png
+Figura 5-9. O histórico de Jessica depois de mesclar as alterações de John.
 
-Now `origin/master` is reachable from Jessica’s `master` branch, so she should be able to successfully push (assuming John hasn’t pushed again in the meantime):
+Agora `origin/master` é acessível através do branch `master` de Jessica, então ela pode perfeitamente dar push (assumindo que John não deu push com novas alterações nesse meio tempo):
 
-	$ git push origin master
-	...
-	To jessica@githost:simplegit.git
-	   72bbc59..8059c15  master -> master
+    $ git push origin master
+    ...
+    To jessica@githost:simplegit.git
+       72bbc59..8059c15  master -> master
 
-Each developer has committed a few times and merged each other’s work successfully; see Figure 5-10.
+Cada desenvolvedor fez alguns commits e integrou o trabalho do outro com sucesso; veja Figura 5-10.
 
-Insert 18333fig0510.png 
-Figure 5-10. Jessica’s history after pushing all changes back to the server
+Insert 18333fig0510.png
+Figura 5-10. O histórico de Jessica depois de dar push para o servidor.
 
-That is one of the simplest workflows. You work for a while, generally in a topic branch, and merge into your master branch when it’s ready to be integrated. When you want to share that work, you merge it into your own master branch, then fetch and merge `origin/master` if it has changed, and finally push to the `master` branch on the server. The general sequence is something like that shown in Figure 5-11.
+Esse é um dos fluxos de trabalho mais simples. Você trabalha um pouco, geralmente em um topic branch, e faz merge em seu branch `master` quando ele estiver pronto para ser integrado. Quando você quiser compartilhar seu trabalho, você faz merge em seu próprio branch `master`, baixa as últimas alterações do servidor com fetch e faz merge de `origin/master` se tiver sido alterado, e então dá push para o branch `master` no servidor. A ordem é semelhante ao mostrado na Figura 5-11.
 
-Insert 18333fig0511.png 
-Figure 5-11. General sequence of events for a simple multiple-developer Git workflow
+Insert 18333fig0511.png
+Figura 5-11. Sequencia geral dos eventos para um fluxo de trabalho simples para Git com múltiplos desenvolvedores.
 
-### Private Managed Team ###
+### Equipe Privada Gerenciada ###
 
-In this next scenario, you’ll look at contributor roles in a larger private group. You’ll learn how to work in an environment where small groups collaborate on features and then those team-based contributions are integrated by another party.
+Nesse cenário, você verá os papéis de contribuinte em grupo privado maior. Você aprenderá como trabalhar em um ambiente onde pequenos grupos colaboram em funcionalidades e então essas contribuições por equipe são integradas por outro grupo.
 
-Let’s say that John and Jessica are working together on one feature, while Jessica and Josie are working on a second. In this case, the company is using a type of integration-manager workflow where the work of the individual groups is integrated only by certain engineers, and the `master` branch of the main repo can be updated only by those engineers. In this scenario, all work is done in team-based branches and pulled together by the integrators later.
+Vamos dizer que John e Jessica estão trabalhando juntos em uma funcionalidade, enquanto Jessica e Josie estão trabalhando em outra. Nesse caso a empresa está usando um fluxo de trabalho com um gerente de integração onde o trabalho de cada grupo é integrado por apenas alguns engenheiros e o branch `master` do repositório principal pode ser atualizado apenas por esses engenheiros. Nesse cenário, todo o trabalho é feito em equipe e atualizado junto pelos integradores.
 
-Let’s follow Jessica’s workflow as she works on her two features, collaborating in parallel with two different developers in this environment. Assuming she already has her repository cloned, she decides to work on `featureA` first. She creates a new branch for the feature and does some work on it there:
+Vamos seguir o fluxo de trabalho de Jessica enquanto ela trabalha em suas duas funcionalidades, colaborando em paralelo com dois desenvolvedores diferentes nesse ambiente. Assumindo que ela já clonou seu repositório, ela decide trabalhar no `featureA` primeiro. Ela cria o novo branch para a funcionalidade e faz algum trabalho lá:
 
-	# Jessica's Machine
-	$ git checkout -b featureA
-	Switched to a new branch "featureA"
-	$ vim lib/simplegit.rb
-	$ git commit -am 'add limit to log function'
-	[featureA 3300904] add limit to log function
-	 1 files changed, 1 insertions(+), 1 deletions(-)
+    # Máquina da Jessica
+    $ git checkout -b featureA
+    Switched to a new branch "featureA"
+    $ vim lib/simplegit.rb
+    $ git commit -am 'add limit to log function'
+    [featureA 3300904] add limit to log function
+     1 files changed, 1 insertions(+), 1 deletions(-)
 
-At this point, she needs to share her work with John, so she pushes her `featureA` branch commits up to the server. Jessica doesn’t have push access to the `master` branch — only the integrators do — so she has to push to another branch in order to collaborate with John:
+Nesse ponto, ela precisa compartilhar seu trabalho com John, então ela dá push dos commits de seu branch `featureA` para o servidor. Jessica não tem acesso para dar push no branch `master` — apenas os integradores tem — então ela dá push das alterações para outro branch para poder colaborar com John:
 
-	$ git push origin featureA
-	...
-	To jessica@githost:simplegit.git
-	 * [new branch]      featureA -> featureA
+    $ git push origin featureA
+    ...
+    To jessica@githost:simplegit.git
+     * [new branch]      featureA -> featureA
 
-Jessica e-mails John to tell him that she’s pushed some work into a branch named `featureA` and he can look at it now. While she waits for feedback from John, Jessica decides to start working on `featureB` with Josie. To begin, she starts a new feature branch, basing it off the server’s `master` branch:
+Jessica avisa John por e-mail que ela deu push de algum trabalho em um branch chamado `featureA` e ele pode olhar ele agora. Enquanto ela espera pelo retorno de John, Jessica decide começar a trabalhar no `featureB` com Josie. Para começar, ela inicia um novo feature branch (branch de funcionalidade), baseando-se no branch `master` do servidor:
 
-	# Jessica's Machine
-	$ git fetch origin
-	$ git checkout -b featureB origin/master
-	Switched to a new branch "featureB"
+    # Máquina da Jessica
+    $ git fetch origin
+    $ git checkout -b featureB origin/master
+    Switched to a new branch "featureB"
 
-Now, Jessica makes a couple of commits on the `featureB` branch:
+Agora, Jessica faz dois commits para o branch `featureB`:
 
-	$ vim lib/simplegit.rb
-	$ git commit -am 'made the ls-tree function recursive'
-	[featureB e5b0fdc] made the ls-tree function recursive
-	 1 files changed, 1 insertions(+), 1 deletions(-)
-	$ vim lib/simplegit.rb
-	$ git commit -am 'add ls-files'
-	[featureB 8512791] add ls-files
-	 1 files changed, 5 insertions(+), 0 deletions(-)
+    $ vim lib/simplegit.rb
+    $ git commit -am 'made the ls-tree function recursive'
+    [featureB e5b0fdc] made the ls-tree function recursive
+     1 files changed, 1 insertions(+), 1 deletions(-)
+    $ vim lib/simplegit.rb
+    $ git commit -am 'add ls-files'
+    [featureB 8512791] add ls-files
+     1 files changed, 5 insertions(+), 0 deletions(-)
 
-Jessica’s repository looks like Figure 5-12.
+O repositório de Jessica se parece com a Figura 5-12.
 
-Insert 18333fig0512.png 
-Figure 5-12. Jessica’s initial commit history
+Insert 18333fig0512.png
+Figura 5-12. O histórico de commits inicial de Jessica.
 
-She’s ready to push up her work, but gets an e-mail from Josie that a branch with some initial work on it was already pushed to the server as `featureBee`. Jessica first needs to merge those changes in with her own before she can push to the server. She can then fetch Josie’s changes down with `git fetch`:
+Ela está pronta para fazer push de seu trabalho, mas recebe um e-mail de Josie avisando que ela já fez um trabalho inicial e que está no servidor no branch `featureBee`. Primeiro Jessica precisa mesclar essas alterações com suas próprias para que ela possa dar push de suas alterações para o servidor. Ela pode então baixar as alterações de Josie com `git fetch`:
 
-	$ git fetch origin
-	...
-	From jessica@githost:simplegit
-	 * [new branch]      featureBee -> origin/featureBee
+    $ git fetch origin
+    ...
+    From jessica@githost:simplegit
+     * [new branch]      featureBee -> origin/featureBee
 
-Jessica can now merge this into the work she did with `git merge`:
+Jessica pode agora fazer merge em seu trabalho com `git merge`:
 
-	$ git merge origin/featureBee
-	Auto-merging lib/simplegit.rb
-	Merge made by recursive.
-	 lib/simplegit.rb |    4 ++++
-	 1 files changed, 4 insertions(+), 0 deletions(-)
+    $ git merge origin/featureBee
+    Auto-merging lib/simplegit.rb
+    Merge made by recursive.
+     lib/simplegit.rb |    4 ++++
+     1 files changed, 4 insertions(+), 0 deletions(-)
 
-There is a bit of a problem — she needs to push the merged work in her `featureB` branch to the `featureBee` branch on the server. She can do so by specifying the local branch followed by a colon (:) followed by the remote branch to the `git push` command:
+Há um pequeno problema — ela precisa dar push do trabalho mesclado em seu branch `featureB` para o branch `featureBee` no servidor. Ela pode fazer isso especificando o branch local seguido de dois pontos (:) seguido pelo branch remoto para o comando `git push`:
 
-	$ git push origin featureB:featureBee
-	...
-	To jessica@githost:simplegit.git
-	   fba9af8..cd685d1  featureB -> featureBee
+    $ git push origin featureB:featureBee
+    ...
+    To jessica@githost:simplegit.git
+       fba9af8..cd685d1  featureB -> featureBee
 
-This is called a _refspec_. See Chapter 9 for a more detailed discussion of Git refspecs and different things you can do with them.
+Isso é chamado _refspec_. Veja o *Capítulo 9* para uma discussão mais detalhada dos refspecs do Git e coisas diferentes que você pode fazer com eles.
 
-Next, John e-mails Jessica to say he’s pushed some changes to the `featureA` branch and ask her to verify them. She runs a `git fetch` to pull down those changes:
+Depois, John diz para Jessica que ele deu push de algumas alterações para o branch `featureA` e pede para ela verificá-las. Ela executa um `git fetch` para puxar essas alterações:
 
-	$ git fetch origin
-	...
-	From jessica@githost:simplegit
-	   3300904..aad881d  featureA   -> origin/featureA
+    $ git fetch origin
+    ...
+    From jessica@githost:simplegit
+       3300904..aad881d  featureA   -> origin/featureA
 
-Then, she can see what has been changed with `git log`:
+Então, ela pode ver que essas alterações foram modificadas com `git log`:
 
-	$ git log origin/featureA ^featureA
-	commit aad881d154acdaeb2b6b18ea0e827ed8a6d671e6
-	Author: John Smith <jsmith@example.com>
-	Date:   Fri May 29 19:57:33 2009 -0700
+    $ git log origin/featureA ^featureA
+    commit aad881d154acdaeb2b6b18ea0e827ed8a6d671e6
+    Author: John Smith <jsmith@example.com>
+    Date:   Fri May 29 19:57:33 2009 -0700
 
-	    changed log output to 30 from 25
+        changed log output to 30 from 25
 
-Finally, she merges John’s work into her own `featureA` branch:
+Finalmente, ela faz merge do trabalho de John em seu próprio branch `featureA`:
 
-	$ git checkout featureA
-	Switched to branch "featureA"
-	$ git merge origin/featureA
-	Updating 3300904..aad881d
-	Fast forward
-	 lib/simplegit.rb |   10 +++++++++-
-	1 files changed, 9 insertions(+), 1 deletions(-)
+    $ git checkout featureA
+    Switched to branch "featureA"
+    $ git merge origin/featureA
+    Updating 3300904..aad881d
+    Fast forward
+     lib/simplegit.rb |   10 +++++++++-
+    1 files changed, 9 insertions(+), 1 deletions(-)
 
-Jessica wants to tweak something, so she commits again and then pushes this back up to the server:
+Jessica quer melhorar uma coisa, então ela faz um novo commit e dá push de volta para o servidor:
 
-	$ git commit -am 'small tweak'
-	[featureA ed774b3] small tweak
-	 1 files changed, 1 insertions(+), 1 deletions(-)
-	$ git push origin featureA
-	...
-	To jessica@githost:simplegit.git
-	   3300904..ed774b3  featureA -> featureA
+    $ git commit -am 'small tweak'
+    [featureA ed774b3] small tweak
+     1 files changed, 1 insertions(+), 1 deletions(-)
+    $ git push origin featureA
+    ...
+    To jessica@githost:simplegit.git
+       3300904..ed774b3  featureA -> featureA
 
-Jessica’s commit history now looks something like Figure 5-13.
+O histórico de commit de Jessica agora parece com a Figura 5-13.
 
-Insert 18333fig0513.png 
-Figure 5-13. Jessica’s history after committing on a feature branch
+Insert 18333fig0513.png
+Figura 5-13. O histórico de Jessica depois do commit no feature branch.
 
-Jessica, Josie, and John inform the integrators that the `featureA` and `featureBee` branches on the server are ready for integration into the mainline. After they integrate these branches into the mainline, a fetch will bring down the new merge commits, making the commit history look like Figure 5-14.
+Jessica, Josie e John informam os integradores que os branches `featureA` e `featureBee` no servidor estão prontos para integração na linha principal. Depois que eles integrarem esses branches na linha principal, baixar (fetch) irá trazer os novos commits mesclados, fazendo o histórico de commit ficar como na Figura 5-14.
 
-Insert 18333fig0514.png 
-Figure 5-14. Jessica’s history after merging both her topic branches
+Insert 18333fig0514.png
+Figura 5-14. O histórico de Jessica depois de mesclar ambos topic branches.
 
-Many groups switch to Git because of this ability to have multiple teams working in parallel, merging the different lines of work late in the process. The ability of smaller subgroups of a team to collaborate via remote branches without necessarily having to involve or impede the entire team is a huge benefit of Git. The sequence for the workflow you saw here is something like Figure 5-15.
+Muitos grupos mudam para Git por causa da habilidade de ter múltiplas equipes trabalhando em paralelo, mesclando diferentes linhas de trabalho mais tarde. A habilidade de partes menores de uma equipe colaborar via branches remotos sem necessariamente ter que envolver ou impedir a equipe inteira é um grande benefício do Git. A sequencia para o fluxo de trabalho que você viu aqui é como mostrado na Figura 5-15.
 
-Insert 18333fig0515.png 
-Figure 5-15. Basic sequence of this managed-team workflow
+Insert 18333fig0515.png
+Figure 5-15. Sequencia básica desse fluxo de trabalho de equipe gerenciada.
 
-### Public Small Project ###
+### Pequeno Projeto Público ###
 
-Contributing to public projects is a bit different. Because you don’t have the permissions to directly update branches on the project, you have to get the work to the maintainers some other way. This first example describes contributing via forking on Git hosts that support easy forking. The repo.or.cz and GitHub hosting sites both support this, and many project maintainers expect this style of contribution. The next section deals with projects that prefer to accept contributed patches via e-mail.
+Contribuindo para projetos públicos é um pouco diferente. Você tem que ter permissões para atualizar diretamente branches no projeto, você tem que passar o trabalho para os mantenedores de uma outra forma. O primeiro exemplo descreve como contribuir via forks em hosts Git que suportam criação simples de forks. Os sites de hospedagem repo.or.cz e Github ambos suportam isso, e muitos mantenedores de projetos esperam esse tipo de contribuição. A próxima seção lida com projetos que preferem aceitar patches contribuídos por e-mail.
 
-First, you’ll probably want to clone the main repository, create a topic branch for the patch or patch series you’re planning to contribute, and do your work there. The sequence looks basically like this:
+Primeiro, você provavelmente irá querer clonar o repositório principal, criar um topic branch para o patch ou séries de patch que você planeja contribuir e você fará seu trabalho lá. A sequencia se parece com isso:
 
-	$ git clone (url)
-	$ cd project
-	$ git checkout -b featureA
-	$ (work)
-	$ git commit
-	$ (work)
-	$ git commit
+    $ git clone (url)
+    $ cd project
+    $ git checkout -b featureA
+    $ (trabalho)
+    $ git commit
+    $ (trabalho)
+    $ git commit
 
-You may want to use `rebase -i` to squash your work down to a single commit, or rearrange the work in the commits to make the patch easier for the maintainer to review — see Chapter 6 for more information about interactive rebasing.
+Você pode querer usar `rebase -i` para espremer seu trabalho em um único commit, ou reorganizar o trabalho nos commits para fazer o patch mais fácil de revisar para os mantenedores — veja o *Capítulo 6* para mais informações sobre rebase interativo.
 
-When your branch work is finished and you’re ready to contribute it back to the maintainers, go to the original project page and click the "Fork" button, creating your own writable fork of the project. You then need to add in this new repository URL as a second remote, in this case named `myfork`:
+Quando seu trabalho no branch for finalizado e você está pronto para contribuir para os mantenedores, vá até a página do projeto original e clique no botão "Fork", criando seu próprio fork gravável do projeto. Você então precisa adicionar a URL desse novo repositório como um segundo remoto (remote), nesse caso chamado `myfork`:
 
-	$ git remote add myfork (url)
+    $ git remote add myfork (url)
 
-You need to push your work up to it. It’s easiest to push the remote branch you’re working on up to your repository, rather than merging into your master branch and pushing that up. The reason is that if the work isn’t accepted or is cherry picked, you don’t have to rewind your master branch. If the maintainers merge, rebase, or cherry-pick your work, you’ll eventually get it back via pulling from their repository anyhow:
+Você precisa dar push de seu trabalho para ele. É mais fácil dar push do branch remoto que você está trabalhando para seu repositório, ao invés de fazer merge em seu branch `master` e dar push dele. A razão é que se o trabalho não for aceito ou é selecionado em parte, você não tem que rebobinar seu branch `master`. Se os mantenedores mesclam, fazem rebase ou "cherry-pick" (escolhem pequenos pedaços) do seu trabalho, você terá que eventualmente puxar de novo de qualquer forma:
 
-	$ git push myfork featureA
+    $ git push myfork featureA
 
-When your work has been pushed up to your fork, you need to notify the maintainer. This is often called a pull request, and you can either generate it via the website — GitHub has a "pull request" button that automatically messages the maintainer — or run the `git request-pull` command and e-mail the output to the project maintainer manually.
+Quando seu trabalho tiver na sua fork, você precisa notificar o mantenedor. Isso é geralmente chamado pull request (requisição para ele puxar), e você pode gerar isso pelo website — GitHub tem um "pull request" que notifica automaticamente o mantenedor — ou executar `git request-pull` e enviar por e-mail a saída desse comando para o mantenedor do projeto manualmente.
 
-The `request-pull` command takes the base branch into which you want your topic branch pulled and the Git repository URL you want them to pull from, and outputs a summary of all the changes you’re asking to be pulled in. For instance, if Jessica wants to send John a pull request, and she’s done two commits on the topic branch she just pushed up, she can run this:
+O comando `request-pull` recebe como argumento um branch base no qual você quer que suas alterações sejam puxadas e a URL do repositório Git que você quer que eles puxem. Por exemplo, se Jessica quer enviar John um pull request e ela fez dois commits no topic branch que ela deu push, ela pode executar isso:
 
-	$ git request-pull origin/master myfork
-	The following changes since commit 1edee6b1d61823a2de3b09c160d7080b8d1b3a40:
-	  John Smith (1):
-	        added a new function
+    $ git request-pull origin/master myfork
+    The following changes since commit 1edee6b1d61823a2de3b09c160d7080b8d1b3a40:
+      John Smith (1):
+            added a new function
 
-	are available in the git repository at:
+    are available in the git repository at:
 
-	  git://githost/simplegit.git featureA
+      git://githost/simplegit.git featureA
 
-	Jessica Smith (2):
-	      add limit to log function
-	      change log output to 30 from 25
+    Jessica Smith (2):
+          add limit to log function
+          change log output to 30 from 25
 
-	 lib/simplegit.rb |   10 +++++++++-
-	 1 files changed, 9 insertions(+), 1 deletions(-)
+     lib/simplegit.rb |   10 +++++++++-
+     1 files changed, 9 insertions(+), 1 deletions(-)
 
-The output can be sent to the maintainer—it tells them where the work was branched from, summarizes the commits, and tells where to pull this work from.
+O resultado pode ser enviado para o mantenedor - ele fala para eles de onde o trabalho foi baseado, resume os commits e mostra de onde puxar esse trabalho.
 
-On a project for which you’re not the maintainer, it’s generally easier to have a branch like `master` always track `origin/master` and to do your work in topic branches that you can easily discard if they’re rejected.  Having work themes isolated into topic branches also makes it easier for you to rebase your work if the tip of the main repository has moved in the meantime and your commits no longer apply cleanly. For example, if you want to submit a second topic of work to the project, don’t continue working on the topic branch you just pushed up — start over from the main repository’s `master` branch:
+Em um projeto que você não é o mantenedor, é geralmente mais fácil ter um branch como `master` sempre sincronizar com `origin/master` e fazer seu trabalho em topic branches que você pode facilmente descartar se rejeitados. Tendo temas de trabalho isolados em topic branches também torna mais fácil fazer rebase de seu trabalho se o seu repositório principal tiver sido atualizado nesse meio tempo e seus commits não puderem ser aplicados de forma limpa. Por exemplo, se você quiser submeter um segundo tópico de trabalho para o projeto, não continue trabalhando no topic branch que você deu push por último — inicie de novo a partir do branch `master` do repositório principal:
 
-	$ git checkout -b featureB origin/master
-	$ (work)
-	$ git commit
-	$ git push myfork featureB
-	$ (email maintainer)
-	$ git fetch origin
+    $ git checkout -b featureB origin/master
+    $ (work)
+    $ git commit
+    $ git push myfork featureB
+    $ (email maintainer)
+    $ git fetch origin
 
-Now, each of your topics is contained within a silo — similar to a patch queue — that you can rewrite, rebase, and modify without the topics interfering or interdepending on each other as in Figure 5-16.
+Agora, cada um de seus tópicos é contido em um silo — similar a uma fila de patchs — que você pode reescrever, fazer rebase e modificar sem os tópicos interferirem ou interdepender um do outro como na Figura 5-16.
 
-Insert 18333fig0516.png 
-Figure 5-16. Initial commit history with featureB work
+Insert 18333fig0516.png
+Figura 5-16. Histórico de commits inicial com trabalho do featureB.
 
-Let’s say the project maintainer has pulled in a bunch of other patches and tried your first branch, but it no longer cleanly merges. In this case, you can try to rebase that branch on top of `origin/master`, resolve the conflicts for the maintainer, and then resubmit your changes:
+Vamos dizer que o mantenedor do projeto tenha puxado um punhado de outros patches e testou seu primeiro branch, mas ele não mescla mais. Nesse caso, você pode tentar fazer rebase daquele branch em cima de `origin/master`, resolver os conflitos para o mantenedor e então submeter novamente suas alterações:
 
-	$ git checkout featureA
-	$ git rebase origin/master
-	$ git push –f myfork featureA
+    $ git checkout featureA
+    $ git rebase origin/master
+    $ git push -f myfork featureA
 
-This rewrites your history to now look like Figure 5-17.
+Isso sobrescreve seu histórico para parecer com a Figura 5-17.
 
-Insert 18333fig0517.png 
-Figure 5-17. Commit history after featureA work
+Insert 18333fig0517.png
+Figura 5-17. Histórico de commits depois do trabalho em featureA.
 
-Because you rebased the branch, you have to specify the `–f` to your push command in order to be able to replace the `featureA` branch on the server with a commit that isn’t a descendant of it. An alternative would be to push this new work to a different branch on the server (perhaps called `featureAv2`).
+Já que você fez rebase de seu trabalho, você tem que especificar a opção `-f` para seu comando `push` poder substituir o branch `featureA` no servidor com um commit que não é descendente dele. Uma alternativa seria dar push desse novo trabalho para um branch diferente no servidor (talvez chamado `featureAv2`).
 
-Let’s look at one more possible scenario: the maintainer has looked at work in your second branch and likes the concept but would like you to change an implementation detail. You’ll also take this opportunity to move the work to be based off the project’s current `master` branch. You start a new branch based off the current `origin/master` branch, squash the `featureB` changes there, resolve any conflicts, make the implementation change, and then push that up as a new branch:
+Vamos ver mais um cenário possível: o mantenedor olhou o trabalho em seu segundo branch e gostou do conceito, mas gostaria que você alterasse um detalhe de implementação. Você irá também tomar essa oportunidade para mover seu trabalhar para ser baseado no branch `master` atual do projeto. Você inicia um novo branch baseado no branch `origin/master` atual, coloca as mudanças de `featureB` lá, resolve qualquer conflito, faz a alteração na implementação e então dá push para o servidor como um novo branch:
 
-	$ git checkout -b featureBv2 origin/master
-	$ git merge --no-commit --squash featureB
-	$ (change implementation)
-	$ git commit
-	$ git push myfork featureBv2
+    $ git checkout -b featureBv2 origin/master
+    $ git merge --no-commit --squash featureB
+    $ (change implementation)
+    $ git commit
+    $ git push myfork featureBv2
 
-The `--squash` option takes all the work on the merged branch and squashes it into one non-merge commit on top of the branch you’re on. The `--no-commit` option tells Git not to automatically record a commit. This allows you to introduce all the changes from another branch and then make more changes before recording the new commit.
+A opção `--squash` pega todo o trabalho feito no branch mesclado e espreme ele em um non-merge commit em cima do branch que você está. A opção `--no-commit` fala para o Git não registrar um commit automaticamente. Isso permite a você introduzir as alterações de outro branch e então fazer mais alterações antes de registrar um novo commit.
 
-Now you can send the maintainer a message that you’ve made the requested changes and they can find those changes in your `featureBv2` branch (see Figure 5-18).
+Agora você pode enviar ao mantenedor uma mensagem informando que você fez as alterações requisitadas e eles podem encontrar essas mudanças em seu branch `featureBv2` (veja Figura 5-18).
 
-Insert 18333fig0518.png 
-Figure 5-18. Commit history after featureBv2 work
+Insert 18333fig0518.png
+Figura 5-18. Histórico de commit depois do trabalho em featureBv2.
 
-### Public Large Project ###
+### Grande Projeto Público ###
 
-Many larger projects have established procedures for accepting patches — you’ll need to check the specific rules for each project, because they will differ. However, many larger public projects accept patches via a developer mailing list, so I’ll go over an example of that now.
+Muitos projetos maiores tem procedimentos estabelecidos para aceitar patches — você irá precisar verificar as regras específicas para cada projeto, porque eles irão diferir. Contudo, muitos projetos maiores aceitam patches via lista de discussão para desenvolvedores, então eu irei falar sobre esse exemplo agora.
 
-The workflow is similar to the previous use case — you create topic branches for each patch series you work on. The difference is how you submit them to the project. Instead of forking the project and pushing to your own writable version, you generate e-mail versions of each commit series and e-mail them to the developer mailing list:
+O fluxo de trabalho é similar ao caso de uso anterior — você cria topic branches para cada série de patches que você trabalhar. A diferença é como você irá submeter eles para o projeto. Ao invés de fazer um fork do projeto e dar push das alterações para sua própria versão gravável, você gera versões em e-mail de cada série de commits e envia para a lista de discussão para desenvolvedores:
 
-	$ git checkout -b topicA
-	$ (work)
-	$ git commit
-	$ (work)
-	$ git commit
+    $ git checkout -b topicA
+    $ (work)
+    $ git commit
+    $ (work)
+    $ git commit
 
-Now you have two commits that you want to send to the mailing list. You use `git format-patch` to generate the mbox-formatted files that you can e-mail to the list — it turns each commit into an e-mail message with the first line of the commit message as the subject and the rest of the message plus the patch that the commit introduces as the body. The nice thing about this is that applying a patch from an e-mail generated with `format-patch` preserves all the commit information properly, as you’ll see more of in the next section when you apply these commits:
+Agora você tem dois commits que você quer enviar para a lista de discussão. Você usa `git format-patch` para gerar os arquivos em formato mbox que você pode enviar por e-mail para a lista — transforma cada commit em uma mensagem de e-mail com a primeira linha da mensagem do commit como o assunto e o resto da mensagem mais o patch que o commit introduz como corpo. A coisa legal sobre isso é que aplicando um patch de um e-mail gerado com `format-patch` preserva todas as informações do commit, como você irá ver mais nas próximas seções quando você aplica esses commits:
 
-	$ git format-patch -M origin/master
-	0001-add-limit-to-log-function.patch
-	0002-changed-log-output-to-30-from-25.patch
+    $ git format-patch -M origin/master
+    0001-add-limit-to-log-function.patch
+    0002-changed-log-output-to-30-from-25.patch
 
-The `format-patch` command prints out the names of the patch files it creates. The `-M` switch tells Git to look for renames. The files end up looking like this:
+O comando `format-patch` imprime o nome dos arquivos patch que ele cria. A opção `-M` fala para o Git verificar se há mudanças de nome. Os arquivos vão acabar parecendo assim:
 
-	$ cat 0001-add-limit-to-log-function.patch 
-	From 330090432754092d704da8e76ca5c05c198e71a8 Mon Sep 17 00:00:00 2001
-	From: Jessica Smith <jessica@example.com>
-	Date: Sun, 6 Apr 2008 10:17:23 -0700
-	Subject: [PATCH 1/2] add limit to log function
+    $ cat 0001-add-limit-to-log-function.patch
+    From 330090432754092d704da8e76ca5c05c198e71a8 Mon Sep 17 00:00:00 2001
+    From: Jessica Smith <jessica@example.com>
+    Date: Sun, 6 Apr 2008 10:17:23 -0700
+    Subject: [PATCH 1/2] add limit to log function
 
-	Limit log functionality to the first 20
+    Limit log functionality to the first 20
 
-	---
-	 lib/simplegit.rb |    2 +-
-	 1 files changed, 1 insertions(+), 1 deletions(-)
+    ---
+     lib/simplegit.rb |    2 +-
+     1 files changed, 1 insertions(+), 1 deletions(-)
 
-	diff --git a/lib/simplegit.rb b/lib/simplegit.rb
-	index 76f47bc..f9815f1 100644
-	--- a/lib/simplegit.rb
-	+++ b/lib/simplegit.rb
-	@@ -14,7 +14,7 @@ class SimpleGit
-	   end
+    diff --git a/lib/simplegit.rb b/lib/simplegit.rb
+    index 76f47bc..f9815f1 100644
+    --- a/lib/simplegit.rb
+    +++ b/lib/simplegit.rb
+    @@ -14,7 +14,7 @@ class SimpleGit
+       end
 
-	   def log(treeish = 'master')
-	-    command("git log #{treeish}")
-	+    command("git log -n 20 #{treeish}")
-	   end
+       def log(treeish = 'master')
+    -    command("git log #{treeish}")
+    +    command("git log -n 20 #{treeish}")
+       end
 
-	   def ls_tree(treeish = 'master')
-	-- 
-	1.6.2.rc1.20.g8c5b.dirty
+       def ls_tree(treeish = 'master')
+    --
+    1.6.2.rc1.20.g8c5b.dirty
 
-You can also edit these patch files to add more information for the e-mail list that you don’t want to show up in the commit message. If you add text between the `--` line and the beginning of the patch (the `lib/simplegit.rb` line), then developers can read it; but applying the patch excludes it.
+Você pode também editar esses arquivos de patch para adicionar mais informação para a lista de e-mail que você não quer que apareça na mensagem do commit. Se você adicionar o texto entre a linha com `---` e o início do patch (a linha `lib/simplegit.rb`), então desenvolvedores podem lê-la; mas aplicar o patch a exclui.
 
-To e-mail this to a mailing list, you can either paste the file into your e-mail program or send it via a command-line program. Pasting the text often causes formatting issues, especially with "smarter" clients that don’t preserve newlines and other whitespace appropriately. Luckily, Git provides a tool to help you send properly formatted patches via IMAP, which may be easier for you. I’ll demonstrate how to send a patch via Gmail, which happens to be the e-mail agent I use; you can read detailed instructions for a number of mail programs at the end of the aforementioned `Documentation/SubmittingPatches` file in the Git source code.
+Para enviar por e-mail a uma lista de discussão, você pode ou colar o arquivo em seu programa de e-mails ou enviar por um programa em linha de comando. Colando o texto geralmente causa problemas de formatação, especialmente com clientes "expertos" que não preservam linhas em branco e espaços em branco de forma apropriada. Por sorte, Git fornece uma ferramenta que lhe ajuda a enviar um patch via Gmail, que por acaso é o agente de e-mail que eu uso; você pode ler instruções detalhadas para vários programas de e-mail no final do arquivo previamente mencionado `Documentation/SubmittingPatched` no código fonte do Git.
 
-First, you need to set up the imap section in your `~/.gitconfig` file. You can set each value separately with a series of `git config` commands, or you can add them manually; but in the end, your config file should look something like this:
+Primeiramente, você precisa configurar a seção imap em seu arquivo `~/.gitconfig`. Você pode definir cada valor separadamente com uma série de comandos `git config` ou você pode adicioná-los manualmente; mas no final, seu arquivo de configuração deve parecer mais ou menos assim:
 
-	[imap]
-	  folder = "[Gmail]/Drafts"
-	  host = imaps://imap.gmail.com
-	  user = user@gmail.com
-	  pass = p4ssw0rd
-	  port = 993
-	  sslverify = false
+    [imap]
+      folder = "[Gmail]/Drafts"
+      host = imaps://imap.gmail.com
+      user = user@gmail.com
+      pass = p4ssw0rd
+      port = 993
+      sslverify = false
 
-If your IMAP server doesn’t use SSL, the last two lines probably aren’t necessary, and the host value will be `imap://` instead of `imaps://`.
-When that is set up, you can use `git send-email` to place the patch series in the Drafts folder of the specified IMAP server:
+Se seu servidor IMAP não usa SSL, as últimas duas linhas provavelmente não serão necessárias e o valor do host será `imap://` ao invés de `imaps://`.
+Quando isso estiver configurado, você pode usar `git send-email` para colocar a série de patches em sua pasta Drafts (Rascunhos) no seu servidor IMAP:
 
-	$ git send-email *.patch
-	0001-added-limit-to-log-function.patch
-	0002-changed-log-output-to-30-from-25.patch
-	Who should the emails appear to be from? [Jessica Smith <jessica@example.com>] 
-	Emails will be sent from: Jessica Smith <jessica@example.com>
-	Who should the emails be sent to? jessica@example.com
-	Message-ID to be used as In-Reply-To for the first email? y
+    $ git send-email *.patch
+    0001-added-limit-to-log-function.patch
+    0002-changed-log-output-to-30-from-25.patch
+    Who should the emails appear to be from? [Jessica Smith <jessica@example.com>]
+    Emails will be sent from: Jessica Smith <jessica@example.com>
+    Who should the emails be sent to? jessica@example.com
+    Message-ID to be used as In-Reply-To for the first email? y
 
-Then, Git spits out a bunch of log information looking something like this for each patch you’re sending:
+Então, Git imprime um bocado de informação de log parecendo com isso para cada patch que você estiver enviando:
 
-	(mbox) Adding cc: Jessica Smith <jessica@example.com> from 
-	  \line 'From: Jessica Smith <jessica@example.com>'
-	OK. Log says:
-	Sendmail: /usr/sbin/sendmail -i jessica@example.com
-	From: Jessica Smith <jessica@example.com>
-	To: jessica@example.com
-	Subject: [PATCH 1/2] added limit to log function
-	Date: Sat, 30 May 2009 13:29:15 -0700
-	Message-Id: <1243715356-61726-1-git-send-email-jessica@example.com>
-	X-Mailer: git-send-email 1.6.2.rc1.20.g8c5b.dirty
-	In-Reply-To: <y>
-	References: <y>
+    (mbox) Adding cc: Jessica Smith <jessica@example.com> from
+      \line 'From: Jessica Smith <jessica@example.com>'
+    OK. Log says:
+    Sendmail: /usr/sbin/sendmail -i jessica@example.com
+    From: Jessica Smith <jessica@example.com>
+    To: jessica@example.com
+    Subject: [PATCH 1/2] added limit to log function
+    Date: Sat, 30 May 2009 13:29:15 -0700
+    Message-Id: <1243715356-61726-1-git-send-email-jessica@example.com>
+    X-Mailer: git-send-email 1.6.2.rc1.20.g8c5b.dirty
+    In-Reply-To: <y>
+    References: <y>
 
-	Result: OK
+    Result: OK
 
-At this point, you should be able to go to your Drafts folder, change the To field to the mailing list you’re sending the patch to, possibly CC the maintainer or person responsible for that section, and send it off.
+Nesse ponto, você deve poder ir a sua pasta de rascunhos, modificar o campo "Para" (To) para a lista de discussões que você está enviando o patch, possivelmente o campo CC para o mantenedor ou pessoa responsável por aquela seção, e enviar.
 
-### Summary ###
+### Resumo ###
 
-This section has covered a number of common workflows for dealing with several very different types of Git projects you’re likely to encounter and introduced a couple of new tools to help you manage this process. Next, you’ll see how to work the other side of the coin: maintaining a Git project. You’ll learn how to be a benevolent dictator or integration manager.
+Essa seção cobriu uma grande quantidade de fluxos de trabalho comuns para lidar com vários tipos bem diferentes de projetos Git que você provavelmente encontrará e introduziu algumas novas ferramentas para lhe ajudar a gerenciar esse processo. Nas seções seguintes, você irá ver como trabalhar no outro lado da moeda: mantendo um projeto Git. Você irá aprender como ser um ditador benevolente ou gerente de integração.
 
-## Maintaining a Project ##
+## Mantendo Um Projeto ##
 
-In addition to knowing how to effectively contribute to a project, you’ll likely need to know how to maintain one. This can consist of accepting and applying patches generated via `format-patch` and e-mailed to you, or integrating changes in remote branches for repositories you’ve added as remotes to your project. Whether you maintain a canonical repository or want to help by verifying or approving patches, you need to know how to accept work in a way that is clearest for other contributors and sustainable by you over the long run.
+Além de saber como contribuir efetivamente para um projeto, você pode precisar saber como manter um. Isso pode consistir em aceitar e aplicar patches gerados via `format-patch` e enviados por e-mail para você, ou integrar alterações em branches remotos para repositórios que você adicionou como remotes do seu projeto. Se você mantém um repositório canônico ou quer ajudar verificando ou aprovando patches, você precisa saber como aceitar trabalho de uma forma que é a mais clara para os outros contribuintes e aceitável para você a longo prazo.
 
-### Working in Topic Branches ###
+### Trabalhando em Topic Branches ###
 
-When you’re thinking of integrating new work, it’s generally a good idea to try it out in a topic branch — a temporary branch specifically made to try out that new work. This way, it’s easy to tweak a patch individually and leave it if it’s not working until you have time to come back to it. If you create a simple branch name based on the theme of the work you’re going to try, such as `ruby_client` or something similarly descriptive, you can easily remember it if you have to abandon it for a while and come back later. The maintainer of the Git project tends to namespace these branches as well — such as `sc/ruby_client`, where `sc` is short for the person who contributed the work. 
-As you’ll remember, you can create the branch based off your master branch like this:
+Quando você estiver pensando em integrar um novo trabalho, é geralmente uma boa ideia testá-lo em um topic branch — um branch temporário criado especificamente para testar o novo trabalho. Dessa forma, é fácil modificar um patch individualmente e deixá-lo se não tiver funcionando até que você tenha tempo de voltar para ele. Se você criar um nome de branch simples baseado no tema do trabalho que você irá testar, como `ruby_client` ou algo similarmente descritivo, você pode facilmente lembrar se você tem que abandoná-la por um tempo e voltar depois. O mantenedor do projeto Git tende a usar namespace nos branches — como `sc/ruby_client`, onde `sc` é uma forma reduzida para o nome da pessoa que contribui com o trabalho. Você deve lembrar que você pode criar um branch baseado no branch `master` assim:
 
-	$ git branch sc/ruby_client master
+    $ git branch sc/ruby_client master
 
-Or, if you want to also switch to it immediately, you can use the `checkout -b` option:
+Ou, se você quer também mudar para o branch imediatamente, você pode usar a opção `checkout -b`:
 
-	$ git checkout -b sc/ruby_client master
+    $ git checkout -b sc/ruby_client master
 
-Now you’re ready to add your contributed work into this topic branch and determine if you want to merge it into your longer-term branches.
+Agora você está pronto para adicionar seu trabalho nesse topic branch e determinar se você quer mesclá-lo em seus branches de longa duração.
 
-### Applying Patches from E-mail ###
+### Aplicando Patches por E-mail ###
 
-If you receive a patch over e-mail that you need to integrate into your project, you need to apply the patch in your topic branch to evaluate it. There are two ways to apply an e-mailed patch: with `git apply` or with `git am`.
+Se você receber um patch por e-mail que você precisa integrar em seu projeto, você precisa aplicar o patch em seu topic branch para avaliá-lo. Há duas formas de aplicar um patch enviado por e-mail: com `git apply` ou com `git am`.
 
-#### Applying a Patch with apply ####
+#### Aplicando Um Patch Com apply ####
 
-If you received the patch from someone who generated it with the `git diff` or a Unix `diff` command, you can apply it with the `git apply` command. Assuming you saved the patch at `/tmp/patch-ruby-client.patch`, you can apply the patch like this:
+Se você recebeu o patch de alguém que o gerou com `git diff` ou o comando `diff` do Unix, você pode aplicá-lo com o comando `git apply`. Assumindo que você salvou o patch em `/tmp/patch-ruby-client.patch`, você pode aplicar o patch assim:
 
-	$ git apply /tmp/patch-ruby-client.patch
+    $ git apply /tmp/patch-ruby-client.patch
 
-This modifies the files in your working directory. It’s almost identical to running a `patch -p1` command to apply the patch, although it’s more paranoid and accepts fewer fuzzy matches then patch. It also handles file adds, deletes, and renames if they’re described in the `git diff` format, which `patch` won’t do. Finally, `git apply` is an "apply all or abort all" model where either everything is applied or nothing is, whereas `patch` can partially apply patchfiles, leaving your working directory in a weird state. `git apply` is over all much more paranoid than `patch`. It won’t create a commit for you — after running it, you must stage and commit the changes introduced manually.
+Isso modifica os arquivos em seu diretório de trabalho. É quase igual a executar o comando `patch -p1` para aplicar o patch, mas ele aceita menos correspondências nebulosas do que patch. Ele também cuida de adições, remoções e mudanças de nome de arquivos se tiverem sido descritos no formato do `git diff`, o que `patch` não faz. Finalmente, `git apply` segue um modelo "aplica tudo ou aborta tudo", enquanto `patch` pode aplicar arquivos patch parcialmente, deixando seu diretório de trabalho em um estado estranho. `git apply` é no geral muito mais cauteloso que `patch`. Ele não cria um commit para você — depois de executá-lo, você deve adicionar e fazer commit das mudanças introduzidas manualmente.
 
-You can also use git apply to see if a patch applies cleanly before you try actually applying it — you can run `git apply --check` with the patch:
+Você pode também usar `git apply` para ver se um patch aplica corretamente antes de tentar aplicar ele de verdade — você pode executar `git apply --check` com o patch:
 
-	$ git apply --check 0001-seeing-if-this-helps-the-gem.patch 
-	error: patch failed: ticgit.gemspec:1
-	error: ticgit.gemspec: patch does not apply
+    $ git apply --check 0001-seeing-if-this-helps-the-gem.patch
+    error: patch failed: ticgit.gemspec:1
+    error: ticgit.gemspec: patch does not apply
 
-If there is no output, then the patch should apply cleanly. This command also exits with a non-zero status if the check fails, so you can use it in scripts if you want.
+Se não tiver nenhuma saída, então o patch deverá ser aplicado corretamente. O comando também sai com um status diferente de zero se a verificação falhar, então você pode usá-lo em scripts se você quiser.
 
-#### Applying a Patch with am ####
+#### Aplicando um Patch com am ####
 
-If the contributor is a Git user and was good enough to use the `format-patch` command to generate their patch, then your job is easier because the patch contains author information and a commit message for you. If you can, encourage your contributors to use `format-patch` instead of `diff` to generate patches for you. You should only have to use `git apply` for legacy patches and things like that.
+Se o contribuinte é um usuário Git e foi bondoso o suficiente para usar o comando `format-patch` para gerar seu patch, então seu trabalho é mais fácil porque o patch contém informação do autor e uma mensagem de commit para você. Se você puder, encoraje seus contribuintes a usar `format-patch` ao invés de `diff` para gerar patches para você. Você só deve ter que usar `git apply` para patches legados e coisas desse tipo.
 
-To apply a patch generated by `format-patch`, you use `git am`. Technically, `git am` is built to read an mbox file, which is a simple, plain-text format for storing one or more e-mail messages in one text file. It looks something like this:
+Para aplicar o patch gerado por `format-patch`, você usa `git am`. Tecnicamente, `git am` foi feito para ler um arquivo mbox, que é um formato simples de texto puro para armazenar uma ou mais mensagens de e-mail em um único arquivo. Ele se parece com isso:
 
-	From 330090432754092d704da8e76ca5c05c198e71a8 Mon Sep 17 00:00:00 2001
-	From: Jessica Smith <jessica@example.com>
-	Date: Sun, 6 Apr 2008 10:17:23 -0700
-	Subject: [PATCH 1/2] add limit to log function
+    From 330090432754092d704da8e76ca5c05c198e71a8 Mon Sep 17 00:00:00 2001
+    From: Jessica Smith <jessica@example.com>
+    Date: Sun, 6 Apr 2008 10:17:23 -0700
+    Subject: [PATCH 1/2] add limit to log function
 
-	Limit log functionality to the first 20
+    Limit log functionality to the first 20
 
-This is the beginning of the output of the format-patch command that you saw in the previous section. This is also a valid mbox e-mail format. If someone has e-mailed you the patch properly using git send-email, and you download that into an mbox format, then you can point git am to that mbox file, and it will start applying all the patches it sees. If you run a mail client that can save several e-mails out in mbox format, you can save entire patch series into a file and then use git am to apply them one at a time. 
+Isso é o início da saída do comando `format-patch` que você viu na seção anterior. Isso é também um formato de e-mail mbox válido. Se alguém lhe enviou um patch por e-mail corretamente usando `git send-email` e você baixou no formato mbox, então você pode apontar aquele arquivo para o `git am` e ele irá começar a aplicar todos os patches que ele ver. Se você executar um cliente de e-mail que pode salvar vários e-mails em um formato mbox, você pode salvar uma série inteira de patches em um arquivo e então usar o `git am` para aplicar todos de uma vez.
 
-However, if someone uploaded a patch file generated via `format-patch` to a ticketing system or something similar, you can save the file locally and then pass that file saved on your disk to `git am` to apply it:
+Entretanto, se alguém fez upload de um arquivo patch gerado via `format-patch` para um sistema de chamados ou algo similar, você pode salvar o arquivo localmente e então passar o arquivo salvo no seu disco para `git am` aplicar:
 
-	$ git am 0001-limit-log-function.patch 
-	Applying: add limit to log function
+    $ git am 0001-limit-log-function.patch
+    Applying: add limit to log function
 
-You can see that it applied cleanly and automatically created the new commit for you. The author information is taken from the e-mail’s `From` and `Date` headers, and the message of the commit is taken from the `Subject` and body (before the patch) of the e-mail. For example, if this patch was applied from the mbox example I just showed, the commit generated would look something like this:
+Você pode ver que ele foi aplicado corretamente e automaticamente criou um novo commit para você. O autor é retirado dos cabeçalhos `From`(`De`) e `Date`(`Data`) do e-mail e a mensagem do commit é retirada dos campos `Subject` (`Assunto`) e `Corpo` (`body`) (antes do path) do e-mail. Por exemplo, se esse patch foi aplicado do exemplo de mbox que eu acabei de mostrar, o commit gerado irá parecer com isso:
 
-	$ git log --pretty=fuller -1
-	commit 6c5e70b984a60b3cecd395edd5b48a7575bf58e0
-	Author:     Jessica Smith <jessica@example.com>
-	AuthorDate: Sun Apr 6 10:17:23 2008 -0700
-	Commit:     Scott Chacon <schacon@gmail.com>
-	CommitDate: Thu Apr 9 09:19:06 2009 -0700
+    $ git log --pretty=fuller -1
+    commit 6c5e70b984a60b3cecd395edd5b48a7575bf58e0
+    Author:     Jessica Smith <jessica@example.com>
+    AuthorDate: Sun Apr 6 10:17:23 2008 -0700
+    Commit:     Scott Chacon <schacon@gmail.com>
+    CommitDate: Thu Apr 9 09:19:06 2009 -0700
 
-	   add limit to log function
+       add limit to log function
 
-	   Limit log functionality to the first 20
+       Limit log functionality to the first 20
 
-The `Commit` information indicates the person who applied the patch and the time it was applied. The `Author` information is the individual who originally created the patch and when it was originally created. 
+A informação `Commit` indica a pessoa que aplicou o patch e a hora que foi aplicado. A informação `Author`(autor) é o indivíduo que originalmente criou o patch e quanto ela foi originalmente criada.
 
-But it’s possible that the patch won’t apply cleanly. Perhaps your main branch has diverged too far from the branch the patch was built from, or the patch depends on another patch you haven’t applied yet. In that case, the `git am` process will fail and ask you what you want to do:
+Mas é possível que o patch não aplique corretamente. Talvez seu branch principal tenha divergido muito do branch a partir do qual o patch foi feito, ou o patch depende de outro patch que você ainda não aplicou. Nesse caso, o `git am` irá falhar e perguntar o que você quer fazer:
 
-	$ git am 0001-seeing-if-this-helps-the-gem.patch 
-	Applying: seeing if this helps the gem
-	error: patch failed: ticgit.gemspec:1
-	error: ticgit.gemspec: patch does not apply
-	Patch failed at 0001.
-	When you have resolved this problem run "git am --resolved".
-	If you would prefer to skip this patch, instead run "git am --skip".
-	To restore the original branch and stop patching run "git am --abort".
+    $ git am 0001-seeing-if-this-helps-the-gem.patch
+    Applying: seeing if this helps the gem
+    error: patch failed: ticgit.gemspec:1
+    error: ticgit.gemspec: patch does not apply
+    Patch failed at 0001.
+    When you have resolved this problem run "git am --resolved".
+    If you would prefer to skip this patch, instead run "git am --skip".
+    To restore the original branch and stop patching run "git am --abort".
 
-This command puts conflict markers in any files it has issues with, much like a conflicted merge or rebase operation. You solve this issue much the same way — edit the file to resolve the conflict, stage the new file, and then run `git am --resolved` to continue to the next patch:
+Esse comando coloca marcadores de conflito em qualquer arquivo que tenha problemas, muito parecido com um conflito das operações de merge ou rebase. Você resolve esse problema, da mesma forma — edita o arquivo e resolve o conflito, adiciona para a "staging area" e então executa `git am --resolved` para continuar com o próximo patch:
 
-	$ (fix the file)
-	$ git add ticgit.gemspec 
-	$ git am --resolved
-	Applying: seeing if this helps the gem
+    $ (fix the file)
+    $ git add ticgit.gemspec
+    $ git am --resolved
+    Applying: seeing if this helps the gem
 
-If you want Git to try a bit more intelligently to resolve the conflict, you can pass a `-3` option to it, which makes Git attempt a three-way merge. This option isn’t on by default because it doesn’t work if the commit the patch says it was based on isn’t in your repository. If you do have that commit — if the patch was based on a public commit — then the `-3` option is generally much smarter about applying a conflicting patch:
+Se você quer que o Git tente ser um pouco mais inteligente para resolver o conflito, você pode passar a opção `-3` para ele, que faz o Git tentar um three-way merge. Essa opção não é padrão porque ela não funciona se o commit que o patch diz que foi baseado não estiver em seu repositório. Se você tiver o commit — se o patch foi baseado em commit público — então a opção `-3` é geralmente muito melhor para aplicar um patch conflituoso:
 
-	$ git am -3 0001-seeing-if-this-helps-the-gem.patch 
-	Applying: seeing if this helps the gem
-	error: patch failed: ticgit.gemspec:1
-	error: ticgit.gemspec: patch does not apply
-	Using index info to reconstruct a base tree...
-	Falling back to patching base and 3-way merge...
-	No changes -- Patch already applied.
+    $ git am -3 0001-seeing-if-this-helps-the-gem.patch
+    Applying: seeing if this helps the gem
+    error: patch failed: ticgit.gemspec:1
+    error: ticgit.gemspec: patch does not apply
+    Using index info to reconstruct a base tree...
+    Falling back to patching base and 3-way merge...
+    No changes -- Patch already applied.
 
-In this case, I was trying to apply a patch I had already applied. Without the `-3` option, it looks like a conflict.
+Nesse caso, eu estava tentando aplicar um patch que eu já tinha aplicado. Sem a opção `-3`, ela parece como um conflito.
 
-If you’re applying a number of patches from an mbox, you can also run the `am` command in interactive mode, which stops at each patch it finds and asks if you want to apply it:
+Se você estiver aplicando vários patches de uma mbox, você pode também executar o comando `am` com modo interativo, que para a cada patch que ele encontra ele pergunta se você quer aplicá-lo:
 
-	$ git am -3 -i mbox
-	Commit Body is:
-	--------------------------
-	seeing if this helps the gem
-	--------------------------
-	Apply? [y]es/[n]o/[e]dit/[v]iew patch/[a]ccept all 
+    $ git am -3 -i mbox
+    Commit Body is:
+    --------------------------
+    seeing if this helps the gem
+    --------------------------
+    Apply? [y]es/[n]o/[e]dit/[v]iew patch/[a]ccept all
 
-This is nice if you have a number of patches saved, because you can view the patch first if you don’t remember what it is, or not apply the patch if you’ve already done so.
+Isso é legal se você tem vário patches salvos, porque você pode ver o patch primeiro se você não lembra o que ele é, ou não aplicar o patch se você já tinha feito isso antes.
 
-When all the patches for your topic are applied and committed into your branch, you can choose whether and how to integrate them into a longer-running branch.
+Quando todos os patches para seu tópico são aplicados e feitos commits em seu branch, você pode escolher se e como integrá-los em um branch de longa duração.
 
-### Checking Out Remote Branches ###
+### Fazendo Checkout Em Branches Remotos ###
 
-If your contribution came from a Git user who set up their own repository, pushed a number of changes into it, and then sent you the URL to the repository and the name of the remote branch the changes are in, you can add them as a remote and do merges locally.
+Se sua contribuição veio de um usuário Git que configurou seu próprio repositório, deu push de várias alterações nele e então enviou uma URL para o repositório e o nome do branch remoto que as alterações estão, você pode adicioná-las como um remote e fazer merges localmente.
 
-For instance, if Jessica sends you an e-mail saying that she has a great new feature in the `ruby-client` branch of her repository, you can test it by adding the remote and checking out that branch locally:
+Por exemplo, se Jessica envia um e-mail dizendo que ela tem um nova funcionalidade no branch `ruby-client` do repositório dela, você pode testá-la adicionando o remote e fazendo checkout do branch localmente:
 
-	$ git remote add jessica git://github.com/jessica/myproject.git
-	$ git fetch jessica
-	$ git checkout -b rubyclient jessica/ruby-client
+    $ git remote add jessica git://github.com/jessica/myproject.git
+    $ git fetch jessica
+    $ git checkout -b rubyclient jessica/ruby-client
 
-If she e-mails you again later with another branch containing another great feature, you can fetch and check out because you already have the remote setup.
+Se ela manda outro e-mail mais tarde com outro branch contendo outra nova funcionalidade, você pode fazer fetch e checkout porque você já tem o remote configurado.
 
-This is most useful if you’re working with a person consistently. If someone only has a single patch to contribute once in a while, then accepting it over e-mail may be less time consuming than requiring everyone to run their own server and having to continually add and remove remotes to get a few patches. You’re also unlikely to want to have hundreds of remotes, each for someone who contributes only a patch or two. However, scripts and hosted services may make this easier — it depends largely on how you develop and how your contributors develop.
+Isso é mais importante se você estiver trabalhando com uma pessoa regularmente. Se alguém só tem um patch para contribuir de vez em quando, então aceitá-lo por e-mail gastaria menos tempo do que exigir que todo mundo rode seu próprio servidor e tenha que continuamente adicionar e remover remotes para pegar poucos patches. Você também provavelmente não vai querer ter centenas de remotes, cada um para alguém que contribuiu um ou dois patches. Entretanto, scripts e serviços de hospedagem podem tornar isso mais fácil — depende bastante de como você desenvolve e como os contribuintes desenvolvem.
 
-The other advantage of this approach is that you get the history of the commits as well. Although you may have legitimate merge issues, you know where in your history their work is based; a proper three-way merge is the default rather than having to supply a `-3` and hope the patch was generated off a public commit to which you have access.
+A outra vantagem dessa abordagem é que você terá o histórico dos commits também. Embora você possa ter problemas de merge legítimos, você sabe onde eles são baseados em seu histórico; um three-way merge é padrão ao invés de ter que fornecer opção `-3` e esperar que o patch tenha sido gerado de um commit público que você tenha acesso.
 
-If you aren’t working with a person consistently but still want to pull from them in this way, you can provide the URL of the remote repository to the `git pull` command. This does a one-time pull and doesn’t save the URL as a remote reference:
+Se você estiver trabalhando com a pessoa regularmente, mas ainda quer puxar deles dessa forma, você pode fornecer a URL do repositório remoto para o comando `git pull`. Isso faz um pull uma vez e não salva a URL como um remote:
 
-	$ git pull git://github.com/onetimeguy/project.git
-	From git://github.com/onetimeguy/project
-	 * branch            HEAD       -> FETCH_HEAD
-	Merge made by recursive.
+    $ git pull git://github.com/onetimeguy/project.git
+    From git://github.com/onetimeguy/project
+     * branch            HEAD       -> FETCH_HEAD
+    Merge made by recursive.
 
-### Determining What Is Introduced ###
+### Determinando O Que É Introduzido ###
 
-Now you have a topic branch that contains contributed work. At this point, you can determine what you’d like to do with it. This section revisits a couple of commands so you can see how you can use them to review exactly what you’ll be introducing if you merge this into your main branch.
+Agora você tem um topic branch que contém trabalho contribuído. Nesse ponto, você pode determinar o que você gostaria de fazer com isso. Essa seção revê alguns comandos para que você possa usá-los para revisar exatamente o que você estará introduzindo se você fizer merge em seu branch principal.
 
-It’s often helpful to get a review of all the commits that are in this branch but that aren’t in your master branch. You can exclude commits in the master branch by adding the `--not` option before the branch name. For example, if your contributor sends you two patches and you create a branch called `contrib` and applied those patches there, you can run this:
+Geralmente ajuda conseguir uma revisão de todos os commits que estão nesse branch, mas que não estão em seu branch principal. Você pode excluir commits em seu branch `master` adicionando a opção `--not` antes do nome do branch. Por exemplo, se o contribuinte lhe envia dois patches, você cria um branch chamado `contrib` e aplica esses patches lá, você pode executar isso:
 
-	$ git log contrib --not master
-	commit 5b6235bd297351589efc4d73316f0a68d484f118
-	Author: Scott Chacon <schacon@gmail.com>
-	Date:   Fri Oct 24 09:53:59 2008 -0700
+    $ git log contrib --not master
+    commit 5b6235bd297351589efc4d73316f0a68d484f118
+    Author: Scott Chacon <schacon@gmail.com>
+    Date:   Fri Oct 24 09:53:59 2008 -0700
 
-	    seeing if this helps the gem
+        seeing if this helps the gem
 
-	commit 7482e0d16d04bea79d0dba8988cc78df655f16a0
-	Author: Scott Chacon <schacon@gmail.com>
-	Date:   Mon Oct 22 19:38:36 2008 -0700
+    commit 7482e0d16d04bea79d0dba8988cc78df655f16a0
+    Author: Scott Chacon <schacon@gmail.com>
+    Date:   Mon Oct 22 19:38:36 2008 -0700
 
-	    updated the gemspec to hopefully work better
+        updated the gemspec to hopefully work better
 
-To see what changes each commit introduces, remember that you can pass the `-p` option to `git log` and it will append the diff introduced to each commit.
+Para ver quais mudanças cada commit introduz lembre que você pode passar a opção `-p` no `git log` e ele irá adicionar o diff introduzido em cada commit.
 
-To see a full diff of what would happen if you were to merge this topic branch with another branch, you may have to use a weird trick to get the correct results. You may think to run this:
+Para ver um diff completo do que irá acontecer se você fizer merge desse topic branch com outro branch, você pode ter que usar um truque estranho que consegue os resultados corretos. Você pode pensar em executar isso:
 
-	$ git diff master
+    $ git diff master
 
-This command gives you a diff, but it may be misleading. If your `master` branch has moved forward since you created the topic branch from it, then you’ll get seemingly strange results. This happens because Git directly compares the snapshots of the last commit of the topic branch you’re on and the snapshot of the last commit on the `master` branch. For example, if you’ve added a line in a file on the `master` branch, a direct comparison of the snapshots will look like the topic branch is going to remove that line.
+Esse comando lhe dá um diff, mas é enganoso. Se seu branch `master` avançou desde que foi criado o topic branch a partir dele, então você terá resultados aparentemente estranhos. Isso acontece porque o Git compara diretamente o snapshot do último commit do topic branch que você está e o snapshot do último commit do branch `master`. Por exemplo, se você tiver adicionado uma linha em um arquivo no branch `master`, uma comparação direta dos snapshots irá parecer que o topic branch irá remover aquela linha.
 
-If `master` is a direct ancestor of your topic branch, this isn’t a problem; but if the two histories have diverged, the diff will look like you’re adding all the new stuff in your topic branch and removing everything unique to the `master` branch.
+Se `master` é ancestral direto de seu topic branch, isso não é um problema; mas se os dois históricos estiverem divergido, o diff irá parecer que está adicionando todas as coisas novas em seu topic branch e removendo tudo único do branch `master`.
 
-What you really want to see are the changes added to the topic branch — the work you’ll introduce if you merge this branch with master. You do that by having Git compare the last commit on your topic branch with the first common ancestor it has with the master branch.
+O que você realmente quer ver são as mudanças adicionadas no topic branch — o trabalho que você irá introduzir se fizer merge com `master`. Você faz isso mandando o Git comparar o último commit do seu topic branch com o primeiro ancestral comum que ele tem como o branch `master`.
 
-Technically, you can do that by explicitly figuring out the common ancestor and then running your diff on it:
+Tecnicamente, você pode fazer isso descobrindo explicitamente qual é o ancestral comum e então executando seu diff nele:
 
-	$ git merge-base contrib master
-	36c7dba2c95e6bbb78dfa822519ecfec6e1ca649
-	$ git diff 36c7db 
+    $ git merge-base contrib master
+    36c7dba2c95e6bbb78dfa822519ecfec6e1ca649
+    $ git diff 36c7db
 
-However, that isn’t convenient, so Git provides another shorthand for doing the same thing: the triple-dot syntax. In the context of the `diff` command, you can put three periods after another branch to do a `diff` between the last commit of the branch you’re on and its common ancestor with another branch:
+Entretanto, isso não é conveniente, então o Git fornece outro atalho para fazer a mesma coisa: a sintaxe dos três pontos. No contexto do comando `diff`, você pode usar três pontos depois de outro branch para fazer um `diff` entre o último commit do branch que você está e seu ancestral comum com outro branch:
 
-	$ git diff master...contrib
+    $ git diff master...contrib
 
-This command shows you only the work your current topic branch has introduced since its common ancestor with master. That is a very useful syntax to remember.
+Esse comando lhe mostra apenas o trabalho que o topic branch introduziu desde seu ancestral em comum com `master`. Essa é uma sintaxe muito útil de se lembrar.
 
-### Integrating Contributed Work ###
+### Integrando Trabalho Contribuído ###
 
-When all the work in your topic branch is ready to be integrated into a more mainline branch, the question is how to do it. Furthermore, what overall workflow do you want to use to maintain your project? You have a number of choices, so I’ll cover a few of them.
+Quando todo o trabalho em seu topic branch estiver pronto para ser integrado em um branch mais importante, a questão é como fazê-lo. Além disso, que fluxo de trabalho você quer usar para manter seu projeto? Você tem várias opções, então eu cobrirei algumas delas.
 
-#### Merging Workflows ####
+#### Fluxos de Trabalho para Merge ####
 
-One simple workflow merges your work into your `master` branch. In this scenario, you have a `master` branch that contains basically stable code. When you have work in a topic branch that you’ve done or that someone has contributed and you’ve verified, you merge it into your master branch, delete the topic branch, and then continue the process.  If we have a repository with work in two branches named `ruby_client` and `php_client` that looks like Figure 5-19 and merge `ruby_client` first and then `php_client` next, then your history will end up looking like Figure 5-20.
+Um fluxo de trabalho simples faz merge de seu trabalho em seu branch `master`. Nesse cenário, você tem um branch `master` que contém código estável. Quando você tiver trabalho em um topic branch que você fez ou que alguém contribuiu e você verificou, você faz merge no branch `master`, remove o topic branch e continua o processo. Se você tem um repositório com trabalho em dois branches chamados `ruby_client` e `php_client` que se parecem com a Figura 5-19 e faz primeiro merge de `ruby_client` e então de `php_client`, então seu histórico se parecerá como na Figura 5-20.
 
-Insert 18333fig0519.png 
-Figure 5-19. History with several topic branches
+Insert 18333fig0519.png
+Figura 5-19. histórico com vários topic branches.
 
 Insert 18333fig0520.png
-Figure 5-20. After a topic branch merge
+Figura 5-20. Depois de um merge de topic branches.
 
-That is probably the simplest workflow, but it’s problematic if you’re dealing with larger repositories or projects.
+Isso é provavelmente o fluxo de trabalho mais simples, mas é problemático se você estiver lidando com repositórios ou projetos maiores.
 
-If you have more developers or a larger project, you’ll probably want to use at least a two-phase merge cycle. In this scenario, you have two long-running branches, `master` and `develop`, in which you determine that `master` is updated only when a very stable release is cut and all new code is integrated into the `develop` branch. You regularly push both of these branches to the public repository. Each time you have a new topic branch to merge in (Figure 5-21), you merge it into `develop` (Figure 5-22); then, when you tag a release, you fast-forward `master` to wherever the now-stable `develop` branch is (Figure 5-23).
+Se você tiver mais desenvolvedores ou um projeto maior, você irá provavelmente querer usar pelo menos um ciclo de merge de duas fases. Nesse cenário você tem dois branches de longa duração, `master` e `develop`, dos quais você determina que `master` é atualizado só quando uma liberação bem estável é atingida e todo novo trabalho é integrado no branch `develop`. Você dá push regularmente de ambos os branches para o repositório público. Cada vez que você tiver um novo topic branch para fazer merge (Figura 5-21), você faz merge em `develop` (Figura 5-22); então, quando você criar uma tag o release, você avança (fast-forward) `master` para onde o agora estável branch `develop` estiver (Figura 5-23).
 
-Insert 18333fig0521.png 
-Figure 5-21. Before a topic branch merge
 
-Insert 18333fig0522.png 
-Figure 5-22. After a topic branch merge
+Insert 18333fig0521.png
+Figura 5-21. Antes do merge do topic branch.
 
-Insert 18333fig0523.png 
-Figure 5-23. After a topic branch release
+Insert 18333fig0522.png
+Figura 5-22. Depois do merge do topic branch.
 
-This way, when people clone your project’s repository, they can either check out master to build the latest stable version and keep up to date on that easily, or they can check out develop, which is the more cutting-edge stuff.
-You can also continue this concept, having an integrate branch where all the work is merged together. Then, when the codebase on that branch is stable and passes tests, you merge it into a develop branch; and when that has proven itself stable for a while, you fast-forward your master branch.
+Insert 18333fig0523.png
+Figura 5-23. Depois da liberação do topic branch.
 
-#### Large-Merging Workflows ####
+Dessa forma, quando as pessoas clonarem seu repositório do projeto, eles podem fazer checkout ou do `master` para fazer build da última versão estável e se manter atualizado facilmente, ou eles pode fazer checkout do develop para conseguir coisas mais de ponta.
+Você pode também continuar esse conceito, tendo um branch de integração onde é feito merge de todo o trabalho de uma vez. Então, quando a base de código daquele branch for estável e passar nos testes, você faz merge no branch develop; e quando este tiver comprovadamente estável por um tempo, você avança seu branch `master`.
 
-The Git project has four long-running branches: `master`, `next`, and `pu` (proposed updates) for new work, and `maint` for maintenance backports. When new work is introduced by contributors, it’s collected into topic branches in the maintainer’s repository in a manner similar to what I’ve described (see Figure 5-24). At this point, the topics are evaluated to determine whether they’re safe and ready for consumption or whether they need more work. If they’re safe, they’re merged into `next`, and that branch is pushed up so everyone can try the topics integrated together.
+#### Fluxo de Trabalho de Merges Grandes ####
 
-Insert 18333fig0524.png 
-Figure 5-24. Managing a complex series of parallel contributed topic branches
+O projeto Git tem quatro branches de longa duração: `master`, `next` e `pu` (proposed updates, atualizações propostas) para trabalho novo e `maint` para manutenção de versões legadas. Quando trabalho novo é introduzido por contribuintes, ele é coletado em topic branches no repositório do mantenedor em uma maneira similar ao que já foi descrito (veja Figura 5-24). Nesse ponto, os tópicos são avaliados para determinar se eles são seguros e prontos para consumo ou se eles precisam de mais trabalho. Se eles são seguros, é feito merge em `next` e é dado push do branch para que todo mundo possa testar os tópicos integrados juntos.
 
-If the topics still need work, they’re merged into `pu` instead. When it’s determined that they’re totally stable, the topics are re-merged into `master` and are then rebuilt from the topics that were in `next` but didn’t yet graduate to `master`. This means `master` almost always moves forward, `next` is rebased occasionally, and `pu` is rebased even more often (see Figure 5-25).
+Insert 18333fig0524.png
+Figura 5-24. Gerenciando uma série complexa de topic branches contribuídos em paralelo.
 
-Insert 18333fig0525.png 
-Figure 5-25. Merging contributed topic branches into long-term integration branches
+Se os tópicos ainda precisam de trabalho, é feito merge em `pu`. Quando é determinado que eles estão totalmente estáveis, é feito novamente merge dos tópicos em `master` e os branches refeitos com os tópicos que estavam em `next`, mas não graduaram para `master` ainda. Isso significa que `master` quase sempre avança, `next` passa por rebase de vez em quando e `pu` ainda mais frequentemente (veja Figura 5-25).
 
-When a topic branch has finally been merged into `master`, it’s removed from the repository. The Git project also has a `maint` branch that is forked off from the last release to provide backported patches in case a maintenance release is required. Thus, when you clone the Git repository, you have four branches that you can check out to evaluate the project in different stages of development, depending on how cutting edge you want to be or how you want to contribute; and the maintainer has a structured workflow to help them vet new contributions.
+Insert 18333fig0525.png
+Figura 5-25. Fazendo merge de topic branches contribuídos em branches de integração de longa duração.
 
-#### Rebasing and Cherry Picking Workflows ####
+Quando finalmente tiver sido feito merge do topic branch em `master`, ele é removido do repositório. O projeto Git também tem um branch `maint` que é copiado (fork) da última versãp a fornecer patches legados no caso de uma versão de manutenção ser requerida. Assim, quando você clona o repositório do Git, você tem quatro branches que você pode fazer checkout para avaliar o projeto em diferentes estágios de desenvolvimento, dependendo em quão atualizado você quer estar ou como você quer contribuir; e o mantenedor tem um fluxo de trabalho estruturado para ajudá-lo a vetar novas contribuições.
 
-Other maintainers prefer to rebase or cherry-pick contributed work on top of their master branch, rather than merging it in, to keep a mostly linear history. When you have work in a topic branch and have determined that you want to integrate it, you move to that branch and run the rebase command to rebuild the changes on top of your current master (or `develop`, and so on) branch. If that works well, you can fast-forward your `master` branch, and you’ll end up with a linear project history.
+#### Fluxos de Trabalho para Rebase e Cherry Pick ####
 
-The other way to move introduced work from one branch to another is to cherry-pick it. A cherry-pick in Git is like a rebase for a single commit. It takes the patch that was introduced in a commit and tries to reapply it on the branch you’re currently on. This is useful if you have a number of commits on a topic branch and you want to integrate only one of them, or if you only have one commit on a topic branch and you’d prefer to cherry-pick it rather than run rebase. For example, suppose you have a project that looks like Figure 5-26.
+Outros mantenedores preferem fazer rebase ou cherry-pick do trabalho contribuído em cima do branch `master` deles ao invés de fazer merge, para manter um histórico mais linear. Quando você tem trabalho em um topic branch e você determinou que você quer integrá-lo, você muda para aquele branch e executa o comando rebase para reconstruir as alterações em cima do branch `master` atual (ou `develop`, e por ai vai). Se isso funcionar bem, você pode avançar seu branch `master` e você irá terminar com um histórico de projeto linear.
 
-Insert 18333fig0526.png 
-Figure 5-26. Example history before a cherry pick
+A outra forma de mover trabalho introduzido de um branch para outro é cherry-pick. Um cherry-pick no Git é como um rebase para um único commit. Ele pega o patch que foi introduzido em um commit e tenta reaplicar no branch que você está. Isso é útil se você tem vários commits em um topic branch e quer integrar só um deles, ou se você tem um commit em um topic branch que você prefere usar cherry-pick ao invés de rebase. Por exemplo, vamos supor que você tem um projeto que se parece com a Figura 5-26.
 
-If you want to pull commit `e43a6` into your master branch, you can run
+Insert 18333fig0526.png
+Figura 5-26. Histórico do exemplo antes de um cherry pick.
 
-	$ git cherry-pick e43a6fd3e94888d76779ad79fb568ed180e5fcdf
-	Finished one cherry-pick.
-	[master]: created a0a41a9: "More friendly message when locking the index fails."
-	 3 files changed, 17 insertions(+), 3 deletions(-)
+Se você quer puxar o commit `e43a6` no branch `master`, você pode executar
 
-This pulls the same change introduced in `e43a6`, but you get a new commit SHA-1 value, because the date applied is different. Now your history looks like Figure 5-27.
+    $ git cherry-pick e43a6fd3e94888d76779ad79fb568ed180e5fcdf
+    Finished one cherry-pick.
+    [master]: created a0a41a9: "More friendly message when locking the index fails."
+     3 files changed, 17 insertions(+), 3 deletions(-)
 
-Insert 18333fig0527.png 
-Figure 5-27. History after cherry-picking a commit on a topic branch
+Isso puxa as mesmas alterações introduzidas em `e43a6`, mas o commit tem um novo valor SHA-1, porque a data de aplicação é diferente. Agora seu histórico se parece com a Figura 5-27.
 
-Now you can remove your topic branch and drop the commits you didn’t want to pull in.
+Insert 18333fig0527.png
+Figura 5-27. Histórico depois de fazer cherry-pick de um commit no topic branch.
 
-### Tagging Your Releases ###
+Agora você pode remover seu topic branch e se livrar dos commits que você não quer puxar.
 
-When you’ve decided to cut a release, you’ll probably want to drop a tag so you can re-create that release at any point going forward. You can create a new tag as I discussed in Chapter 2. If you decide to sign the tag as the maintainer, the tagging may look something like this:
+### Gerando Tag de Suas Liberações (Releases) ###
 
-	$ git tag -s v1.5 -m 'my signed 1.5 tag'
-	You need a passphrase to unlock the secret key for
-	user: "Scott Chacon <schacon@gmail.com>"
-	1024-bit DSA key, ID F721C45A, created 2009-02-09
+Quando você decidir fazer uma release, você provavelmente irá querer fazer uma tag para que você possa recriar aquela liberação em qualquer ponto no futuro. Você pode criar uma nova tag como discutimos no capítulo 2. Se você decidir assinar a tag como mantenedor, o processo parecerá com isso:
 
-If you do sign your tags, you may have the problem of distributing the public PGP key used to sign your tags. The maintainer of the Git project has solved this issue by including their public key as a blob in the repository and then adding a tag that points directly to that content. To do this, you can figure out which key you want by running `gpg --list-keys`:
+    $ git tag -s v1.5 -m 'my signed 1.5 tag'
+    You need a passphrase to unlock the secret key for
+    user: "Scott Chacon <schacon@gmail.com>"
+    1024-bit DSA key, ID F721C45A, created 2009-02-09
 
-	$ gpg --list-keys
-	/Users/schacon/.gnupg/pubring.gpg
-	---------------------------------
-	pub   1024D/F721C45A 2009-02-09 [expires: 2010-02-09]
-	uid                  Scott Chacon <schacon@gmail.com>
-	sub   2048g/45D02282 2009-02-09 [expires: 2010-02-09]
+Se você assinar suas tags, você pode ter o problema de distribuir as chaves PGP públicas usadas para assinar suas tags. O mantenedor do projeto Git tem resolvido esse problema incluindo a chave pública como um blob no repositório e então adicionando a tag que aponta diretamente para o conteúdo. Para fazer isso, você pode descobrir qual a chave que você quer executando `gpg --list-keys`:
 
-Then, you can directly import the key into the Git database by exporting it and piping that through `git hash-object`, which writes a new blob with those contents into Git and gives you back the SHA-1 of the blob:
+    $ gpg --list-keys
+    /Users/schacon/.gnupg/pubring.gpg
+    ---------------------------------
+    pub   1024D/F721C45A 2009-02-09 [expires: 2010-02-09]
+    uid                  Scott Chacon <schacon@gmail.com>
+    sub   2048g/45D02282 2009-02-09 [expires: 2010-02-09]
 
-	$ gpg -a --export F721C45A | git hash-object -w --stdin
-	659ef797d181633c87ec71ac3f9ba29fe5775b92
+Então, você pode importar diretamente a chave no banco de dados Git exportando ela passando por pipe com `git hash-object`, que escreve um novo blob com esse conteúdo no Git e lhe devolve o SHA-1 do blob:
 
-Now that you have the contents of your key in Git, you can create a tag that points directly to it by specifying the new SHA-1 value that the `hash-object` command gave you:
+    $ gpg -a --export F721C45A | git hash-object -w --stdin
+    659ef797d181633c87ec71ac3f9ba29fe5775b92
 
-	$ git tag -a maintainer-pgp-pub 659ef797d181633c87ec71ac3f9ba29fe5775b92
+Agora que você tem os conteúdos da sua chave no Git, você pode criar uma tag que aponta diretamente para ela especificando o novo valor SHA-1 que o comando `hash-object` lhe deu:
 
-If you run `git push --tags`, the `maintainer-pgp-pub` tag will be shared with everyone. If anyone wants to verify a tag, they can directly import your PGP key by pulling the blob directly out of the database and importing it into GPG:
+    $ git tag -a maintainer-pgp-pub 659ef797d181633c87ec71ac3f9ba29fe5775b92
 
-	$ git show maintainer-pgp-pub | gpg --import
+Se você executar `git push --tags`, a tag `maintainer-pgp-pub` será compartilhada com todo mundo. Se alguém quiser verificar a tag, ele pode importar diretamente sua chave PGP puxando o blob diretamente do banco de dados e importando no GPG:
 
-They can use that key to verify all your signed tags. Also, if you include instructions in the tag message, running `git show <tag>` will let you give the end user more specific instructions about tag verification.
+    $ git show maintainer-pgp-pub | gpg --import
 
-### Generating a Build Number ###
+Eles podem usar essa chave para verificar todas as tags assinadas. E se você incluir instruções na mensagem da tag, executar `git show <tag>` irá dar ao usuário final instruções mais detalhadas sobre a verificação da tag.
 
-Because Git doesn’t have monotonically increasing numbers like 'v123' or the equivalent to go with each commit, if you want to have a human-readable name to go with a commit, you can run `git describe` on that commit. Git gives you the name of the nearest tag with the number of commits on top of that tag and a partial SHA-1 value of the commit you’re describing:
+### Gerando um Número de Build ###
 
-	$ git describe master
-	v1.6.2-rc1-20-g8c5b85c
+Como o Git não tem um número que incrementa monotonicamente como 'v123' ou equivalente associado com cada commit, se você quer ter um nome legível que vá com cada commit você pode executar `git describe` naquele commit. Git lhe dá o nome da tag mais próxima com o número de commits em cima da tag e um SHA-1 parcial do commit que você está descrevendo:
 
-This way, you can export a snapshot or build and name it something understandable to people. In fact, if you build Git from source code cloned from the Git repository, `git --version` gives you something that looks like this. If you’re describing a commit that you have directly tagged, it gives you the tag name.
+    $ git describe master
+    v1.6.2-rc1-20-g8c5b85c
 
-The `git describe` command favors annotated tags (tags created with the `-a` or `-s` flag), so release tags should be created this way if you’re using `git describe`, to ensure the commit is named properly when described. You can also use this string as the target of a checkout or show command, although it relies on the abbreviated SHA-1 value at the end, so it may not be valid forever. For instance, the Linux kernel recently jumped from 8 to 10 characters to ensure SHA-1 object uniqueness, so older `git describe` output names were invalidated.
+Dessa forma, você pode exportar um snapshot ou build e nomeá-lo com algo compreensível para pessoas. De fato, se você compilar Git do código fonte clonado do repositório do Git, `git --version` lhe dará algo que se parece com isso. Se você estiver descrevendo um commit em que você adicionou uma tag, isso lhe dará o nome da tag.
 
-### Preparing a Release ###
+O comando `git describe` favorece annotated tags (tags criadas com as opções `-a` ou `-s`), então tags de liberação devem ser criadas dessa forma se você estiver usando `git describe`, para assegurar que o commit seja nomeado corretamente quando feito o describe. Você pode também usar essa string como alvo do checkout, embora ele dependa do SHA-1 abreviado no final, então ele pode não ser válido para sempre. Por exemplo, o kernel do Linux recentemente mudou de 8 para 10 caracteres para assegurar que os SHA-1 sejam únicos, então saídas antigas do `git describe` foram invalidadas.
 
-Now you want to release a build. One of the things you’ll want to do is create an archive of the latest snapshot of your code for those poor souls who don’t use Git. The command to do this is `git archive`:
+### Preparando Uma Liberação ###
 
-	$ git archive master --prefix='project/' | gzip > `git describe master`.tar.gz
-	$ ls *.tar.gz
-	v1.6.2-rc1-20-g8c5b85c.tar.gz
+Agora você quer liberar uma build. Uma das coisas que você irá querer fazer é criar um arquivo do último snapshot de seu código para aquelas almas perdidas que não usam Git. O comando para fazer isso é `git archive`:
 
-If someone opens that tarball, they get the latest snapshot of your project under a project directory. You can also create a zip archive in much the same way, but by passing the `--format=zip` option to `git archive`:
+    $ git archive master --prefix='project/' | gzip > `git describe master`.tar.gz
+    $ ls *.tar.gz
+    v1.6.2-rc1-20-g8c5b85c.tar.gz
 
-	$ git archive master --prefix='project/' --format=zip > `git describe master`.zip
+Se alguém abre o tarball, eles obtêm o último snapshot do projeto dentro de um diretório 'project'. Você pode também criar um arquivo zip quase da mesma forma, mas passando `--format=zip` para `git archive`:
 
-You now have a nice tarball and a zip archive of your project release that you can upload to your website or e-mail to people.
+    $ git archive master --prefix='project/' --format=zip > `git describe master`.zip
 
-### The Shortlog ###
+Você agora tem uma tarball e um arquivo zip da sua liberação que você pode disponibilizar em seu website ou enviar por e-mail para outras pessoas.
 
-It’s time to e-mail your mailing list of people who want to know what’s happening in your project. A nice way of quickly getting a sort of changelog of what has been added to your project since your last release or e-mail is to use the `git shortlog` command. It summarizes all the commits in the range you give it; for example, the following gives you a summary of all the commits since your last release, if your last release was named v1.0.1:
+### O Shortlog ###
 
-	$ git shortlog --no-merges master --not v1.0.1
-	Chris Wanstrath (8):
-	      Add support for annotated tags to Grit::Tag
-	      Add packed-refs annotated tag support.
-	      Add Grit::Commit#to_patch
-	      Update version and History.txt
-	      Remove stray `puts`
-	      Make ls_tree ignore nils
+É hora de enviar e-mail para a lista de e-mails das pessoas que querem saber o que está acontecendo no seu projeto. Uma forma legal de conseguir rapidamente um tipo de changelog do que foi adicionado ao seu projeto desde sua última liberação ou e-mail é usar o comando `git shortlog`. Ele resume todos os commits no intervalo que você passar; por exemplo, o seguinte lhe dá um resumo de todos os commits desde a sua última liberação, se sua última liberação foi chamada v1.0.1:
 
-	Tom Preston-Werner (4):
-	      fix dates in history
-	      dynamic version method
-	      Version bump to 1.0.2
-	      Regenerated gemspec for version 1.0.2
+    $ git shortlog --no-merges master --not v1.0.1
+    Chris Wanstrath (8):
+          Add support for annotated tags to Grit::Tag
+          Add packed-refs annotated tag support.
+          Add Grit::Commit#to_patch
+          Update version and History.txt
+          Remove stray `puts`
+          Make ls_tree ignore nils
 
-You get a clean summary of all the commits since v1.0.1, grouped by author, that you can e-mail to your list.
+    Tom Preston-Werner (4):
+          fix dates in history
+          dynamic version method
+          Version bump to 1.0.2
+          Regenerated gemspec for version 1.0.2
 
-## Summary ##
+Você obtém um resumo sucinto de todos os commits desde v1.0.1 agrupados por autor que você pode enviar por e-mail para a sua lista.
 
-You should feel fairly comfortable contributing to a project in Git as well as maintaining your own project or integrating other users’ contributions. Congratulations on being an effective Git developer! In the next chapter, you’ll learn more powerful tools and tips for dealing with complex situations, which will truly make you a Git master.
+## Resumo ##
+
+Você deve se sentir bastante confortável contribuindo para um projeto com Git assim como mantendo seu próprio projeto ou integrando contribuições de outros usuários. Parabéns por ser um desenvolvedor eficaz em Git! No próximo capítulo, você irá aprender mais ferramentas poderosas e dicas para lidar com situações complexas, que fará de você verdadeiramente um mestre Git.

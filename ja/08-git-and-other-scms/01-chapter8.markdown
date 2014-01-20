@@ -13,33 +13,33 @@ Git の素晴しい機能のひとつに、Git と Subversion を双方向にブ
 
 ### git svn ###
 
-The base command in Git for all the Subversion bridging commands is `git svn`. You preface everything with that. It takes quite a few commands, so you’ll learn about the common ones while going through a few small workflows.
+Git と Subversion の橋渡しをするコマンド群のベースとなるコマンドが `git svn` です。すべてはここから始めることができます。この後に続くコマンドはかなりたくさんあるので、いくつかのワークフローを通して一般的なものから身につけていきましょう。
 
-It’s important to note that when you’re using `git svn`, you’re interacting with Subversion, which is a system that is far less sophisticated than Git. Although you can easily do local branching and merging, it’s generally best to keep your history as linear as possible by rebasing your work and avoiding doing things like simultaneously interacting with a Git remote repository.
+注意すべきことは、`git svn` を使っているときは Subversion を相手にしているのだということです。これは、Git ほど洗練されてはいません。ローカルでのブランチ作成やマージは簡単にできますが、作業内容をリベースするなどして歴史をできるだけ一直線に保つようにし、Git リモートリポジトリを相手にするときのように考えるのは避けましょう。
 
-Don’t rewrite your history and try to push again, and don’t push to a parallel Git repository to collaborate with fellow Git developers at the same time. Subversion can have only a single linear history, and confusing it is very easy. If you’re working with a team, and some are using SVN and others are using Git, make sure everyone is using the SVN server to collaborate — doing so will make your life easier.
+歴史を書き換えてもう一度プッシュしようなどとしてはいけません。また、他の開発者との共同作業のために複数の Git リポジトリに並行してプッシュするのもいけません。Subversion が扱えるのは一本の直線上の歴史だけで、ちょっとしたことですぐに混乱してしまいます。チームのメンバーの中に SVN を使う人と Git を使う人がいる場合は、全員が SVN サーバーを使って共同作業するようにしましょう。そうすれば、少しは生きやすくなります。
 
-### Setting Up ###
+### 準備 ###
 
-To demonstrate this functionality, you need a typical SVN repository that you have write access to. If you want to copy these examples, you’ll have to make a writeable copy of my test repository. In order to do that easily, you can use a tool called `svnsync` that comes with more recent versions of Subversion — it should be distributed with at least 1.4. For these tests, I created a new Subversion repository on Google code that was a partial copy of the `protobuf` project, which is a tool that encodes structured data for network transmission. 
+この機能を説明するには、書き込みアクセス権を持つ標準的な SVN リポジトリが必要です。もしこのサンプルをコピーして試したいのなら、私のテスト用リポジトリの書き込み可能なコピーを作らなければなりません。これを簡単に行うには、`svnsync` というツールを使います。最近のバージョンの Subversion、少なくとも 1.4 以降に付属しているツールです。テスト用として、新しい Subversion リポジトリを Google code 上に作りました。これは `protobuf` プロジェクトの一部で、`protobuf` は構造化されたデータを符号化してネットワーク上で転送するためのツールです。
 
-To follow along, you first need to create a new local Subversion repository:
+まずはじめに、新しいローカル Subversion リポジトリを作ります。
 
 	$ mkdir /tmp/test-svn
 	$ svnadmin create /tmp/test-svn
 
-Then, enable all users to change revprops — the easy way is to add a pre-revprop-change script that always exits 0:
+そして、すべてのユーザーが revprop を変更できるようにします。簡単な方法は、常に 0 で終了する pre-revprop-change スクリプトを追加することです。
 
-	$ cat /tmp/test-svn/hooks/pre-revprop-change 
+	$ cat /tmp/test-svn/hooks/pre-revprop-change
 	#!/bin/sh
 	exit 0;
 	$ chmod +x /tmp/test-svn/hooks/pre-revprop-change
 
-You can now sync this project to your local machine by calling `svnsync init` with the to and from repositories.
+これで、ローカルマシンにこのプロジェクトを同期できるようになりました。同期元と同期先のリポジトリを指定して `svnsync init` を実行します。
 
-	$ svnsync init file:///tmp/test-svn http://progit-example.googlecode.com/svn/ 
+	$ svnsync init file:///tmp/test-svn http://progit-example.googlecode.com/svn/
 
-This sets up the properties to run the sync. You can then clone the code by running
+このコマンドは、同期を実行するためのプロパティを設定します。次に、このコマンドでコードをコピーします。
 
 	$ svnsync sync file:///tmp/test-svn
 	Committed revision 1.
@@ -49,11 +49,11 @@ This sets up the properties to run the sync. You can then clone the code by runn
 	Committed revision 3.
 	...
 
-Although this operation may take only a few minutes, if you try to copy the original repository to another remote repository instead of a local one, the process will take nearly an hour, even though there are fewer than 100 commits. Subversion has to clone one revision at a time and then push it back into another repository — it’s ridiculously inefficient, but it’s the only easy way to do this.
+この操作は数分で終わりますが、もし元のリポジトリのコピー先がローカルではなく別のリモートリポジトリだった場合、この処理には約一時間かかります。総コミット数はたかだか 100 にも満たないにもかかわらず。Subversion では、リビジョンごとにクローンを作ってコピー先のリポジトリに投入していかなければなりません。これはばかばかしいほど非効率的ですが、簡単に済ませるにはこの方法しかないのです。
 
-### Getting Started ###
+### はじめましょう ###
 
-Now that you have a Subversion repository to which you have write access, you can go through a typical workflow. You’ll start with the `git svn clone` command, which imports an entire Subversion repository into a local Git repository. Remember that if you’re importing from a real hosted Subversion repository, you should replace the `file:///tmp/test-svn` here with the URL of your Subversion repository:
+書き込み可能な Subversion リポジトリが手に入ったので、一般的なワークフローに沿って進めましょう。まずは `git svn clone` コマンドを実行します。このコマンドは、Subversion リポジトリ全体をローカルの Git リポジトリにインポートします。どこかにホストされている実際の Subversion リポジトリから取り込む場合は `file:///tmp/test-svn` の部分を Subversion リポジトリの URL に変更しましょう。
 
 	$ git svn clone file:///tmp/test-svn -T trunk -b branches -t tags
 	Initialized empty Git repository in /Users/schacon/projects/testsvnsync/svn/.git/
@@ -71,13 +71,13 @@ Now that you have a Subversion repository to which you have write access, you ca
 	Checked out HEAD:
 	 file:///tmp/test-svn/branches/my-calc-branch r76
 
-This runs the equivalent of two commands — `git svn init` followed by `git svn fetch` — on the URL you provide. This can take a while. The test project has only about 75 commits and the codebase isn’t that big, so it takes just a few minutes. However, Git has to check out each version, one at a time, and commit it individually. For a project with hundreds or thousands of commits, this can literally take hours or even days to finish.
+これは、指定した URL に対して `git svn init` に続けて `git svn fetch` を実行するのと同じ意味です。しばらく時間がかかります。test プロジェクトには 75 のコミットしかなくてコードベースもそれほど大きくないので、数分しかかかりません。しかし、Git は各バージョンをそれぞれチェックアウトしては個別にコミットしています。もし数百数千のコミットがあるプロジェクトで試すと、終わるまでには数時間から下手をすると数日かかってしまうかもしれません。
 
-The `-T trunk -b branches -t tags` part tells Git that this Subversion repository follows the basic branching and tagging conventions. If you name your trunk, branches, or tags differently, you can change these options. Because this is so common, you can replace this entire part with `-s`, which means standard layout and implies all those options. The following command is equivalent:
+`-T trunk -b branches -t tags` の部分は、この Subversion リポジトリが標準的なブランチとタグの規約に従っていることを表しています。trunk、branches、tags にもし別の名前をつけているのなら、この部分を変更します。この規約は一般に使われているものなので、単に `-s` とだけ指定することもできます。これは、先の 3 つのオプションを指定したのと同じ標準のレイアウトを表します。つまり、次のようにしても同じ意味になるということです。
 
 	$ git svn clone file:///tmp/test-svn -s
 
-At this point, you should have a valid Git repository that has imported your branches and tags:
+これで、ブランチやタグも取り込んだ Git リポジトリができあがりました。
 
 	$ git branch -a
 	* master
@@ -88,7 +88,7 @@ At this point, you should have a valid Git repository that has imported your bra
 	  tags/release-2.0.2rc1
 	  trunk
 
-It’s important to note how this tool namespaces your remote references differently. When you’re cloning a normal Git repository, you get all the branches on that remote server available locally as something like `origin/[branch]` - namespaced by the name of the remote. However, `git svn` assumes that you won’t have multiple remotes and saves all its references to points on the remote server with no namespacing. You can use the Git plumbing command `show-ref` to look at all your full reference names:
+このツールがリモート参照を取り込むときの名前空間が通常と異なることに注意しましょう。Git リポジトリのクローンを作成した場合は、リモートサーバー上のすべてのブランチが `origin/[branch]` のような形式で取り込まれます。つまりリモートの名前で名前空間が作られます。しかし、`git svn` はリモートが複数あることを想定しておらず、すべてのリモートサーバーを名前空間なしに保存します。Git のコマンド `show-ref` を使うと、すべての参照名を完全な形式で見ることができます。
 
 	$ git show-ref
 	1cbd4904d9982f386d87f88fce1c24ad7c0f0471 refs/heads/master
@@ -99,7 +99,7 @@ It’s important to note how this tool namespaces your remote references differe
 	1c4cb508144c513ff1214c3488abe66dcb92916f refs/remotes/tags/release-2.0.2rc1
 	1cbd4904d9982f386d87f88fce1c24ad7c0f0471 refs/remotes/trunk
 
-A normal Git repository looks more like this:
+通常の Git リポジトリは、このようになります。
 
 	$ git show-ref
 	83e38c7a0af325a9722f2fdc56b10188806d83a1 refs/heads/master
@@ -107,19 +107,19 @@ A normal Git repository looks more like this:
 	0a30dd3b0c795b80212ae723640d4e5d48cabdff refs/remotes/origin/master
 	25812380387fdd55f916652be4881c6f11600d6f refs/remotes/origin/testing
 
-You have two remote servers: one named `gitserver` with a `master` branch; and another named `origin` with two branches, `master` and `testing`. 
+2 つのリモートサーバーがあり、一方の `gitserver` には `master` ブランチが、そしてもう一方の `origin` には `master` と `testing` の 2 つのブランチがあります。
 
-Notice how in the example of remote references imported from `git svn`, tags are added as remote branches, not as real Git tags. Your Subversion import looks like it has a remote named tags with branches under it.
+サンプルのリモート参照が `git svn` でどのように取り込まれたかに注目しましょう。タグはリモートブランチとして取り込まれており、Git のタグにはなっていません。Subversion から取り込んだ内容は、まるで tags という名前のリモートからブランチを取り込んだように見えます。
 
-### Committing Back to Subversion ###
+### Subversion へのコミットの書き戻し ###
 
-Now that you have a working repository, you can do some work on the project and push your commits back upstream, using Git effectively as a SVN client. If you edit one of the files and commit it, you have a commit that exists in Git locally that doesn’t exist on the Subversion server:
+作業リポジトリを手に入れたあなたはプロジェクト上で何らかの作業を終え、コミットを上流に書き戻すことになりました。Git を SVN クライアントとして使います。どれかひとつのファイルを変更してコミットした時点では、Git上でローカルに存在するそのコミットはSubversionサーバー上には存在しません。
 
 	$ git commit -am 'Adding git-svn instructions to the README'
 	[master 97031e5] Adding git-svn instructions to the README
 	 1 files changed, 1 insertions(+), 1 deletions(-)
 
-Next, you need to push your change upstream. Notice how this changes the way you work with Subversion — you can do several commits offline and then push them all at once to the Subversion server. To push to a Subversion server, you run the `git svn dcommit` command:
+次に、これをプッシュして上流を変更しなければなりません。この変更が Subversion に対してどのように作用するのかに注意しましょう。オフラインで行った複数のコミットを、すべて一度に Subversion サーバーにプッシュすることができます。Subversion サーバーにプッシュするには `git svn dcommit` コマンドを使います。
 
 	$ git svn dcommit
 	Committing to file:///tmp/test-svn/trunk ...
@@ -130,7 +130,7 @@ Next, you need to push your change upstream. Notice how this changes the way you
 	No changes between current HEAD and refs/remotes/trunk
 	Resetting to the latest refs/remotes/trunk
 
-This takes all the commits you’ve made on top of the Subversion server code, does a Subversion commit for each, and then rewrites your local Git commit to include a unique identifier. This is important because it means that all the SHA-1 checksums for your commits change. Partly for this reason, working with Git-based remote versions of your projects concurrently with a Subversion server isn’t a good idea. If you look at the last commit, you can see the new `git-svn-id` that was added:
+このコマンドは、Subversionサーバーからのコード上で行われたすべてのコミットに対して個別に Subversion 上にコミットし、ローカルの Git のコミットを書き換えて一意な識別子を含むようにします。ここで重要なのは、書き換えによってすべてのローカルコミットの SHA-1 チェックサムが変化するということです。この理由もあって、Git ベースのリモートリポジトリにあるプロジェクトと Subversion サーバーを同時に使うことはおすすめできません。直近のコミットを調べれば、新たに `git-svn-id` が追記されたことがわかります。
 
 	$ git log -1
 	commit 938b1a547c2cc92033b74d32030e86468294a5c8
@@ -141,11 +141,11 @@ This takes all the commits you’ve made on top of the Subversion server code, d
 
 	    git-svn-id: file:///tmp/test-svn/trunk@79 4c93b258-373f-11de-be05-5f7a86268029
 
-Notice that the SHA checksum that originally started with `97031e5` when you committed now begins with `938b1a5`. If you want to push to both a Git server and a Subversion server, you have to push (`dcommit`) to the Subversion server first, because that action changes your commit data.
+元のコミットの SHA チェックサムが `97031e5` で始まっていたのに対して今は `938b1a5` に変わっていることに注目しましょう。Git と Subversion の両方のサーバーにプッシュしたい場合は、まず Subversion サーバーにプッシュ (`dcommit`) してから Git のほうにプッシュしなければなりません。dcommit でコミットデータが書き換わるからです。
 
-### Pulling in New Changes ###
+### 新しい変更の取り込み ###
 
-If you’re working with other developers, then at some point one of you will push, and then the other one will try to push a change that conflicts. That change will be rejected until you merge in their work. In `git svn`, it looks like this:
+複数の開発者と作業をしていると、遅かれ早かれ、誰かがプッシュしたあとに他の人がプッシュしようとして衝突を起こすということが発生します。他の人の作業をマージするまで、その変更は却下されます。`git svn` では、このようになります。
 
 	$ git svn dcommit
 	Committing to file:///tmp/test-svn/trunk ...
@@ -153,7 +153,7 @@ If you’re working with other developers, then at some point one of you will pu
 	out-of-date: resource out of date; try updating at /Users/schacon/libexec/git-\
 	core/git-svn line 482
 
-To resolve this situation, you can run `git svn rebase`, which pulls down any changes on the server that you don’t have yet and rebases any work you have on top of what is on the server:
+この状態を解決するには `git svn rebase` を実行します。これは、サーバー上の変更のうちまだ取り込んでいない変更をすべて取り込んでから、自分の作業をリベースします。
 
 	$ git svn rebase
 	       M      README.txt
@@ -161,7 +161,7 @@ To resolve this situation, you can run `git svn rebase`, which pulls down any ch
 	First, rewinding head to replay your work on top of it...
 	Applying: first user change
 
-Now, all your work is on top of what is on the Subversion server, so you can successfully `dcommit`:
+これで手元の作業が Subversion サーバー上の最新状態の上でなされたことになったので、無事に `dcommit` することができます。
 
 	$ git svn dcommit
 	Committing to file:///tmp/test-svn/trunk ...
@@ -172,7 +172,7 @@ Now, all your work is on top of what is on the Subversion server, so you can suc
 	No changes between current HEAD and refs/remotes/trunk
 	Resetting to the latest refs/remotes/trunk
 
-It’s important to remember that unlike Git, which requires you to merge upstream work you don’t yet have locally before you can push, `git svn` makes you do that only if the changes conflict. If someone else pushes a change to one file and then you push a change to another file, your `dcommit` will work fine:
+ここで注意すべき点は、Git の場合は上流での変更をすべてマージしてからでなければプッシュできないけれど、`git svn` の場合は衝突さえしなければマージしなくてもプッシュできるということです。だれかがあるファイルを変更した後で自分が別のファイルを変更してプッシュしても、`dcommit` は正しく動作します。
 
 	$ git svn dcommit
 	Committing to file:///tmp/test-svn/trunk ...
@@ -189,9 +189,9 @@ It’s important to remember that unlike Git, which requires you to merge upstre
 	First, rewinding head to replay your work on top of it...
 	Nothing to do.
 
-This is important to remember, because the outcome is a project state that didn’t exist on either of your computers when you pushed. If the changes are incompatible but don’t conflict, you may get issues that are difficult to diagnose. This is different than using a Git server — in Git, you can fully test the state on your client system before publishing it, whereas in SVN, you can’t ever be certain that the states immediately before commit and after commit are identical.
+これは忘れずに覚えておきましょう。というのも、プッシュした後の結果はどの開発者の作業環境にも存在しない状態になっているからです。たまたま衝突しなかっただけで互換性のない変更をプッシュしてしまったときに、その問題を見つけるのが難しくなります。これが、Git サーバーを使う場合と異なる点です。Git の場合はクライアントの状態をチェックしてからでないと変更を公開できませんが、SVN の場合はコミットの直前とコミット後の状態が同等であるかどうかすら確かめられないのです。
 
-You should also run this command to pull in changes from the Subversion server, even if you’re not ready to commit yourself. You can run `git svn fetch` to grab the new data, but `git svn rebase` does the fetch and then updates your local commits.
+もし自分のコミット準備がまだできていなくても、Subversion から変更を取り込むときにもこのコマンドを使わなければなりません。`git svn fetch` でも新しいデータを取得することはできますが、`git svn rebase` はデータを取得するだけでなくローカルのコミットの更新も行います。
 
 	$ git svn rebase
 	       M      generate_descriptor_proto.sh
@@ -199,13 +199,13 @@ You should also run this command to pull in changes from the Subversion server, 
 	First, rewinding head to replay your work on top of it...
 	Fast-forwarded master to refs/remotes/trunk.
 
-Running `git svn rebase` every once in a while makes sure your code is always up to date. You need to be sure your working directory is clean when you run this, though. If you have local changes, you must either stash your work or temporarily commit it before running `git svn rebase` — otherwise, the command will stop if it sees that the rebase will result in a merge conflict.
+`git svn rebase` をときどき実行しておけば、手元のコードを常に最新の状態に保っておけます。しかし、このコマンドを実行するときには作業ディレクトリがクリーンな状態であることを確認しておく必要があります。手元で変更をしている場合は、stash で作業を退避させるか一時的にコミットしてからでないと `git svn rebase` を実行してはいけません。さもないと、もしリベースの結果としてマージが衝突すればコマンドの実行が止まってしまいます。
 
-### Git Branching Issues ###
+### Git でのブランチに関する問題 ###
 
-When you’ve become comfortable with a Git workflow, you’ll likely create topic branches, do work on them, and then merge them in. If you’re pushing to a Subversion server via git svn, you may want to rebase your work onto a single branch each time instead of merging branches together. The reason to prefer rebasing is that Subversion has a linear history and doesn’t deal with merges like Git does, so git svn follows only the first parent when converting the snapshots into Subversion commits.
+Git のワークフローに慣れてくると、トピックブランチを作ってそこで作業を行い、それをマージすることもあるでしょう。git svn を使って Subversion サーバーにプッシュする場合は、それらのブランチをまとめてプッシュするのではなく一つのブランチ上にリベースしてからプッシュしたくなるかもしれません。リベースしたほうがよい理由は、Subversion はリニアに歴史を管理していて Git のようなマージができないからです。git svn がスナップショットを Subversion のコミットに変換するときには、最初の親だけに続けます。
 
-Suppose your history looks like the following: you created an `experiment` branch, did two commits, and then merged them back into `master`. When you `dcommit`, you see output like this:
+歴史が次のような状態になっているものとしましょう。`experiment` ブランチを作ってそこで 2 回のコミットを済ませ、それを `master` にマージしたところです。ここで `dcommit` すると、出力はこのようになります。
 
 	$ git svn dcommit
 	Committing to file:///tmp/test-svn/trunk ...
@@ -226,17 +226,17 @@ Suppose your history looks like the following: you created an `experiment` branc
 	No changes between current HEAD and refs/remotes/trunk
 	Resetting to the latest refs/remotes/trunk
 
-Running `dcommit` on a branch with merged history works fine, except that when you look at your Git project history, it hasn’t rewritten either of the commits you made on the `experiment` branch — instead, all those changes appear in the SVN version of the single merge commit.
+歴史をマージしたブランチで `dcommit` を実行してもうまく動作します。ただし、Git プロジェクト上での歴史を見ると、`experiment` ブランチ上でのコミットは書き換えられていません。そこでのすべての変更は、SVN 上での単一のマージコミットとなっています。
 
-When someone else clones that work, all they see is the merge commit with all the work squashed into it; they don’t see the commit data about where it came from or when it was committed.
+他の人がその作業をクローンしたときには、すべての作業をひとまとめにしたマージコミットしか見ることができません。そのコミットがどこから来たのか、そしていつコミットされたのかを知ることができないのです。
 
-### Subversion Branching ###
+### Subversion のブランチ ###
 
-Branching in Subversion isn’t the same as branching in Git; if you can avoid using it much, that’s probably best. However, you can create and commit to branches in Subversion using git svn.
+Subversion のブランチは Git のブランチとは異なります。可能ならば、Subversion のブランチは使わないようにするのがベストでしょう。しかし、Subversion のブランチの作成やコミットも、git svn を使ってすることができます。
 
-#### Creating a New SVN Branch ####
+#### 新しい SVN ブランチの作成 ####
 
-To create a new branch in Subversion, you run `git svn branch [branchname]`:
+Subversion に新たなブランチを作るには `git svn branch [branchname]` を実行します。
 
 	$ git svn branch opera
 	Copying file:///tmp/test-svn/trunk at r87 to file:///tmp/test-svn/branches/opera...
@@ -247,27 +247,27 @@ To create a new branch in Subversion, you run `git svn branch [branchname]`:
 	Successfully followed parent
 	r89 = 9b6fe0b90c5c9adf9165f700897518dbc54a7cbf (opera)
 
-This does the equivalent of the `svn copy trunk branches/opera` command in Subversion and operates on the Subversion server. It’s important to note that it doesn’t check you out into that branch; if you commit at this point, that commit will go to `trunk` on the server, not `opera`.
+これは Subversion の `svn copy trunk branches/opera` コマンドと同じ意味で、Subversion サーバー上で実行されます。ここで注意すべき点は、このコマンドを実行しても新しいブランチに入ったことにはならないということです。この後コミットをすると、そのコミットはサーバーの `trunk` に対して行われます。`opera` ではありません。
 
-### Switching Active Branches ###
+### アクティブなブランチの切り替え ###
 
-Git figures out what branch your dcommits go to by looking for the tip of any of your Subversion branches in your history — you should have only one, and it should be the last one with a `git-svn-id` in your current branch history. 
+Git が dcommit の行き先のブランチを決めるときには、あなたの手元の歴史上にある Subversion ブランチのいずれかのヒントを使います。手元にはひとつしかないはずで、それは現在のブランチの歴史上の直近のコミットにある `git-svn-id` です。
 
-If you want to work on more than one branch simultaneously, you can set up local branches to `dcommit` to specific Subversion branches by starting them at the imported Subversion commit for that branch. If you want an `opera` branch that you can work on separately, you can run
+複数のブランチを同時に操作するときは、ローカルブランチを `dcommit` でその Subversion ブランチにコミットするのかを設定することができます。そのためには、Subversion のブランチをインポートしてローカルブランチを作ります。`opera` ブランチを個別に操作したい場合は、このようなコマンドを実行します。
 
 	$ git branch opera remotes/opera
 
-Now, if you want to merge your `opera` branch into `trunk` (your `master` branch), you can do so with a normal `git merge`. But you need to provide a descriptive commit message (via `-m`), or the merge will say "Merge branch opera" instead of something useful.
+これで、`opera` ブランチを `trunk` (手元の `master` ブランチ) にマージするときに通常の `git merge` が使えるようになりました。しかし、そのときには適切なコミットメッセージを (`-m` で) 指定しなければなりません。さもないと、有用な情報ではなく単なる "Merge branch opera" というメッセージになってしまいます。
 
-Remember that although you’re using `git merge` to do this operation, and the merge likely will be much easier than it would be in Subversion (because Git will automatically detect the appropriate merge base for you), this isn’t a normal Git merge commit. You have to push this data back to a Subversion server that can’t handle a commit that tracks more than one parent; so, after you push it up, it will look like a single commit that squashed in all the work of another branch under a single commit. After you merge one branch into another, you can’t easily go back and continue working on that branch, as you normally can in Git. The `dcommit` command that you run erases any information that says what branch was merged in, so subsequent merge-base calculations will be wrong — the dcommit makes your `git merge` result look like you ran `git merge --squash`. Unfortunately, there’s no good way to avoid this situation — Subversion can’t store this information, so you’ll always be crippled by its limitations while you’re using it as your server. To avoid issues, you should delete the local branch (in this case, `opera`) after you merge it into trunk.
+`git merge` を使ってこの操作を行ったとしても、そしてそれが Subversion でのマージよりもずっと簡単だったとしても (Git は自動的に適切なマージベースを検出してくれるからね)、これは通常の Git のマージコミットとは違うということを覚えておきましょう。このデータを Subversion に書き戻すことになりますが Subversion では複数の親を持つコミットは処理できません。そのため、プッシュした後は、別のブランチ上で行ったすべての操作をひとまとめにした単一のコミットに見えてしまいます。あるブランチを別のブランチにマージしたら、元のブランチに戻って作業を続けるのは困難です。Git なら簡単なのですが。`dcommit` コマンドを実行すると、どのブランチからマージしたのかという情報はすべて消えてしまいます。そのため、それ以降のマージ元の算出は間違ったものとなります。dcommit は、`git merge` の結果をまるで `git merge --squash` を実行したのと同じ状態にしてしまうのです。残念ながら、これを回避するよい方法はありません。Subversion 側にこの情報を保持する方法がないからです。Subversion をサーバーに使う以上は、常にこの制約に縛られることになります。問題を回避するには、trunk にマージしたらローカルブランチ (この場合は `opera`) を削除しなければなりません。
 
-### Subversion Commands ###
+### Subversion コマンド ###
 
-The `git svn` toolset provides a number of commands to help ease the transition to Git by providing some functionality that’s similar to what you had in Subversion. Here are a few commands that give you what Subversion used to.
+`git svn` ツールセットには、Git への移行をしやすくするための多くのコマンドが用意されています。Subversion で使い慣れていたのと同等の機能を提供するコマンド群です。その中からいくつかを紹介します。
 
-#### SVN Style History ####
+#### SVN 形式のログ ####
 
-If you’re used to Subversion and want to see your history in SVN output style, you can run `git svn log` to view your commit history in SVN formatting:
+Subversion に慣れているので SVN が出力する形式で歴史を見たい、という場合は `git svn log` を実行しましょう。すると、コミットの歴史が SVN 形式で表示されます。
 
 	$ git svn log
 	------------------------------------------------------------------------
@@ -282,34 +282,34 @@ If you’re used to Subversion and want to see your history in SVN output style,
 
 	------------------------------------------------------------------------
 	r85 | schacon | 2009-05-02 16:00:09 -0700 (Sat, 02 May 2009) | 2 lines
-	
+
 	updated the changelog
 
-You should know two important things about `git svn log`. First, it works offline, unlike the real `svn log` command, which asks the Subversion server for the data. Second, it only shows you commits that have been committed up to the Subversion server. Local Git commits that you haven’t dcommited don’t show up; neither do commits that people have made to the Subversion server in the meantime. It’s more like the last known state of the commits on the Subversion server.
+`git svn log` に関して知っておくべき重要なことがふたつあります。まず。このコマンドはオフラインで動作します。実際の `svn log` コマンドのように Subversion サーバーにデータを問い合わせたりしません。次に、すでに Subversion サーバーにコミット済みのコミットしか表示されません。つまり、ローカルの Git へのコミットのうちまだ dcommit していないものは表示されないし、その間に他の人が Subversion サーバーにコミットした内容も表示されません。最後に Subversion サーバーの状態を調べたときのログが表示されると考えればよいでしょう。
 
-#### SVN Annotation ####
+#### SVN アノテーション ####
 
-Much as the `git svn log` command simulates the `svn log` command offline, you can get the equivalent of `svn annotate` by running `git svn blame [FILE]`. The output looks like this:
+`git svn log` コマンドが `svn log` コマンドをオフラインでシミュレートしているのと同様に、`svn annotate` と同様のことを `git svn blame [FILE]` で実現できます。出力は、このようになります。
 
-	$ git svn blame README.txt 
+	$ git svn blame README.txt
 	 2   temporal Protocol Buffers - Google's data interchange format
 	 2   temporal Copyright 2008 Google Inc.
 	 2   temporal http://code.google.com/apis/protocolbuffers/
-	 2   temporal 
+	 2   temporal
 	22   temporal C++ Installation - Unix
 	22   temporal =======================
-	 2   temporal 
+	 2   temporal
 	79    schacon Committing in git-svn.
-	78    schacon 
+	78    schacon
 	 2   temporal To build and install the C++ Protocol Buffer runtime and the Protocol
 	 2   temporal Buffer compiler (protoc) execute the following:
-	 2   temporal 
+	 2   temporal
 
-Again, it doesn’t show commits that you did locally in Git or that have been pushed to Subversion in the meantime.
+先ほどと同様、このコマンドも Git にローカルにコミットした内容や他から Subversion にプッシュされていたコミットは表示できません。
 
-#### SVN Server Information ####
+#### SVN サーバ情報 ####
 
-You can also get the same sort of information that `svn info` gives you by running `git svn info`:
+`svn info` と同様のサーバー情報を取得するには `git svn info` を実行します。
 
 	$ git svn info
 	Path: .
@@ -323,56 +323,57 @@ You can also get the same sort of information that `svn info` gives you by runni
 	Last Changed Rev: 87
 	Last Changed Date: 2009-05-02 16:07:37 -0700 (Sat, 02 May 2009)
 
-This is like `blame` and `log` in that it runs offline and is up to date only as of the last time you communicated with the Subversion server.
+`blame` や `log` と同様にこれもオフラインで動作し、最後に Subversion サーバーと通信した時点での情報しか表示されません。
 
-#### Ignoring What Subversion Ignores ####
+#### Subversion が無視するものを無視する ####
 
-If you clone a Subversion repository that has `svn:ignore` properties set anywhere, you’ll likely want to set corresponding `.gitignore` files so you don’t accidentally commit files that you shouldn’t. `git svn` has two commands to help with this issue. The first is `git svn create-ignore`, which automatically creates corresponding `.gitignore` files for you so your next commit can include them.
+どこかに `svn:ignore` プロパティが設定されている Subversion リポジトリをクローンした場合は、対応する `.gitignore` ファイルを用意したくなることでしょう。コミットすべきではないファイルを誤ってコミットしてしまうことを防ぐためにです。`git svn` には、この問題に対応するためのコマンドが二つ用意されています。まず最初が `git svn create-ignore` で、これは、対応する `.gitignore` ファイルを自動生成して次のコミットに含めます。
 
-The second command is `git svn show-ignore`, which prints to stdout the lines you need to put in a `.gitignore` file so you can redirect the output into your project exclude file:
+もうひとつは `git svn show-ignore` で、これは `.gitignore` に書き込む内容を標準出力に送ります。この出力を、プロジェクトの exclude ファイルにリダイレクトしましょう。
 
 	$ git svn show-ignore > .git/info/exclude
 
-That way, you don’t litter the project with `.gitignore` files. This is a good option if you’re the only Git user on a Subversion team, and your teammates don’t want `.gitignore` files in the project.
+これで、プロジェクトに `.gitignore` ファイルを散らかさなくてもよくなります。Subversion 使いのチームの中で Git を使うのが自分だけだという場合、他のメンバーにとっては `.gitignore` ファイルは目障りでしょう。そのような場合はこの方法が使えます。
 
-### Git-Svn Summary ###
+### Git-Svn のまとめ ###
 
-The `git svn` tools are useful if you’re stuck with a Subversion server for now or are otherwise in a development environment that necessitates running a Subversion server. You should consider it crippled Git, however, or you’ll hit issues in translation that may confuse you and your collaborators. To stay out of trouble, try to follow these guidelines:
+`git svn` ツール群は、Subversion サーバーに行き詰まっている場合や使っている開発環境が Subversion サーバー前提になっている場合などに便利です。Git のできそこないだと感じるかもしれません。また、他のメンバーとの間で混乱が起こるかもしれません。トラブルを避けるために、次のガイドラインに従いましょう。
 
-* Keep a linear Git history that doesn’t contain merge commits made by `git merge`. Rebase any work you do outside of your mainline branch back onto it; don’t merge it in.
-* Don’t set up and collaborate on a separate Git server. Possibly have one to speed up clones for new developers, but don’t push anything to it that doesn’t have a `git-svn-id` entry. You may even want to add a `pre-receive` hook that checks each commit message for a `git-svn-id` and rejects pushes that contain commits without it.
+* Git の歴史をリニアに保ち続け、`git merge` によるマージコミットを含めないようにする。本流以外のブランチでの作業を書き戻すときは、マージではなくリベースすること。
+* Git サーバーを別途用意したりしないこと、新しい開発者がクローンするときのスピードをあげるためにサーバーを用意することはあるでしょうが、そこに `git-svn-id` エントリを持たないコミットをプッシュしてはいけません。`pre-receive` フックを追加してコミットメッセージをチェックし、`git-svn-id` がなければプッシュを拒否するようにしてもよいでしょう。
 
-If you follow those guidelines, working with a Subversion server can be more bearable. However, if it’s possible to move to a real Git server, doing so can gain your team a lot more.
+これらのガイドラインを守れば、Subversion サーバーでの作業にも耐えられることでしょう。しかし、もし本物の Git サーバーに移行できるのなら、そうしたほうがチームにとってずっと利益になります。
 
-## Migrating to Git ##
+## Git への移行 ##
 
-If you have an existing codebase in another VCS but you’ve decided to start using Git, you must migrate your project one way or another. This section goes over some importers that are included with Git for common systems and then demonstrates how to develop your own custom importer.
+別の VCS で管理している既存のコードベースを Git で管理しようと思ったら、何らかの方法でそのプロジェクトを移行しなければなりません。この節では、一般的なシステム上の Git に含まれているインポートツールについて説明します。そして、インポートツールを自作する方法も扱います。
 
-### Importing ###
+### インポート ###
 
-You’ll learn how to import data from two of the bigger professionally used SCM systems — Subversion and Perforce — both because they make up the majority of users I hear of who are currently switching, and because high-quality tools for both systems are distributed with Git.
+ここでは、業務のソースコード管理に使われる2大ツールである Subversion と Perforce からデータをインポートする方法を説明します。現在 Git への移行を考えている人たちの多くがこれらを使っていると聞いています。そのため、これらからのインポート用に、Git には高品質のツールが付属しています。
 
 ### Subversion ###
 
-If you read the previous section about using `git svn`, you can easily use those instructions to `git svn clone` a repository; then, stop using the Subversion server, push to a new Git server, and start using that. If you want the history, you can accomplish that as quickly as you can pull the data out of the Subversion server (which may take a while).
+先ほどの節で `git svn` の使い方を読んでいれば、話は簡単です。まず `git svn clone` でリポジトリを作り、そして Subversion サーバーを使うのをやめ、新しい Git サーバーにプッシュし、あとはそれを使い始めればいいのです。これまでの歴史が欲しいのなら、それも Subversion サーバーからプルすることができます (多少時間がかかります)。
 
-However, the import isn’t perfect; and because it will take so long, you may as well do it right. The first problem is the author information. In Subversion, each person committing has a user on the system who is recorded in the commit information. The examples in the previous section show `schacon` in some places, such as the `blame` output and the `git svn log`. If you want to map this to better Git author data, you need a mapping from the Subversion users to the Git authors. Create a file called `users.txt` that has this mapping in a format like this:
+しかし、インポートは完全ではありません。また時間もかかるので、正しくやるのがいいでしょう。まず最初に問題になるのが作者 (author) の情報です。Subversion ではコミットした人すべてがシステム上にユーザーを持っており、それがコミット情報として記録されます。たとえば先ほどの節のサンプルで言うと `schacon` がそれで、`blame` の出力や `git svn log` の出力に含まれています。これをうまく Git の作者データとしてマップするには、Subversion のユーザーと Git の作者のマッピングが必要です。`users.txt` という名前のファイルを作り、このような書式でマッピングを記述します。
 
 	schacon = Scott Chacon <schacon@geemail.com>
 	selse = Someo Nelse <selse@geemail.com>
 
-To get a list of the author names that SVN uses, you can run this:
+SVN で使っている作者の一覧を取得するには、このようにします。
 
-	$ svn log --xml | grep author | sort -u | perl -pe 's/.>(.?)<./$1 = /'
+	$ svn log ^/ --xml | grep -P "^<author" | sort -u | \
+	      perl -pe 's/<author>(.*?)<\/author>/$1 = /' > users.txt
 
-That gives you the log output in XML format — you can look for the authors, create a unique list, and then strip out the XML. (Obviously this only works on a machine with `grep`, `sort`, and `perl` installed.) Then, redirect that output into your users.txt file so you can add the equivalent Git user data next to each entry.
+これは、まずログを XML フォーマットで出力します。その中から作者を捜して重複を省き、XML を除去します (ちょっと見ればわかりますが、これは `grep` や `sort`、そして `perl` といったコマンドが使える環境でないと動きません)。この出力を users.txt にリダイレクトし、そこに Git のユーザーデータを書き足していきます。
 
-You can provide this file to `git svn` to help it map the author data more accurately. You can also tell `git svn` not to include the metadata that Subversion normally imports, by passing `--no-metadata` to the `clone` or `init` command. This makes your `import` command look like this:
+このファイルを `git svn` に渡せば、作者のデータをより正確にマッピングできるようになります。また、Subversion が通常インポートするメタデータを含めないよう `git svn` に指示することもできます。そのためには `--no-metadata` を `clone` コマンドあるいは `init` コマンドに渡します。そうすると、 `import` コマンドは次のようになります。
 
-	$ git-svn clone http://my-project.googlecode.com/svn/ \
+	$ git svn clone http://my-project.googlecode.com/svn/ \
 	      --authors-file=users.txt --no-metadata -s my_project
 
-Now you should have a nicer Subversion import in your `my_project` directory. Instead of commits that look like this
+これで、Subversion をちょっとマシにインポートした `my_project` ディレクトリができあがりました。コミットがこんなふうに記録されるのではなく、
 
 	commit 37efa680e8473b615de980fa935944215428a35a
 	Author: schacon <schacon@4c93b258-373f-11de-be05-5f7a86268029>
@@ -382,7 +383,8 @@ Now you should have a nicer Subversion import in your `my_project` directory. In
 
 	    git-svn-id: https://my-project.googlecode.com/svn/trunk@94 4c93b258-373f-11de-
 	    be05-5f7a86268029
-they look like this:
+
+次のように記録されています。
 
 	commit 03a8785f44c8ea5cdb0e8834b7c8e6c469be2ff2
 	Author: Scott Chacon <schacon@geemail.com>
@@ -390,40 +392,43 @@ they look like this:
 
 	    fixed install - go to trunk
 
-Not only does the Author field look a lot better, but the `git-svn-id` is no longer there, either.
+Author フィールドの見た目がずっとよくなっただけではなく、`git-svn-id` もなくなっています。
 
-You need to do a bit of `post-import` cleanup. For one thing, you should clean up the weird references that `git svn` set up. First you’ll move the tags so they’re actual tags rather than strange remote branches, and then you’ll move the rest of the branches so they’re local.
+インポートした後に、ちょっとした後始末が必要です。たとえば、`git svn` が準備した変な参照などです。まずはタグを移動して、奇妙なリモートブランチではなくちゃんとしたタグとして扱えるようにします。そして、残りのブランチを移動してローカルで扱えるようにします。
 
-To move the tags to be proper Git tags, run
+タグを Git のタグとして扱うには、次のコマンドを実行します。
 
-	$ cp -Rf .git/refs/remotes/tags/* .git/refs/tags/
-	$ rm -Rf .git/refs/remotes/tags
+	$ git for-each-ref refs/remotes/tags | cut -d / -f 4- | grep -v @ | while read tagname; do git tag "$tagname" "tags/$tagname"; git branch -r -d "tags/$tagname"; done
 
-This takes the references that were remote branches that started with `tag/` and makes them real (lightweight) tags.
+これは、リモートブランチのうち `tag/` で始まる名前のものを、実際の (軽量な) タグに変えます。
 
-Next, move the rest of the references under `refs/remotes` to be local branches:
+次に、`refs/remotes` 以下にあるそれ以外の参照をローカルブランチに移動します。
 
-	$ cp -Rf .git/refs/remotes/* .git/refs/heads/
-	$ rm -Rf .git/refs/remotes
+	$ git for-each-ref refs/remotes | cut -d / -f 3- | grep -v @ | while read branchname; do git branch "$branchname" "refs/remotes/$branchname"; git branch -r -d "$branchname"; done
 
-Now all the old branches are real Git branches and all the old tags are real Git tags. The last thing to do is add your new Git server as a remote and push to it. Because you want all your branches and tags to go up, you can run this:
+これで、今まであった古いブランチはすべて Git のブランチとなり、古いタグもすべて Git のタグになりました。最後に残る作業は、新しい Git サーバーをリモートに追加してプッシュすることです。自分のサーバーをリモートとして追加するには以下のようにします｡
+
+	$ git remote add origin git@my-git-server:myrepository.git
+
+すべてのブランチやタグを一緒にプッシュするには、このようにします。
 
 	$ git push origin --all
+	$ git push origin --tags
 
-All your branches and tags should be on your new Git server in a nice, clean import.
+これで、ブランチやタグも含めたすべてを、新しい Git サーバーにきれいにインポートできました。
 
 ### Perforce ###
 
-The next system you’ll look at importing from is Perforce. A Perforce importer is also distributed with Git, but only in the `contrib` section of the source code — it isn’t available by default like `git svn`. To run it, you must get the Git source code, which you can download from git.kernel.org:
+次のインポート元としてとりあげるのは Perforce です。Perforce からのインポートツールも Git に同梱されています｡ただし､使用しているGitのバージョンが1.7.11より古い場合は同梱されておらず､Gitソースコードの `contrib` から取り出す必要があります。ソースコードは git.kernel.org からダウンロードできます。
 
 	$ git clone git://git.kernel.org/pub/scm/git/git.git
 	$ cd git/contrib/fast-import
 
-In this `fast-import` directory, you should find an executable Python script named `git-p4`. You must have Python and the `p4` tool installed on your machine for this import to work. For example, you’ll import the Jam project from the Perforce Public Depot. To set up your client, you must export the P4PORT environment variable to point to the Perforce depot:
+この `fast-import` ディレクトリにある実行可能な Python スクリプト `git-p4` が、それです。このツールを使うには、Python と `p4` ツールがマシンにインストールされていなければなりません。たとえば、Jam プロジェクトを Perforce Public Depot からインポートします。クライアントをセットアップするには、環境変数 P4PORT をエクスポートして Perforce depot の場所を指すようにしなければなりません。
 
 	$ export P4PORT=public.perforce.com:1666
 
-Run the `git-p4 clone` command to import the Jam project from the Perforce server, supplying the depot and project path and the path into which you want to import the project:
+`git-p4 clone` コマンドを実行して Jam プロジェクトを Perforce サーバーからインポートし、depot とプロジェクトそしてプロジェクトの取り込み先のパスを指定します。
 
 	$ git-p4 clone //public/jam/src@all /opt/p4import
 	Importing from //public/jam/src@all into /opt/p4import
@@ -431,7 +436,7 @@ Run the `git-p4 clone` command to import the Jam project from the Perforce serve
 	Import destination: refs/remotes/p4/master
 	Importing revision 4409 (100%)
 
-If you go to the `/opt/p4import` directory and run `git log`, you can see your imported work:
+`/opt/p4import` ディレクトリに移動して `git log` を実行すると、インポートされた内容を見ることができます。
 
 	$ git log -2
 	commit 1fd4ec126171790efd2db83548b85b1bbbc07dc2
@@ -453,7 +458,7 @@ If you go to the `/opt/p4import` directory and run `git log`, you can see your i
 
 	    [git-p4: depot-paths = "//public/jam/src/": change = 3108]
 
-You can see the `git-p4` identifier in each commit. It’s fine to keep that identifier there, in case you need to reference the Perforce change number later. However, if you’d like to remove the identifier, now is the time to do so — before you start doing work on the new repository. You can use `git filter-branch` to remove the identifier strings en masse:
+`git-p4` という識別子が各コミットに含まれることがわかるでしょう。この識別子はそのままにしておいてもかまいません。後で万一 Perforce のチェンジ番号を参照しなければならなくなったときのために使えます。しかし、もし削除したいのならここで消しておきましょう。新しいリポジトリ上で何か作業を始める前のこの段階で。`git filter-branch` を使えば、この識別子を一括削除することができます。
 
 	$ git filter-branch --msg-filter '
 	        sed -e "/^\[git-p4:/d"
@@ -461,7 +466,7 @@ You can see the `git-p4` identifier in each commit. It’s fine to keep that ide
 	Rewrite 1fd4ec126171790efd2db83548b85b1bbbc07dc2 (123/123)
 	Ref 'refs/heads/master' was rewritten
 
-If you run `git log`, you can see that all the SHA-1 checksums for the commits have changed, but the `git-p4` strings are no longer in the commit messages:
+`git log` を実行すれば各コミットの SHA-1 チェックサムがすべて変わったことがわかります。そして `git-p4` 文字列はコミットメッセージから消えました。
 
 	$ git log -2
 	commit 10a16d60cffca14d454a15c6164378f4082bc5b0
@@ -479,13 +484,13 @@ If you run `git log`, you can see that all the SHA-1 checksums for the commits h
 
 	    Update derived jamgram.c
 
-Your import is ready to push up to your new Git server.
+これで、インポートした内容を新しい Git サーバーにプッシュする準備がととのいました。
 
-### A Custom Importer ###
+### カスタムインポーター ###
 
-If your system isn’t Subversion or Perforce, you should look for an importer online — quality importers are available for CVS, Clear Case, Visual Source Safe, even a directory of archives. If none of these tools works for you, you have a rarer tool, or you otherwise need a more custom importing process, you should use `git fast-import`. This command reads simple instructions from stdin to write specific Git data. It’s much easier to create Git objects this way than to run the raw Git commands or try to write the raw objects (see Chapter 9 for more information). This way, you can write an import script that reads the necessary information out of the system you’re importing from and prints straightforward instructions to stdout. You can then run this program and pipe its output through `git fast-import`.
+Subversion や Perforce 以外のシステムを使っている場合は、それ用のインポートツールを探さなければなりません。CVS、Clear Case、Visual Source Safe、あるいはアーカイブのディレクトリなどのためのツールはオンラインで公開されています。これらのツールがうまく動かなかったり手元で使っているバージョン管理ツールがもっとマイナーなものだったり、あるいはインポート処理で特殊な操作をしたりしたい場合は `git fast-import` を使います。このコマンドはシンプルな指示を標準入力から受け取って、特定の Git データを書き出します。生の Git コマンドを使ったり生のオブジェクトを書きだそうとしたりする (詳細は第 9 章を参照ください) よりもずっと簡単に Git オブジェクトを作ることができます。この方法を使えばインポートスクリプトを自作することができます。必要な情報を元のシステムから読み込み、単純な指示を標準出力に出せばよいのです。そして、このスクリプトの出力をパイプで `git fast-import` に送ります。
 
-To quickly demonstrate, you’ll write a simple importer. Suppose you work in current, you back up your project by occasionally copying the directory into a time-stamped `back_YYYY_MM_DD` backup directory, and you want to import this into Git. Your directory structure looks like this:
+手軽に試してみるために、シンプルなインポーターを書いてみましょう。currentで作業をしており、プロジェクトのバックアップはディレクトリまるごとのコピーで行っているものとします。バックアップディレクトリの名前は、タイムスタンプをもとに `back_YYYY_MM_DD` としています。これらを Git にインポートしてみましょう。ディレクトリの構造は、このようになっています。
 
 	$ ls /opt/import_from
 	back_2009_01_02
@@ -494,31 +499,31 @@ To quickly demonstrate, you’ll write a simple importer. Suppose you work in cu
 	back_2009_02_03
 	current
 
-In order to import a Git directory, you need to review how Git stores its data. As you may remember, Git is fundamentally a linked list of commit objects that point to a snapshot of content. All you have to do is tell `fast-import` what the content snapshots are, what commit data points to them, and the order they go in. Your strategy will be to go through the snapshots one at a time and create commits with the contents of each directory, linking each commit back to the previous one.
+Git のディレクトリにインポートするにはまず、これらのデータをどのように Git に格納するかをレビューしなければなりません。Git は基本的にはコミットオブジェクトのリンクリストであり、コミットオブジェクトがコンテンツのスナップショットを指しています。`fast-import` に指示しなければならないのは、コンテンツのスナップショットが何でどのコミットデータがそれを指しているのかということと、コミットデータを取り込む順番だけです。ここでは、スナップショットをひとつずつたどって各ディレクトリの中身をさすコミットオブジェクトを作り、それらを日付順にリンクさせるものとします。
 
-As you did in the "An Example Git Enforced Policy" section of Chapter 7, we’ll write this in Ruby, because it’s what I generally work with and it tends to be easy to read. You can write this example pretty easily in anything you’re familiar with — it just needs to print the appropriate information to stdout. And, if you are running on Windows, this means you'll need to take special care to not introduce carriage returns at the end your lines — git fast-import is very particular about just wanting line feeds (LF) not the carriage return line feeds (CRLF) that Windows uses.
+第 7 章の「Git ポリシーの実施例」同様、ここでも Ruby を使って書きます。ふだんから使いなれており、きっと他の方にも読みやすいであろうからです。このサンプルをあなたの使いなれた言語で書き換えるのも簡単でしょう。単に適切な情報を標準出力に送るだけなのだから。また、Windows を使っている場合は、行末にキャリッジリターンを含めないように注意が必要です。git fast-import が想定している行末は LF だけであり、Windows で使われている CRLF は想定していません。
 
-To begin, you’ll change into the target directory and identify every subdirectory, each of which is a snapshot that you want to import as a commit. You’ll change into each subdirectory and print the commands necessary to export it. Your basic main loop looks like this:
+まず最初に対象ディレクトリに移動し、コミットとしてインポートするスナップショットとしてサブディレクトリを識別します。基本的なメインループは、このようになります。
 
 	last_mark = nil
 
-	# loop through the directories
+	# 各ディレクトリをループ
 	Dir.chdir(ARGV[0]) do
 	  Dir.glob("*").each do |dir|
 	    next if File.file?(dir)
 
-	    # move into the target directory
-	    Dir.chdir(dir) do 
+	    # 対象ディレクトリに移動
+	    Dir.chdir(dir) do
 	      last_mark = print_export(dir, last_mark)
 	    end
 	  end
 	end
 
-You run `print_export` inside each directory, which takes the manifest and mark of the previous snapshot and returns the manifest and mark of this one; that way, you can link them properly. "Mark" is the `fast-import` term for an identifier you give to a commit; as you create commits, you give each one a mark that you can use to link to it from other commits. So, the first thing to do in your `print_export` method is generate a mark from the directory name:
+各ディレクトリ内で実行している `print_export` は、前のスナップショットの内容とマークを受け取ってこのディレクトリの内容とマークを返します。このようにして、それぞれを適切にリンクさせます。「マーク」とは `fast-import` 用語で、コミットに対する識別子を意味します。コミットを作成するときにマークをつけ、それを使って他のコミットとリンクさせます。つまり、`print_export` メソッドで最初にやることは、ディレクトリ名からマークを生成することです。
 
 	mark = convert_dir_to_mark(dir)
 
-You’ll do this by creating an array of directories and using the index value as the mark, because a mark must be an integer. Your method looks like this:
+これを行うには、まずディレクトリの配列を作り、そのインデックスの値をマークとして使います。マークは整数値でなければならないからです。メソッドの中身はこのようになります。
 
 	$marks = []
 	def convert_dir_to_mark(dir)
@@ -528,11 +533,11 @@ You’ll do this by creating an array of directories and using the index value a
 	  ($marks.index(dir) + 1).to_s
 	end
 
-Now that you have an integer representation of your commit, you need a date for the commit metadata. Because the date is expressed in the name of the directory, you’ll parse it out. The next line in your `print_export` file is
+これで各コミットを整数値で表せるようになりました。次に必要なのは、コミットのメタデータ用の日付です。日付はディレクトリ名で表されているので、ここから取得します。`print_export` ファイルで次にすることは、これです。
 
 	date = convert_dir_to_date(dir)
 
-where `convert_dir_to_date` is defined as
+`convert_dir_to_date` の定義は次のようになります。
 
 	def convert_dir_to_date(dir)
 	  if dir == 'current'
@@ -544,31 +549,30 @@ where `convert_dir_to_date` is defined as
 	  end
 	end
 
-That returns an integer value for the date of each directory. The last piece of meta-information you need for each commit is the committer data, which you hardcode in a global variable:
+これは、各ディレクトリの日付に対応する整数値を返します。コミットのメタ情報として必要な最後の情報はコミッターのデータで、これはグローバル変数にハードコードします。
 
 	$author = 'Scott Chacon <schacon@example.com>'
 
-Now you’re ready to begin printing out the commit data for your importer. The initial information states that you’re defining a commit object and what branch it’s on, followed by the mark you’ve generated, the committer information and commit message, and then the previous commit, if any. The code looks like this:
+これで、コミットのデータをインポーターに流せるようになりました。最初の情報で示しているのは、今定義しているのがコミットオブジェクトであることとどのブランチにいるのかを表す宣言です。その後に先ほど生成したマークが続き、さらにコミッターの情報とコミットメッセージが続いた後にひとつ前のコミットが (もし存在すれば) 続きます。コードはこのようになります。
 
-	# print the import information
+	# インポート情報の表示
 	puts 'commit refs/heads/master'
 	puts 'mark :' + mark
 	puts "committer #{$author} #{date} -0700"
 	export_data('imported from ' + dir)
 	puts 'from :' + last_mark if last_mark
 
-You hardcode the time zone (-0700) because doing so is easy. If you’re importing from another system, you must specify the time zone as an offset. 
-The commit message must be expressed in a special format:
+タイムゾーン (-0700) をハードコードしているのは、そのほうがお手軽だったからです。別のシステムからインポートする場合は、タイムゾーンを適切に指定しなければなりません。コミットメッセージは、次のような特殊な書式にする必要があります。
 
 	data (size)\n(contents)
 
-The format consists of the word data, the size of the data to be read, a newline, and finally the data. Because you need to use the same format to specify the file contents later, you create a helper method, `export_data`:
+まず最初に「data」という単語、そして読み込むデータのサイズ、改行、最後にデータがきます。同じ書式は後でファイルのコンテンツを指定するときにも使うので、ヘルパーメソッド `export_data` を作ります。
 
 	def export_data(string)
 	  print "data #{string.size}\n#{string}"
 	end
 
-All that’s left is to specify the file contents for each snapshot. This is easy, because you have each one in a directory — you can print out the `deleteall` command followed by the contents of each file in the directory. Git will then record each snapshot appropriately:
+残っているのは、各スナップショットが持つファイルのコンテンツを指定することです。今回の場合はどれも一つのディレクトリにまとまっているので簡単です。`deleteall` コマンドを表示し、それに続けてディレクトリ内の各ファイルの中身を表示すればよいのです。そうすれば、Git が各スナップショットを適切に記録します。
 
 	puts 'deleteall'
 	Dir.glob("**/*").each do |file|
@@ -576,15 +580,15 @@ All that’s left is to specify the file contents for each snapshot. This is eas
 	  inline_data(file)
 	end
 
-Note:	Because many systems think of their revisions as changes from one commit to another, fast-import can also take commands with each commit to specify which files have been added, removed, or modified and what the new contents are. You could calculate the differences between snapshots and provide only this data, but doing so is more complex — you may as well give Git all the data and let it figure it out. If this is better suited to your data, check the `fast-import` man page for details about how to provide your data in this manner.
+注意:	多くのシステムではリビジョンを「あるコミットと別のコミットの差分」と考えているので、fast-importでもその形式でコマンドを受け取ることができます。つまりコミットを指定するときに、追加/削除/変更されたファイルと新しいコンテンツの中身で指定できるということです。各スナップショットの差分を算出してそのデータだけを渡すこともできますが、処理が複雑になります。すべてのデータを渡して、Git に差分を算出させたほうがよいでしょう。もし差分を渡すほうが手元のデータに適しているようなら、`fast-import` のマニュアルで詳細な方法を調べましょう。
 
-The format for listing the new file contents or specifying a modified file with the new contents is as follows:
+新しいファイルの内容、あるいは変更されたファイルと変更後の内容を表す書式は次のようになります。
 
 	M 644 inline path/to/file
 	data (size)
 	(file contents)
 
-Here, 644 is the mode (if you have executable files, you need to detect and specify 755 instead), and inline says you’ll list the contents immediately after this line. Your `inline_data` method looks like this:
+この 644 はモード (実行可能ファイルがある場合は、そのファイルについては 755 を指定する必要があります) を表し、inline とはファイルの内容をこの次の行に続けて指定するという意味です。`inline_data` メソッドは、このようになります。
 
 	def inline_data(file, code = 'M', mode = '644')
 	  content = File.read(file)
@@ -592,19 +596,19 @@ Here, 644 is the mode (if you have executable files, you need to detect and spec
 	  export_data(content)
 	end
 
-You reuse the `export_data` method you defined earlier, because it’s the same as the way you specified your commit message data. 
+先ほど定義した `export_data` メソッドを再利用することができます。この書式はコミットメッセージの書式と同じだからです。
 
-The last thing you need to do is to return the current mark so it can be passed to the next iteration:
+最後に必要となるのは、現在のマークを返して次の処理に渡せるようにすることです。
 
 	return mark
 
-NOTE: If you are running on Windows you'll need to make sure that you add one extra step. As metioned before, Windows uses CRLF for new line characters while git fast-import expects only LF. To get around this problem and make git fast-import happy, you need to tell ruby to use LF instead of CRLF:
+注意: Windows 上で動かす場合はさらにもう一手間必要です。先述したように、Windows の改行文字は CRLF ですが git fast-import は LF にしか対応していません。この問題に対応して git fast-import をうまく動作させるには、CRLF ではなく LF を使うよう ruby に指示しなければなりません。
 
 	$stdout.binmode
 
-That’s it. If you run this script, you’ll get content that looks something like this:
+これで終わりです。このスクリプトを実行すれば、次のような結果が得られます。
 
-	$ ruby import.rb /opt/import_from 
+	$ ruby import.rb /opt/import_from
 	commit refs/heads/master
 	mark :1
 	committer Scott Chacon <schacon@geemail.com> 1230883200 -0700
@@ -627,7 +631,7 @@ That’s it. If you run this script, you’ll get content that looks something l
 	new version one
 	(...)
 
-To run the importer, pipe this output through `git fast-import` while in the Git directory you want to import into. You can create a new directory and then run `git init` in it for a starting point, and then run your script:
+インポーターを動かすには、インポート先の Git レポジトリにおいて､インポーターの出力をパイプで `git fast-import` に渡す必要があります。インポート先に新しいディレクトリを作成したら､以下のように `git init` を実行し、そしてスクリプトを実行してみましょう｡
 
 	$ git init
 	Initialized empty Git repository in /opt/import_to/.git/
@@ -656,7 +660,7 @@ To run the importer, pipe this output through `git fast-import` while in the Git
 	pack_report: pack_mapped              =       1356 /       1356
 	---------------------------------------------------------------------
 
-As you can see, when it completes successfully, it gives you a bunch of statistics about what it accomplished. In this case, you imported 18 objects total for 5 commits into 1 branch. Now, you can run `git log` to see your new history:
+ご覧のとおり、処理が正常に完了すると、処理内容に関する統計情報が表示されます。この場合は、全部で 18 のオブジェクトからなる 5 つのコミットが 1 つのブランチにインポートされたことがわかります。では、`git log` で新しい歴史を確認しましょう。
 
 	$ git log -2
 	commit 10bfe7d22ce15ee25b60a824c8982157ca593d41
@@ -671,7 +675,7 @@ As you can see, when it completes successfully, it gives you a bunch of statisti
 
 	    imported from back_2009_02_03
 
-There you go — a nice, clean Git repository. It’s important to note that nothing is checked out — you don’t have any files in your working directory at first. To get them, you must reset your branch to where `master` is now:
+きれいな Git リポジトリができていますね。ここで重要なのは、この時点ではまだ何もチェックアウトされていないということです。作業ディレクトリには何もファイルがありません。ファイルを取得するには、ブランチをリセットして `master` の現在の状態にしなければなりません。
 
 	$ ls
 	$ git reset --hard master
@@ -679,8 +683,8 @@ There you go — a nice, clean Git repository. It’s important to note that not
 	$ ls
 	file.rb  lib
 
-You can do a lot more with the `fast-import` tool — handle different modes, binary data, multiple branches and merging, tags, progress indicators, and more. A number of examples of more complex scenarios are available in the `contrib/fast-import` directory of the Git source code; one of the better ones is the `git-p4` script I just covered.
+`fast-import` ツールにはさらに多くの機能があります。さまざまなモードを処理したりバイナリデータを扱ったり、複数のブランチやそのマージ、タグ、進捗状況表示などです。より複雑なシナリオのサンプルは Git のソースコードの `contrib/fast-import` ディレクトリにあります。先ほど取り上げた `git-p4` スクリプトがよい例となるでしょう。
 
-## Summary ##
+## まとめ ##
 
-You should feel comfortable using Git with Subversion or importing nearly any existing repository into a new Git one without losing data. The next chapter will cover the raw internals of Git so you can craft every single byte, if need be.
+Git を Subversion と組み合わせて使う方法を説明しました。また、既存のリポジトリのほぼすべてを、データを失うことなく新たな Git リポジトリにインポートできるようになりました。次章では、Git の内部に踏み込みます。必要とあらばバイト単位での操作もできることでしょう。

@@ -1,20 +1,43 @@
 #!/usr/bin/env ruby
+# encoding: utf-8
 # This script convers markdown book to one of the serveral e-book
 # formats supported with calibre (http://calibre-ebook.com)
 #
 # Samples:
-# 	
+#
 # Build e-book for amazon kindle for english and russian languages
-# 	$ make-ebook en ru
+# 	$ ruby makeebooks en ru
 # or
-# 	$ FORMAT=mobi make-ebook en ru
+# 	$ FORMAT=mobi ruby makeebooks en ru
 #
 # Build e-book in 'epub' format for russian only
-# 	$ FORMAT=epub make-ebook ru
+# 	$ FORMAT=epub ruby makeebooks ru
 
 require 'rubygems'
 require 'rdiscount'
-require 'ruby-debug'
+require 'fileutils'
+include FileUtils
+
+def figures(lang,&block)
+	begin
+		Dir["figures/18333*.png"].each do |file|
+			cp(file, file.sub(/18333fig0(\d)0?(\d+)\-tn/, '\1.\2'))
+		end
+		Dir["#{lang}/figures/*.png"].each do |file|
+			cp(file,"figures")
+		end
+		Dir["#{lang}/figures-dia/*.dia"].each do |file|
+			png_dest= file.sub(/.*fig0(\d)0?(\d+).dia/, 'figures/\1.\2.png')
+			system("dia -e #{png_dest} #{file}")
+		end
+		block.call
+	ensure
+		Dir["figures/18333*.png"].each do |file|
+			rm(file.gsub(/18333fig0(\d)0?(\d+)\-tn/, '\1.\2'))
+		end
+	end
+end
+
 
 if ARGV.length == 0
   puts "you need to specify at least one language. For example: makeebooks en"
@@ -25,28 +48,73 @@ format = ENV['FORMAT'] || 'mobi'
 puts "using .#{format} (you can change it via FORMAT environment variable. try 'mobi' or 'epub')"
 
 ARGV.each do |lang|
-  puts "convert content for '#{lang}' language"
+  figures (lang) do
+    puts "convert content for '#{lang}' language"
 
-  book_content = %(<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Pro Git - professional version control</title></head><body>)
-  dir = File.expand_path(File.join(File.dirname(__FILE__), lang))
-  Dir[File.join(dir, '**', '*.markdown')].sort.each do |input|
-    puts "processing #{input}"
-    content = File.read(input)
-    content.gsub!(/Insert\s+(.*)(\.png)\s*\n?\s*Figure\s+(.*)/, '![\3](figures/\1-tn\2 "\3")')
-    book_content << RDiscount.new(content).to_html
+    figure_title = 'Figure'
+    book_title = 'Pro Git - professional version control'
+    authors = 'Scott Chacon'
+    comments = 'licensed under the Creative Commons Attribution-Non Commercial-Share Alike 3.0 license'
+    if lang == 'ko'
+      figure_title = '그림'
+    elsif lang == 'ja'
+      figure_title = '図'
+    elsif lang == 'ru'
+      figure_title = 'Рисунок'
+      book_title = 'Pro Git — профессиональный контроль версий'
+      authors = 'Скот Чакон'
+      comments = 'Лицензия: Creative Commons Attribution-Non Commercial-Share Alike 3.0 license'
+    elsif lang == 'es'
+      figure_title = 'Figura'
+    elsif lang == 'it'
+      figure_title = 'Figura'
+      comments = 'distribuito sotto licenza Creative Commons Attribution-Non Commercial-Share Alike 3.0'
+    elsif lang == 'zh'
+      figure_title = '图'
+    elsif lang == 'zh-tw'
+      figure_title = '圖'
+    elsif lang == 'pt-br'
+      figure_title = 'Figura'
+    elsif lang == 'pl'
+      figure_title = 'Rysunek'
+      book_title = 'Pro Git — profesjonalna kontrola wersji'
+      comments = 'udostępnione na licencji Creative Commons Attribution-Non Commercial-Share Alike 3.0 license'
+    elsif lang == 'cs'
+      figure_title = 'Obrázek'
+      book_title = 'Pro Git — profesionální správa verzí'
+      comments = 'Licence: Creative Commons Attribution-Non Commercial-Share Alike 3.0 license'
+    end
+
+    book_content = %(<html xmlns="http://www.w3.org/1999/xhtml"><head><title>#{book_title}</title></head><body>)
+    dir = File.expand_path(File.join(File.dirname(__FILE__), lang))
+    Dir[File.join(dir, '**', '*.markdown')].sort.each do |input|
+      puts "processing #{input}"
+      content = File.read(input)
+      content.gsub!(/Insert\s18333fig\d+\.png\s*\n.*?(\d{1,2})-(\d{1,2})\. (.*)/, '![\1.\2 \3](figures/\1.\2.png "\1.\2 \3")')
+      book_content << RDiscount.new(content).to_html
+    end
+    book_content << "</body></html>"
+
+    File.open("progit.#{lang}.html", 'w') do |output|
+      output.write(book_content)
+    end
+
+    $ebook_convert_cmd = ENV['ebook_convert_path'].to_s
+    if $ebook_convert_cmd.empty?
+      $ebook_convert_cmd = `which ebook-convert`.chomp
+    end
+    if $ebook_convert_cmd.empty?
+      mac_osx_path = '/Applications/calibre.app/Contents/MacOS/ebook-convert'
+      $ebook_convert_cmd = mac_osx_path
+    end
+
+    system($ebook_convert_cmd, "progit.#{lang}.html", "progit.#{lang}.#{format}",
+           '--cover', 'ebooks/cover.png',
+           '--authors', authors,
+           '--comments', comments,
+           '--level1-toc', '//h:h1',
+           '--level2-toc', '//h:h2',
+           '--level3-toc', '//h:h3',
+           '--language', lang)
   end
-  book_content << "</body></html>"
-
-  File.open("progit.#{lang}.html", 'w') do |output|
-    output.write(book_content)
-  end
-
-  system('ebook-convert', "progit.#{lang}.html", "progit.#{lang}.#{format}",
-         '--cover', 'ebooks/cover.png',
-         '--authors', 'Scott Chacon',
-         '--comments', "licensed under the Creative Commons Attribution-Non Commercial-Share Alike 3.0 license",
-         '--level1-toc', '//h:h1', 
-         '--level2-toc', '//h:h2', 
-         '--level3-toc', '//h:h3',
-         '--language', lang)
 end

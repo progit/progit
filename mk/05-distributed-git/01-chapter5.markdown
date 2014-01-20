@@ -12,7 +12,7 @@
 
 Кај централизираните системи, генерално постои еден колаборациски модел - централи-зиран начин на работа. Една централна осовина (hub), или репозитори кое што може да прифаќа изворен код, и сите ја синхронизираат својата работа во однос на тоа репозитори. Девелоперите се јазли(nodes) - конзументи на таа осовина - и ја синхронизираат својата работа кон тоа едно место (види слика 5-1).
 
-Insert 18333fig0501.png 
+Insert 18333fig0501.png
 Слика 5-1. Централизиран начин на работа.
 
 Тоа значи дека ако два девелопери клонираат од тој хаб и двајцата направат промена, првиот девелопер кој што ќе ги уфрли(push) неговите измени во хабот - тоа ќе го направи без проблем. Вториот девелопер мора да ги спои (merge) неговите измени со измените од првиот девелопер пред да ги уфрли во заедничкото репозитори, за да не бидат пребришани измените од првиот девелопер. Овој коцепт важи и кај Git како што важи и во Subversion (или било кој CVCS), и одлично работи во Git.
@@ -24,14 +24,14 @@ Insert 18333fig0501.png
 
 Бидејќи Git дозволува да има повеќе оддалечени репозиторија, може да постои начин на работа каде што секој девелопер ќе има права за запишување единствено во своето репозитори, и права за читање на сите други репозиторија. Ова сценарио најчесто пропишу-ва кое репозитори ќе го претставува "официјалниот" проект. За да учествувате во таков проект, треба да направите јавно репозитори клон на проектот, и да уфрлате измени во него. Понатаму, може да пратите барање до оној што го одржува проектот да ги повлече(pull) вашите промени. Тие можат да го додадат вашето репозитори како оддалечено (remote repository), да ги тестираат вашите промени локално, да ги спојат во нивната гранка на развој, и сето тоа да го уфрлат во нивното репозитори. Процесот функционира вака (види слика 5-2):
 
-1.	Одржувачот на проектот уфрла во неговот јавно репозитори.
-2.	Учесниците го клонираат тоа репозитори и прават измени.
-3.	Учесникот уфрла во своето јавно репозитори.
-4.	Учесникот му испраќа e-mail на одржувачот со барање да ги земе/повлече(pull) измените.
-5.	Одржувачот го додава репозиторито на учесникот како оддалечено и ги спојува изме-ните локално.
-6.	Одржувачот ги уфрла(push) споените измени во главното репозитори.
+1. Одржувачот на проектот уфрла во неговот јавно репозитори.
+2. Учесниците го клонираат тоа репозитори и прават измени.
+3. Учесникот уфрла во своето јавно репозитори.
+4. Учесникот му испраќа e-mail на одржувачот со барање да ги земе/повлече(pull) измените.
+5. Одржувачот го додава репозиторито на учесникот како оддалечено и ги спојува изме-ните локално.
+6. Одржувачот ги уфрла(push) споените измени во главното репозитори.
 
-Insert 18333fig0502.png 
+Insert 18333fig0502.png
 Слика 5-2. Начин на работа на Менаџер за Интеграција.
 
 Ова е вообичаен начин на работа кај сајтовите како GitHub, каде што е многу лесно да направите нова гранка од проектот (fork), и да ги уфрлате вашите измени во вашата гранка за да може сите да ги видат. Една од главните предности на овој пристап е тоа што може да си продолжите со работа, а одржувачот на проектот може да ги повлече вашите измени во било кое време. Учесниците не мора да чекаат нивните измени да бидат вклучени во проектот - секој може да си работи според свое темпо.
@@ -40,12 +40,12 @@ Insert 18333fig0502.png
 
 This is a variant of a multiple-repository workflow. It’s generally used by huge projects with hundreds of collaborators; one famous example is the Linux kernel. Various integration managers are in charge of certain parts of the repository; they’re called lieutenants. All the lieutenants have one integration manager known as the benevolent dictator. The benevolent dictator’s repository serves as the reference repository from which all the collaborators need to pull. The process works like this (see Figure 5-3):
 
-1.	Regular developers work on their topic branch and rebase their work on top of master. The master branch is that of the dictator.
-2.	Lieutenants merge the developers’ topic branches into their master branch.
-3.	The dictator merges the lieutenants’ master branches into the dictator’s master branch.
-4.	The dictator pushes their master to the reference repository so the other developers can rebase on it.
+1. Regular developers work on their topic branch and rebase their work on top of master. The master branch is that of the dictator.
+2. Lieutenants merge the developers’ topic branches into their master branch.
+3. The dictator merges the lieutenants’ master branches into the dictator’s master branch.
+4. The dictator pushes their master to the reference repository so the other developers can rebase on it.
 
-Insert 18333fig0503.png  
+Insert 18333fig0503.png
 Figure 5-3. Benevolent dictator workflow.
 
 This kind of workflow isn’t common but can be useful in very big projects or in highly hierarchical environments, because as it allows the project leader (the dictator) to delegate much of the work and collect large subsets of code at multiple points before integrating them.
@@ -119,7 +119,7 @@ Let’s see what it might look like when two developers start to work together w
 	Initialized empty Git repository in /home/john/simplegit/.git/
 	...
 	$ cd simplegit/
-	$ vim lib/simplegit.rb 
+	$ vim lib/simplegit.rb
 	$ git commit -am 'removed invalid default value'
 	[master 738ee87] removed invalid default value
 	 1 files changed, 1 insertions(+), 1 deletions(-)
@@ -131,7 +131,7 @@ The second developer, Jessica, does the same thing — clones the repository and
 	Initialized empty Git repository in /home/jessica/simplegit/.git/
 	...
 	$ cd simplegit/
-	$ vim TODO 
+	$ vim TODO
 	$ git commit -am 'add reset task'
 	[master fbff5bc] add reset task
 	 1 files changed, 1 insertions(+), 0 deletions(-)
@@ -161,7 +161,7 @@ John isn’t allowed to push because Jessica has pushed in the meantime. This is
 
 At this point, John’s local repository looks something like Figure 5-4.
 
-Insert 18333fig0504.png 
+Insert 18333fig0504.png
 Figure 5-4. John’s initial repository.
 
 John has a reference to the changes Jessica pushed up, but he has to merge them into his own work before he is allowed to push:
@@ -173,7 +173,7 @@ John has a reference to the changes Jessica pushed up, but he has to merge them 
 
 The merge goes smoothly — John’s commit history now looks like Figure 5-5.
 
-Insert 18333fig0505.png 
+Insert 18333fig0505.png
 Figure 5-5. John’s repository after merging origin/master.
 
 Now, John can test his code to make sure it still works properly, and then he can push his new merged work up to the server:
@@ -185,12 +185,12 @@ Now, John can test his code to make sure it still works properly, and then he ca
 
 Finally, John’s commit history looks like Figure 5-6.
 
-Insert 18333fig0506.png 
+Insert 18333fig0506.png
 Figure 5-6. John’s history after pushing to the origin server.
 
 In the meantime, Jessica has been working on a topic branch. She’s created a topic branch called `issue54` and done three commits on that branch. She hasn’t fetched John’s changes yet, so her commit history looks like Figure 5-7.
 
-Insert 18333fig0507.png 
+Insert 18333fig0507.png
 Figure 5-7. Jessica’s initial commit history.
 
 Jessica wants to sync up with John, so she fetches:
@@ -203,7 +203,7 @@ Jessica wants to sync up with John, so she fetches:
 
 That pulls down the work John has pushed up in the meantime. Jessica’s history now looks like Figure 5-8.
 
-Insert 18333fig0508.png 
+Insert 18333fig0508.png
 Figure 5-8. Jessica’s history after fetching John’s changes.
 
 Jessica thinks her topic branch is ready, but she wants to know what she has to merge her work into so that she can push. She runs `git log` to find out:
@@ -240,7 +240,7 @@ No problems occur; as you can see it, was a simple fast-forward. Now Jessica mer
 
 Everything merges cleanly, and Jessica’s history looks like Figure 5-9.
 
-Insert 18333fig0509.png 
+Insert 18333fig0509.png
 Figure 5-9. Jessica’s history after merging John’s changes.
 
 Now `origin/master` is reachable from Jessica’s `master` branch, so she should be able to successfully push (assuming John hasn’t pushed again in the meantime):
@@ -252,12 +252,12 @@ Now `origin/master` is reachable from Jessica’s `master` branch, so she should
 
 Each developer has committed a few times and merged each other’s work successfully; see Figure 5-10.
 
-Insert 18333fig0510.png 
+Insert 18333fig0510.png
 Figure 5-10. Jessica’s history after pushing all changes back to the server.
 
 That is one of the simplest workflows. You work for a while, generally in a topic branch, and merge into your master branch when it’s ready to be integrated. When you want to share that work, you merge it into your own master branch, then fetch and merge `origin/master` if it has changed, and finally push to the `master` branch on the server. The general sequence is something like that shown in Figure 5-11.
 
-Insert 18333fig0511.png 
+Insert 18333fig0511.png
 Figure 5-11. General sequence of events for a simple multiple-developer Git workflow.
 
 ### Private Managed Team ###
@@ -303,7 +303,7 @@ Now, Jessica makes a couple of commits on the `featureB` branch:
 
 Jessica’s repository looks like Figure 5-12.
 
-Insert 18333fig0512.png 
+Insert 18333fig0512.png
 Figure 5-12. Jessica’s initial commit history.
 
 She’s ready to push up her work, but gets an e-mail from Josie that a branch with some initial work on it was already pushed to the server as `featureBee`. Jessica first needs to merge those changes in with her own before she can push to the server. She can then fetch Josie’s changes down with `git fetch`:
@@ -368,17 +368,17 @@ Jessica wants to tweak something, so she commits again and then pushes this back
 
 Jessica’s commit history now looks something like Figure 5-13.
 
-Insert 18333fig0513.png 
+Insert 18333fig0513.png
 Figure 5-13. Jessica’s history after committing on a feature branch.
 
 Jessica, Josie, and John inform the integrators that the `featureA` and `featureBee` branches on the server are ready for integration into the mainline. After they integrate these branches into the mainline, a fetch will bring down the new merge commits, making the commit history look like Figure 5-14.
 
-Insert 18333fig0514.png 
+Insert 18333fig0514.png
 Figure 5-14. Jessica’s history after merging both her topic branches.
 
 Many groups switch to Git because of this ability to have multiple teams working in parallel, merging the different lines of work late in the process. The ability of smaller subgroups of a team to collaborate via remote branches without necessarily having to involve or impede the entire team is a huge benefit of Git. The sequence for the workflow you saw here is something like Figure 5-15.
 
-Insert 18333fig0515.png 
+Insert 18333fig0515.png
 Figure 5-15. Basic sequence of this managed-team workflow.
 
 ### Public Small Project ###
@@ -438,7 +438,7 @@ On a project for which you’re not the maintainer, it’s generally easier to h
 
 Now, each of your topics is contained within a silo — similar to a patch queue — that you can rewrite, rebase, and modify without the topics interfering or interdepending on each other as in Figure 5-16.
 
-Insert 18333fig0516.png 
+Insert 18333fig0516.png
 Figure 5-16. Initial commit history with featureB work.
 
 Let’s say the project maintainer has pulled in a bunch of other patches and tried your first branch, but it no longer cleanly merges. In this case, you can try to rebase that branch on top of `origin/master`, resolve the conflicts for the maintainer, and then resubmit your changes:
@@ -449,7 +449,7 @@ Let’s say the project maintainer has pulled in a bunch of other patches and tr
 
 This rewrites your history to now look like Figure 5-17.
 
-Insert 18333fig0517.png 
+Insert 18333fig0517.png
 Figure 5-17. Commit history after featureA work.
 
 Because you rebased the branch, you have to specify the `–f` to your push command in order to be able to replace the `featureA` branch on the server with a commit that isn’t a descendant of it. An alternative would be to push this new work to a different branch on the server (perhaps called `featureAv2`).
@@ -466,7 +466,7 @@ The `--squash` option takes all the work on the merged branch and squashes it in
 
 Now you can send the maintainer a message that you’ve made the requested changes and they can find those changes in your `featureBv2` branch (see Figure 5-18).
 
-Insert 18333fig0518.png 
+Insert 18333fig0518.png
 Figure 5-18. Commit history after featureBv2 work.
 
 ### Public Large Project ###
@@ -489,7 +489,7 @@ Now you have two commits that you want to send to the mailing list. You use `git
 
 The `format-patch` command prints out the names of the patch files it creates. The `-M` switch tells Git to look for renames. The files end up looking like this:
 
-	$ cat 0001-add-limit-to-log-function.patch 
+	$ cat 0001-add-limit-to-log-function.patch
 	From 330090432754092d704da8e76ca5c05c198e71a8 Mon Sep 17 00:00:00 2001
 	From: Jessica Smith <jessica@example.com>
 	Date: Sun, 6 Apr 2008 10:17:23 -0700
@@ -514,10 +514,10 @@ The `format-patch` command prints out the names of the patch files it creates. T
 	   end
 
 	   def ls_tree(treeish = 'master')
-	-- 
+	--
 	1.6.2.rc1.20.g8c5b.dirty
 
-You can also edit these patch files to add more information for the e-mail list that you don’t want to show up in the commit message. If you add text between the `--` line and the beginning of the patch (the `lib/simplegit.rb` line), then developers can read it; but applying the patch excludes it.
+You can also edit these patch files to add more information for the e-mail list that you don’t want to show up in the commit message. If you add text between the `---` line and the beginning of the patch (the `lib/simplegit.rb` line), then developers can read it; but applying the patch excludes it.
 
 To e-mail this to a mailing list, you can either paste the file into your e-mail program or send it via a command-line program. Pasting the text often causes formatting issues, especially with "smarter" clients that don’t preserve newlines and other whitespace appropriately. Luckily, Git provides a tool to help you send properly formatted patches via IMAP, which may be easier for you. I’ll demonstrate how to send a patch via Gmail, which happens to be the e-mail agent I use; you can read detailed instructions for a number of mail programs at the end of the aforementioned `Documentation/SubmittingPatches` file in the Git source code.
 
@@ -537,14 +537,14 @@ When that is set up, you can use `git send-email` to place the patch series in t
 	$ git send-email *.patch
 	0001-added-limit-to-log-function.patch
 	0002-changed-log-output-to-30-from-25.patch
-	Who should the emails appear to be from? [Jessica Smith <jessica@example.com>] 
+	Who should the emails appear to be from? [Jessica Smith <jessica@example.com>]
 	Emails will be sent from: Jessica Smith <jessica@example.com>
 	Who should the emails be sent to? jessica@example.com
 	Message-ID to be used as In-Reply-To for the first email? y
 
 Then, Git spits out a bunch of log information looking something like this for each patch you’re sending:
 
-	(mbox) Adding cc: Jessica Smith <jessica@example.com> from 
+	(mbox) Adding cc: Jessica Smith <jessica@example.com> from
 	  \line 'From: Jessica Smith <jessica@example.com>'
 	OK. Log says:
 	Sendmail: /usr/sbin/sendmail -i jessica@example.com
@@ -571,7 +571,7 @@ In addition to knowing how to effectively contribute to a project, you’ll like
 
 ### Working in Topic Branches ###
 
-When you’re thinking of integrating new work, it’s generally a good idea to try it out in a topic branch — a temporary branch specifically made to try out that new work. This way, it’s easy to tweak a patch individually and leave it if it’s not working until you have time to come back to it. If you create a simple branch name based on the theme of the work you’re going to try, such as `ruby_client` or something similarly descriptive, you can easily remember it if you have to abandon it for a while and come back later. The maintainer of the Git project tends to namespace these branches as well — such as `sc/ruby_client`, where `sc` is short for the person who contributed the work. 
+When you’re thinking of integrating new work, it’s generally a good idea to try it out in a topic branch — a temporary branch specifically made to try out that new work. This way, it’s easy to tweak a patch individually and leave it if it’s not working until you have time to come back to it. If you create a simple branch name based on the theme of the work you’re going to try, such as `ruby_client` or something similarly descriptive, you can easily remember it if you have to abandon it for a while and come back later. The maintainer of the Git project tends to namespace these branches as well — such as `sc/ruby_client`, where `sc` is short for the person who contributed the work.
 As you’ll remember, you can create the branch based off your master branch like this:
 
 	$ git branch sc/ruby_client master
@@ -596,7 +596,7 @@ This modifies the files in your working directory. It’s almost identical to ru
 
 You can also use git apply to see if a patch applies cleanly before you try actually applying it — you can run `git apply --check` with the patch:
 
-	$ git apply --check 0001-seeing-if-this-helps-the-gem.patch 
+	$ git apply --check 0001-seeing-if-this-helps-the-gem.patch
 	error: patch failed: ticgit.gemspec:1
 	error: ticgit.gemspec: patch does not apply
 
@@ -615,11 +615,11 @@ To apply a patch generated by `format-patch`, you use `git am`. Technically, `gi
 
 	Limit log functionality to the first 20
 
-This is the beginning of the output of the format-patch command that you saw in the previous section. This is also a valid mbox e-mail format. If someone has e-mailed you the patch properly using git send-email, and you download that into an mbox format, then you can point git am to that mbox file, and it will start applying all the patches it sees. If you run a mail client that can save several e-mails out in mbox format, you can save entire patch series into a file and then use git am to apply them one at a time. 
+This is the beginning of the output of the format-patch command that you saw in the previous section. This is also a valid mbox e-mail format. If someone has e-mailed you the patch properly using git send-email, and you download that into an mbox format, then you can point git am to that mbox file, and it will start applying all the patches it sees. If you run a mail client that can save several e-mails out in mbox format, you can save entire patch series into a file and then use git am to apply them one at a time.
 
 However, if someone uploaded a patch file generated via `format-patch` to a ticketing system or something similar, you can save the file locally and then pass that file saved on your disk to `git am` to apply it:
 
-	$ git am 0001-limit-log-function.patch 
+	$ git am 0001-limit-log-function.patch
 	Applying: add limit to log function
 
 You can see that it applied cleanly and automatically created the new commit for you. The author information is taken from the e-mail’s `From` and `Date` headers, and the message of the commit is taken from the `Subject` and body (before the patch) of the e-mail. For example, if this patch was applied from the mbox example I just showed, the commit generated would look something like this:
@@ -635,11 +635,11 @@ You can see that it applied cleanly and automatically created the new commit for
 
 	   Limit log functionality to the first 20
 
-The `Commit` information indicates the person who applied the patch and the time it was applied. The `Author` information is the individual who originally created the patch and when it was originally created. 
+The `Commit` information indicates the person who applied the patch and the time it was applied. The `Author` information is the individual who originally created the patch and when it was originally created.
 
 But it’s possible that the patch won’t apply cleanly. Perhaps your main branch has diverged too far from the branch the patch was built from, or the patch depends on another patch you haven’t applied yet. In that case, the `git am` process will fail and ask you what you want to do:
 
-	$ git am 0001-seeing-if-this-helps-the-gem.patch 
+	$ git am 0001-seeing-if-this-helps-the-gem.patch
 	Applying: seeing if this helps the gem
 	error: patch failed: ticgit.gemspec:1
 	error: ticgit.gemspec: patch does not apply
@@ -651,13 +651,13 @@ But it’s possible that the patch won’t apply cleanly. Perhaps your main bran
 This command puts conflict markers in any files it has issues with, much like a conflicted merge or rebase operation. You solve this issue much the same way — edit the file to resolve the conflict, stage the new file, and then run `git am --resolved` to continue to the next patch:
 
 	$ (fix the file)
-	$ git add ticgit.gemspec 
+	$ git add ticgit.gemspec
 	$ git am --resolved
 	Applying: seeing if this helps the gem
 
 If you want Git to try a bit more intelligently to resolve the conflict, you can pass a `-3` option to it, which makes Git attempt a three-way merge. This option isn’t on by default because it doesn’t work if the commit the patch says it was based on isn’t in your repository. If you do have that commit — if the patch was based on a public commit — then the `-3` option is generally much smarter about applying a conflicting patch:
 
-	$ git am -3 0001-seeing-if-this-helps-the-gem.patch 
+	$ git am -3 0001-seeing-if-this-helps-the-gem.patch
 	Applying: seeing if this helps the gem
 	error: patch failed: ticgit.gemspec:1
 	error: ticgit.gemspec: patch does not apply
@@ -674,7 +674,7 @@ If you’re applying a number of patches from an mbox, you can also run the `am`
 	--------------------------
 	seeing if this helps the gem
 	--------------------------
-	Apply? [y]es/[n]o/[e]dit/[v]iew patch/[a]ccept all 
+	Apply? [y]es/[n]o/[e]dit/[v]iew patch/[a]ccept all
 
 This is nice if you have a number of patches saved, because you can view the patch first if you don’t remember what it is, or not apply the patch if you’ve already done so.
 
@@ -738,7 +738,7 @@ Technically, you can do that by explicitly figuring out the common ancestor and 
 
 	$ git merge-base contrib master
 	36c7dba2c95e6bbb78dfa822519ecfec6e1ca649
-	$ git diff 36c7db 
+	$ git diff 36c7db
 
 However, that isn’t convenient, so Git provides another shorthand for doing the same thing: the triple-dot syntax. In the context of the `diff` command, you can put three periods after another branch to do a `diff` between the last commit of the branch you’re on and its common ancestor with another branch:
 
@@ -754,7 +754,7 @@ When all the work in your topic branch is ready to be integrated into a more mai
 
 One simple workflow merges your work into your `master` branch. In this scenario, you have a `master` branch that contains basically stable code. When you have work in a topic branch that you’ve done or that someone has contributed and you’ve verified, you merge it into your master branch, delete the topic branch, and then continue the process.  If we have a repository with work in two branches named `ruby_client` and `php_client` that looks like Figure 5-19 and merge `ruby_client` first and then `php_client` next, then your history will end up looking like Figure 5-20.
 
-Insert 18333fig0519.png 
+Insert 18333fig0519.png
 Figure 5-19. History with several topic branches.
 
 Insert 18333fig0520.png
@@ -764,13 +764,13 @@ That is probably the simplest workflow, but it’s problematic if you’re deali
 
 If you have more developers or a larger project, you’ll probably want to use at least a two-phase merge cycle. In this scenario, you have two long-running branches, `master` and `develop`, in which you determine that `master` is updated only when a very stable release is cut and all new code is integrated into the `develop` branch. You regularly push both of these branches to the public repository. Each time you have a new topic branch to merge in (Figure 5-21), you merge it into `develop` (Figure 5-22); then, when you tag a release, you fast-forward `master` to wherever the now-stable `develop` branch is (Figure 5-23).
 
-Insert 18333fig0521.png 
+Insert 18333fig0521.png
 Figure 5-21. Before a topic branch merge.
 
-Insert 18333fig0522.png 
+Insert 18333fig0522.png
 Figure 5-22. After a topic branch merge.
 
-Insert 18333fig0523.png 
+Insert 18333fig0523.png
 Figure 5-23. After a topic branch release.
 
 This way, when people clone your project’s repository, they can either check out master to build the latest stable version and keep up to date on that easily, or they can check out develop, which is the more cutting-edge stuff.
@@ -780,12 +780,12 @@ You can also continue this concept, having an integrate branch where all the wor
 
 The Git project has four long-running branches: `master`, `next`, and `pu` (proposed updates) for new work, and `maint` for maintenance backports. When new work is introduced by contributors, it’s collected into topic branches in the maintainer’s repository in a manner similar to what I’ve described (see Figure 5-24). At this point, the topics are evaluated to determine whether they’re safe and ready for consumption or whether they need more work. If they’re safe, they’re merged into `next`, and that branch is pushed up so everyone can try the topics integrated together.
 
-Insert 18333fig0524.png 
+Insert 18333fig0524.png
 Figure 5-24. Managing a complex series of parallel contributed topic branches.
 
 If the topics still need work, they’re merged into `pu` instead. When it’s determined that they’re totally stable, the topics are re-merged into `master` and are then rebuilt from the topics that were in `next` but didn’t yet graduate to `master`. This means `master` almost always moves forward, `next` is rebased occasionally, and `pu` is rebased even more often (see Figure 5-25).
 
-Insert 18333fig0525.png 
+Insert 18333fig0525.png
 Figure 5-25. Merging contributed topic branches into long-term integration branches.
 
 When a topic branch has finally been merged into `master`, it’s removed from the repository. The Git project also has a `maint` branch that is forked off from the last release to provide backported patches in case a maintenance release is required. Thus, when you clone the Git repository, you have four branches that you can check out to evaluate the project in different stages of development, depending on how cutting edge you want to be or how you want to contribute; and the maintainer has a structured workflow to help them vet new contributions.
@@ -796,7 +796,7 @@ Other maintainers prefer to rebase or cherry-pick contributed work on top of the
 
 The other way to move introduced work from one branch to another is to cherry-pick it. A cherry-pick in Git is like a rebase for a single commit. It takes the patch that was introduced in a commit and tries to reapply it on the branch you’re currently on. This is useful if you have a number of commits on a topic branch and you want to integrate only one of them, or if you only have one commit on a topic branch and you’d prefer to cherry-pick it rather than run rebase. For example, suppose you have a project that looks like Figure 5-26.
 
-Insert 18333fig0526.png 
+Insert 18333fig0526.png
 Figure 5-26. Example history before a cherry pick.
 
 If you want to pull commit `e43a6` into your master branch, you can run
@@ -808,7 +808,7 @@ If you want to pull commit `e43a6` into your master branch, you can run
 
 This pulls the same change introduced in `e43a6`, but you get a new commit SHA-1 value, because the date applied is different. Now your history looks like Figure 5-27.
 
-Insert 18333fig0527.png 
+Insert 18333fig0527.png
 Figure 5-27. History after cherry-picking a commit on a topic branch.
 
 Now you can remove your topic branch and drop the commits you didn’t want to pull in.

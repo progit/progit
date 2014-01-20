@@ -1,22 +1,22 @@
-# Git and Other Systems #
+# Git y Otros Sistemas #
 
-The world isn’t perfect. Usually, you can’t immediately switch every project you come in contact with to Git. Sometimes you’re stuck on a project using another VCS, and many times that system is Subversion. You’ll spend the first part of this chapter learning about `git svn`, the bidirectional Subversion gateway tool in Git.
+El mundo no es perfecto. Lo más normal es que no puedas cambiar inmediatamente a Git cada proyecto que te encuentras. Algunas veces estás atascado en un proyecto utilizando otro VCS, y muchas veces ese sistema es Subversion. Pasaremos la primera parte de este capítulo aprendiendo sobre `git svn`, la puerta de enlace de Subversion bidireccional en Git.
 
-At some point, you may want to convert your existing project to Git. The second part of this chapter covers how to migrate your project into Git: first from Subversion, then from Perforce, and finally via a custom import script for a nonstandard importing case. 
+En un momento dado, quizá quieras convertir tu proyecto existente a Git. La segunda parte de este capítulo cubre cómo migrar tu proyecto a Git: primero desde Subversion, luego desde Perforce, y finalmente por medio de un script de importación a medida para casos no estándar.
 
-## Git and Subversion ##
+## Git y Subversion ##
 
-Currently, the majority of open source development projects and a large number of corporate projects use Subversion to manage their source code. It’s the most popular open source VCS and has been around for nearly a decade. It’s also very similar in many ways to CVS, which was the big boy of the source-control world before that.
+Hoy por hoy, la mayoría de los proyectos de código abierto y un gran número de proyectos corporativos usan Subversion para manejar su código fuente. Es el VCS más popular y lleva ahí casi una década. También es muy similar en muchas cosas a CVS, que fue el rey del control de código fuente anteriormente.
 
-One of Git’s great features is a bidirectional bridge to Subversion called `git svn`. This tool allows you to use Git as a valid client to a Subversion server, so you can use all the local features of Git and then push to a Subversion server as if you were using Subversion locally. This means you can do local branching and merging, use the staging area, use rebasing and cherry-picking, and so on, while your collaborators continue to work in their dark and ancient ways. It’s a good way to sneak Git into the corporate environment and help your fellow developers become more efficient while you lobby to get the infrastructure changed to support Git fully. The Subversion bridge is the gateway drug to the DVCS world.
+Una de las grandes características de Git es el puente bidireccional llamado `git svn`. Esta herramienta permite el uso de Git como un cliente válido para un servidor Subversion, así que puedes utilizar todas las características locales de Git y luego hacer publicaciones al servidor de Subversion como si estuvieras usando Subversion localmente. Esto significa que puedes ramificar y fusionar localmente, usar el área de preparación, reconstruir, entresacar, etc., mientras tus colaboradores continúan usando sus antiguos y oscuros métodos. Es una buena forma de colar a Git dentro de un ambiente corporativo y ayudar a tus colegas desarrolladores a hacerse más eficientes mientras tu haces presión para que se cambie la infraestructura y el soporte de Git sea completo. El puente de Subversion es la "droga de entrada" al mundo de DVCS.
 
 ### git svn ###
 
-The base command in Git for all the Subversion bridging commands is `git svn`. You preface everything with that. It takes quite a few commands, so you’ll learn about the common ones while going through a few small workflows.
+El comando básico de Git para todos los comandos de enlace con Subversion es `git svn`. Siempre debes empezar con eso. Hay unos cuantos, por lo que vamos a aprender los básicos recorriendo unos pocos flujos de trabajo pequeños.
 
-It’s important to note that when you’re using `git svn`, you’re interacting with Subversion, which is a system that is far less sophisticated than Git. Although you can easily do local branching and merging, it’s generally best to keep your history as linear as possible by rebasing your work and avoiding doing things like simultaneously interacting with a Git remote repository.
+Es importante fijarse en que cuando usas `git svn` estás interactuando con Subversion, que es un sistema mucho menos sofisticado que Git. Aunque puedes hacer ramas y fusiones localmente, lo mejor es mantener tu historia lo más lineal posible mediante reorganizaciones, y evitar hacer cosas como interactuar a la vez con un repositorio remoto de Git.
 
-Don’t rewrite your history and try to push again, and don’t push to a parallel Git repository to collaborate with fellow Git developers at the same time. Subversion can have only a single linear history, and confusing it is very easy. If you’re working with a team, and some are using SVN and others are using Git, make sure everyone is using the SVN server to collaborate — doing so will make your life easier.
+No reescribas tu historia y trates de publicar de nuevo, y no publiques a un repositorio Git paralelo para colaborar con colegas que usen Git al mismo tiempo. Subversion sólo puede tener una historia lineal simple, de lo contrario puedes confundirlo fácilmente. Si trabajas con un equipo, y algunos usan SVN mientras otros usan Git, asegúrate de que todos usan el servidor de SVN para colaborar. Si lo haces así, tu vida será más simple.
 
 ### Setting Up ###
 
@@ -362,7 +362,8 @@ However, the import isn’t perfect; and because it will take so long, you may a
 
 To get a list of the author names that SVN uses, you can run this:
 
-	$ svn log --xml | grep author | sort -u | perl -pe 's/.>(.?)<./$1 = /'
+	$ svn log ^/ --xml | grep -P "^<author" | sort -u | \
+	      perl -pe 's/<author>(.*?)<\/author>/$1 = /' > users.txt
 
 That gives you the log output in XML format — you can look for the authors, create a unique list, and then strip out the XML. (Obviously this only works on a machine with `grep`, `sort`, and `perl` installed.) Then, redirect that output into your users.txt file so you can add the equivalent Git user data next to each entry.
 
@@ -597,7 +598,7 @@ The last thing you need to do is to return the current mark so it can be passed 
 
 	return mark
 
-NOTE: If you are running on Windows you'll need to make sure that you add one extra step. As metioned before, Windows uses CRLF for new line characters while git fast-import expects only LF. To get around this problem and make git fast-import happy, you need to tell ruby to use LF instead of CRLF:
+NOTE: If you are running on Windows you'll need to make sure that you add one extra step. As mentioned before, Windows uses CRLF for new line characters while git fast-import expects only LF. To get around this problem and make git fast-import happy, you need to tell ruby to use LF instead of CRLF:
 
 	$stdout.binmode
 

@@ -112,9 +112,9 @@ staging area เป็นไฟล์ธรรมดาไฟล์นึง โ
 
 กระบวนการขั้นตอนพื้นฐานของ Git มีลักษณะดังนี้
 
-1.	คุณทำการแก้ไขไฟล์ใน working directory ของคุณ
-2.	แล้วทำการ  stage ไฟล์เหล่านั้นเพื่อให้มีการใส่ snapshot ลงไปใน staging area ของคุณ
-3.	ทำการยืนยัน(commit)ซึ่งนำไฟล์ที่อยู่ใน staging area ไปเก็บอย่างถาวรใน Git directory
+1. คุณทำการแก้ไขไฟล์ใน working directory ของคุณ
+2. แล้วทำการ  stage ไฟล์เหล่านั้นเพื่อให้มีการใส่ snapshot ลงไปใน staging area ของคุณ
+3. ทำการยืนยัน(commit)ซึ่งนำไฟล์ที่อยู่ใน staging area ไปเก็บอย่างถาวรใน Git directory
 
 เมื่อไฟล์อยู่ใน Git directory มันจะถือว่าเป็นสถานะ committed ถ้าไฟล์ถูกแก้ไขแล้วถูกเพิ่มลงใน staging area สถานะจะเป็น staged และถ้าไฟล์ถูกแก้ไขแล้วหลังถูกดึงออกมาแต่ไม่ได้เป็นสถานะ staged ก็จะเป็นสถานะ modified ในบทที่ 2 คุณจะได้เรียนรู้เกี่ยวกับสถานะมากกว่านี้และวิธีการที่คุณสามารถใช้ประโยชน์จากสถานะเหล่านี้หรือการข้ามสถานะ staged ได้อย่างไร
 
@@ -157,7 +157,7 @@ staging area เป็นไฟล์ธรรมดาไฟล์นึง โ
 
 หรือถ้าคุณใช้ระบบแบบ Debian อย่าง Ubuntu คุณสามารถติดตั้งผ่าน apt-get ได้:
 
-	$ apt-get install git-core
+	$ apt-get install git
 
 ### การติดตั้งบนแมค ###
 
@@ -176,9 +176,9 @@ You don’t have to add all the extras, but you’ll probably want to include +s
 
 ### Installing on Windows ###
 
-Installing Git on Windows is very easy. The msysGit project has one of the easier installation procedures. Simply download the installer exe file from the Google Code page, and run it:
+Installing Git on Windows is very easy. The msysGit project has one of the easier installation procedures. Simply download the installer exe file from the GitHub page, and run it:
 
-	http://code.google.com/p/msysgit
+	http://msysgit.github.com/
 
 After it’s installed, you have both a command-line version (including an SSH client that will come in handy later) and the standard GUI.
 

@@ -1,76 +1,76 @@
 # Git distribuito #
 
-Ora che avete un repository Git remoto messo a punto per tutti gli sviluppatore per condividere il proprio codice, e siete familiari con i comandi di base di Git nel lavoro in locale, andremo a vedere come utilizzare alcuni dei workflows distribuiti che Git offre.
+Ora che avete un repository Git remoto configurato per tutti gli sviluppatore per condividere il proprio codice, e usate comunemente i comandi di base di Git per il tuo lavoro in locale, vedremo come utilizzare alcuni dei flussi di lavoro offerti da Git.
 
-In questo capitolo, vedrete come lavorare con Git in un ambiente distribuito come contributore ed integratore. Imparerai come contribuire in maniera efficiente ad un progetto e rendere semplice la vita al gestore del progetto, oltre a come mantenere un progetto in maniera corretta con un certo numero di sviluppatori che contribuiscono ad esso.
+In questo capitolo, vedremo come lavorare con Git in un ambiente distribuito come contributore e integratore. Imparerai come contribuire in maniera efficiente ad un progetto e rendere la vita al gestore del progetto il più semplice possibile, ma anche come mantenere correttamente un progetto con un certo numero di sviluppatori che vi contribuiscono.
 
 ## Workflows distribuiti ##
 
-A differenza dei gestori di versione centralizzati (CVCSs), la natura distrubuita di Git render possibile una maggiore flessibilità nel modo in cui gli sviluppatori collaborano nei progetti. Nel sistemi centralizzati, ogni sviluppatore è un nodo che lavora appoggiandosi più o meno ad un fulcro centrale. Con Git invece, ogni sviluppatore è potenzialmente sia un nodo che il fulcro stesso - infatti ogni sviluppatore può fornire del codice agli altri repository e mantenere un pubblico repository sul quale gli altri basano il proprio lavoro e verso il quale contribuiscono. Questo apre ad una vasta gamma di possibilità di workflow per il vostro progetto e/o il vostro team, quindi coprirò alcuni paradigmi che si avvantaggiano di questa flessibilità. Discuterò dei punti di forza e quelli deboli di ogni possibilità; potete usarne una sola, oppure prendere pezzi da diverse ed adattarle alle vostre necessità.
+A differenza dei gestori di versione centralizzati (CVCS), la natura distribuita di Git ti permette di essere più flessibile nel gestire il modo in cui gli sviluppatori collaborano ai progetti. Nel sistemi centralizzati ogni sviluppatore è un nodo che lavora appoggiandosi ad un nucleo centrale più o meno ugualmente agli altri. Con Git, invece, ogni sviluppatore è potenzialmente sia un nodo che un nucleo: infatti ogni sviluppatore può contemporaneamente contribuire al codice di altri repository e mantenere un repository pubblico sul quale gli altri basino il proprio lavoro e verso il quale possano contribuire. Questo apre ad una vasta gamma di possibilità di workflow per il tuo progetto e/o il tuo gruppo. Tratterò quindi alcuni paradigmi che sfruttano questa flessibilità. Discuterò i punti di forza e le possibili debolezze di ogni design: potrai usarne uno o combinarli per adattarli alle tue necessità.
 
 ### Workflow centralizzato ###
 
-Nei sistemi centralizzati, generalmente c'è un modo solo di collarare. Un fulcro centrale, o repository, può accettare il codice e tutti sincronizzano il lavoro con questo. Un numero di sviluppatori sono nodi - rispetto al fulcro - e restano sincronizzati rispetto ad un luogo centrale (vedi Figura 5-1).
+Nei sistemi centralizzati, generalmente c'è un solo modo per collaborare: il flusso centralizzato. Un nucleo centrale, c.d. repository, può accettare il codice e tutti sincronizzano il proprio lavoro con questo nucleo. Un numero di sviluppatori sono nodi - utenti del nucleo - e restano sincronizzati con questo nucleo centrale (vedi Figura 5-1).
 
-Insert 18333fig0501.png 
+Insert 18333fig0501.png
 Figura 5-1. Worlflow centralizzato
 
-Questo significa che se due sviluppatori clonano dal fulcro ed entrambi fanno dei cambiamenti, il primo sviluppatore che eseguirà un push verso il fulcro non avrà problemi. Il secondo invece, dovrà unire al proprio il lavoro effettuato dal primo, prima di fare un push dei cambiamenti, per non sovrascrivere il lavoro del primo. Questo accade in Git come in Subversion (o un altro CVCS), e funziona tranquillamente in Git.
+Questo significa che se due sviluppatori clonano dal nucleo ed entrambi fanno dei cambiamenti, il primo sviluppatore che trasmetterà le proprie modifiche al nucleo non avrà problemi. Il secondo, invece, dovrà prima unire al proprio lavoro quello del primo e quindi potrà inviare i suoi cambiamenti, per non sovrascrivere il lavoro del primo. Questo accade in Git come in Subversion (o un altro CVCS), e questo modello funziona tranquillamente in Git.
 
-Se hai un piccolo team, o nella tua azienda sono già abituati ad un workflow centralizzato, puoi facilmente continuare ad utilizzare questo metodo con Git. Semplicemente crea un singolo repository, e dai ad ognuno la possibilità di effettuare un push; Git non lascerà agli utenti la possibilità di sovrascriversi l'un l'altro. Se uno sviluppatore clona, esegue dei cambiamenti, e poi prova a fare un push delle proprie modifiche dopo che un altro utente ha cambiato qualcosa, il server si rifiuterà di consentire l'operazione. L'utente sarà avvisato che sta cercando di fare un push di una copia non aggiornata, e non sarà capace di caricare le proprie modifiche finché non le unirà con quelle effettuate dagli altri.
-Questo metodo è utilizzato da tanti dato che è il paradigma che molti conoscono e a cui sono abituati.
+Se hai un piccolo gruppo, o nella tua azienda siete già abituati ad un workflow centralizzato, puoi facilmente continuare ad utilizzare questo metodo con Git. Crea un singolo repository e dai a ognuno del tuo gruppo la possibilità di effettuare una push; Git non lascerà agli utenti la possibilità di sovrascrivere il lavoro di un l'altro. Se uno sviluppatore clona, fa dei cambiamenti, e poi prova a fare una push delle proprie modifiche dopo che un altro utente abbia già inviato le proprie modifiche, il server rifiuterà le modifiche dell'ultimo. Questi sarà avvisato che sta cercando di fare la push di una copia non aggiornata e non potrà caricare le proprie modifiche finché non le unirà con quelle effettuate dagli altri.
+Molti usano questo metodo perché sono abituati a lavorare con questo paradigma.
 
 ### Workflow con manager d'integrazione ###
 
-Dato che Git ti consente di avere multipli repositories, è possibile avere un workflow dove ogni sviluppatore ha accesso in scrittura al proprio pubblico respository, e accesso il lettura a quello degli altri. Questo scenario spesso un repository "standard" che rappresenta il progetto "ufficiale". Per contribuire a quel progetto, devi creare il tuo clone pubblico del progetto stesso e fare un push delle modifiche verso esso. In seguito, si invia una richiesta al manager del progetto di eseguire un pull dei vostri cambiamenti. Possono aggiungere il vostro repository come remoto, testarlo localmente, unirlo al proprio ramo e fare un push verso il proprio repository. Il processo funziona così (vedi Figura 5-2):
+Poiché Git permette di avere repository multipli, è possibile avere un workflow dove ogni sviluppatore ha accesso in scrittura al proprio repository pubblico e accesso in lettura a quello degli altri. Questo scenario spesso prevede anche un repository classico che rappresenta il progetto "ufficiale". Per contribuire a progetti di questo tipo, devi creare il tuo clone pubblico del progetto e inviarvi (con una push) le tue modifiche e successivamente chiedere al mantenitore del progetto di fare una pull delle stesse. Questi può aggiungere il tuo repository come remoto, testarlo localmente, unirlo al proprio branch e fare una push verso il proprio repository. Il processo funziona così (vedi Figura 5-2):
 
-1.  Il mantenitore del progetto fa un push del proprio repository pubblico.
-2.  Un contributore clona il reposiory ed esegue dei cambiamenti.
-3.  Il contributore fa un push dei propri cambiamenti.
-4.  Il contributore invia al mantenitore una e-mail chiedendo di fare un pull dei cambiamenti.
+1.  Il mantenitore del progetto fa le push sul proprio repository pubblico.
+2.  Un contributore clona il reposiory ed fa delle cambiamenti.
+3.  Il contributore invia le modifiche al suo repository pubblico.
+4.  Il contributore invia al mantenitore una e-mail chiedendo di fare una pull dei cambiamenti.
 5.  Il mantenitore aggiunge il repository del contributore come remoto e fa un merge in locale dei cambiamenti.
-6.  Il mantenitore fa un push dei cambiamenti (compresi quelli aggiunti dal contributore) verso il repository principale.
+6.  Il mantenitore fa una push dei cambiamenti (compresi quelli aggiunti dal contributore) verso il repository principale.
 
-Insert 18333fig0502.png 
+Insert 18333fig0502.png
 Figura 5-2. Workflow con manager d'integrazione
 
-Questo è un workflow comune con siti come GitHub, dove è facile eseguire un fork di un progetto e fare un push dei propri cambiamenti dentro al proprio fork, in modo che tutti possano accedere. Uno dei maggiori vantaggi di questo approccio è che puoi continuare il tuo lavoro, ed il mantenitore del repository principale può eseguire un pull dei tuoi cambiamenti in qualsiasi momento. I contributori non devono aspettare che il progetto incorpori i propri camiamenti, ed ognuno può lavorare per conto suo.
+Questo è un workflow comune con siti come GitHub, dove è facile eseguire un fork di un progetto e inviare le tue modifiche al tuo fork, in modo che tutti possano accedervi. Uno dei vantaggi principali di questo approccio è che puoi continuare il tuo lavoro mentre il mantenitore del repository principale può eseguire una pull dei tuoi cambiamenti in qualsiasi momento. I contributori non devono aspettare che il progetto incorpori le modifiche: ognuno può lavorare per conto suo.
 
-### Workflow con Dittatori e Tenenti ###
+### Workflow con Dittatore e Tenenti ###
 
-Questa è una variante del workflow con multipli repository. E' generalmente usata da grandi progetti con centinaia di collaboratori; un esempio famoso è il Kernel Linux. Molti manager d'integrazione sono in carica di certe parti del repository; sono chiamati tenenti. Tutti i tenenti hanno un manager d'integrazione conosciuto come "dittatore benevolo". Il repository del dittatore benevolo funziona come repository di riferimento dal quale tutti i collaboratori eseguono un pull. Il flusso di lavoro è il seguente (vedi Figura 5-3):
+Questa è una variante del workflow con repository multipli. Viene generalmente usata da grandi progetti con centinaia di collaboratori: un esempio famoso è il Kernel Linux. Molti manager d'integrazione sono responsabili di certe parti del repository e vengono chiamati tenenti. Tutti i tenenti hanno un manager d'integrazione conosciuto come "dittatore benevolo". Il repository del dittatore benevolo è il repository di riferimento dal quale tutti i collaboratori prendono il codice. Il flusso di lavoro è il seguente (vedi Figura 5-3):
 
-1.  Normali sviluppatori lavorano nel loro ramo ed eseguono un rebase del proprio lavoro sul master. Il ramo master è quello del dittatore.
-2.  I tenenti eseguono l'unione del lavoro degli sviluppatori nel ramo master.
-3.  Il dittatore esegue l'unione dei rami master dei tenenti nel proprio ramo master.
-4.  Il dittatore esegue un push del proprio ramo master nel repository di riferimento, cosicché gli sviluppatori possano accedervi.
+1.  Sviluppatori normali lavorano sul loro branch ed eseguono un `rebase` del proprio lavoro sul master. Il branch master è quello del dittatore.
+2.  I tenenti uniscono il lavoro degli sviluppatori nel proprio branch master.
+3.  Il dittatore esegue l'unione dei branch master dei tenenti nel proprio branch master.
+4.  Il dittatore esegue una push del proprio ramo master nel repository di riferimento, cosicché gli sviluppatori possano accedervi.
 
-Insert 18333fig0503.png  
+Insert 18333fig0503.png
 Figura 5.3. Workflow con dittatore benevolo.
 
-Questo tipo di workflow non è comune ma può essere utile in progetti davvero grandi, o in ambienti con una stretta gerarchia, perché consente al leader del progetto (il dittatore) di delegare molto del lavoro e raccogliere vasti sottoinsiemi di codice in momenti diversi prima di integrarli.
+Questo tipo di workflow non è comune ma può essere utile in progetti molto grandi o in ambienti con una gerarchia forte, perché consente al leader del progetto (il dittatore) di delegare molto del lavoro e raccogliere vasti sottoinsiemi di codice in punti diversi prima di integrarli.
 
-Ci sono alcuni workflow comunemente utilizzati che sono possibili con un sistema distribuito come Git, ma puoi vedere che esistono molte variazioni attuabili per farlo adattare al tuo caso specifico. Ora che hai (spero) determinato quale workflow può funzionare per te, coprirò alcuni specifici esempi su come determinare i ruoli principali per realizzare differenti workflows.
+Ci sono alcuni workflow utilizzati comunemente che sono possibili con un sistema distribuito come Git, ma esistono molte possibili varianti per adattarli al tuo caso specifico. Ora che hai (spero) determinato quale combinazione di workflow possa funzionare per te, illustrerò alcuni esempi sui ruoli principali dei diversi workflow.
 
 ## Contribuire ad un Progetto ##
 
-Sai quali sono i diversi worlflows, e dovresti avere chiari i fondamentali utilizzi di Git. In questa sezione, parleremo di alcuni metodi comuni per contribuire ad un progetto.
+Conosci i diversi workflow e dovresti aver chiaro i fondamentali di Git. In questa sezione imparerai alcuni metodi comuni per contribuire a un progetto.
 
-La difficoltà maggiore nel descrivere questo processo, è che ci sono molte variazioni su come può venir fatto. Data la natura flessibile di Git, la gente può lavorare insieme in molti modi, ed è difficile descrivere come dovresti contribuire ad un progetto - ogni progetto è diverso. Alcune delle variabili coinvolte sono la quantità di contributori attivi, il workflow deciso, il tuo tipo di accesso per commit, ed eventualmente il metodo di contribuzione esterno.
+La difficoltà maggiore nel descrivere questo processo è che ci sono molte variazioni su come può venir fatto. Poiché Git è molto flessibile la gente può lavorare insieme in molti modi (ed effettivamente lo fa), ed è difficile descrivere come dovresti contribuire ad un progetto: ogni progetto è diverso. Alcune delle variabili coinvolte sono la quantità di contributori attivi, il workflow adottato, il tuo tipo di accesso, ed eventualmente il metodo di contribuzione esterno.
 
-La prima variabile è il numero di contributori attivi. Quando utenti attivamente contribuiscono con del codice a questo progetto, e quanto spesso? In molte situazioni avrai una manciata di sviluppatori con alcuni commits al giorno, o forse meno per dei progetti meno attivi. Per azienda o progetti davvero grandi, il numero di sviluppatori potrebbe essere nell'ordine delle migliaia, con dozzine o addirittura di centinaia di patches in arrivo ogni giorno. Questo è importante perché con più sviluppatori vai incontro a più problemi nell'applicare le modifiche in maniera pulita. I cambiamenti che fai potrebbero essere stati resi obsoleti o corrotti da altri che sono stati uniti mentre aspettavi che il tuo lavoro venisse approvato a applicato. Come si può tenere il proprio codice aggiornato e le proprie modifiche valide?
+La prima variabile è il numero di contributori attivi. Quando utenti  contribuiscono attivamente al progetto con del codice e quanto spesso? In molte casi avrai due o tre sviluppatori con poche commit quotidiane, o anche meno per dei progetti semi dormienti. Per azienda o progetti molto grandi, il numero di sviluppatori potrebbe essere nell'ordine delle migliaia, con dozzine o addirittura di centinaia di patches rilasciate ogni giorno. Questa è importante perché con più sviluppatori vai incontro a molti problemi nell'applicare le modifiche in maniera pulita o che queste possano essere facilmente integrate. I cambiamenti che fai potrebbero essere stati resi obsoleti o corrotti da altri che sono stati integrati mentre lavoravi o mentre aspettavi che il tuo lavoro venisse approvato o applicato. Come puoi mantenere il tuo codice aggiornato e le tue modifiche valide?
 
-La prossima variabile è il workflow in uso nel progetto. E' centralizzato, con ogni sviluppatore avente lo stesso tipo di accesso in scrittura nel repository principale? Il progetto ha un manager d'integrazione che controlla tutte le modifiche? Tutte le modifiche sono riviste da più persone ed approvate? Sei coinvolto in questo processo? E' un sistema con dei tenenti, e devi fornire a loro il tuo lavoro innanzitutto?
+La variabile successiva è il workflow usato nel progetto. È centralizzato, con ogni sviluppatore con lo stesso tipo di accesso in scrittura sul repository principale? Il progetto ha un manager d'integrazione che controlla tutte le modifiche? Tutte le modifiche sono riviste da più persone ed approvate? Sei coinvolto in questo processo? È un sistema con dei tenenti, e devi inviare a loro il tuo lavoro?
 
-Il problema successivo è il tuo accesso per il commit. Il workflow richiesto per poter contribuire al progetto è molto diverso a seconda del fatto che tua abbia accesso in scrittura o no. Se non hai accesso in scrittura, come viene preferito il lavoro dei contributori? Esiste qualche regola a riguardo? Quando contribuisci per volta? Quanto spesso?
+Il problema successivo riguarda i tuoi permessi per effettuare commit. Il workflow richiesto per poter contribuire al progetto è molto diverso a seconda del fatto che tua abbia accesso in scrittura o solo lettura. Se non hai accesso in scrittura, qual'è il modo preferito dal progetto per accettare il lavoro dei contributori? Esistono regole a riguardo? Quanto contribuisci? Quanto spesso?
 
-Tutte queste domande possono influire effettivamente sul progetto e sul tipo di workflow preferibile per la tua situazione. Coprirò aspetti di ognuno di questi in una serie di casi d'uso, spaziando dal semplice al complesso; dovresti essere capace di ricostruire il workflow specifico per il tuo caso basandoti sugli esempi.
+Tutte queste domande possono influire sul modo in cui contribuisci al progetto e quale tipo di workflow sia quello preferito o disponibile. Illustrerò gli aspetti di ciascuno di questi in una serie di casi d'uso, dal più semplice al più complesso: dovresti essere capace di definire il workflow specifico per il tuo caso basandoti su questi esempi.
 
-### Linee guida per il commit ###
+### Linee guida per le commit ###
 
-Prima di guardare ai casi specifici, una breve nota riguardo ai messaggi di commit. Avere una linea guida per creare commit e aderirvi rende il lavoro con Git e la collaborazione con altri molto più semplice. Il progetto Git fornisce un documento che da alcuni suggerimenti per la creazione di messaggi di commit - puoi leggerlo nel codice sorgente di Git nel file `Documentation/SubmittingPatches`.
+Prima di vedere i casi specifici faccio una breve nota riguardo i messaggi delle commit. Avere una linea guida per le commit e aderirvi rende il lavoro con Git e la collaborazione con altri molto più semplice. Il progetto di Git fornisce un documento che da molti suggerimenti circa le commit per da cui creare patch: puoi trovarlo nel codice sorgente di Git nel file `Documentation/SubmittingPatches`.
 
-Innanzitutto, non è il caso di inserire spazi bianchi. Git fornisce un modo semplice per cercarli - prima di un commit, esegui `git diff --check`, che identifica possibili errori riguardanti spazi bianchi e li lista per te. Qui c'è un esempio, dove ho sistituiro il colore rosso del terminale con delle lettere `X`:
+Innanzitutto non è il caso di inviare errori con degli spazi. Git fornisce un modo semplice per verificarli: esegui, prima di un commit, `git diff --check`, che identifica possibili errori riguardanti gli spazi e li elenca per te. Qui c'è un esempio in cui ho sostituiro il colore rosso del terminale con delle `X`:
 
 	$ git diff --check
 	lib/simplegit.rb:5: trailing whitespace.
@@ -80,48 +80,46 @@ Innanzitutto, non è il caso di inserire spazi bianchi. Git fornisce un modo sem
 	lib/simplegit.rb:26: trailing whitespace.
 	+    def command(git_cmd)XXXX
 
-Se esegui quel commando prima del commit, puoi vedere se stai per inserire degli spazi bianchi che potrebbero infastidire altri sviluppatori.
+Se esegui il commando prima della commit, puoi vedere se stai per committare degli spazi bianchi che potrebbero infastidire altri sviluppatori.
 
-In seguito, prova a rendere ogni commit un insieme logico di cambiamenti. Se puoi, cerca di rendere i cambiamenti "digeribili" - non scrivere codice per un intero weekend su cinque diversi problemi e poi fare un commit massivo il Lunedì. Anche se non esegui commit nel weekend, usa l'area di staging il Lunedì per suddividere il tuo lavoro in almeno un commit per problema, con un utile messaggio. Se diverse modifiche coinvolgono lo stesso file, usa `git add --patch` per aggiungere file in maniera parziale all'area di staging (spiegato nel dettaglio nel capitolo 6). Il risultato finale sarà lo stesso sia che tu faccia un commit sia che tu ne faccia cinque, finché tutti i cambiamenti sono aggiunti ad un certo punto, per cui cerca di rendere le cose più semplici ai tuoi colleghi sviluppatori quando devono controllare i tuoi cambiamenti. Questo approccio inoltre rende più semplice includere o escludere uno dei cambiamenti nel caso ti serva in seguito. Il capitolo 6 descrive una manciata di utili trucchetti di Git per riscrivere la storia ed aggiungere files all'area di staging in maniera interattiva - usa questi strumenti per mantenere una comprensibile cronologia.
+Cerca quindi di aver per ciascuna commit un insieme logico di modifiche. Se puoi, cerca di rendere i cambiamenti "digeribili": non lavorare per un intero fine settimana su cinque diversi problemi per fare poi una commit massiva il lunedì. Anche se non fai commit nel weekend, il lunedì usa l'area di staging per suddividere il tuo lavoro in almeno un commit per problema con un messaggio utile per ciascuna. Se modifiche diverse coinvolgono lo stesso file, usa `git add --patch` per aggiungere parti del file all'area di staging (trattato in dettaglio nel capitolo 6). Il risultato finale sarà lo stesso che tu faccia una o cinque commit quando queste vengano integrate in un punto, per cui cerca di rendere le cose più semplici ai tuoi colleghi sviluppatori quando devono controllare le tue modifiche. Questo approccio inoltre rende più semplice includere o escludere alcuni dei cambiamenti, nel caso ti serva successivamente. Il capitolo 6 descrive una serie di trucchi di Git utili per riscrivere la storia e aggiungere interattivamente file all'area di staging: usa questi strumenti per mantenere la cronologia pulita e comprensibile.
 
-L'ultima cosa da tenere in mente è il messaggio di commit. Prendere l'abitudine di creare messaggi di commit di qualità rende usare e collaborare tramite Git molto più semplice. Come regola generale, i tuoi messaggi dovrebbero iniziare con una singola linea di al massimo 50 caratteri che descrive il set di cambiamenti in maniera concisa, seguito da una linea bianca, ed in seguito una spiegazione dettagliata. Il progetto Git richiede che la spiegazione dettagliata includa il motivo del cambiamento ed il confronto con il comportamento precedente - questa è una buona linea guida da seguire. E' anche una buona idea usare la forma imperativa nel messaggio. In altre parole, usa dei comandi. Al posto di "Ho aggiunto dei test per" oppure "Aggiungere dei test per", usa "Aggiunti dei test per".
-Questo è un modello scritto originariamente da Tim Pope su tpope.net:
+L'ultima cosa da tenere a mente è il messaggio di commit. Prendere l'abitudine di creare messaggi di commit di qualità rende l'uso e la collaborazione tramite Git molto più semplice. Come regola generale, i tuoi messaggi dovrebbero iniziare con una sola linea di massimo 50 caratteri che descriva sinteticamente l'insieme delle modifiche seguito da una linea bianca e quindi una spiegazione dettagliata. Il progetto di Git prevede che una spiegazione molto dettagliata includa il motivo della modifica e confrontare l'implementazione committata con la precedente: questa è una buona linea guida da seguire. È una buona idea anche usare l'imperativo presente in questi messaggi. In altre parole, usa dei comandi. Al posto di "Ho aggiunto dei test per" o "Aggiungendo test per", usa "Aggiungi dei test per".
+Questo modello è stato originariamente scritto da Tim Pope su tpope.net:
 
   Breve (50 caratteri o meno) riassunto delle modifiche
 
-  Testo di spiegazione più dettagliato, se necessario. Suddividilo ogni
-  circa 72 caratteri. In alcuni contesti, la prima linea è trattata
-  come l'oggetto di un'email, ed il resto come il contenuto. La linea
-  vuota che separa il riassunto dal testo è importante (a meno che tu
-  non ometta il testo del tutto); strumenti come rebase possono andare
-  in confusione senza di essa.
+  Spiegazione più dettagliata, se necessario. Manda a capo ogni 72 caratteri 
+  circa. In alcuni contesti, la prima linea è trattata come l'oggetto di
+  un'email, ed il resto come il contenuto. La linea vuota che separa l'oggetto
+  dal testo è importante (a meno che tu non ometta il testo del tutto):
+  strumenti come rebase possono confondersi se non dovesse esserci.
 
-  Ulteriore paragrafo dopo alcune linee vuote.
+  Ulteriori paragrafi vanno dopo altre linee vuote.
 
    - Le liste puntate sono concesse
 
-   - Di solito un trattino od un asterisco viene usato come separatore,
-     preceduto da uno spazio singolo, con linee vuote tra i punti,
-     ma le convenzioni potrebbero variare in questo caso
+   - Di solito viene usato un trattino o un asterisco come separatore,
+     preceduto da uno spazio singolo, con delle linee vuote tra i punti,
+     ma le convenzioni possono essere diverse
 
-Se tutti i tuoi messaggi di commit hanno questo aspetto, le cose saranno molto più semplici per per te e gli sviluppatore con cui lavori. Il progetto Git ha dei messaggi di commit ben formattati - ti incoraggio ad eseguire `git log --no-merges` per vedere qual'è l'aspetto di una cronologia ben leggibile.
+Se tutti i tuoi messaggi di commit fossero così, per te e gli altri sviluppatori con cui lavori le cose saranno molto più semplici per te e per gli sviluppatore con cui lavori. Il progetto di Git ha dei messaggi di commit ben formattati: ti incoraggio a eseguire `git log --no-merges` per vedere qual è l'aspetto di una cronologia ben leggibile.
 
-Nei seguenti esempi, ed attraverso la maggior parte di questo libro, per brevità non formatterò i messaggi così accuratamente; invece userò l'opzione `-m` di `git commit`.
-Fa come dico, non come faccio.
+Nei esempi che seguono e nella maggior parte di questo libro, per brevità, non formatterò i messaggi accuratamente come descritto: userò invece l'opzione `-m` di `git commit`. Fa' come dico, non come faccio.
 
 ### Piccoli team privati ###
 
-La configurazione più semplice e facile da incontrare è il progetto privato con uno o due sviluppatori. Con privato, intendo codice a sorgente chiuso - non accessibile dal resto del mondo. Tu gli altri sviluppatori avete tutti accesso per il push verso il repository.
+La configurazione più semplice e facile da incontrare è il progetto privato con uno o due sviluppatori. Con privato, intendo codice a sorgente chiuso - non accessibile dal resto del mondo. Tu e gli altri sviluppatori avete tutti accesso per il push verso il repository.
 
-In questo ambiente, puoi utilizzare un workflow simile a quello che magari stai già usando con Subversion od un altro sistema centralizzato. Hai ancora i vantaggi (ad esempio) di poter eseguire commit da offline e la creazione di rami (ed unione delli stessi) molto più semplici, ma il workflow può restare simile; la differenza principale è che l'unione avviene nel tuo repository piuttosto che in quello sul server nel momento del commit.
-Vediamo come potrebbe essere la situazione quando due sviluppatori iniziano a lavorare insieme con un repository condiviso. Il primo sviluppatore, John, clona in repository, fa dei cambiamenti, ed esegue il commit localmente. (Sostituisco il messaggio di protocollo con `...` in questi esempi per brevità.)
+In questo ambiente, puoi utilizzare un workflow simile a quello che magari stai già usando con Subversion od un altro sistema centralizzato. Hai ancora i vantaggi (ad esempio) di poter eseguire commit da offline e la creazione di rami (ed unione degli stessi) molto più semplici, ma il workflow può restare simile; la differenza principale è che, nel momento del commit, l'unione avviene nel tuo repository piuttosto che in quello sul server.
+Vediamo come potrebbe essere la situazione quando due sviluppatori iniziano a lavorare insieme con un repository condiviso. Il primo sviluppatore, John, clona in repository, fa dei cambiamenti ed esegue il commit localmente. (Sostituisco il messaggio di protocollo con `...` in questi esempi per brevità.)
 
 	# Computer di John
 	$ git clone john@githost:simplegit.git
 	Initialized empty Git repository in /home/john/simplegit/.git/
 	...
 	$ cd simplegit/
-	$ vim lib/simplegit.rb 
+	$ vim lib/simplegit.rb
 	$ git commit -am 'rimosso valore di default non valido'
 	[master 738ee87] rimosso valore di default non valido
 	 1 files changed, 1 insertions(+), 1 deletions(-)
@@ -133,7 +131,7 @@ Il secondo sviluppatore, Jessica, fa la stessa cosa - clona il repository ed ese
 	Initialized empty Git repository in /home/jessica/simplegit/.git/
 	...
 	$ cd simplegit/
-	$ vim TODO 
+	$ vim TODO
 	$ git commit -am 'aggiunto il processo di reset'
 	[master fbff5bc] aggiunto il processo di reset
 	 1 files changed, 1 insertions(+), 0 deletions(-)
@@ -163,7 +161,7 @@ A John non è consentito eseguire un push perché Jessica ha fatto lo stesso nel
 
 A questo punto, il repository locale di John somiglia a quello di figura 5-4.
 
-Insert 18333fig0504.png 
+Insert 18333fig0504.png
 Figura 5-4. Il repository iniziale di John.
 
 John ha a disposizione i cambiamenti che Jessica ha eseguito, ma deve unirli ai suoi prima di avere la possibilità di eseguire un push:
@@ -175,10 +173,10 @@ John ha a disposizione i cambiamenti che Jessica ha eseguito, ma deve unirli ai 
 
 L'unione fila liscia - ora la cronologia dei commit di John sarà come quella di Figura 5-5.
 
-Insert 18333fig0505.png 
+Insert 18333fig0505.png
 Figura 5-5. Il repository di John dopo aver unito origin/master.
 
-Ora, John può testare il suo codice per essere sicuro che funzioni anche correttamente, e può eseguire il push del tutto verso il server:
+Ora, John può testare il suo codice per essere sicuro che funzioni anche correttamente e può eseguire il push del tutto verso il server:
 
 	$ git push origin master
 	...
@@ -187,12 +185,12 @@ Ora, John può testare il suo codice per essere sicuro che funzioni anche corret
 
 Infine, la cronologia dei commit di John somiglierà a quella di figura 5-6.
 
-Insert 18333fig0506.png 
+Insert 18333fig0506.png
 Figura 5-6. La cronologia di John dopo avere eseguito il push verso il server.
 
 Nel frattempo, Jessica sta lavorando su un altro ramo. Ha creato un ramo chiamato `problema54` ed ha eseguito tre commit su quel ramo. Non ha ancora recuperato i cambiamenti di John, per cui la sua cronologia di commit è quella di Figura 5-7.
 
-Insert 18333fig0507.png 
+Insert 18333fig0507.png
 Figura 5-7. La cronologia iniziale di Jessica.
 
 Jessica vuole sincronizzarsi con John, così recupera:
@@ -205,7 +203,7 @@ Jessica vuole sincronizzarsi con John, così recupera:
 
 Questo recupera il lavoro che John ha eseguito nel frattempo. La cronologia di Jessica ora è quella di Figura 5-8.
 
-Insert 18333fig0508.png 
+Insert 18333fig0508.png
 Figura 5-8. La cronologia di Jessica dopo aver recuperato i cambiamenti di John.
 
 Jessica pensa che il suo ramo sia pronto, però vuole sapere con cosa deve unire il suo lavoro prima di eseguire il push. Esegue `git log` per scoprirlo:
@@ -242,7 +240,7 @@ Non ci sono problemi; come puoi vederem è stato tutto semplice. Ora Jessica uni
 
 Tutto viene unito correttamente, e la cronologia di Jessica è come quella di Figura 5-9.
 
-Insert 18333fig0509.png 
+Insert 18333fig0509.png
 Figura 5-9. La cronologia di Jessica dopo aver unito i cambiamenti di John.
 
 Ora `origin/master` è raggiungibile dal ramo `master` di Jessica, cosicché lei sia capace di eseguire dei push successivamente (assumento che John non abbia fatto lo stesso nel frattempo):
@@ -257,7 +255,7 @@ Ogni sviluppatore ha eseguito alcuni commit ed unito il proprio lavoro con quell
 Insert 18333fig0510.png
 Figura 5-10. La cronologia di Jessica dopo aver eseguito il push dei cambiamenti verso il server.
 
-Questo è uno dei workflow più semplici. Lavori per un pò, generalmente in un ramo, ed unisci il tutto al ramo master questo è pronto ad essere integrato. Quando vuoi condividere il tuoi lavoro, uniscilo al tuo ramo master, poi recupera ed unisci `origin/master` se è cambiato, ed infine esegui il push verso il ramo `master` nel server. La sequenza è simile a quella di Figura 5-11.
+Questo è uno dei workflow più semplici. Lavori per un pò, generalmente in un ramo, ed unisci il tutto al ramo master questo è pronto ad essere integrato. Quando vuoi condividere il tuo lavoro, uniscilo al tuo ramo master, poi recupera ed unisci `origin/master` se è cambiato, ed infine esegui il push verso il ramo `master` nel server. La sequenza è simile a quella di Figura 5-11.
 
 Insert 18333fig0511.png
 Figura 5-11. La sequenza generale di eventi per un semplice workflow con Git a più sviluppatori.
@@ -305,7 +303,7 @@ Ora, Jessica esegue un paio di commit sul ramo `funzionalitaB`:
 
 Il repository di Jessica è come quello di Figura 5-12.
 
-Insert 18333fig0512.png 
+Insert 18333fig0512.png
 Figura 5.12. La cronologia iniziale dei commit di Jessica
 Figure 5-12. Jessica’s initial commit history.
 
@@ -340,7 +338,7 @@ Ora John manda una mail a Jessica dicendo che ha eseguito il push di alcuni camb
 	From jessica@githost:simplegit
 	   3300904..aad881d  featureA   -> origin/featureA
 
-Ora, lei può vedere cos'è stato cambiamento con `git log`:
+Ora, lei può vedere cos'è stato cambiato con `git log`:
 
 	$ git log origin/funzionalitaA ^funzionalitaA
 	commit aad881d154acdaeb2b6b18ea0e827ed8a6d671e6
@@ -371,15 +369,15 @@ Jessica vuole aggiustare qualcosa, così esegue un altro commit ed un push verso
 
 Ora la cronologia dei commit di Jessica sarà come quella di Figura 5-13.
 
-Insert 18333fig0513.png 
+Insert 18333fig0513.png
 Figura 5-13. La cronologia di Jessica dopo aver eseguito il commit sul ramo.
 
-Jessica, Josie e John informato gli integratori che i rami `funzionalitaA` e `funzionalitaB` sono sul server e pronti per l'integrazione nel ramo `master`. Dopo l'integrazione di questi rami nel `master`, un recupero del ramo principale aggiungerà anche i nuovi commit, rendendo la cronologia dei commit come quella di figura 5.14.
+Jessica, Josie e John informano gli integratori che i rami `funzionalitaA` e `funzionalitaB` sono sul server e pronti per l'integrazione nel ramo `master`. Dopo l'integrazione di questi rami nel `master`, un recupero del ramo principale aggiungerà anche i nuovi commit, rendendo la cronologia dei commit come quella di figura 5.14.
 
 Insert 18333fig0514.png
 Figura 5.14. La cronologia di Jessica dopo aver unito entrambi i rami.
 
-Molti gruppi migrano verso Git per la sua capacità di avere più team a lavorarare in parallelo, unendo le differenti linee di lavoro alla fine del processo. L'abilità di piccoli sotto gruppi di una squadra di collaborare tramite rami remoti senza necessariamenti dover coinvolgere o ostacolare l'intero team è un grande beneficio di Git. La sequenza per il workflow che hai appena visto è rappresentata dalla Figura 5-15.
+Molti gruppi migrano verso Git per la sua capacità di avere più team a lavorarare in parallelo, unendo le differenti linee di lavoro alla fine del processo. L'abilità di piccoli sotto gruppi di una squadra di collaborare tramite rami remoti senza necessariamente dover coinvolgere o ostacolare l'intero team è un grande beneficio di Git. La sequenza per il workflow che hai appena visto è rappresentata dalla Figura 5-15.
 
 Insert 18333fig0515.png
 Figura 5-15. Sequenza base di questo workflow con team separati.
@@ -388,7 +386,7 @@ Figura 5-15. Sequenza base di questo workflow con team separati.
 
 Contribuire ad un progetto pubblico è leggermente differente. Dato che non hai il permesso di aggiornare direttamente i rami del progetto, devi far avere il tuo lavoro ai mantenitori in qualche altro modo. Questo esempio descrive la contribuzione via fork su host Git che lo supportano in maniera semplice. I siti repo.or.cz e GitHub lo supportano, e molti altri mantenitori di progetti si aspettano questo tipo di contribuzione. La prossima sezione si occupa di progetti che preferiscono accettare patch via e-mail
 
-Innanzitutto, probabilemnte dovrai clonare il repository principale, creare un ramo per le modifiche che hai in programma di fare, e fare li il tuo lavoro. La sequenza è grossomodo questa:
+Innanzitutto, probabilemnte dovrai clonare il repository principale, creare un ramo per le modifiche che hai in programma di fare, e fare li il tuo lavoro. La sequenza è grosso modo questa:
 
 	$ git clone (url)
 	$ cd project
@@ -428,7 +426,7 @@ Il comando `request-pull` riceve come parametri il ramo base sul quale vuoi far 
 	 lib/simplegit.rb |   10 +++++++++-
 	 1 files changed, 9 insertions(+), 1 deletions(-)
 
-L'output può venir inviarto al mantenitore - riporta da dove è stato creato il nuovo ramo, un riassunto dei commit e dice da dove possono eseguire il pull.
+L'output può essere inviato al mantenitore. Esso riporta da dove è stato creato il nuovo ramo, un riassunto dei commit e dice da dove si può eseguire il pull.
 
 Su un progetto dove non sei il mantenitore, è generalmente comune avere un ramo come `master` sempre collegato a `origin/master` ed eseguire il tuo lavoro su rami che puoi eliminare nel caso non venissero accettati. Avere il lavoro suddiviso in rami inoltre rende semplice per te eseguire il rebase del tuo lavoro se è stato modificato il repository principale ed i tuoi commit non possono venire applicati in maniera pulita. Per esempio, se vuoi aggiungere un secondo argomento di lavoro ad un progetto, non continuare a lavorare sul ramo di cui hai appena fatto il push - creane un altro partendo dal ramo `master` del repository:
 
@@ -439,12 +437,12 @@ Su un progetto dove non sei il mantenitore, è generalmente comune avere un ramo
 	$ (email al mantenitore)
 	$ git fetch origin
 
-Ora, ognuno dei tuoi lavori è separato - simile ad una coda di modifiche - che puoi riscrivere, effettuare un rebase, e modificare senza che i rami interferiscano o dipendano l'uno dall'altro, come in Figura 5-16.
+Ora, ognuno dei tuoi lavori è separato, simile ad una coda di modifiche. Puoi riscrivere, modificare o effettuare un rebase, senza che i rami interferiscano o dipendano l'uno dall'altro, come in Figura 5-16.
 
-Insert 18333fig0516.png 
+Insert 18333fig0516.png
 Figura 5-16. Conologia iniziale dei commit con del lavoro su funzionalitaB.
 
-Diciamo che il mantenitore del progetto ha eseguito il pull una manciata di altre modifiche, e provato il tuo primo ramo, ma non riesce più ad applicarsi in maniera pulita. In questo caso, puoi provare ad effettuare un rebase di quel ramo basandoti sul nuovo `origin/master`, risolvere in conflitti e poi inviare di nuovo i tuoi cambiamenti:
+Diciamo che il mantenitore del progetto ha eseguito il pull, una manciata di altre modifiche e provato il tuo primo ramo ma non riesce più ad applicare tali modifiche in maniera pulita. In questo caso, puoi provare ad effettuare un rebase di quel ramo basandoti sul nuovo `origin/master`, risolvere i conflitti e poi inviare di nuovo i tuoi cambiamenti:
 
 	$ git checkout funzionalitaA
 	$ git rebase origin/master
@@ -465,18 +463,18 @@ Diamo un'occhiata ad un possibile scenario: il mantenitore ha guardato al tuo la
 	$ git commit
 	$ git push miofork funzionalitaBv2
 
-L'opzione `--squash` prende tutto il lavoro nel ramo da unire e lo aggiunge al ramo in cui sei. L'opzione `no-commit` dice a Git di non eseguire automaticamente un commit. Questo ti consente di aggiungere i cambiamenti da un altro ramo e poi eseguire altre modifiche prima di effettuare il nuovo commit.
+L'opzione `--squash` prende tutto il lavoro nel ramo da unire e lo aggiunge come un singolo commit al ramo in cui sei. L'opzione `no-commit` dice a Git di non eseguire automaticamente il commit. Questo ti consente di aggiungere i cambiamenti da un altro ramo e poi eseguire altre modifiche prima di effettuare il nuovo commit.
 
 Ora puoi inviare al mantenitore un messaggio dicendo che hai effettuato i cambiamenti richiesti e che può trovare nel ramo `funzionalitaBv2` (vedi Figura 5-18).
 
 Insert 18333fig0518.png
 Figura 5-18. La cronologia dei commit dopo il lavoro su funzionalitaBv2.
 
-### Public Large Project ###
+### Grande Progetto Pubblico ###
 
-Many larger projects have established procedures for accepting patches — you’ll need to check the specific rules for each project, because they will differ. However, many larger public projects accept patches via a developer mailing list, so I’ll go over an example of that now.
+Molti grandi progetti hanno definito delle procedure da seguire per poter inviare delle patch. Avrai bisogno di leggere le specifiche regole di ogni progetto, perchè queste potranno differire tra loro. Tuttavia, molti grandi progetti pubblici accettano patch tramite una mailing list degli sviluppatori, quindi tratterò ora un esempio di questo genere.
 
-The workflow is similar to the previous use case — you create topic branches for each patch series you work on. The difference is how you submit them to the project. Instead of forking the project and pushing to your own writable version, you generate e-mail versions of each commit series and e-mail them to the developer mailing list:
+Il flusso di lavoro è simile ai casi precedenti: crei un ramo per ognuna delle modifiche sulle quali intendi lavorare. La differenza sta in come invii tali modifiche al progetto. Invece di fare un tuo fork del progetto e di inviare le tue modifiche ad esso tramite push, crei una versione e-mail di ognuno dei commit e l invii tramite posta elettronica alla mailing list degli sviluppatori:
 
 	$ git checkout -b topicA
 	$ (work)
@@ -484,15 +482,15 @@ The workflow is similar to the previous use case — you create topic branches f
 	$ (work)
 	$ git commit
 
-Now you have two commits that you want to send to the mailing list. You use `git format-patch` to generate the mbox-formatted files that you can e-mail to the list — it turns each commit into an e-mail message with the first line of the commit message as the subject and the rest of the message plus the patch that the commit introduces as the body. The nice thing about this is that applying a patch from an e-mail generated with `format-patch` preserves all the commit information properly, as you’ll see more of in the next section when you apply these commits:
+Ora hai due commit che vuoi inviare alla mailing list. Usi `git format-patch` per generare un file formato mbox che puoi inviare via e-mail alla mailing list. Il comando `git format-patch` trasforma ogni commit in un messaggio email il cui oggetto è formato dalla prima linea del messaggio del commit e il cui contenuto è il rimanente testo del commit più la patch delle modifiche. La cosa bella di tutto ciò è che applicando i commit da un'email si conservano tutte le informazioni in essi contenute in maniera appropriata, come vedrai meglio nella prossima sezione:
 
 	$ git format-patch -M origin/master
 	0001-add-limit-to-log-function.patch
 	0002-changed-log-output-to-30-from-25.patch
 
-The `format-patch` command prints out the names of the patch files it creates. The `-M` switch tells Git to look for renames. The files end up looking like this:
+Il comando `format-patch` visualizza i nomi dei file patch che vengono creati. Il parametro `-M` indica a Git di tener traccia dei file rinominati. I file infine hanno questo aspetto:
 
-	$ cat 0001-add-limit-to-log-function.patch 
+	$ cat 0001-add-limit-to-log-function.patch
 	From 330090432754092d704da8e76ca5c05c198e71a8 Mon Sep 17 00:00:00 2001
 	From: Jessica Smith <jessica@example.com>
 	Date: Sun, 6 Apr 2008 10:17:23 -0700
@@ -517,14 +515,14 @@ The `format-patch` command prints out the names of the patch files it creates. T
 	   end
 
 	   def ls_tree(treeish = 'master')
-	-- 
+	--
 	1.6.2.rc1.20.g8c5b.dirty
 
-You can also edit these patch files to add more information for the e-mail list that you don’t want to show up in the commit message. If you add text between the `--` line and the beginning of the patch (the `lib/simplegit.rb` line), then developers can read it; but applying the patch excludes it.
+Puoi anche modificare questi file patch per aggiungere maggiori informazioni per la mailing list che non vuoi vengano visualizzate all'interno del messaggio del commit. Se aggiungi del testo tra le righe contrassegnate da `---` e l'inizio della patch (ad esempio la riga `lib/simplegit.rb`), gli sviluppatori possono leggerlo ma esso verrà escluso dal messaggio del commit con il quale la patch verrà applicata.
 
-To e-mail this to a mailing list, you can either paste the file into your e-mail program or send it via a command-line program. Pasting the text often causes formatting issues, especially with "smarter" clients that don’t preserve newlines and other whitespace appropriately. Luckily, Git provides a tool to help you send properly formatted patches via IMAP, which may be easier for you. I’ll demonstrate how to send a patch via Gmail, which happens to be the e-mail agent I use; you can read detailed instructions for a number of mail programs at the end of the aforementioned `Documentation/SubmittingPatches` file in the Git source code.
+Per inviare le patch alla mailing list, puoi copiare ed incollare il file nel tuo programma di posta o inviare il tutto tramite un programma a linea di comando. Incollando il testo spesso si hanno dei problemi di formattazione, sopratutto con client di posta "intelligenti" che non preservano i caratteri di acapo e altri caratteri di spaziatura. Fortunatamente, Git fornisce uno strumento per aiutarti ad inviare le patch in modo corretto tramite IMAP, il che potrebbe risultare più semplice. Ti mostrerò come inviare una patch via Gmail, che è il client di posta che utilizzo io; puoi trovare le istruzioni dettagliate per diversi client di posta alla fine del documento `Documention/SubmittingPatches` presente nel codice sorgente di Git.
 
-First, you need to set up the imap section in your `~/.gitconfig` file. You can set each value separately with a series of `git config` commands, or you can add them manually; but in the end, your config file should look something like this:
+Prima di tutto, devi configurare la sezione imap nel tuo file `~/.gitconfig`. Puoi settare ogni valore separatamente con una serie di comandi `git config` o aggiungerli manualmente al suo interno tramite un editor di testo. Alla fine il tuo file di configurazione dovrebbe essere più o meno così:
 
 	[imap]
 	  folder = "[Gmail]/Drafts"
@@ -534,20 +532,19 @@ First, you need to set up the imap section in your `~/.gitconfig` file. You can 
 	  port = 993
 	  sslverify = false
 
-If your IMAP server doesn’t use SSL, the last two lines probably aren’t necessary, and the host value will be `imap://` instead of `imaps://`.
-When that is set up, you can use `git send-email` to place the patch series in the Drafts folder of the specified IMAP server:
+Se il tuo server IMAP non usa SSL, le ultime due righe probabilmente non ti saranno necessarie e il valore del campo host sarà `imap://` anzichè `imaps://`. Quando tutto ciò è configurato, puoi usare `git send-email` per inviare la serie di patch alla cartella "Bozze" del tuo server IMAP:
 
 	$ git send-email *.patch
 	0001-added-limit-to-log-function.patch
 	0002-changed-log-output-to-30-from-25.patch
-	Who should the emails appear to be from? [Jessica Smith <jessica@example.com>] 
+	Who should the emails appear to be from? [Jessica Smith <jessica@example.com>]
 	Emails will be sent from: Jessica Smith <jessica@example.com>
 	Who should the emails be sent to? jessica@example.com
 	Message-ID to be used as In-Reply-To for the first email? y
 
-Then, Git spits out a bunch of log information looking something like this for each patch you’re sending:
+Poi, Git produce alcune informazioni di log che figureranno più o meno così per ogni patch che stai inviando:
 
-	(mbox) Adding cc: Jessica Smith <jessica@example.com> from 
+	(mbox) Adding cc: Jessica Smith <jessica@example.com> from
 	  \line 'From: Jessica Smith <jessica@example.com>'
 	OK. Log says:
 	Sendmail: /usr/sbin/sendmail -i jessica@example.com
@@ -562,54 +559,53 @@ Then, Git spits out a bunch of log information looking something like this for e
 
 	Result: OK
 
-At this point, you should be able to go to your Drafts folder, change the To field to the mailing list you’re sending the patch to, possibly CC the maintainer or person responsible for that section, and send it off.
+A questo punto, dovresti essere in grado di andare nella tua cartella delle bozze, cambiare il campo "A:" con la mailing list alla quale vuoi inviare la patch, aggiungere in copia il mantenitore del progetto o la persona responsabile per quella determinata sezione ed inviare il codice.
 
-### Summary ###
+### Sommario ###
 
-This section has covered a number of common workflows for dealing with several very different types of Git projects you’re likely to encounter and introduced a couple of new tools to help you manage this process. Next, you’ll see how to work the other side of the coin: maintaining a Git project. You’ll learn how to be a benevolent dictator or integration manager.
+Questa sezione ha coperto un certo numero di workflow comuni che è facile incontrare quando si ha a che fare con tipi diversi di progetti Git e ha introdotto un paio di nuovi strumenti che ti possono aiutare a gestire questo processo. Ora, vedrai come si lavora con l'altra faccia della medaglia: mantenere un progetto Git. Imparerai ad essere un dittatore benevolo o integration manager.
 
-## Maintaining a Project ##
+## Mantenere un Progetto ##
 
-In addition to knowing how to effectively contribute to a project, you’ll likely need to know how to maintain one. This can consist of accepting and applying patches generated via `format-patch` and e-mailed to you, or integrating changes in remote branches for repositories you’ve added as remotes to your project. Whether you maintain a canonical repository or want to help by verifying or approving patches, you need to know how to accept work in a way that is clearest for other contributors and sustainable by you over the long run.
+Oltre a sapere come contribuire ad un progetto in maniera effettiva, dovrai probabilmente sapere anche come mantenerne uno. Ciò consiste nell'accettare ed applicare le patch generate usando il comando `format-patch` e ricevute tramite e-mail oppure nell'integrare cambiamenti in rami dei repository che hai impostato come remote del tuo progetto. Sia che tu mantenga un repository o che tu voglia contribuire nel verificare le patch, devi sapere come eseguire il tuo compito in maniera chiara per gli altri contributori del progetto e sostenibile per te nel lungo periodo.
 
-### Working in Topic Branches ###
+### Lavorare sui Topic Branches ###
 
-When you’re thinking of integrating new work, it’s generally a good idea to try it out in a topic branch — a temporary branch specifically made to try out that new work. This way, it’s easy to tweak a patch individually and leave it if it’s not working until you have time to come back to it. If you create a simple branch name based on the theme of the work you’re going to try, such as `ruby_client` or something similarly descriptive, you can easily remember it if you have to abandon it for a while and come back later. The maintainer of the Git project tends to namespace these branches as well — such as `sc/ruby_client`, where `sc` is short for the person who contributed the work. 
-As you’ll remember, you can create the branch based off your master branch like this:
+Quando pensi di integrare un nuovo lavoro, è generalmente una buona idea quella di provarlo in un "topic branch", ovvero un ramo temporaneo creato specificatamente per provare le modifiche introdotte dalla patch. In questo modo è semplice modificare la singola patch e, se questa non funziona, lasciarla intalterata fino a quando non avrai il tempo di tornarci nuovamente. Se crei un ramo con un nome semplice basato sull'argomento della patch, ad esempio `ruby_client`, ti sarà poi facile individuarlo nel caso tu debba lasciare temporaneamente il lavoro sulla patch per tornarci più avanti. Il mantenitore del progetto Git  usa dare uno spazio dei nomi a questi rami, come ad esempio `sc/ruby_client`, dove `sc` sono le iniziali della persona che ha contribuito al lavoro. Come ricorderai, puoi creare un ramo partendo dal tuo ramo master con questi comandi:
 
 	$ git branch sc/ruby_client master
 
-Or, if you want to also switch to it immediately, you can use the `checkout -b` option:
+Oppure, se vuoi anche passare al nuovo ramo immediatamente, puoi usare il comando `checkout -b`:
 
 	$ git checkout -b sc/ruby_client master
 
-Now you’re ready to add your contributed work into this topic branch and determine if you want to merge it into your longer-term branches.
+Ora sei pronto per aggiungere il lavoro a questo ramo e determinare se vuoi unirlo a uno dei rami del tuo progetto.
 
-### Applying Patches from E-mail ###
+### Applicare le patch da un'e-mail ###
 
-If you receive a patch over e-mail that you need to integrate into your project, you need to apply the patch in your topic branch to evaluate it. There are two ways to apply an e-mailed patch: with `git apply` or with `git am`.
+Se ricevi via e-mail le patch che vuoi integrare nel tuo progetto, devi applicarle ognuna al relativo `topic branch` per poterle provare. Ci sono due modi per applicare una patch ricevuta via email: con `git apply` oppure con `git am`.
 
-#### Applying a Patch with apply ####
+#### Applicare una patch con apply ####
 
-If you received the patch from someone who generated it with the `git diff` or a Unix `diff` command, you can apply it with the `git apply` command. Assuming you saved the patch at `/tmp/patch-ruby-client.patch`, you can apply the patch like this:
+Se hai ricevuto la patch da qualcuno che l'ha generata usando il comando `git diff` o un qualsiasi comando Unix `diff`, puoi applicarla usando `git apply`. Se per esempio la patch è stata salvata in `/tmp/patch-ruby-client.patch`, puoi applicarla con il seguente comando:
 
 	$ git apply /tmp/patch-ruby-client.patch
 
-This modifies the files in your working directory. It’s almost identical to running a `patch -p1` command to apply the patch, although it’s more paranoid and accepts fewer fuzzy matches than patch. It also handles file adds, deletes, and renames if they’re described in the `git diff` format, which `patch` won’t do. Finally, `git apply` is an "apply all or abort all" model where either everything is applied or nothing is, whereas `patch` can partially apply patchfiles, leaving your working directory in a weird state. `git apply` is overall much more paranoid than `patch`. It won’t create a commit for you — after running it, you must stage and commit the changes introduced manually.
+Ciò modifica i file nella tua directory corrente. E' quasi uguale ad eseguire il comando `patch -p1` per applicare la patch, anche se questo comando è più paranoico e accetta meno corrispondenze di patch. Esso gestisce anche l'aggiunta, la rimozione e il cambio del nome dei file se ciò è descritto nel formato di `git diff`, cosa che il comando `patch` non fa. Infine, `git apply` segue il modello "applica tutto o rigetta tutto" dove vengono applicato tutte le modifiche oppure nessuna, mentre `patch` può applicarle anche solo parzialmente, lasciando la tua directory corrente in uno stato intermedio. `git apply` è in generale più paranoico di `patch`. Non creerà  un commit per te: una volta eseguito, devi effettuare lo stage e il commit dei file manualmente.
 
-You can also use git apply to see if a patch applies cleanly before you try actually applying it — you can run `git apply --check` with the patch:
+Puoi usare `git apply` anche per vedere se una patch può essere applicata in maniera pulita prima di applicarla veramente. Puoi eseguire `git apply --check` sulla patch:
 
-	$ git apply --check 0001-seeing-if-this-helps-the-gem.patch 
+	$ git apply --check 0001-seeing-if-this-helps-the-gem.patch
 	error: patch failed: ticgit.gemspec:1
 	error: ticgit.gemspec: patch does not apply
 
-If there is no output, then the patch should apply cleanly. This command also exits with a non-zero status if the check fails, so you can use it in scripts if you want.
+Se non viene visualizzato alcun output, allora la patch può essere applicata in maniera pulita. Questo comando termina con un valore diverso da zero se il controllo fallisce, quindi puoi usarlo anche all'interno di uno script.
 
-#### Applying a Patch with am ####
+#### Applicare una patch con am ####
 
-If the contributor is a Git user and was good enough to use the `format-patch` command to generate their patch, then your job is easier because the patch contains author information and a commit message for you. If you can, encourage your contributors to use `format-patch` instead of `diff` to generate patches for you. You should only have to use `git apply` for legacy patches and things like that.
+Se il contributore è un utente Git ed è stato abbastanza bravo a usare il comando `format-patch` per generare la sua patch, allora il tuo lavoro è più facile perché la patch contiene le informazioni sull'autore e un messaggio di commit per te. Se ti è possibile incoraggia i tuoi collaboratori ad utilizzare `format-patch` invece di `diff` per generare le patch per te. Dovresti dover usare solo `git apply` per le patch precedenti e altre cose del genere.
 
-To apply a patch generated by `format-patch`, you use `git am`. Technically, `git am` is built to read an mbox file, which is a simple, plain-text format for storing one or more e-mail messages in one text file. It looks something like this:
+Per applicare una patch generata con `format-patch` si usa `git am`. Tecnicamente `git am` è fatto per leggere un file mbox, che ha un formato semplice di solo testo per memorizzare uno o più messaggi email in un solo file che assomiglia a questo:
 
 	From 330090432754092d704da8e76ca5c05c198e71a8 Mon Sep 17 00:00:00 2001
 	From: Jessica Smith <jessica@example.com>
@@ -618,14 +614,14 @@ To apply a patch generated by `format-patch`, you use `git am`. Technically, `gi
 
 	Limit log functionality to the first 20
 
-This is the beginning of the output of the format-patch command that you saw in the previous section. This is also a valid mbox e-mail format. If someone has e-mailed you the patch properly using git send-email, and you download that into an mbox format, then you can point git am to that mbox file, and it will start applying all the patches it sees. If you run a mail client that can save several e-mails out in mbox format, you can save entire patch series into a file and then use git am to apply them one at a time. 
+Questo è l'inizio dell'output del comando 'format-patch' che hai visto nella sezione precedente, ed è anche un formato valido per mbox. Se qualcuno ti ha inviato la patch usando 'git send-email' e l'hai scaricata nel formato mbox, allora puoi puntare al file mbox da 'git am' e lui inizierà ad applicare tutte le patch che troa. Se hai un client di posta elettronica che ti permette di salvare più messaggi in un file mbox allora puoi salvare tutta una serie di patch in un singolo file e usare `git am` per applicarle tutte assieme.
 
-However, if someone uploaded a patch file generated via `format-patch` to a ticketing system or something similar, you can save the file locally and then pass that file saved on your disk to `git am` to apply it:
+Se però qualcuno ha caricato su un sistema di ticket (o qualcosa di simile) una patch generata con `format-patch`, tu puoi salvare il file localmente e passarlo a `git am` perché lo applichi:
 
-	$ git am 0001-limit-log-function.patch 
+	$ git am 0001-limit-log-function.patch
 	Applying: add limit to log function
 
-You can see that it applied cleanly and automatically created the new commit for you. The author information is taken from the e-mail’s `From` and `Date` headers, and the message of the commit is taken from the `Subject` and body (before the patch) of the e-mail. For example, if this patch was applied from the mbox example I just showed, the commit generated would look something like this:
+Puoi vedere che ha applicato automaticamente e senza errori le modifiche e creato una commit per te. Le informazioni sull'autore e la data della commit vengono prese delle intestazioni dell'email (rispettivamente da `From`  e `Date`), mentre il messaggio della commit è preso dal `Subject` e dal corpo dell'email, prima della patch. Se, per esempio questa patch fosse stata applicata dall'esempio dell'mbox appena mostrato, la commit generata apparirebbe così:
 
 	$ git log --pretty=fuller -1
 	commit 6c5e70b984a60b3cecd395edd5b48a7575bf58e0
@@ -638,11 +634,11 @@ You can see that it applied cleanly and automatically created the new commit for
 
 	   Limit log functionality to the first 20
 
-The `Commit` information indicates the person who applied the patch and the time it was applied. The `Author` information is the individual who originally created the patch and when it was originally created. 
+The `Commit` information indicates the person who applied the patch and the time it was applied. The `Author` information is the individual who originally created the patch and when it was originally created.
 
 But it’s possible that the patch won’t apply cleanly. Perhaps your main branch has diverged too far from the branch the patch was built from, or the patch depends on another patch you haven’t applied yet. In that case, the `git am` process will fail and ask you what you want to do:
 
-	$ git am 0001-seeing-if-this-helps-the-gem.patch 
+	$ git am 0001-seeing-if-this-helps-the-gem.patch
 	Applying: seeing if this helps the gem
 	error: patch failed: ticgit.gemspec:1
 	error: ticgit.gemspec: patch does not apply
@@ -654,13 +650,13 @@ But it’s possible that the patch won’t apply cleanly. Perhaps your main bran
 This command puts conflict markers in any files it has issues with, much like a conflicted merge or rebase operation. You solve this issue much the same way — edit the file to resolve the conflict, stage the new file, and then run `git am --resolved` to continue to the next patch:
 
 	$ (fix the file)
-	$ git add ticgit.gemspec 
+	$ git add ticgit.gemspec
 	$ git am --resolved
 	Applying: seeing if this helps the gem
 
 If you want Git to try a bit more intelligently to resolve the conflict, you can pass a `-3` option to it, which makes Git attempt a three-way merge. This option isn’t on by default because it doesn’t work if the commit the patch says it was based on isn’t in your repository. If you do have that commit — if the patch was based on a public commit — then the `-3` option is generally much smarter about applying a conflicting patch:
 
-	$ git am -3 0001-seeing-if-this-helps-the-gem.patch 
+	$ git am -3 0001-seeing-if-this-helps-the-gem.patch
 	Applying: seeing if this helps the gem
 	error: patch failed: ticgit.gemspec:1
 	error: ticgit.gemspec: patch does not apply
@@ -677,7 +673,7 @@ If you’re applying a number of patches from an mbox, you can also run the `am`
 	--------------------------
 	seeing if this helps the gem
 	--------------------------
-	Apply? [y]es/[n]o/[e]dit/[v]iew patch/[a]ccept all 
+	Apply? [y]es/[n]o/[e]dit/[v]iew patch/[a]ccept all
 
 This is nice if you have a number of patches saved, because you can view the patch first if you don’t remember what it is, or not apply the patch if you’ve already done so.
 
@@ -741,7 +737,7 @@ Technically, you can do that by explicitly figuring out the common ancestor and 
 
 	$ git merge-base contrib master
 	36c7dba2c95e6bbb78dfa822519ecfec6e1ca649
-	$ git diff 36c7db 
+	$ git diff 36c7db
 
 However, that isn’t convenient, so Git provides another shorthand for doing the same thing: the triple-dot syntax. In the context of the `diff` command, you can put three periods after another branch to do a `diff` between the last commit of the branch you’re on and its common ancestor with another branch:
 
@@ -757,7 +753,7 @@ When all the work in your topic branch is ready to be integrated into a more mai
 
 One simple workflow merges your work into your `master` branch. In this scenario, you have a `master` branch that contains basically stable code. When you have work in a topic branch that you’ve done or that someone has contributed and you’ve verified, you merge it into your master branch, delete the topic branch, and then continue the process.  If we have a repository with work in two branches named `ruby_client` and `php_client` that looks like Figure 5-19 and merge `ruby_client` first and then `php_client` next, then your history will end up looking like Figure 5-20.
 
-Insert 18333fig0519.png 
+Insert 18333fig0519.png
 Figure 5-19. History with several topic branches.
 
 Insert 18333fig0520.png
@@ -767,13 +763,13 @@ That is probably the simplest workflow, but it’s problematic if you’re deali
 
 If you have more developers or a larger project, you’ll probably want to use at least a two-phase merge cycle. In this scenario, you have two long-running branches, `master` and `develop`, in which you determine that `master` is updated only when a very stable release is cut and all new code is integrated into the `develop` branch. You regularly push both of these branches to the public repository. Each time you have a new topic branch to merge in (Figure 5-21), you merge it into `develop` (Figure 5-22); then, when you tag a release, you fast-forward `master` to wherever the now-stable `develop` branch is (Figure 5-23).
 
-Insert 18333fig0521.png 
+Insert 18333fig0521.png
 Figure 5-21. Before a topic branch merge.
 
-Insert 18333fig0522.png 
+Insert 18333fig0522.png
 Figure 5-22. After a topic branch merge.
 
-Insert 18333fig0523.png 
+Insert 18333fig0523.png
 Figure 5-23. After a topic branch release.
 
 This way, when people clone your project’s repository, they can either check out master to build the latest stable version and keep up to date on that easily, or they can check out develop, which is the more cutting-edge stuff.
@@ -783,12 +779,12 @@ You can also continue this concept, having an integrate branch where all the wor
 
 The Git project has four long-running branches: `master`, `next`, and `pu` (proposed updates) for new work, and `maint` for maintenance backports. When new work is introduced by contributors, it’s collected into topic branches in the maintainer’s repository in a manner similar to what I’ve described (see Figure 5-24). At this point, the topics are evaluated to determine whether they’re safe and ready for consumption or whether they need more work. If they’re safe, they’re merged into `next`, and that branch is pushed up so everyone can try the topics integrated together.
 
-Insert 18333fig0524.png 
+Insert 18333fig0524.png
 Figure 5-24. Managing a complex series of parallel contributed topic branches.
 
 If the topics still need work, they’re merged into `pu` instead. When it’s determined that they’re totally stable, the topics are re-merged into `master` and are then rebuilt from the topics that were in `next` but didn’t yet graduate to `master`. This means `master` almost always moves forward, `next` is rebased occasionally, and `pu` is rebased even more often (see Figure 5-25).
 
-Insert 18333fig0525.png 
+Insert 18333fig0525.png
 Figure 5-25. Merging contributed topic branches into long-term integration branches.
 
 When a topic branch has finally been merged into `master`, it’s removed from the repository. The Git project also has a `maint` branch that is forked off from the last release to provide backported patches in case a maintenance release is required. Thus, when you clone the Git repository, you have four branches that you can check out to evaluate the project in different stages of development, depending on how cutting edge you want to be or how you want to contribute; and the maintainer has a structured workflow to help them vet new contributions.
@@ -799,7 +795,7 @@ Other maintainers prefer to rebase or cherry-pick contributed work on top of the
 
 The other way to move introduced work from one branch to another is to cherry-pick it. A cherry-pick in Git is like a rebase for a single commit. It takes the patch that was introduced in a commit and tries to reapply it on the branch you’re currently on. This is useful if you have a number of commits on a topic branch and you want to integrate only one of them, or if you only have one commit on a topic branch and you’d prefer to cherry-pick it rather than run rebase. For example, suppose you have a project that looks like Figure 5-26.
 
-Insert 18333fig0526.png 
+Insert 18333fig0526.png
 Figure 5-26. Example history before a cherry pick.
 
 If you want to pull commit `e43a6` into your master branch, you can run
@@ -811,7 +807,7 @@ If you want to pull commit `e43a6` into your master branch, you can run
 
 This pulls the same change introduced in `e43a6`, but you get a new commit SHA-1 value, because the date applied is different. Now your history looks like Figure 5-27.
 
-Insert 18333fig0527.png 
+Insert 18333fig0527.png
 Figure 5-27. History after cherry-picking a commit on a topic branch.
 
 Now you can remove your topic branch and drop the commits you didn’t want to pull in.

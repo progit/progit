@@ -4,9 +4,9 @@ This chapter will be about getting started with Git.  We will begin at the begin
 
 ## About Version Control ##
 
-What is version control, and why should you care? Version control is a system that records changes to a file or set of files over time so that you can recall specific versions later. For the examples in this book you will use software source code as the files being version controlled, though in reality you can do this with nearly any type of file on a computer.
+What is version control, and why should you care? Version control is a system that records changes to a file or set of files over time so that you can recall specific versions later. Even though the examples in this book show software source code as the files under version control, in reality any type of file on a computer can be placed under version control.
 
-If you are a graphic or web designer and want to keep every version of an image or layout (which you would most certainly want to), a Version Control System (VCS) is a very wise thing to use. It allows you to revert files back to a previous state, revert the entire project back to a previous state, compare changes over time, see who last modified something that might be causing a problem, who introduced an issue and when, and more. Using a VCS also generally means that if you screw things up or lose files, you can easily recover. In addition, you get all this for very little overhead.
+If you are a graphic or web designer and want to keep every version of an image or layout (which you certainly would), it is very wise to use a Version Control System (VCS). A VCS allows you to: revert files back to a previous state, revert the entire project back to a previous state, review changes made over time, see who last modified something that might be causing a problem, who introduced an issue and when, and more. Using a VCS also means that if you screw things up or lose files, you can generally recover easily. In addition, you get all this for very little overhead.
 
 ### Local Version Control Systems ###
 
@@ -14,16 +14,16 @@ Many people’s version-control method of choice is to copy files into another d
 
 To deal with this issue, programmers long ago developed local VCSs that had a simple database that kept all the changes to files under revision control (see Figure 1-1).
 
-Insert 18333fig0101.png 
+Insert 18333fig0101.png
 Figure 1-1. Local version control diagram.
 
-One of the more popular VCS tools was a system called rcs, which is still distributed with many computers today. Even the popular Mac OS X operating system includes the  rcs command when you install the Developer Tools. This tool basically works by keeping patch sets (that is, the differences between files) from one change to another in a special format on disk; it can then re-create what any file looked like at any point in time by adding up all the patches.
+One of the more popular VCS tools was a system called rcs, which is still distributed with many computers today. Even the popular Mac OS X operating system includes the rcs command when you install the Developer Tools. This tool basically works by keeping patch sets (that is, the differences between files) from one revision to another in a special format on disk; it can then recreate what any file looked like at any point in time by adding up all the patches.
 
 ### Centralized Version Control Systems ###
 
 The next major issue that people encounter is that they need to collaborate with developers on other systems. To deal with this problem, Centralized Version Control Systems (CVCSs) were developed. These systems, such as CVS, Subversion, and Perforce, have a single server that contains all the versioned files, and a number of clients that check out files from that central place. For many years, this has been the standard for version control (see Figure 1-2).
 
-Insert 18333fig0102.png 
+Insert 18333fig0102.png
 Figure 1-2. Centralized version control diagram.
 
 This setup offers many advantages, especially over local VCSs. For example, everyone knows to a certain degree what everyone else on the project is doing. Administrators have fine-grained control over who can do what; and it’s far easier to administer a CVCS than it is to deal with local databases on every client.
@@ -34,7 +34,7 @@ However, this setup also has some serious downsides. The most obvious is the sin
 
 This is where Distributed Version Control Systems (DVCSs) step in. In a DVCS (such as Git, Mercurial, Bazaar or Darcs), clients don’t just check out the latest snapshot of the files: they fully mirror the repository. Thus if any server dies, and these systems were collaborating via it, any of the client repositories can be copied back up to the server to restore it. Every checkout is really a full backup of all the data (see Figure 1-3).
 
-Insert 18333fig0103.png 
+Insert 18333fig0103.png
 Figure 1-3. Distributed version control diagram.
 
 Furthermore, many of these systems deal pretty well with having several remote repositories they can work with, so you can collaborate with different groups of people in different ways simultaneously within the same project. This allows you to set up several types of workflows that aren’t possible in centralized systems, such as hierarchical models.
@@ -61,12 +61,12 @@ So, what is Git in a nutshell? This is an important section to absorb, because i
 
 The major difference between Git and any other VCS (Subversion and friends included) is the way Git thinks about its data. Conceptually, most other systems store information as a list of file-based changes. These systems (CVS, Subversion, Perforce, Bazaar, and so on) think of the information they keep as a set of files and the changes made to each file over time, as illustrated in Figure 1-4.
 
-Insert 18333fig0104.png 
+Insert 18333fig0104.png
 Figure 1-4. Other systems tend to store data as changes to a base version of each file.
 
-Git doesn’t think of or store its data this way. Instead, Git thinks of its data more like a set of snapshots of a mini filesystem. Every time you commit, or save the state of your project in Git, it basically takes a picture of what all your files look like at that moment and stores a reference to that snapshot. To be efficient, if files have not changed, Git doesn’t store the file again—just a link to the previous identical file it has already stored. Git thinks about its data more like Figure 1-5. 
+Git doesn’t think of or store its data this way. Instead, Git thinks of its data more like a set of snapshots of a mini filesystem. Every time you commit, or save the state of your project in Git, it basically takes a picture of what all your files look like at that moment and stores a reference to that snapshot. To be efficient, if files have not changed, Git doesn’t store the file again—just a link to the previous identical file it has already stored. Git thinks about its data more like Figure 1-5.
 
-Insert 18333fig0105.png 
+Insert 18333fig0105.png
 Figure 1-5. Git stores data as snapshots of the project over time.
 
 This is an important distinction between Git and nearly all other VCSs. It makes Git reconsider almost every aspect of version control that most other systems copied from the previous generation. This makes Git more like a mini filesystem with some incredibly powerful tools built on top of it, rather than simply a VCS. We’ll explore some of the benefits you gain by thinking of your data this way when we cover Git branching in Chapter 3.
@@ -93,7 +93,7 @@ You will see these hash values all over the place in Git because it uses them so
 
 When you do actions in Git, nearly all of them only add data to the Git database. It is very difficult to get the system to do anything that is not undoable or to make it erase data in any way. As in any VCS, you can lose or mess up changes you haven’t committed yet; but after you commit a snapshot into Git, it is very difficult to lose, especially if you regularly push your database to another repository.
 
-This makes using Git a joy because we know we can experiment without the danger of severely screwing things up. For a more in-depth look at how Git stores its data and how you can recover data that seems lost, see “Under the Covers” in Chapter 9.
+This makes using Git a joy because we know we can experiment without the danger of severely screwing things up. For a more in-depth look at how Git stores its data and how you can recover data that seems lost, see Chapter 9.
 
 ### The Three States ###
 
@@ -101,7 +101,7 @@ Now, pay attention. This is the main thing to remember about Git if you want the
 
 This leads us to the three main sections of a Git project: the Git directory, the working directory, and the staging area.
 
-Insert 18333fig0106.png 
+Insert 18333fig0106.png
 Figure 1-6. Working directory, staging area, and git directory.
 
 The Git directory is where Git stores the metadata and object database for your project. This is the most important part of Git, and it is what is copied when you clone a repository from another computer.
@@ -112,9 +112,9 @@ The staging area is a simple file, generally contained in your Git directory, th
 
 The basic Git workflow goes something like this:
 
-1.	You modify files in your working directory.
-2.	You stage the files, adding snapshots of them to your staging area.
-3.	You do a commit, which takes the files as they are in the staging area and stores that snapshot permanently to your Git directory.
+1. You modify files in your working directory.
+2. You stage the files, adding snapshots of them to your staging area.
+3. You do a commit, which takes the files as they are in the staging area and stores that snapshot permanently to your Git directory.
 
 If a particular version of a file is in the git directory, it’s considered committed. If it’s modified but has been added to the staging area, it is staged. And if it was changed since it was checked out but has not been staged, it is modified. In Chapter 2, you’ll learn more about these states and how you can either take advantage of them or skip the staged part entirely.
 
@@ -133,22 +133,22 @@ To install Git, you need to have the following libraries that Git depends on: cu
 
 	$ apt-get install libcurl4-gnutls-dev libexpat1-dev gettext \
 	  libz-dev libssl-dev
-	
+
 When you have all the necessary dependencies, you can go ahead and grab the latest snapshot from the Git web site:
 
 	http://git-scm.com/download
-	
+
 Then, compile and install:
 
-	$ tar -zxf git-1.6.0.5.tar.gz
-	$ cd git-1.6.0.5
+	$ tar -zxf git-1.7.2.2.tar.gz
+	$ cd git-1.7.2.2
 	$ make prefix=/usr/local all
 	$ sudo make prefix=/usr/local install
 
 After this is done, you can also get Git via Git itself for updates:
 
 	$ git clone git://git.kernel.org/pub/scm/git/git.git
-	
+
 ### Installing on Linux ###
 
 If you want to install Git on Linux via a binary installer, you can generally do so through the basic package-management tool that comes with your distribution. If you’re on Fedora, you can use yum:
@@ -157,7 +157,7 @@ If you want to install Git on Linux via a binary installer, you can generally do
 
 Or if you’re on a Debian-based distribution like Ubuntu, try apt-get:
 
-	$ apt-get install git-core
+	$ apt-get install git
 
 ### Installing on Mac ###
 
@@ -165,7 +165,7 @@ There are two easy ways to install Git on a Mac. The easiest is to use the graph
 
 	http://code.google.com/p/git-osx-installer
 
-Insert 18333fig0107.png 
+Insert 18333fig0107.png
 Figure 1-7. Git OS X installer.
 
 The other major way is to install Git via MacPorts (`http://www.macports.org`). If you have MacPorts installed, install Git via
@@ -176,11 +176,13 @@ You don’t have to add all the extras, but you’ll probably want to include +s
 
 ### Installing on Windows ###
 
-Installing Git on Windows is very easy. The msysGit project has one of the easier installation procedures. Simply download the installer exe file from the Google Code page, and run it:
+Installing Git on Windows is very easy. The msysGit project has one of the easier installation procedures. Simply download the installer exe file from the GitHub page, and run it:
 
-	http://code.google.com/p/msysgit
+	http://msysgit.github.com/
 
 After it’s installed, you have both a command-line version (including an SSH client that will come in handy later) and the standard GUI.
+
+Note on Windows usage: you should use Git with the provided msysGit shell (Unix style), it allows to use the complex lines of command given in this book. If you need, for some reason, to use the native Windows shell / command line console, you have to use double quotes instead of simple quotes (for parameters with spaces in them) and you must quote the parameters ending with the circumflex accent (^) if they are last on the line, as it is a continuation symbol in Windows.
 
 ## First-Time Git Setup ##
 
@@ -188,11 +190,11 @@ Now that you have Git on your system, you’ll want to do a few things to custom
 
 Git comes with a tool called git config that lets you get and set configuration variables that control all aspects of how Git looks and operates. These variables can be stored in three different places:
 
-*	`/etc/gitconfig` file: Contains values for every user on the system and all their repositories. If you pass the option` --system` to `git config`, it reads and writes from this file specifically. 
-*	`~/.gitconfig` file: Specific to your user. You can make Git read and write to this file specifically by passing the `--global` option. 
+*	`/etc/gitconfig` file: Contains values for every user on the system and all their repositories. If you pass the option` --system` to `git config`, it reads and writes from this file specifically.
+*	`~/.gitconfig` file: Specific to your user. You can make Git read and write to this file specifically by passing the `--global` option.
 *	config file in the git directory (that is, `.git/config`) of whatever repository you’re currently using: Specific to that single repository. Each level overrides values in the previous level, so values in `.git/config` trump those in `/etc/gitconfig`.
 
-On Windows systems, Git looks for the `.gitconfig` file in the `$HOME` directory (`C:\Documents and Settings\$USER` for most people). It also still looks for /etc/gitconfig, although it’s relative to the MSys root, which is wherever you decide to install Git on your Windows system when you run the installer.
+On Windows systems, Git looks for the `.gitconfig` file in the `$HOME` directory (`%USERPROFILE%` in Windows’ environment), which is `C:\Documents and Settings\$USER` or `C:\Users\$USER` for most people, depending on version (`$USER` is `%USERNAME%` in Windows’ environment). It also still looks for /etc/gitconfig, although it’s relative to the MSys root, which is wherever you decide to install Git on your Windows system when you run the installer.
 
 ### Your Identity ###
 
@@ -208,7 +210,7 @@ Again, you need to do this only once if you pass the `--global` option, because 
 Now that your identity is set up, you can configure the default text editor that will be used when Git needs you to type in a message. By default, Git uses your system’s default editor, which is generally Vi or Vim. If you want to use a different text editor, such as Emacs, you can do the following:
 
 	$ git config --global core.editor emacs
-	
+
 ### Your Diff Tool ###
 
 Another useful option you may want to configure is the default diff tool to use to resolve merge conflicts. Say you want to use vimdiff:

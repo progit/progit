@@ -6,7 +6,7 @@ Dit hoofdstuk legt uit je hoe je aan de slag kunt gaan met Git.  We zullen bij h
 
 Wat is versiebeheer? En wat heeft dat met jou te maken? Versiebeheer is een systeem dat veranderingen in een bestand of groep van bestanden over de tijd bijhoudt. Zodat je later specifieke versies kan opvragen. In de voorbeelden in dit boek is het broncode van computersoftware waarvan de versies beheerd worden maar je kan het eigenlijk met zo goed als elk soort bestand op een computer doen.
 
-Als je een grafisch ontwerper bent of websites maakt en elke versie van een afbeelding of opmaak wilt bewaren (wat je zeker zou willen), is het verstandig een versiebeheersysteem (Version Control System in het Engels, afgekort tot VCS) te gebruiken. Als je dat gebruikt kan je eerdere versies van bestanden of hele project terughalen, veranderingen tussen twee momententen in tijd bekijken, zien wie het laatst iets aangepast heeft, wie een probleen heeft veroorzaakt en wanneer en nog veel meer. Een VCS gebruiken betekent meestal ook dat je de situatie gemakkelijk terug kan draaien als je een fout maakt of bestanden kwijtraakt. Daarbij komt nog dat dit allemaal heel weinig extra belasting met zich mee brengt.
+Als je een grafisch ontwerper bent of websites maakt en elke versie van een afbeelding of opmaak wilt bewaren (wat je zeker zou willen), is het verstandig een versiebeheersysteem (Version Control System in het Engels, afgekort tot VCS) te gebruiken. Als je dat gebruikt kan je eerdere versies van bestanden of hele project terughalen, veranderingen tussen twee momenten in tijd bekijken, zien wie het laatst iets aangepast heeft, wie een probleem heeft veroorzaakt en wanneer en nog veel meer. Een VCS gebruiken betekent meestal ook dat je de situatie gemakkelijk terug kan draaien als je een fout maakt of bestanden kwijtraakt. Daarbij komt nog dat dit allemaal heel weinig extra belasting met zich mee brengt.
 
 ### Lokale versiebeheersystemen ###
 
@@ -14,7 +14,7 @@ Veel mensen hebben hun eigen versiebeheer methode: ze kopiëren bestanden naar e
 
 Om met dit probleem om te gaan hebben programmeurs lang geleden lokale VCSen ontwikkeld die een simpele database hadden om alle veranderingen aan bestanden te beheren (zie Figuur 1-1).
 
-Insert 18333fig0101.png 
+Insert 18333fig0101.png
 Figuur 1-1. Een diagram van een lokaal versiebeheersysteem.
 
 Een populair gereedschap voor VCS was een systeem genaamd rcs, wat vandaag de dag nog steeds met veel computers wordt mee geleverd. Zelfs het populaire besturingssysteem Mac OS X heeft rcs, als je de Developer Tools installeert. Dit gereedschap werkt in principe door verzamelingen van ‘patches’ (de verschillen tussen bestanden) van de opvolgende bestandsversies in een speciaal formaat op de harde schijf op te slaan; zo kan je teruggaan naar hoe een bestand er uitzag op ieder willekeurig moment in tijd, door alle patches bij elkaar op te tellen.
@@ -23,7 +23,7 @@ Een populair gereedschap voor VCS was een systeem genaamd rcs, wat vandaag de da
 
 Het volgende grote probleem waar mensen tegenaan lopen is dat ze samen moeten werken met ontwikkelaars op andere computers. Om dit probleem op te lossen ontwikkelde men Gecentraliseerde Versiebeheersystemen (CVCSen). Deze systemen, zoals CVS, Subversion en Perforce, hebben één centrale server waarop alle versies van de bestanden staan en een aantal clients die de bestanden daar van halen (‘check out’, in het Engels). Vele jaren was dit de standaard voor versiebeheer (zie Figuur 1-2).
 
-Insert 18333fig0102.png 
+Insert 18333fig0102.png
 Figuur 1-2. Een diagram van een gecentraliseerd versiebeheersysteem.
 
 Deze manier van versiebeheer biedt veel voordelen, vooral als je het vergelijkt met lokale VCSen. Bijvoorbeeld, iedereen weet tot op zekere hoogte wat de overige project-medewerkers aan het doen zijn. Beheerders hebben precieze controle over wie wat kan doen; en het is veel eenvoudiger om een CVCS te beheren dan te moeten werken met lokale databases voor elke client.
@@ -32,12 +32,12 @@ Maar helaas, deze methode heeft ook behoorlijke nadelen. De duidelijkste is de �
 
 ### Gedistribueerde versiebeheersystemen ###
 
-En hier verschijnen Gedistribueerde versiebeheersystemen (DVCSen) ten tonele. In een DVCS (zoals Git, Mercurial, Bazaar en Darcs) downloaden clients niet alleen de laatste momentopnames van de bestanden. De hele geschiedenis (de ‘repository’) wordt gekopiëerd. Dus als een server neergaat en deze systemen werkten via die server samen dan kan de repository van elke willekeurige client terug worden gekopiëerd naar de server om deze te herstellen. Elke checkout is dus eigenlijk een complete backup van alle data (zie Figuur 1-3).
+En hier verschijnen Gedistribueerde versiebeheersystemen (DVCSen) ten tonele. In een DVCS (zoals Git, Mercurial, Bazaar en Darcs) downloaden clients niet alleen de laatste momentopnames van de bestanden. De hele geschiedenis (de ‘repository’) wordt gekopieerd. Dus als een server neergaat en deze systemen werkten via die server samen dan kan de repository van elke willekeurige client terug worden gekopieerd naar de server om deze te herstellen. Elke checkout is dus eigenlijk een complete backup van alle data (zie Figuur 1-3).
 
-Insert 18333fig0103.png 
+Insert 18333fig0103.png
 Figuur 1-3. Diagram van een gedistribueerd versiebeheersysteem
 
-Bovendien werken veel van deze systemen behoorlijk goed met meerdere (niet-lokale) repositories tegelijk zodat je met verschillende groepen mensen op verschillende manieren tegelijk aan hetzelfde project kan werken. Hierdoor kan je verschillende werkprocessen (‘workflows’) opzetten die niet mogelijk waren geweest met gecentraliseerde systemen zoals hiërarchische modellen. 
+Bovendien werken veel van deze systemen behoorlijk goed met meerdere (niet-lokale) repositories tegelijk zodat je met verschillende groepen mensen op verschillende manieren tegelijk aan hetzelfde project kan werken. Hierdoor kan je verschillende werkprocessen (‘workflows’) opzetten die niet mogelijk waren geweest met gecentraliseerde systemen zoals hiërarchische modellen.
 
 ## Een kleine geschiedenis van Git ##
 
@@ -61,12 +61,12 @@ Dus, wat is Git in een notendop? Dit is een belangrijk deelhoofdstuk, omdat het 
 
 Een groot verschil tussen Git en elke andere VCS (inclusief Subversion en consoorten) is hoe Git denkt over zijn data. Conceptueel bewaren de meeste andere systemen informatie als een lijst van veranderingen per bestand. Deze systemen (CVS, Subversion, Perforce, Bazaar, enzovoort) zien de informatie die ze bewaren als een aantal bestanden en de veranderingen die aan die bestanden zijn aangebracht over de tijd, zoals geïllustreerd in Figuur 1-4.
 
-Insert 18333fig0104.png 
+Insert 18333fig0104.png
 Figuur 1-4. Andere systemen bewaren data meestal als veranderingen aan een basisversie van elk bestand.
 
-Git ziet en bewaart zijn data heel anders. De kijk van Git op zijn data kan worden uitgelegd als een reeks momentopnames van een miniatuurbestandsysteem. Elke keer dat je ‘commit’ - de status van van je project in Git opslaat - neemt het een soort van foto van hoe al je bestanden er op dat moment uitzien en slaat een verwijzing naar die momentopname op. Voor efficiëntie slaat Git ongewijzigde bestanden niet elke keer opnieuw op — alleen een verwijzing naar het eerdere identieke bestand dat het eerder al opgeslagen had. In Figuur 1-5 kan je zie hoe Git ongeveer over zijn data denkt.
+Git ziet en bewaart zijn data heel anders. De kijk van Git op zijn data kan worden uitgelegd als een reeks momentopnames van een miniatuurbestandssysteem. Elke keer dat je ‘commit’ - de status van van je project in Git opslaat - neemt het een soort van foto van hoe al je bestanden er op dat moment uitzien en slaat een verwijzing naar die momentopname op. Voor efficiëntie slaat Git ongewijzigde bestanden niet elke keer opnieuw op — alleen een verwijzing naar het eerdere identieke bestand dat het eerder al opgeslagen had. In Figuur 1-5 kan je zie hoe Git ongeveer over zijn data denkt.
 
-Insert 18333fig0105.png 
+Insert 18333fig0105.png
 Figuur 1-5. Git bewaart data als momentopnames van het project.
 
 Dat is een belangrijk verschil tussen Git en bijna alle overige VCSen. Hierdoor vindt Git bijna elk onderdeel van versiebeheer opnieuw uit, terwijl de meeste andere systemen het allemaal gewoon overnemen van de eerdere generaties. Hierdoor is Git meer een soort miniatuurbestandssysteem met een paar ongelooflijk krachtige gereedschappen, in plaats van niets meer dan een VCS. We zullen een paar van de voordelen die je krijgt als je op die manier over data denkt gaan onderzoeken, als we ‘branching’ (gesplitste ontwikkeling) toelichten in Hoofdstuk 3.
@@ -83,7 +83,7 @@ Dit betekent dat er maar heel weinig is dat je niet kunt doen als je offline ben
 
 Git maakt een controlegetal (‘checksum’) van alles voordat het wordt opgeslagen en er wordt later naar die data verwezen met dit controlegetal. Dat betekent dat het onmogelijk is om de inhoud van een bestand of map te veranderen zonder dat Git er vanaf weet. Deze functionaliteit is ingebouwd in het diepste deel van Git en staat centraal in zijn filosofie. Je kunt geen informatie kwijtraken als het wordt verstuurd en bestanden kunnen niet corrupt raken zonder dat Git het weet.
 
-Het mechanisme dat Git gebruikt voor deze controlegetallen heet een SHA-1-hash. Dat is een tekenreeks van 40 karakters lang, bestaande uit hexadecimale tekens (0–9 en a–f) en wordt berekend uit de inhoud van een bestand of mapstructuur in Git. Een SHA-1-hash ziet er ongeveer zo uit:
+Het mechanisme dat Git gebruikt voor deze controlegetallen heet een SHA-1-hash. Dat is een tekenreeks van 40 karakters lang, bestaande uit hexadecimale tekens (0–9 en a–f) en wordt berekend uit de inhoud van een bestand of mappenstructuur in Git. Een SHA-1-hash ziet er ongeveer zo uit:
 
 	24b9da6552252987aa493b52f8696cd6d3b00373
 
@@ -101,10 +101,10 @@ Let nu goed op. Dit is het belangrijkste dat je over Git moet weten als je wilt 
 
 Dit brengt ons tot de drie hoofdonderdelen van een Gitproject: de Gitmap, de werkmap, en de wachtrij voor een commit (‘staging area’)
 
-Insert 18333fig0106.png 
+Insert 18333fig0106.png
 Figuur 1-6. Werkmap, wachtrij en Gitmap
 
-De Gitmap is waar Git de metadata en objectdatabase van je project opslaat. Dit is het belangrijkste deel van Git. Deze map wordt gekopiëerd wanneer je een repository kloont vanaf een andere computer.
+De Gitmap is waar Git de metadata en objectdatabase van je project opslaat. Dit is het belangrijkste deel van Git. Deze map wordt gekopieerd wanneer je een repository kloont vanaf een andere computer.
 
 De werkmap is een kopie van een bepaalde versie van het project (een ‘checkout’). Deze bestanden worden uit de gecomprimeerde database in de Gitmap gehaald en op de harde schijf geplaatst waar jij ze kunt gebruiken of bewerken.
 
@@ -112,19 +112,19 @@ De wachtrij is een simpel bestand, dat zich in het algemeen in je Gitmap bevindt
 
 De algemene manier van werken met Git gaat ongeveer zo:
 
-1.	Je bewerkt bestanden in je werkmap.
-2.	Je bereidt de bestanden voor, waardoor momentopnames worden toegevoegd aan de wachtrij.
-3.	Je maakt een commit. Een commit neemt alle momentopnames van de wachtrij en die permanent bewaard in je Gitmap.
+1. Je bewerkt bestanden in je werkmap.
+2. Je bereidt de bestanden voor, waardoor momentopnames worden toegevoegd aan de wachtrij.
+3. Je maakt een commit. Een commit neemt alle momentopnames van de wachtrij en die permanent bewaard in je Gitmap.
 
-Als een bepaalde versie van een bestand in de Gitmap staat, wordt het beschouwd als gecommit. Als het is aangepast, maar wel aan de wachtrij is toegevoegd, is het voorbereid. En als het veranderd is sinds het gekopiëerd werd, maar niet voorbereid is, is het aangepast. In Hoofdstuk 2 leer je meer over deze toestanden en hoe je er voordeel van kunt hebben, maar ook hoe je de wachtrij compleet over kunt slaan.
+Als een bepaalde versie van een bestand in de Gitmap staat, wordt het beschouwd als gecommit. Als het is aangepast, maar wel aan de wachtrij is toegevoegd, is het voorbereid. En als het veranderd is sinds het gekopieerd werd, maar niet voorbereid is, is het aangepast. In Hoofdstuk 2 leer je meer over deze toestanden en hoe je er voordeel van kunt hebben, maar ook hoe je de wachtrij compleet over kunt slaan.
 
 ## Git installeren ##
 
 Laten we eens een beetje Git gebruiken. Je kunt natuurlijk niet meteen beginnen — je moet het eerst installeren. Er zijn een aantal manieren om eraan te komen; de belangrijkste twee zijn installeren vanaf broncode of een bestaand pakket voor jouw platform gebruiken.
 
-### Installeren vanaf de bron ###
+### Installeren vanaf de broncode ###
 
-Als het mogelijk is, is het meestal handig om Git vanaf de broncode te installeren, omdat je dan altijd de nieuwste versie hebt. Elke versie van Git brengt meestal goede verbeteringen aan de gebruikersinterface met zich mee, dus de laatste versie is vaak de beste manier als je het gewoon bent software vanaf de broncode te compileren. Vaak hebben Linuxdistributies behoorlijk oude pakketen - tenzij je een hele up-to-date distro hebt of ‘backports’ (verbeteringen van een nieuwe versie op een oudere versie toepassen) gebruikt - is installeren vanaf broncode misschien wel de beste manier voor jou.
+Als het mogelijk is, is het meestal handig om Git vanaf de broncode te installeren, omdat je dan altijd de nieuwste versie hebt. Elke versie van Git brengt meestal goede verbeteringen aan de gebruikersinterface met zich mee, dus de laatste versie is vaak de beste manier als je het gewoon bent software vanaf de broncode te compileren. Vaak hebben Linuxdistributies behoorlijk oude pakketten - tenzij je een hele up-to-date distro hebt of ‘backports’ (verbeteringen van een nieuwe versie op een oudere versie toepassen) gebruikt - is installeren vanaf broncode misschien wel de beste manier voor jou.
 
 Om Git te installeren heb je een aantal bibliotheken (‘libraries’) nodig: curl, zlib, openssl, expat, en libiconv. Als je bijvoorbeeld op een systeem werkt dat yum heeft (zoals Fedora) of apt-get (zoals systemen gebaseerd op Debian), kun je één van de volgende commando's gebruiken om alle bibliotheken waar Git van afhangt te installeren:
 
@@ -133,22 +133,22 @@ Om Git te installeren heb je een aantal bibliotheken (‘libraries’) nodig: cu
 
 	$ apt-get install libcurl4-gnutls-dev libexpat1-dev gettext \
 	  libz-dev
-	
+
 Als je alle afhankelijkheden hebt, kun je de laatste momentopname van Git vanaf de officiële website downloaden:
 
 	http://git-scm.com/download
-	
+
 Daarna compileren en installeren:
 
-	$ tar -zxf git-1.6.0.5.tar.gz
-	$ cd git-1.6.0.5
+	$ tar -zxf git-1.7.10.4.tar.gz
+	$ cd git-1.7.10.4
 	$ make prefix=/usr/local all
 	$ sudo make prefix=/usr/local install
 
 Als dat allemaal klaar is, kun je de nieuwste versie van Git uit Git ophalen met dit commando:
 
 	$ git clone git://git.kernel.org/pub/scm/git/git.git
-	
+
 ### Op Linux installeren ###
 
 Als je direct de uitvoerbare bestanden van Git op Linux wilt installeren, kun je dat normaal doen via het standaard pakketbeheersysteem dat meegeleverd is met je distributie. Als je Fedora gebruikt kun je yum gebruiken:
@@ -157,15 +157,15 @@ Als je direct de uitvoerbare bestanden van Git op Linux wilt installeren, kun je
 
 Of als je een distributie hebt die op Debian gebaseerd is, zoals Ubuntu, kun je apt-get proberen:
 
-	$ apt-get install git-core
+	$ apt-get install git
 
 ### Op een Mac installeren ###
 
-Er zijn twee makkelijke manieren om Git op een Mac te installeren. De simpelste is om het grafische Gitinstallatieprogram te gebruiken, dat je van de volgende pagina op Google Code kunt downloaden (zie Figuur 1-7):
+Er zijn twee makkelijke manieren om Git op een Mac te installeren. De simpelste is om het grafische Git installatieprogramma te gebruiken, dat je van de volgende pagina op Google Code kunt downloaden (zie Figuur 1-7):
 
 	http://code.google.com/p/git-osx-installer
 
-Insert 18333fig0107.png 
+Insert 18333fig0107.png
 Figuur 1-7. Gitinstallatieprogramma voor OS X.
 
 De andere veelgebruikte manier is om Git via MacPorts (`http://www.macports.org`) te installeren. Als je MacPorts hebt, kun je Git installeren met
@@ -176,11 +176,13 @@ Je hoeft niet al die extra’s toe te voegen, maar je wilt waarschijnlijk +svn e
 
 ### Op Windows installeren ###
 
-Git op Windows installeren is erg eenvoudig. Het msysGit project heeft één van de eenvoudiger installatieprocedures. Je hoeft alleen maar het installatieprogramma te downloaden van Google Code, en het uit te voeren:
+Git op Windows installeren is erg eenvoudig. Het msysGit project heeft één van de eenvoudiger installatieprocedures. Je hoeft alleen maar het installatieprogramma te downloaden van GitHub, en het uit te voeren:
 
-	http://code.google.com/p/msysgit
+	http://msysgit.github.com/
 
 Nadat het geïnstalleerd is, kun je Git zowel vanaf de commandprompt gebruiken (waar ook een SSH client bijzit die later nog van pas zal komen) als via de standaard GUI.
+
+Opmerking voor Windows gebruikers: je zou Git moeten gebruiken met de msysGit shell (Unix stijl), dit staat je toe de complexe commando's gegeven in dit boek te gebruiken. Als je om een of andere reden de Windows shell / commandprompt moet gebruiken, moet je dubbele quotes gebruiken in plaats van enkele quotes (voor parameters met spaties ertussen) en je moet quotes gebruiken bij parameters die eindigen met een circumflex (^) als ze achteraan de lijn staan, omdat dit een voortzettingssymbool is in Windows.
 
 ## Git klaarmaken voor eerste gebruik ##
 
@@ -188,27 +190,27 @@ Nu je Git op je computer hebt staan, is het handig dat je een paar dingen doet o
 
 Git bevat standaard een stuk gereedschap genaamd `git config`, waarmee je de configuratie-eigenschappen kunt bekijken en veranderen, die alle aspecten van het uiterlijk en gedrag van Git regelen. Deze eigenschappen kunnen op drie verschillende plaatsen worden bewaard:
 
-*	Het bestand `/etc/gitconfig`: Bevat eigenschappen voor elk account op de computer en al hun repositories. Als je de optie `--system` meegeeft aan `git config`, zal het dit de configuratiegegevens in dit bestand lezen of  veranderen. 
+*	Het bestand `/etc/gitconfig`: Bevat eigenschappen voor elk account op de computer en al hun repositories. Als je de optie `--system` meegeeft aan `git config`, zal het de configuratiegegevens in dit bestand lezen of veranderen.
 *	Het bestand `~/.gitconfig`: Eigenschappen voor jouw account. Je kunt Git dit bestand laten gebruiken door de optie `--global` mee te geven.
 *	Het configuratiebestand in de Gitmap (dus `.git/config`) van het repository dat je op het moment gebruikt: Specifiek voor dat ene repository. Elk niveau is belangrijker dan het voorgaande, dus waarden in `.git/config` zullen worden gebruikt in plaats van die in `/etc/gitconfig`.
 
-Op systemen met Windows zoekt Git in de `$HOME` map naar het `.gitconfig`-bestand (`C:\Documents and Settings\$USER` voor de meesten). Het kijkt ook nog naar `/etc/gitconfig`, maar dan op de plek waar je MSys hebt staan, wat de plek is waar je Git op je Windowscomputer geïnstalleerd hebt.
+Op systemen met Windows zoekt Git naar het `.gitconfig` bestand in de `$HOME` map (`%USERPROFILE%` in een Windows omgeving), welke `C:\Documents and Settings\$USER` is of `C:\Users\$USER` voor de meeste mensen, afhankelijk van de versie (`$USER` is `%USERNAME%` in een Windows omgeving). Het kijkt ook nog naar `/etc/gitconfig`, maar dan op de plek waar je MSys hebt staan, wat de plek is waar je Git op je Windowscomputer geïnstalleerd hebt.
 
 ### Jouw identiteit ###
 
-Het eerste wat je zou moeten doen nadat je Git geïnstalleerd hebt, is je gebruikersnaam en e-mail addres opgeven. Dat is belangrijk, omdat elke commit in Git deze informatie gebruikt, en het onveranderlijk ingebed zit in de commits die je ronddeelt:
+Het eerste wat je zou moeten doen nadat je Git geïnstalleerd hebt, is je gebruikersnaam en e-mail adres opgeven. Dat is belangrijk, omdat elke commit in Git deze informatie gebruikt, en het onveranderlijk ingebed zit in de commits die je ronddeelt:
 
-	$ git config --global user.name "Scott Chacon"
-	$ git config --global user.email schacon@gmail.com
+	$ git config --global user.name "John Doe"
+	$ git config --global user.email johndoe@example.com
 
-Nogmaals, dit hoef je maar één keer te doen als je de `--global` optie eraan plakt, omdat Git die informatie zal gebruiken voor alles wat je doet op dat systeem. Als je een andere naam of e-mail wilt gebruiken voor specifieke projecten, kun je het commando uitvoeren zonder de `--global` optie als je in de map van dat project zit.
+Nogmaals, dit hoef je maar één keer te doen als je de `--global` optie meegeeft, omdat Git die informatie zal gebruiken voor alles wat je doet op dat systeem. Als je een andere naam of e-mail wilt gebruiken voor specifieke projecten, kun je het commando uitvoeren zonder de `--global` optie als je in de map van dat project zit.
 
 ### Je tekstverwerker ###
 
 Nu Git weet wie je bent, kun je de tekstverwerker instellen die gebruikt zal worden als Git je een bericht in wilt laten typen. Normaliter gebruikt Git de standaardtekstverwerker van je systeem wat meestal Vi of Vim is. Als je een andere tekstverwerker wilt gebruiken, zoals Emacs, kun je het volgende doen:
 
 	$ git config --global core.editor emacs
-	
+
 ### Je diffprogramma ###
 
 En andere bruikbare optie die je misschien wel wilt instellen is het standaard diffprogramma om samenvoegingsconflicten op te lossen. Stel dat je vimdiff wilt gebruiken:

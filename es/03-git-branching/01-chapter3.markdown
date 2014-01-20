@@ -96,16 +96,16 @@ Y vamos a ver el por qué merece la pena hacerlo así.
 
 Vamos a presentar un ejemplo simple de ramificar y de fusionar, con un flujo de trabajo que se podría presentar en la realidad. Imagina que sigues los siquientes pasos:
 
-1.	Trabajas en un sitio web.
-2.	Creas una rama para un nuevo tema sobre el que quieres trabajar.
-3.	Realizas algo de trabajo en esa rama.
+1. Trabajas en un sitio web.
+2. Creas una rama para un nuevo tema sobre el que quieres trabajar.
+3. Realizas algo de trabajo en esa rama.
 
 En este momento, recibes una llamada avisandote de un problema crítico que has de resolver. Y sigues los siguientes pasos:
 
-1.	Vuelves a la rama de producción original.
-2.	Creas una nueva rama para el problema crítico y lo resuelves trabajando en ella.
-3.	Tras las pertinentes pruebas, fusionas (merge) esa rama y la envias (push) a la rama de producción.
-4.	Vuelves a la rama del tema en que andabas antes de la llamada y continuas tu trabajo.
+1. Vuelves a la rama de producción original.
+2. Creas una nueva rama para el problema crítico y lo resuelves trabajando en ella.
+3. Tras las pertinentes pruebas, fusionas (merge) esa rama y la envias (push) a la rama de producción.
+4. Vuelves a la rama del tema en que andabas antes de la llamada y continuas tu trabajo.
 
 ### Procedimientos básicos de ramificación ###
 
@@ -233,7 +233,7 @@ Git no crea automáticamente una nueva fusión confirmada (merge commit). Sino q
 	[master*]$ git status
 	index.html: needs merge
 	# On branch master
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add <file>..." to update what will be committed)
 	#   (use "git checkout -- <file>..." to discard changes in working directory)
 	#
@@ -257,7 +257,7 @@ Donde nos dice que la versión en HEAD (la rama 'master', la que habias activado
 	</div>
 
 Esta corrección contiene un poco de ambas partes. Y se han eliminado completamente las líneas `<<<<<<<` , `=======` y `>>>>>>>` Tras resolver todos los bloques conflictivos, has de lanzar comandos 'git add' para marcar cada archivo modificado. Marcar archivos como preparados (staging), indica a Git que sus conflictos han sido resueltos.
-Si, en lugar de resolver directamente, prefieres utilizar una herramienta gráfica. Puedes usar el comando 'git mergetool'. Esto arrancará la correspondiente herramienta de visualización y te permirá ir resolviendo conflictos con ella.
+Si en lugar de resolver directamente, prefieres utilizar una herramienta gráfica, puedes usar el comando 'git mergetool'. Esto arrancará la correspondiente herramienta de visualización y te permirá ir resolviendo conflictos con ella.
 
 	$ git mergetool
 	merge tool candidates: kdiff3 tkdiff xxdiff meld gvimdiff opendiff emerge vimdiff
@@ -308,7 +308,7 @@ El comando 'git branch' tiene más funciones que las de crear y borrar ramas. Si
 	* master
 	  testing
 
-Fijate en el carácter '*' delante de la rama 'master': nos indica la rama  activa en este momento. Si hacemos una confirmación de cambios (commit), esa será la rama que avance. Para ver la última confirmación de cambios en cada rama, puedes usar el comando 'git branch -v':
+Fijate en el carácter `*` delante de la rama 'master': nos indica la rama  activa en este momento. Si hacemos una confirmación de cambios (commit), esa será la rama que avance. Para ver la última confirmación de cambios en cada rama, puedes usar el comando 'git branch -v':
 
 	$ git branch -v
 	  iss53   93b412c fix javascript issue
@@ -321,7 +321,7 @@ Otra opción útil para averiguar el estado de las ramas, es filtrarlas y mostra
 	  iss53
 	* master
 
-Aparece la rama 'iss53' porque ya ha sido fusionada.  Y no lleva por delante el caracter '*' porque todo su contenido ya ha sido incorporado a otras ramas. Podemos borrarla tranquilamente con 'git branch -d', sin miedo a perder nada.
+Aparece la rama 'iss53' porque ya ha sido fusionada.  Y no lleva por delante el caracter `*` porque todo su contenido ya ha sido incorporado a otras ramas. Podemos borrarla tranquilamente con 'git branch -d', sin miedo a perder nada.
 
 Para mostrar todas las ramas que contienen trabajos sin fusionar aún, puedes utilizar el comando 'git branch --no-merged':
 
@@ -377,7 +377,7 @@ Figura 3-21. El registro tras fusionar 'dumbidea' e 'iss91v2'.
 
 Es importante recordar que, mientras estás haciendo todo esto, todas las ramas son completamente locales. Cuando ramificas y fusionas, todo se realiza en tu propio repositório Git. No hay nigún tipo de tráfico con ningún servidor.
 
-## Ramas Remotas ## 
+## Ramas Remotas ##
 
 Las ramas remotas son referencias al estado de ramas en tus repositorios remotos. Son ramas locales que no puedes mover;  se mueven automáticamente cuando estableces comunicaciones en la red. Las ramas remotas funcionan como marcadores, para recordarte en qué estado se encontraban tus repositorios remotos la última vez que conectaste con ellos.
 
@@ -388,7 +388,7 @@ Esto puede ser un tanto confuso, pero intentemos aclararlo con un ejemplo.  Supo
 Insert 18333fig0322.png 
 Figura 3-22. Un clón Git te proporciona tu propia rama 'master' y otra rama 'origin/master' apuntando a la rama 'master' original.
 
-Si haces algún trabajo en tu rama 'master' local. Y, al mismo tiempo, alguna otra persona lleva (push) su trabajo al servidor 'git.ourcompany.com', actualizando la rama 'master' de allí. Te encontrarás con que ambos registros avanzan de forma diferente. Además, mientras no tengas contacto con el servidor, tu apuntador a tu rama 'origin/master' no se moverá (ver Figura 3/23).
+Si haces algún trabajo en tu rama 'master' local, y al mismo tiempo, alguna otra persona lleva (push) su trabajo al servidor 'git.ourcompany.com', actualizando la rama 'master' de allí, te encontrarás con que ambos registros avanzan de forma diferente. Además, mientras no tengas contacto con el servidor, tu apuntador a tu rama 'origin/master' no se moverá (ver Figura 3/23).
 
 Insert 18333fig0323.png 
 Figura 3-23. Trabajando localmente y que otra persona esté llevando (push) algo al servidor remoto, hace que cada registro avance de forma distinta.

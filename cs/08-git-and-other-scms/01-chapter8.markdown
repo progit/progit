@@ -1,44 +1,44 @@
-# Git and Other Systems #
+# Git a ostatní systémy #
 
-The world isn’t perfect. Usually, you can’t immediately switch every project you come in contact with to Git. Sometimes you’re stuck on a project using another VCS, and many times that system is Subversion. You’ll spend the first part of this chapter learning about `git svn`, the bidirectional Subversion gateway tool in Git.
+Svět není dokonalý. Většinou není možné okamžitě přepnout každý projekt, s nímž přijdete do styku, na systém Git. Někdy jste nuceni pracovat na projektu v jiném systému VCS, jímž často bývá Subversion. První část této kapitoly proto věnujeme nástroji `git svn`, obousměrné bráně k systému Subversion.
 
-At some point, you may want to convert your existing project to Git. The second part of this chapter covers how to migrate your project into Git: first from Subversion, then from Perforce, and finally via a custom import script for a nonstandard importing case. 
+V určitém okamžiku možná budete chtít přepnout svůj existující projekt do systému Git. V druhé části této kapitoly se proto naučíte, jak přesunout svůj projekt do systému Git: nejprve ze systému Subversion, poté z Perforce a nakonec pomocí vlastního skriptu i v případech nestandardního importu.
 
-## Git and Subversion ##
+## Git a Subversion ##
 
-Currently, the majority of open source development projects and a large number of corporate projects use Subversion to manage their source code. It’s the most popular open source VCS and has been around for nearly a decade. It’s also very similar in many ways to CVS, which was the big boy of the source-control world before that.
+V současné době používá většina projektů vývoje open source softwaru a velká část korporátních projektů ke správě zdrojového kódu systém Subversion. Subversion je nejpopulárnějším systémem VCS s otevřeným zdrojovým kódem a využívá se už téměř deset let. V mnoha ohledech je velmi podobný systému CVS, který platil ve světě správy verzí před příchodem systému Subversion za nepřekonatelný.
 
-One of Git’s great features is a bidirectional bridge to Subversion called `git svn`. This tool allows you to use Git as a valid client to a Subversion server, so you can use all the local features of Git and then push to a Subversion server as if you were using Subversion locally. This means you can do local branching and merging, use the staging area, use rebasing and cherry-picking, and so on, while your collaborators continue to work in their dark and ancient ways. It’s a good way to sneak Git into the corporate environment and help your fellow developers become more efficient while you lobby to get the infrastructure changed to support Git fully. The Subversion bridge is the gateway drug to the DVCS world.
+Jednou ze skvělých funkcí systému Git je obousměrný most k systému Subversion: `git svn`. Tento nástroj umožňuje používat Git jako platného klienta serveru Subversion. Můžete tak využívat všech lokálních funkcí systému Git, ale revize odesílat na server Subversion, jako byste tento systém používali i lokálně. To znamená, že můžete vytvářet nové lokální větve a slučovat je, používat oblast připravených změn, přeskládávat, částečně přejímat atd., zatímco vaši spolupracovníci budou dále pracovat svými zašlými a prastarými způsoby. Jistě nebude od věci, jestliže se pokusíte propašovat Git do prostředí vaší společnosti a lobbováním za změnu infrastruktury směrem k plné podpoře systému Git pomůžete svým kolegům-vývojářům k vyšší efektivitě práce. Most k systému Subversion je branou do světa DVCS.
 
 ### git svn ###
 
-The base command in Git for all the Subversion bridging commands is `git svn`. You preface everything with that. It takes quite a few commands, so you’ll learn about the common ones while going through a few small workflows.
+Základním příkazem systému Git ke všem operacím směřujícím do systému Subversion je `git svn`. Takto začínají všechny příkazy. Ale není jich mnoho. Ty nejběžnější si představíme v několika malých modelových situacích.
 
-It’s important to note that when you’re using `git svn`, you’re interacting with Subversion, which is a system that is far less sophisticated than Git. Although you can easily do local branching and merging, it’s generally best to keep your history as linear as possible by rebasing your work and avoiding doing things like simultaneously interacting with a Git remote repository.
+V tomto místě bych rád upozornil, že použijete-li příkaz `git svn`, zahajujete interakci se systémem Subversion, nástrojem zdaleka ne tak sofistikovaným jako Git. Přestože není problém lokálně pracovat s větvemi a slučovat je, obecně doporučujeme, abyste se snažili udržet historii co nejlineárnější (pomůže vám v tom přeskládání) a vyhýbali se úkonům, jako je současná interakce se vzdáleným repozitářem Git.
 
-Don’t rewrite your history and try to push again, and don’t push to a parallel Git repository to collaborate with fellow Git developers at the same time. Subversion can have only a single linear history, and confusing it is very easy. If you’re working with a team, and some are using SVN and others are using Git, make sure everyone is using the SVN server to collaborate — doing so will make your life easier.
+Nepřepisujte svou historii a nepokoušejte se ji znovu odeslat a neodesílejte revize do paralelního repozitáře Git, přes nějž chcete současně spolupracovat s kolegy používajícími Git. Subversion může mít pouze jednu lineární historii a opravdu není těžké uvést ho do rozpaků. Pokud pracujete v týmu, v němž část vývojářů používá SVN a část Git, zajistěte, aby všichni spolupracovali na serveru SVN – váš život bude jednodušší.
 
-### Setting Up ###
+### Vytvoření repozitáře ###
 
-To demonstrate this functionality, you need a typical SVN repository that you have write access to. If you want to copy these examples, you’ll have to make a writeable copy of my test repository. In order to do that easily, you can use a tool called `svnsync` that comes with more recent versions of Subversion — it should be distributed with at least 1.4. For these tests, I created a new Subversion repository on Google code that was a partial copy of the `protobuf` project, which is a tool that encodes structured data for network transmission. 
+Abychom si mohli tuto funkci ukázat, budete potřebovat typický repozitář SVN, k němuž máte oprávnění pro zápis. Chcete-li si tyto příklady zkopírovat, budete si muset obstarat zapisovatelnou kopii mého testovacího repozitáře. Snadno ho zkopírujete pomocí nástroje `svnsync`, jenž je součástí novějších verzí systému Subversion – měl by být distribuován s verzí 1.4 a vyšší. Pro potřeby našich pokusů jsem na stránkách Google code vytvořil nový repozitář Subversion, který byl původně součástí kopie projektu `protobuf`, nástroje, který kóduje strukturovaná data pro síťový přenos.
 
-To follow along, you first need to create a new local Subversion repository:
+Chcete-li postupovat podle mě, budete si nejprve muset vytvořit nový lokální repozitář Subversion:
 
 	$ mkdir /tmp/test-svn
 	$ svnadmin create /tmp/test-svn
 
-Then, enable all users to change revprops — the easy way is to add a pre-revprop-change script that always exits 0:
+Poté umožněte všem uživatelům měnit vlastnosti vlastnosti revprops – jednoduše to provedete přidáním skriptu pre-revprop-change, jehož návratovou hodnotou bude vždy 0:
 
-	$ cat /tmp/test-svn/hooks/pre-revprop-change 
+	$ cat /tmp/test-svn/hooks/pre-revprop-change
 	#!/bin/sh
 	exit 0;
 	$ chmod +x /tmp/test-svn/hooks/pre-revprop-change
 
-You can now sync this project to your local machine by calling `svnsync init` with the to and from repositories.
+Nyní můžete tento projekt synchronizovat na svůj lokální počítač zadáním příkazu `svnsync init` s uvedením repozitářů „do“ a „z“.
 
-	$ svnsync init file:///tmp/test-svn http://progit-example.googlecode.com/svn/ 
+	$ svnsync init file:///tmp/test-svn http://progit-example.googlecode.com/svn/
 
-This sets up the properties to run the sync. You can then clone the code by running
+Tím nastavíte vlastnosti synchronizace. Zdrojový kód pak naklonujete příkazem:
 
 	$ svnsync sync file:///tmp/test-svn
 	Committed revision 1.
@@ -48,11 +48,11 @@ This sets up the properties to run the sync. You can then clone the code by runn
 	Committed revision 3.
 	...
 
-Although this operation may take only a few minutes, if you try to copy the original repository to another remote repository instead of a local one, the process will take nearly an hour, even though there are fewer than 100 commits. Subversion has to clone one revision at a time and then push it back into another repository — it’s ridiculously inefficient, but it’s the only easy way to do this.
+Tato operace bude trvat jen několik minut. Pokud byste se však pokoušeli zkopírovat originální repozitář ne do lokálního, nýbrž do jiného vzdáleného repozitáře, protáhne se proces téměř na hodinu, přestože repozitář obsahuje necelých 100 revizí. Subversion musí klonovat každou revizi zvlášť a tu pak odesílá zpět do jiného repozitáře. Tento postup je sice velice neefektivní, ale jiná možnost neexistuje.
 
-### Getting Started ###
+### První kroky ###
 
-Now that you have a Subversion repository to which you have write access, you can go through a typical workflow. You’ll start with the `git svn clone` command, which imports an entire Subversion repository into a local Git repository. Remember that if you’re importing from a real hosted Subversion repository, you should replace the `file:///tmp/test-svn` here with the URL of your Subversion repository:
+Nyní máte repozitář Subversion s oprávněním pro zápis, a proto se můžeme podívat na typický postup práce. Začneme příkazem `git svn clone`, který importuje celý repozitář Subversion do lokálního repozitáře Git. Nezapomeňte, že pokud import provádíte z reálně hostovaného repozitáře Subversion, je třeba nahradit `file:///tmp/test-svn` adresou URL vašeho repozitáře Subversion:
 
 	$ git svn clone file:///tmp/test-svn -T trunk -b branches -t tags
 	Initialized empty Git repository in /Users/schacon/projects/testsvnsync/svn/.git/
@@ -70,13 +70,13 @@ Now that you have a Subversion repository to which you have write access, you ca
 	Checked out HEAD:
 	 file:///tmp/test-svn/branches/my-calc-branch r76
 
-This runs the equivalent of two commands — `git svn init` followed by `git svn fetch` — on the URL you provide. This can take a while. The test project has only about 75 commits and the codebase isn’t that big, so it takes just a few minutes. However, Git has to check out each version, one at a time, and commit it individually. For a project with hundreds or thousands of commits, this can literally take hours or even days to finish.
+Na adrese URL, kterou jste zadali, tím v podstatě provedete dva příkazy: `git svn init` a `git svn fetch`. Proces může chvíli trvat. Testovací projekt má pouze kolem 75 revizí a základ kódu není příliš velký, takže bude stačit několik minut. Git však musí provést checkout každé verze jednotlivě a po jedné je také zapsat. U projektů se stovkami nebo tisíci revizí si můžete bez nadsázky počkat i celé hodiny nebo dny.
 
-The `-T trunk -b branches -t tags` part tells Git that this Subversion repository follows the basic branching and tagging conventions. If you name your trunk, branches, or tags differently, you can change these options. Because this is so common, you can replace this entire part with `-s`, which means standard layout and implies all those options. The following command is equivalent:
+Část `-T trunk -b branches -t tags` říká systému Git, že tento repozitář Subversion dodržuje základní zásady větvení a značkování. Pokud pojmenujete svůj kmenový adresář (trunk), větve nebo značky jinak, lze tyto parametry změnit. Protože se jedná o častou situaci, můžete celou tuto část nahradit parametrem `-s`, který označuje standardní layout a implikuje všechny uvedené parametry. Následující příkaz je ekvivalentní:
 
 	$ git svn clone file:///tmp/test-svn -s
 
-At this point, you should have a valid Git repository that has imported your branches and tags:
+V tomto okamžiku byste tedy měli mít platný repozitář Git s importovanými větvemi a značkami:
 
 	$ git branch -a
 	* master
@@ -87,7 +87,7 @@ At this point, you should have a valid Git repository that has imported your bra
 	  tags/release-2.0.2rc1
 	  trunk
 
-It’s important to note how this tool namespaces your remote references differently. When you’re cloning a normal Git repository, you get all the branches on that remote server available locally as something like `origin/[branch]` - namespaced by the name of the remote. However, `git svn` assumes that you won’t have multiple remotes and saves all its references to points on the remote server with no namespacing. You can use the Git plumbing command `show-ref` to look at all your full reference names:
+Doplňme také, že tento nástroj odlišně přiřazuje jmenný prostor vzdálených referencí. Jestliže klonujete normální repozitář Git, získáte ze vzdáleného serveru všechny větve, lokálně dostupné pod označením `origin/[větev]` – jmenný prostor se přiřazuje na základě vzdáleného serveru. `git svn` však předpokládá, že nebudete mít více vzdálených repozitářů a všechny reference uloží na místa na vzdáleném serveru bez jmenného prostoru. Pokud si přejete zobrazit všechny své reference s úplným názvem, můžete použít nízkoúrovňový příkaz `show-ref`:
 
 	$ git show-ref
 	1cbd4904d9982f386d87f88fce1c24ad7c0f0471 refs/heads/master
@@ -98,7 +98,7 @@ It’s important to note how this tool namespaces your remote references differe
 	1c4cb508144c513ff1214c3488abe66dcb92916f refs/remotes/tags/release-2.0.2rc1
 	1cbd4904d9982f386d87f88fce1c24ad7c0f0471 refs/remotes/trunk
 
-A normal Git repository looks more like this:
+Běžný repozitář Git vypadá naproti tomu spíš takto:
 
 	$ git show-ref
 	83e38c7a0af325a9722f2fdc56b10188806d83a1 refs/heads/master
@@ -106,19 +106,19 @@ A normal Git repository looks more like this:
 	0a30dd3b0c795b80212ae723640d4e5d48cabdff refs/remotes/origin/master
 	25812380387fdd55f916652be4881c6f11600d6f refs/remotes/origin/testing
 
-You have two remote servers: one named `gitserver` with a `master` branch; and another named `origin` with two branches, `master` and `testing`. 
+Máte dva vzdálené servery: první nese označení `gitserver` a obsahuje větev `master`; druhý server je `origin`, který obsahuje větve `master` a`testing`.
 
-Notice how in the example of remote references imported from `git svn`, tags are added as remote branches, not as real Git tags. Your Subversion import looks like it has a remote named tags with branches under it.
+Všimněte si, že v příkladu vzdálených referencí importovaných nástrojem `git svn` jsou značky přidány jako vzdálené větve, nikoli jako skutečné značky Git. Import ze systému Subversion vypadá, jako by měl vzdálený repozitář s názvem „tags“, v němž se nacházejí jednotlivé větve.
 
-### Committing Back to Subversion ###
+### Zapisování zpět do systému Subversion ###
 
-Now that you have a working repository, you can do some work on the project and push your commits back upstream, using Git effectively as a SVN client. If you edit one of the files and commit it, you have a commit that exists in Git locally that doesn’t exist on the Subversion server:
+Máte vytvořen pracovní repozitář a můžete se pustit do práce na projektu. Časem ale budete chtít odeslat revize zpět do repozitáře a použít při tom Git jako klienta SVN. Upravíte-li některý ze souborů a provedené změny zapíšete, budete mít revizi, která existuje lokálně v systému Git, ale neexistuje na serveru Subversion:
 
 	$ git commit -am 'Adding git-svn instructions to the README'
 	[master 97031e5] Adding git-svn instructions to the README
 	 1 files changed, 1 insertions(+), 1 deletions(-)
 
-Next, you need to push your change upstream. Notice how this changes the way you work with Subversion — you can do several commits offline and then push them all at once to the Subversion server. To push to a Subversion server, you run the `git svn dcommit` command:
+Jako další krok tak chcete odeslat provedené změny do vzdáleného repozitáře. Všimněte si, jak se tím mění váš způsob práce v systému Subversion. Můžete zapsat několik revizí offline a poté je na server Subversion odeslat všechny najednou. Pro odeslání revizí na server Subversion zadejte příkaz `git svn dcommit`:
 
 	$ git svn dcommit
 	Committing to file:///tmp/test-svn/trunk ...
@@ -129,7 +129,7 @@ Next, you need to push your change upstream. Notice how this changes the way you
 	No changes between current HEAD and refs/remotes/trunk
 	Resetting to the latest refs/remotes/trunk
 
-This takes all the commits you’ve made on top of the Subversion server code, does a Subversion commit for each, and then rewrites your local Git commit to include a unique identifier. This is important because it means that all the SHA-1 checksums for your commits change. Partly for this reason, working with Git-based remote versions of your projects concurrently with a Subversion server isn’t a good idea. If you look at the last commit, you can see the new `git-svn-id` that was added:
+Příkaz vezme všechny revize, které jste provedli na vrcholu kódu ze serveru Subversion, každou jednotlivě zapíše do systému Subversion a přepíše vaši lokální revizi Git tak, aby obsahovala unikátní identifikátor. To je důležité, protože to znamená, že se změní všechny kontrolní součty SHA-1 vašich revizí. To je také jeden z důvodů, proč není vhodné pracovat zároveň se serverem Subversion a s verzemi vzdálených repozitářů Git k témuž projektu. Pokud se podíváte na poslední revizi, uvidíte nově přidané `git-svn-id`:
 
 	$ git log -1
 	commit 938b1a547c2cc92033b74d32030e86468294a5c8
@@ -140,11 +140,11 @@ This takes all the commits you’ve made on top of the Subversion server code, d
 
 	    git-svn-id: file:///tmp/test-svn/trunk@79 4c93b258-373f-11de-be05-5f7a86268029
 
-Notice that the SHA checksum that originally started with `97031e5` when you committed now begins with `938b1a5`. If you want to push to both a Git server and a Subversion server, you have to push (`dcommit`) to the Subversion server first, because that action changes your commit data.
+Všimněte si, že kontrolní součet SHA, který před zapsáním revize původně začínal kombinací znaků `97031e5`, nyní začíná `938b1a5`. Chcete-li revize odeslat jak na server Git, tak na server Subversion, odešlete je nejprve na server Subversion (`dcommit`), protože tím změníte data revizí.
 
-### Pulling in New Changes ###
+### Stažení nových změn ###
 
-If you’re working with other developers, then at some point one of you will push, and then the other one will try to push a change that conflicts. That change will be rejected until you merge in their work. In `git svn`, it looks like this:
+Pokud na projektu spolupracujete s dalšími vývojáři, stane se vám, že někdo z vás odešle své revize, a až se o totéž pokusí ostatní, dojde ke konfliktu. Jejich změna bude odmítnuta, dokud nezačlení dříve odeslanou práci. V nástroji `git svn` to bude vypadat následovně:
 
 	$ git svn dcommit
 	Committing to file:///tmp/test-svn/trunk ...
@@ -152,7 +152,7 @@ If you’re working with other developers, then at some point one of you will pu
 	out-of-date: resource out of date; try updating at /Users/schacon/libexec/git-\
 	core/git-svn line 482
 
-To resolve this situation, you can run `git svn rebase`, which pulls down any changes on the server that you don’t have yet and rebases any work you have on top of what is on the server:
+Chcete-li tuto situaci vyřešit, spusťte příkaz `git svn rebase`, jímž stáhnete veškeré změny na serveru, které ještě nemáte lokálně, a přeskládáte všechnu práci na vrchol toho, co se nachází na serveru:
 
 	$ git svn rebase
 	       M      README.txt
@@ -160,7 +160,7 @@ To resolve this situation, you can run `git svn rebase`, which pulls down any ch
 	First, rewinding head to replay your work on top of it...
 	Applying: first user change
 
-Now, all your work is on top of what is on the Subversion server, so you can successfully `dcommit`:
+Nyní je všechna vaše práce na vrcholu revizí, které jsou na serveru Subversion. Příkaz `dcommit` bude nyní úspěšně proveden:
 
 	$ git svn dcommit
 	Committing to file:///tmp/test-svn/trunk ...
@@ -171,7 +171,7 @@ Now, all your work is on top of what is on the Subversion server, so you can suc
 	No changes between current HEAD and refs/remotes/trunk
 	Resetting to the latest refs/remotes/trunk
 
-It’s important to remember that unlike Git, which requires you to merge upstream work you don’t yet have locally before you can push, `git svn` makes you do that only if the changes conflict. If someone else pushes a change to one file and then you push a change to another file, your `dcommit` will work fine:
+Za zmínku stojí, že na rozdíl od systému Git, který před přijetím odesílaných dat vyžaduje, abyste začlenili práci na serveru, kterou ještě nemáte lokálně, nástroj `git svn` si toto vyžádá pouze v případě, že změny navzájem kolidují. Jestliže někdo odešle na server změnu v jednom souboru a vy poté odešlete změnu provedenou v jiném souboru, příkaz `dcommit` bude proveden úspěšně:
 
 	$ git svn dcommit
 	Committing to file:///tmp/test-svn/trunk ...
@@ -188,9 +188,9 @@ It’s important to remember that unlike Git, which requires you to merge upstre
 	First, rewinding head to replay your work on top of it...
 	Nothing to do.
 
-This is important to remember, because the outcome is a project state that didn’t exist on either of your computers when you pushed. If the changes are incompatible but don’t conflict, you may get issues that are difficult to diagnose. This is different than using a Git server — in Git, you can fully test the state on your client system before publishing it, whereas in SVN, you can’t ever be certain that the states immediately before commit and after commit are identical.
+Tuto skutečnost je dobré mít na paměti, neboť výsledkem takového postupu je stav projektu, který ve chvíli vašeho odeslání neexistoval na žádném z počítačů. Jsou-li změny nekompatibilní, přestože nekolidují, může dojít k těžko diagnostikovatelným problémům. V tom se tento postup liší od používání serveru Git. V systému Git můžete kompletně otestovat stav v systému klienta ještě před zveřejněním. V SVN si naproti tomu nemůžete být nikdy jisti, že je stav bezprostředně před revizí a po revizi identický.
 
-You should also run this command to pull in changes from the Subversion server, even if you’re not ready to commit yourself. You can run `git svn fetch` to grab the new data, but `git svn rebase` does the fetch and then updates your local commits.
+Tento příkaz byste proto měli používat ke stažení změn ze serveru Subversion i v případě, že ještě sami nehodláte zapsat vlastní revize. Nová data sice můžete vyzvednout i příkazem `git svn fetch`, avšak příkaz `git svn rebase` data nejen stáhne, ale navíc aktualizuje vaše lokální revize.
 
 	$ git svn rebase
 	       M      generate_descriptor_proto.sh
@@ -198,13 +198,13 @@ You should also run this command to pull in changes from the Subversion server, 
 	First, rewinding head to replay your work on top of it...
 	Fast-forwarded master to refs/remotes/trunk.
 
-Running `git svn rebase` every once in a while makes sure your code is always up to date. You need to be sure your working directory is clean when you run this, though. If you have local changes, you must either stash your work or temporarily commit it before running `git svn rebase` — otherwise, the command will stop if it sees that the rebase will result in a merge conflict.
+Spustíte-li čas od času příkaz `git svn rebase`, budete mít jistotu, že pracujete s aktuálním kódem. Nezapomeňte však, že když příkaz spouštíte, je třeba, abyste měli čistý pracovní adresář. Máte-li lokální změny, musíte ještě před spuštěním příkazu `git svn rebase` práci buď odložit (stash), nebo ji dočasně zapsat. V opačném případě nebude příkaz proveden, protože systém zjistí, že by přeskládání vedlo ke konfliktu.
 
-### Git Branching Issues ###
+### Problémy s větvemi systému Git ###
 
-When you’ve become comfortable with a Git workflow, you’ll likely create topic branches, do work on them, and then merge them in. If you’re pushing to a Subversion server via git svn, you may want to rebase your work onto a single branch each time instead of merging branches together. The reason to prefer rebasing is that Subversion has a linear history and doesn’t deal with merges like Git does, so git svn follows only the first parent when converting the snapshots into Subversion commits.
+Pokud vám vyhovuje způsob práce v systému Git, začnete pravděpodobně vytvářet tematické větve, budete v nich vytvářet svou práci a začleňovat je. Odesíláte-li revize na server Subversion nástrojem git svn, budete možná chtít pokaždé raději přeskládat svou práci na jedinou větev, místo abyste je slučovali. Důvod, proč raději využít možnosti přeskládání, spočívá v tom, že Subversion má lineární historii a neprovádí začleňování stejně jako Git. Nástroj git svn tak při konverzi snímků na revize Subversion sleduje pouze prvního rodiče.
 
-Suppose your history looks like the following: you created an `experiment` branch, did two commits, and then merged them back into `master`. When you `dcommit`, you see output like this:
+Předpokládejme, že vaše historie vypadá následovně: vytvořili jste větev `experiment`, zapsali jste dvě revize a začlenili jste je zpět do větve `master`. Výstup příkazu `dcommit` bude nyní vypadat následovně:
 
 	$ git svn dcommit
 	Committing to file:///tmp/test-svn/trunk ...
@@ -225,17 +225,17 @@ Suppose your history looks like the following: you created an `experiment` branc
 	No changes between current HEAD and refs/remotes/trunk
 	Resetting to the latest refs/remotes/trunk
 
-Running `dcommit` on a branch with merged history works fine, except that when you look at your Git project history, it hasn’t rewritten either of the commits you made on the `experiment` branch — instead, all those changes appear in the SVN version of the single merge commit.
+Příkaz `dcommit` na větvi se začleněnou historií bude fungovat bez problémů, pomineme-li, že při pohledu na historii projektu Git zjistíme, že nepřepsal žádnou z revizí, kterou jste provedli ve větvi `experiment`. Všechny změny se místo toho objeví v SVN verzi jedné revize vzniklé sloučením.
 
-When someone else clones that work, all they see is the merge commit with all the work squashed into it; they don’t see the commit data about where it came from or when it was committed.
+Pokud tuto práci naklonuje jiný uživatel, uvidí jen jednu revizi vzniklou sloučením, obsahující všechnu práci skomprimovanou do ní. Neuvidí data revizí s informacemi, odkud revize pochází nebo kdy byla zapsána.
 
-### Subversion Branching ###
+### Větve v systému Subversion ###
 
-Branching in Subversion isn’t the same as branching in Git; if you can avoid using it much, that’s probably best. However, you can create and commit to branches in Subversion using git svn.
+Princip větvení v systému Subversion se odlišuje od větvení v systému Git. Pokud se mu můžete úplně vyhnout, mohu vám to vřele doporučit. Pokud se mu vyhnout nelze, můžete i tady použít nástroj git svn, pomocí nějž lze vytvářet nové větve a zapisovat do nich revize.
 
-#### Creating a New SVN Branch ####
+#### Vytvoření nové větve SVN ####
 
-To create a new branch in Subversion, you run `git svn branch [branchname]`:
+Chcete-li vytvořit novou větev v systému Subversion, spusťte příkaz `git svn branch [název větve]`:
 
 	$ git svn branch opera
 	Copying file:///tmp/test-svn/trunk at r87 to file:///tmp/test-svn/branches/opera...
@@ -246,27 +246,27 @@ To create a new branch in Subversion, you run `git svn branch [branchname]`:
 	Successfully followed parent
 	r89 = 9b6fe0b90c5c9adf9165f700897518dbc54a7cbf (opera)
 
-This does the equivalent of the `svn copy trunk branches/opera` command in Subversion and operates on the Subversion server. It’s important to note that it doesn’t check you out into that branch; if you commit at this point, that commit will go to `trunk` on the server, not `opera`.
+Příkaz je ekvivalentní s příkazem `svn copy trunk branches/opera` v systému Subversion a pracuje na serveru Subversion. Měli bychom také dodat, že příkaz neprovede automaticky checkout dané větve. Pokud nyní zapíšete revizi, dostane se do větve `trunk` na serveru, ne do větve `opera`.
 
-### Switching Active Branches ###
+### Přepínání aktivních větví ###
 
-Git figures out what branch your dcommits go to by looking for the tip of any of your Subversion branches in your history — you should have only one, and it should be the last one with a `git-svn-id` in your current branch history. 
+Git zjistí, do jaké větve se vaše revize zapsané příkazem dcommit dostanou – podívá se na konec všech větví Subversion ve vaší historii. Měli byste mít pouze jednu a měla by to být poslední větev s `git-svn-id` ve vaší aktuální historii větve.
 
-If you want to work on more than one branch simultaneously, you can set up local branches to `dcommit` to specific Subversion branches by starting them at the imported Subversion commit for that branch. If you want an `opera` branch that you can work on separately, you can run
+Chcete-li současně pracovat ve více než jedné větvi, můžete nastavit lokální větve tak, abyste příkazem `dcommit` zapisovali revize do konkrétních větví Subversion. Za tímto účelem umístěte začátek větví na importované revizi Subversion pro tuto větev. Chcete-li používat větev `opera`, v níž můžete pracovat odděleně, spusťte příkaz:
 
 	$ git branch opera remotes/opera
 
-Now, if you want to merge your `opera` branch into `trunk` (your `master` branch), you can do so with a normal `git merge`. But you need to provide a descriptive commit message (via `-m`), or the merge will say "Merge branch opera" instead of something useful.
+Budete-li nyní chtít začlenit větev `opera` do větve `trunk` (vaše větev `master`), můžete tak učinit běžným příkazem `git merge`. Měli byste však uvést výstižnou zprávu revize (pomocí parametru `-m`). V opačném případě bude sloučení místo užitečných informací oznamovat jen „Merge branch opera“ („začleněna větev opera“).
 
-Remember that although you’re using `git merge` to do this operation, and the merge likely will be much easier than it would be in Subversion (because Git will automatically detect the appropriate merge base for you), this isn’t a normal Git merge commit. You have to push this data back to a Subversion server that can’t handle a commit that tracks more than one parent; so, after you push it up, it will look like a single commit that squashed in all the work of another branch under a single commit. After you merge one branch into another, you can’t easily go back and continue working on that branch, as you normally can in Git. The `dcommit` command that you run erases any information that says what branch was merged in, so subsequent merge-base calculations will be wrong — the dcommit makes your `git merge` result look like you ran `git merge --squash`. Unfortunately, there’s no good way to avoid this situation — Subversion can’t store this information, so you’ll always be crippled by its limitations while you’re using it as your server. To avoid issues, you should delete the local branch (in this case, `opera`) after you merge it into trunk.
+Nezapomeňte, že přestože k operaci používáte příkaz `git merge` a sloučení bude pravděpodobně o mnoho snazší, než by bylo v systému Subversion (Git automaticky vyhledá vhodnou základu pro sloučení), nejedná se o standardní příkaz merge systému Git. Tato data budete muset odeslat zpět na server Subversion, který nedokáže pracovat s revizí sledující více než jednoho rodiče. Proto až je odešlete, budou vypadat jako jediná revize, jež zkomprimovala veškerou práci jiné větve do jedné revize. Poté, co začleníte jednu větev do druhé, můžete se beze všeho vrátit zpět a pokračovat v práci na této větvi, stejně jako byste mohli v systému Git. Spustíte-li příkaz `dcommit`, smažete všechny informace, které sdělují, jaká větev byla začleněna, a všechny následné výpočty základny pro sloučení tak budou nesprávné. Příkaz dcommit způsobí, že bude výsledek příkazu `git merge` vypadat, jako byste spustili příkaz `git merge --squash`. Bohužel však neexistuje žádný dobrý způsob, jak této situaci předejít, Subversion nedokáže tyto informace uchovávat. Dokud tedy budete používat server Subversion, vždy se budete muset s tímto jeho nedostatkem vyrovnat. Chcete-li se vyhnout možným problémům, smažte lokální větev (v našem případě `opera`) hned poté, co jste ji začlenili do kmenového adresáře (trunk).
 
-### Subversion Commands ###
+### Příkazy systému Subversion ###
 
-The `git svn` toolset provides a number of commands to help ease the transition to Git by providing some functionality that’s similar to what you had in Subversion. Here are a few commands that give you what Subversion used to.
+Sada nástrojů `git svn` dává uživateli do ruky celou řadu příkazů, jež jsou svou funkcí podobné příkazům v systému Subversion a uživateli tím usnadňují přechod do systému Git. Na tomto místě proto uvedu pár příkazů, které jsou podobné jako v systému Subversion.
 
-#### SVN Style History ####
+#### Historie ve stylu SVN ####
 
-If you’re used to Subversion and want to see your history in SVN output style, you can run `git svn log` to view your commit history in SVN formatting:
+Jestliže jste zvyklí na systém Subversion a chcete historii procházet ve stylu výstupu SVN, můžete použít příkaz `git svn log`. Historie revizí se zobrazí ve formátování SVN:
 
 	$ git svn log
 	------------------------------------------------------------------------
@@ -281,34 +281,34 @@ If you’re used to Subversion and want to see your history in SVN output style,
 
 	------------------------------------------------------------------------
 	r85 | schacon | 2009-05-02 16:00:09 -0700 (Sat, 02 May 2009) | 2 lines
-	
+
 	updated the changelog
 
-You should know two important things about `git svn log`. First, it works offline, unlike the real `svn log` command, which asks the Subversion server for the data. Second, it only shows you commits that have been committed up to the Subversion server. Local Git commits that you haven’t dcommited don’t show up; neither do commits that people have made to the Subversion server in the meantime. It’s more like the last known state of the commits on the Subversion server.
+O příkazu `git svn log` byste měli vědět dvě důležité věci. Zaprvé to, že pracuje i off-line, na rozdíl od skutečného příkazu `svn log`, který si data vyžádá ze serveru Subversion. Zadruhé pak to, že zobrazuje pouze revize, jež byly zapsány na server Subversion. Nezobrazuje tedy lokální revize Git, které jste nezapsali příkazem dcommit. Stejně tak nezobrazuje revize, které ostatní zapsali na server Subversion od vašeho posledního připojení. Jedná se tak spíše o poslední známý stav revizí na serveru Subversion.
 
-#### SVN Annotation ####
+#### Anotace SVN ####
 
-Much as the `git svn log` command simulates the `svn log` command offline, you can get the equivalent of `svn annotate` by running `git svn blame [FILE]`. The output looks like this:
+Tak jako příkaz `git svn log` simuluje offline příkaz `svn log`, ekvivalentem příkazu `svn annotate` je `git svn blame [SOUBOR]`. Jeho výstup vypadá takto:
 
-	$ git svn blame README.txt 
+	$ git svn blame README.txt
 	 2   temporal Protocol Buffers - Google's data interchange format
 	 2   temporal Copyright 2008 Google Inc.
 	 2   temporal http://code.google.com/apis/protocolbuffers/
-	 2   temporal 
+	 2   temporal
 	22   temporal C++ Installation - Unix
 	22   temporal =======================
-	 2   temporal 
+	 2   temporal
 	79    schacon Committing in git-svn.
-	78    schacon 
+	78    schacon
 	 2   temporal To build and install the C++ Protocol Buffer runtime and the Protocol
 	 2   temporal Buffer compiler (protoc) execute the following:
-	 2   temporal 
+	 2   temporal
 
-Again, it doesn’t show commits that you did locally in Git or that have been pushed to Subversion in the meantime.
+Ani tento příkaz nezobrazuje revize zapsané lokálně v systému Git a revize odeslané na server Subversion od posledního připojení.
 
-#### SVN Server Information ####
+#### Informace o serveru SVN ####
 
-You can also get the same sort of information that `svn info` gives you by running `git svn info`:
+Stejné informace, jaké poskytuje příkaz `svn info`, získáte příkazem `git svn info`:
 
 	$ git svn info
 	Path: .
@@ -322,56 +322,57 @@ You can also get the same sort of information that `svn info` gives you by runni
 	Last Changed Rev: 87
 	Last Changed Date: 2009-05-02 16:07:37 -0700 (Sat, 02 May 2009)
 
-This is like `blame` and `log` in that it runs offline and is up to date only as of the last time you communicated with the Subversion server.
+Stejně jako v případě příkazů `blame` a `log` pracuje i tento příkaz offline a zobrazuje stav v okamžiku, kdy jste naposledy komunikovali se serverem Subversion.
 
-#### Ignoring What Subversion Ignores ####
+#### Ignorování souborů, které ignoruje Subversion ####
 
-If you clone a Subversion repository that has `svn:ignore` properties set anywhere, you’ll likely want to set corresponding `.gitignore` files so you don’t accidentally commit files that you shouldn’t. `git svn` has two commands to help with this issue. The first is `git svn create-ignore`, which automatically creates corresponding `.gitignore` files for you so your next commit can include them.
+Jestliže naklonujete repozitář Subversion s nastavenými vlastnostmi `svn:ignore`, pravděpodobně budete chtít nastavit také odpovídající soubory `.gitignore`, abyste omylem nezapsali nežádoucí soubory. Nástroj `git svn` vám k řešení tohoto problému nabízí dva příkazy. Tím prvním je `git svn create-ignore`, jenž automaticky vytvoří odpovídající soubory `.gitignore`, podle nichž se bude řídit už vaše příští revize.
 
-The second command is `git svn show-ignore`, which prints to stdout the lines you need to put in a `.gitignore` file so you can redirect the output into your project exclude file:
+Druhým z příkazů je `git svn show-ignore`, který zobrazí standardní výstup stdout s řádky, které budete muset vložit do souboru `.gitignore`. Výstup pak můžete přesměrovat do souboru exclude svého projektu:
 
 	$ git svn show-ignore > .git/info/exclude
 
-That way, you don’t litter the project with `.gitignore` files. This is a good option if you’re the only Git user on a Subversion team, and your teammates don’t want `.gitignore` files in the project.
+Díky tomu si nemusíte projekt znečišťovat soubory `.gitignore`. Tuto možnost oceníte, jste-li jediným uživatelem systému Git v týmu používajícím Subversion a vaši kolegové nestojí ve svém projektu o soubory `.gitignore`.
 
-### Git-Svn Summary ###
+### Git-Svn: shrnutí ###
 
-The `git svn` tools are useful if you’re stuck with a Subversion server for now or are otherwise in a development environment that necessitates running a Subversion server. You should consider it crippled Git, however, or you’ll hit issues in translation that may confuse you and your collaborators. To stay out of trouble, try to follow these guidelines:
+Nástroje `git svn` využijete, jestliže chcete pozvolna přejít ze systému Subversion na systém Git nebo pokud pracujete ve vývojovém prostředí, v němž je z nějakého důvodu nutné používat server Subversion. Mějte však stále na paměti, že v tomto případě nelze používat systém Git v celé jeho šíři. Mohlo by se stát, že způsobíte chyby v překladu, které znepříjemní život vám i vašim kolegům. Chcete-li se vyhnout problémům, dodržujte tato pravidla:
 
-* Keep a linear Git history that doesn’t contain merge commits made by `git merge`. Rebase any work you do outside of your mainline branch back onto it; don’t merge it in.
-* Don’t set up and collaborate on a separate Git server. Possibly have one to speed up clones for new developers, but don’t push anything to it that doesn’t have a `git-svn-id` entry. You may even want to add a `pre-receive` hook that checks each commit message for a `git-svn-id` and rejects pushes that contain commits without it.
+*	 Udržujte lineární historii Git, která neobsahuje revize sloučením, vytvořené příkazem `git merge`. Práci, kterou provedete mimo základní větev, na ni přeskládejte (rebase), nezačleňujte ji (merge).
+*	 Nevytvářejte oddělený server Git ani na žádný takový nepřispívejte. Můžete ho sice využít k urychlení klonování pro nové vývojáře, ale neodesílejte na něj nic, co nemá záznam `git-svn-id`. Možná by nebylo od věci ani vytvořit zásuvný modul `pre-receive`, který by kontroloval všechny zprávy k revizím, zda obsahují `git-svn-id`, a odmítl by všechna odeslání, která obsahují revize bez něj.
 
-If you follow those guidelines, working with a Subversion server can be more bearable. However, if it’s possible to move to a real Git server, doing so can gain your team a lot more.
+Budete-li dodržovat tato pravidla, bude práce se serverem Subversion snesitelnější. Stále však platí, že pokud máte možnost přejít na skutečný server Git, získáte vy i váš tým daleko více.
 
-## Migrating to Git ##
+## Přechod na systém Git ##
 
-If you have an existing codebase in another VCS but you’ve decided to start using Git, you must migrate your project one way or another. This section goes over some importers that are included with Git for common systems and then demonstrates how to develop your own custom importer.
+Máte-li existující základ kódu v jiném systému VCS, ale rádi byste začali používat Git, můžete do něj svůj projekt převést. Existuje přitom několik způsobů. V této části se seznámíte s několika importéry pro běžné systémy, které jsou součástí systému Git, a poté ukážeme, jak si můžete vytvořit importér vlastní.
 
-### Importing ###
+### Import ###
 
-You’ll learn how to import data from two of the bigger professionally used SCM systems — Subversion and Perforce — both because they make up the majority of users I hear of who are currently switching, and because high-quality tools for both systems are distributed with Git.
+Nyní se naučíte, jak importovat data ze dvou větších, profesionálně používaných systémů SCM – Subversion a Perforce. Oba tyto systémy jsem zvolil proto, že podle mých informací přechází na Git nejvíce uživatelů právě z nich, a také proto, že Git obsahuje vysoce kvalitní nástroje právě pro oba tyto systémy.
 
 ### Subversion ###
 
-If you read the previous section about using `git svn`, you can easily use those instructions to `git svn clone` a repository; then, stop using the Subversion server, push to a new Git server, and start using that. If you want the history, you can accomplish that as quickly as you can pull the data out of the Subversion server (which may take a while).
+Pokud jste si přečetli předchozí část o používání nástrojů `git svn`, můžete získané informace použít. Příkazem `git svn clone` naklonujte repozitář, odešlete ho na nový server Git a začněte používat ten. Server Subversion můžete úplně přestat používat. Chcete-li získat historii projektu, dostanete ji tak rychle, jak jen dovedete stáhnout data ze serveru Subversion (což ovšem může chvíli trvat).
 
-However, the import isn’t perfect; and because it will take so long, you may as well do it right. The first problem is the author information. In Subversion, each person committing has a user on the system who is recorded in the commit information. The examples in the previous section show `schacon` in some places, such as the `blame` output and the `git svn log`. If you want to map this to better Git author data, you need a mapping from the Subversion users to the Git authors. Create a file called `users.txt` that has this mapping in a format like this:
+Takový import však není úplně dokonalý a vzhledem k tomu, jak dlouho může trvat, nabízí se ještě jiná cesta. Prvním problémem jsou informace o autorovi. V Subversion má každá osoba zapisující revize v systému přiděleného uživatele, který je u zaznamenán informací o revizi. V předchozí části se u některých příkladů (výstupy příkazů `blame` nebo `git svn log`) objevilo jméno `schacon`. Jestliže vyžadujete podrobnější informace ve stylu systému Git, budete potřebovat mapování z uživatelů Subversion na autory Git. Vytvořte soubor `users.txt`, který bude toto mapování obsahovat v následující podobě:
 
 	schacon = Scott Chacon <schacon@geemail.com>
 	selse = Someo Nelse <selse@geemail.com>
 
-To get a list of the author names that SVN uses, you can run this:
+Chcete-li získat seznam jmen autorů používaných v SVN, spusťte tento příkaz:
 
-	$ svn log --xml | grep author | sort -u | perl -pe 's/.>(.?)<./$1 = /'
+	$ svn log ^/ --xml | grep -P "^<author" | sort -u | \
+	      perl -pe 's/<author>(.*?)<\/author>/$1 = /' > users.txt
 
-That gives you the log output in XML format — you can look for the authors, create a unique list, and then strip out the XML. (Obviously this only works on a machine with `grep`, `sort`, and `perl` installed.) Then, redirect that output into your users.txt file so you can add the equivalent Git user data next to each entry.
+Vytvoříte tím log ve formátu XML. Můžete v něm vyhledávat autory, vytvořit si vlastní seznam a XML zase vyjmout. (Tento příkaz pochopitelně funguje pouze na počítačích, v nichž je nainstalován `grep`, `sort` a `perl`.) Poté tento výstup přesměrujte do souboru users.txt, abyste mohli vedle každého záznamu přidat stejná data o uživatelích Git.
 
-You can provide this file to `git svn` to help it map the author data more accurately. You can also tell `git svn` not to include the metadata that Subversion normally imports, by passing `--no-metadata` to the `clone` or `init` command. This makes your `import` command look like this:
+Tento soubor můžete dát k dispozici nástroji `git svn`, aby mohl přesněji zmapovat informace o autorech. Nástroji `git svn` můžete také zadat, aby ignoroval metadata, která systém Subversion normálně importuje: zadejte parametr `--no-metadata` k příkazu `clone` nebo `init`. Váš příkaz `import` pak bude mít tuto podobu:
 
 	$ git-svn clone http://my-project.googlecode.com/svn/ \
 	      --authors-file=users.txt --no-metadata -s my_project
 
-Now you should have a nicer Subversion import in your `my_project` directory. Instead of commits that look like this
+Import ze systému Subversion v adresáři `my_project` by měl nyní vypadat o něco lépe. Revize už nebudou mít tuto podobu:
 
 	commit 37efa680e8473b615de980fa935944215428a35a
 	Author: schacon <schacon@4c93b258-373f-11de-be05-5f7a86268029>
@@ -389,40 +390,43 @@ they look like this:
 
 	    fixed install - go to trunk
 
-Not only does the Author field look a lot better, but the `git-svn-id` is no longer there, either.
+Nejenže teď pole Author vypadá podstatně lépe, ale navíc jste se zbavili i záznamu `git-svn-id`.
 
-You need to do a bit of `post-import` cleanup. For one thing, you should clean up the weird references that `git svn` set up. First you’ll move the tags so they’re actual tags rather than strange remote branches, and then you’ll move the rest of the branches so they’re local.
+Po importu bude nutné data trochu vyčistit. Zaprvé je nutné vyčistit nejasné reference, které vytvořil příkaz `git svn`. Nejprve přesunete značky tak, aby se z nich staly skutečné značky, a ne podivné vzdálené větve. V dalším kroku přesunete zbytek větví a uděláte z nich větve lokální.
 
-To move the tags to be proper Git tags, run
+Abyste značky upravili na korektní gitové značky, spusťte
 
-	$ cp -Rf .git/refs/remotes/tags/* .git/refs/tags/
-	$ rm -Rf .git/refs/remotes/tags
+	$ git for-each-ref refs/remotes/tags | cut -d / -f 4- | grep -v @ | while read tagname; do git tag "$tagname" "tags/$tagname"; git branch -r -d "tags/$tagname"; done
 
-This takes the references that were remote branches that started with `tag/` and makes them real (lightweight) tags.
+Tím se reference, které označovaly vzdálené větve a začínaly `tag/`, převedou na skutečné (prosté) značky.
 
-Next, move the rest of the references under `refs/remotes` to be local branches:
+Ze zbytku referencí vytvořte v repozitáři `refs/remotes` lokální větve:
 
-	$ cp -Rf .git/refs/remotes/* .git/refs/heads/
-	$ rm -Rf .git/refs/remotes
+	$ git for-each-ref refs/remotes | cut -d / -f 3- | grep -v @ | while read branchname; do git branch "$branchname" "refs/remotes/$branchname"; git branch -r -d "$branchname"; done
 
-Now all the old branches are real Git branches and all the old tags are real Git tags. The last thing to do is add your new Git server as a remote and push to it. Because you want all your branches and tags to go up, you can run this:
+Všechny staré větve jsou nyní skutečnými větvemi Git a všechny staré značky jsou nyní skutečnými značkami Git. Poslední věcí, která ještě zbývá, je přidat nový server Git jako vzdálený repozitář a odeslat do něj revize. Tady je příklad, jak můžete váš server přidat jako vzdálený:
+
+	$ git remote add origin git@my-git-server:myrepository.git
+
+Protože do něj chcete odeslat všechny své větve a značky, můžete použít příkaz:
 
 	$ git push origin --all
+	$ git push origin --tags
 
-All your branches and tags should be on your new Git server in a nice, clean import.
+Na novém serveru Git tak nyní máte v úhledném, čistém importu uloženy všechny větve a značky.
 
 ### Perforce ###
 
-The next system you’ll look at importing from is Perforce. A Perforce importer is also distributed with Git, but only in the `contrib` section of the source code — it isn’t available by default like `git svn`. To run it, you must get the Git source code, which you can download from git.kernel.org:
+Dalším systémem, z nějž budeme importovat, bude Perforce. Také importér Perforce je distribuován se systémem Git. Pokud máte verzi Git starší než 1.7.11, pak importér naleznete jen v sekci `contrib` zdrojového kódu.  V takovém případě budete muset získat zdrojový text systému Git, který můžete stáhnout ze serveru git.kernel.org:
 
 	$ git clone git://git.kernel.org/pub/scm/git/git.git
 	$ cd git/contrib/fast-import
 
-In this `fast-import` directory, you should find an executable Python script named `git-p4`. You must have Python and the `p4` tool installed on your machine for this import to work. For example, you’ll import the Jam project from the Perforce Public Depot. To set up your client, you must export the P4PORT environment variable to point to the Perforce depot:
+V adresáři `fast-import` byste měli najít spustitelný skript napsaný v jazyce Python pojmenovaný `git-p4`. Aby vám import fungoval, musíte mít v počítači nainstalován Python a nástroj `p4`. Budete chtít například importovat projekt Jam z veřejného úložiště Perforce Public Depot. K nastavení svého klienta budete muset exportovat proměnnou prostředí P4PORT, která bude ukazovat na depot Perforce:
 
 	$ export P4PORT=public.perforce.com:1666
 
-Run the `git-p4 clone` command to import the Jam project from the Perforce server, supplying the depot and project path and the path into which you want to import the project:
+Spusťte příkaz `git-p4 clone`, jímž importujete projekt Jam ze serveru Perforce. K příkazu zadejte depot a cestu k projektu, kromě toho také cestu, kam chcete projekt importovat:
 
 	$ git-p4 clone //public/jam/src@all /opt/p4import
 	Importing from //public/jam/src@all into /opt/p4import
@@ -430,7 +434,7 @@ Run the `git-p4 clone` command to import the Jam project from the Perforce serve
 	Import destination: refs/remotes/p4/master
 	Importing revision 4409 (100%)
 
-If you go to the `/opt/p4import` directory and run `git log`, you can see your imported work:
+Přejdete-li do adresáře `/opt/p4import` a spustíte příkaz `git log`, uvidíte, co jste importovali:
 
 	$ git log -2
 	commit 1fd4ec126171790efd2db83548b85b1bbbc07dc2
@@ -452,7 +456,7 @@ If you go to the `/opt/p4import` directory and run `git log`, you can see your i
 
 	    [git-p4: depot-paths = "//public/jam/src/": change = 3108]
 
-You can see the `git-p4` identifier in each commit. It’s fine to keep that identifier there, in case you need to reference the Perforce change number later. However, if you’d like to remove the identifier, now is the time to do so — before you start doing work on the new repository. You can use `git filter-branch` to remove the identifier strings en masse:
+V každé revizi si můžete všimnout identifikátoru `git-p4`. Je dobré ponechat tu identifikátor pro případ, že budete někdy v budoucnu potřebovat odkázat na číslo změny Perforce. Pokud ale chcete identifikátor přesto odstranit, teď, dokud jste nezačali pracovat na novém repozitáři, je ta správná chvíle. K odstranění všech řetězců identifikátoru najednou můžete použít příkaz `git filter-branch`:
 
 	$ git filter-branch --msg-filter '
 	        sed -e "/^\[git-p4:/d"
@@ -460,7 +464,7 @@ You can see the `git-p4` identifier in each commit. It’s fine to keep that ide
 	Rewrite 1fd4ec126171790efd2db83548b85b1bbbc07dc2 (123/123)
 	Ref 'refs/heads/master' was rewritten
 
-If you run `git log`, you can see that all the SHA-1 checksums for the commits have changed, but the `git-p4` strings are no longer in the commit messages:
+Spustíte-li příkaz `git log`, uvidíte, že se změnily všechny kontrolní součty revizí SHA-1, zato všechny řetězce `git-p4` ze zpráv k revizím zmizely:
 
 	$ git log -2
 	commit 10a16d60cffca14d454a15c6164378f4082bc5b0
@@ -478,13 +482,13 @@ If you run `git log`, you can see that all the SHA-1 checksums for the commits h
 
 	    Update derived jamgram.c
 
-Your import is ready to push up to your new Git server.
+Váš import je připraven k odeslání na nový server Git.
 
-### A Custom Importer ###
+### Vlastní importér ###
 
-If your system isn’t Subversion or Perforce, you should look for an importer online — quality importers are available for CVS, Clear Case, Visual Source Safe, even a directory of archives. If none of these tools works for you, you have a rarer tool, or you otherwise need a more custom importing process, you should use `git fast-import`. This command reads simple instructions from stdin to write specific Git data. It’s much easier to create Git objects this way than to run the raw Git commands or try to write the raw objects (see Chapter 9 for more information). This way, you can write an import script that reads the necessary information out of the system you’re importing from and prints straightforward instructions to stdout. You can then run this program and pipe its output through `git fast-import`.
+Není-li vaším současným systémem ani Subversion, ani Perforce, zkuste vyhledat importér online. Kvalitní importéry se dají najít pro CVS, Clear Case, Visual Source Safe, dokonce i adresář s archivy. Pokud vám nefunguje ani jeden z těchto nástrojů, používáte méně častý nástroj nebo potřebujete speciální proces importu ještě z jiného důvodu, použijte `git fast-import`. Tento příkaz načítá ze vstupů stdin jednoduché instrukce k zapsáni specifických dat systému Git. Je podstatně jednodušší vytvořit objekty Git tímto způsobem než spouštět syrové příkazy Git či se pokoušet zapsat syrové objekty (podrobnější informace v kapitole 9). Tímto způsobem lze vytvořit importovací skript, který bude načítat potřebné informace ze systému, z nějž import provádíte, a vypíše jasné instrukce do výstupu stdout. Tento program můžete spustit a jeho výstup nechat zpracovat příkazem `git fast-import`.
 
-To quickly demonstrate, you’ll write a simple importer. Suppose you work in current, you back up your project by occasionally copying the directory into a time-stamped `back_YYYY_MM_DD` backup directory, and you want to import this into Git. Your directory structure looks like this:
+Jako rychlou ukázku napíšeme jednoduchý importér. Řekněme, že pracujete na projektu, který příležitostně zálohujete zkopírováním pracovního adresáře do zálohového, datem označeného adresáře `back_YYYY_MM_DD`, a ten chcete nyní importovat do systému Git. Váš adresář má tuto strukturu:
 
 	$ ls /opt/import_from
 	back_2009_01_02
@@ -493,11 +497,11 @@ To quickly demonstrate, you’ll write a simple importer. Suppose you work in cu
 	back_2009_02_03
 	current
 
-In order to import a Git directory, you need to review how Git stores its data. As you may remember, Git is fundamentally a linked list of commit objects that point to a snapshot of content. All you have to do is tell `fast-import` what the content snapshots are, what commit data points to them, and the order they go in. Your strategy will be to go through the snapshots one at a time and create commits with the contents of each directory, linking each commit back to the previous one.
+Chcete-li importovat adresář Git, budeme se muset podívat na to, jak Git ukládá svá data. Jak si možná vzpomínáte, říkali jsme, že Git je v podstatě seznam odkazů na objekty revizí, které ukazují na určitý snímek obsahu. Jediné, co tedy musíte udělat, je sdělit příkazu `fast-import`, co je obsahem snímků, jaká data revizí na ně ukazují a pořadí, v němž budou převzaty. Vaše strategie tedy bude spočívat v tom, že postupně projdete jednotlivé snímky a vytvoříte revize s obsahem každého adresáře, přičemž každá revize bude odkazovat na revizi předchozí.
 
-As you did in the "An Example Git Enforced Policy" section of Chapter 7, we’ll write this in Ruby, because it’s what I generally work with and it tends to be easy to read. You can write this example pretty easily in anything you’re familiar with — it just needs to print the appropriate information to stdout.
+Stejně jako v části „Příklad systémem Git kontrolovaných standardů“ v kapitole 7 použijeme i tentokrát Ruby, s nímž většinou pracuji a který je srozumitelný. Tento příklad můžete ale beze všeho napsat v čemkoli, co vám vyhovuje. Jedinou podmínkou je, aby byly potřebné informace zapsány do výstupu stdout.
 
-To begin, you’ll change into the target directory and identify every subdirectory, each of which is a snapshot that you want to import as a commit. You’ll change into each subdirectory and print the commands necessary to export it. Your basic main loop looks like this:
+Na začátku přejdete do cílového adresáře a identifikujete všechny podadresáře, z nichž bude každý představovat jeden snímek, který chcete importovat jako revizi. Přejdete do každého podadresáře a zadáte příkazy potřebné k jeho exportu. Základní smyčka bude mít tuto podobu:
 
 	last_mark = nil
 
@@ -507,17 +511,17 @@ To begin, you’ll change into the target directory and identify every subdirect
 	    next if File.file?(dir)
 
 	    # move into the target directory
-	    Dir.chdir(dir) do 
+	    Dir.chdir(dir) do
 	      last_mark = print_export(dir, last_mark)
 	    end
 	  end
 	end
 
-You run `print_export` inside each directory, which takes the manifest and mark of the previous snapshot and returns the manifest and mark of this one; that way, you can link them properly. "Mark" is the `fast-import` term for an identifier you give to a commit; as you create commits, you give each one a mark that you can use to link to it from other commits. So, the first thing to do in your `print_export` method is generate a mark from the directory name:
+V každém adresáři spustíte soubor `print_export`, který vezme manifest a známku předchozího snímku a poskytne manifest a označovač tohoto snímku. Tímto způsobem je lze řádně spojit. „Označovač“ (angl. mark) je termín používaný v souvislosti s metodou `fast-import`. Jedná se o identifikátor, který jednoznačně přiřadíte revizi a lze ho použít k odkazování na tuto revizi z revizí ostatních. Prvním krokem, který tak při metodě se souborem `print_export` uděláte, bude vygenerování označovače na základě názvu adresáře:
 
 	mark = convert_dir_to_mark(dir)
 
-You’ll do this by creating an array of directories and using the index value as the mark, because a mark must be an integer. Your method looks like this:
+Provedete to tak, že vytvoříte skupinu adresářů a jako označovač použijete hodnotu indexu, neboť označovač musí být celé číslo. Celý postup vypadá takto:
 
 	$marks = []
 	def convert_dir_to_mark(dir)
@@ -527,11 +531,11 @@ You’ll do this by creating an array of directories and using the index value a
 	  ($marks.index(dir) + 1).to_s
 	end
 
-Now that you have an integer representation of your commit, you need a date for the commit metadata. Because the date is expressed in the name of the directory, you’ll parse it out. The next line in your `print_export` file is
+Nyní jste označili revizi celým číslem a zbývá stanovit datum pro metadata revize. Protože je datum obsaženo v názvu adresáře, lze ho vyčíst odtud. Dalším řádkem v souboru `print_export` bude
 
 	date = convert_dir_to_date(dir)
 
-where `convert_dir_to_date` is defined as
+kde `convert_dir_to_date` je definováno jako:
 
 	def convert_dir_to_date(dir)
 	  if dir == 'current'
@@ -543,11 +547,11 @@ where `convert_dir_to_date` is defined as
 	  end
 	end
 
-That returns an integer value for the date of each directory. The last piece of meta-information you need for each commit is the committer data, which you hardcode in a global variable:
+Tím dostanete celé číslo pro data každého adresáře. Posledními metadaty, jež budete pro všechny revize potřebovat, jsou informace o autorovi revize, které zadáte v globální proměnné:
 
 	$author = 'Scott Chacon <schacon@example.com>'
 
-Now you’re ready to begin printing out the commit data for your importer. The initial information states that you’re defining a commit object and what branch it’s on, followed by the mark you’ve generated, the committer information and commit message, and then the previous commit, if any. The code looks like this:
+Nyní je už vše připraveno k vygenerování dat revizí pro váš importér. Úvodní informace sděluje, že definujete objekt revize a na jaké větvi se nachází. Následuje vygenerovaný označovač, informace o autorovi revize a zpráva k revizi, po ní následuje eventuální předchozí revize. Kód má tuto podobu:
 
 	# print the import information
 	puts 'commit refs/heads/master'
@@ -556,18 +560,18 @@ Now you’re ready to begin printing out the commit data for your importer. The 
 	export_data('imported from ' + dir)
 	puts 'from :' + last_mark if last_mark
 
-You hardcode the time zone (-0700) because doing so is easy. If you’re importing from another system, you must specify the time zone as an offset. 
-The commit message must be expressed in a special format:
+Časové pásmo definujete napevno (--0700), protože je to jednoduché. Pokud importujete z jiného systému, musíte zadat časové pásmo jako posun.
+Zpráva k revizi musí být ve speciálním formátu:
 
 	data (size)\n(contents)
 
-The format consists of the word data, the size of the data to be read, a newline, and finally the data. Because you need to use the same format to specify the file contents later, you create a helper method, `export_data`:
+Tento formát tedy obsahuje slovo data, velikost načítaných dat (size), nový řádek a konečně data samotná (contents). Protože budete stejný formát potřebovat i později, k určení obsahu souboru vytvoříte pomocnou metodu – `export_data`:
 
 	def export_data(string)
 	  print "data #{string.size}\n#{string}"
 	end
 
-All that’s left is to specify the file contents for each snapshot. This is easy, because you have each one in a directory — you can print out the `deleteall` command followed by the contents of each file in the directory. Git will then record each snapshot appropriately:
+Teď už zbývá jen určit obsah souborů všech snímků. To bude snadné, protože máte všechny v jednom adresáři. Zadejte příkaz `deleteall` a k němu přidejte obsah každého souboru v adresáři. Git pak odpovídajícím způsobem nahraje všechny snímky:
 
 	puts 'deleteall'
 	Dir.glob("**/*").each do |file|
@@ -575,15 +579,15 @@ All that’s left is to specify the file contents for each snapshot. This is eas
 	  inline_data(file)
 	end
 
-Note:	Because many systems think of their revisions as changes from one commit to another, fast-import can also take commands with each commit to specify which files have been added, removed, or modified and what the new contents are. You could calculate the differences between snapshots and provide only this data, but doing so is more complex — you may as well give Git all the data and let it figure it out. If this is better suited to your data, check the `fast-import` man page for details about how to provide your data in this manner.
+Poznámka: Vzhledem k tomu, že mnoho systémů chápe revize jako změny od jednoho zapsání k druhému, přijímá fast-import také příkazy s každým zapsáním a zjišťuje, které soubory byly přidány, odstraněny nebo změněny a co je jejich novým obsahem. Mohli byste také vypočítat rozdíly mezi snímky a poskytnout pouze tato data. To je však o něco složitější. Stejně tak můžete systému Git zadat všechna data a přenechat výpočet na něm. Pokud je pro vaše data tato metoda vhodnější, odkážeme vás na manuálovou stránku `fast-import`, kde najdete podrobnosti o tom, jak zadat data tímto způsobem.
 
-The format for listing the new file contents or specifying a modified file with the new contents is as follows:
+Formát pro výpis obsahu nového souboru nebo určení změněného souboru s novým obsahem je následující:
 
 	M 644 inline path/to/file
 	data (size)
 	(file contents)
 
-Here, 644 is the mode (if you have executable files, you need to detect and specify 755 instead), and inline says you’ll list the contents immediately after this line. Your `inline_data` method looks like this:
+644 je v tomto případě režim (jde-li o spustitelné soubory, budete je muset vyhledat a zadat režim 755) a výraz inline říká, že obsah uvedete bezprostředně po tomto řádku. Metoda `inline_data` má tuto podobu:
 
 	def inline_data(file, code = 'M', mode = '644')
 	  content = File.read(file)
@@ -591,15 +595,19 @@ Here, 644 is the mode (if you have executable files, you need to detect and spec
 	  export_data(content)
 	end
 
-You reuse the `export_data` method you defined earlier, because it’s the same as the way you specified your commit message data. 
+Znovu tu využijete metodu `export_data`, kterou jste aplikovali před chvílí. Jedná se totiž o stejný způsob, jakým jste specifikovali data zprávy k revizi.
 
-The last thing you need to do is to return the current mark so it can be passed to the next iteration:
+Poslední věcí, kterou musíte udělat, je vrátit aktuální označovač, aby mohl být zadán do příští iterace:
 
 	return mark
 
-That’s it. If you run this script, you’ll get content that looks something like this:
+Poznámka: Pokud používáte Windows, budete muset provést jeden krok navíc. Jak už jsem se zmínil, Windows používají nahrazují znak konce řádku posloupností CRLF, zatímco git fast-import očekává pouze LF. Abychom tento problém obešli a aby si git fast-import nestěžoval, musíte ruby říct, aby místo LF používal CRLF:
 
-	$ ruby import.rb /opt/import_from 
+	$stdout.binmode
+
+A to je celé. Spustíte-li tento skript, získáte obsah v následující podobě:
+
+	$ ruby import.rb /opt/import_from
 	commit refs/heads/master
 	mark :1
 	committer Scott Chacon <schacon@geemail.com> 1230883200 -0700
@@ -622,7 +630,7 @@ That’s it. If you run this script, you’ll get content that looks something l
 	new version one
 	(...)
 
-To run the importer, pipe this output through `git fast-import` while in the Git directory you want to import into. You can create a new directory and then run `git init` in it for a starting point, and then run your script:
+Pro spuštění importéru přesměrujte tento výstup do příkazu `git fast-import`. Příkaz spouštějte v adresáři Gitu, do nějž chcete data importovat. Můžete vytvořit nový adresář a spustit v něm příkaz `git init`, jímž si vytvoříte nový výchozí bod. Poté spusťte svůj skript:
 
 	$ git init
 	Initialized empty Git repository in /opt/import_to/.git/
@@ -651,7 +659,7 @@ To run the importer, pipe this output through `git fast-import` while in the Git
 	pack_report: pack_mapped              =       1356 /       1356
 	---------------------------------------------------------------------
 
-As you can see, when it completes successfully, it gives you a bunch of statistics about what it accomplished. In this case, you imported 18 objects total for 5 commits into 1 branch. Now, you can run `git log` to see your new history:
+Proběhne-li proces úspěšně, podá vám obsáhlou statistiku o tom, co bylo provedeno. V tomto případě jsme importovali celkem 18 objektů 5 revizí do 1 větve. Nyní si můžete nechat příkazem `git log` zobrazit svoji novou historii:
 
 	$ git log -2
 	commit 10bfe7d22ce15ee25b60a824c8982157ca593d41
@@ -666,7 +674,7 @@ As you can see, when it completes successfully, it gives you a bunch of statisti
 
 	    imported from back_2009_02_03
 
-There you go — a nice, clean Git repository. It’s important to note that nothing is checked out — you don’t have any files in your working directory at first. To get them, you must reset your branch to where `master` is now:
+A máme to tu — krásný, čistý repozitář Git. Měli bychom také dodat, že nejsou načtena žádná data, zatím neproběhl checkout žádných souborů do pracovního adresáře. Chcete-li je získat, musíte vaši větev resetovat do místa, kde se nyní nachází větev `master`:
 
 	$ ls
 	$ git reset --hard master
@@ -674,8 +682,8 @@ There you go — a nice, clean Git repository. It’s important to note that not
 	$ ls
 	file.rb  lib
 
-You can do a lot more with the `fast-import` tool — handle different modes, binary data, multiple branches and merging, tags, progress indicators, and more. A number of examples of more complex scenarios are available in the `contrib/fast-import` directory of the Git source code; one of the better ones is the `git-p4` script I just covered.
+Nástroj `fast-import` vám nabízí ještě spoustu dalších možností – nastavení různých režimů, práci s binárními daty, manipulaci s několika větvemi a jejich slučování, značky, ukazatele postupu atd. Několik příkladů složitějších scénářů si můžete prohlédnout v adresáři `contrib/fast-import` ve zdrojovém kódu Git. Jedním z těch nejlepších je už zmíněný skript`git-p4`.
 
-## Summary ##
+## Shrnutí ##
 
-You should feel comfortable using Git with Subversion or importing nearly any existing repository into a new Git one without losing data. The next chapter will cover the raw internals of Git so you can craft every single byte, if need be.
+Po přečtení této kapitoly byste měli hravě zvládat používání systému Git v kombinaci se systémem Subversion a import téměř jakéhokoli existujícího repozitáře do repozitáře Git, aniž by došlo ke ztrátě dat. V následující kapitole se podíváme na elementární principy systému Git, abyste dokázali efektivně využívat každý jeho byte.

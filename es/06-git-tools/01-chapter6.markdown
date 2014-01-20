@@ -1,22 +1,22 @@
-# Git Tools #
+# Las herramientas de Git #
 
-By now, you’ve learned most of the day-to-day commands and workflows that you need to manage or maintain a Git repository for your source code control. You’ve accomplished the basic tasks of tracking and committing files, and you’ve harnessed the power of the staging area and lightweight topic branching and merging.
+A estas alturas, hemos aprendido la mayoria de los comandos y flujos de trabajo empleados habitualmente a la hora de utilizar, gestionar y mantener un repositorio Git para el control de versiones de código fuente. Se han visto las tareas básicas de seguimiento y confirmación de cambios en archivos. Aprovechando las capacidades del área de preparación (staging area), de las ramas (branches) y de los mecanismos de fusión (merging).
 
-Now you’ll explore a number of very powerful things that Git can do that you may not necessarily use on a day-to-day basis but that you may need at some point.
+En este capítulo se van a explorar unas cuantas tareas avanzadas de Git. Tareas que, aunque no se utilizan en el trabajo del día a día, en algún momento pueden ser necesarias. 
 
-## Revision Selection ##
+## Selección de confirmaciones de cambios concretas ##
 
-Git allows you to specify specific commits or a range of commits in several ways. They aren’t necessarily obvious but are helpful to know.
+Git tiene varios modos de seleccionar confirmaciones de cambio o grupos de confirmaciones de cambio. Algunos de estos modos no son precisamente obvios, pero conviene conocerlos.
 
-### Single Revisions ###
+### Confirmaciones puntuales ###
 
-You can obviously refer to a commit by the SHA-1 hash that it’s given, but there are more human-friendly ways to refer to commits as well. This section outlines the various ways you can refer to a single commit.
+La forma canónica de referirse a una confirmación de cambios es indicando su código-resumen criptográfico SHA-1. Pero también existen otras maneras más sencillas. En esta sección se verán las diversas formas existentes para referirse a una determinada confirmación de cambios (commit).
 
-### Short SHA ###
+### SHA corto ###
 
-Git is smart enough to figure out what commit you meant to type if you provide the first few characters, as long as your partial SHA-1 is at least four characters long and unambiguous — that is, only one object in the current repository begins with that partial SHA-1.
+Simplemente dándole los primeros caracteres del código SHA-1, Git es lo suficientemente inteligente como para figurarse cual es la confirmación de cambios (commit) deseada. Es necesario teclear por lo menos 4 caracteres y estos han de ser no ambiguos --es decir, debe existir un solo objeto en el repositorio cuyo código comience por dicho trozo inicial del SHA--.
 
-For example, to see a specific commit, suppose you run a `git log` command and identify the commit where you added certain functionality:
+Por ejemplo, a la hora de localizar una confirmación de cambios, supongamos que se lanza el comando 'git log' e intentamos localizar la confirmación de cambios concreta donde se añadió una cierta funcionalidad: 
 
 	$ git log
 	commit 734713bc047d87bf7eac9674765ae793478c50d3
@@ -38,48 +38,48 @@ For example, to see a specific commit, suppose you run a `git log` command and i
 
 	    added some blame and merge stuff
 
-In this case, choose `1c002dd....` If you `git show` that commit, the following commands are equivalent (assuming the shorter versions are unambiguous):
+En este caso, escogiendo '1c002dd....', para lanzar el comando 'git show' sobre esa confirmación de cambios concreta, serían equivalentes todos estos comandos (asumiendo la no ambiguedad de todas las versiones cortas indicadas):
 
 	$ git show 1c002dd4b536e7479fe34593e72e6c6c1819e53b
 	$ git show 1c002dd4b536e7479f
 	$ git show 1c002d
 
-Git can figure out a short, unique abbreviation for your SHA-1 values. If you pass `--abbrev-commit` to the `git log` command, the output will use shorter values but keep them unique; it defaults to using seven characters but makes them longer if necessary to keep the SHA-1 unambiguous:
+En todos estos casos, Git puede deducir el resto del valor SHA-1. Con la opción '--abbrev-commit' del comando 'git log', en su salida se mostrarán valores acortados, pero únicos de SHA. Habitualmente suelen resultar valores de siete caracteres, pero alguno puede ser más largo si es necesario para preservar la unicidad de todos los valores SHA-1 mostrados:
 
 	$ git log --abbrev-commit --pretty=oneline
 	ca82a6d changed the version number
 	085bb3b removed unnecessary test code
 	a11bef0 first commit
 
-Generally, eight to ten characters are more than enough to be unique within a project. One of the largest Git projects, the Linux kernel, is beginning to need 12 characters out of the possible 40 to stay unique.
+Normalmente, entre ocho y diez caracteres suelen ser más que suficientes para garantizar la unicidad de  todos los objetos dentro de cualquier proyecto. Aunque, en uno de los más grandes proyectos gestionados con Git, el kernel de Linux, están siendo necesarios unos 12 caracteres (de los 40 posibles) para garantizar la unicidad.
 
-### A SHORT NOTE ABOUT SHA-1 ###
+### Un breve comentario sobre los códigos SHA-1 ###
 
-A lot of people become concerned at some point that they will, by random happenstance, have two objects in their repository that hash to the same SHA-1 value. What then?
+Mucha gente se suele preocupar por si, por casualidad, dos objetos en su repositorio reciben el mismo código SHA-1 para identificarlos. ¿Y qué sucederia si se diera ese caso?
 
-If you do happen to commit an object that hashes to the same SHA-1 value as a previous object in your repository, GIt will see the previous object already in your Git database and assume it was already written. If you try to check out that object again at some point, you’ll always get the data of the first object. 
+Si se da la casualidad de confirmar cambios en un objeto y que a este se le asigne el mismo código SHA-1 que otro ya existente en el repositorio. Al ver  el objeto previamente almacenado en la base de datos, Git asumirá que este ya existía. Al intentar recuperar (check-out) el objeto más tarde, siempre se obtendrán los datos del primer objeto. 
 
-However, you should be aware of how ridiculously unlikely this scenario is. The SHA-1 digest is 20 bytes or 160 bits. The number of randomly hashed objects needed to ensure a 50% probability of a single collision is about 2^80 (the formula for determining collision probability is `p = (n(n-1)/2) * (1/2^160))`. 2^80 is 1.2 x 10^24 or 1 million billion billion. That’s 1,200 times the number of grains of sand on the earth.
+No obstante, hemos de ser conscientes de lo altamente improbable de un suceso así. Los códigos SHA-1 son de 20 bytes, (160 bits). El número de objetos, codificados aleatóriamente, necesarios para asegurar un 50% de probabilidad de darse una sola colisión es cercano a 2^80 (la fórmula para determinar la probabilidad de colisión es `p = (n(n-1)/2) * (1/2^160))`). 2^80 es 1'2 x 10^24, o lo que es lo mismo, 1 billón de billones. Es decir, unas 1.200 veces el número de granos de arena en la Tierra.
 
-Here’s an example to give you an idea of what it would take to get a SHA-1 collision. If all 6.5 billion humans on Earth were programming, and every second, each one was producing code that was the equivalent of the entire Linux kernel history (1 million Git objects) and pushing it into one enormous Git repository, it would take 5 years until that repository contained enough objects to have a 50% probability of a single SHA-1 object collision. A higher probability exists that every member of your programming team will be attacked and killed by wolves in unrelated incidents on the same night.
+El siguiente ejemplo puede ser bastante ilustrativo, para hacernos una idea de lo que podría tardarse en darse una colisión en el código SHA-1: Si todos los 6'5 billones de humanos en el planeta Tierra estuvieran programando y, cada segundo, cada uno de ellos escribiera código equivalente a todo el histórico del kernel de Linux (cerca de 1 millón de objetos Git), enviandolo todo a un enorme repositorio Git. Serían necesarios unos 5 años antes de que dicho repositorio contuviera suficientes objetos como para tener una probabilidad del 50% de darse una sola colisión en el código SHA-1. Es mucho más probable que todos los miembros de nuestro equipo de programación fuesen atacados y matados por lobos, en incidentes no relacionados entre sí, acaecidos todos ellos en una misma noche.
 
-### Branch References ###
+### Referencias a ramas ###
 
-The most straightforward way to specify a commit requires that it have a branch reference pointed at it. Then, you can use a branch name in any Git command that expects a commit object or SHA-1 value. For instance, if you want to show the last commit object on a branch, the following commands are equivalent, assuming that the `topic1` branch points to `ca82a6d`:
+La manera más directa de referirse a una confirmación de cambios es teniendo una rama apuntando a ella. De esta forma, se puede emplear el nombre de la rama en cualquier comando Git que espere un objeto de confirmación de cambios o un código SHA-1. Por ejemplo, si se desea mostrar la última confirmación de cambios en una rama, y suponiendo que la rama 'topic1' apunta a 'ca82a6d', los tres comandos siguientes son equivalentes: 
 
 	$ git show ca82a6dff817ec66f44342007202690a93763949
 	$ git show topic1
 
-If you want to see which specific SHA a branch points to, or if you want to see what any of these examples boils down to in terms of SHAs, you can use a Git plumbing tool called `rev-parse`. You can see Chapter 9 for more information about plumbing tools; basically, `rev-parse` exists for lower-level operations and isn’t designed to be used in day-to-day operations. However, it can be helpful sometimes when you need to see what’s really going on. Here you can run `rev-parse` on your branch.
+Para ver a qué código SHA apunta una determinada rama, o si se desea conocer cómo se comportarian cualquiera de los ejemplos anteriores en términos de SHAs, se puede emplear el comando de fontaneria 'rev-parse'. En el capítulo 9 se verá más información sobre las herramientas de fontaneria. Herramientas estas que son utilizadas para operaciones a muy bajo nivel, y que no estan pensadas para ser utilizadas en el trabajo habitual del día a día. Pero que, sin embargo, pueden ser muy útiles cuando se desea ver lo que realmente sucede "tras las bambalinas", en el interior de Git. Por ejemplo, lanzando el comando 'rev-parse' sobre una rama, esta muestra el código SHA-1 de la última confirmación de cambios en ella:
 
 	$ git rev-parse topic1
 	ca82a6dff817ec66f44342007202690a93763949
 
-### RefLog Shortnames ###
+### Nombres cortos en RefLog ###
 
-One of the things Git does in the background while you’re working away is keep a reflog — a log of where your HEAD and branch references have been for the last few months.
+Una de las tareas realizadas por Git continuamente en segundo plano, mientras nosotros trabajamos, es el mantenimiento de un registro de referencia (reflog). En este registro queda traza de dónde han estado las referencias a HEAD y a las distintas ramas durante los últimos meses.
 
-You can see your reflog by using `git reflog`:
+Este registro de referencia se puede consultar con el comando 'git reflog':
 
 	$ git reflog
 	734713b... HEAD@{0}: commit: fixed refs handling, added gc auto, updated
@@ -90,17 +90,17 @@ You can see your reflog by using `git reflog`:
 	1c36188... HEAD@{5}: rebase -i (squash): updating HEAD
 	7e05da5... HEAD@{6}: rebase -i (pick): updating HEAD
 
-Every time your branch tip is updated for any reason, Git stores that information for you in this temporary history. And you can specify older commits with this data, as well. If you want to see the fifth prior value of the HEAD of your repository, you can use the `@{n}` reference that you see in the reflog output:
+Cada vez que se actualiza una rama por cualquier razón, Git almacena esa información en este histórico temporal. Y esta información se puede utilizar para referirse a confirmaciones de cambio pasadas. Por ejemplo, si se desea ver el quinto anterior valor de HEAD en el repositorio, se puede emplear la referencia '@{n}' mostrada por la salida de reflog:
 
 	$ git show HEAD@{5}
 
-You can also use this syntax to see where a branch was some specific amount of time ago. For instance, to see where your `master` branch was yesterday, you can type
+Esta misma sintaxis puede emplearse cuando se desea ver dónde estaba una rama en un momento específico en el tiempo. Por ejemplo, para ver dónde apuntaba la rama 'master' en el día de ayer, se puede teclear:
 
 	$ git show master@{yesterday}
 
-That shows you where the branch tip was yesterday. This technique only works for data that’s still in your reflog, so you can’t use it to look for commits older than a few months.
+Este comando mostrará a dónde apuntaba ayer la rama. Esta técnica tan solo funciona para información presente en el registro de referencia. No se puede emplear para confirmaciones de cambio de antiguedad superior a unos pocos meses.
 
-To see reflog information formatted like the `git log` output, you can run `git log -g`:
+Si se desea ver la información del registro de referencia, formateada de forma similar a la salida del comando 'git log', se puede lanzar el comando 'git log -g':
 
 	$ git log -g master
 	commit 734713bc047d87bf7eac9674765ae793478c50d3
@@ -119,12 +119,12 @@ To see reflog information formatted like the `git log` output, you can run `git 
 
 	    Merge commit 'phedders/rdocs'
 
-It’s important to note that the reflog information is strictly local — it’s a log of what you’ve done in your repository. The references won’t be the same on someone else’s copy of the repository; and right after you initially clone a repository, you'll have an empty reflog, as no activity has occurred yet in your repository. Running `git show HEAD@{2.months.ago}` will work only if you cloned the project at least two months ago — if you cloned it five minutes ago, you’ll get no results.
+Es importante destacar la estricta localidad de la información en el registro de referencia. Es un registro que se va componiendo en cada repositorio según se va trabajando en él. Las referencias de una cierta persona en su repositorio nunca seran las mismas que las de cualquier otra persona en su copia local del repositorio. Es más, justo tras terminar de clonar un repositorio lo que se tiene es un registro de referencia vacio, puesto que  aún no se ha realizado ningún trabajo sobre dicho repositorio recién clonado. Así, un comando tal como `git show HEAD@{2.months.ago}` solo será válido en caso de haber clonado el proyecto como mínimo dos meses antes. Si se acaba de clonar hace cinco minutos, ese comando dará un resultado vacio.
 
-### Ancestry References ###
+### Referencias a ancestros ###
 
-The other main way to specify a commit is via its ancestry. If you place a `^` at the end of a reference, Git resolves it to mean the parent of that commit.
-Suppose you look at the history of your project:
+Otra forma de especificar una confirmación de cambios es utilizando sus ancestros. Colocando un '^' al final de una referencia, Git interpreta que se refiere al padre de dicha referencia.
+Suponiendo que sea esta la historia de un proyecto:
 
 	$ git log --pretty=format:'%h %s' --graph
 	* 734713b fixed refs handling, added gc auto, updated tests
@@ -136,7 +136,7 @@ Suppose you look at the history of your project:
 	* 1c36188 ignore *.gem
 	* 9b29157 add open3_detach to gemspec file list
 
-Then, you can see the previous commit by specifying `HEAD^`, which means "the parent of HEAD":
+Se puede visualizar la anteúltima confirmación de cambios indicando 'HEAD^', que significa "el padre de HEAD":
 
 	$ git show HEAD^
 	commit d921970aadf03b3cf0e71becdaab3147ba71cdef
@@ -146,7 +146,7 @@ Then, you can see the previous commit by specifying `HEAD^`, which means "the pa
 
 	    Merge commit 'phedders/rdocs'
 
-You can also specify a number after the `^` — for example, `d921970^2` means "the second parent of d921970." This syntax is only useful for merge commits, which have more than one parent. The first parent is the branch you were on when you merged, and the second is the commit on the branch that you merged in:
+También es posible indicar un número detras de '^'. Por ejemplo `d921970^2`, para indicar "el segundo padre de d921970" . Aunque esta sentencia es útil tan solo en confirmaciones de fusiones (merge), los únicos tipos de confirmación de cambios que pueden tener más de un padre. El primer padre es el proveniente de la rama activa al realizar la fusión, y el segundo es la confirmación de cambios en la rama desde la que se fusiona.
 
 	$ git show d921970^
 	commit 1c002dd4b536e7479fe34593e72e6c6c1819e53b
@@ -162,7 +162,7 @@ You can also specify a number after the `^` — for example, `d921970^2` means "
 
 	    Some rdoc changes
 
-The other main ancestry specification is the `~`. This also refers to the first parent, so `HEAD~` and `HEAD^` are equivalent. The difference becomes apparent when you specify a number. `HEAD~2` means "the first parent of the first parent," or "the grandparent" — it traverses the first parents the number of times you specify. For example, in the history listed earlier, `HEAD~3` would be
+Otra forma de referirse a los ancestros es la marca `~`. Utilizada tal cual, también se refiere al padre. Por lo tanto, `HEAD~` y `HEAD^` son equivalentes. Pero la diferencia comienza al indicar un número tras ella. `HEAD~2` significa "el primer padre del primer padre", es decir, "el abuelo". Y así según el número de veces que se indique. Por ejemplo, en la historia de proyecto citada anteriormente, `HEAD~3` sería: 
 
 	$ git show HEAD~3
 	commit 1c3618887afb5fbcbea25b7c013f4e2114448b8d
@@ -171,7 +171,7 @@ The other main ancestry specification is the `~`. This also refers to the first 
 
 	    ignore *.gem
 
-This can also be written `HEAD^^^`, which again is the first parent of the first parent of the first parent:
+Igualmente, se podría haber escrito `HEAD^^^`, que también se refiere al "primer padre del primer padre del primer padre":
 
 	$ git show HEAD^^^
 	commit 1c3618887afb5fbcbea25b7c013f4e2114448b8d
@@ -180,57 +180,57 @@ This can also be written `HEAD^^^`, which again is the first parent of the first
 
 	    ignore *.gem
 
-You can also combine these syntaxes — you can get the second parent of the previous reference (assuming it was a merge commit) by using `HEAD~3^2`, and so on.
+E incluso también es posible combinar las dos sintaxis. Por ejemplo, para referirse al "segundo padre de la referencia previa" (asumiendo que es una confirmación de cambios de fusión -merge-), se pude escribir algo como `HEAD~3^2`.
 
-### Commit Ranges ###
+### Referecias a un rango de confirmaciones de cambios ###
 
-Now that you can specify individual commits, let’s see how to specify ranges of commits. This is particularly useful for managing your branches — if you have a lot of branches, you can use range specifications to answer questions such as, "What work is on this branch that I haven’t yet merged into my main branch?"
+Una vez vistas las formas de referirse a confirmaciones concretas de cambios. Vamos a ver cómo referirse a un grupo de confirmaciones. Esto es especialmente útil en la gestión de ramas. Si se tienen multitud de ramas, se pueden emplear las espeficicaciones de rango para responder a cuestiones tales como "¿cual es el trabajo de esta rama que aún no se ha fusionado con la rama principal?".
 
-#### Double Dot ####
+#### Doble punto ####
 
-The most common range specification is the double-dot syntax. This basically asks Git to resolve a range of commits that are reachable from one commit but aren’t reachable from another. For example, say you have a commit history that looks like Figure 6-1.
+La especificación de rango más común es la sintaxis doble-punto. Básicamente, se trata de pedir a Git que resuelva un rango de confirmaciones de cambio alcanzables desde una confirmación determinada, pero no desde otra. Por ejemplo, teniendo un historial de confirmaciones de cambio tal como el de la figura 6-1.
 
 Insert 18333fig0601.png 
-Figure 6-1. Example history for range selection.
+Figura 6-1. Ejemplo de historial para selección de rangos.
 
-You want to see what is in your experiment branch that hasn’t yet been merged into your master branch. You can ask Git to show you a log of just those commits with `master..experiment` — that means "all commits reachable by experiment that aren’t reachable by master." For the sake of brevity and clarity in these examples, I’ll use the letters of the commit objects from the diagram in place of the actual log output in the order that they would display:
+Si se desea ver qué partes de la rama experiment están sin fusionar aún con la rama master. Se puede pedir a Git que muestre un registro con las confirmaciones de cambio en `master..experiment`. Es decir, "todas las confirmaciones de cambio alcanzables desde experiment que no se pueden alcanzar desde master". Por razones de brevedad y claridad en los ejemplos, para representar los objetos confirmación de cambios (commit) se utilizarán las letras mostradas en el diagrama en lugar de todo el registro propiamente dicho: 
 
 	$ git log master..experiment
 	D
 	C
 
-If, on the other hand, you want to see the opposite — all commits in `master` that aren’t in `experiment` — you can reverse the branch names. `experiment..master` shows you everything in `master` not reachable from `experiment`:
+Si, por el contrario, se desea ver lo opuesto (todas las confirmaciones en 'master' que no están en 'experiment'). Simplemente hay que invertir los nombres de las ramas. `experiment..master` muestra todo lo que haya en 'master' pero que no es alcanzable desde 'experiment':
 
 	$ git log experiment..master
 	F
 	E
 
-This is useful if you want to keep the `experiment` branch up to date and preview what you’re about to merge in. Another very frequent use of this syntax is to see what you’re about to push to a remote:
+Esto es útil si se desea mantener actualizada la rama 'experiment' y previsualizar lo que se está a punto de fusionar en ella. Otra utilidad habitual de estas sentencias es la de ver lo que se está a punto de enviar a un repositorio remoto:
 
 	$ git log origin/master..HEAD
 
-This command shows you any commits in your current branch that aren’t in the `master` branch on your `origin` remote. If you run a `git push` and your current branch is tracking `origin/master`, the commits listed by `git log origin/master..HEAD` are the commits that will be transferred to the server.
-You can also leave off one side of the syntax to have Git assume HEAD. For example, you can get the same results as in the previous example by typing `git log origin/master..` — Git substitutes HEAD if one side is missing.
+Este comando muestra las confirmaciones de cambio de la rama activa que no están aún en la rama 'master' del repositorio remoto 'origin'. Si se lanza el comando 'git push' (y la rama activa actual esta relacionada con 'origin/master'), las confirmaciones de cambio mostradas por `git log origin/master..HEAD` serán las que serán transferidas al servidor. 
+Es posible también omitir la parte final de la sentencia y dejar que Git asuma HEAD. Por ejemplo, se pueden obtener los mismos resultados tecleando `git log origin/master..`, ya que git sustituye HEAD en la parte faltante. 
 
-#### Multiple Points ####
+#### Puntos multiples ####
 
-The double-dot syntax is useful as a shorthand; but perhaps you want to specify more than two branches to indicate your revision, such as seeing what commits are in any of several branches that aren’t in the branch you’re currently on. Git allows you to do this by using either the `^` character or `--not` before any reference from which you don’t want to see reachable commits. Thus these three commands are equivalent:
+La sintaxis del doble-punto es util como atajo. Pero en algunas ocasiones interesa indicar mas de dos ramas para precisar la revisión. Como cuando se desea ver las confirmaciones de cambio presentes en cualquiera de varias ramas y no en la rama activa. Git permite realizar esto utilizando o bien el caracter `^` o bien la opción `--not` por delante de aquellas referencias de las que se desea no ver las confirmaciones de cambio.  Así, estos tres comandos son equivalentes:
 
 	$ git log refA..refB
 	$ git log ^refA refB
 	$ git log refB --not refA
 
-This is nice because with this syntax you can specify more than two references in your query, which you cannot do with the double-dot syntax. For instance, if you want to see all commits that are reachable from `refA` or `refB` but not from `refC`, you can type one of these:
+Esto nos permite indicar más de dos referencias en una misma consulta. Algo imposible con la sintaxis dos-puntos. Por ejemplo, si se deseean ver todas las confirmaciones de cambio alcanzables desde la 'refA' o la 'refB', pero no desde la 'refC', se puede teclear algo como esto:
 
 	$ git log refA refB ^refC
 	$ git log refA refB --not refC
 
-This makes for a very powerful revision query system that should help you figure out what is in your branches.
+Esto da una enorme versatilidad al sistema de consultas y permite revisar el contenido de todas las ramas  en el repositorio.
 
-#### Triple Dot ####
+#### Triple-punto ####
 
-The last major range-selection syntax is the triple-dot syntax, which specifies all the commits that are reachable by either of two references but not by both of them. Look back at the example commit history in Figure 6-1.
-If you want to see what is in `master` or `experiment` but not any common references, you can run
+La última de las opciones principales para seleccionar rangos es la sintaxis triple-punto. Utilizada para especificar todas las confirmaciones de cambio alcanzables separadamente desde cualquiera de dos referencias, pero no desde ambas a la vez. Volviendo sobre la historia de proyecto mostrada en la figura 6-1.
+Si se desea ver lo que está o bien en 'master' o bien en 'experiment', pero no en ambas simultáneamente, se puede emplear el comando:
 
 	$ git log master...experiment
 	F
@@ -238,9 +238,9 @@ If you want to see what is in `master` or `experiment` but not any common refere
 	D
 	C
 
-Again, this gives you normal `log` output but shows you only the commit information for those four commits, appearing in the traditional commit date ordering.
+De nuevo, esto da una salida normal de 'log', pero mostrando tan solo información sobre las cuatro confirmaciones de cambio, dadas en la tradicional secuencia ordenada por fechas.
 
-A common switch to use with the `log` command in this case is `--left-right`, which shows you which side of the range each commit is in. This helps make the data more useful:
+Una opción habitual a utilizar en estos casos con el comando 'log' suele ser 'left-right'. Haciendo así que en la salida se muestre cual es el lado al que pertenece cada una de las confirmaciones de cambio. Esto hace más util la información mostrada:
 
 	$ git log --left-right master...experiment
 	< F
@@ -248,12 +248,12 @@ A common switch to use with the `log` command in this case is `--left-right`, wh
 	> D
 	> C
 
-With these tools, you can much more easily let Git know what commit or commits you want to inspect. 
+Con estas herramientas, es mucho más sencillo indicar con precisión cual o cuales son las confirmaciones de cambios que se desean revisar. 
 
-## Interactive Staging ##
+## Preparación interactiva ##
 
-Git comes with a couple of scripts that make some command-line tasks easier. Here, you’ll look at a few interactive commands that can help you easily craft your commits to include only certain combinations and parts of files. These tools are very helpful if you modify a bunch of files and then decide that you want those changes to be in several focused commits rather than one big messy commit. This way, you can make sure your commits are logically separate changesets and can be easily reviewed by the developers working with you.
-If you run `git add` with the `-i` or `--interactive` option, Git goes into an interactive shell mode, displaying something like this:
+Git trae incluidos unos cuantos scripts para facilitar algunas de las tareas en la línea de comandos. Se van a mostrar unos pocos comandos interactivos que suelen ser de gran utilidad a la hora de recoger en una confirmación de cambios solo ciertas combinaciones y partes de archivos. Estas herramientas son útiles, por ejemplo, cuando se modifican unos cuantos archivos y luego se decide almacenar esos cambios en una serie de confirmaciones de cambio focalizadas en lugar de en una sola confirmación de cambio entremezclada.    Así, se consiguen unas confirmaciones de cambio con agrupaciones lógicas de modificaciones, facilitando su revisión por parte otros desarrolladores que trabajen con nosotros. 
+Al lanzar el comando 'git add' con las opciones '-i' o '--interactive', Git entra en un modo interactivo y muestra algo así como:
 
 	$ git add -i
 	           staged     unstaged path
@@ -266,13 +266,13 @@ If you run `git add` with the `-i` or `--interactive` option, Git goes into an i
 	  5: patch      6: diff        7: quit       8: help
 	What now> 
 
-You can see that this command shows you a much different view of your staging area — basically the same information you get with `git status` but a bit more succinct and informative. It lists the changes you’ve staged on the left and unstaged changes on the right. 
+Según se ve, este comando muestra una vista bastante diferente del área de preparación (staging area). Básicamente se trata de la misma información dada por el comando 'git status', pero mas sucinta e informativa. Se ve una lista de cambios ya preparados, en la izquierda; y de los que están aún sin preparar, en la derecha. 
 
-After this comes a Commands section. Here you can do a number of things, including staging files, unstaging files, staging parts of files, adding untracked files, and seeing diffs of what has been staged.
+Tras esa lista, viene la sección de comandos. Aquí se pueden lanzar acciones tales como: añadir archivos en el area de preparación (staging), sacar archivos de ella (unstaging), poner solo parte de algún archivo, añadir archivos nuevos que estaban fuera del sistema de control o mostrar diferencias en aquello que se ha añadido.
 
-### Staging and Unstaging Files ###
+### Introduciendo archivos en el area de preparación y sacandolos de ella ###
 
-If you type `2` or `u` at the `What now>` prompt, the script prompts you for which files you want to stage:
+Tecleando '2' o 'u' (update) tras el indicador 'What now>', el script interactivo preguntará cuales son los archivos que se quieren añadir al área de preparación:
 
 	What now> 2
 	           staged     unstaged path
@@ -281,7 +281,7 @@ If you type `2` or `u` at the `What now>` prompt, the script prompts you for whi
 	  3:    unchanged        +5/-1 lib/simplegit.rb
 	Update>>
 
-To stage the TODO and index.html files, you can type the numbers:
+Para añadir los archivos TODO e index.html, se teclearian los números:
 
 	Update>> 1,2
 	           staged     unstaged path
@@ -290,7 +290,7 @@ To stage the TODO and index.html files, you can type the numbers:
 	  3:    unchanged        +5/-1 lib/simplegit.rb
 	Update>>
 
-The `*` next to each file means the file is selected to be staged. If you press Enter after typing nothing at the `Update>>` prompt, Git takes anything selected and stages it for you:
+El asterisco `*` al lado de cada archivo indica que dicho archivo ha sido seleccionado para ser preparado. Pulsando la tecla [Enter] tras el indicador 'Update>>', Git toma lo seleccionado y lo añade al área de preparación: 
 
 	Update>> 
 	updated 2 paths
@@ -304,7 +304,7 @@ The `*` next to each file means the file is selected to be staged. If you press 
 	  2:        +1/-1      nothing index.html
 	  3:    unchanged        +5/-1 lib/simplegit.rb
 
-Now you can see that the TODO and index.html files are staged and the simplegit.rb file is still unstaged. If you want to unstage the TODO file at this point, you use the `3` or `r` (for revert) option:
+En estos momentos se ve que los archivos TODO e index.html están en el área de preparación y que el archivo simplegit.rb no está aún. Si se desea sacar el archivo TODO del área, se puede utilizar la opción '3' o 'r' (revert):
 
 	*** Commands ***
 	  1: status     2: update      3: revert     4: add untracked
@@ -322,7 +322,7 @@ Now you can see that the TODO and index.html files are staged and the simplegit.
 	Revert>> [enter]
 	reverted one path
 
-Looking at your Git status again, you can see that you’ve unstaged the TODO file:
+Volviendo a mirar el estado de Git, se comprueba que se ha sacado el archivo TODO del área de preparación:
 
 	*** Commands ***
 	  1: status     2: update      3: revert     4: add untracked
@@ -333,7 +333,7 @@ Looking at your Git status again, you can see that you’ve unstaged the TODO fi
 	  2:        +1/-1      nothing index.html
 	  3:    unchanged        +5/-1 lib/simplegit.rb
 
-To see the diff of what you’ve staged, you can use the `6` or `d` (for diff) command. It shows you a list of your staged files, and you can select the ones for which you would like to see the staged diff. This is much like specifying `git diff --cached` on the command line:
+Para ver las diferencis entre lo que está preparado, se puede utilizar la opción '6' o 'd' (diff). Esta muestra una lista de los archivos preparados en el área de preparación, permitiendo la seleccion de aquellos sobre los que  se desean ver diferencias. Es muy parecido a lanzar el comando 'git diff --cached' directamente en la línea de comandos:
 
 	*** Commands ***
 	  1: status     2: update      3: revert     4: add untracked
@@ -355,11 +355,11 @@ To see the diff of what you’ve staged, you can use the `6` or `d` (for diff) c
 
 	 <script type="text/javascript">
 
-With these basic commands, you can use the interactive add mode to deal with your staging area a little more easily.
+Con estos comandos básicos, se ha visto cómo se puede emplear el modo interactivo para interactuar de forma más sencilla con el área de preparación.
 
-### Staging Patches ###
+### Parches en la preparación ###
 
-It’s also possible for Git to stage certain parts of files and not the rest. For example, if you make two changes to your simplegit.rb file and want to stage one of them and not the other, doing so is very easy in Git. From the interactive prompt, type `5` or `p` (for patch). Git will ask you which files you would like to partially stage; then, for each section of the selected files, it will display hunks of the file diff and ask if you would like to stage them, one by one:
+También es posible añadir solo ciertas partes de algunos archivos y no otras. Por ejemplo, si se han realizado dos cambios en el archivo simplegit.rb y se desea pasar solo uno de ellos al área de preparación, pero no el otro. En el indicador interactivo se ha de teclear '5' o 'p' (patch). Git preguntará cual es el archivo a pasar parcialmente al área de preparación. Y después irá mostrando trozos de las distintas secciones modificadas en el archivo, preguntando por cada una si se desea pasar o no al área de preparación:
 
 	diff --git a/lib/simplegit.rb b/lib/simplegit.rb
 	index dd5ecc4..57399e0 100644
@@ -376,7 +376,7 @@ It’s also possible for Git to stage certain parts of files and not the rest. F
 	   def blame(path)
 	Stage this hunk [y,n,a,d,/,j,J,g,e,?]? 
 
-You have a lot of options at this point. Typing `?` shows a list of what you can do:
+En estas preguntas, hay varias opciones de respuesta. Tecleando '?' se muestra una lista de las mismas:
 
 	Stage this hunk [y,n,a,d,/,j,J,g,e,?]? ?
 	y - stage this hunk
@@ -393,7 +393,7 @@ You have a lot of options at this point. Typing `?` shows a list of what you can
 	e - manually edit the current hunk
 	? - print help
 
-Generally, you’ll type `y` or `n` if you want to stage each hunk, but staging all of them in certain files or skipping a hunk decision until later can be helpful too. If you stage one part of the file and leave another part unstaged, your status output will look like this:
+Habitualmente se tecleará 'y' o 'n' según se desee pasar o no cada trozo. Pero habrá ocasiones donde pueda ser útil pasar todos ellos conjuntamente, o el dejar para más tarde la decisión sobre un trozo concreto. Si se decide pasar solo una parte de un archivo y dejar sin pasar otra parte, la salida de estado mostrará algo así como:
 
 	What now> 1
 	           staged     unstaged path
@@ -401,19 +401,19 @@ Generally, you’ll type `y` or `n` if you want to stage each hunk, but staging 
 	  2:        +1/-1      nothing index.html
 	  3:        +1/-1        +4/-0 lib/simplegit.rb
 
-The status of the simplegit.rb file is interesting. It shows you that a couple of lines are staged and a couple are unstaged. You’ve partially staged this file. At this point, you can exit the interactive adding script and run `git commit` to commit the partially staged files.
+La línea correspondiente al estado del archivo simplegit.rb es bastante interesante. Muestra que un par de líneas han sido preparadas (staged) en el área de preparación y otro par han sido dejadas fuera de dicho área (unstaged). Es decir, se ha pasado parcialmente ese archivo al área de preparación. En este punto, es posible salir del script interactivo y lanzar el comando 'git commit' para almacenar esa confirmación de cambios parciales en los archivos.
 
-Finally, you don’t need to be in interactive add mode to do the partial-file staging — you can start the same script by using `git add -p` or `git add --patch` on the command line. 
+Por último, cabe comentar que no es necesario entrar expresamente en el modo interactivo para preparar archivos parcialmente. También se puede acceder a ese script con los comandos 'git add -p' o con 'git add --patch', directamente desde la línea de comandos. 
 
-## Stashing ##
+## Guardado rápido provisional ##
 
-Often, when you’ve been working on part of your project, things are in a messy state and you want to switch branches for a bit to work on something else. The problem is, you don’t want to do a commit of half-done work just so you can get back to this point later. The answer to this issue is the `git stash` command.
+Según se está trabajando en un apartado de un proyecto, normalmente el espacio de trabajo suele estar en un estado inconsistente. Pero puede que se necesite cambiar de rama durante un breve tiempo para ponerse a trabajar en algún otro tema urgente. Esto plantea el problema de confirmar cambios en un trabajo medio hecho, simplemente para poder volver a ese punto más tarde. Y su solución es el comando 'git stash'.
 
-Stashing takes the dirty state of your working directory — that is, your modified tracked files and staged changes — and saves it on a stack of unfinished changes that you can reapply at any time.
+Este comando de guardado rápido (stashing) toma el estado del espacio de trabajo, con todas las modificaciones en los archivos bajo control de cambios, y lo guarda en una pila provisional. Desde allí, se podrán recuperar posteriormente y volverlas a aplicar de nuevo sobre el espacio de trabajo.
 
-### Stashing Your Work ###
+### Guardando el trabajo temporalmente ###
 
-To demonstrate, you’ll go into your project and start working on a couple of files and possibly stage one of the changes. If you run `git status`, you can see your dirty state:
+Por ejemplo, si se está trabajando sobre un par de archivos e incluso uno de ellos está ya añadido al área de preparación para un futuro almacenamiento de sus cambios en el repositorio. Al lanzar el comando 'git status', se podría observar un estado inconsistente tal como:
 
 	$ git status
 	# On branch master
@@ -422,13 +422,13 @@ To demonstrate, you’ll go into your project and start working on a couple of f
 	#
 	#      modified:   index.html
 	#
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add <file>..." to update what will be committed)
 	#
 	#      modified:   lib/simplegit.rb
 	#
 
-Now you want to switch branches, but you don’t want to commit what you’ve been working on yet; so you’ll stash the changes. To push a new stash onto your stack, run `git stash`:
+Si justo en este momento se desea cambiar de rama, pero sin confirmar los cambios realizados hasta entonces; la solución es un guardado rápido provisional de los cambios. Utilizando el comando 'git stash' y enviando un nuevo grupo de cambios a la pila de guardado rápido:
 
 	$ git stash
 	Saved working directory and index state \
@@ -436,33 +436,33 @@ Now you want to switch branches, but you don’t want to commit what you’ve be
 	HEAD is now at 049d078 added the index file
 	(To restore them type "git stash apply")
 
-Your working directory is clean:
+Con ello, se limpia el área de trabajo:
 
 	$ git status
 	# On branch master
 	nothing to commit (working directory clean)
 
-At this point, you can easily switch branches and do work elsewhere; your changes are stored on your stack. To see which stashes you’ve stored, you can use `git stash list`:
+Y se permite cambiar de rama para ponerse a trabajar en cualquier otra parte. Con la tranquilidad de que los cambios a medio completar están guardados a buen recaudo en la pila de guardado rápido. Para ver el contenido de dicha pila, se emplea el comando 'git stash list':
 
 	$ git stash list
 	stash@{0}: WIP on master: 049d078 added the index file
 	stash@{1}: WIP on master: c264051... Revert "added file_size"
 	stash@{2}: WIP on master: 21d80a5... added number to log
 
-In this case, two stashes were done previously, so you have access to three different stashed works. You can reapply the one you just stashed by using the command shown in the help output of the original stash command: `git stash apply`. If you want to apply one of the older stashes, you can specify it by naming it, like this: `git stash apply stash@{2}`. If you don’t specify a stash, Git assumes the most recent stash and tries to apply it:
+En este ejemplo, se habian realizado dos guardados rápidos anteriores, por lo que se ven tres grupos de cambios guardados en la pila. Con el comando 'git stash apply', tal y como se indica en la salida del comando stash original, se pueden volver a aplicar los últimos cambios recien guardados. Si lo que se desea es reaplicar alguno de los grupos más antiguos de cambios, se ha de indicar expresamente: `git stash apply stash@{2}` Si no se indica ningún grupo concreto, Git asume que se desea reaplicar el grupo de cambios más reciente de entre los guardados en la pila.
 
 	$ git stash apply
 	# On branch master
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add <file>..." to update what will be committed)
 	#
 	#      modified:   index.html
 	#      modified:   lib/simplegit.rb
 	#
 
-You can see that Git re-modifies the files you uncommitted when you saved the stash. In this case, you had a clean working directory when you tried to apply the stash, and you tried to apply it on the same branch you saved it from; but having a clean working directory and applying it on the same branch aren’t necessary to successfully apply a stash. You can save a stash on one branch, switch to another branch later, and try to reapply the changes. You can also have modified and uncommitted files in your working directory when you apply a stash — Git gives you merge conflicts if anything no longer applies cleanly.
+Como se ve en la salida del comando, Git vueve a aplicar los correspondientes cambios en los archivos que estaban modificados. Pero no conserva la información de lo que estaba o no estaba añadido al área de preparación.  En este ejemplo se han aplicado los cambios de vuelta sobre un espacio de trabajo limpio, en la misma rama. Pero no es esta la única situación en la que se pueden reaplicar cambios. Es perfectamente posible guardar rápidamente (stash) el estado de una rama. Cambiar posteriormente a otra rama. Y proceder a aplicar sobre esta otra rama los cambios guardados, en lugar de sobre la rama original. Es posible incluso aplicar de vuelta cambios sobre un espacio de trabajo inconsistente, donde haya otros cambios o algunos archivos añadidos al área de preparación. (Git notificará de los correspondientes conflictos de fusión si todo ello no se puede aplicar limpiamente.)
 
-The changes to your files were reapplied, but the file you staged before wasn’t restaged. To do that, you must run the `git stash apply` command with a `--index` option to tell the command to try to reapply the staged changes. If you had run that instead, you’d have gotten back to your original position:
+Las modificaciones sobre los archivos serán aplicadas; pero no así el estado de preparación. Para conseguir esto último, es necesario emplear la opción `--index` del comando `git stash apply`. Con ella se le indica que debe intentar reaplicar también el estado de preparación de los archivos.  Y asi se puede conseguir volver exactamente al punto original:
 
 	$ git stash apply --index
 	# On branch master
@@ -471,13 +471,13 @@ The changes to your files were reapplied, but the file you staged before wasn’
 	#
 	#      modified:   index.html
 	#
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add <file>..." to update what will be committed)
 	#
 	#      modified:   lib/simplegit.rb
 	#
 
-The apply option only tries to apply the stashed work — you continue to have it on your stack. To remove it, you can run `git stash drop` with the name of the stash to remove:
+Los comandos `git stash apply` tan solo recuperan cambios almacenados en la pila de guardado rápido, sin afectar al estado de la pila. Es decir, los cambios siguen estando guardados en la pila. Para quitarlos de ahí, es necesario lanzar expresamente el comando `git stash drop` e indicar el número de guardado a borrar de la pila:
 
 	$ git stash list
 	stash@{0}: WIP on master: 049d078 added the index file
@@ -486,11 +486,11 @@ The apply option only tries to apply the stashed work — you continue to have i
 	$ git stash drop stash@{0}
 	Dropped stash@{0} (364e91f3f268f0900bc3ee613f9f733e82aaed43)
 
-You can also run `git stash pop` to apply the stash and then immediately drop it from your stack.
+También es posible utilizar el comando `git stash pop`,  que aplica cambios de un guardado y lo retira inmediatamente de la pila.
 
-### Creating a Branch from a Stash ###
+### Creando una rama desde un guardado rápido temporal ###
 
-If you stash some work, leave it there for a while, and continue on the branch from which you stashed the work, you may have a problem reapplying the work. If the apply tries to modify a file that you’ve since modified, you’ll get a merge conflict and will have to try to resolve it. If you want an easier way to test the stashed changes again, you can run `git stash branch`, which creates a new branch for you, checks out the commit you were on when you stashed your work, reapplies your work there, and then drops the stash if it applies successfully:
+Si se almacena rápidamente (stash) un cierto trabajo, se deja en la pila durante bastante tiempo, y se continua mientras tanto con otros trabajos sobre la misma rama. Es muy posible que se presenten problemas al tratar de reaplicar los cambios guardados tiempo atrás. Si  para recuperar esos cambios se ha de modificar un archivo que también haya sido modificado en los trabajos posteriores, se dará un conflicto de fusión (merge conflict) y será preciso resolverlo manualmente. Una forma más sencilla de reaplicar cambios es utilizando el comando `git stash branch`. Este comando crea una nueva rama, extrayendo (checkout) la confirmación de cambios original en la que se estaba cuando los cambios fueron guardados en la pila, reaplica estos sobre dicha rama y los borra de la pila si se consigue completar el proceso con éxito.
 
 	$ git stash branch testchanges
 	Switched to a new branch "testchanges"
@@ -500,48 +500,50 @@ If you stash some work, leave it there for a while, and continue on the branch f
 	#
 	#      modified:   index.html
 	#
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add <file>..." to update what will be committed)
 	#
 	#      modified:   lib/simplegit.rb
 	#
 	Dropped refs/stash@{0} (f0dfc4d5dc332d1cee34a634182e168c4efc3359)
 
-This is a nice shortcut to recover stashed work easily and work on it in a new branch.
+Este es un buen atajo para recuperar con facilidad un cierto trabajo desde la pila y continuar con él en una nueva rama.
 
-## Rewriting History ##
+## Reescribiendo la historia ##
 
-Many times, when working with Git, you may want to revise your commit history for some reason. One of the great things about Git is that it allows you to make decisions at the last possible moment. You can decide what files go into which commits right before you commit with the staging area, you can decide that you didn’t mean to be working on something yet with the stash command, and you can rewrite commits that already happened so they look like they happened in a different way. This can involve changing the order of the commits, changing messages or modifying files in a commit, squashing together or splitting apart commits, or removing commits entirely — all before you share your work with others.
+Por razones varias, hay ocasiones en que se desea revisar el historial de confirmaciones de cambio. Una de las grandes caracteristicas de Git es su capacidad de postponer las decisiones hasta el último momento. Las decisiones sobre qué archivos van en qué confirmaciones de cambio se toman justo inmediatamente antes de confirmar, utilizando para ello el área de preparación (staging area). En cualquier momento se puede decidir dejar de trabajar en una cierta vía y arrancar en otra, utilizando el comando de guardado rápido (stash). Y también es posible reescribir confirmaciones de cambio ya realizadas, para que se muestren como si hubieran sido realizadas de otra forma. Así, es posible cambiar el orden de las confirmaciones, cambiar sus mensajes, modificar los archivos comprendidos en ellas, juntar varias confirmaciones en una sola, partir una en varias,o incluso borrar alguna completamente. --Aunque todo ello es siempre recomendable hacerlo solo antes de compartir nuestro trabajo con otros.--
 
-In this section, you’ll cover how to accomplish these very useful tasks so that you can make your commit history look the way you want before you share it with others.
+En esta sección, se verá cómo realizar todas esas útiles tareas. De tal forma que se pueda dejar el historial de cambios exactamente tal y como se desee. Eso sí, siempre antes de compartirlo con otros desarrolladores.
 
-### Changing the Last Commit ###
+### Modificar la última confirmación de cambios ###
 
-Changing your last commit is probably the most common rewriting of history that you’ll do. You’ll often want to do two basic things to your last commit: change the commit message, or change the snapshot you just recorded by adding, changing and removing files.
+Modificar la última confirmación de cambios (commit) es probablemente el arreglo realizado con más frecuencia. Dos suelen ser los cambios básicos a realizar: cambiar el mensaje o cambiar los archivos añadidos, modificados o borrados.
 
-If you only want to modify your last commit message, it’s very simple:
+Cambiar el mensaje de la última confirmación de cambios, es muy sencillo:
 
 	$ git commit --amend
 
-That drops you into your text editor, which has your last commit message in it, ready for you to modify the message. When you save and close the editor, the editor writes a new commit containing that message and makes it your new last commit.
+Mediante este comando, el editor de textos arranca con el mensaje escrito en la última confirmación de cambios; listo para ser modificado. Al guardar y cerrar en el editor, este escribe una nueva confirmación de cambios y reemplaza con ella la última confirmación existente.
 
-If you’ve committed and then you want to change the snapshot you committed by adding or changing files, possibly because you forgot to add a newly created file when you originally committed, the process works basically the same way. You stage the changes you want by editing a file and running `git add` on it or `git rm` to a tracked file, and the subsequent `git commit --amend` takes your current staging area and makes it the snapshot for the new commit.
+Si se desea cambiar la instantánea (snapshot) de archivos en la última confirmación de cambios, habitualmente por haber tenido algún descuido al añadir algún archivo de reciente creación. El proceso a seguir es básicamente el mismo. Se preparan en el área de preparación los archivos deseados; con los comandos `git add` o `git rm`, según corresponda. Y, a continuación, se lanza el comando `git commit --amend`. Este tendrá en cuenta dicha preparación para rehacer la instantánea de archivos en la nueva confirmación de cambios. 
 
-You need to be careful with this technique because amending changes the SHA-1 of the commit. It’s like a very small rebase — don’t amend your last commit if you’ve already pushed it.
+Es importante ser cuidadoso con esta técnica. Porque al modifcar cualquier confirmación de cambios, cambia también su código SHA-1. Es como si se realizara una pequeña reorganización (rebase). Y, por tanto, aquí también se aplica la regla de no modificar nunca una confirmación de cambios que ya haya sido enviada (push) a otros.
 
-### Changing Multiple Commit Messages ###
+### Modificar múltiples confirmaciones de cambios ###
 
-To modify a commit that is farther back in your history, you must move to more complex tools. Git doesn’t have a modify-history tool, but you can use the rebase tool to rebase a series of commits onto the HEAD they were originally based on instead of moving them to another one. With the interactive rebase tool, you can then stop after each commit you want to modify and change the message, add files, or do whatever you wish. You can run rebase interactively by adding the `-i` option to `git rebase`. You must indicate how far back you want to rewrite commits by telling the command which commit to rebase onto.
+Para modificar una confirmación de cambios situada bastante atrás en el historial, es necesario emplear herramientas más complejas. Git no dispone de herramientas directas para modifica el historial de confirmaciones de cambio. Pero es posible emplear la herramienta de reorganización (rebase) para modificar series de confirmaciones; en la propia cabeza (HEAD) donde estaban basadas originalmente, en lugar de moverlas a otra distinta. Dentro de la herramienta de reorganización interactiva, es posible detenerse justo tras cada confirmación de cambios a modificar. Para cambiar su mensaje, añadir archivos, o cualquier otra modificación. Este modo interactivo se activa utilizando la opción `-i` en el comando `git rebase`.  La profundidad en la historia a modificar vendrá dada por la confirmación de cambios (commit) que se indique al comando.
 
-For example, if you want to change the last three commit messages, or any of the commit messages in that group, you supply as an argument to `git rebase -i` the parent of the last commit you want to edit, which is `HEAD~2^` or `HEAD~3`. It may be easier to remember the `~3` because you’re trying to edit the last three commits; but keep in mind that you’re actually designating four commits ago, the parent of the last commit you want to edit:
+Por ejemplo, para modificar las tres últimas confirmaciones de cambios, se  indicara el padre de la última conformación a modificar, es decir habrá que escribir `HEAD~2^` or `HEAD~3` tras el comando `git rebase -i`. La nomenclatura  `~3` es la mas sencilla de recordar, porque lo que se desea es modificar las tres últimas confirmaciones. Pero sin perder de vista que realmente se está señalando a cuatro confirmaciones de cambio más atras, al padre de la última de las confirmaciones de cambio a modificar. 
 
 	$ git rebase -i HEAD~3
 
-Remember again that this is a rebasing command — every commit included in the range `HEAD~3..HEAD` will be rewritten, whether you change the message or not. Don’t include any commit you’ve already pushed to a central server — doing so will confuse other developers by providing an alternate version of the same change.
+Es importante avisar de nuevo que se trata de un comando de reorganización: todas y cada una de las confirmaciones de cambios en el rango `HEAD~3..HEAD` van a ser reescritas, (cambia su código SHA-1), tanto si se modifica algo en ellas como si no. Por tanto, es importante no afectar a ninguna confirmación de cambios que haya sido ya enviada (push) a un servidor central. So pena de confundir a otros desarrolladores, a los cuales se estaria dando una versión alternativa de un mismo cambio.
 
-Running this command gives you a list of commits in your text editor that looks something like this:
+Al lanzar este comando, se verán una lista de confirmaciones de cambio en la pantalla del editor de textos:
 
 	pick f7f3f6d changed my name a bit
+	pick 310154e updated README formatting and added blame
+	pick a5f4a0d added cat-filepick f7f3f6d changed my name a bit
 	pick 310154e updated README formatting and added blame
 	pick a5f4a0d added cat-file
 
@@ -554,24 +556,24 @@ Running this command gives you a list of commits in your text editor that looks 
 	#
 	# If you remove a line here THAT COMMIT WILL BE LOST.
 	# However, if you remove everything, the rebase will be aborted.
-	#
+	###
 
-It’s important to note that these commits are listed in the opposite order than you normally see them using the `log` command. If you run a `log`, you see something like this:
+Es importante destacar que esas confirmaciones de cambios se han listado en el orden opuesto al que normalmente son mostradas en el comando `log`.  En este último, se suele ver algo así como:
 
 	$ git log --pretty=format:"%h %s" HEAD~3..HEAD
 	a5f4a0d added cat-file
 	310154e updated README formatting and added blame
 	f7f3f6d changed my name a bit
 
-Notice the reverse order. The interactive rebase gives you a script that it’s going to run. It will start at the commit you specify on the command line (`HEAD~3`) and replay the changes introduced in each of these commits from top to bottom. It lists the oldest at the top, rather than the newest, because that’s the first one it will replay.
+Prestar atención al orden inverso. La reorganización interactiva lanza un script. Un script que, comenzando por la confirmación de cambios indicada en la línea del comando (`HEAD~3`), va a reaplicar los cambios introducidos en cada una de las confirmaciones, desde arriba hasta abajo. En la lista se ven las mas antiguas encima, en lugar de las más recientes, precisamente porque esas van a ser las primeras en reaplicarse.
 
-You need to edit the script so that it stops at the commit you want to edit. To do so, change the word pick to the word edit for each of the commits you want the script to stop after. For example, to modify only the third commit message, you change the file to look like this:
+Para que el script se detenga en cada confirmación de cambios a modificar, hay que editarlo. Y se ha de cambiar la palabra 'pick' por la palabra 'edit' en cada una de las confirmaciones de cambio donde se desee detener el script. Por ejemplo, para modificar solo el mensaje de la tercera confirmación de cambios, el script quedaria:
 
 	edit f7f3f6d changed my name a bit
 	pick 310154e updated README formatting and added blame
 	pick a5f4a0d added cat-file
 
-When you save and exit the editor, Git rewinds you back to the last commit in that list and drops you on the command line with the following message:
+Cuando se guarde y cierre en el editor, Git hará un rebobinado hacia atras hasta la última de las confirmaciones de cambios en la lista, y mostrará algo así como:
 
 	$ git rebase -i HEAD~3
 	Stopped at 7482e0d... updated the gemspec to hopefully work better
@@ -583,34 +585,36 @@ When you save and exit the editor, Git rewinds you back to the last commit in th
 
 	       git rebase --continue
 
-These instructions tell you exactly what to do. Type
+Estas instrucciones indican exactamente lo que se ha de realizar. Teclear
 
 	$ git commit --amend
 
-Change the commit message, and exit the editor. Then, run
+Cambiar el mensaje de la confirmación de cambios y salir del editor. Para luego lanzar
 
 	$ git rebase --continue
 
-This command will apply the other two commits automatically, and then you’re done. If you change pick to edit on more lines, you can repeat these steps for each commit you change to edit. Each time, Git will stop, let you amend the commit, and continue when you’re finished.
+Las otras dos confirmaciones de cambio serán reaplicadas automáticamene. Y ya estará completa la reorganización. Si se ha cambiado 'pick' por 'edit' en más de una línea, estos pasos se habrán de repetir por cada una de las confirmaciones de cambios a modificar. En cada una de ellas, Git se detendrá, permitiendo enmendar la confirmación de cambios y continuar tras la modificación.
 
-### Reordering Commits ###
+### Reordenar confirmaciones de cambios ###
 
-You can also use interactive rebases to reorder or remove commits entirely. If you want to remove the "added cat-file" commit and change the order in which the other two commits are introduced, you can change the rebase script from this
+Las reorganizaciones interactivas también se pueden emplear para reordenar o para eliminar completamente ciertas confirmaciones de cambios (commits). Por ejemplo, si se desea eliminar la confirmación de "added cat-file" y cambiar el orden en que se han introducido las otras dos confirmaciones de cambios, el script de reorganización pasaría de ser:
 
 	pick f7f3f6d changed my name a bit
+	pick 310154e updated README formatting and added blame
+	pick a5f4a0d added cat-filepick f7f3f6d changed my name a bit
 	pick 310154e updated README formatting and added blame
 	pick a5f4a0d added cat-file
 
-to this:
+a quedar en algo como:
 
 	pick 310154e updated README formatting and added blame
 	pick f7f3f6d changed my name a bit
 
-When you save and exit the editor, Git rewinds your branch to the parent of these commits, applies `310154e` and then `f7f3f6d`, and then stops. You effectively change the order of those commits and remove the "added cat-file" commit completely.
+Cuando se guarde y salga en el editor, Git rebobinará la rama hasta el padre de las confirmaciones de cambio indicadas, reaplicará `310154e` y luego `f7f3f6d`, para finalmente detenerse. De esta forma se habrá cambiado el orden de las dos confirmaciones de cambio, y se habrá eliminado completamente la de "added cat-file".
 
-### Squashing a Commit ###
+### Combinar varias confirmaciones en una sola ###
 
-It’s also possible to take a series of commits and squash them down into a single commit with the interactive rebasing tool. The script puts helpful instructions in the rebase message:
+Con la herramienta de reorganización interactiva, es posible recombinar una serie de confirmaciones de cambio y agruparlas todas en una sola. El propio script indica las instrucciones a seguir:
 
 	#
 	# Commands:
@@ -620,15 +624,15 @@ It’s also possible to take a series of commits and squash them down into a sin
 	#
 	# If you remove a line here THAT COMMIT WILL BE LOST.
 	# However, if you remove everything, the rebase will be aborted.
-	#
+	###
 
-If, instead of "pick" or "edit", you specify "squash", Git applies both that change and the change directly before it and makes you merge the commit messages together. So, if you want to make a single commit from these three commits, you make the script look like this:
+Si, en lugar de 'pick' o de 'edit', se indica 'squash' delante de alguna de las confirmaciones de cambio, Git aplicará simultáneamente dicha confirmación y la que esté inmediatamente delante de ella.  Permitiendo también combinar los mensajes de ambas. Por ejemplo, si se desea hacer una única confirmación de cambios fusionando las tres, el script quedaría en algo como:
 
 	pick f7f3f6d changed my name a bit
 	squash 310154e updated README formatting and added blame
 	squash a5f4a0d added cat-file
 
-When you save and exit the editor, Git applies all three changes and then puts you back into the editor to merge the three commit messages:
+Cuando se guarde y salga en el editor, Git rebobinará la historia, reaplicará las tres confirmaciones de cambio, y volverá al editor para fusionar también los mensajes de esas tres confirmaciones. 
 
 	# This is a combination of 3 commits.
 	# The first commit's message is:
@@ -642,17 +646,17 @@ When you save and exit the editor, Git applies all three changes and then puts y
 
 	added cat-file
 
-When you save that, you have a single commit that introduces the changes of all three previous commits.
+Al guardar esto, se tendrá una sola confirmación de cambios que introducirá todos los cambios que estaban en las tres confirmaciones de cambios previamente existentes.
 
-### Splitting a Commit ###
+### Dividir una confirmación de cambios en varias ###
 
-Splitting a commit undoes a commit and then partially stages and commits as many times as commits you want to end up with. For example, suppose you want to split the middle commit of your three commits. Instead of "updated README formatting and added blame", you want to split it into two commits: "updated README formatting" for the first, and "added blame" for the second. You can do that in the `rebase -i` script by changing the instruction on the commit you want to split to "edit":
+Dividir una confirmación de cambios (commit), implica deshacerla y luego volver a preparar y confirmar trozos de la misma tantas veces como nuevas confirmaciones se desean tener al final.  Por ejemplo, si se desea dividir la confirmación de cambios de enmedio de entre las tres citadas en ejemplos anteriores. Es decir, si en lugar de "updated README formatting and added blame", se desea separar esa confirmación en dos: "updated README formatting" y "added blame".  Se puede realizar cambiando la instrucción en el script de `rebase -i`, desde 'split' a 'edit': 
 
 	pick f7f3f6d changed my name a bit
 	edit 310154e updated README formatting and added blame
 	pick a5f4a0d added cat-file
 
-Then, when the script drops you to the command line, you reset that commit, take the changes that have been reset, and create multiple commits out of them. When you save and exit the editor, Git rewinds to the parent of the first commit in your list, applies the first commit (`f7f3f6d`), applies the second (`310154e`), and drops you to the console. There, you can do a mixed reset of that commit with `git reset HEAD^`, which effectively undoes that commit and leaves the modified files unstaged. Now you can stage and commit files until you have several commits, and run `git rebase --continue` when you’re done:
+Después, cuando el script devuelva la línea de comandos, se ha de deshacer (reset) esa confirmación de cambios, coger los cambios recién deshechos y crear multiples nuevas confirmaciones de cambios con ellos. Al guardar y salir en el editor, Git rebobinará la historia hasta el padre de la primera confirmación de cambios en la lista, reaplicará esa primera confirmación  (`f7f3f6d`), luego reaplicará la segunda (`310154e`) y luego devolverá la línea de comandos. En esta línea de comando, es donde se desharan los cambios tecleando el comando `git reset HEAD^` para dejar sin preparar (unstaged) los archivos cambiados. Para, seguidamente, elaborar tantas confirmaciones de cambios como se desee, a base de pasar archivos al área de preparación y confirmarlos. Y, finalmente, teclear el comando `git rebase --continue` para completar la tarea. 
 
 	$ git reset HEAD^
 	$ git add README
@@ -661,7 +665,7 @@ Then, when the script drops you to the command line, you reset that commit, take
 	$ git commit -m 'added blame'
 	$ git rebase --continue
 
-Git applies the last commit (`a5f4a0d`) in the script, and your history looks like this:
+Tras esto, Git reaplicará la última de las confirmaciones de cambios  (`a5f4a0d`) en el script. Quedando la historia: 
 
 	$ git log -4 --pretty=format:"%h %s"
 	1c002dd added cat-file
@@ -669,37 +673,37 @@ Git applies the last commit (`a5f4a0d`) in the script, and your history looks li
 	35cfb2b updated README formatting
 	f3cc40e changed my name a bit
 
-Once again, this changes the SHAs of all the commits in your list, so make sure no commit shows up in that list that you’ve already pushed to a shared repository.
+De nuevo, merece recalcar el hecho de que estas operaciones cambian los códigos SHA-1 de todas las confirmaciones de cambio afectadas. Y que, por tanto, no se deben hacer sobre confirmaciones de cambio enviadas(push) a algún repositorio compartido.
 
-### The Nuclear Option: filter-branch ###
+### La opción nuclear: filter-branch ###
 
-There is another history-rewriting option that you can use if you need to rewrite a larger number of commits in some scriptable way — for instance, changing your e-mail address globally or removing a file from every commit. The command is `filter-branch`, and it can rewrite huge swaths of your history, so you probably shouldn’t use it unless your project isn’t yet public and other people haven’t based work off the commits you’re about to rewrite. However, it can be very useful. You’ll learn a few of the common uses so you can get an idea of some of the things it’s capable of.
+Existe una opción de reescritura del historial que se puede utilizar si se necesita reescribir un gran número de confirmaciones de cambio de forma mas o menos automatizada. Por ejemplo, para cambiar una dirección de correo electrónico globalmente, o para quitar un archivo de todas y cada una de las confirmaciones de cambios en una determinada rama. El comando en cuestión es `filter-branch`, y permite reescribir automáticamente grandes porciones del historial. Precisamente por ello, no debería utilizarse a no ser que el proyecto aún no se haya hecho público (es decir, otras personas no han basado su trabajo en alguna de las confirmaciones de cambio que se van a modificar). De todas formas, allá donde sea aplicable, puede ser de gran utilidad. Se van a ilustrar unas cuantas de las ocasiones donde se podría utilizar,  para dar así una idea de sus capacidades.
 
-#### Removing a File from Every Commit ####
+#### Quitar un archivo de cada confirmación de cambios ####
 
-This occurs fairly commonly. Someone accidentally commits a huge binary file with a thoughtless `git add .`, and you want to remove it everywhere. Perhaps you accidentally committed a file that contained a password, and you want to make your project open source. `filter-branch` is the tool you probably want to use to scrub your entire history. To remove a file named passwords.txt from your entire history, you can use the `--tree-filter` option to `filter-branch`:
+Es algo que frecuentemente suele ser necesario. Alguien confirma cambios y almacena accidentalmente un enorme archivo binario cuando lanza un `git add .` sin pensarlo demasiado. Y es necesario quitarlo del repositorio. O podria suceder que se haya confirmado y almacenado accidentalmente un archivo que contiene una contraseña importante, Y el proyecto se va a hacer de código abierto. En estos casos, la mejor opción es utilizar la herramienta `filter-branch` para limpiar todo el historial.  Por ejemplo, para quitar un archivo llamado passwords.txt del repositorio, se puede emplear la opción `--tree-filter` del comando `filter-branch`:
 
 	$ git filter-branch --tree-filter 'rm -f passwords.txt' HEAD
 	Rewrite 6b9b3cf04e7c5686a9cb838c3f36a8cb6a0fc2bd (21/21)
 	Ref 'refs/heads/master' was rewritten
 
-The `--tree-filter` option runs the specified command after each checkout of the project and then recommits the results. In this case, you remove a file called passwords.txt from every snapshot, whether it exists or not. If you want to remove all accidentally committed editor backup files, you can run something like `git filter-branch --tree-filter 'rm -f *~' HEAD`.
+Esta opción `--tree-filter`, tras cada extracción (checkout) del proyecto, lanzará el comando especificado y reconfirmará los cambios resultantes(recommit). En esta ocasión, se eliminará un archivo llamado passwords.txt de todas y cada una de las instantáneas (snapshot) almacenadas, tanto si este existe como si no. Otro ejemplo: si se desean eliminar todos los archivos de respaldo del editor que han sido almacenados por error, se podría lanzar algo así como  `git filter-branch --tree-filter "find * -type f -name '*~' -delete" HEAD`.
 
-You’ll be able to watch Git rewriting trees and commits and then move the branch pointer at the end. It’s generally a good idea to do this in a testing branch and then hard-reset your master branch after you’ve determined the outcome is what you really want. To run `filter-branch` on all your branches, you can pass `--all` to the command.
+Y se iria viendo como Git reescribe árboles y confirmaciones de cambio, hasta que el apuntador de la rama llegue al final. Una recomendación: en general, suele ser buena idea lanzar cualquiera de estas operaciones primero sobre una rama de pruebas y luego reinicializar (hard-reset) la rama maestra (master), una vez se haya comprobado que el resultado de las operaciones es el esperado. Si se desea lanzar `filter-branch` sobre todas las ramas del repositorio, se ha de pasar la opción `--all` al comando. 
 
-#### Making a Subdirectory the New Root ####
+#### Haciendo que una subcarpeta sea la nueva carpeta raiz ####
 
-Suppose you’ve done an import from another source control system and have subdirectories that make no sense (trunk, tags, and so on). If you want to make the `trunk` subdirectory be the new project root for every commit, `filter-branch` can help you do that, too:
+Por ejemplo, en el caso de que se haya importado trabajo desde otro sistema de control de versiones, y se tengan algunas subcarpetas sin sentido (trunk, tags,...). `filter-branch` puede ser de utilidad para que, por ejemplo, la subcarpeta `trunk` sea la nueva carpeta raiz del proyecto en todas y cada una de las confirmaciones de cambios:
 
 	$ git filter-branch --subdirectory-filter trunk HEAD
 	Rewrite 856f0bf61e41a27326cdae8f09fe708d679f596f (12/12)
 	Ref 'refs/heads/master' was rewritten
 
-Now your new project root is what was in the `trunk` subdirectory each time. Git will also automatically remove commits that did not affect the subdirectory. 
+Tras este comando, la nueva raiz del proyecto pasa a ser el contenido de la carpeta `trunk`. Y, además, Git elimina automáticamente todas las confirmaciones de cambio (commits) que no afectaban a  dicha subcarpeta. 
 
-#### Changing E-Mail Addresses Globally ####
+#### Cambiando direcciones de correo-e de forma global ####
 
-Another common case is that you forgot to run `git config` to set your name and e-mail address before you started working, or perhaps you want to open-source a project at work and change all your work e-mail addresses to your personal address. In any case, you can change e-mail addresses in multiple commits in a batch with `filter-branch` as well. You need to be careful to change only the e-mail addresses that are yours, so you use `--commit-filter`:
+Otra utilidad típica para utilizar `filter-branch` es cuando alguien ha olvidado ejecutar `git config` para configurar su nombre y dirección de correo electrónico antes de comenzar a trabajar. O cuando se va a pasar a código abierto un proyecto, pero previamente se desea cambiar todas las direcciones de correo empresariales por direcciones personales. En cualquier caso, se pueden cambiar de un golpe las direcciones de correo en multiples confirmaciones de cambio. Aunque es necesario ser cuidadoso para actuar solo sobre aquellas direcciones que se deseen cambiar, utilizando para ello la opción `--commit-filter`: 
 
 	$ git filter-branch --commit-filter '
 	        if [ "$GIT_AUTHOR_EMAIL" = "schacon@localhost" ];
@@ -711,15 +715,15 @@ Another common case is that you forgot to run `git config` to set your name and 
 	                git commit-tree "$@";
 	        fi' HEAD
 
-This goes through and rewrites every commit to have your new address. Because commits contain the SHA-1 values of their parents, this command changes every commit SHA in your history, not just those that have the matching e-mail address.
+Este comando pasa por todo el repositorio y reescribe cada confirmación de cambios donde detecte la dirección de correo indicada, para reemplazarla por la nueva. Y, debido a que cada confirmación de cambios contiene el código SHA-1 de sus ancestros, este comando cambia también todos los códigos SHA del historial; no solamente los de las confirmaciones de cambio que contenian la dirección indicada.
 
-## Debugging with Git ##
+## Depuración con Git ##
 
-Git also provides a couple of tools to help you debug issues in your projects. Because Git is designed to work with nearly any type of project, these tools are pretty generic, but they can often help you hunt for a bug or culprit when things go wrong.
+Git dispone también de un par de herramientas muy útiles para tareas de depuración en los proyectos. Precisamente por estar Git diseñado para trabajar con casi cualquier tipo de proyecto, sus herramientas son bastante genéricas. Pero suelen ser de inestimable ayuda para cazar errores o las causas de los mismos cuando se detecta que algo va mal. 
 
-### File Annotation ###
+### Anotaciones en los archivos ###
 
-If you track down a bug in your code and want to know when it was introduced and why, file annotation is often your best tool. It shows you what commit was the last to modify each line of any file. So, if you see that a method in your code is buggy, you can annotate the file with `git blame` to see when each line of the method was last edited and by whom. This example uses the `-L` option to limit the output to lines 12 through 22:
+Cuando se está rastreando un error dentro del código buscando localizar cuándo se introdujo y por qué, el mejor auxiliar para hacerlo es la anotación de archivos. Esta suele mostrar la confirmación de cambios (commit) que modificó por última vez cada una de las líneas en cualquiera de los archivos. Así, cuando se está frente a una porción de código con problemas, se puede emplear el comando `git blame` para anotar ese archivo y ver así cuándo y por quién fue editada por última vez cada una de sus líneas. En este ejemplo, se ha utilizado la opción `-L` para limitar la salida a las líneas desde la 12 hasta la 22: 
 
 	$ git blame -L 12,22 simplegit.rb 
 	^4832fe2 (Scott Chacon  2008-03-15 10:31:28 -0700 12)  def show(tree = 'master')
@@ -734,9 +738,9 @@ If you track down a bug in your code and want to know when it was introduced and
 	42cf2861 (Magnus Chacon 2008-04-13 10:45:01 -0700 21)   command("git blame #{path}")
 	42cf2861 (Magnus Chacon 2008-04-13 10:45:01 -0700 22)  end
 
-Notice that the first field is the partial SHA-1 of the commit that last modified that line. The next two fields are values extracted from that commit—the author name and the authored date of that commit — so you can easily see who modified that line and when. After that come the line number and the content of the file. Also note the `^4832fe2` commit lines, which designate that those lines were in this file’s original commit. That commit is when this file was first added to this project, and those lines have been unchanged since. This is a tad confusing, because now you’ve seen at least three different ways that Git uses the `^` to modify a commit SHA, but that is what it means here.
+Merece destacar que el primer campo mostrado en cada línea es el código SHA-1 parcial de la confirmación de cambios en que se modificó dicha línea por última vez. Los dos siguientes campos son sendos valores extraidos de dicha confirmación de cambios --el nombre del autor y la fecha--, mostrando quien y cuándo modifico esa línea. Detras, vienen el número de línea y el contendido de la línea propiamente dicha. En el caso de las líneas con la confirmación de cambios  `^4832fe2`, merece comentar que son aquellas presentes en el archivo cuando se hizo la confirmación de cambios original;  (la confirmación en la que este archivo se incluyó en el proyecto por primera vez). No habiendo sufrido esas líneas ninguna modificación desde entonces. Puede ser un poco confuso, debido a que la marca `^` se utiliza también con otros significados diferentes dentro de Git. Pero este es el sentido en que se utiliza aquí: para señalar la confirmación de cambios original. 
 
-Another cool thing about Git is that it doesn’t track file renames explicitly. It records the snapshots and then tries to figure out what was renamed implicitly, after the fact. One of the interesting features of this is that you can ask it to figure out all sorts of code movement as well. If you pass `-C` to `git blame`, Git analyzes the file you’re annotating and tries to figure out where snippets of code within it originally came from if they were copied from elsewhere. Recently, I was refactoring a file named `GITServerHandler.m` into multiple files, one of which was `GITPackUpload.m`. By blaming `GITPackUpload.m` with the `-C` option, I could see where sections of the code originally came from:
+Otro aspecto interesante de Git es la ausencia de un seguimiento explícito de archivos renombrados. Git simplemente se limita a almacenar instantáneas (snapshots) de los archivos, para después intentar deducir cuáles han podido ser renombrados. Esto permite preguntar a Git acerca de todo tipo de movimientos en el código. Indicando la opción `-C` en el comando `git blame`, Git analizará el archivo que se está anotando para intentar averiguar si alguno de sus fragmentos pudiera provenir de, o haber sido copiado de, algún otro archivo. Por ejemplo, si se estaba refactorizando un archivo llamado `GITServerHandler.m`, para trocearlo en múltiples archivos, siendo uno de estos `GITPackUpload.m`. Aplicando la opción `-C` de `git blame` sobre `GITPackUpload.m`, es posible ver de donde proviene cada sección del código: 
 
 	$ git blame -C -L 141,153 GITPackUpload.m 
 	f344f58d GITServerHandler.m (Scott 2009-01-04 141) 
@@ -753,13 +757,13 @@ Another cool thing about Git is that it doesn’t track file renames explicitly.
 	56ef2caf GITServerHandler.m (Scott 2009-01-05 152)                 [refDict setOb
 	56ef2caf GITServerHandler.m (Scott 2009-01-05 153)
 
-This is really useful. Normally, you get as the original commit the commit where you copied the code over, because that is the first time you touched those lines in this file. Git tells you the original commit where you wrote those lines, even if it was in another file.
+Lo cual es realmente útil. Habitualmente suele mostrarse como confirmación de cambios original aquella confirmación de cambios desde la que se copió el código. Por ser esa la primera ocasión en que se han modificado las líneas en ese archivo. Git suele indicar la confirmación de cambios original donde se escribieron las líneas, incluso si estas fueron escritas originalmente en otro archivo.
 
-### Binary Search ###
+### Búsqueda binaria ###
 
-Annotating a file helps if you know where the issue is to begin with. If you don’t know what is breaking, and there have been dozens or hundreds of commits since the last state where you know the code worked, you’ll likely turn to `git bisect` for help. The `bisect` command does a binary search through your commit history to help you identify as quickly as possible which commit introduced an issue.
+La anotación de archivos es útil si se conoce aproximadamente el punto dónde se localizan los problemas. Pero no siendo ese el caso, y habiendose realizado docenas o cientos de confirmaciones de cambio desde el último estado estable conocido, puede ser de utilidad el comando `git bisect`. Este comando `bisect` realiza una búsqueda binaria por todo el historial de confirmaciones de cambio, para intentar localizar lo más rápido posible aquella confirmación de cambios en la que se pudieron introducir los problemas.
 
-Let’s say you just pushed out a release of your code to a production environment, you’re getting bug reports about something that wasn’t happening in your development environment, and you can’t imagine why the code is doing that. You go back to your code, and it turns out you can reproduce the issue, but you can’t figure out what is going wrong. You can bisect the code to find out. First you run `git bisect start` to get things going, and then you use `git bisect bad` to tell the system that the current commit you’re on is broken. Then, you must tell bisect when the last known good state was, using `git bisect good [good_commit]`:
+Por ejemplo, en caso de aparecer problemas justo tras enviar a producción un cierto código que parecia funcionar bien en el entorno de desarrollo. Si, volviendo atras, resulta que se consigue reproducir el problema, pero cuesta identificar su causa. Se puede ir biseccionando el código para intentar localizar el punto del historial desde donde se presenta el problema. Primero se lanza el comando `git bisect start` para iniciar el proceso de búsqueda. Luego, con el comando `git bisect bad`, se le indica al sistema cual es la confirmación de cambios a partir de donde se han detectado los problemas. Y después, con el comando `git bisect good [good_commit]`, se le indica cual es la última confirmación de cambios conocida donde el código funcionaba bien:
 
 	$ git bisect start
 	$ git bisect bad
@@ -767,19 +771,19 @@ Let’s say you just pushed out a release of your code to a production environme
 	Bisecting: 6 revisions left to test after this
 	[ecb6e1bc347ccecc5f9350d878ce677feb13d3b2] error handling on repo
 
-Git figured out that about 12 commits came between the commit you marked as the last good commit (v1.0) and the current bad version, and it checked out the middle one for you. At this point, you can run your test to see if the issue exists as of this commit. If it does, then it was introduced sometime before this middle commit; if it doesn’t, then the problem was introduced sometime after the middle commit. It turns out there is no issue here, and you tell Git that by typing `git bisect good` and continue your journey:
+Git averigua que se han dado 12 confirmaciones de cambio entre la confirmación marcada como buena y la marcada como mala.  Y extrae la confirmación central de la serie, para comenzar las comprobaciones a partir de ahí. En este punto, se pueden lanzar las pruebas pertinentes para ver si el problema existe en esa confirmación de cambios extraida. Si este es el caso, el problema se introdujo en algún punto anterior a esta confirmación de cambios intermedia. Si no, el problema se introdujo en un punto posterior. Por ejemplo, si resultara que no se detecta el problema aquí, se indicaria esta circunstancia a Git tecleando `git bisect good`; para continuar la búsqueda:
 
 	$ git bisect good
 	Bisecting: 3 revisions left to test after this
 	[b047b02ea83310a70fd603dc8cd7a6cd13d15c04] secure this thing
 
-Now you’re on another commit, halfway between the one you just tested and your bad commit. You run your test again and find that this commit is broken, so you tell Git that with `git bisect bad`:
+Git extraeria otra confirmación de cambios, aquella a medio camino entre la que se acaba de chequear y la que se habia indicado como erronea al principio. De nuevo, se pueden lanzar las pruebas para ver si el problema existe o no en ese punto. Si, por ejemplo, si existiera se indicaría ese hecho a Git tecleando `git bisect bad`:
 
 	$ git bisect bad
 	Bisecting: 1 revisions left to test after this
 	[f71ce38690acf49c1f3c9bea38e09d82a5ce6014] drop exceptions table
 
-This commit is fine, and now Git has all the information it needs to determine where the issue was introduced. It tells you the SHA-1 of the first bad commit and show some of the commit information and which files were modified in that commit so you can figure out what happened that may have introduced this bug:
+Con esto el proceso de búsqueda se completa y Git tiene la información necesaria para determinar dónde comenzaron los problemas. Git reporta el código SHA-1 de la primera confirmación de cambios problemática y muestra una parte de la información relativa a esta y a los archivos modificados en ella. Así podemos irnos haciendo una idea de lo que ha podido suceder para que se haya introducido un error en el código:
 
 	$ git bisect good
 	b047b02ea83310a70fd603dc8cd7a6cd13d15c04 is first bad commit
@@ -792,38 +796,38 @@ This commit is fine, and now Git has all the information it needs to determine w
 	:040000 040000 40ee3e7821b895e52c1695092db9bdc4c61d1730
 	f24d3c6ebcfc639b1a3814550e62d60b8e68a8e4 M  config
 
-When you’re finished, you should run `git bisect reset` to reset your HEAD to where you were before you started, or you’ll end up in a weird state:
+Al terminar la revisión, es obligatorio teclear el comando `git bisect reset` para devolver HEAD al punto donde estaba antes de comenzar todo el proceso de búsqueda. So pena de dejar el sistema en un estado inconsistente.
 
 	$ git bisect reset
 
-This is a powerful tool that can help you check hundreds of commits for an introduced bug in minutes. In fact, if you have a script that will exit 0 if the project is good or non-0 if the project is bad, you can fully automate `git bisect`. First, you again tell it the scope of the bisect by providing the known bad and good commits. You can do this by listing them with the `bisect start` command if you want, listing the known bad commit first and the known good commit second:
+Esta es una poderosa herramienta que permite chequear en minutos cientos de confirmaciones de cambio, para determinar rápidamente en que punto se pudo introducir el error. De hecho, si se dispone de un script que dé una salida 0 si el proyecto funciona correctamente y distinto de 0 si el proyecto tiene errores, todo este proceso de búsqueda con `git bisect` se puede automatizar completamente.  Primero, como siempre, se indica el alcance de la búsqueda indicando las aquellas confirmaciones de cambio conocidas donde el proyecto estaba mal y donde estaba bien. Se puede hacer en un solo paso. Indicando ambas confirmaciones de cambios al comando `bisect start`, primero la mala y luego la buena:
 
 	$ git bisect start HEAD v1.0
 	$ git bisect run test-error.sh
 
-Doing so automatically runs `test-error.sh` on each checked-out commit until Git finds the first broken commit. You can also run something like `make` or `make tests` or whatever you have that runs automated tests for you.
+De esta forma, se irá ejecutando automáticamente `test-error.sh` en cada confirmación de cambios que se vaya extrayendo. Hasta que Git encuentre la primera donde se presenten problemas.  También se puede emplear algo como `make` o como `make tests` o cualquier otro método que se tenga para lanzar pruebas automatizadas sobre el sistema.
 
-## Submodules ##
+## Submódulos ##
 
-It often happens that while working on one project, you need to use another project from within it. Perhaps it’s a library that a third party developed or that you’re developing separately and using in multiple parent projects. A common issue arises in these scenarios: you want to be able to treat the two projects as separate yet still be able to use one from within the other.
+Suele ser frecuente encontrarse con la necesidad de utilizar otro proyecto desde dentro del que se está trabajando. En ocasiones como, por ejemplo, cuando se utiliza una biblioteca de terceros, o cuando se está desarrollando una biblioteca independiente para ser utilizada en múltiples proyectos. La preocupación típica en estos escenarios suele ser la de cómo conseguir tratar ambos proyectos separadamente. Pero conservando la habilidad de utilizar uno dentro del otro.
 
-Here’s an example. Suppose you’re developing a web site and creating Atom feeds. Instead of writing your own Atom-generating code, you decide to use a library. You’re likely to have to either include this code from a shared library like a CPAN install or Ruby gem, or copy the source code into your own project tree. The issue with including the library is that it’s difficult to customize the library in any way and often more difficult to deploy it, because you need to make sure every client has that library available. The issue with vendoring the code into your own project is that any custom changes you make are difficult to merge when upstream changes become available.
+Un ejemplo concreto. Supongamos que se está desarrollando un site web y creando feeds Atom. En lugar de escribir código propio para generar los feeds Atom, se decide emplear una biblioteca ya existente. Y dicha biblioteca se incluye desde una biblioteca compartida tal como CPAN install o Ruby gem; o copiando directamente su código fuente en el árbol del propio proyecto. La problemática en el primer caso radica en la dificultad de personalizar la biblioteca compartida. Y en la dificultal para su despliegue; ya que es necesario que todos y cada uno de los clientes dispongan de ella.  La problemática en el segundo caso radica en las complicaciones para fusionar las personalizaciones realizadas por nosotros con futuras copias de la biblioteca original. 
 
-Git addresses this issue using submodules. Submodules allow you to keep a Git repository as a subdirectory of another Git repository. This lets you clone another repository into your project and keep your commits separate.
+Git resuelve estas problemáticas utilizando submódulos. Los submódulos permiten mantener un repositorio Git como una subcarpeta de otro repositorio Git. Esto permite clonar un segundo repositorio dentro del repositorio del proyecto en que se está trabajando, manteniendo separadamente las confirmaciones de cambios en ambos repositorios.
 
-### Starting with Submodules ###
+### Trabajando con submódulos ###
 
-Suppose you want to add the Rack library (a Ruby web server gateway interface) to your project, possibly maintain your own changes to it, but continue to merge in upstream changes. The first thing you should do is clone the external repository into your subdirectory. You add external projects as submodules with the `git submodule add` command:
+Suponiendo, por ejemplo, que se desea añadir la biblioteca Rack (un interface Ruby de pasarela de servidor web) al proyecto en que se está trabajando. Posiblemente con algunas personalizaciones, pero sin perder la capacidad de fusionar nuestros cambios con la evolución de la biblioteca original. La primera tarea a realizar es clonar el repositorio externo dento de una subcarpeta dentro del proyecto. Los proyectos externos se pueden incluir como submódulos mediante el comando `git submodule add`:
 
 	$ git submodule add git://github.com/chneukirchen/rack.git rack
 	Initialized empty Git repository in /opt/subtest/rack/.git/
 	remote: Counting objects: 3181, done.
-	remote: Compressing objects: 100% (1534/1534), done.
+	remote: Compressing objects: 100% (1534/1534), done.remote: Compressing objects: 100% (1534/1534), done.
 	remote: Total 3181 (delta 1951), reused 2623 (delta 1603)
 	Receiving objects: 100% (3181/3181), 675.42 KiB | 422 KiB/s, done.
-	Resolving deltas: 100% (1951/1951), done.
+	Resolving deltas: 100% (1951/1951), done.Resolving deltas: 100% (1951/1951), done.
 
-Now you have the Rack project under a subdirectory named `rack` within your project. You can go into that subdirectory, make changes, add your own writable remote repository to push your changes into, fetch and merge from the original repository, and more. If you run `git status` right after you add the submodule, you see two things:
+A partir de este momento, el proyecto Rack está dentro de nuestro proyecto; bajo una subcarpeta denominada `rack`. En dicha subcarpeta es posible realizar cambios, añadir un repositorio propio a donde enviar (push) los cambios, recuperar (fetch) y fusionar (merge) desde el repositorio original, y mucho mas... Si se lanza `git status` nada mas añadir el submódulo, se aprecian dos cosas:
 
 	$ git status
 	# On branch master
@@ -834,16 +838,16 @@ Now you have the Rack project under a subdirectory named `rack` within your proj
 	#      new file:   rack
 	#
 
-First you notice the `.gitmodules` file. This is a configuration file that stores the mapping between the project’s URL and the local subdirectory you’ve pulled it into:
+Una: el archivo `.gitmodules`. un archivo de configuración para almacenar las relaciones entre la URL del proyecto y la subcarpeta local donde se ha colocado este.
 
 	$ cat .gitmodules 
 	[submodule "rack"]
 	      path = rack
 	      url = git://github.com/chneukirchen/rack.git
 
-If you have multiple submodules, you’ll have multiple entries in this file. It’s important to note that this file is version-controlled with your other files, like your `.gitignore` file. It’s pushed and pulled with the rest of your project. This is how other people who clone this project know where to get the submodule projects from.
+En caso de haber múltipes submódulos, habrá multiples entradas en este archivo. Merece destacar que este archivo está también bajo el control de versiones, como lo están otros archivos tal como `.gitignore`, por ejemplo. Y será enviado (push) y recibido (pull) junto con el resto del proyecto. Así es como otras personas que clonen el proyecto pueden saber dónde encontrar los submódulos del mismo.
 
-The other listing in the `git status` output is the rack entry. If you run `git diff` on that, you see something interesting:
+Dos: la entrada `rack`. Si se lanza un `git diff` sobre ella, se puede apreciar algo muy interesante:
 
 	$ git diff --cached rack
 	diff --git a/rack b/rack
@@ -854,11 +858,11 @@ The other listing in the `git status` output is the rack entry. If you run `git 
 	@@ -0,0 +1 @@
 	+Subproject commit 08d709f78b8c5b0fbeb7821e37fa53e69afcf433
 
-Although `rack` is a subdirectory in your working directory, Git sees it as a submodule and doesn’t track its contents when you’re not in that directory. Instead, Git records it as a particular commit from that repository. When you make changes and commit in that subdirectory, the superproject notices that the HEAD there has changed and records the exact commit you’re currently working off of; that way, when others clone this project, they can re-create the environment exactly.
+Aunque `rack` es una subcarpeta de la carpeta de trabajo, git la contempla como un submódulo y no realiza seguimiento de sus contenidos si no se está situado directamente sobre ella.  En su lugar, Git realiza confirmaciones de cambio particulares en ese repositorio. Cuando se realizan y confirman cambios en esa subcarpeta, el proyecto padre detecta el cambio en HEAD y almacena la confirmación de cambios concreta en la que se esté trabajando en ese momento. De esta forma, cuando otras personas clonen este proyecto, sabrán cómo recrear exactamente el entorno.
 
-This is an important point with submodules: you record them as the exact commit they’re at. You can’t record a submodule at `master` or some other symbolic reference.
+Esto es importante al trabajar con submódulos: siempre son almacenados como la confirmación de cambios concreta en la que están. No es posible almacenar un submódulo en `master` o en cualquier otra referencia simbólica.
 
-When you commit, you see something like this:
+Cuando se realiza una confirmación de cambios, se suele ver algo así como:
 
 	$ git commit -m 'first commit with submodule rack'
 	[master 0550271] first commit with submodule rack
@@ -866,9 +870,9 @@ When you commit, you see something like this:
 	 create mode 100644 .gitmodules
 	 create mode 160000 rack
 
-Notice the 160000 mode for the rack entry. That is a special mode in Git that basically means you’re recording a commit as a directory entry rather than a subdirectory or a file.
+Notese el modo 160000 para la entrada `rack`. Este es un modo especial de Git, un modo en el que la confirmación de cambio se almacena como una carpeta en lugar de como una subcarpeta o un archivo.
 
-You can treat the `rack` directory as a separate project and then update your superproject from time to time with a pointer to the latest commit in that subproject. All the Git commands work independently in the two directories:
+Se puede considerar la carpeta `rack` como si fuera un proyecto separado. Y, como tal, de vez en cuando se puede actualizar el proyecto padre con un puntero a la última confirmación de cambios en dicho subproyecto. Todos los comandos Git actuan independientemente en ambas carpetas:
 
 	$ git log -1
 	commit 0550271328a0038865aad6331e620cd7238601bb
@@ -884,9 +888,9 @@ You can treat the `rack` directory as a separate project and then update your su
 
 	    Document version change
 
-### Cloning a Project with Submodules ###
+### Clonando un proyecto con submódulos ###
 
-Here you’ll clone a project with a submodule in it. When you receive such a project, you get the directories that contain submodules, but none of the files yet:
+Si se tiene un proyecto con submódulos dentro de él. Cuando se recibe, se reciben también las carpetas que contienen los submódulos; pero no se reciben ninguno de los archivos de dichos submódulos:
 
 	$ git clone git://github.com/schacon/myproject.git
 	Initialized empty Git repository in /opt/myproject/.git/
@@ -902,20 +906,20 @@ Here you’ll clone a project with a submodule in it. When you receive such a pr
 	$ ls rack/
 	$
 
-The `rack` directory is there, but empty. You must run two commands: `git submodule init` to initialize your local configuration file, and `git submodule update` to fetch all the data from that project and check out the appropriate commit listed in your superproject:
+La carpeta `rack` está presente, pero vacia. Son necesarios otros dos comandos: `git submodule init` para inicializar el archivo de configuración local, y `git submodule update` para recuperar (fetch) todos los datos del proyecto y extraer (checkout) la confirmación de cambios adecuada desde el proyecto padre:
 
 	$ git submodule init
 	Submodule 'rack' (git://github.com/chneukirchen/rack.git) registered for path 'rack'
 	$ git submodule update
 	Initialized empty Git repository in /opt/myproject/rack/.git/
 	remote: Counting objects: 3181, done.
-	remote: Compressing objects: 100% (1534/1534), done.
+	remote: Compressing objects: 100% (1534/1534), done.remote: Compressing objects: 100% (1534/1534), done.
 	remote: Total 3181 (delta 1951), reused 2623 (delta 1603)
 	Receiving objects: 100% (3181/3181), 675.42 KiB | 173 KiB/s, done.
-	Resolving deltas: 100% (1951/1951), done.
+	Resolving deltas: 100% (1951/1951), done.Resolving deltas: 100% (1951/1951), done.
 	Submodule path 'rack': checked out '08d709f78b8c5b0fbeb7821e37fa53e69afcf433'
 
-Now your `rack` subdirectory is at the exact state it was in when you committed earlier. If another developer makes changes to the rack code and commits, and you pull that reference down and merge it in, you get something a bit odd:
+Tras esto, la carpeta `rack` sí que está exactamente en el estado que le corresponde estar tras la última confirmación de cambios que se realizó sobre ella. Si otra persona realiza cambios en el código de `rack`, los confirma y nosotros recuperamos (pull) dicha referencia y la fusionamos (merge), se obtendrá un resultado un tanto extraño:
 
 	$ git merge origin/master
 	Updating 0550271..85a3eee
@@ -924,14 +928,14 @@ Now your `rack` subdirectory is at the exact state it was in when you committed 
 	 1 files changed, 1 insertions(+), 1 deletions(-)
 	[master*]$ git status
 	# On branch master
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add <file>..." to update what will be committed)
 	#   (use "git checkout -- <file>..." to discard changes in working directory)
 	#
 	#      modified:   rack
 	#
 
-You merged in what is basically a change to the pointer for your submodule; but it doesn’t update the code in the submodule directory, so it looks like you have a dirty state in your working directory:
+Se ha fusionado en algo que es básicamente un cambio en el puntero al submódulo. Pero no se ha actualizado el código en la carpeta del submódulo propiamente dicha. Por lo que se muestra un estado inconsistente en la misma:
 
 	$ git diff
 	diff --git a/rack b/rack
@@ -942,7 +946,7 @@ You merged in what is basically a change to the pointer for your submodule; but 
 	-Subproject commit 6c5e70b984a60b3cecd395edd5b48a7575bf58e0
 	+Subproject commit 08d709f78b8c5b0fbeb7821e37fa53e69afcf433
 
-This is the case because the pointer you have for the submodule isn’t what is actually in the submodule directory. To fix this, you must run `git submodule update` again:
+Siendo esto debido a que el puntero al submódulo que se tiene en este momento  no corresponde a lo que realmente hay en carpeta del submódulo. Para arreglarlo, es necesario lanzar de nuevo el comando `git submodule update`: 
 
 	$ git submodule update
 	remote: Counting objects: 5, done.
@@ -953,15 +957,15 @@ This is the case because the pointer you have for the submodule isn’t what is 
 	   08d709f..6c5e70b  master     -> origin/master
 	Submodule path 'rack': checked out '6c5e70b984a60b3cecd395edd5b48a7575bf58e0'
 
-You have to do this every time you pull down a submodule change in the main project. It’s strange, but it works.
+Se necesita realizar este paso cada vez que se recupere (pull) un cambio del submódulo en el proyecto padre. Es algo extraño, pero ¡funciona!.
 
-One common problem happens when a developer makes a change locally in a submodule but doesn’t push it to a public server. Then, they commit a pointer to that non-public state and push up the superproject. When other developers try to run `git submodule update`, the submodule system can’t find the commit that is referenced, because it exists only on the first developer’s system. If that happens, you see an error like this:
+Un problema típico se suele dar cuando un desarrollador realiza y confirma (commit) un cambio local en el submódulo, pero no lo envia (push) a un servidor público. Pero, sin embargo, sí que confirma (commit) y envia (push) un puntero a dicho estado dentro del proyecto padre. Cuando otros desarrolladores intenten lanzar un `git submodule update`, será imposible encontrar la confirmación de cambios a la que se refiere el submódulo, ya que esta tan solo existe en el sistema del desarrollador original. En estos casos, se suele ver un error tal como:
 
 	$ git submodule update
 	fatal: reference isn’t a tree: 6c5e70b984a60b3cecd395edd5b48a7575bf58e0
 	Unable to checkout '6c5e70b984a60b3cecd395edd5ba7575bf58e0' in submodule path 'rack'
 
-You have to see who last changed the submodule:
+Forzandonos a mirar quién ha sido la persona que ha realizado los últimos cambios en el submódulo:
 
 	$ git log -1 rack
 	commit 85a3eee996800fcfa91e2119372dd4172bf76678
@@ -970,21 +974,21 @@ You have to see who last changed the submodule:
 
 	    added a submodule reference I will never make public. hahahahaha!
 
-Then, you e-mail that guy and yell at him.
+Para enviarle un correo-e y avisarle de su despiste.
 
-### Superprojects ###
+### Proyectos padre ###
 
-Sometimes, developers want to get a combination of a large project’s subdirectories, depending on what team they’re on. This is common if you’re coming from CVS or Subversion, where you’ve defined a module or collection of subdirectories, and you want to keep this type of workflow.
+Algunas veces, dependiendo del equipo de trabajo en que se encuentren, los desarrolladores suelen necesitar mantener una combinación de grandes carpetas de proyecto. Se da frecuentemente en equipos procedentes de CVS o de Subversion (donde se define una colección de módulos o carpetas), cuando desean mantener ese mismo tipo de flujo de trabajo.
 
-A good way to do this in Git is to make each of the subfolders a separate Git repository and then create superproject Git repositories that contain multiple submodules. A benefit of this approach is that you can more specifically define the relationships between the projects with tags and branches in the superprojects.
+La manera más apropiada de hacer esto en Git, es la de crear diferentes repositorios, cada uno en su carpeta; para luego crear un repositorio padre que englobe múltiples submódulos, uno por cada carpeta. Un beneficio que se obtiene de esta manera de trabajar es la mayor especificidad en las relaciones entre proyectos, definidas mediante etiquetas (tag) y ramas (branch) en el proyecto padre.
 
-### Issues with Submodules ###
+### Posibles problemáticas al usar submódulos ###
 
-Using submodules isn’t without hiccups, however. First, you must be relatively careful when working in the submodule directory. When you run `git submodule update`, it checks out the specific version of the project, but not within a branch. This is called having a detached head — it means the HEAD file points directly to a commit, not to a symbolic reference. The issue is that you generally don’t want to work in a detached head environment, because it’s easy to lose changes. If you do an initial `submodule update`, commit in that submodule directory without creating a branch to work in, and then run `git submodule update` again from the superproject without committing in the meantime, Git will overwrite your changes without telling you.  Technically you won’t lose the work, but you won’t have a branch pointing to it, so it will be somewhat difficult to retrieive.
+El uso de submódulos tiene también sus contratiempos. El primero de los cuales es la necesidad de ser bastante cuidadoso cuando se trabaja en la carpeta de un submódulo. Al lanzar `git submodule update`, este comando comprueba la versión específica del proyecto, pero sin tener en cuenta la rama. Es lo que se conoce como "trabajar con cabecera desconectada" --es decir, el archivo HEAD apunta directamente a una confirmación de cambios (commit), y no a una referencia simbólica--. Este método de trabajo suele tenderse a evitar, ya que trabajando en un entorno de cabecera desconectada es bastante facil despistarse y perder cambios ya realizados. Si se realiza un `submodule update` inicial, se hacen cambios y se confirman en esa carpeta de submódulo sin haber creado antes una rama en la que trabajar. Y si, tras esto, se realiza de nuevo un `git submodule update` desde el proyecto padre, sin haber confirmado cambios en este, Git sobreescribirá cambios sin aviso previo.  Técnicamente, no se pierde nada del trabajo. Simplemente, nos quedamos sin ninguna rama apuntando a él. Con lo que resulta problemático recuperar el acceso a los cambios.
 
-To avoid this issue, create a branch when you work in a submodule directory with `git checkout -b work` or something equivalent. When you do the submodule update a second time, it will still revert your work, but at least you have a pointer to get back to.
+Para evitarlo, siempre se ha de crear una rama cuando se trabaje en la carpeta de un submódulo; usando  `git checkout -b trabajo` o algo similar. Cuando se realice una actualización (update) del submódulo por segunda vez, se seguirá sobreescribiendo el trabajo; pero al menos se tendrá un apuntador para volver hasta los cambios realizados.
 
-Switching branches with submodules in them can also be tricky. If you create a new branch, add a submodule there, and then switch back to a branch without that submodule, you still have the submodule directory as an untracked directory:
+Intercambiar ramas con submódulos tiene también sus peculiaridades. Si se crea una rama, se añade un submódulo en ella y luego se retorna a una rama donde dicho submódulo no exista. La carpeta del submódulo sigue existiendo, solo que ahora queda como una carpeta sin seguimiento.
 
 	$ git checkout -b rack
 	Switched to a new branch "rack"
@@ -992,7 +996,7 @@ Switching branches with submodules in them can also be tricky. If you create a n
 	Initialized empty Git repository in /opt/myproj/rack/.git/
 	...
 	Receiving objects: 100% (3184/3184), 677.42 KiB | 34 KiB/s, done.
-	Resolving deltas: 100% (1952/1952), done.
+	Resolving deltas: 100% (1952/1952), done.Resolving deltas: 100% (1952/1952), done.Resolving deltas: 100% (1952/1952), done.
 	$ git commit -am 'added rack submodule'
 	[rack cc49a69] added rack submodule
 	 2 files changed, 4 insertions(+), 0 deletions(-)
@@ -1007,31 +1011,31 @@ Switching branches with submodules in them can also be tricky. If you create a n
 	#
 	#      rack/
 
-You have to either move it out of the way or remove it, in which case you have to clone it again when you switch back—and you may lose local changes or branches that you didn’t push up.
+Forzandonos a removerla del camino. Lo cual obliga a volver a clonarla cuando se retome la rama inicial --con la consiguiente pérdida de los cambios locales si estos no habian sido enviados previamente al servidor--.
 
-The last main caveat that many people run into involves switching from subdirectories to submodules. If you’ve been tracking files in your project and you want to move them out into a submodule, you must be careful or Git will get angry at you. Assume that you have the rack files in a subdirectory of your project, and you want to switch it to a submodule. If you delete the subdirectory and then run `submodule add`, Git yells at you:
+Y una última problemática en que se suelen encontrar quienes intercambian de carpetas a submódulos. Si se ha estado trabajando en archivos de un proyecto al que luego se desea convertir en un submódulo, hay que ser muy cuidadoso o Git se resentirá. Asumiendo que se tenian archivos en una carpeta 'rack' del proyecto, y que se desea intercambiarla por un submódulo. Si se borra la carpeta y luego se lanza un comando `submodule add`, Git avisará de "carpeta ya existente en el índice":
 
 	$ rm -Rf rack/
 	$ git submodule add git@github.com:schacon/rack.git rack
 	'rack' already exists in the index
 
-You have to unstage the `rack` directory first. Then you can add the submodule:
+Para evitarlo, se debe sacar la carpeta 'rack' del área de preparación. Después, Git permitirá la adicción del submódulo sin problemas:
 
 	$ git rm -r rack
 	$ git submodule add git@github.com:schacon/rack.git rack
 	Initialized empty Git repository in /opt/testsub/rack/.git/
 	remote: Counting objects: 3184, done.
-	remote: Compressing objects: 100% (1465/1465), done.
+	remote: Compressing objects: 100% (1465/1465), done.remote: Compressing objects: 100% (1465/1465), done.
 	remote: Total 3184 (delta 1952), reused 2770 (delta 1675)
 	Receiving objects: 100% (3184/3184), 677.42 KiB | 88 KiB/s, done.
-	Resolving deltas: 100% (1952/1952), done.
+	Resolving deltas: 100% (1952/1952), done.Resolving deltas: 100% (1952/1952), done.Resolving deltas: 100% (1952/1952), done.
 
-Now suppose you did that in a branch. If you try to switch back to a branch where those files are still in the actual tree rather than a submodule — you get this error:
+Tras esto, y suponiendo que ese paso ha sido realizado en una rama. Si se intenta retornar a dicha rama, cuyos archivos están aún en el árbol actual en lugar de en el submódulo, se obtendrá el siguiente error:
 
 	$ git checkout master
 	error: Untracked working tree file 'rack/AUTHORS' would be overwritten by merge.
 
-You have to move the `rack` submodule directory out of the way before you can switch to a branch that doesn’t have it:
+Antes de cambiar a cualquier rama que no lo contenga, es necesario quitar de enmedio la carpeta del submódulo 'rack'.
 
 	$ mv rack /tmp/
 	$ git checkout master
@@ -1039,26 +1043,26 @@ You have to move the `rack` submodule directory out of the way before you can sw
 	$ ls
 	README	rack
 
-Then, when you switch back, you get an empty `rack` directory. You can either run `git submodule update` to reclone, or you can move your `/tmp/rack` directory back into the empty directory.
+Y, cuando se retorne a la rama anterior, se tendrá una carpeta 'rack' vacia. Ante lo cual, será necesario lanzar`git submodule update` para volver a clonarla; o, si no,  volver a restaurar la carpeta  `/tmp/rack` de vuelta sobre la carpeta vacia.
 
-## Subtree Merging ##
+## Fusión de subárboles ##
 
-Now that you’ve seen the difficulties of the submodule system, let’s look at an alternate way to solve the same problem. When Git merges, it looks at what it has to merge together and then chooses an appropriate merging strategy to use. If you’re merging two branches, Git uses a _recursive_ strategy. If you’re merging more than two branches, Git picks the _octopus_ strategy. These strategies are automatically chosen for you because the recursive strategy can handle complex three-way merge situations — for example, more than one common ancestor — but it can only handle merging two branches. The octopus merge can handle multiple branches but is more cautious to avoid difficult conflicts, so it’s chosen as the default strategy if you’re trying to merge more than two branches.
+Ahora que se han visto las dificultades que se pueden presentar utilizando el sistema de submódulos, es momento de hechar un vistazo a una vía alternativa de atacar esa misma problemática. Cuando Git realiza una fusión, suele revisar lo que ha de fusiónar entre sí y, tras ese análisis, elige la estratégia mas adecuada para hacerlo. Si se están fusionando dos ramas, Git suele utilizar la _estategia_recursiva_ (_recursive_ strategy). Si se están fusionando más de dos ramas, Git suele escoger la _estrategia_del_pulpo_ (_octopus_ strategy). Estas son las estrategias escogidas por defecto, ya que la estrategia recursiva puede manejar complejas fusiones-de-tres-vias --por ejemplo, con más de un antecesor común-- pero tan solo puede fusionar dos ramas. La fusión-tipo-pulpo puede manejar multiples ramas, pero es mucho mas cuidadosa para evitar incurrir en complejos conflictos; y es por eso que se utiliza en los intentos de fusionar más de dos ramas.
 
-However, there are other strategies you can choose as well. One of them is the _subtree_ merge, and you can use it to deal with the subproject issue. Here you’ll see how to do the same rack embedding as in the last section, but using subtree merges instead.
+Pero existen también otras estratégias que se pueden escoger según se necesiten. Una de ellas, la _fusión_subárbol_ (_subtree_ merge), es precisamente la más adecuada para tratar con subproyectos. En este caso se va a mostrar cómo se haria el mismo empotramiento del módulo rack tomado como ejemplo anteriormente, pero utilizando fusiones de subarbol en lugar de submódulos.
 
-The idea of the subtree merge is that you have two projects, and one of the projects maps to a subdirectory of the other one and vice versa. When you specify a subtree merge, Git is smart enough to figure out that one is a subtree of the other and merge appropriately — it’s pretty amazing.
+La idea subyacente tras toda fusión subarborea es la de que se tienen dos proyectos; y uno de ellos está relacionado con una subcarpeta en el otro, y viceversa. Cuando se solicita una fusión subarborea, Git es lo suficientemente inteligente como para imaginarse por si solo que uno de los proyectos es un subárbol del otro y obrar en consecuencia. Es realmente sorprendente.
 
-You first add the Rack application to your project. You add the Rack project as a remote reference in your own project and then check it out into its own branch:
+Se comienza añadiendo la aplicación Rack al proyecto. Se añade como una referencia remota en el propio proyecto, y luego se extrae (checkout) en su propia rama:
 
 	$ git remote add rack_remote git@github.com:schacon/rack.git
 	$ git fetch rack_remote
 	warning: no common commits
 	remote: Counting objects: 3184, done.
-	remote: Compressing objects: 100% (1465/1465), done.
+	remote: Compressing objects: 100% (1465/1465), done.remote: Compressing objects: 100% (1465/1465), done.
 	remote: Total 3184 (delta 1952), reused 2770 (delta 1675)
 	Receiving objects: 100% (3184/3184), 677.42 KiB | 4 KiB/s, done.
-	Resolving deltas: 100% (1952/1952), done.
+	Resolving deltas: 100% (1952/1952), done.Resolving deltas: 100% (1952/1952), done.Resolving deltas: 100% (1952/1952), done.
 	From git@github.com:schacon/rack
 	 * [new branch]      build      -> rack_remote/build
 	 * [new branch]      master     -> rack_remote/master
@@ -1068,7 +1072,7 @@ You first add the Rack application to your project. You add the Rack project as 
 	Branch rack_branch set up to track remote branch refs/remotes/rack_remote/master.
 	Switched to a new branch "rack_branch"
 
-Now you have the root of the Rack project in your `rack_branch` branch and your own project in the `master` branch. If you check out one and then the other, you can see that they have different project roots:
+En este punto, se tiene la raiz del proyecto Rack en la rama `rack_branch` y la del propio proyecto padre en la rama `master`. Si se comprueban una o la otra, se puede observar que ambos proyectos tienen distintas raices:
 
 	$ ls
 	AUTHORS	       KNOWN-ISSUES   Rakefile      contrib	       lib
@@ -1078,32 +1082,32 @@ Now you have the root of the Rack project in your `rack_branch` branch and your 
 	$ ls
 	README
 
-You want to pull the Rack project into your `master` project as a subdirectory. You can do that in Git with `git read-tree`. You’ll learn more about `read-tree` and its friends in Chapter 9, but for now know that it reads the root tree of one branch into your current staging area and working directory. You just switched back to your `master` branch, and you pull the `rack` branch into the `rack` subdirectory of your `master` branch of your main project:
+Si se desea situar el proyecto Rack como una subcarpeta del proyecto `master`. Se ha de lanzar el comando `git read-tree`. Se verá más en detalle el comando `read-tree` y sus acompañantes en el capítulo 9. Pero por ahora, basta con saber que este comando se encarga de leer el árbol raiz de una rama en el área de preparación (staging area) y carpeta de trabajo (working directory) actuales. Con ello, se retorna sobre la rama `master` y se recupera (pull) la rama `rack_branch` en la subcarpeta `rack` de la rama `master` del proyecto principal: 
 
 	$ git read-tree --prefix=rack/ -u rack_branch
 
-When you commit, it looks like you have all the Rack files under that subdirectory — as though you copied them in from a tarball. What gets interesting is that you can fairly easily merge changes from one of the branches to the other. So, if the Rack project updates, you can pull in upstream changes by switching to that branch and pulling:
+Cuando se confirman estos cambios, es como si se tuvieran todos los archivos Rack bajo esa carpeta --como si se hubieran copiado desde un archivo comprimido tarball-- Lo que hace interesante este método es la posibilidad que brinda de fusionar cambios de una rama sobre la otra de forma sencilla. De tal forma que, si se actualiza el proyecto Rack, se pueden integrar los cambios aguas arriba simplemente cambiando a esa rama y recuperando:
 
 	$ git checkout rack_branch
 	$ git pull
 
-Then, you can merge those changes back into your master branch. You can use `git merge -s subtree` and it will work fine; but Git will also merge the histories together, which you probably don’t want. To pull in the changes and prepopulate the commit message, use the `--squash` and `--no-commit` options as well as the `-s subtree` strategy option:
+Tras lo cual, es posible fusionar esos cambios de vuelta a la rama 'master'. Utilizando el comando `git merge -s subtree`, que funciona correctamente; pero fusionando también los historiales entre sí. Un efecto secundario que posiblemente no interese. Para recuperar los cambios y rellenar el mensaje de la confirmación, se pueden emplear las opciones `--squash` y `--no-commit`, junto con la opción de estrategia `-s subtree`: 
 
 	$ git checkout master
 	$ git merge --squash -s subtree --no-commit rack_branch
 	Squash commit -- not updating HEAD
 	Automatic merge went well; stopped before committing as requested
 
-All the changes from your Rack project are merged in and ready to be committed locally. You can also do the opposite — make changes in the `rack` subdirectory of your master branch and then merge them into your `rack_branch` branch later to submit them to the maintainers or push them upstream.
+Con esto, todos los cambios en el proyecto Rack se encontrarán fusionados y listos para ser confirmados localmente. También es posible hacer el camino contrario: realizar los cambios en la subcarpeta `rack` de la rama 'master', para posteriormente fusionarlos en la rama `rack_branch` y remitirlos a los encargados del mantenimiento o enviarlos aguas arriba.
 
-To get a diff between what you have in your `rack` subdirectory and the code in your `rack_branch` branch — to see if you need to merge them — you can’t use the normal `diff` command. Instead, you must run `git diff-tree` with the branch you want to compare to:
+Para ver las diferencias entre el contenido de la subcarpeta `rack` y el código en la rama `rack_branch` --para comprobar si es necesario fusionarlas--, no se puede emplear el comando `diff` habitual.  En su lugar, se ha de emplear el comando `git diff-tree` con la rama que se desea comparar: 
 
 	$ git diff-tree -p rack_branch
 
-Or, to compare what is in your `rack` subdirectory with what the `master` branch on the server was the last time you fetched, you can run
+O, otro ejemplo: para comparar el contenido de la subcarpeta `rack` con la rama `master` en el servidor: 
 
 	$ git diff-tree -p rack_remote/master
 
-## Summary ##
+## Recapitulación ##
 
-You’ve seen a number of advanced tools that allow you to manipulate your commits and staging area more precisely. When you notice issues, you should be able to easily figure out what commit introduced them, when, and by whom. If you want to use subprojects in your project, you’ve learned a few ways to accommodate those needs. At this point, you should be able to do most of the things in Git that you’ll need on the command line day to day and feel comfortable doing so.
+Se han visto una serie de herramientas avanzadas que permiten manipular de forma precisa las confirmaciones de cambio y el área de preparación. Cuando se detectan problemas, se necesita tener la capacidad de localizar facilmente la confirmación de cambios en que fueron introducidos. En caso de requerir tener subproyectos dentro de un proyecto principal, se han visto unos cuantos caminos para resolver este requerimiento. En este punto, deberiamos ser capaces de realizar la mayoria de las acciones necesarias en el día a día con Git; realizandolas de manera confortable y segura.

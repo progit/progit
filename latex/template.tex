@@ -13,13 +13,16 @@
 \usepackage{booktabs}
 \usepackage{indentfirst}
 \usepackage{framed,color}
-\usepackage{array}
-\usepackage[font=small,format=plain,labelfont=bf,up,textfont=it,up]{caption}
+\usepackage{caption}
+\usepackage{longtable}
+\captionsetup{font=bf,position=below}
+
+\usepackage{ctable}
 
 \definecolor{shadecolor}{gray}{0.90}
 
-\setromanfont[Mapping=tex-text,Bold=<%= config['bold'] %>]{<%= config['font'] %>}
-\setmonofont{<%= config['mono'] %>}
+\setromanfont[Mapping=tex-text,BoldFont=<%= config['bold'] %>]{<%= config['font'] %>}
+\setmonofont[Scale=.85]{<%= config['mono'] %>}
 
 \XeTeXlinebreaklocale{<%= lang %>}
 <%= config['langrule'] %>
@@ -32,7 +35,8 @@
 \makeatletter
 \let\savedauthor=\@author
 \let\savedtitle=\@title
-\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth
+\def\imgwidth{.6\linewidth}
+\def\maxwidth{\ifdim\Gin@nat@width>\imgwidth\imgwidth
 \else\Gin@nat@width\fi}
 \makeatother
 
@@ -42,8 +46,6 @@
 \date{\w3cdtfymd}
 \renewcommand{\thefootnote}{\fnsymbol{footnote}}
 
-\newcommand{\PreserveBackslash}[1]{\let\temp=\\#1\let\\=\temp}
-\let\PBS=\PreserveBackslash
 \makeatletter
   \setlength\headheight{12\p@}
   \setlength\headsep   {.25in}
@@ -89,10 +91,11 @@
 
 \newcounter{img}[chapter]
 \renewcommand{\theimg}{\thechapter.\arabic{img}}
-\newcommand{\img}[1]{\begin{figure}[h!]
+\newcommand{\img}[1]{\begin{figure}[ht!]
 	\refstepcounter{img}
 	\label{img:\theimg}
-	\centering\includegraphics[width=\maxwidth]{figures/\theimg.png}
+	\centering\IfFileExists{figures/\theimg.pdf}{\includegraphics[width=\maxwidth]{figures/\theimg.pdf}}{\includegraphics[width=\maxwidth]{figures/\theimg.png}}
+
 	\caption{#1}
 \end{figure}}
 

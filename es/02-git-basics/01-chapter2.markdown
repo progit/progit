@@ -101,13 +101,13 @@ Vamos a modificar un archivo que estuviese bajo seguimiento. Si modificas el arc
 	#
 	#	new file:   README
 	#
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add <file>..." to update what will be committed)
 	#
 	#	modified:   benchmarks.rb
 	#
 
-El archivo benchmarks.rb aparece bajo la cabecera “Modificados pero no actualizados” (“Changed but not updated”) —esto significa que un archivo bajo seguimiento ha sido modificado en el directorio de trabajo, pero no ha sido preparado todavía—. Para prepararlo, ejecuta el comando `git add` (es un comando multiuso —puedes utilizarlo para empezar el seguimiento  de archivos nuevos, para preparar archivos, y para otras cosas como marcar como resueltos archivos con conflictos de unión—). Ejecutamos `git add` para preparar el archivo benchmarks.rb, y volvemos a ejecutar `git status`:
+El archivo benchmarks.rb aparece bajo la cabecera “Modificados pero no actualizados” (“Changes not staged for commit”) —esto significa que un archivo bajo seguimiento ha sido modificado en el directorio de trabajo, pero no ha sido preparado todavía—. Para prepararlo, ejecuta el comando `git add` (es un comando multiuso —puedes utilizarlo para empezar el seguimiento  de archivos nuevos, para preparar archivos, y para otras cosas como marcar como resueltos archivos con conflictos de unión—). Ejecutamos `git add` para preparar el archivo benchmarks.rb, y volvemos a ejecutar `git status`:
 
 	$ git add benchmarks.rb
 	$ git status
@@ -130,7 +130,7 @@ Ambos archivos están ahora preparados y se incluirán en tu próxima confirmaci
 	#	new file:   README
 	#	modified:   benchmarks.rb
 	#
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add <file>..." to update what will be committed)
 	#
 	#	modified:   benchmarks.rb
@@ -170,11 +170,16 @@ Los patrones glob son expresiones regulares simplificadas que pueden ser usadas 
 He aquí otro ejemplo de archivo .gitignore:
 
 	# a comment – this is ignored
-	*.a       # no .a files
-	!lib.a    # but do track lib.a, even though you're ignoring .a files above
-	/TODO     # only ignore the root TODO file, not subdir/TODO
-	build/    # ignore all files in the build/ directory
-	doc/*.txt # ignore doc/notes.txt, but not doc/server/arch.txt
+	# no .a files
+	*.a
+	# but do track lib.a, even though you're ignoring .a files above
+	!lib.a
+	# only ignore the root TODO file, not subdir/TODO
+	/TODO
+	# ignore all files in the build/ directory
+	build/
+	# ignore doc/notes.txt, but not doc/server/arch.txt
+	doc/*.txt
 
 ### Viendo tus cambios preparados y no preparados ###
 
@@ -189,7 +194,7 @@ Supongamos que quieres editar y preparar el archivo README otra vez, y luego edi
 	#
 	#	new file:   README
 	#
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add <file>..." to update what will be committed)
 	#
 	#	modified:   benchmarks.rb
@@ -244,7 +249,7 @@ Por poner otro ejemplo, si preparas el archivo benchmarks.rb y después lo edita
 	#
 	#	modified:   benchmarks.rb
 	#
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#
 	#	modified:   benchmarks.rb
 	#
@@ -326,7 +331,7 @@ Aunque puede ser extremadamente útil para elaborar confirmaciones exactamente a
 	$ git status
 	# On branch master
 	#
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#
 	#	modified:   benchmarks.rb
 	#
@@ -340,13 +345,13 @@ Fíjate que no has tenido que ejecutar `git add` sobre el archivo benchmarks.rb 
 
 Para eliminar un archivo de Git, debes eliminarlo de tus archivos bajo seguimiento (más concretamente, debes eliminarlo de tu área de preparación), y después confirmar. El comando `git rm` se encarga de eso, y también elimina el archivo de tu directorio de trabajo, para que no lo veas entre los archivos sin seguimiento.
 
-Si simplemente eliminas el archivo de tu directorio de trabajo, aparecerá bajo la cabecera “Modificados pero no actualizados” (“Changed but not updated”) (es decir, _sin preparar_) de la salida del comando `git status`:
+Si simplemente eliminas el archivo de tu directorio de trabajo, aparecerá bajo la cabecera “Modificados pero no actualizados” (“Changes not staged for commit”) (es decir, _sin preparar_) de la salida del comando `git status`:
 
 	$ rm grit.gemspec
 	$ git status
 	# On branch master
 	#
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add/rm <file>..." to update what will be committed)
 	#
 	#       deleted:    grit.gemspec
@@ -651,7 +656,7 @@ Estos tres comandos acabarán convirtiéndose en una única confirmación —la 
 
 ### Deshaciendo la preparación de un archivo ###
 
-Las dos secciones siguientes muestran como pelearse con las modificaciones del área de preparación y del directorio de trabajo. Lo bueno es que el comando que usas para determinar el estado de ambas áreas te recuerda como deshacer sus modificaciones. Por ejemplo, digamos que has modificado dos archivos, y quieres confirmarlos como cambios separados, pero tecleas accidentalmente `git add *` y preparas ambos. ¿Cómo puedes sacar uno de ellos del área de preparación? El comando `git status` te lo recuerda:
+Las dos secciones siguientes muestran cómo trabajar con las modificaciones del área de preparación y del directorio de trabajo. Lo bueno es que el comando que usas para determinar el estado de ambas áreas te recuerda como deshacer sus modificaciones. Por ejemplo, digamos que has modificado dos archivos, y quieres confirmarlos como cambios separados, pero tecleas accidentalmente `git add *` y preparas ambos. ¿Cómo puedes sacar uno de ellos del área de preparación? El comando `git status` te lo recuerda:
 
 	$ git add .
 	$ git status
@@ -674,7 +679,7 @@ Justo debajo de la cabecera “Cambios a confirmar” (“Changes to be committe
 	#
 	#       modified:   README.txt
 	#
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add <file>..." to update what will be committed)
 	#   (use "git checkout -- <file>..." to discard changes in working directory)
 	#
@@ -687,7 +692,7 @@ El comando es un poco extraño, pero funciona. El archivo benchmarks.rb ahora es
 
 ¿Qué pasa si te das cuenta de que no quieres mantener las modificaciones que has hecho sobre el archivo benchmarks.rb? ¿Cómo puedes deshacerlas fácilmente —revertir el archivo al mismo estado en el que estaba cuando hiciste tu última confirmación— (o cuando clonaste el repositorio, o como quiera que metieses el archivo en tu directorio de trabajo)? Afortunadamente, `git status` también te dice como hacer esto. En la salida del último ejemplo, la cosa estaba así:
 
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add <file>..." to update what will be committed)
 	#   (use "git checkout -- <file>..." to discard changes in working directory)
 	#
@@ -902,38 +907,18 @@ Puedes ver los datos de la etiqueta junto con la confirmación que fue etiquetad
 
 	    Merge branch 'experiment'
 
-<<<<<<< HEAD:es-es/02-git-basics/01-chapter2.markdown
-Esto muestra la información del autor de la etiqueta, la fecha en la que la confirmación fue etiquetada, y el mensaje de anotación antes de mostrar la información del a confirmación.
+Esto muestra la información del autor de la etiqueta, la fecha en la que la confirmación fue etiquetada, y el mensaje de anotación antes de mostrar la información de la confirmación.
 
 ### Etiquetas firmadas ###
-
-También puedes firmar tus etiquetas con GPG, asumiendo que tienes una clave privada. Todo lo que tienes que hacer es usar el parámetro `-s` en lugar de `-a`.
-=======
-Esto muestra la información del etiquetador, la fecha en el que el commit fue etiquetado y el mensaje de anotación antes de mostrar la información del commit.
-
-> That shows the tagger information, the date the commit was tagged, and the annotation message before showing the commit information.
-
-
-### Etiquetas firmadas ###
-> ### Signed Tags ###
 
 También puedes firmar tus etiquetas con GPG, siempre que tengas una clave privada. Lo único que debes hacer es usar `-s` en vez de `-a`:
-
-> You can also sign your tags with GPG, assuming you have a private key. All you have to do is use `-s` instead of `-a`:
->>>>>>> progit/master:es/02-git-basics/01-chapter2.markdown
 
 	$ git tag -s v1.5 -m 'my signed 1.5 tag'
 	You need a passphrase to unlock the secret key for
 	user: "Scott Chacon <schacon@gee-mail.com>"
 	1024-bit DSA key, ID F721C45A, created 2009-02-09
 
-<<<<<<< HEAD:es-es/02-git-basics/01-chapter2.markdown
-Si ejecutas `git show` en esta etiqueta, puedes ser tu firma GPG adjuntada:
-=======
 Si ejecutas `git show` en esa etiqueta, puedes ver la firma GPG adjunta a ella:
-
-> If you run `git show` on that tag, you can see your GPG signature attached to it:
->>>>>>> progit/master:es/02-git-basics/01-chapter2.markdown
 
 	$ git show v1.5
 	tag v1.5
@@ -955,25 +940,11 @@ Si ejecutas `git show` en esa etiqueta, puedes ver la firma GPG adjunta a ella:
 
 	    Merge branch 'experiment'
 
-<<<<<<< HEAD:es-es/02-git-basics/01-chapter2.markdown
-Un poco más tarde aprenderás como verificar etiquetas firmadas.
+Más tarde, aprenderás cómo verificar etiquetas firmadas.
 
 ### Etiquetas ligeras ###
 
 Otra forma de etiquetar confirmaciones es con una etiqueta ligera. Esto es básicamente la suma de comprobación de la confirmación almacenada en un archivo —ninguna otra información es guardada—. Para crear una etiqueta ligera no añadas las opciones `-a`, `-s` o `-m`:
-=======
-Un poco después aprenderás como verificar etiquetas firmadas.
-
-> A bit later, you’ll learn how to verify signed tags.
-
-### Etiquetas ligeras ###
-
->### Lightweight Tags ###
-
-Otra forma de etiquetar commits es con etiquetas ligeras. Esto es básicamente el checksum del commit almacenado en un fichero - no se guarda ninguna otra información. Para crear una etiqueta ligera, no hay que añadir ninguna de las opciones `-a`, `-s`, or `-m`:
-
-> Another way to tag commits is with a lightweight tag. This is basically the commit checksum stored in a file — no other information is kept. To create a lightweight tag, don’t supply the `-a`, `-s`, or `-m` option:
->>>>>>> progit/master:es/02-git-basics/01-chapter2.markdown
 
 	$ git tag v1.4-lw
 	$ git tag
@@ -1011,7 +982,7 @@ Para verificar una etiqueta firmada, debes usar `git tag -v [tag-name]`. Este co
 	gpg:                 aka "[jpeg image of size 1513]"
 	Primary key fingerprint: 3565 2A26 2040 E066 C9A7  4A7D C0C6 D9A4 F311 9B9A
 
-Si no tienes la clave pública del autor de la firma, se obtiene algo así:
+Si no tienes la clave pública del autor de la firma, se obtiene algo parecido a:
 
 	gpg: Signature made Wed Sep 13 02:08:25 2006 PDT using DSA key ID F3119B9A
 	gpg: Can't check signature: public key not found
@@ -1086,7 +1057,7 @@ Si tienes un montón de etiquetas que quieres enviar a la vez, también puedes u
 	 * [new tag]         v1.4-lw -> v1.4-lw
 	 * [new tag]         v1.5 -> v1.5
 
-Ahora, cuando alguien clone o reciba de tu repositorio, cogerá también todas tus etiquetas.
+Ahora, cuando alguien clone o reciba de tu repositorio, obtendrá también todas tus etiquetas.
 
 ## Consejos y trucos ##
 
@@ -1153,7 +1124,7 @@ De esta forma puedes ver la última confirmación fácilmente:
 
 Como puedes ver, Git simplemente reemplaza el nuevo comando con lo que le pongas como alias. Sin embargo, tal vez quieres ejecutar un comando externo en lugar de un subcomando de Git. En este caso, empieza el comando con el caracter `!`. Esto es útil si escribes tus propias herramientas que trabajan con un repositorio de Git. Podemos demostrarlo creando el alias `git visual` para ejecutar `gitk`:
 
-	$ git config --global alias.visual "!gitk"
+	$ git config --global alias.visual '!gitk'
 
 ## Resumen ##
 

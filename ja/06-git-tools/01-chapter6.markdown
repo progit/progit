@@ -104,7 +104,7 @@ SHA-1 の衝突を見るにはどうしたらいいのか、ひとつの例を�
 	$ git log -g master
 	commit 734713bc047d87bf7eac9674765ae793478c50d3
 	Reflog: master@{0} (Scott Chacon <schacon@gmail.com>)
-	Reflog message: commit: fixed refs handling, added gc auto, updated 
+	Reflog message: commit: fixed refs handling, added gc auto, updated
 	Author: Scott Chacon <schacon@gmail.com>
 	Date:   Fri Jan 2 18:32:33 2009 -0800
 
@@ -127,10 +127,10 @@ SHA-1 の衝突を見るにはどうしたらいいのか、ひとつの例を�
 	$ git log --pretty=format:'%h %s' --graph
 	* 734713b fixed refs handling, added gc auto, updated tests
 	*   d921970 Merge commit 'phedders/rdocs'
-	|\  
+	|\
 	| * 35cfb2b Some rdoc changes
 	* | 1c002dd added some blame and merge stuff
-	|/  
+	|/
 	* 1c36188 ignore *.gem
 	* 9b29157 add open3_detach to gemspec file list
 
@@ -188,7 +188,7 @@ SHA-1 の衝突を見るにはどうしたらいいのか、ひとつの例を�
 
 範囲指定の方法としてもっとも一般的なのが、ダブルドット構文です。これは、ひとつのコミットからはたどれるけれどもうひとつのコミットからはたどれないというコミットの範囲を Git に調べさせるものです。図 6-1 のようなコミット履歴を例に考えましょう。
 
-Insert 18333fig0601.png 
+Insert 18333fig0601.png
 図 6-1. 範囲指定選択用の歴史の例
 
 experiment ブランチの内容のうち、まだ master ブランチにマージされていないものを調べることになりました。対象となるコミットのログを見るには、Git に `master..experiment` と指示します。これは "experiment からはたどれるけれど、master からはたどれないすべてのコミット" という意味です。説明を短く簡潔にするため、実際のログの出力のかわりに上の図の中でコミットオブジェクトをあらわす文字を使うことにします。
@@ -259,7 +259,7 @@ Git には、コマンドラインでの作業をしやすくするためのス�
 	*** Commands ***
 	  1: status     2: update      3: revert     4: add untracked
 	  5: patch      6: diff        7: quit       8: help
-	What now> 
+	What now>
 
 このコマンドは、ステージングエリアに関する情報を違った観点で表示します。`git status` で得られる情報と基本的には同じですが、より簡潔で有益なものとなっています。ステージした変更が左側、そしてステージしていない変更が右側に表示されます。
 
@@ -287,7 +287,7 @@ TODO と index.html をステージするには、その番号を入力します
 
 ファイル名の横に `*` がついていれば、そのファイルがステージ対象として選択されたことを意味します。`Update>>` プロンプトで何も入力せずに Enter を押すと、選択されたすべてのファイルを Git がステージします。
 
-	Update>> 
+	Update>>
 	updated 2 paths
 
 	*** Commands ***
@@ -369,7 +369,7 @@ Git では、ファイルの特定の箇所だけをステージして他の部�
 	   end
 
 	   def blame(path)
-	Stage this hunk [y,n,a,d,/,j,J,g,e,?]? 
+	Stage this hunk [y,n,a,d,/,j,J,g,e,?]?
 
 ここでは多くの選択肢があります。何ができるのかを見るには `?` を入力しましょう。
 
@@ -417,7 +417,7 @@ simplegit.rb のステータスがおもしろいことになっています。�
 	#
 	#      modified:   index.html
 	#
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add <file>..." to update what will be committed)
 	#
 	#      modified:   lib/simplegit.rb
@@ -448,7 +448,7 @@ simplegit.rb のステータスがおもしろいことになっています。�
 
 	$ git stash apply
 	# On branch master
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add <file>..." to update what will be committed)
 	#
 	#      modified:   index.html
@@ -466,7 +466,7 @@ Git がファイルを変更して、未コミットのファイルが先ほど�
 	#
 	#      modified:   index.html
 	#
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add <file>..." to update what will be committed)
 	#
 	#      modified:   lib/simplegit.rb
@@ -512,7 +512,7 @@ apply オプションは、スタックに隠した作業を再度適用する�
 	#
 	#      modified:   index.html
 	#
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add <file>..." to update what will be committed)
 	#
 	#      modified:   lib/simplegit.rb
@@ -664,7 +664,7 @@ Git を使って作業をしていると、何らかの理由でコミットの�
 	edit 310154e updated README formatting and added blame
 	pick a5f4a0d added cat-file
 
-そして、スクリプトからコマンドラインに戻ってきたらそのコミットをリセットし、リセットされた変更を複数のコミットに分割します。変更を保存してエディタを終了すると、Git はリストの最初のコミットの親まで処理を巻き戻します。そして最初のコミット (`f7f3f6d`) と二番目のコミット (`310154e`) を適用してからコンソールに戻ります。コミットをリセットするには `git reset HEAD^` を実行します。これはコミット自体を取り消し、変更されたファイルはステージしていない状態にします。ここで、必要なファイルをステージしてコミットしていきます。すべての処理が終われば、`git rebase --continue` を実行します。
+変更を保存してエディタを終了すると、Git はリストの最初のコミットの親まで処理を巻き戻します。そして最初のコミット (`f7f3f6d`) と二番目のコミット (`310154e`) を適用してからコンソールに戻ります。コミットをリセットするには `git reset HEAD^` を実行します。これはコミット自体を取り消し、変更されたファイルはステージしていない状態にします。ここまでくれば､取り消された変更点から必要なものだけを選択してコミットすることができます｡一連のコミットが終わったら､以下のように`git rebase --continue` を実行しましょう｡
 
 	$ git reset HEAD^
 	$ git add README
@@ -695,7 +695,7 @@ Git はスクリプトの最後のコミット (`a5f4a0d`) を適用し、歴史
 	Rewrite 6b9b3cf04e7c5686a9cb838c3f36a8cb6a0fc2bd (21/21)
 	Ref 'refs/heads/master' was rewritten
 
-`--tree-filter` オプションは、プロジェクトの各チェックアウトに対して指定したコマンドを実行し、結果を再コミットします。この場合は、すべてのスナップショットから passwords.txt というファイルを削除します。間違えてコミットしてしまったエディタのバックアップファイルを削除するには、`git filter-branch --tree-filter 'rm -f *~' HEAD` のように実行します。
+`--tree-filter` オプションは、プロジェクトの各チェックアウトに対して指定したコマンドを実行し、結果を再コミットします。この場合は、すべてのスナップショットから passwords.txt というファイルを削除します。間違えてコミットしてしまったエディタのバックアップファイルを削除するには、`git filter-branch --tree-filter "rm -f *~" HEAD` のように実行します。
 
 Git がツリーを書き換えてコミットし、ブランチのポインタを末尾に移動させる様子がごらんいただけるでしょう。この作業は、まずはテスト用ブランチで実行してから結果をよく吟味し、それから master ブランチに適用することをおすすめします。`filter-branch` をすべてのブランチで実行するには、このコマンドに `--all` を渡します。
 
@@ -733,7 +733,7 @@ Git には、プロジェクトで発生した問題をデバッグするため�
 
 コードのバグを追跡しているときに「それが、いつどんな理由で追加されたのか」が知りたくなることがあるでしょう。そんな場合にもっとも便利なのが、ファイルの注記です。これは、ファイルの各行について、その行を最後に更新したのがどのコミットかを表示します。もしコードの中の特定のメソッドにバグがあることを見つけたら、そのファイルを `git blame` しましょう。そうすれば、そのメソッドの各行がいつ誰によって更新されたのかがわかります。この例では、`-L` オプションを使って 12 行目から 22 行目までに出力を限定しています。
 
-	$ git blame -L 12,22 simplegit.rb 
+	$ git blame -L 12,22 simplegit.rb
 	^4832fe2 (Scott Chacon  2008-03-15 10:31:28 -0700 12)  def show(tree = 'master')
 	^4832fe2 (Scott Chacon  2008-03-15 10:31:28 -0700 13)   command("git show #{tree}")
 	^4832fe2 (Scott Chacon  2008-03-15 10:31:28 -0700 14)  end
@@ -741,7 +741,7 @@ Git には、プロジェクトで発生した問題をデバッグするため�
 	9f6560e4 (Scott Chacon  2008-03-17 21:52:20 -0700 16)  def log(tree = 'master')
 	79eaf55d (Scott Chacon  2008-04-06 10:15:08 -0700 17)   command("git log #{tree}")
 	9f6560e4 (Scott Chacon  2008-03-17 21:52:20 -0700 18)  end
-	9f6560e4 (Scott Chacon  2008-03-17 21:52:20 -0700 19) 
+	9f6560e4 (Scott Chacon  2008-03-17 21:52:20 -0700 19)
 	42cf2861 (Magnus Chacon 2008-04-13 10:45:01 -0700 20)  def blame(path)
 	42cf2861 (Magnus Chacon 2008-04-13 10:45:01 -0700 21)   command("git blame #{path}")
 	42cf2861 (Magnus Chacon 2008-04-13 10:45:01 -0700 22)  end
@@ -750,8 +750,8 @@ Git には、プロジェクトで発生した問題をデバッグするため�
 
 Git のすばらしいところのひとつに、ファイルのリネームを明示的には追跡しないということがあります。スナップショットだけを記録し、もしリネームされていたのなら暗黙のうちにそれを検出します。この機能の興味深いところは、ファイルのリネームだけでなくコードの移動についても検出できるということです。`git blame` に `-C` を渡すと Git はそのファイルを解析し、別のところからコピーされたコード片がないかどうかを探します。最近私は `GITServerHandler.m` というファイルをリファクタリングで複数のファイルに分割しました。そのうちのひとつが `GITPackUpload.m` です。ここで `-C` オプションをつけて `GITPackUpload.m` を調べると、コードのどの部分をどのファイルからコピーしたのかを知ることができます。
 
-	$ git blame -C -L 141,153 GITPackUpload.m 
-	f344f58d GITServerHandler.m (Scott 2009-01-04 141) 
+	$ git blame -C -L 141,153 GITPackUpload.m
+	f344f58d GITServerHandler.m (Scott 2009-01-04 141)
 	f344f58d GITServerHandler.m (Scott 2009-01-04 142) - (void) gatherObjectShasFromC
 	f344f58d GITServerHandler.m (Scott 2009-01-04 143) {
 	70befddd GITServerHandler.m (Scott 2009-03-22 144)         //NSLog(@"GATHER COMMI
@@ -848,7 +848,7 @@ Rack ライブラリ (Ruby のウェブサーバーゲートウェイインタ�
 
 まず気づくのが `.gitmodules` ファイルです。この設定ファイルには、プロジェクトの URL とそれを取り込んだローカルサブディレクトリの対応が格納されています。
 
-	$ cat .gitmodules 
+	$ cat .gitmodules
 	[submodule "rack"]
 	      path = rack
 	      url = git://github.com/chneukirchen/rack.git
@@ -936,7 +936,7 @@ rack エントリのモードが 160000 となったことに注目しましょ�
 	 1 files changed, 1 insertions(+), 1 deletions(-)
 	[master*]$ git status
 	# On branch master
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add <file>..." to update what will be committed)
 	#   (use "git checkout -- <file>..." to discard changes in working directory)
 	#
@@ -988,11 +988,11 @@ rack エントリのモードが 160000 となったことに注目しましょ�
 
 時には、大規模なプロジェクトのサブディレクトリから今自分がいるチームに応じた組み合わせを取得したくなることもあるでしょう。これは、CVS や Subversion から移行した場合によくあることでしょう。モジュールを定義したりサブディレクトリのコレクションを定義していたりといったかつてのワークフローをそのまま維持したいというような状況です。
 
-Git でこれと同じことをするためのよい方法は、それぞれのサブフォルダを別々の Git リポジトリにして、それらのサブモジュールとして含む親プロジェクトとなる Git リポジトリを作ることです。この方式の利点は、親プロジェクトのタグやブランチを活用してプロジェクト間の関係をより細やかに定義できることです。
+Git でこれと同じことをするためのよい方法は、それぞれのサブディレクトリを別々の Git リポジトリにして、それらのサブモジュールとして含む親プロジェクトとなる Git リポジトリを作ることです。この方式の利点は、親プロジェクトのタグやブランチを活用してプロジェクト間の関係をより細やかに定義できることです。
 
 ### サブモジュールでの問題 ###
 
-しかし、サブモジュールを使っているとなにかしらちょっとした問題が出てくるものです。まず、サブモジュールのディレクトリで作業をするときはいつも以上に注意深くならなければなりません。`git submodule update` を実行すると、プロジェクトの特定のバージョンをチェックアウトしますが、それはブランチの中にあるものではありません。これを、切り離されたヘッド (detached head) と呼びます。つまり、HEAD が何らかの参照ではなく直接特定のコミットを指している状態です。通常は、ヘッドが切り離された状態で作業をしようとは思わないでしょう。手元の変更が簡単に失われてしまうからです。最初に `submodule update` し、作業用のブランチを作らずにサブモジュールディレクトリ内にコミットし、`git submodule update` を再び実行すると、親プロジェクトでコミットが何もなくても Git は手元の変更を断りなく上書きしてしまいます。技術的な意味では手元の作業は失われたわけではないのですが、それを指すブランチが存在しない以上、先ほどの作業を取り戻すのは困難です。
+しかし、サブモジュールを使っているとなにかしらちょっとした問題が出てくるものです。まず、サブモジュールのディレクトリで作業をするときはいつも以上に注意深くならなければなりません。`git submodule update` を実行すると、プロジェクトの特定のバージョンをチェックアウトしますが、それはブランチの中にあるものではありません。これを、切り離された HEAD (detached HEAD) と呼びます。つまり、HEAD が何らかの参照ではなく直接特定のコミットを指している状態です。通常は、HEAD が切り離された状態で作業をしようとは思わないでしょう。手元の変更が簡単に失われてしまうからです。最初に `submodule update` し、作業用のブランチを作らずにサブモジュールディレクトリ内にコミットし、`git submodule update` を再び実行すると、親プロジェクトでコミットが何もなくても Git は手元の変更を断りなく上書きしてしまいます。技術的な意味では手元の作業は失われたわけではないのですが、それを指すブランチが存在しない以上、先ほどの作業を取り戻すのは困難です。
 
 この問題を回避するには、サブモジュールのディレクトリで作業をするときに `git checkout -b work` などとしてブランチを作っておきます。次にサブモジュールを更新するときにあなたの作業は消えてしまいますが、少なくとも元に戻すためのポインタは残っています。
 

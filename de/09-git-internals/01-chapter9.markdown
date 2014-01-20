@@ -3,15 +3,15 @@
 
 <!--You may have skipped to this chapter from a previous chapter, or you may have gotten here after reading the rest of the book — in either case, this is where you’ll go over the inner workings and implementation of Git. I found that learning this information was fundamentally important to understanding how useful and powerful Git is, but others have argued to me that it can be confusing and unnecessarily complex for beginners. Thus, I’ve made this discussion the last chapter in the book so you could read it early or later in your learning process. I leave it up to you to decide.-->
 
-Möglicherweise hast Du dieses Kapitel hier direkt aufgeschlagen, vorherige Kapitel ausgelassen, oder bist hierher gelangt, nachdem Du alle vorherigen Kapitel gelesen hast. Wie auch immer, in diesem Kapitel wirst Du mit mit der internen Funktionsweise und der Implementierung von Git befassen. Meine eigene Erfahrung ist, dass das Lernen dieser Dinge unerlässlich ist, um zu verstehen, wie unheimlich mächtig und flexibel Git ist. Allerdings gibt es Leute, die der Ansicht sind, dass sie auch verwirrend und unnötig komplex für Anfänger sein können. Deshalb habe ich mich entschieden, dieses Kapitel an das Ende des Buches zu verlegen. Du kannst es, ganz wie es Dir beliebt, früher oder später einschieben.
+Möglicherweise hast Du dieses Kapitel hier direkt aufgeschlagen, vorherige Kapitel ausgelassen, oder bist hierher gelangt, nachdem Du alle vorherigen Kapitel gelesen hast. Wie auch immer, in diesem Kapitel werden wir uns mit der internen Funktionsweise und der Implementierung von Git befassen. Meine eigene Erfahrung ist, dass das Lernen dieser Dinge unerlässlich ist, um zu verstehen, wie unheimlich mächtig und flexibel Git ist. Allerdings gibt es Leute, die der Ansicht sind, dass sie auch verwirrend und unnötig komplex für Anfänger sein können. Deshalb habe ich mich entschieden, dieses Kapitel an das Ende des Buches zu verlegen. Du kannst es, ganz wie es Dir beliebt, früher oder später einschieben.
 
 <!--Now that you’re here, let’s get started. First, if it isn’t yet clear, Git is fundamentally a content-addressable filesystem with a VCS user interface written on top of it. You’ll learn more about what this means in a bit.-->
 
-Lass uns also loslegen. Zunächst will ich betonen, falls das bisher noch nicht klargeworden ist, dass Git im seinen Grundzügen ein Dateisystem ist, dessen Inhalte addressierbar sind und auf dem ein VCS-Interface aufgesetzt ist. Wir werden gleich genauer darauf eingehen, was das heißt.
+Lass uns also loslegen. Zunächst will ich betonen, falls das bisher noch nicht klargeworden ist, dass Git im seinen Grundzügen ein Dateisystem ist, dessen Inhalte addressierbar sind und auf dem eine VCS-Schnittstelle aufgesetzt ist. Wir werden gleich genauer darauf eingehen, was das heißt.
 
 <!--In the early days of Git (mostly pre 1.5), the user interface was much more complex because it emphasized this filesystem rather than a polished VCS. In the last few years, the UI has been refined until it’s as clean and easy to use as any system out there; but often, the stereotype lingers about the early Git UI that was complex and difficult to learn.-->
 
-In den frühen Tagen von Git (d.h. vor Version 1.5) war das Interface sehr viel komplexer, weil es diese Dateisystem-Eigenschaften stark betonte – im Gegensatz zu einem ausgearbeiteten VCS. In den letzten Jahren wurde das Interface dann stückweise verbessert und verfeinert, sodass es heute so einfach verständlich und einfach zu verwenden ist, wie alle möglichen vergleichbaren Systeme, die es gibt. Allerdings besteht scheinbar weiterhin das Vorurteil, das Git-Interface sei komplex und schwer zu erlernen.
+In den frühen Tagen von Git (d.h. vor Version 1.5) war die Benutzerschnittstelle sehr viel komplexer, weil es die Dateisystem-Eigenschaften stark betonte – im Gegensatz zu einem herkömmlichen VCS. In den letzten Jahren wurde die Benutzerschnittstelle dann stückweise verbessert und verfeinert, sodass es heute so einfach verständlich und einfach zu verwenden ist, wie andere vergleichbare Systeme, die auf dem Markt erhältlich sind. Allerdings besteht scheinbar weiterhin das Vorurteil, das Git-Interface sei komplex und schwer zu erlernen.
 
 <!--The content-addressable filesystem layer is amazingly cool, so I’ll cover that first in this chapter; then, you’ll learn about the transport mechanisms and the repository maintenance tasks that you may eventually have to deal with.-->
 
@@ -30,7 +30,7 @@ Die ersten acht Kapitel dieses Buches haben sich fast ausschließlich mit „Por
 
 <!--When you run `git init` in a new or existing directory, Git creates the `.git` directory, which is where almost everything that Git stores and manipulates is located. If you want to back up or clone your repository, copying this single directory elsewhere gives you nearly everything you need. This entire chapter basically deals with the stuff in this directory. Here’s what it looks like:-->
 
-Wenn Du `git init` in einem neuen oder bereits bestehenden Verzeichnis ausführst, erzeugt Git das `.git`-Verzeichnis, das fast alle Dateien enthält, die Git intern speichert und ändert. Wenn Du eine Sicherheitskopie Deines Repositorys anlegen oder es duplizieren willst, dann reicht aus, dieses Verzeichnis zu kopieren. Dieses ganze Kapitel handelt praktisch nur von den Inhalten dieses Verzeichnisses – die so aussehen:
+Wenn Du `git init` in einem neuen oder bereits bestehenden Verzeichnis ausführst, erzeugt Git das `.git`-Verzeichnis, das fast alle Dateien enthält, die Git intern speichert und ändert. Wenn Du eine Sicherheitskopie Deines Repositorys anlegen oder es duplizieren willst, dann reicht es aus, dieses Verzeichnis zu kopieren. Dieses ganze Kapitel handelt praktisch nur von den Inhalten dieses Verzeichnisses. Schauen wir es uns einmal an:
 
 	$ ls
 	HEAD
@@ -49,7 +49,7 @@ Möglicherweise findest Du darin weitere Dateien. Obiges stammt aus einem mit `g
 
 <!--This leaves four important entries: the `HEAD` and `index` files and the `objects` and `refs` directories. These are the core parts of Git. The `objects` directory stores all the content for your database, the `refs` directory stores pointers into commit objects in that data (branches), the `HEAD` file points to the branch you currently have checked out, and the `index` file is where Git stores your staging area information. You’ll now look at each of these sections in detail to see how Git operates.-->
 
-Damit bleiben vier wichtige Einträge übrig: die Dateien `HEAD` und `index` und die Verzeichnisse `objects` und `refs`. Dies sind die Kernkomponenten eines Git-Repositorys: Im `objects`-Verzeichnis befinden sich die Inhalte der Datenbank. Das `refs`-Verzeichnis enthält Referenzen auf Commit-Objekte (Branches) in dieser Datenbank. Die Datei `HEAD` zeigt auf denjeningen Branch, den Du gegenwärtig ausgecheckt hast, und in der Datei `index` verwaltet Git die Informationen der Staging-Area. Wir werden auf diese Elemente jetzt im einzelnen darauf eingehen, sodass Du nachvollziehen kannst, wie Git intern arbeitet.
+Damit bleiben vier wichtige Einträge übrig: die Dateien `HEAD` und `index` und die Verzeichnisse `objects` und `refs`. Dies sind die Kernkomponenten eines Git-Repositorys. Im `objects`-Verzeichnis befinden sich die Inhalte der Datenbank. Das `refs`-Verzeichnis enthält Referenzen auf Commit-Objekte (Branches) in dieser Datenbank. Die Datei `HEAD` zeigt auf denjeningen Branch, den Du gegenwärtig ausgecheckt hast, und in der Datei `index` verwaltet Git die Informationen der Staging-Area. Wir werden auf diese Elemente jetzt im einzelnen darauf eingehen, sodass Du nachvollziehen kannst, wie Git intern arbeitet.
 
 <!--## Git Objects ##-->
 ## Git Objekte ##
@@ -57,7 +57,7 @@ Damit bleiben vier wichtige Einträge übrig: die Dateien `HEAD` und `index` und
 <!--Git is a content-addressable filesystem. Great. What does that mean?-->
 <!--It means that at the core of Git is a simple key-value data store. You can insert any kind of content into it, and it will give you back a key that you can use to retrieve the content again at any time. To demonstrate, you can use the plumbing command `hash-object`, which takes some data, stores it in your `.git` directory, and gives you back the key the data is stored as. First, you initialize a new Git repository and verify that there is nothing in the `objects` directory:-->
 
-Git ist ein Dateisystem, das Inhalte addressieren kann. Prima. Aber was heißt das? Es bedeutet, dass Git im Kern nichts anderes ist als ein einfacher Key-Value-Store („Schlüssel-Wert-Speicher“). Du kannst darin jede Art von Inhalt ablegen und Git wird einen Schlüssel dafür zurückgeben, den Du dann verwenden kannst, um diesen Inhalt jederzeit nachzuschlagen. Um das auszuprobieren, kannst Du den Plumbing-Befehl `hash-object` verwenden. Dieser nimmt einen Inhalt an, speichert ihn in Deinem `.git`-Verzeichnis und gibt Dir den Schlüssel zurück, unter dem der Inhalt gespeichert wurde. Dazu initialisierst Du als erstes ein neues Git-Repository und verifizierst, dass das `objects`-Verzeichnis leer ist:
+Git ist ein Dateisystem, das Inhalte addressieren kann. Prima. Aber was heißt das? Es bedeutet, dass Git im Kern nichts anderes ist als ein einfacher Key-Value-Store („Schlüssel-Wert-Speicher“). Du kannst darin jede Art von Inhalt ablegen und Git wird einen Schlüssel dafür zurückgeben, den Du dann verwenden kannst, um diesen Inhalt jederzeit nachzuschlagen. Um das auszuprobieren, kannst Du den Plumbing-Befehl `hash-object` verwenden. Dieser nimmt Daten entgegen, speichert diese in Deinem `.git`-Verzeichnis und gibt Dir den Schlüssel zurück, unter dem der Inhalt gespeichert wurde. Dazu initialisierst Du als erstes ein neues Git-Repository und verifizierst, dass das `objects`-Verzeichnis leer ist:
 
 	$ mkdir test
 	$ cd test
@@ -79,25 +79,25 @@ Git hat also ein Verzeichnis `objects` und darin die Unterverzeichnisse `pack` u
 
 <!--The `-w` tells `hash-object` to store the object; otherwise, the command simply tells you what the key would be. `-\-stdin` tells the command to read the content from stdin; if you don’t specify this, `hash-object` expects the path to a file. The output from the command is a 40-character checksum hash. This is the SHA-1 hash — a checksum of the content you’re storing plus a header, which you’ll learn about in a bit. Now you can see how Git has stored your data:-->
 
-Die Option `-w` weist `git hash-object` an, das Objekt zu speichern. Andernfalls würde Dir der Befehl lediglich den Schlüssel mitteilen. `--stdin` weist den Befehl an, den Inhalt von aus der Standardeingabe zu lesen. Wenn Du diese Option weglässt, erwartet der Befehl zusätzlich einen Dateipfad. Die Ausgabe ist eine 40 Zeichen langer SHA-1-Hash, der eine Prüfsumme des gespeicherten Inhaltes darstellt (wir gehen auf diese Hashes gleich noch genauer ein). Git hat jetzt außerdem eine neue Datei in der Datenbank angelegt:
+Die Option `-w` weist `git hash-object` an, das Objekt zu speichern. Andernfalls würde Dir der Befehl lediglich den Schlüssel mitteilen. `--stdin` weist den Befehl an, den Inhalt von der Standardeingabe einzulesen. Wenn Du diese Option weglässt, erwartet der Befehl zusätzlich einen Dateipfad. Die Ausgabe ist ein 40 Zeichen langer SHA-1-Hash, der eine Prüfsumme des gespeicherten Inhaltes darstellt (wir gehen auf diese Hashes gleich noch genauer ein). Git hat jetzt außerdem eine neue Datei in der Datenbank angelegt:
 
 	$ find .git/objects -type f
 	.git/objects/d6/70460b4b4aece5915caf5c68d12f560a9fe3e4
 
 <!--You can see a file in the `objects` directory. This is how Git stores the content initially — as a single file per piece of content, named with the SHA-1 checksum of the content and its header. The subdirectory is named with the first 2 characters of the SHA, and the filename is the remaining 38 characters.-->
 
-Du siehst im `objects` Verzeichnis genau eine Datei. Auf diese Weise Git speichert Inhalte anfänglich: in jeweils einer Datei pro Inhalt, referenziert durch den SHA-1-Hash des Inhaltes und seiner Kopfzeile. Der Name des Unterverzeichnis `d6` sind die ersten zwei Zeichen des SHA-1-Hashes und der Dateiname die verbleibenden 38 Zeichen.
+Jetzt liegt im Verzeichnis `objects` genau eine Datei. Anfangs speichert Git den Inhalt auf diese Art und Weise: In jeweils einer einzelnen Datei werden die Daten gespeichert, referenziert durch den SHA-1-Hash des Inhaltes und seines Headers. Der Name des Unterverzeichnis `d6` entspricht den ersten zwei Zeichen des SHA-1-Hashes. Die verbleibenden 38 Zeichen werden als Dateiname verwendet.
 
 <!--You can pull the content back out of Git with the `cat-file` command. This command is sort of a Swiss army knife for inspecting Git objects. Passing `-p` to it instructs the `cat-file` command to figure out the type of content and display it nicely for you:-->
 
-Mit dem Befehl `git cat-file` kannst Du den jeweiligen Inhalt nachschlagen. Dieser Befehl ist so etwas wie ein Schweizer Taschenmesser, wenn es um Objekte in der Git-Datenbank geht. Wenn Du die Option `-p` übergibst, versucht `git cat-file`, die Art des Inhaltes herauszufinden und die Anzeige entsprechend lesbar zu formatieren:
+Mit dem Befehl `git cat-file` kannst Du den jeweiligen Inhalt nachschlagen. Dieser Befehl ist so etwas wie ein Schweizer Taschenmesser, wenn es um Objekte in der Git-Datenbank geht. Wenn Du die Option `-p` übergibst, versucht `git cat-file`, die Art des Inhaltes herauszufinden und lesbar darzustellen:
 
 	$ git cat-file -p d670460b4b4aece5915caf5c68d12f560a9fe3e4
 	test content
 
 <!--Now, you can add content to Git and pull it back out again. You can also do this with content in files. For example, you can do some simple version control on a file. First, create a new file and save its contents in your database:-->
 
-Auf diese Weise kannst Du also Inhalte zu Git hinzufügen und von dort wieder nachschlagen. Das klappt auch mit Dateiinhalten. Wenn Du beispielsweise eine einzelne Datei versionskontrollieren willst, lege die Datei zunächst an und speichere ihren Inhalt in der Datenbank:
+Auf diese Weise kannst Du also Inhalte zu Git hinzufügen und von dort wieder auslesen. Das klappt auch mit Dateiinhalten. Wenn Du beispielsweise eine einzelne Datei versionieren willst, legst Du dazu die Datei zunächst an und speicherst ihren Inhalt in der Datenbank:
 
 	$ echo 'version 1' > test.txt
 	$ git hash-object -w test.txt
@@ -148,7 +148,7 @@ Sich den SHA-1-Hash für jede Version merken zu müssen, ist allerdings nicht so
 
 <!--The next type you’ll look at is the tree object, which solves the problem of storing the filename and also allows you to store a group of files together. Git stores content in a manner similar to a UNIX filesystem, but a bit simplified. All the content is stored as tree and blob objects, with trees corresponding to UNIX directory entries and blobs corresponding more or less to inodes or file contents. A single tree object contains one or more tree entries, each of which contains a SHA-1 pointer to a blob or subtree with its associated mode, type, and filename. For example, the most recent tree in the simplegit project may look something like this:-->
 
-Als Nächstes schauen wir uns den Objekttyp „Tree“ (Baum) an, der es ermöglicht, Dateinamen zu speichern und Dateien zu gruppieren. Git speichert Inhalte in einer ähnlichen Weise wie das UNIX-Dateisystem, allerdings ein bisschen vereinfacht. Sie werden als Tree- und Blob-Objekte abgelegt, wobei die Trees mit UNIX-Verzeichnis-Einträgen korrespondieren und Blobs mehr oder weniger mit den inode-Einträgen bzw. Datei-Inhalten. Ein einzelnes Baum-Objekt enthält einen oder mehrere Einträge, von denen jeder ein SHA-1-Hash ist, der wiederum einen Blob oder einen Untertree referenziert. Jeder dieser Einträge verfügt außerdem über einen Modus, Typ und Dateinamen. Beispielsweise sieht das aktuelle Tree-Objekt im simplegit-Projekt möglicherweise so aus:
+Als Nächstes schauen wir uns den Objekttyp „Tree“ (Baum) an, der es ermöglicht, Dateinamen zu speichern und Dateien zu gruppieren. Git speichert Inhalte in einer ähnlichen Weise wie das UNIX-Dateisystem, allerdings ein bisschen vereinfacht. Sie werden als Tree- und Blob-Objekte abgelegt, wobei die Trees mit UNIX-Verzeichnis-Einträgen korrespondieren und Blobs mehr oder weniger mit den Inode-Einträgen bzw. Datei-Inhalten. Ein einzelnes Baum-Objekt enthält einen oder mehrere Einträge, von denen jeder ein SHA-1-Hash ist, der wiederum einen Blob oder einen Untertree referenziert. Jeder dieser Einträge verfügt außerdem über einen Modus, Typ und Dateinamen. Beispielsweise sieht das aktuelle Tree-Objekt im simplegit-Projekt möglicherweise so aus:
 
 	$ git cat-file -p master^{tree}
 	100644 blob a906cb2a4a904a152e80877d4088654daad0c859      README
@@ -157,7 +157,7 @@ Als Nächstes schauen wir uns den Objekttyp „Tree“ (Baum) an, der es ermögl
 
 <!--The `master^{tree}` syntax specifies the tree object that is pointed to by the last commit on your `master` branch. Notice that the `lib` subdirectory isn’t a blob but a pointer to another tree:-->
 
-Die `master^{tree}`-Syntax spezifiziert, dass wir an dem Tree-Objekt interessiert sind, auf das der letzte Commit des `master`-Branches zeigt. Beachte, dass das Unterverzeichnis `lib` nicht auf ein Blob, sondern wiederum auf einen weiteren Baum zeigt.
+Die `master^{tree}`-Syntax spezifiziert, dass wir an dem Tree-Objekt interessiert sind, auf das der letzte Commit des Branches `master` zeigt. Beachte, dass das Unterverzeichnis `lib` nicht auf ein Blob, sondern wiederum auf einen weiteren Baum zeigt.
 
 	$ git cat-file -p 99f1a6d12cb4b6f19c8655fca46c3ecf317074e0
 	100644 blob 47c6340d6459e05787f644c2447d2595f5d3a54b      simplegit.rb
@@ -173,7 +173,7 @@ Bild 9-1. Vereinfachte Darstellung des Git-Datenmodels.
 
 <!--You can create your own tree. Git normally creates a tree by taking the state of your staging area or index and writing a tree object from it. So, to create a tree object, you first have to set up an index by staging some files. To create an index with a single entry — the first version of your test.txt file — you can use the plumbing command `update-index`. You use this command to artificially add the earlier version of the test.txt file to a new staging area. You must pass it the `-\-add` option because the file doesn’t yet exist in your staging area (you don’t even have a staging area set up yet) and `-\-cacheinfo` because the file you’re adding isn’t in your directory but is in your database. Then, you specify the mode, SHA-1, and filename:-->
 
-Du kannst auch Deine eigenen Tree-Objekte anlegen. Git erzeugt Trees normalerweise, indem es die Inhalte der Staging-Area nimmt und als ein Tree-Objekt speichert. D.h., um ein Tree-Objekt anzulegen, musst Du zunächst einen Index (d.h. eine Staging-Area) erzeugen, indem Du einige Dateien hinzufügst. Um einen einzelnen Eintrag in den Index zu schreiben – z.B. die erste version der Datei test.txt – kannst Du den Plumbing-Befehl `git update-index` verwenden, der eine frühere Version dieser Datei künstlich zu einer neuen Staging-Area hinzufügt. Du musst ihm die Option `--add` übergeben, weil die Datei bisher noch nicht in der Staging-Area enthalten ist (Du hast ja bisher noch überhaupt keine Staging-Area aufgesetzt), und die Option `--cacheinfo`, weil Du eine Datei hinzufügst, die sich nicht in Deinem Verzeichnis befindet, sondern in der Datenbank. Du gibst außerdem den Modus, SHA-1-Hash und den Dateinamen an:
+Du kannst auch Deine eigenen Tree-Objekte anlegen. Git erzeugt Trees normalerweise, indem es die Inhalte der Staging-Area nimmt und als ein Tree-Objekt speichert. D.h., um ein Tree-Objekt anzulegen, musst Du zunächst einen Index (d.h. eine Staging-Area) aufbauen, indem Du einige Dateien hinzufügst. Um einen einzelnen Eintrag in den Index zu schreiben – z.B. die erste version der Datei test.txt – kannst Du den Plumbing-Befehl `git update-index` verwenden, der eine frühere Version dieser Datei künstlich zu einer neuen Staging-Area hinzufügt. Du musst ihm die Option `--add` übergeben, weil die Datei bisher noch nicht in der Staging-Area enthalten ist (Du hast ja bisher noch überhaupt keine Staging-Area aufgesetzt), und die Option `--cacheinfo`, weil Du eine Datei hinzufügst, die sich nicht in Deinem Verzeichnis befindet, sondern in der Datenbank. Du gibst außerdem den Modus, SHA-1-Hash und den Dateinamen an:
 
 	$ git update-index --add --cacheinfo 100644 \
 	  83baae61804e65cc73a7201a7252750c76066a30 test.txt
@@ -193,14 +193,14 @@ Jetzt kannst Du den Befehl `git write-tree` verwenden, um die Staging-Area als T
 
 <!--You can also verify that this is a tree object:-->
 
-Um zu überprüfen, dass es wirklich ein Tree-Objekt gibt:
+Um zu überprüfen, ob es sich wirklich um ein Tree-Objekt handelt:
 
 	$ git cat-file -t d8329fc1cc938780ffdd9f94e0d364e0ea74f579
 	tree
 
 <!--You’ll now create a new tree with the second version of test.txt and a new file as well:-->
 
-Jetzt erzeugen wir einen neuen Tree mit der zweiten Version der Datei test.txt sowie eine neue Datei:
+Jetzt erzeugen wir einen neuen Tree mit der zweiten Version der Datei test.txt sowie einer neuen Datei:
 
 	$ echo 'new file' > new.txt
 	$ git update-index test.txt
@@ -218,7 +218,7 @@ Die Staging-Area enthält jetzt eine neue Version der Datei test.txt sowie die n
 
 <!--Notice that this tree has both file entries and also that the test.txt SHA is the "version 2" SHA from earlier (`1f7a7a`). Just for fun, you’ll add the first tree as a subdirectory into this one. You can read trees into your staging area by calling `read-tree`. In this case, you can read an existing tree into your staging area as a subtree by using the `-\-prefix` option to `read-tree`:-->
 
-Beachte, dass das Tree-Objekt zwei Datei-Einträge hat und dass der SHA-1-Hash der Datei test.txt noch derselbe „Version 2“-Hash ist wie zuvor (`1f7a7a`). Fügen wir jetzt den ersten Tree als ein Unterverzeichnis in diesem hier ein. Du kannst einen Tree mit `git read-tree` in die Staging-Area einlesen. In diesem Fall können wir einen bereits existierenden Tree als einen Untertree zur Staging-Area hinzufügen, indem wir die Option `--prefix` verwenden:
+Beachte, dass das Tree-Objekt beide Datei-Einträge hat und dass der SHA-1-Hash der Datei test.txt noch derselbe „Version 2“-Hash ist wie zuvor (`1f7a7a`). Fügen wir jetzt den ersten Tree als ein Unterverzeichnis in diesem hier ein. Du kannst einen Tree mit `git read-tree` in die Staging-Area einlesen. In diesem Fall können wir einen bereits existierenden Tree als einen Untertree zur Staging-Area hinzufügen, indem wir die Option `--prefix` verwenden:
 
 	$ git read-tree --prefix=bak d8329fc1cc938780ffdd9f94e0d364e0ea74f579
 	$ git write-tree
@@ -242,18 +242,18 @@ Bild 9-2. Die Datenstruktur des gegenwärtigen Git-Repositorys.
 
 <!--You have three trees that specify the different snapshots of your project that you want to track, but the earlier problem remains: you must remember all three SHA-1 values in order to recall the snapshots. You also don’t have any information about who saved the snapshots, when they were saved, or why they were saved. This is the basic information that the commit object stores for you.-->
 
-Du hast jetzt drei Trees, die verschiedene Snapshots Deines Projektes spezifizieren, die Du nachverfolgen willst. Das ursprüngliche Problem besteht aber weiterhin: Du musst dir alle drei SHA-1-Hashwerte merken, um wieder an die Snapshots zu kommen. Ebenso fehlen Dir die Informationen darüber, wer die Snapshots gespeichert hat, wann sie gespeichert wurden und warum. Dies sind die drei Hauptinformationen, die ein Commit-Objekt für uns speichert.
+Du hast jetzt drei Trees, die verschiedene Snapshots Deines Projektes spezifizieren, die Du nachverfolgen willst. Das ursprüngliche Problem besteht aber weiterhin: Du musst Dir alle drei SHA-1-Hashwerte merken, um wieder an die Snapshots zu kommen. Ebenso fehlen Dir die Informationen darüber, wer die Snapshots gespeichert hat, wann sie gespeichert wurden und warum. Dies sind die drei Hauptinformationen, die ein Commit-Objekt für uns speichert.
 
 <!--To create a commit object, you call `commit-tree` and specify a single tree SHA-1 and which commit objects, if any, directly preceded it. Start with the first tree you wrote:-->
 
-Um ein Commit-Objekt anzulegen, verwendest Du den Befehl `git commit-tree`, spezifizierst den SHA-1-Hash eines einzelnen Trees und welche Commit-Objekte (sofern vorhanden) die direkten Vorgänger sind. Fangen wir damit an, den ersten Tree, den Du angelegt hast, zu committen:
+Um ein Commit-Objekt anzulegen, verwendest Du den Befehl `git commit-tree`, spezifizierst den SHA-1-Hash eines einzelnen Trees und welche Commit-Objekte (sofern vorhanden) die direkten Vorgänger sind. Fangen wir damit an, den ersten Tree, den Du angelegt hast, einzuchecken:
 
 	$ echo 'first commit' | git commit-tree d8329f
 	fdf4fc3344e67ab068f836878b6c4951e3b15f3d
 
 <!--Now you can look at your new commit object with `cat-file`:-->
 
-Du kannst diesen Commit jetzt mit `git cat-file` nachschlagen:
+Du kannst Dir dann dieses neue Commit-Objekt mit `cat-file` anschauen:
 
 	$ git cat-file -p fdf4fc3
 	tree d8329fc1cc938780ffdd9f94e0d364e0ea74f579
@@ -264,7 +264,7 @@ Du kannst diesen Commit jetzt mit `git cat-file` nachschlagen:
 
 <!--The format for a commit object is simple: it specifies the top-level tree for the snapshot of the project at that point; the author/committer information pulled from your `user.name` and `user.email` configuration settings, with the current timestamp; a blank line, and then the commit message.-->
 
-Das Format für ein Commit-Objekt ist einfach: es besteht aus dem obersten Tree für den Snapshot des Projektes zum gegebenen Zeitpunkt, die Autoren- und ggf. Committer-Information (jeweils entsprechend Deiner `user.name`- und `user.email`-Konfiguration) und dem Timestamp. Dann folgen eine leere Zeile und die Commit-Meldung.
+Das Format für ein Commit-Objekt ist einfach: es besteht aus dem obersten Tree für den Snapshot des Projektes zum gegebenen Zeitpunkt, die Autoren- und ggf. Committer-Information (jeweils entsprechend Deiner `user.name`- und `user.email`-Konfiguration) und dem aktuellen Zeitstempel. Dann folgen eine leere Zeile und die Commit-Nachricht.
 
 <!--Next, you’ll write the other two commit objects, each referencing the commit that came directly before it:-->
 
@@ -277,7 +277,7 @@ Als Nächstes speichern wir die beiden anderen Commit-Objekte und referenzieren 
 
 <!--Each of the three commit objects points to one of the three snapshot trees you created. Oddly enough, you have a real Git history now that you can view with the `git log` command, if you run it on the last commit SHA-1:-->
 
-Jedes der drei Commit-Objekte zeigt auf einen der drei Snapshot-Trees, die Du zuvor gespeichert hattest. Es mag Dich überraschen, aber Du hast jetzt bereits eine vollständige Git-Historie, die Du mit dem `git log` inspizieren kannst, indem Du den SHA-1-Hash des letzten Commits angibst:
+Jedes der drei Commit-Objekte zeigt auf einen der drei Snapshot-Trees, die Du zuvor gespeichert hattest. Es mag Dich überraschen, aber Du hast jetzt bereits eine vollständige Git-Historie, die Du mit dem Befehl `git log` inspizieren kannst, indem Du den SHA-1-Hash des letzten Commits angibst:
 
 	$ git log --stat 1a410e
 	commit 1a410efbd13591db07496601ebc7a059dd55cfe9
@@ -326,7 +326,7 @@ Fantastisch, oder? Du hast jetzt sämtliche Low-Level-Operationen durchgeführt,
 
 <!--If you follow all the internal pointers, you get an object graph something like Figure 9-3.-->
 
-Wenn man all diese Zeiger auflöst, erhält man einen Objekt-Graphen wie den folgenden (Bild 9-3).
+Wenn man all diese internen Zeiger nachverfolgt, erhält man einen Objekt-Graphen wie den folgenden (Bild 9-3).
 
 <!--Figure 9-3. All the objects in your Git directory.-->
 
@@ -338,7 +338,7 @@ Bild 9-3. Alle Objekte in Deinem Git-Repository.
 
 <!--I mentioned earlier that a header is stored with the content. Let’s take a minute to look at how Git stores its objects. You’ll see how to store a blob object — in this case, the string "what is up, doc?" — interactively in the Ruby scripting language. You can start up interactive Ruby mode with the `irb` command:-->
 
-Wir haben kurz erwähnt, dass zusammen mit einem Inhalt ein Header gespeichert wird. Schauen wir uns also genauer an, wie genau Git Objekte speichert. Du wirst sehen, wie ein Blob-Objekt – in diesem Fall die Zeichenkette „what is up, doc?“ gespeichert wird. Dazu nuten wir den interaktiven Ruby-Modus, den Du mit dem `irb` Befehl starten kannst:
+Ich habe bereits erwähnt, dass zusammen mit dem jeweiligen Inhalt ein Header gespeichert wird. Schauen wir uns also genauer an, wie genau Git Objekte speichert. Du wirst sehen, wie ein Blob-Objekt – in diesem Fall die Zeichenkette „what is up, doc?“ gespeichert wird. Dazu nutzen wir den interaktiven Ruby-Modus, den Du mit dem Befehl `irb` starten kannst:
 
 	$ irb
 	>> content = "what is up, doc?"
@@ -353,7 +353,7 @@ Git erzeugt einen Header, der mit dem Objekttyp beginnt, in diesem Fall ist das 
 
 <!--Git concatenates the header and the original content and then calculates the SHA-1 checksum of that new content. You can calculate the SHA-1 value of a string in Ruby by including the SHA1 digest library with the `require` command and then calling `Digest::SHA1.hexdigest()` with the string:-->
 
-Git fügt diesen Header mit dem ursprünglichen Inhalt zusammen und kalkuliert aus dem Ergebnis die SHA-1-Prüfsumme (Hash). Du kannst einen SHA-1-Hash in Ruby berechnen, indem Du die SHA1-Digest-Bibliothek mit `require` einbindest und dann `Digest::SHA1.hexdigest()` mit der Zeichenkette ausführst:
+Git fügt diesen Header mit dem ursprünglichen Inhalt zusammen und kalkuliert aus dem Ergebnis die SHA-1-Prüfsumme. Du kannst einen SHA-1-Hash in Ruby berechnen, indem Du die SHA1-Digest-Bibliothek mit `require` einbindest und dann `Digest::SHA1.hexdigest()` mit der Zeichenkette ausführst:
 
 	>> store = header + content
 	=> "blob 16\000what is up, doc?"
@@ -373,7 +373,7 @@ Git komprimiert den neuen Inhalt (d.h. inklusive des Headers) mit zlib. In Ruby 
 
 <!--Finally, you’ll write your zlib-deflated content to an object on disk. You’ll determine the path of the object you want to write out (the first two characters of the SHA-1 value being the subdirectory name, and the last 38 characters being the filename within that directory). In Ruby, you can use the `FileUtils.mkdir_p()` function to create the subdirectory if it doesn’t exist. Then, open the file with `File.open()` and write out the previously zlib-compressed content to the file with a `write()` call on the resulting file handle:-->
 
-Schließlich schreibst Du den zlib-komprimierten Inhalt in eine Datei auf der Festplatte. Dazu bestimmst Du den Pfad, an den die Datei gespeichert wird (die ersten beiden Zeichen für das Unterverzeichnis und die verbleibenden 38 Zeichen für den Dateinamen). In Ruby kannst Du die Funktion `FileUtils.mkdir_p()` verwenden, um Unterverzeichnisse anzulegen, die noch nicht existieren. Dann öffnest die Datei mit `File.open()` und schreibst den komprimierten Inhalt mit `write()` in die Datei:
+Schließlich schreibst Du den zlib-komprimierten Inhalt in eine Datei auf der Festplatte. Dazu bestimmst Du den Pfad, an den die Datei gespeichert wird (die ersten beiden Zeichen für das Unterverzeichnis und die verbleibenden 38 Zeichen für den Dateinamen). In Ruby kannst Du die Funktion `FileUtils.mkdir_p()` verwenden, um Unterverzeichnisse anzulegen, die noch nicht existieren. Dann öffnest Du die Datei mit `File.open()` und schreibst den komprimierten Inhalt mit `write()` in die Datei:
 
 	>> path = '.git/objects/' + sha1[0,2] + '/' + sha1[2,38]
 	=> ".git/objects/bd/9dbf5aae1a3862dd1526723246b20206e5fc37"
@@ -386,7 +386,7 @@ Schließlich schreibst Du den zlib-komprimierten Inhalt in eine Datei auf der Fe
 
 <!--That’s it — you’ve created a valid Git blob object. All Git objects are stored the same way, just with different types — instead of the string blob, the header will begin with commit or tree. Also, although the blob content can be nearly anything, the commit and tree content are very specifically formatted.-->
 
-Das ist alles – Du hast jetzt ein valides Git-Blob-Objekt geschrieben. Git-Objekte werden immer in dieser Weise gespeichert, lediglich mit verschiedenen Typen, d.h. anstelle der Zeichenkette „blob“ wird der Header mit „commit“ oder „tree“ anfangen. Außerdem sind Commit- und Tree-Inhalte auf eine sehr spezifische Weise formatiert, während Blobs beliebige Inhalte sein können.
+Das ist alles – Du hast jetzt ein gültiges Blob-Objekt geschrieben. Git-Objekte werden immer in dieser Weise gespeichert, lediglich mit verschiedenen Typen, d.h. anstelle der Zeichenkette „blob“ wird der Header mit „commit“ oder „tree“ anfangen. Außerdem sind Commit- und Tree-Inhalte auf eine sehr spezifische Weise formatiert, während Blobs beliebige Inhalte sein können.
 
 <!--## Git References ##-->
 ## Git-Referenzen ##
@@ -397,7 +397,7 @@ Du kannst Befehle wie `git log 1a410e` ausführen, um die Commit-Historie zu ins
 
 <!--In Git, these are called "references" or "refs"; you can find the files that contain the SHA-1 values in the `.git/refs` directory. In the current project, this directory contains no files, but it does contain a simple structure:-->
 
-Diese Namen werden in Git intern als „references“ oder „refs“ bezeichnet. Du kannst diese Dateien, die SHA-1-Hashes enthalten, im Verzeichnis `.git/refs` finden. In unserem gegenwärtigen Projekt enthält dieses Verzeichnis noch keine Dateien, aber eine simple Verzeichnisstruktur:
+Diese Namen werden in Git intern als „references“ oder „refs“ (also Referenz bzw. Verweis) bezeichnet. Du kannst diese Dateien, die SHA-1-Hashes enthalten, im Verzeichnis `.git/refs` finden. In unserem gegenwärtigen Projekt enthält dieses Verzeichnis noch keine Dateien, aber eine simple Verzeichnisstruktur:
 
 	$ find .git/refs
 	.git/refs
@@ -452,14 +452,14 @@ Bild 9-4. Git-Verzeichnis-Objekte mit Branch-Head-Referenzen.
 
 <!--When you run commands like `git branch (branchname)`, Git basically runs that `update-ref` command to add the SHA-1 of the last commit of the branch you’re on into whatever new reference you want to create.-->
 
-Wenn Du Befehle wie `git branch (branchname)` verwendest, führt Git intern im Wesentlichen den Befehl `update-ref` aus, um den SHA-1-Hash des letzten Commits des jeweils gegenwärtigen Branches mit dem gegebenen Namen zu referenzieren.
+Wenn Du Befehle wie `git branch (Branch-Name)` verwendest, führt Git intern im Wesentlichen den Befehl `update-ref` aus, um den SHA-1-Hash des letzten Commits des jeweils gegenwärtigen Branches mit dem gegebenen Namen zu referenzieren.
 
 <!--### The HEAD ###-->
 ### Der HEAD ###
 
 <!--The question now is, when you run `git branch (branchname)`, how does Git know the SHA-1 of the last commit? The answer is the HEAD file. The HEAD file is a symbolic reference to the branch you’re currently on. By symbolic reference, I mean that unlike a normal reference, it doesn’t generally contain a SHA-1 value but rather a pointer to another reference. If you look at the file, you’ll normally see something like this:-->
 
-Die Frage ist jetzt: Wenn Du `git branch (branchname)` ausführst, woher weiß Git den SHA-1 des letzten Commits? Die Antwort ist: aus der HEAD Datei. Diese Datei ist eine symbolische Referenz auf den jeweiligen Branch, auf dem Du Dich gerade befindest. Mit „symbolischer Referenz“ meine ich, dass sie (anders als eine „normale“ Referenz) keinen SHA-1-Hash enthält, sondern stattdessen auf eine andere Referenz zeigt. Wenn Du die Datei ansiehst, findest Du normalerweise etwas wie:
+Die Frage ist jetzt: Wenn Du `git branch (Branch-Name)` ausführst, woher weiß Git den SHA-1 des letzten Commits? Die Antwort ist: aus der Datei HEAD. Diese Datei ist eine symbolische Referenz auf den jeweiligen Branch, auf dem Du Dich gerade befindest. Mit „symbolischer Referenz“ meine ich, dass sie (anders als eine „normale“ Referenz) keinen SHA-1-Hash enthält, sondern stattdessen auf eine andere Referenz zeigt. Wenn Du Dir die Datei ansiehst, findest Du normalerweise etwas wie:
 
 	$ cat .git/HEAD
 	ref: refs/heads/master
@@ -537,7 +537,7 @@ Jetzt wendest Du den Befehl `git cat-file` auf diesen SHA-1-Hash an:
 
 <!--Notice that the object entry points to the commit SHA-1 value that you tagged. Also notice that it doesn’t need to point to a commit; you can tag any Git object. In the Git source code, for example, the maintainer has added their GPG public key as a blob object and then tagged it. You can view the public key by running-->
 
-Beachte, dass der der Wert `object` auf den SHA-1 des Commits zeigt, den Du getaggt hast, und dass die `tags/v1.1` Referenz nicht direkt auf den Commit zeigt, sondern auf das Tag-Objekt. In Git kannst Du jedes beliebige Objekt taggen. Im Git-Quellcode z.B. befindet sich der öffentliche GPG-Schlüssel des Projektbetreibers als ein Blob-Objekt, sowie ein Tag, der darauf zeigt. Auf diese Weise kannst den Schlüssel so anzeigen, indem Du den folgenden Befehl im Git-Quellcode Repository ausführst:
+Beachte, dass der der Wert `object` auf den SHA-1 des Commits zeigt, den Du getaggt hast. Weiterhin muss der Eintrag nicht auf einen Commit zeigen. In Git kann man jedes beliebige Objekt taggen. Im Git-Quellcode befindet sich beispielweise der öffentliche GPG-Schlüssel des Projektbetreibers als ein Blob-Objekt, sowie ein Tag, der darauf zeigt. Du kannst Dir den öffentlichen Schlüssel anzeigen lassen, indem du den folgenden Befehl im Git-Quellcode-Repository ausführst:
 
 	$ git cat-file blob junio-gpg-pub
 
@@ -550,7 +550,7 @@ Der Linux-Kernel hat auch ein Tag-Objekt, das nicht auf einen Commit zeigt – d
 
 <!--The third type of reference that you’ll see is a remote reference. If you add a remote and push to it, Git stores the value you last pushed to that remote for each branch in the `refs/remotes` directory. For instance, you can add a remote called `origin` and push your `master` branch to it:-->
 
-Der dritte Referenztyp ist die externe Referenz („remote reference“). Wenn Du einen externen Server („remote“) definierst und dorthin pushst, merkt sich Git den zuletzt gepushten Commit für jeden Branch im `refs/remotes` Verzeichnis. Bespielsweise fügst Du einen externen Server `origin` hinzu und pushst Deinen `master` Branch dorthin:
+Der dritte Referenztyp ist die externe Referenz („remote reference“). Wenn Du einen externen Server („remote“) definierst und dorthin pushst, merkt sich Git den zuletzt gepushten Commit für jeden Branch im `refs/remotes` Verzeichnis. Bespielsweise fügst Du einen externen Server `origin` hinzu und pushst Deinen Branch `master` dorthin:
 
 	$ git remote add origin git@github.com:schacon/simplegit-progit.git
 	$ git push origin master
@@ -563,7 +563,7 @@ Der dritte Referenztyp ist die externe Referenz („remote reference“). Wenn D
 
 <!--Then, you can see what the `master` branch on the `origin` remote was the last time you communicated with the server, by checking the `refs/remotes/origin/master` file:-->
 
-Dann kannst Du herausfinden, in welchem Zustand sich der `master`-Branch auf dem `origin`-Server zuletzt befand (d.h. als Du das letzte Mal mit ihm kommuniziert hast), indem Du die Datei `refs/remotes/origin/master` anschaust:
+Dann kannst Du herausfinden, in welchem Zustand sich der Branch `master` auf dem Server `origin` zuletzt befand (d.h. als Du das letzte Mal mit ihm kommuniziert hast), indem Du Dir die Datei `refs/remotes/origin/master` anschaust:
 
 	$ cat .git/refs/remotes/origin/master
 	ca82a6dff817ec66f44342007202690a93763949
@@ -577,7 +577,7 @@ Externe Referenzen unterscheiden sich von Branches (`refs/heads`) hauptsächlich
 
 <!--Let’s go back to the objects database for your test Git repository. At this point, you have 11 objects — 4 blobs, 3 trees, 3 commits, and 1 tag:-->
 
-Kommen wir noch einmal auf die Objekt-Datenbank zurück, die Du für Dein Test-Git-Repository angelegt hast. Im Moment müsstest Du 11 Objekte haben: 4 Blobs, 3 Trees, 3 Commits und 1 Tag:
+Kommen wir noch einmal auf die Objekt-Datenbank zurück, die Du für Dein Test-Repository angelegt hast. Im Moment müsstest Du 11 Objekte haben: 4 Blobs, 3 Trees, 3 Commits und 1 Tag:
 
 	$ find .git/objects -type f
 	.git/objects/01/55eb4229851634a0f03eb265b69f5a2d56f341 # tree 2
@@ -674,7 +674,7 @@ Wenn Du das Objekt-Verzeichnis anschaust, siehst Du, dass die meisten Objekte je
 
 <!--The objects that remain are the blobs that aren’t pointed to by any commit — in this case, the "what is up, doc?" example and the "test content" example blobs you created earlier. Because you never added them to any commits, they’re considered dangling and aren’t packed up in your new packfile.-->
 
-Die verbleibenden Objekte sind diejenigen Blobs, die nicht von irgendeinem Commit referenziert werden – in diesem Fall sind das die Beispielblobs „what is up, doc?“ und „test content“, die wir zuvor gespeichert hatten: weil wir sie nie zu irgendeinem Commit hinzugefügt haben, werden sie als „dangling“ (wörtlich: herumbaumelnd) betrachtet und nicht im Packfile zusammengepackt.
+Die verbleibenden Objekte sind diejenigen Blobs, die nicht von irgendeinem Commit referenziert werden – in diesem Fall sind das die Beispielblobs „what is up, doc?“ und „test content“, die wir zuvor gespeichert hatten. Weil wir sie nie zu irgendeinem Commit hinzugefügt haben, werden sie als „dangling“ (wörtlich: herumbaumelnd) betrachtet und nicht im Packfile zusammengepackt.
 
 <!--The other files are your new packfile and an index. The packfile is a single file containing the contents of all the objects that were removed from your filesystem. The index is a file that contains offsets into that packfile so you can quickly seek to a specific object. What is cool is that although the objects on disk before you ran the `gc` were collectively about 8K in size, the new packfile is only 4K. You’ve halved your disk usage by packing your objects.-->
 
@@ -721,7 +721,7 @@ Außerdem ist toll, dass ein Repository jederzeit neu gepackt werden kann. Git m
 <!--Throughout this book, you’ve used simple mappings from remote branches to local references; but they can be more complex.-->
 <!--Suppose you add a remote like this:-->
 
-In diesem Buch haben wir bisher einfache Zuweisungen von externen Branches auf lokale Referenzen verwendet. Sie können aber auch durchaus komplex sein. Nehmen wir an, Du hast ein externes Repository wie folgt definiert:
+In diesem Buch haben wir bisher einfache Zuweisungen von externen Branches auf lokale Referenzen verwendet. Sie können aber auch durchaus komplex sein. Nehmen wir an, Du hast ein Remote-Repository wie folgt definiert:
 
 	$ git remote add origin git@github.com:schacon/simplegit-progit.git
 
@@ -735,11 +735,11 @@ Das fügt eine Sektion in Deine `.git/config`-Datei hinzu, die Deinen lokalen Na
 
 <!--The format of the refspec is an optional `+`, followed by `<src>:<dst>`, where `<src>` is the pattern for references on the remote side and `<dst>` is where those references will be written locally. The `+` tells Git to update the reference even if it isn’t a fast-forward.-->
 
-Das Format der Refspec besteht aus einem optionalen `+` gefolgt von `<quelle>:<ziel>`, wobei `<quelle>` ein Muster für Referenzen auf der Remote-Seite ist, und `<ziel>` angibt, wohin diese Referenzen lokal geschrieben werden. Das `+` weist Git an, die Referenz zu mergen, wenn sie nicht mit einem Fast-forward aktualisiert werden kann.
+Das Format der Refspec besteht aus einem optionalen `+` gefolgt von `<Quelle>:<Ziel>`, wobei `<Quelle>` ein Muster für Referenzen auf der Remote-Seite ist, und `<Ziel>` angibt, wohin diese Referenzen lokal geschrieben werden. Das `+` weist Git an, die Referenz zu mergen, wenn sie nicht mit einem Fast-forward aktualisiert werden kann.
 
 <!--In the default case that is automatically written by a `git remote add` command, Git fetches all the references under `refs/heads/` on the server and writes them to `refs/remotes/origin/` locally. So, if there is a `master` branch on the server, you can access the log of that branch locally via-->
 
-Der Standard, der von `git remote add` automatisch eingerichtet wird, besteht darin, dass Git automatisch alle Referenzen unter `refs/heads/` vom Server holt und sie lokal nach `refs/remotes/origin` speichert. D.h., wenn es auf dem Server einen `master`-Branch gibt, kannst Du auf das Log dieses Branches wie folgt zugreifen:
+Der Standard, der von `git remote add` automatisch eingerichtet wird, besteht darin, dass Git automatisch alle Referenzen unter `refs/heads/` vom Server holt und sie lokal nach `refs/remotes/origin` speichert. D.h., wenn es auf dem Server einen Branch `master` gibt, kannst Du auf das Log dieses Branches wie folgt zugreifen:
 
 	$ git log origin/master
 	$ git log remotes/origin/master
@@ -751,19 +751,19 @@ Diese Varianten sind allesamt äquivalent, weil Git sie jeweils zu `refs/remotes
 
 <!--If you want Git instead to pull down only the `master` branch each time, and not every other branch on the remote server, you can change the fetch line to-->
 
-Wenn Du stattdessen willst, dass Git jeweils nur den `master`-Branch herunterlädt und andere Branches auf dem Server ignoriert, kannst Du die `fetch`-Zeile wie folgt ändern:
+Wenn Du stattdessen willst, dass Git jeweils nur den Branch `master` herunterlädt und andere Branches auf dem Server ignoriert, kannst Du die `fetch`-Zeile wie folgt ändern:
 
 	fetch = +refs/heads/master:refs/remotes/origin/master
 
 <!--This is just the default refspec for `git fetch` for that remote. If you want to do something one time, you can specify the refspec on the command line, too. To pull the `master` branch on the remote down to `origin/mymaster` locally, you can run-->
 
-Dies ist allerdings lediglich der Standardwert der Refspec und Du kannst ihn auf der Kommandozeile jederzeit überschreiben. Um zum Beispiel nur den `master`-branch vom Server lokal als `origin/mymaster` zu speichern, kannst Du Folgendes ausführen:
+Dies ist allerdings lediglich der Standardwert der Refspec und Du kannst ihn auf der Kommandozeile jederzeit überschreiben. Um zum Beispiel nur den Branch `master` vom Server lokal als `origin/mymaster` zu speichern, kannst Du Folgendes ausführen:
 
 	$ git fetch origin master:refs/remotes/origin/mymaster
 
 <!--You can also specify multiple refspecs. On the command line, you can pull down several branches like so:-->
 
-Du kannst auch mehrere Refspecs gleichzeitig spezifizieren. Z.B.:
+Du kannst auch mehrere Refspecs gleichzeitig spezifizieren. Um mehrere Branches zu holen kannst du folgenden Befehl in die Kommandozeile eingeben:
 
 	$ git fetch origin master:refs/remotes/origin/mymaster \
 	   topic:refs/remotes/origin/topic
@@ -792,7 +792,7 @@ Du kannst keine partiellen Glob-Muster verwenden, d.h. Folgendes wäre ungültig
 
 <!--However, you can use namespacing to accomplish something like that. If you have a QA team that pushes a series of branches, and you want to get the master branch and any of the QA team’s branches but nothing else, you can use a config section like this:-->
 
-Allerdings kannst Du Namensräume verwenden, um etwas Ähnliches zu erreichen. Nehmen wir an, Du hast ein QA-Team, das regelmäßig verschiedene Branches pusht, und Du willst nun den master-Branch und sämtliche Branches des QA-Teams, aber keine anderen Branches haben. Dann kannst Du eine Config-Sektion wie die folgende verwenden:
+Allerdings kannst Du Namensräume verwenden, um etwas Ähnliches zu erreichen. Nehmen wir an, Du hast ein QA-Team, das regelmäßig verschiedene Branches pusht, und Du willst nun den Branch master und sämtliche Branches des QA-Teams, aber keine anderen Branches haben. Dann kannst Du eine Config-Sektion wie die folgende verwenden:
 
 	[remote "origin"]
 	       url = git@github.com:schacon/simplegit-progit.git
@@ -812,7 +812,7 @@ Wie aber legt das QA-Team die Branches im `qa/` Namensraum ab? Das geht, indem m
 
 <!--If the QA team wants to push their `master` branch to `qa/master` on the remote server, they can run-->
 
-Wenn das QA-Team seinen `master` Branch in einem externen Repository als `qa/master` speichern will, kann es das wie folgt tun:
+Wenn das QA-Team seinen Branch `master` in einem externen Repository als `qa/master` speichern will, kann es das wie folgt tun:
 
 	$ git push origin master:refs/heads/qa/master
 
@@ -827,7 +827,7 @@ Um Git so zu konfigurieren, dass diese Refspec jedes Mal automatisch für `git p
 
 <!--Again, this will cause a `git push origin` to push the local `master` branch to the remote `qa/master` branch by default.-->
 
-Auf diese Weise wird `git push origin` den lokalen Branch `master` als `qa/master` auf dem `origin` Server speichern.
+Auf diese Weise wird `git push origin` den lokalen Branch `master` als `qa/master` auf dem Server `origin` speichern.
 
 <!--### Deleting References ###-->
 ### Referenzen löschen ###
@@ -840,7 +840,7 @@ Man kann Refspecs außerdem verwenden, um Referenzen aus einem externen Reposito
 
 <!--Because the refspec is `<src>:<dst>`, by leaving off the `<src>` part, this basically says to make the topic branch on the remote nothing, which deletes it.-->
 
-Das Refspec Format ist `<quelle>:<ziel>`. Wenn man den Teil `<ziel>` weglässt, dann heißt das im obigen Beispiel, dass man den `topic` Branch auf dem `origin` Server auf „nichts“ setzt, d.h. also löscht.
+Das Refspec Format ist `<Quelle>:<Ziel>`. Wenn man den Teil `<Quelle>` weglässt, dann heißt das im obigen Beispiel, dass man den Branch `topic` auf dem Server `origin` auf „nichts“ setzt, d.h. also löscht.
 
 <!--## Transfer Protocols ##-->
 ## Transfer-Protokolle ##
@@ -854,31 +854,31 @@ Git kann Daten zwischen zwei Repositorys im Wesentlichen auf zwei Arten transpor
 
 <!--Git transport over HTTP is often referred to as the dumb protocol because it requires no Git-specific code on the server side during the transport process. The fetch process is a series of GET requests, where the client can assume the layout of the Git repository on the server. Let’s follow the `http-fetch` process for the simplegit library:-->
 
-Das HTTP-Transfer-Protokoll von Git wird oft auch als „dummes“ Protokoll bezeichnet, weil es auf der Server-Seite keinen Git-spezifischen Code benötigt. Der `fetch`-Prozess besteht aus einer Reihe von GET-Requests, für die der Client Vorannahmen über das Layout des Git-Repositorys auf dem Server machen kann. Schauen wir uns den `http-fetch`-Prozess der `simplegit`-Bibliothek an:
+Das HTTP-Transfer-Protokoll von Git wird oft auch als „dummes“ Protokoll bezeichnet, weil es auf der Server-Seite keinen Git-spezifischen Code benötigt. Der `fetch`-Prozess besteht aus einer Reihe von GET-Requests, für die der Client Vorannahmen über das Layout des Git-Repositorys auf dem Server machen kann. Schauen wir uns den `http-fetch`-Prozess der Bibliothek `simplegit` an:
 
 	$ git clone http://github.com/schacon/simplegit-progit.git
 
 <!--The first thing this command does is pull down the `info/refs` file. This file is written by the `update-server-info` command, which is why you need to enable that as a `post-receive` hook in order for the HTTP transport to work properly:-->
 
-Der Befehl lädt zunächst die `info/refs` Datei herunter. Diese Datei wird vom Befehl `update-server-info` geschrieben, den man als einen `post-receive`-Hook einrichten muss, damit das HTTP-Protokoll richtig funktionieren kann.
+Der Befehl lädt zunächst die Datei `info/refs` herunter. Diese Datei wird vom Befehl `update-server-info` geschrieben, den man als einen `post-receive`-Hook einrichten muss, damit das HTTP-Protokoll richtig funktionieren kann.
 
 	=> GET info/refs
 	ca82a6dff817ec66f44342007202690a93763949     refs/heads/master
 
 <!--Now you have a list of the remote references and SHAs. Next, you look for what the HEAD reference is so you know what to check out when you’re finished:-->
 
-Jetzt hat man eine Liste aller Referenzen und SHAs in diesem Repository. Als nächstes schaut man die HEAD-Referenz nach, um zu wissen, was ausgecheckt werden muss:
+Jetzt hat man eine Liste aller Referenzen und SHA-Prüfsummen in diesem Repository. Als nächstes schaut man die HEAD-Referenz nach, um zu wissen, was ausgecheckt werden muss:
 
 	=> GET HEAD
 	ref: refs/heads/master
 
 <!--You need to check out the `master` branch when you’ve completed the process.-->
 
-D.h., wenn wir mit dem Prozess fertig sind, wir müssen den `master`-Branch auschecken.
+D.h., wenn wir mit dem Prozess fertig sind, wir müssen den Branch `master` auschecken.
 
 <!--At this point, you’re ready to start the walking process. Because your starting point is the `ca82a6` commit object you saw in the `info/refs` file, you start by fetching that:-->
 
-Wir können jetzt loslegen. Weil wir in der `info/refs` Datei der Commit `ca82a6` angegeben ist, fangen wir damit an, dieses Objekt herunterzuladen:
+Wir können jetzt loslegen. Weil in der Datei `info/refs` der Commit `ca82a6` angegeben ist, fangen wir damit an, dieses Objekt herunterzuladen:
 
 	=> GET objects/ca/82a6dff817ec66f44342007202690a93763949
 	(179 bytes of binary data)
@@ -897,7 +897,7 @@ Wir erhalten also ein Objekt zurück. Dieses Objekt ist im losen Format auf dem 
 
 <!--Next, you have two more objects to retrieve — `cfda3b`, which is the tree of content that the commit we just retrieved points to; and `085bb3`, which is the parent commit:-->
 
-Als Nächstes brauchen wir also zwei weitere Objekte: `cfda3b`, welches der Tree der Inhalte dieses Commits ist, und `085bb3`, den Commit-Parent:
+Als Nächstes brauchen wir also zwei weitere Objekte: `cfda3b`, welches der Tree der Inhalte dieses Commits ist, und `085bb3`, welches der übergeordnete Commit ist:
 
 	=> GET objects/08/5bb3bcb608e1e8451d4b2432f8ecbe6306e7e7
 	(179 bytes of data)
@@ -911,7 +911,7 @@ Das gibt uns das nächste Commit-Objekt. Versuchen wir, das Tree-Objekt zu holen
 
 <!--Oops — it looks like that tree object isn’t in loose format on the server, so you get a 404 response back. There are a couple of reasons for this — the object could be in an alternate repository, or it could be in a packfile in this repository. Git checks for any listed alternates first:-->
 
-Huch. Es sieht so aus, als ob der Tree nicht im losen Format auf dem Server gespeichert ist, weshalb wir einer 404-Antwort („Not found“) erhalten. Dafür kann es verschiedene Gründe geben. Das Objekt könnte in einem anderen, alternativen Repository liegen, oder es könnte sich in einem Packfile befinden. Git sucht deshalb zunächst nach alternativen Repositories:
+Huch. Es sieht so aus, als ob der Tree nicht im losen Format auf dem Server gespeichert ist, weshalb wir eine 404-Antwort („Not found“) erhalten. Dafür kann es verschiedene Gründe geben. Das Objekt könnte in einem anderen, alternativen Repository liegen, oder es könnte sich in einem Packfile befinden. Git sucht deshalb zunächst nach alternativen Repositories:
 
 	=> GET objects/info/http-alternates
 	(empty file)
@@ -992,7 +992,7 @@ Nehmen wir z.B. an, Du führst `git push origin master` in Deinem Projekt aus un
 
 <!--The `git-receive-pack` command immediately responds with one line for each reference it currently has — in this case, just the `master` branch and its SHA. The first line also has a list of the server’s capabilities (here, `report-status` and `delete-refs`).-->
 
-Der `git-receive-pack`-Befehl antwortet dann mit jeweils einer Zeile pro Referenz, die er kennt – in diesem Fall sind das lediglich der `master`-Branch und dessen SHA. Die erste Zeile listet außerdem Features, die der Server beherrscht (in unserem Fall `report-status` und `delete-refs`).
+Der `git-receive-pack`-Befehl antwortet dann mit jeweils einer Zeile pro Referenz, die er kennt – in diesem Fall sind das lediglich der Branch `master` und dessen SHA-Prüfsumme. Die erste Zeile listet außerdem Features, die der Server beherrscht (in unserem Fall `report-status` und `delete-refs`).
 
 <!--Each line starts with a 4-byte hex value specifying how long the rest of the line is. Your first line starts with 005b, which is 91 in hex, meaning that 91 bytes remain on that line. The next line starts with 003e, which is 62, so you read the remaining 62 bytes. The next line is 0000, meaning the server is done with its references listing.-->
 
@@ -1000,7 +1000,7 @@ Jede Zeile beginnt mit einem 4 Byte Hexadezimalzahl-Wert, der angibt, wie lang d
 
 <!--Now that it knows the server’s state, your `send-pack` process determines what commits it has that the server doesn’t. For each reference that this push will update, the `send-pack` process tells the `receive-pack` process that information. For instance, if you’re updating the `master` branch and adding an `experiment` branch, the `send-pack` response may look something like this:-->
 
-Nachdem Dein `send-pack`-Prozess jetzt den Zustand des Servers kennt, kann er als nächstes evaluieren, welche Commits lokal, aber nicht auf dem Server vorhanden sind. der `send-pack`-Prozess schickt diese Information für jede Referenz, auf die sich der `push`-Befehl bezieht, an den `receive-pack` Prozess. Wenn Du beispielsweise den `master`-Branch aktualisierst und einen `experiment`-Branch hinzufügst, dann könnte die Antwort auf `send-pack` so aussehen:
+Nachdem Dein `send-pack`-Prozess jetzt den Zustand des Servers kennt, kann er als nächstes evaluieren, welche Commits lokal, aber nicht auf dem Server vorhanden sind. der `send-pack`-Prozess schickt diese Information für jede Referenz, auf die sich der `push`-Befehl bezieht, an den `receive-pack` Prozess. Wenn Du beispielsweise den Branch `master` aktualisierst und einen Branch `experiment` hinzufügst, dann könnte die Antwort auf `send-pack` so aussehen:
 
 	0085ca82a6dff817ec66f44342007202690a93763949  15027957951b64cf874c3557a0f3547bd83b3ff6 refs/heads/master report-status
 	00670000000000000000000000000000000000000000 cdfdb42577e2506715f8cfeacdbabc092bf63e8d refs/heads/experiment
@@ -1025,7 +1025,7 @@ Wenn Du Daten herunterlädst, sind daran die Prozesse `fetch-pack` und `upload-p
 
 <!--There are different ways to initiate the `upload-pack` process on the remote repository. You can run via SSH in the same manner as the `receive-pack` process. You can also initiate the process via the Git daemon, which listens on a server on port 9418 by default. The `fetch-pack` process sends data that looks like this to the daemon after connecting:-->
 
-Es gibt verschiedene Möglichkeiten, den `upload-pack`-Prozess auf dem Server zu starten: einerseits via SSH auf die gleiche Weise wie den `receive-pack`-Prozess. Und adnererseits über den Git-Daemon, der standardmäßig auf dem Server auf dem Port 9418 läuft. Der `fetch-pack`-Prozess schickt etwa Folgendes an den Daemon:
+Es gibt verschiedene Möglichkeiten, den `upload-pack`-Prozess auf dem Server zu starten: einerseits via SSH auf die gleiche Weise wie den `receive-pack`-Prozess. Und andererseits über den Git-Daemon, der standardmäßig auf dem Server auf dem Port 9418 läuft. Der `fetch-pack`-Prozess schickt etwa Folgendes an den Daemon:
 
 	003fgit-upload-pack schacon/simplegit-progit.git\0host=myserver.com\0
 
@@ -1071,7 +1071,7 @@ Das ist ein sehr einfaches Beispiel. In komplexeren Fällen unterstützt der Cli
 
 <!--Occasionally, you may have to do some cleanup — make a repository more compact, clean up an imported repository, or recover lost work. This section will cover some of these scenarios.-->
 
-Gelegentlich will man ein bisschen aufräumen – ein Repository verdichten, ein importiertes Repository aufräumen oder verloren gegangene Daten wieder herstellen. Dieses Kapitel wird sich mit einigen derartigen Szenarien befassen.
+Gelegentlich will man ein bisschen aufräumen – ein Repository komprimieren, ein importiertes Repository aufräumen oder verloren gegangene Daten wiederherstellen. Dieses Kapitel wird sich mit einigen derartigen Szenarien befassen.
 
 <!--### Maintenance ###-->
 ### Wartung ###
@@ -1102,7 +1102,7 @@ Wie schon erwähnt tut dies normalerweise gar nichts. Es müssen sich etwa 7.000
 
 <!--If you run `git gc`, you’ll no longer have these files in the `refs` directory. Git will move them for the sake of efficiency into a file named `.git/packed-refs` that looks like this:-->
 
-Nachdem Du `git gc` ausgeführt hast, werden diese Dateien um der Effizienz willen aus dem `refs`-Verzeichnis entfernt und in eine Datei `.git/packed-refs` verschoben, die dann wie folgt aussieht:
+Nachdem Du `git gc` ausgeführt hast, werden diese Dateien um der Effizienz willen aus dem Verzeichnis `refs` entfernt und in eine Datei `.git/packed-refs` verschoben, die dann wie folgt aussieht:
 
 	$ cat .git/packed-refs
 	# pack-refs with: peeled
@@ -1114,7 +1114,7 @@ Nachdem Du `git gc` ausgeführt hast, werden diese Dateien um der Effizienz will
 
 <!--If you update a reference, Git doesn’t edit this file but instead writes a new file to `refs/heads`. To get the appropriate SHA for a given reference, Git checks for that reference in the `refs` directory and then checks the `packed-refs` file as a fallback. However, if you can’t find a reference in the `refs` directory, it’s probably in your `packed-refs` file.-->
 
-Wenn Du eine Referenz bearbeitest, lässt Git diese Datei unverändert und schreibt stattdessen eine neue Datei nach `refs/heads`. Um einen SHA für eine Referenz nachzuschlagen, schaut Git zunächst im `refs`-Verzeichnis und danach erst in der Datei `packed-refs` nach, falls nötig. Wenn eine Referenz also nicht im `refs`-Verzeichnis liegt, befindet sie sich wahrscheinlich in der Datei `packed-refs`.
+Wenn Du eine Referenz bearbeitest, lässt Git diese Datei unverändert und schreibt stattdessen eine neue Datei nach `refs/heads`. Um eine SHA-Prüfsumme für eine Referenz nachzuschlagen, schaut Git zunächst im Verzeichnis `refs` und danach erst in der Datei `packed-refs` nach, falls nötig. Wenn eine Referenz also nicht im Verzeichnis `refs` liegt, befindet sie sich wahrscheinlich in der Datei `packed-refs`.
 
 <!--Notice the last line of the file, which begins with a `^`. This means the tag directly above is an annotated tag and that line is the commit that the annotated tag points to.-->
 
@@ -1125,11 +1125,11 @@ Beachte, dass die letzte Zeile der Datei mit `^` anfängt. Das bedeutet, dass de
 
 <!--At some point in your Git journey, you may accidentally lose a commit. Generally, this happens because you force-delete a branch that had work on it, and it turns out you wanted the branch after all; or you hard-reset a branch, thus abandoning commits that you wanted something from. Assuming this happens, how can you get your commits back?-->
 
-Irgendwann wird es vielleicht mal vorkommen, dass Du während der Arbeit mit Git einen Commit verlierst. Normalerweise passiert das, wenn Du versehentlich einen Branch löschst, an dem Du gearbeitet hattest und den Du noch brauchst. Oder Du führst `git reset --hard` aus und stellst fest, dass Du einige der Commits noch brauchst. Nehmen wir an, Du steckst in einer solchen Situation – wie kannst Du Deine Commits wiederherstellen?
+Irgendwann wird es vielleicht mal vorkommen, dass Du während der Arbeit mit Git einen Commit verlierst. Normalerweise passiert das, wenn Du versehentlich einen Branch löschst, an dem Du gearbeitet hattest und den Du noch brauchst. Oder Du führst `git reset --hard` aus und stellst fest, dass Du einige der Commits noch brauchst. Nehmen wir an, Du steckst in einer solchen Situation – wie kannst Du Deine Commits dann wiederherstellen?
 
 <!--Here’s an example that hard-resets the master branch in your test repository to an older commit and then recovers the lost commits. First, let’s review where your repository is at this point:-->
 
-Das folgende Beispiel setzt zuerst den `master`-Branch auf einen älteren Commit zurück und stellt die verlorenen Commits dann wieder her. Zunächst schauen wir uns den gegenwärtigen Zustand des Repositories an:
+Das folgende Beispiel setzt zuerst den Branch `master` auf einen älteren Commit zurück und stellt die verlorenen Commits dann wieder her. Zunächst schauen wir uns den gegenwärtigen Zustand des Repositorys an:
 
 	$ git log --pretty=oneline
 	ab1afef80fac8e34258ff41fc1b867c702daa24b modified repo a bit
@@ -1140,7 +1140,7 @@ Das folgende Beispiel setzt zuerst den `master`-Branch auf einen älteren Commit
 
 <!--Now, move the `master` branch back to the middle commit:-->
 
-Jetzt setzen wir den `master`-Branch zurück auf den mittleren Commit.
+Jetzt setzen wir den Branch `master` auf den mittleren Commit zurück:
 
 	$ git reset --hard 1a410efbd13591db07496601ebc7a059dd55cfe9
 	HEAD is now at 1a410ef third commit
@@ -1163,7 +1163,7 @@ In der Regel ist der schnellste Weg, solche Hashes zu finden, der Befehl `git re
 
 <!--Here we can see the two commits that we have had checked out, however there is not much information here.  To see the same information in a much more useful way, we can run `git log -g`, which will give you a normal log output for your reflog.-->
 
-Das zeigt also die beiden verloren gegangenen Commits an, die wir zuvor ausgecheckt hatten. Allerdings zeigt es auch nicht viel mehr Information. Um das Reflog in einer anderen, etwas nützlicheren Weise anzuzeigen, kannst Du `git log -g` verwenden. Das gibt das Reflog im gewohnten Log Format aus:
+Das zeigt also die beiden verloren gegangenen Commits an, die wir zuvor ausgecheckt hatten. Allerdings zeigt es auch nicht viel mehr Information. Um das Reflog in einer anderen, etwas nützlicheren Weise anzuzeigen, kannst Du `git log -g` verwenden. Das gibt das Reflog im gewohnten Log-Format aus:
 
 	$ git log -g
 	commit 1a410efbd13591db07496601ebc7a059dd55cfe9
@@ -1197,7 +1197,7 @@ Es sieht also so aus, als sei der untere Commit derjenige, den Du verloren hast,
 <!--Cool — now you have a branch named `recover-branch` that is where your `master` branch used to be, making the first two commits reachable again.-->
 <!--Next, suppose your loss was for some reason not in the reflog — you can simulate that by removing `recover-branch` and deleting the reflog. Now the first two commits aren’t reachable by anything:-->
 
-Sehr gut. Du hast jetzt einen neuen Branch `recover-branch`, der diejenigen Commits enthält, die sich zuvor in Deinem `master`-Branch befanden. Damit hast Du wieder Zugriff auf die beiden verloren gegangenen Commits. Als nächstes nehmen wir aber außerdem an, dass diese verlorenen Commits aus irgendeinem Grunde nicht im Reflog enthalten sind – Du kannst das z.B. simulieren, indem Du den Branch `recover-branch` und das Reflog löschst. Damit sind die beiden Commits jetzt von nirgendwo her mehr erreichbar:
+Sehr gut. Du hast jetzt einen neuen Branch `recover-branch`, der diejenigen Commits enthält, die sich zuvor in Deinem Branch `master` befanden. Damit hast Du wieder Zugriff auf die beiden verloren gegangenen Commits. Als nächstes nehmen wir aber außerdem an, dass diese verlorenen Commits aus irgendeinem Grunde nicht im Reflog enthalten sind – Du kannst das z.B. simulieren, indem Du den Branch `recover-branch` und das Reflog löschst. Damit sind die beiden Commits jetzt von nirgendwo her mehr erreichbar:
 
 	$ git branch -D recover-branch
 	$ rm -Rf .git/logs/
@@ -1225,7 +1225,7 @@ Git ist in vielerlei Hinsicht unschlagbar, aber es gibt auch Features, die Probl
 
 <!--This can be a huge problem when you’re converting Subversion or Perforce repositories into Git. Because you don’t download the whole history in those systems, this type of addition carries few consequences. If you did an import from another system or otherwise find that your repository is much larger than it should be, here is how you can find and remove large objects.-->
 
-Hierin kann ein großes Problem bestehen, wenn Du Subversion oder Perforce-Repositorys nach Git konvertierst. Weil Du in diesen Systemen nicht die gesamte Historie herunterlädst, kann diese Art von Hinzufügung einige unangenehme Konsequenzen haben. Wenn Du Dein Repository aus einem anderen System importiert hast oder aus irgendeinem anderen Grunde findest, dass es sehr viel größer ist, als es eigentlich sein sollte, kannst Du große Objekte wie folgt suchen und entfernen.
+Hierin kann ein großes Problem bestehen, wenn Du Subversion- oder Perforce-Repositorys nach Git konvertierst. Weil Du in diesen Systemen nicht die gesamte Historie herunterlädst, kann diese Art von Hinzufügung einige unangenehme Konsequenzen haben. Wenn Du Dein Repository aus einem anderen System importiert hast oder aus irgendeinem anderen Grunde findest, dass es sehr viel größer ist, als es eigentlich sein sollte, kannst Du große Objekte wie folgt suchen und entfernen.
 
 <!--Be warned: this technique is destructive to your commit history. It rewrites every commit object downstream from the earliest tree you have to modify to remove a large file reference. If you do this immediately after an import, before anyone has started to base work on the commit, you’re fine — otherwise, you have to notify all contributors that they must rebase their work onto your new commits.-->
 
@@ -1233,7 +1233,7 @@ Sei Dir allerdings bewusst, dass diese Technik die Commit-Historie zerstört. Si
 
 <!--To demonstrate, you’ll add a large file into your test repository, remove it in the next commit, find it, and remove it permanently from the repository. First, add a large object to your history:-->
 
-Um das zu demonstrieren, werden wir eine große Datei zu Deinem Test-Repository hinzufügen, sie dann im nächsten Commit löschen, in der Datenbank nachschlagen und sie schließlich dauerhaft aus dem Repository entfernen. Als erstes committe also eine große Datei in Dein Repository:
+Um das zu demonstrieren, werden wir eine große Datei zu Deinem Test-Repository hinzufügen, sie dann im nächsten Commit löschen, in der Datenbank nachschlagen und sie schließlich dauerhaft aus dem Repository entfernen. Als erstes checke also eine große Datei in Dein Repository ein:
 
 	$ curl http://kernel.org/pub/software/scm/git/git-1.6.3.1.tar.bz2 > git.tbz2
 	$ git add git.tbz2
@@ -1279,7 +1279,7 @@ Du kannst auch den Befehl `count-objects` laufen lassen, um einen schnellen Übe
 
 <!--The `size-pack` entry is the size of your packfiles in kilobytes, so you’re using 2MB. Before the last commit, you were using closer to 2K — clearly, removing the file from the previous commit didn’t remove it from your history. Every time anyone clones this repository, they will have to clone all 2MB just to get this tiny project, because you accidentally added a big file. Let’s get rid of it.-->
 
-Der `size-pack`-Eintrag zeigt die Größe der Packfiles in Kilobytes, d.h. Dein Repository braucht 2 MB. Vor dem letzten Commit lag dieser Wert eher bei 2 KB. D.h., die Datei wurde im letzten Commit eindeutig nicht aus der History entfernt. Jedes Mal, wenn jemand künftig dieses sehr kleine Repository clont, wird er die 2 MB mit herunterladen müssen – nur weil wir versehentlich diese große Datei hinzugefügt hatten. Also versuchen wir, sie endgültig loszuwerden.
+Der `size-pack`-Eintrag zeigt die Größe der Packfiles in Kilobytes an, d.h. Dein Repository braucht 2 MB. Vor dem letzten Commit lag dieser Wert eher bei 2 KB. D.h., die Datei wurde im letzten Commit eindeutig nicht aus der History entfernt. Jedes Mal, wenn jemand künftig dieses sehr kleine Repository klont, wird er die 2 MB mit herunterladen müssen – nur weil wir versehentlich diese große Datei hinzugefügt hatten. Also versuchen wir, sie endgültig loszuwerden.
 
 <!--First you have to find it. In this case, you already know what file it is. But suppose you didn’t; how would you identify what file or files were taking up so much space? If you run `git gc`, all the objects are in a packfile; you can identify the big objects by running another plumbing command called `git verify-pack` and sorting on the third field in the output, which is file size. You can also pipe it through the `tail` command because you’re only interested in the last few largest files:-->
 
@@ -1317,7 +1317,7 @@ Es geht also darum, alle Commits angefangen bei `6df76` neu zu schreiben, sodass
 
 <!--The `-\-index-filter` option is similar to the `-\-tree-filter` option used in Chapter 6, except that instead of passing a command that modifies files checked out on disk, you’re modifying your staging area or index each time. Rather than remove a specific file with something like `rm file`, you have to remove it with `git rm -\-cached` — you must remove it from the index, not from disk. The reason to do it this way is speed — because Git doesn’t have to check out each revision to disk before running your filter, the process can be much, much faster. You can accomplish the same task with `-\-tree-filter` if you want. The `-\-ignore-unmatch` option to `git rm` tells it not to error out if the pattern you’re trying to remove isn’t there. Finally, you ask `filter-branch` to rewrite your history only from the `6df7640` commit up, because you know that is where this problem started. Otherwise, it will start from the beginning and will unnecessarily take longer.-->
 
-DieOption  `--index-filter` ist ähnlich der Option `--tree-filter` aus Kapitel 6. Allerdings übergibt man in diesem Fall nicht einen Befehl, der die Dateien verändert, die sich jeweils ausgecheckt auf der Festplatte befinden. Stattdessen verändert man jeweils die Staging-Area bzw. den Index. Statt eine bestimmte Datei mit z.B: `rm file` zu entfernen, müssen wir also `git rm --cached` verwenden – denn wir wollen sie aus dem Index, nicht von der Festplatte löschen. Der Grund dafür ist einfach Geschwindigkeit: Git braucht nicht jede einzelne Revision auf die Festplatte auszuchecken, um den Filter anzuwenden. Auf diese Weise läuft der ganze Prozess sehr viel schneller. Man kann dieselbe Aufgabe aber auch mit `--tree-filter` erledigen, wenn man will. Die Option `--ignore-match` weist Git an, nicht mit einer Fehlermeldung abzubrechen, wenn die Datei, die wir löschen wollen, nicht vorhanden ist. Außerdem teilen wir `filter-branch` mit, die Historie nur von dem Commit `6df7640` an umzuschreiben. Andernfalls würde der Befehl von ganz vorn beginnen und unnötig länger brauchen.
+Die Option  `--index-filter` ist ähnlich der Option `--tree-filter` aus Kapitel 6. Allerdings übergibt man in diesem Fall nicht einen Befehl, der die Dateien verändert, die sich jeweils ausgecheckt auf der Festplatte befinden. Stattdessen verändert man jeweils die Staging-Area bzw. den Index. Statt eine bestimmte Datei mit z.B: `rm file` zu entfernen, müssen wir also `git rm --cached` verwenden – denn wir wollen sie aus dem Index, nicht von der Festplatte löschen. Der Grund dafür ist einfach Geschwindigkeit: Git braucht nicht jede einzelne Revision auf die Festplatte auszuchecken, um den Filter anzuwenden. Auf diese Weise läuft der ganze Prozess sehr viel schneller. Man kann dieselbe Aufgabe aber auch mit `--tree-filter` erledigen, wenn man will. Die Option `--ignore-match` weist Git an, nicht mit einer Fehlermeldung abzubrechen, wenn die Datei, die wir löschen wollen, nicht vorhanden ist. Außerdem teilen wir `filter-branch` mit, die Historie nur von dem Commit `6df7640` an umzuschreiben. Andernfalls würde der Befehl von ganz vorn beginnen und unnötig länger brauchen.
 
 <!--Your history no longer contains a reference to that file. However, your reflog and a new set of refs that Git added when you did the `filter-branch` under `.git/refs/original` still do, so you have to remove them and then repack the database. You need to get rid of anything that has a pointer to those old commits before you repack:-->
 
@@ -1358,4 +1358,4 @@ Du solltest jetzt ein gutes Verständnis davon haben, was Git im Hintergrund tut
 
 <!--Git as a content-addressable filesystem is a very powerful tool that you can easily use as more than just a VCS. I hope you can use your newfound knowledge of Git internals to implement your own cool application of this technology and feel more comfortable using Git in more advanced ways.-->
 
-Git als ein Dateisystem, das Inhalte addressieren kann, ist ein äußerst mächtiges Werkzeug, das Du leicht für mehr als „nur“ als VCS einsetzen kannst. Ich hoffe, Du kannst Dein neugewonnenes Wissen der Git-Interna nutzen, um Deine eigene tolle Anwendung dieser Technologie zu implementieren und Dich wohler damit zu fühlen, Git auch in fortgeschrittener Weise zu benutzen.
+Git als ein Dateisystem, das Inhalte addressieren kann, ist ein äußerst mächtiges Werkzeug, das Du leicht für mehr als „nur“ als VCS einsetzen kannst. Ich hoffe, Du kannst Dein neugewonnenes Wissen der Git Interna nutzen, um Deine eigene tolle Anwendung dieser Technologie zu implementieren und Dich wohler damit zu fühlen, Git auch in fortgeschrittener Weise zu benutzen.

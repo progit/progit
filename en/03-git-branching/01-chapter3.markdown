@@ -447,7 +447,7 @@ It’s important to note that when you do a fetch that brings down new remote br
 To merge this work into your current working branch, you can run `git merge origin/serverfix`. If you want your own `serverfix` branch that you can work on, you can base it off your remote branch:
 
 	$ git checkout -b serverfix origin/serverfix
-	Branch serverfix set up to track remote branch refs/remotes/origin/serverfix.
+	Branch serverfix set up to track remote branch serverfix from origin.
 	Switched to a new branch 'serverfix'
 
 This gives you a local branch that you can work on that starts where `origin/serverfix` is.
@@ -459,13 +459,13 @@ Checking out a local branch from a remote branch automatically creates what is c
 When you clone a repository, it generally automatically creates a `master` branch that tracks `origin/master`. That’s why `git push` and `git pull` work out of the box with no other arguments. However, you can set up other tracking branches if you wish — ones that don’t track branches on `origin` and don’t track the `master` branch. The simple case is the example you just saw, running `git checkout -b [branch] [remotename]/[branch]`. If you have Git version 1.6.2 or later, you can also use the `--track` shorthand:
 
 	$ git checkout --track origin/serverfix
-	Branch serverfix set up to track remote branch refs/remotes/origin/serverfix.
+	Branch serverfix set up to track remote branch serverfix from origin.
 	Switched to a new branch 'serverfix'
 
 To set up a local branch with a different name than the remote branch, you can easily use the first version with a different local branch name:
 
 	$ git checkout -b sf origin/serverfix
-	Branch sf set up to track remote branch refs/remotes/origin/serverfix.
+	Branch sf set up to track remote branch serverfix from origin.
 	Switched to a new branch 'sf'
 
 Now, your local branch `sf` will automatically push to and pull from `origin/serverfix`.

@@ -339,7 +339,7 @@ To see all the branches that contain work you haven’t yet merged in, you can r
 This shows your other branch. Because it contains work that isn’t merged in yet, trying to delete it with `git branch -d` will fail:
 
 	$ git branch -d testing
-	error: The branch 'testing' is not an ancestor of your current HEAD.
+	error: The branch 'testing' is not fully merged.
 	If you are sure you want to delete it, run 'git branch -D testing'.
 
 If you really do want to delete the branch and lose that work, you can force it with `-D`, as the helpful message points out.

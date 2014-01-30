@@ -1000,7 +1000,7 @@ Si vous lancez cette commande avec un nom court particulier, tel que `origin`, v
 	    ticgit
 
 
-Cela donne le liste des URL pour le dépôt distant ainsi que la liste des branches distantes suivies.
+Cela donne la liste des URL pour le dépôt distant ainsi que la liste des branches distantes suivies.
 Cette commande vous informe que si vous êtes sur la branche `master` et si vous lancez `git pull`, il va automatiquement fusionner la branche `master` du dépôt distant après avoir récupéré toutes les références sur le serveur distant.
 Cela donne aussi la liste des autres références qu'il aura tirées.
 

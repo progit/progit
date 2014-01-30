@@ -288,6 +288,13 @@ What does this `post-update` hook do? It looks basically like this:
 
 	$ cat .git/hooks/post-update
 	#!/bin/sh
+	#
+	# An example hook script to prepare a packed repository for use over
+	# dumb transports.
+	#
+	# To enable this hook, rename this file to "post-update".
+	#
+	
 	exec git-update-server-info
 
 This means that when you push to the server via SSH, Git will run this command to update the files needed for HTTP fetching.

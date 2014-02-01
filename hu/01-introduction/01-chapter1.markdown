@@ -32,7 +32,7 @@ Ugyanakkor ez az összeállításnak van néhány komoly hátránya. A legnyílv
 
 ### Elosztott verziókövető rendszerek ###
 
-Ekkor jöttek az Elosztott Verziókövető Rendszerek (EVR). Az EVR-ekben, mint a Git, a Mercurical, a Bazaar vagy a Dracs, a kliensek nem csak a legutolsó állapotot kérik le, hanem a teljes repositorit. Ekéépen ha a szerver megáll, amin eddig folyt az együttműködés, bármelyik kliens repositoriból vissza állítható a teljes adatbázis. Minden adat lekrés tényleg teljes mentésnek felel meg (Lásd 1-3 ábra).
+Ekkor jöttek az Elosztott Verziókövető Rendszerek (EVR). Az EVR-ekben, mint a Git, a Mercurical, a Bazaar vagy a Dracs, a kliensek nem csak a legutolsó állapotot kérik le, hanem a teljes repositorit. Ekéépen ha a szerver megáll, amin eddig folyt az együttműködés, bármelyik kliens repositoriból vissza állítható a teljes adatbázis. Minden adat lekérés tényleg teljes mentésnek felel meg (Lásd 1-3 ábra).
 
 Insert 18333fig0103.png
 1-3 ábra. Elosztott verziókövetés sematikus ábrája.

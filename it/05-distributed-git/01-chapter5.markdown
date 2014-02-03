@@ -243,14 +243,14 @@ Tutto viene unito correttamente, e la cronologia di Jessica è come quella di Fi
 Insert 18333fig0509.png
 Figura 5-9. La cronologia di Jessica dopo aver unito i cambiamenti di John.
 
-Ora `origin/master` è raggiungibile dal ramo `master` di Jessica, cosicché lei sia capace di eseguire dei push successivamente (assumento che John non abbia fatto lo stesso nel frattempo):
+Ora `origin/master` è raggiungibile dal ramo `master` di Jessica, cosicché lei sia capace di eseguire delle push con successo (supponendo che John non abbia fatto altre push nel frattempo):
 
 	$ git push origin master
 	...
 	To jessica@githost:simplegit.git
 	   72bbc59..8059c15  master -> master
 
-Ogni sviluppatore ha eseguito alcuni commit ed unito il proprio lavoro con quello di altri con successo; vedi Figura 5-10.
+Ogni sviluppatore ha eseguito alcune commit ed unito con successo il proprio lavoro con quello degli altri; vedi Figura 5-10.
 
 Insert 18333fig0510.png
 Figura 5-10. La cronologia di Jessica dopo aver eseguito il push dei cambiamenti verso il server.

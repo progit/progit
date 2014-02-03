@@ -427,7 +427,7 @@ Il comando `request-pull` riceve come parametri il branch di base sul quale vuoi
 
 L'output può essere inviato ai mantenitori: riporta da dove è stato creato il nuovo branch, un riassunto delle commit e da dove si possono scaricare.
 
-In un progetto dove non sei il mantenitore normalmente è comodo avere un branch come `master` sempre collegato a `origin/master` e lavorare su altri branch che puoi eliminare nel caso non venissero accettati. Suddividere il lavoro in branch ti rende più semplice ribasare il tuo lavoro se il repository principale è stato modificato e le tue commit non possono venire applicate in maniera pulita. Se per esempio vuoi aggiungere un'altra caratteristica al progetto, invece di continuare a lavorare sul branch di cui hai appena fatto la push, creane un altro partendo dal `master` del repository:
+In un progetto dove non sei il mantenitore normalmente è comodo avere un branch come `master` sempre collegato a `origin/master` e lavorare su altri branch che puoi eliminare nel caso non venissero accettati. Suddividere il lavoro in branch per argomento ti rende più semplice ribasare il tuo lavoro se il repository principale è stato modificato e le tue commit non possono venire applicate in maniera pulita. Se per esempio vuoi aggiungere un'altra caratteristica al progetto, invece di continuare a lavorare sul branch di cui hai appena fatto la push, creane un altro partendo dal `master` del repository:
 
 	$ git checkout -b funzionalitaB origin/master
 	$ (lavoro)

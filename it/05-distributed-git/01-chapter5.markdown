@@ -519,9 +519,9 @@ Il comando `format-patch` visualizza i nomi dei file delle patch che crea. Il pa
 
 Puoi anche modificare questi file per aggiungere maggiori informazioni per la mailing list che però non vuoi che vengano visualizzate all'interno del messaggio della commit. Se aggiungi del testo tra la riga con `---` e l'inizio della patch (ad esempio la riga `lib/simplegit.rb`), gli sviluppatori potranno leggerlo ma verrà escluso dal messaggio della commit una volta che la patch sarà applicata.
 
-Per inviare le patch alla mailing list, puoi copiare ed incollare il file nel tuo programma di posta o inviare il tutto tramite un programma a linea di comando. Incollando il testo spesso si hanno dei problemi di formattazione, sopratutto con client di posta "intelligenti" che non preservano i caratteri di acapo e altri caratteri di spaziatura. Fortunatamente, Git fornisce uno strumento per aiutarti ad inviare le patch in modo corretto tramite IMAP, il che potrebbe risultare più semplice. Ti mostrerò come inviare una patch via Gmail, che è il client di posta che utilizzo io; puoi trovare le istruzioni dettagliate per diversi client di posta alla fine del documento `Documention/SubmittingPatches` presente nel codice sorgente di Git.
+Per inviare le patch alla mailing list, puoi copiare ed incollare il file nel tuo programma di posta o inviare il tutto dalla riga di comando. Incollare il testo è spesso causa di problemi di formattazione, sopratutto con i client di posta "intelligenti" che non mantengono correttamente i caratteri di a-capo e altri caratteri di spaziatura. Fortunatamente Git fornisce uno strumento che ti aiuta a inviare correttamente le patch tramite IMAP, che potrebbe facilitarti il compito. Ti mostrerò come mandare una patch con Gmail perché è il client di posta che utilizzo, ma troverai istruzioni dettagliate per molti client di posta alla fine del documento `Documention/SubmittingPatches`, che trovi nel codice sorgente di Git.
 
-Prima di tutto, devi configurare la sezione imap nel tuo file `~/.gitconfig`. Puoi settare ogni valore separatamente con una serie di comandi `git config` o aggiungerli manualmente al suo interno tramite un editor di testo. Alla fine il tuo file di configurazione dovrebbe essere più o meno così:
+Prima di tutto devi configurare la sezione imap nel tuo file `~/.gitconfig`. Puoi configurare ogni parametro separatamente con una serie di comandi `git config` o scriverli direttamente con un editor di testo. Alla fine il tuo file di configurazione dovrebbe comunque essere più o meno così:
 
 	[imap]
 	  folder = "[Gmail]/Drafts"
@@ -531,7 +531,7 @@ Prima di tutto, devi configurare la sezione imap nel tuo file `~/.gitconfig`. Pu
 	  port = 993
 	  sslverify = false
 
-Se il tuo server IMAP non usa SSL, le ultime due righe probabilmente non ti saranno necessarie e il valore del campo host sarà `imap://` anzichè `imaps://`. Quando tutto ciò è configurato, puoi usare `git send-email` per inviare la serie di patch alla cartella "Bozze" del tuo server IMAP:
+Se il tuo server IMAP non usa SSL, probabilmente le ultime due righe non ti saranno necessarie e il valore del campo host sarà `imap://` invece di `imaps://`. Quando avrai configurato tutto, potrai usare `git send-email` per inviare la serie di patch alla cartella "Bozze" del tuo server IMAP:
 
 	$ git send-email *.patch
 	0001-added-limit-to-log-function.patch
@@ -541,7 +541,7 @@ Se il tuo server IMAP non usa SSL, le ultime due righe probabilmente non ti sara
 	Who should the emails be sent to? jessica@example.com
 	Message-ID to be used as In-Reply-To for the first email? y
 
-Poi, Git produce alcune informazioni di log che figureranno più o meno così per ogni patch che stai inviando:
+Per ciascuna patch che stai per inviare, Git produce alcune informazioni di log che appariranno più o meno così:
 
 	(mbox) Adding cc: Jessica Smith <jessica@example.com> from
 	  \line 'From: Jessica Smith <jessica@example.com>'
@@ -558,7 +558,7 @@ Poi, Git produce alcune informazioni di log che figureranno più o meno così pe
 
 	Result: OK
 
-A questo punto, dovresti essere in grado di andare nella tua cartella delle bozze, cambiare il campo "A:" con la mailing list alla quale vuoi inviare la patch, aggiungere in copia il mantenitore del progetto o la persona responsabile per quella determinata sezione ed inviare il codice.
+A questo punto, dovresti essere in grado di andare nella cartella bozze del tuo account, inserire nel campo "A:" la mailing list alla quale vuoi inviare la patch, magari aggiungendo in copia il mantenitore del progetto o la persona responsabile per quella determinata sezione e manda l'email.
 
 ### Sommario ###
 

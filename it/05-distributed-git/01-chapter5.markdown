@@ -215,13 +215,13 @@ Jessica pensa che il suo ramo sia pronto, però vuole sapere con cosa deve unire
 
 	    rimosso valore di default non valido
 
-Ora, Jessica può unire il suo lavoro al ramo master, unire il lavoro di John (`origin/master`) nel suo ramo `master`, e poi eseguire il push verso il server di nuovo. Per prima cosa, torna nel suo ramo master per integrare il suo lavoro:
+Ora, Jessica può unire il lavoro del suo branch nel suo master, quindi le modifiche di John (`origin/master`) nel suo branch `master`, e ritrasmettere il tutto al server con una push. Per prima cosa torna al suo branch master per integrare il lavoro svolto nell'altro branch:
 
 	$ git checkout master
 	Switched to branch "master"
 	Your branch is behind 'origin/master' by 2 commits, and can be fast-forwarded.
 
-Può unire sia `origin/master` che `problema54` per primo - sono entrambi a monte, per cui l'ordine non conta. Il risultato finale sarà lo stesso a prescindere dall'ordine scelto; solo la cronologia sarà leggermente differente. Lei sceglie di unire `problema54` per primo:
+Può decidere di unire prima `origin/master` o `problema54`: entrambi sono flussi principali, per cui non conta l'ordine. Il risultato finale sarà lo stesso a prescindere dall'ordine scelto, ma la cronologia sarà leggermente differente. Lei sceglie di fare il merge prima di `problema54`:
 
 	$ git merge problema54
 	Updating fbff5bc..4af4298
@@ -230,7 +230,7 @@ Può unire sia `origin/master` che `problema54` per primo - sono entrambi a mont
 	 lib/simplegit.rb |    6 +++++-
 	 2 files changed, 6 insertions(+), 1 deletions(-)
 
-Non ci sono problemi; come puoi vederem è stato tutto semplice. Ora Jessica unisce il lavoro di John (`origin/master`):
+Non ci sono stati problemi: come puoi vedere tutto è stato molto semplice. Quindi Jessica unisce il lavoro di John (`origin/master`):
 
 	$ git merge origin/master
 	Auto-merging lib/simplegit.rb

@@ -193,7 +193,7 @@ Jessica nel frattempo sta lavorando a un altro ramo. Ha creato un branch chiamat
 Insert 18333fig0507.png
 Figura 5-7. La cronologia iniziale di Jessica.
 
-Jessica vuole sincronizzarsi con John, così recupera:
+Jessica vuole sincronizzarsi con John, quindi esegue:
 
 	# Computer di Jessica
 	$ git fetch origin
@@ -201,12 +201,12 @@ Jessica vuole sincronizzarsi con John, così recupera:
 	From jessica@githost:simplegit
 	   fbff5bc..72bbc59  master     -> origin/master
 
-Questo recupera il lavoro che John ha eseguito nel frattempo. La cronologia di Jessica ora è quella di Figura 5-8.
+Con cui recupera il lavoro che nel frattempo John ha eseguito. La cronologia di Jessica ora è quella di Figura 5-8.
 
 Insert 18333fig0508.png
 Figura 5-8. La cronologia di Jessica dopo aver recuperato i cambiamenti di John.
 
-Jessica pensa che il suo ramo sia pronto, però vuole sapere con cosa deve unire il suo lavoro prima di eseguire il push. Esegue `git log` per scoprirlo:
+Jessica pensa che il suo ramo sia pronto, però vuole sapere con cosa deve unire il suo lavoro prima di eseguire la push. Esegue quindi `git log` per scoprirlo:
 
 	$ git log --no-merges origin/master ^problema54
 	commit 738ee872852dfaa9d6634e0dea7a324040193016

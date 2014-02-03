@@ -471,7 +471,7 @@ Figura 5-18. La cronologia dopo il lavoro su funzionalitaBv2.
 
 ### Grande Progetto Pubblico ###
 
-Molti grandi progetti hanno definito delle procedure da seguire per poter inviare delle patch. Avrai bisogno di leggere le specifiche regole di ogni progetto, perchè queste potranno differire tra loro. Tuttavia, molti grandi progetti pubblici accettano patch tramite una mailing list degli sviluppatori, quindi tratterò ora un esempio di questo genere.
+Molti grandi progetti hanno definito delle procedure per l'invio delle patch: dovrai leggere le specifiche di ciascun progetto, perchè saranno diverse. Tuttavia molti grandi progetti pubblici accettano patch tramite la mailing list degli sviluppatori, quindi tratterò ora questo caso.
 
 Il flusso di lavoro è simile ai casi precedenti: crei un ramo per ognuna delle modifiche sulle quali intendi lavorare. La differenza sta in come invii tali modifiche al progetto. Invece di fare un tuo fork del progetto e di inviare le tue modifiche ad esso tramite push, crei una versione e-mail di ognuno dei commit e l invii tramite posta elettronica alla mailing list degli sviluppatori:
 

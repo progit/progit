@@ -328,25 +328,25 @@ C'è un piccolo problema: deve fare la push del suo branch `funzionalitaB` sul b
 	To jessica@githost:simplegit.git
 	   fba9af8..cd685d1  featureB -> featureBee
 
-Questo è chiamato _refSpec_. Vedi il capitolo 9 per una discussione più dettagliata sui refspec di Git ed altre cose che puoi fare con loro.
+Questo è detto _refSpec_. Vedi il capitolo 9 per una discussione più dettagliata sui refspec di Git e cosa ci puoi fare.
 
-Ora John manda una mail a Jessica dicendo che ha eseguito il push di alcuni cambiamenti sul ramo `funzionalitaA` e le chiede di controllarli. Lei esegue `git fetch` per recuperare questi cambiamenti:
+John manda una mail a Jessica dicendole che ha fatto la push di alcune modifiche sul branch `funzionalitaA` e le chiede di controllarle. Lei esegue `git fetch` per scaricarle:
 
 	$ git fetch origin
 	...
 	From jessica@githost:simplegit
 	   3300904..aad881d  featureA   -> origin/featureA
 
-Ora, lei può vedere cos'è stato cambiato con `git log`:
+E può vederle con `git log`:
 
 	$ git log origin/funzionalitaA ^funzionalitaA
 	commit aad881d154acdaeb2b6b18ea0e827ed8a6d671e6
 	Author: John Smith <jsmith@example.com>
 	Date:   Fri May 29 19:57:33 2009 -0700
 
-	    cambianto l'output del log da 30 a 25
+	    cambiato l'output del log da 25 a 30
 
-Finalmente, unisce il lavoro di John al suo sul ramo `funzionalitaA`:
+Infine unisce il lavoro di John al suo nel branch `funzionalitaA`:
 
 	$ git checkout funzionalitaA
 	Switched to branch "funzionalitaA"

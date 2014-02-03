@@ -283,14 +283,14 @@ A questo punto lei deve condividere il suo lavoro con John, così fa la push sul
 	To jessica@githost:simplegit.git
 	 * [new branch]      featureA -> featureA
 
-Jessica manda una e-mail a John dicendogli che ha eseguito il push del suo lavoro in un ramo chiamato `funzioanlitaA` e lui può dargli un'occhiata. Mentre aspetta una risposta da John, Jessica decide di iniziare a lavorare su `funzionalitaB` con Josie. Per iniziare, crea un nuovo ramo basandosi sul ramo `master` del server:
+Jessica manda una e-mail a John dicendogli che fatto la push del suo lavoro su un branch chiamato `funzioanlitaA` chiedendogli se lui può dargli un'occhiata. Mentre aspetta una risposta da John, Jessica decide di iniziare a lavorare su `funzionalitaB` con Josie. Per iniziare, crea un nuovo branch basandosi sul branch `master` del server:
 
   # Computer di Jessica
 	$ git fetch origin
 	$ git checkout -b featureB origin/master
 	Switched to a new branch "featureB"
 
-Ora, Jessica esegue un paio di commit sul ramo `funzionalitaB`:
+Quindi Jessica esegue un paio di commit sul branch `funzionalitaB`:
 
 	$ vim lib/simplegit.rb
 	$ git commit -am 'resa la funzione ls-tree ricorsiva'
@@ -304,10 +304,9 @@ Ora, Jessica esegue un paio di commit sul ramo `funzionalitaB`:
 Il repository di Jessica è come quello di Figura 5-12.
 
 Insert 18333fig0512.png
-Figura 5.12. La cronologia iniziale dei commit di Jessica
-Figure 5-12. Jessica’s initial commit history.
+Figura 5.12. La cronologia iniziale delle commit di Jessica
 
-Lei è pronta ad eseguire un push del proprio lavoro, ma riceve una e-mail da Josie la quale dice che una parte del lavoro era già stato messo nel server nel ramo chiamato `funzionalitaBee`. Jessica innanzitutto deve unire questi cambiamenti ai suoi prima di poter eseguire il push verso il server. Può recuperare il lavoro di Josie usando `git fetch`:
+Quando è pronta a eseguire una push del proprio lavoro riceve una e-mail da Josie che le dice che una parte del lavoro era già stato caricato sul server nel branch chiamato `funzionalitaBee`. Jessica deve unire prima le modifiche al server alle sue per poter fare la push verso il server. Può recuperare il lavoro di Josie usando `git fetch`:
 
 	$ git fetch origin
 	...
@@ -322,7 +321,7 @@ Jessica ora può unire il suo lavoro a quello di Josie con `git merge`:
 	 lib/simplegit.rb |    4 ++++
 	 1 files changed, 4 insertions(+), 0 deletions(-)
 
-C'è un problema - deve eseguire il push del suo ramo `funzionalitaB` verso il ramo `funzionalitaBee` nel server. Può farlo specificando il ramo locale seguito dal simbolo dei due punti (:) seguito a sua volta dal nome del ramo remoto destinazione del comando `git push`:
+C'è un piccolo problema: deve fare la push del suo branch `funzionalitaB` sul branch `funzionalitaBee` del server. Può farlo specificando il branch locale seguito da due punti (:) seguito a sua volta dal nome del branch remoto di destinazione al comando `git push`:
 
 	$ git push origin funzionalitaB:funzionalitaBee
 	...

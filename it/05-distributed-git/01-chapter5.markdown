@@ -452,9 +452,9 @@ Questo riscrive la tua cronologia per essere come quella di Figura 5-17.
 Insert 18333fig0517.png
 Fgiura 5-17. La cronologia ddopo il lavoro su funzionalitaA.
 
-Dato che hai eseguito un rebase del ramo, devi specificare l'opzione `-f` per eseguire un push, per poter sostituire il ramo `funzionalitaA` sul server con un commit che non discende da esso. Un'alternativa potrebbe essere un push di questo nuovo lavoro verso un diverso branch sul server (chiamato ad esempio `funzionalitaAv2`).
+Poiché hai eseguito un rebase del branch, per poter sostituire il branch `funzionalitaA` sul server con una commit che non discenda dallo stesso, devi usare l'opzione `-f` perché la push funzioni. Un'alternativa sarebbe fare una push di questo nuovo lavoro su un branch diverso (chiamato per esempio `funzionalitaAv2`).
 
-Diamo un'occhiata ad un possibile scenario: il mantenitore ha guardato al tuo lavoro in un secondo ramo, e gradisce il concetto ma vorrebbe che tu cambiassi dei dettagli dell'implementazione. Potresti inoltre cogliere questa opportunità per basarti sul ramo `master` corrente. Crei un nuovo ramo basato sul corrente `origin/master`, sposti i cambiamenti di `funzionalitaB` qui, risolvi i conflitti, cambi l'implementazione, e poi esegui il push come un nuovo ramo:
+Diamo un'occhiata a un altro scenario possibile: il mantenitore ha visto tuo lavoro nel secondo branch e gli piace il concetto ma vorrebbe che tu cambiassi un dettaglio dell'implementazione. Potresti cogliere l'occasione per ribasarti sul `master` corrente. Crea un nuovo branch basato sull'`origin/master` attuale, sposta lì le modifiche di `funzionalitaB`, risolvi gli eventuali conflitti, fai la modifica all'implementazione ed esegui la push del tutto su un nuovo branch:
 
 	$ git checkout -b funzionalitaBv2 origin/master
 	$ git merge --no-commit --squash funzionalitaB
@@ -462,12 +462,12 @@ Diamo un'occhiata ad un possibile scenario: il mantenitore ha guardato al tuo la
 	$ git commit
 	$ git push miofork funzionalitaBv2
 
-L'opzione `--squash` prende tutto il lavoro nel ramo da unire e lo aggiunge come un singolo commit al ramo in cui sei. L'opzione `no-commit` dice a Git di non eseguire automaticamente il commit. Questo ti consente di aggiungere i cambiamenti da un altro ramo e poi eseguire altre modifiche prima di effettuare il nuovo commit.
+L'opzione `--squash` prende tutto il lavoro dal branch da unire e lo aggiunge come una singola commit nel branch dove sei. L'opzione `--no-commit` dice a Git di non fare la commit automaticamente. Questo ti permette di aggiungere le modifiche di un altro branch e fare ulteriori modifiche prima di effettuare la nuovo commit.
 
-Ora puoi inviare al mantenitore un messaggio dicendo che hai effettuato i cambiamenti richiesti e che può trovare nel ramo `funzionalitaBv2` (vedi Figura 5-18).
+Ora puoi avvisare i mantenitori che hai effettuato le modifiche richieste e che possono trovarle nel branch `funzionalitaBv2` (vedi Figura 5-18).
 
 Insert 18333fig0518.png
-Figura 5-18. La cronologia dei commit dopo il lavoro su funzionalitaBv2.
+Figura 5-18. La cronologia dopo il lavoro su funzionalitaBv2.
 
 ### Grande Progetto Pubblico ###
 

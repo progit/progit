@@ -569,17 +569,17 @@ Questa sezione ha trattato alcuni workflow comuni che è facile incontrare quand
 
 Oltre a sapere come contribuire ad un progetto in maniera effettiva, dovrai probabilmente sapere anche come mantenerne uno. Ciò consiste nell'accettare ed applicare le patch generate con il comando `format-patch` e ricevute tramite e-mail oppure nell'integrare le modifiche dei branch remoti che hai definito nel tuo progetto come remoti. Sia che mantenga un repository o che voglia contribuire verificando o approvando le patch, devi sapere come svolgere il tuo compito in modo che sia chiaro per gli altri contributori del progetto e sostenibile per te nel lungo periodo.
 
-### Lavorare sui Topic Branches ###
+### Lavorare coi branch per argomento ###
 
-Quando pensi di integrare un nuovo lavoro, è generalmente una buona idea quella di provarlo in un "topic branch", ovvero un ramo temporaneo creato specificatamente per provare le modifiche introdotte dalla patch. In questo modo è semplice modificare la singola patch e, se questa non funziona, lasciarla intalterata fino a quando non avrai il tempo di tornarci nuovamente. Se crei un ramo con un nome semplice basato sull'argomento della patch, ad esempio `ruby_client`, ti sarà poi facile individuarlo nel caso tu debba lasciare temporaneamente il lavoro sulla patch per tornarci più avanti. Il mantenitore del progetto Git  usa dare uno spazio dei nomi a questi rami, come ad esempio `sc/ruby_client`, dove `sc` sono le iniziali della persona che ha contribuito al lavoro. Come ricorderai, puoi creare un ramo partendo dal tuo ramo master con questi comandi:
+Quando pensi di integrare un nuovo lavoro generalmente è una buona idea provarlo in un branch per argomento: un branch temporaneo, creato specificatamente per provare le modifiche dalla patch. In questo modo è semplice verificare la singola patch e, se questa non funziona, lasciarla intalterata fino a quando non avrai il tempo di ritornarci. Se crei un branch col nome dell'argomento della patch che proverai, per esempio `ruby_client` o qualcosa ugualmente descrittiva, ti sarà facile individuarlo nel caso tu debba temporaneamente lasciare il lavoro sulla patch per ritornarci più avanti. Il mantenitore del progetto Git  usa dare uno gerarchia ai nomi di questi branch: come `sc/ruby_client`, dove `sc` sono le iniziali della persona che ha realizzato la patch. Come ricorderai, puoi creare un branch partendo dal tuo master così:
 
 	$ git branch sc/ruby_client master
 
-Oppure, se vuoi anche passare al nuovo ramo immediatamente, puoi usare il comando `checkout -b`:
+E, se vuoi passare immediatamente al nuovo branch, puoi usare il comando `checkout -b`:
 
 	$ git checkout -b sc/ruby_client master
 
-Ora sei pronto per aggiungere il lavoro a questo ramo e determinare se vuoi unirlo a uno dei rami del tuo progetto.
+Ora sei pronto per aggiungere il lavoro a questo branch e decidere se vuoi unirlo a uno dei branch principali del tuo progetto.
 
 ### Applicare le patch da un'e-mail ###
 

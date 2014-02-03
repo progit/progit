@@ -107,12 +107,12 @@ Se tutti i tuoi messaggi di commit fossero così, per te e gli altri sviluppator
 
 Nei esempi che seguono e nella maggior parte di questo libro, per brevità, non formatterò i messaggi accuratamente come descritto: userò invece l'opzione `-m` di `git commit`. Fa' come dico, non come faccio.
 
-### Piccoli team privati ###
+### Piccoli gruppi privati ###
 
-La configurazione più semplice e facile da incontrare è il progetto privato con uno o due sviluppatori. Con privato, intendo codice a sorgente chiuso - non accessibile dal resto del mondo. Tu e gli altri sviluppatori avete tutti accesso per il push verso il repository.
+La configurazione più semplice che è più facile che incontrerai è quella del progetto privato con uno o due sviluppatori. Con privato intendo codice a sorgente chiuso: non accessibile al resto del mondo. Tu e gli altri sviluppatori avete accesso in scrittura al repository.
 
-In questo ambiente, puoi utilizzare un workflow simile a quello che magari stai già usando con Subversion od un altro sistema centralizzato. Hai ancora i vantaggi (ad esempio) di poter eseguire commit da offline e la creazione di rami (ed unione degli stessi) molto più semplici, ma il workflow può restare simile; la differenza principale è che, nel momento del commit, l'unione avviene nel tuo repository piuttosto che in quello sul server.
-Vediamo come potrebbe essere la situazione quando due sviluppatori iniziano a lavorare insieme con un repository condiviso. Il primo sviluppatore, John, clona in repository, fa dei cambiamenti ed esegue il commit localmente. (Sostituisco il messaggio di protocollo con `...` in questi esempi per brevità.)
+Con questa configurazione, puoi utilizzare un workflow simile a quello che magari stai già usando con Subversion o un altro sistema centralizzato. Hai comunque i vantaggi (ad esempio) di poter eseguire commit da offline e la creazione di rami (ed unione degli stessi) molto più semplici, ma il workflow può restare simile; la differenza principale è che, nel momento del commit, l'unione avviene nel tuo repository piuttosto che in quello sul server.
+Vediamo come potrebbe essere la situazione quando due sviluppatori iniziano a lavorare insieme con un repository condiviso. Il primo sviluppatore, John, clona in repository, fa dei cambiamenti ed esegue il commit localmente. (In questi esempi sostituirò, per brevità, il messaggio del protocollo con `...`)
 
 	# Computer di John
 	$ git clone john@githost:simplegit.git
@@ -124,7 +124,7 @@ Vediamo come potrebbe essere la situazione quando due sviluppatori iniziano a la
 	[master 738ee87] rimosso valore di default non valido
 	 1 files changed, 1 insertions(+), 1 deletions(-)
 
-Il secondo sviluppatore, Jessica, fa la stessa cosa - clona il repository ed esegue dei cambiamenti:
+Il secondo sviluppatore, Jessica, fa la stessa cosa - clona il repository e committa le modifiche:
 
 	# Computer di Jessica
 	$ git clone jessica@githost:simplegit.git
@@ -136,7 +136,7 @@ Il secondo sviluppatore, Jessica, fa la stessa cosa - clona il repository ed ese
 	[master fbff5bc] aggiunto il processo di reset
 	 1 files changed, 1 insertions(+), 0 deletions(-)
 
-Ora, Jessica esegue un push del suo lavoro nel server:
+Ora, Jessica invia il suo lavoro al server con una push:
 
 	# Computer di Jessica
 	$ git push origin master
@@ -144,7 +144,7 @@ Ora, Jessica esegue un push del suo lavoro nel server:
 	To jessica@githost:simplegit.git
 	   1edee6b..fbff5bc  master -> master
 
-Anche John cerca di eseguire un push:
+Anche John cerca di eseguire una push:
 
 	# Computer di John
 	$ git push origin master
@@ -152,7 +152,7 @@ Anche John cerca di eseguire un push:
 	 ! [rejected]        master -> master (non-fast forward)
 	error: failed to push some refs to 'john@githost:simplegit.git'
 
-A John non è consentito eseguire un push perché Jessica ha fatto lo stesso nel frattempo. Questo è particolarmente importante se sei abituato a Subversion, perché avrai notato che i due sviluppatori non hanno modificato lo stesso file. Anche se Subversion automaticamente esegue questa unione nel server se differenti file sono stati modificati, in Git devi unire i cambiamenti localmente. John deve recuperare i cambiamenti di Jessica ed unirli ai suoi prima di poter eseguire il push:
+A John non è permesso fare un push perché nel frattempo lo ha già fatto Jessica. Questo è particolarmente importante se sei abituato a Subversion, perché vedrai che i due sviluppatori non hanno modificato lo stesso file. Sebbene Subversion unisca automaticamente sul server queste commit se i file modificati sono diversi, in Git sei tu che devi farlo localmente. John deve quindi scaricare le modifiche di Jessica e unirle alle sue prima di poter fare una push:
 
 	$ git fetch origin
 	...
@@ -164,29 +164,29 @@ A questo punto, il repository locale di John somiglia a quello di figura 5-4.
 Insert 18333fig0504.png
 Figura 5-4. Il repository iniziale di John.
 
-John ha a disposizione i cambiamenti che Jessica ha eseguito, ma deve unirli ai suoi prima di avere la possibilità di eseguire un push:
+John sa quali sono le modifiche di Jessica, ma deve unirle alle sue prima poter fare una push:
 
 	$ git merge origin/master
 	Merge made by recursive.
 	 TODO |    1 +
 	 1 files changed, 1 insertions(+), 0 deletions(-)
 
-L'unione fila liscia - ora la cronologia dei commit di John sarà come quella di Figura 5-5.
+L'unione fila liscia e ora la cronologia delle commit di John sarà come quella di Figura 5-5.
 
 Insert 18333fig0505.png
 Figura 5-5. Il repository di John dopo aver unito origin/master.
 
-Ora, John può testare il suo codice per essere sicuro che funzioni anche correttamente e può eseguire il push del tutto verso il server:
+John ora può testare il suo codice per essere sicuro che continui a funzionare correttamente e può quindi eseguire la push del tutto sul server:
 
 	$ git push origin master
 	...
 	To john@githost:simplegit.git
 	   fbff5bc..72bbc59  master -> master
 
-Infine, la cronologia dei commit di John somiglierà a quella di figura 5-6.
+La cronologia dei commit di John somiglierà quindi a quella di figura 5-6.
 
 Insert 18333fig0506.png
-Figura 5-6. La cronologia di John dopo avere eseguito il push verso il server.
+Figura 5-6. La cronologia di John dopo avere eseguito la push verso il server.
 
 Nel frattempo, Jessica sta lavorando su un altro ramo. Ha creato un ramo chiamato `problema54` ed ha eseguito tre commit su quel ramo. Non ha ancora recuperato i cambiamenti di John, per cui la sua cronologia di commit è quella di Figura 5-7.
 

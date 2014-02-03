@@ -441,16 +441,16 @@ Ora ognuno dei tuoi lavori è separato come in una coda di modifiche che puoi ri
 Insert 18333fig0516.png
 Figura 5-16. Conologia iniziale col lavoro su funzionalitaB.
 
-Diciamo che il mantenitore del progetto ha eseguito il pull, una manciata di altre modifiche e provato il tuo primo ramo ma non riesce più ad applicare tali modifiche in maniera pulita. In questo caso, puoi provare ad effettuare un rebase di quel ramo basandoti sul nuovo `origin/master`, risolvere i conflitti e poi inviare di nuovo i tuoi cambiamenti:
+Supponiamo che il mantenitore del progetto ha inserito una manciata di altre modifiche e provato il tuo primo branch ma non riesce più ad applicare tali modifiche in maniera pulita. In questo caso puoi provare a ribasare il nuovo `origin/master` su quel branch, risolvere i conflitti per poi inviare di nuovo le tue modifiche:
 
 	$ git checkout funzionalitaA
 	$ git rebase origin/master
 	$ git push –f miofork featureA
 
-Questo riscrive la tua cronologia per farla diventare come quella di Figura 5-17.
+Questo riscrive la tua cronologia per essere come quella di Figura 5-17.
 
 Insert 18333fig0517.png
-Fgiura 5-17. La cronologia dei commit dopo il lavoro su funzionalitaA.
+Fgiura 5-17. La cronologia ddopo il lavoro su funzionalitaA.
 
 Dato che hai eseguito un rebase del ramo, devi specificare l'opzione `-f` per eseguire un push, per poter sostituire il ramo `funzionalitaA` sul server con un commit che non discende da esso. Un'alternativa potrebbe essere un push di questo nuovo lavoro verso un diverso branch sul server (chiamato ad esempio `funzionalitaAv2`).
 

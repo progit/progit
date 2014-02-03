@@ -604,9 +604,9 @@ Se non viene visualizzato alcun output, allora la patch può essere applicata in
 
 #### Applicare una patch con am ####
 
-Se il contributore è un utente Git ed è stato abbastanza bravo a usare il comando `format-patch` per generare la sua patch, allora il tuo lavoro è più facile perché la patch contiene le informazioni sull'autore e un messaggio di commit per te. Se ti è possibile incoraggia i tuoi collaboratori ad utilizzare `format-patch` invece di `diff` per generare le patch per te. Dovresti dover usare solo `git apply` per le patch precedenti e altre cose del genere.
+Se il contributore è un utente Git ed è stato abbastanza bravo a usare il comando `format-patch` per generare la sua patch, allora il tuo lavoro sarà più facile perché la patch già contiene le informazioni sull'autore e un messaggio di commit. Se pouoi, per generare le patch per te, incoraggia i tuoi collaboratori ad utilizzare `format-patch` invece di `diff`. Dovresti dover usare solo `git apply` per le patch precedenti e altre cose del genere.
 
-Per applicare una patch generata con `format-patch` si usa `git am`. Tecnicamente `git am` è fatto per leggere un file mbox, che ha un formato semplice di solo testo per memorizzare uno o più messaggi email in un solo file che assomiglia a questo:
+Per applicare una patch generata con `format-patch`, userai `git am`. Tecnicamente `git am` è fatto per leggere un file mbox, che è un file piatto di puro testo per memorizzare uno o più messaggi email in un solo file. Assomiglia a questo:
 
 	From 330090432754092d704da8e76ca5c05c198e71a8 Mon Sep 17 00:00:00 2001
 	From: Jessica Smith <jessica@example.com>
@@ -615,14 +615,14 @@ Per applicare una patch generata con `format-patch` si usa `git am`. Tecnicament
 
 	Limit log functionality to the first 20
 
-Questo è l'inizio dell'output del comando 'format-patch' che hai visto nella sezione precedente, ed è anche un formato valido per mbox. Se qualcuno ti ha inviato la patch usando 'git send-email' e l'hai scaricata nel formato mbox, allora puoi puntare al file mbox da 'git am' e lui inizierà ad applicare tutte le patch che troa. Se hai un client di posta elettronica che ti permette di salvare più messaggi in un file mbox allora puoi salvare tutta una serie di patch in un singolo file e usare `git am` per applicarle tutte assieme.
+Questo è l'inizio dell'output del comando 'format-patch' che hai visto nella sezione precedente, ma è anche un formato valido per mbox per le email. Se qualcuno ti ha inviato la patch usando 'git send-email' e l'hai scaricata nel formato mbox, allora puoi selezionare il file mbox in 'git am' che inizierà ad applicare tutte le patch che trovi. Se hai un client di posta elettronica che ti permette di salvare più messaggi in un file mbox allora puoi salvare tutta una serie di patch in un singolo file e usare `git am` per applicarle tutte assieme.
 
-Se però qualcuno ha caricato su un sistema di ticket (o qualcosa di simile) una patch generata con `format-patch`, tu puoi salvare il file localmente e passarlo a `git am` perché lo applichi:
+Se invece qualcuno ha caricato una patch generata con `format-patch` su un sistema di ticket e tracciamento, puoi salvare localmente il file e passarlo a `git am` perché lo applichi:
 
 	$ git am 0001-limit-log-function.patch
 	Applying: add limit to log function
 
-Puoi vedere che ha applicato automaticamente e senza errori le modifiche e creato una commit per te. Le informazioni sull'autore e la data della commit vengono prese delle intestazioni dell'email (rispettivamente da `From`  e `Date`), mentre il messaggio della commit è preso dal `Subject` e dal corpo dell'email, prima della patch. Se, per esempio questa patch fosse stata applicata dall'esempio dell'mbox appena mostrato, la commit generata apparirebbe così:
+Puoi vedere che ha applicato senza errori le modifiche e ha creato automaticamente una nuova commit per te. Le informazioni sull'autore e la data della commit vengono prese delle intestazioni `From`  e `Date` dell'email, mentre il messaggio della commit è preso dal `Subject` e dal corpo dell'email che precede la patch. Se questa patch fosse stata applicata dall'esempio dell'mbox appena mostrato, la commit generata apparirebbe così:
 
 	$ git log --pretty=fuller -1
 	commit 6c5e70b984a60b3cecd395edd5b48a7575bf58e0

@@ -255,10 +255,10 @@ Ogni sviluppatore ha eseguito alcune commit ed unito con successo il proprio lav
 Insert 18333fig0510.png
 Figura 5-10. La cronologia di Jessica dopo aver eseguito il push dei cambiamenti verso il server.
 
-Questo è uno dei workflow più semplici. Lavori per un pò, generalmente in un ramo, ed unisci il tutto al ramo master questo è pronto ad essere integrato. Quando vuoi condividere il tuo lavoro, uniscilo al tuo ramo master, poi recupera ed unisci `origin/master` se è cambiato, ed infine esegui il push verso il ramo `master` nel server. La sequenza è simile a quella di Figura 5-11.
+Questo è uno dei workflow più semplici. Lavori per un po', generalmente in un branch, ed unisci il tutto al branch master quando è pronto per essere integrato. Quando vuoi condividere questo lavoro lo unisci al tuo branch master e poi scarichi ed unisci `origin/master`, se è cambiato, e infine esegui la push verso il branch `master` nel server. La sequenza è simile a quella in Figura 5-11.
 
 Insert 18333fig0511.png
-Figura 5-11. La sequenza generale di eventi per un semplice workflow con Git a più sviluppatori.
+Figura 5-11. La sequenza generale di eventi per un workflow semplice con Git a più sviluppatori.
 
 ### Team privato con manager ###
 

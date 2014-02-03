@@ -531,7 +531,8 @@ Prima di tutto devi configurare la sezione imap nel tuo file `~/.gitconfig`. Puo
 	  port = 993
 	  sslverify = false
 
-Se il tuo server IMAP non usa SSL, probabilmente le ultime due righe non ti saranno necessarie e il valore del campo host sarà `imap://` invece di `imaps://`. Quando avrai configurato tutto, potrai usare `git send-email` per inviare la serie di patch alla cartella "Bozze" del tuo server IMAP:
+Se il tuo server IMAP non usa SSL, probabilmente le ultime due righe non ti saranno necessarie e il valore del campo host sarà `imap://` invece di `imaps://`.
+Quando avrai configurato tutto, potrai usare `git send-email` per inviare la serie di patch alla cartella "Bozze" del tuo server IMAP:
 
 	$ git send-email *.patch
 	0001-added-limit-to-log-function.patch
@@ -566,7 +567,7 @@ Questa sezione ha trattato alcuni workflow comuni che è facile incontrare quand
 
 ## Mantenere un Progetto ##
 
-Oltre a sapere come contribuire ad un progetto in maniera effettiva, dovrai probabilmente sapere anche come mantenerne uno. Ciò consiste nell'accettare ed applicare le patch generate usando il comando `format-patch` e ricevute tramite e-mail oppure nell'integrare cambiamenti in rami dei repository che hai impostato come remote del tuo progetto. Sia che tu mantenga un repository o che tu voglia contribuire nel verificare le patch, devi sapere come eseguire il tuo compito in maniera chiara per gli altri contributori del progetto e sostenibile per te nel lungo periodo.
+Oltre a sapere come contribuire ad un progetto in maniera effettiva, dovrai probabilmente sapere anche come mantenerne uno. Ciò consiste nell'accettare ed applicare le patch generate con il comando `format-patch` e ricevute tramite e-mail oppure nell'integrare le modifiche dei branch remoti che hai definito nel tuo progetto come remoti. Sia che mantenga un repository o che voglia contribuire verificando o approvando le patch, devi sapere come svolgere il tuo compito in modo che sia chiaro per gli altri contributori del progetto e sostenibile per te nel lungo periodo.
 
 ### Lavorare sui Topic Branches ###
 

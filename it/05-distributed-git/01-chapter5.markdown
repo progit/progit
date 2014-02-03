@@ -188,7 +188,7 @@ La cronologia dei commit di John somiglierà quindi a quella di figura 5-6.
 Insert 18333fig0506.png
 Figura 5-6. La cronologia di John dopo avere eseguito la push verso il server.
 
-Nel frattempo, Jessica sta lavorando su un altro ramo. Ha creato un ramo chiamato `problema54` ed ha eseguito tre commit su quel ramo. Non ha ancora recuperato i cambiamenti di John, per cui la sua cronologia di commit è quella di Figura 5-7.
+Jessica nel frattempo sta lavorando a un altro ramo. Ha creato un branch chiamato `problema54` e ha eseguito tre commit su quel branch. Poiché non ha ancora recuperato le modifiche di John la sua cronologia è quella della Figura 5-7.
 
 Insert 18333fig0507.png
 Figura 5-7. La cronologia iniziale di Jessica.

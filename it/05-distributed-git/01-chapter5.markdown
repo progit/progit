@@ -436,10 +436,10 @@ In un progetto dove non sei il mantenitore normalmente è comodo avere un branch
 	$ (email al mantenitore)
 	$ git fetch origin
 
-Ora, ognuno dei tuoi lavori è separato, simile ad una coda di modifiche. Puoi riscrivere, modificare o effettuare un rebase, senza che i rami interferiscano o dipendano l'uno dall'altro, come in Figura 5-16.
+Ora ognuno dei tuoi lavori è separato come in una coda di modifiche che puoi riscrivere, ribasare e modificare senza che gli argomenti interferiscano o dipendano dagli altri, come in Figura 5-16.
 
 Insert 18333fig0516.png
-Figura 5-16. Conologia iniziale dei commit con del lavoro su funzionalitaB.
+Figura 5-16. Conologia iniziale col lavoro su funzionalitaB.
 
 Diciamo che il mantenitore del progetto ha eseguito il pull, una manciata di altre modifiche e provato il tuo primo ramo ma non riesce più ad applicare tali modifiche in maniera pulita. In questo caso, puoi provare ad effettuare un rebase di quel ramo basandoti sul nuovo `origin/master`, risolvere i conflitti e poi inviare di nuovo i tuoi cambiamenti:
 

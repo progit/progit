@@ -356,7 +356,7 @@ Infine unisce il lavoro di John al suo nel branch `funzionalitaA`:
 	 lib/simplegit.rb |   10 +++++++++-
 	1 files changed, 9 insertions(+), 1 deletions(-)
 
-Jessica vuole aggiustare qualcosa, così esegue un altro commit ed un push verso il server:
+Jessica vuole aggiustare qualcosa e fa un'altro commit ed una push verso il server:
 
 	$ git commit -am 'leggero aggiustamento'
 	[featureA ed774b3] leggero aggiustamento
@@ -366,17 +366,17 @@ Jessica vuole aggiustare qualcosa, così esegue un altro commit ed un push verso
 	To jessica@githost:simplegit.git
 	   3300904..ed774b3  featureA -> featureA
 
-Ora la cronologia dei commit di Jessica sarà come quella di Figura 5-13.
+La cronologia delle commit di Jessica ora sarà come quella della Figura 5-13.
 
 Insert 18333fig0513.png
-Figura 5-13. La cronologia di Jessica dopo aver eseguito il commit sul ramo.
+Figura 5-13. La cronologia di Jessica dopo aver eseguito la commit sul branch.
 
-Jessica, Josie e John informano gli integratori che i rami `funzionalitaA` e `funzionalitaB` sono sul server e pronti per l'integrazione nel ramo `master`. Dopo l'integrazione di questi rami nel `master`, un recupero del ramo principale aggiungerà anche i nuovi commit, rendendo la cronologia dei commit come quella di figura 5.14.
+Jessica, Josie e John informano gli integratori che i rami `funzionalitaA` e `funzionalitaB` che sono sul server sono pronti per l'integrazione nel `master`. Dopo l'integrazione di questi branch nel `master`, una fetch scaricherà tutte queste nuove commit, rendendo la cronologia delle commit come quella della Figura 5.14.
 
 Insert 18333fig0514.png
 Figura 5.14. La cronologia di Jessica dopo aver unito entrambi i rami.
 
-Molti gruppi migrano verso Git per la sua capacità di avere più team a lavorarare in parallelo, unendo le differenti linee di lavoro alla fine del processo. L'abilità di piccoli sotto gruppi di una squadra di collaborare tramite rami remoti senza necessariamente dover coinvolgere o ostacolare l'intero team è un grande beneficio di Git. La sequenza per il workflow che hai appena visto è rappresentata dalla Figura 5-15.
+Molti gruppi migrano a Git per la sua capacità di avere gruppi che lavorino in parallelo, unendo le differenti righe di lavoro alla fine del processo. La possibilità che piccoli sottogruppi del team possano collaborare con branch remoti senza dover necessariamente coinvolgere o ostacolare l'intero team è un grande beneficio di Git. La sequenza del workflow che hai appena visto è rappresentata nella Figura 5-15.
 
 Insert 18333fig0515.png
 Figura 5-15. Sequenza base di questo workflow con team separati.

@@ -571,7 +571,8 @@ Oltre a sapere come contribuire ad un progetto in maniera effettiva, dovrai prob
 
 ### Lavorare coi branch per argomento ###
 
-Quando pensi di integrare un nuovo lavoro generalmente è una buona idea provarlo in un branch per argomento: un branch temporaneo, creato specificatamente per provare le modifiche dalla patch. In questo modo è semplice verificare la singola patch e, se questa non funziona, lasciarla intalterata fino a quando non avrai il tempo di ritornarci. Se crei un branch col nome dell'argomento della patch che proverai, per esempio `ruby_client` o qualcosa ugualmente descrittiva, ti sarà facile individuarlo nel caso tu debba temporaneamente lasciare il lavoro sulla patch per ritornarci più avanti. Il mantenitore del progetto Git  usa dare uno gerarchia ai nomi di questi branch: come `sc/ruby_client`, dove `sc` sono le iniziali della persona che ha realizzato la patch. Come ricorderai, puoi creare un branch partendo dal tuo master così:
+Quando pensi di integrare un nuovo lavoro generalmente è una buona idea provarlo in un branch per argomento: un branch temporaneo, creato specificatamente per provare le modifiche dalla patch. In questo modo è semplice verificare la singola patch e, se questa non funziona, lasciarla intalterata fino a quando non avrai il tempo di ritornarci. Se crei un branch col nome dell'argomento della patch che proverai, per esempio `ruby_client` o qualcosa ugualmente descrittiva, ti sarà facile individuarlo nel caso tu debba temporaneamente lasciare il lavoro sulla patch per ritornarci più avanti. Il mantenitore del progetto Git  usa dare uno gerarchia ai nomi di questi branch: come `sc/ruby_client`, dove `sc` sono le iniziali della persona che ha realizzato la patch.
+Come ricorderai, puoi creare un branch partendo dal tuo master così:
 
 	$ git branch sc/ruby_client master
 
@@ -583,7 +584,7 @@ Ora sei pronto per aggiungere il lavoro a questo branch e decidere se vuoi unirl
 
 ### Applicare le patch da un'e-mail ###
 
-Se ricevi via e-mail le patch che vuoi integrare nel tuo progetto, devi applicarle ognuna al relativo `topic branch` per poterle provare. Ci sono due modi per applicare una patch ricevuta via email: con `git apply` oppure con `git am`.
+Se ricevi le patch via e-mail e le vuoi integrarle nel tuo progetto, devi prima applicarle per poterle giudicare. Ci sono due modi per applicare una patch ricevuta via email: con `git apply` o con `git am`.
 
 #### Applicare una patch con apply ####
 

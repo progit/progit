@@ -21,14 +21,14 @@ Uno dei più popolari strumenti VCS era un sistema chiamato rcs, che è ancora o
 
 ### Sistemi di Controllo di Versione Centralizzati ###
 
-Il problema successivo in cui incorsero le persone è che queste hanno bisogno di collaborare con altri sviluppatori su altri sistemi. Per far fronte a questo problema, vennero sviluppati sistemi di controllo di versione centralizzati (Centralized Version Control Systems, CVCS). Questi sistemi, come CVS, Subversion e Perforce, hanno un singolo server che contiene tutte le versioni dei file e un numero di utenti che controllano i file dalla centrale. Per alcuni anni, questo fu lo standard per il controllo di versione (vedi Figura 1-2).
+Successivamente queste persone dovettero affrontare il problema del collaborare con altri sviluppatori su altri sistemi. Per far fronte a questo problema, vennero sviluppati sistemi di controllo di versione centralizzati (_Centralized Version Control Systems_ - CVCS). Questi sistemi, come CVS, Subversion e Perforce, hanno un unico server che contiene tutte le versioni dei file e un numero di utenti che scaricano i file dal server centrale. Questo è stato lo standard del controllo di versione per molti anni (vedi Figura 1-2).
 
 Insert 18333fig0102.png 
 Figura 1-2. Diagramma controllo di versione centralizzato.
 
-Questa impostazione offre molti vantaggi, specialmente rispetto ai VCS locali.  Per esempio, chiunque sa, ad un certo livello, cosa stia facendo un'altra persona nel progetto. Gli amministratori hanno un controllo preciso su chi può fare cosa; ed è molto più facile amministrare un tale CVCS che un database locale su ogni client.
+Questa impostazione offre molti vantaggi, specialmente rispetto ai VCS locali.  Per esempio, chiunque sa, con una certa approssimazione, cosa stia facendo un'altra persona del progetto. Gli amministratori hanno un controllo preciso su chi può fare cosa, ed è molto più facile amministrare un CVCS che un database locale su ogni client.
 
-Tuttavia, questa configurazione ha alcuni gravi lati negativi. La più ovvia è il singolo punto di fallimento che il server centralizzato rappresenta. Se questo va giù per un'ora, durante questo periodo nessuno può collaborare o salvare le modifiche di versione di qualsiasi cosa su cui sta lavorando. Se il disco rigido del database centrale si danneggia, e non sono state effettuate copie di backup, perdi assolutamente tutto - tutta la storia del progetto, ad eccezione di singoli snapshot (istantanee) fatte dalle persone sulla loro macchina locale. Anche i sistemi locali di VCS soffrono di questo problema - ogni volta che si ha tutta la storia del progetto in un unico posto, si rischia di perdere tutto.
+Questa configurazione ha tuttavia alcune gravi controindicazioni. La più ovvia è che il server centralizzato rappresenta il singolo punto di rottura del sistema. Se questo va giù per un'ora, in quel periodo nessuno può collaborare o salvare una nuova versione di qualsiasi cosa su cui sta lavorando. Se il disco rigido del database centrale si danneggia, e non ci sono i backup, perdi assolutamente tutto: tutta la storia del progetto ad eccezione dei singoli snapshot (istantanee) che le persone possono avere in locale sulle loro macchine. Anche i sistemi locali di VCS soffrono di questo problema: ogni volta che tutta la storia del progetto è in un unico posto, si rischia di perdere tutto.
 
 ### Sistemi di Controllo di Versione Distribuiti ###
 

@@ -680,19 +680,19 @@ Questo è utile se hai una serie di patch salvate, perché se non ti ricordi cos
 
 Quando tutte la patch per l'orgomento sono state applicate e committate nel tuo branch, puoi decidere se e come integrarle in un branch principale.
 
-### Checking Out Remote Branches ###
+### Scaricare branch remoti ###
 
-If your contribution came from a Git user who set up their own repository, pushed a number of changes into it, and then sent you the URL to the repository and the name of the remote branch the changes are in, you can add them as a remote and do merges locally.
+Se la contribuzione viene da un utente Git che ha un proprio repository su cui ha pubblicato una serie di modifiche e ti ha mandato l'indirizzo del repository e il nome del branch remoto in cui sono le stesse, puoi aggiungerlo come remoto e unirle localmente.
 
-For instance, if Jessica sends you an e-mail saying that she has a great new feature in the `ruby-client` branch of her repository, you can test it by adding the remote and checking out that branch locally:
+Se, per esempio, Jessica ti invia un'email dicendoti che nel branch `ruby-client` del suo repository ha sviluppato un'interessante funzionalità, tu puoi testarla aggiungendo il branch remoto e scaricarlo come uno localmente:
 
 	$ git remote add jessica git://github.com/jessica/myproject.git
 	$ git fetch jessica
 	$ git checkout -b rubyclient jessica/ruby-client
 
-If she e-mails you again later with another branch containing another great feature, you can fetch and check out because you already have the remote setup.
+Se successivamente t'invia un'altra email con un altro branch che contenga un'altra funzionalità interessante tu puoi scaricarla più velocemente perché hai già configurato il repository remoto.
 
-This is most useful if you’re working with a person consistently. If someone only has a single patch to contribute once in a while, then accepting it over e-mail may be less time consuming than requiring everyone to run their own server and having to continually add and remove remotes to get a few patches. You’re also unlikely to want to have hundreds of remotes, each for someone who contributes only a patch or two. However, scripts and hosted services may make this easier — it depends largely on how you develop and how your contributors develop.
+Questa configurazione è molto utile se lavori molto con una persona. Se qualcuno produce una sola patch di tanto in tanto può essere più rapido accettarle per email, invece di chiedere a tutti di avere un proprio server pubblico e aggiungere in continuazione dei repository remoti per poche modifiche. Allo stesso tempo non vorrai centinaia di repository remoti per qualcuno che contribuisce solo con una patch o due. In ogni caso degli script o servizi di hostin possono rendere il tutto più semplice e principalmente dipende da come sviluppate tu e i tuoi contributori.
 
 The other advantage of this approach is that you get the history of the commits as well. Although you may have legitimate merge issues, you know where in your history their work is based; a proper three-way merge is the default rather than having to supply a `-3` and hope the patch was generated off a public commit to which you have access.
 

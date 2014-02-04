@@ -794,24 +794,24 @@ Quando un branch funzionale viene finalmente unito in `master` viene anche rimos
 
 Altri mantenitori preferiscono ribasare o usare lo _cherry-pick_ aggiungere i contributi nel loro branch master, piuttosto che unirli, per mantenere una cronologia il più lineare possibile. Quando hai delle modifiche in un branch funzionale e hai deciso che vuoi integrarle, ti sposti su quel branch ed esegui il comando _rebase_ per replicare le modifiche del tuo master attuale (o `develop` e così via). Se queste funzionano, allora fai un _fast-forward_ del tuo `master` e ti ritroverai con un progetto dalla cronologia lineare.
 
-The other way to move introduced work from one branch to another is to cherry-pick it. A cherry-pick in Git is like a rebase for a single commit. It takes the patch that was introduced in a commit and tries to reapply it on the branch you’re currently on. This is useful if you have a number of commits on a topic branch and you want to integrate only one of them, or if you only have one commit on a topic branch and you’d prefer to cherry-pick it rather than run rebase. For example, suppose you have a project that looks like Figura 5-26.
+L'altro modo per spostare il lavoro dei contributori da un branch all'altro è di usare lo _cherry-pick_. Lo _cherry-pick_ in Git è come una rebase per una commit singola. Prende la patch introdotta nella commit e prova a riapplicarla sul branch dove sei. Questo è utile se hai molte commit in un branch funzionale e vuoi integrarne solo alcune o se hai un'unica commit in un branch funzionale e preferisci usare lo `cherry-pick` piuttosto che ribasare. Immagina di avere un progetto che sembri quello di Figura 5-26.
 
 Insert 18333fig0526.png
-Figura 5-26. Example history before a cherry pick.
+Figura 5-26. Cronologia prima dello _cherry pick_.
 
-If you want to pull commit `e43a6` into your master branch, you can run
+Se vuoi introdurre la commit `e43a6` nel tuo master puoi eseguire
 
 	$ git cherry-pick e43a6fd3e94888d76779ad79fb568ed180e5fcdf
 	Finished one cherry-pick.
 	[master]: created a0a41a9: "More friendly message when locking the index fails."
 	 3 files changed, 17 insertions(+), 3 deletions(-)
 
-This pulls the same change introduced in `e43a6`, but you get a new commit SHA-1 value, because the date applied is different. Now your history looks like Figura 5-27.
+Che replica le stesse modifiche introdotte in `e43a6`, ma produce una nuova commit con un suo SHA-1 differente perché le date sono diverse. La tua cronologia ora assomiglia a quella in Figura 5-27.
 
 Insert 18333fig0527.png
-Figura 5-27. History after cherry-picking a commit on a topic branch.
+Figura 5-27. Cronologia dopo lo _cherry-picking_ dal branch funzionale.
 
-Now you can remove your topic branch and drop the commits you didn’t want to pull in.
+Puoi ora eliminare il branch funzionale e cancellare le commit che non vuoi integrare.
 
 ### Tagging Your Releases ###
 

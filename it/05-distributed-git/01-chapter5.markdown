@@ -635,9 +635,9 @@ Puoi vedere che ha applicato senza errori le modifiche e ha creato automaticamen
 
 	   Limit log functionality to the first 20
 
-The `Commit` information indicates the person who applied the patch and the time it was applied. The `Author` information is the individual who originally created the patch and when it was originally created.
+`Commit` indica chi ha applicato la patch e `CommitDate` quando. `Author` chi ha creato la patch originariamente e quando.
 
-But it’s possible that the patch won’t apply cleanly. Perhaps your main branch has diverged too far from the branch the patch was built from, or the patch depends on another patch you haven’t applied yet. In that case, the `git am` process will fail and ask you what you want to do:
+Ma è possibile che la patch non sia applicabile correttamente. Il tuo branch principale potrebbe essere cambiato troppo rispetto al branch da cui deriva la patch o che la patch dipenda da altre che non hai ancora applicato. In questo caso il processo di `git am` fallirà e ti chiederà cosa voglia fareprocess will fail and ask you what you want to do:
 
 	$ git am 0001-seeing-if-this-helps-the-gem.patch
 	Applying: seeing if this helps the gem

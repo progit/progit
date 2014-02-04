@@ -32,44 +32,44 @@ Questa configurazione ha tuttavia alcune gravi controindicazioni. La più ovvia 
 
 ### Sistemi di Controllo di Versione Distribuiti ###
 
-E qui entrano in gioco i Sistemi di Controllo di Versione Distribuiti (Distributed Version Control Systems o DVCS). In un DVCS (come Git, Mercurial, Bazaar o Darcs), i client non solo controllano il recente snapshot dei file: essi fanno una copia completa del repository. In tal modo, se si blocca un server ed i sistemi interagiscono tramite un DVCS, un qualsiasi repository di client può essere copiato sul server e quindi ripristinarlo. Ogni checkout, in realtà, è un backup completo di tutti i dati (vedi Figura 1-3).
+E qui entrano in gioco i Sistemi di Controllo di Versione Distribuiti (_Distributed Version Control Systems_ - DVCS). In un DVCS (come Git, Mercurial, Bazaar o Darcs), i client non solo controllano lo _snapshot_ più recente dei file, ma fanno una copia completa del repository. In questo modo se un server morisse e i sistemi interagiscono tramite il DVCS, il repository di un qualsiasi client può essere copiato sul server per ripristinarlo. Ogni checkout è un backup completo di tutti i dati (vedi Figura 1-3).
 
 Insert 18333fig0103.png 
-Figura 1-3. Diagramma controllo di versione distribuito.
+Figura 1-3. Diagramma del controllo di versione distribuito.
 
 Inoltre, molti di questi sistemi trattano bene l'avere più repository remoti su cui poter lavorare, così puoi collaborare con gruppi differenti di persone in modi differenti, simultaneamente sullo stesso progetto. Questo ti permette di impostare diversi tipi di flussi di lavoro che non sono possibili in sistemi centralizzati, come i modelli gerarchici.
 
 ## Una Breve Storia di Git ##
 
-Come per molte grandi cose nella vita, Git è iniziato con un po' di distruzione creativa e polemiche di fuoco. Il kernel di Linux è un progetto software open source di portata abbastanza ampia. Per la manutenzione del kernel Linux, per diverso tempo (1991-2002), le modifiche al software venivano passate sotto forma di patch e file d'archivio. Nel 2002, il progetto del kernel di Linux iniziò ad utilizzare un sistema proprietario chiamato DVCS BitKeeper.
+Come per molte grandi cose della vita, Git è nato con un po' di distruzione creativa e polemiche infuocate. Il kernel di Linux è un progetto software open source di grande portata abbastanza. Per buona parte del tempo (1991-2002) della manutenzione del kernel Linux le modifiche al software venivano passate sotto forma di patch e file compressi. Nel 2002, il progetto del kernel Linux iniziò ad utilizzare un sistema DVCS proprietario chiamato BitKeeper.
 
-Nel 2005, il rapporto tra la comunità che ha sviluppato il kernel Linux e la società commerciale che ha sviluppato BitKeeper si ruppe, e l'uso gratuito di questo strumento fu revocato. Ciò ha indotto la comunità di sviluppo di Linux (e in particolare Linus Torvalds, il creatore di Linux) a sviluppare il proprio strumento, basandosi su alcune delle lezioni apprese durante l'utilizzo di BitKeeper. Alcuni degli obiettivi del nuovo sistema sono i seguenti:
+Nel 2005 il rapporto tra la comunità che sviluppa il kernel Linux e la società commerciale che aveva sviluppato BitKeeper si ruppe, e fu revocato l'uso gratuito di BitKeeper. Ciò indusse la comunità di sviluppo di Linux (e in particolare Linus Torvalds, il creatore di Linux) a sviluppare uno strumento proprio, basandosi su alcune delle lezioni apprese durante l'utilizzo di BitKeeper. Alcuni degli obiettivi del nuovo sistema erano i seguenti:
 
 *	Velocità
 *	Design semplice
-*	Forte supporto allo sviluppo non-lineare (migliaia di rami paralleli)
+*	Ottimo supporto allo sviluppo non-lineare (migliaia di rami paralleli)
 *	Completamente distribuito
 *	Capacità di gestire, in modo efficiente (velocità e dimensione dei dati), grandi progetti come il kernel Linux
 
-Fin dalla sua nascita nel 2005, Git si è evoluto e maturato per essere facile da usare e tuttora mantiene le sue qualità iniziali. E' incredibilmente veloce, è molto efficiente con grandi progetti, ed ha un incredibile sistema di ramificazioni, per lo sviluppo non lineare (Vedi Capitolo 3).
+Fin dalla sua nascita nel 2005 Git si è evoluto e maturato per essere facile da usare e tuttora mantiene le sue qualità iniziali. È incredibilmente veloce, è molto efficiente con progetti grandi e ha un incredibile sistema di ramificazioni, per lo sviluppo non lineare (Vedi Capitolo 3).
 
 ## Basi di Git ##
 
-Quindi, cos'è Git in poche parole? Questa è una sezione importante da assorbire, perché se comprendi che cosa è Git e gli elementi fondamentali di come funziona, allora probabilmente, sarà molto più facile per te usare Git efficacemente. Mentre impari Git, cerca di liberare la mente dalle cose che eventualmente conosci su altri VCS, come Subversion e Perforce; ciò ti aiuterà ad evitare di far confusione utilizzando lo strumento. Git immagazzina e tratta le informazioni in modo diverso dagli altri sistemi, anche se l'interfaccia utente è abbastanza simile; comprendere queste differenze aiuta a prevenire di sentirsi confusi, mentre lo si usa.
+Quindi, cos'è Git in poche parole? Questa è una sezione importante da comprendere, perché se capisci che cos'è Git e gli elementi fondamentali di come funziona, allora sarà probabilmente molto più facile per te usare efficacemente Git. Mentre impari Git, cerca di liberare la tua mente dalle cose che eventualmente già conosci di altri VCS come Subversion e Perforce; ciò ti aiuterà a evitare di far confusione utilizzando lo strumento. Git immagazzina e tratta le informazioni in modo molto diverso dagli altri sistemi, anche se l'interfaccia utente è abbastanza simile; comprendere queste differenze aiuta a prevenire di sentirsi confusi mentre lo si usa.
 
 ### Istantanee, non Differenze ###
 
-La principale differenza tra Git e gli altri VCS (Subversion e compagnia), è il modo in cui Git considera i suoi dati. Concettualmente, la maggior parte degli altri sistemi salvano l'informazione come una lista di cambiamenti  apportati ai file. Questi sistemi (CVS, Subversion, Perforce, Bazaar e così via), considerano le informazioni che essi mantengono come un insieme di file, con le relative modifiche fatte ai file, nel tempo, come illustrato in Figura 1-4.
+La principale differenza tra Git e gli altri VCS (inclusi Subversion e compagni), è come Git considera i suoi dati. Concettualmente la maggior parte degli altri sistemi salvano l'informazione come una lista di modifiche ai file. Questi sistemi (CVS, Subversion, Perforce, Bazaar e così via), considerano le informazioni che mantengono come un insieme di file, con le relative modifiche fatte ai file nel tempo, come illustrato in Figura 1-4.
 
 Insert 18333fig0104.png 
 Figura 1-4. Gli altri sistemi tendono ad immagazzinare i dati come cambiamenti alla versione base di ogni file.
 
-Git non considera i dati in questo modo né li immagazzina in questo modo. Invece, Git considera i propri dati più come una serie di istantanee (snapshot) di un mini filesystem.  Ogni volta che si fa un commit, o si salva lo stato del proprio progetto in Git, esso fondamentalmente fa un'immagine di tutti i file in quel momento, salvando un riferimento allo snapshot. Per essere efficiente, se alcuni file non sono cambiati, Git non li immagazzina nuovamente — semplicemente crea un collegamento agli stessi file, già immagazzinati, della versione precedente. Git considera i propri dati più come in Figura 1-5.
+Git non considera i dati né li registra in questo modo. Git considera i propri dati più come una serie di istantanee (_snapshot_) di un mini filesystem.  Ogni volta che committi, o salvi lo stato del tuo progetto in Git, fondamentalmente lui fa un'immagine di tutti i file in quel momento, salvando un riferimento allo _snapshot_. Per essere efficiente, se alcuni file non sono cambiati, Git non li risalva, ma crea semplicemente un collegamento al file precedente già salvato. Git considera i propri dati più come in Figura 1-5.
 
 Insert 18333fig0105.png 
 Figura 1-5.  Git immagazzina i dati come snapshot del progetto nel tempo.
 
-Questa è una distinzione importante tra Git e gli altri VCS. Git riconsidera tutti gli aspetti del controllo di versione mentre la maggior parte degli altri sistemi copiano dalle precedenti generazioni. Questo fa di Git più un qualche cosa di simile ad un mini filesystem con alcuni incredibili e potenti strumenti costruiti su di esso, invece che un semplice VCS. Esploreremo alcuni benefici che potrai avere immaginando i tuoi dati in questo modo quando vedremo le ramificazioni con Git nel Capitolo 3.
+Questa è una distinzione importante tra Git e pressocché tutti gli altri VCS. Git riconsidera quasi tutti gli aspetti del controllo di versione che la maggior parte degli altri sistemi ha copiato dalle generazioni precedenti. Questo rende Git più simile a un mini filesystem con a dispoizione strumenti incredibilmente potenti che un semplice VCS. Esploreremo alcuni benefici che ottieni pensando in questo modo ai tuoi dati vedremo le ramificazioni (i _branch_) in Git nel Capitolo 3.
 
 ### Quasi Tutte le Operazioni Sono Locali ###
 

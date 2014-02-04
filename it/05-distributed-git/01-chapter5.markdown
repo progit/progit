@@ -892,6 +892,6 @@ Ora hai un tarball e uno zip del rilascio del tuo progetto che puoi caricare sul
 
 Ottieni un sommario pulito di tutte le commit dalla v1.0.1, raggruppate per autore che puoi quindi inviare per email alla tua lista.
 
-## Summary ##
+## Sommario ##
 
-You should feel fairly comfortable contributing to a project in Git as well as maintaining your own project or integrating other users’ contributions. Congratulations on being an effective Git developer! In the next chapter, you’ll learn more powerful tools and tips for dealing with complex situations, which will truly make you a Git master.
+Dovresti sentirti ora a tuo agio nel contribuire a progetti Git, tanto quanto mantenere il tuo progetto o integrare i contributi di altri utenti. Congratulazione per essere un vero sviluppatore Git! Nel prossimo capitolo imparerai alcuni strumenti molto potenti e suggerimenti per affrontare situazione complesse che ti faranno diventare un maestro di Git.

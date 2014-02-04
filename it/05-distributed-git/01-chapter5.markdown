@@ -734,17 +734,17 @@ Se `master` è un antenato diretto del branch allora non sarà un problema, ma s
 
 Quello che vuoi realmente vedere sono le modifiche aggiunte nel branch: il lavoro che effettivamente introdurrai se le unissi al master. Potrai ottenerlo facendo si che Git confronti l'ultima commit del branch col primo antenato comune con il branch master.
 
-Technically, you can do that by explicitly figuring out the common ancestor and then running your diff on it:
+Tecnicamente puoi farlo tu scoprendo l'antenato comune ed eseguendo quindi la diff:
 
 	$ git merge-base contrib master
 	36c7dba2c95e6bbb78dfa822519ecfec6e1ca649
 	$ git diff 36c7db
 
-However, that isn’t convenient, so Git provides another shorthand for doing the same thing: the triple-dot syntax. In the context of the `diff` command, you can put three periods after another branch to do a `diff` between the last commit of the branch you’re on and its common ancestor with another branch:
+Questo però è scomodo e Git fornisce un modo più veloce per farlo: i tre punti. Nel contesto del comando `diff`, puoi usare tre punti dopo il nome di un branch per eseguire una `diff` tra l'ultima commit del branch in cui sei e l'antenato comune con un altro branch:
 
 	$ git diff master...contrib
 
-This command shows you only the work your current topic branch has introduced since its common ancestor with master. That is a very useful syntax to remember.
+Questo comando ti mostra solo le modifiche introdotte dal branch attuale a partire dall'antenato comune con master. Questa sintassi è molto utile da ricordare.
 
 ### Integrating Contributed Work ###
 

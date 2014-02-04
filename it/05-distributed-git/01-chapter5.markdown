@@ -746,9 +746,9 @@ Questo però è scomodo e Git fornisce un modo più veloce per farlo: i tre punt
 
 Questo comando ti mostra solo le modifiche introdotte dal branch attuale a partire dall'antenato comune con master. Questa sintassi è molto utile da ricordare.
 
-### Integrating Contributed Work ###
+### Integrare il lavoro dei contributori ###
 
-When all the work in your topic branch is ready to be integrated into a more mainline branch, the question is how to do it. Furthermore, what overall workflow do you want to use to maintain your project? You have a number of choices, so I’ll cover a few of them.
+Quando tutto il lavoro del tuo branch è pronto per essere integrato in un branch principale nasce il prblema di come farlo. Inoltre, quale workflow vuoi usare per mantenere il tuo progetto? Hai una serie di scelte e ne tratterò alcune.
 
 #### Merging Workflows ####
 

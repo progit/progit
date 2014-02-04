@@ -1,12 +1,12 @@
 # Per Iniziare #
 
-Questo capitolo spiegherà come iniziare ad usare Git.  Inizieremo con una introduzione sugli strumenti di controllo della versione,  per poi passare a come far funzionare Git sul proprio sistema  ed infine come configurarlo per lavorarci.  Alla fine di questo capitolo, dovresti capire a cosa serve Git, perché lo dovresti usare ed essere pronto ad usarlo.
+Questo capitolo spiegherà come iniziare ad usare Git. Inizieremo con una introduzione sugli strumenti per il controllo delle versioni,  per poi passare a come far funzionare Git sul proprio sistema e quindi come configurarlo per lavorarci. Alla fine di questo capitolo, dovresti capire a cosa serve Git, perché dovresti usarlo e dovresti essere pronto ad usarlo.
 
 ## Il Controllo di Versione ##
 
-Cos'è il controllo di versione, e perché dovresti usarlo? Il controllo di versione è un sistema che registra i cambiamenti ad un file o ad una serie di file nel tempo, così da poter richiamare una versione specifica successivamente. Per gli esempi in questo libro, useremo i file del codice sorgente di un software per controllarne la versione, anche se in realtà si può fare con quasi ogni tipo di file sul computer.
+Cos'è il controllo di versione, e perché dovresti usarlo? Il controllo di versione è un sistema che registra, nel tempo, i cambiamenti ad un file o ad una serie di file, così da poter richiamare una specifica versione in un secondo momento. Sebbene gli esempi di questo libro usino i sorgenti di un software per controllarne la versione, qualsiasi file di un computer può essere posto sotto controllo di versione.
 
-Se sei un grafico o un webdesigner e vuoi tenere tutte le versioni di un'immagine o di un layout (e sicuramente lo vorrai fare), un Version Control System (VCS) è una cosa saggia da usare. Ti permette di ripristinare i file ad uno stato precedente, ripristinare l'intero progetto ad uno stato precedente, comparare i cambiamenti nel tempo, vedere chi ha modificato cosa che può aver causato un problema, chi ha introdotto un problema e quando, e altro ancora. Usare un VCS, in generale, significa che se si fanno dei pasticci o si perdono dei file, si possono facilmente ripristinare. In aggiunta, si ottiene tutto questo con un piccolo dispendio di risorse.
+Se sei un grafico o un webdesigner e vuoi tenere tutte le versioni di un'immagine o di un layout (e sicuramente lo vorrai fare), sarebbe saggio usare un Sistema per il Controllo di Versione (_Version Control System_ - VCS). Un VCS ti permette di ripristinare i file ad una versione precedente, ripristinare l'intero progetto a uno stato precedente, revisionare le modifiche fatte nel tempo, vedere chi ha cambiato qualcosa che può aver causato un problema, chi ha introdotto un problema e quando, e molto altro ancora. Usare un VCS significa anche che se fai un pasticcio o perdi qualche file, puoi facilmente recuperare la situazione. E ottieni tutto questo con poca fatica.
 
 ### Sistema di Controllo di Versione Locale ###
 

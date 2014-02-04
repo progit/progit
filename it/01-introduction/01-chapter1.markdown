@@ -10,14 +10,14 @@ Se sei un grafico o un webdesigner e vuoi tenere tutte le versioni di un'immagin
 
 ### Sistema di Controllo di Versione Locale ###
 
-Il metodo di controllo di versione scelto da molte persone è di copiare i file in un'altra directory (magari una directory denominata con la data, se sono furbi). Questo approccio è molto comune perché è molto semplice, ma è anche incredibilmente soggetto ad errori. É facile dimenticarsi la directory in cui ci si trova e accidentalmente scrivere sul file sbagliato o copiare i file che non si intendevano copiare.
+Molte persone gestiscono le diverse versioni copiando i file in un'altra directory (magari una directory denominata con la data, se sono furbi). Questo approccio è molto comune perché è molto semplice, ma è anche incredibilmente soggetto ad errori. É facile dimenticare in quale directory sei e modificare il file sbagliato o copiare dei file che non intendevi copiare.
 
-Per far fronte a questo problema, i programmatori svilupparono VCS locali che avevano un semplice database che manteneva tutti i cambiamenti dei file sotto controllo di revisione (vedi Figura 1-1).
+Per far fronte a questo problema, i programmatori svilupparono VCS locali che avevano un database semplice che manteneva tutti i cambiamenti dei file sotto controllo di revisione (vedi Figura 1-1).
 
 Insert 18333fig0101.png 
-Figura 1-1. Diagramma di controllo di versione locale.
+Figura 1-1. Diagramma di controllo di un sistema locale.
 
-Uno dei più popolari strumenti VCS era un sistema chiamato rcs, che è ancora oggi distribuito con alcuni computer. Anche il popolare sistema operativo Mac OS X include il comando rcs quando si installano gli Strumenti di Sviluppo. Semplicemente questo strumento funziona mantenendo una serie di patch (che sono le differenze fra i file) da un cambiamento ad un altro in un formato specifico sul disco; esso può poi ricreare qualsiasi file come se fosse quel file in un determinato momento aggiungendo tutte le patch.
+Uno dei più popolari strumenti VCS era un sistema chiamato rcs, che è ancora oggi distribuito con molti computer. Anche il popolare sistema operativo Mac OS X include il comando rcs quando si installano gli Strumenti di Sviluppo. Questo strumento funziona salvando sul disco una serie di patch (ovvero le differenze tra i file) tra una versione e l'altra, in un formato specifico; può quindi ricreare lo stato di qualsiasi file in qualsiasi momento determinato momento, aggiungendo le varie patch.
 
 ### Sistemi di Controllo di Versione Centralizzati ###
 

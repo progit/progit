@@ -73,7 +73,7 @@ Questa è una distinzione importante tra Git e pressocché tutti gli altri VCS. 
 
 ### Quasi Tutte le Operazioni Sono Locali ###
 
-La maggior parte delle operazioni in Git, necessitano solo di file e risorse locali per operare — generalmente non occorrono informazioni da altri computer nella rete. Se eri abituato ad un CVCS, in cui la maggior parte delle operazioni erano soggette alle latenze di rete, questo aspetto di Git ti farà pensare che gli dei della velocità abbiano benedetto Git con poteri soprannaturali. Giacché l'intera storia del progetto sta qui, sul proprio disco locale, le operazioni sembrano quasi istantanee.
+La maggior parte delle operazioni in Git, necessitano solo di file e risorse locali per operare — generalmente non occorrono informazioni da altri computer della rete. Se sei abituato ad un CVCS in cui la maggior parte delle operazioni sono soggette alle latenze di rete, questo aspetto di Git ti farà pensare che gli Dei della velocità abbiano benedetto Git con poteri soprannaturali. Poiché hai l'intera storia del progetto sul tuo disco locale, molte operazioni sembrano quasi istantanee.
 
 Per esempio, per scorrere la storia di un progetto, Git non ha bisogno di connettersi al server per scaricarla e per poi visualizzarla — la legge direttamente dal database locale. Questo significa che puoi vedere la storia del progetto quasi istantaneamente. Se vuoi vedere i cambiamenti introdotti tra la versione corrente di un file e la versione di un mese fa, Git può consultare il file di un mese fa e calcolare localmente le differenze, invece di richiedere di farlo ad un server remoto o di estrarre una precedente versione del file dal server remoto, per poi farlo in locale.
 

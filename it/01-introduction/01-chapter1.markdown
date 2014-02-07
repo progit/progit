@@ -110,13 +110,13 @@ La directory di lavoro è un checkout di una versione specifica del progetto. Qu
 
 L'area di stage è un file, contenuto generalmente nella directory di Git, con tutte le informazioni riguardanti la tua prossima commit. A volte viene indicato anche come 'indice', ma lo standard è definirlo come 'area di stage' (area di sosta, ndt).
 
-Il flusso base di lavoro in Git, funziona come segue:
+Il flusso di lavoro (_workflow_) di base in Git funziona così:
 
-1. Modifica i file nella directory di lavoro
-2. Esegui l'operazione di stage dei file, per aggiungere i relativi snapshot all'area di stage
-3. Esegui il commit, per immagazzinare permanentemente nella directory di Git, lo snapshot relativo, una volta presi i file nell'area di stage
+1. Modifica i file nella tua directory di lavoro
+2. Fanno lo stage, aggiungendone le istantanee all'area di stage
+3. Committa, che salva i file nell'area di stage in un'istantanea (_snapshot_) permanente nella tua directory di Git.
 
-Se una versione particolare di un file è nella directory git, sarà considerata già affidata. Se il file è stato modificato, ma è stato aggiunto all'area di staging, è in sosta. E se è stato modificato da quando è stata controllato, ma non è stato messo in sosta, sarà modificato.  Nel Capitolo 2, imparerai di più su questi stati e come trarne vantaggio da essi o saltare interamente la parte di staging.
+Se una particolare versione di un file è nella directory git, viene considerata già committata. Se il file è stato modificato, ma è stato aggiunto all'area di staging, è _in stage_. E se è stato modificato da quando è stata estratto, ma non è _in stage_, è modificato.  Nel Capitolo 2, imparerai di più su questi stati e come trarne vantaggio o saltare la parte di staging.
 
 ## Installare Git ##
 

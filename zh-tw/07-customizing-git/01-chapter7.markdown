@@ -1,6 +1,5 @@
 ﻿# Git 客製化 #
 
-So far, I’ve covered the basics of how Git works and how to use it, and I’ve introduced a number of tools that Git provides to help you use it easily and efficiently. In this chapter, I’ll go through some operations that you can use to make Git operate in a more customized fashion by introducing several important configuration settings and the hooks system. With these tools, it’s easy to get Git to work exactly the way you, your company, or your group needs it to.
 到目前為止，我闡述了 Git 基本的運作機制和使用方式，介紹了 Git 提供的許多工具來幫助你簡單且有效地使用它。在本章，我將會介紹 Git 的一些重要的組態設定(configuration)和鉤子(hooks)機制以滿足自訂的要求。通過這些工具，它能夠更容易地使 Git 按照你、你的公司或團隊所需要的方式去運作。 
 
 ## Git 配置 ##
@@ -298,7 +297,6 @@ Git 預設情況下不會在推送期間檢查所有物件的一致性。Git 雖
 
 某些檔案看起來像是文字檔，但其實是看做為二進位資料。例如，在 Mac 上的 Xcode 專案含有一個以 `.pbxproj` 結尾的檔，它是由記錄設置項的 IDE 寫到磁碟的 JSON 資料集（純文字 javascript 資料類型）。雖然技術上看它是由 ASCII 字元組成的文字檔，但是你並不想這麼看它，因為它確實是一個輕量級資料庫 — 如果有兩個人改變了它，你沒辦法合併它們，diff 通常也幫不上忙，只有機器才能進行識別和操作，於是，你想把它當成二進位檔案。 
 
-To tell Git to treat all `pbxproj` files as binary data, add the following line to your `.gitattributes` file:
 讓 Git 把所有 `pbxproj` 檔當成二進位檔案，在 `.gitattributes` 文件中加上下面這行： 
 
 	*.pbxproj -crlf -diff
@@ -326,7 +324,12 @@ To tell Git to treat all `pbxproj` files as binary data, add the following line 
 
 當你要看比較結果時，如果檔副檔名是 ”doc”，Git 會使用 ”word” 篩檢程式(filter)。什麼是 ”word” 篩檢程式呢？你必須設置它。下面你將設定 Git 使用 `strings` 程式，把 Word 文檔轉換成可讀的文字檔，之後再進行比較： 
 
-	$ git config diff.word.textconv strings
+	$ git config diff.word.textconv catdoc
+
+This command adds a section to your `.git/config` that looks like this:
+
+	[diff "word"]
+		textconv = catdoc
 
 現在 Git 知道了，如果它要在在兩個快照之間做比較，而其中任何一個檔檔名是以 `.doc` 結尾，它應該要對這些檔執行 ”word” 篩檢程式，也就是定義為執行 `strings` 程式。這樣就可以在比較前把 Word 檔轉換成文字檔。 
 
@@ -522,7 +525,6 @@ Git 屬性在將專案匯出歸檔(archive)時也能發揮作用。
 
 ### 合併策略 ###
 
-You can also use Git attributes to tell Git to use different merge strategies for specific files in your project. One very useful option is to tell Git to not try to merge specific files when they have conflicts, but rather to use your side of the merge over someone else’s.
 通過 Git 屬性，還能對專案中的特定檔案使用不同的合併策略。一個非常有用的選項就是，當一些特定檔案發生衝突，Git 不會嘗試合併他們，而使用你這邊的來覆蓋別人的。 
 
 如果專案的一個分支有歧義或比較特別，但你想從該分支合併，而且需要忽略其中某些檔，這樣的合併策略是有用的。例如，你有一個資料庫設置檔 database.xml，在兩個分支中他們是不同的，你想合併一個分支到另一個，而不弄亂該資料庫檔，可以設置屬性如下： 
@@ -641,7 +643,6 @@ update 腳本和 `pre-receive` 腳本十分類似，除了它會為推送者更�
 
 	changed the version number
 
-A simple way to get the commit message from a commit when you have the SHA-1 value is to go to the first blank line and take everything after that. You can do so with the `sed` command on Unix systems:
 通過 SHA-1 值獲得提交內容中的提交資訊的一個簡單辦法是找到提交的第一個空白行，然後取出它之後的所有內容。可以使用 Unix 系統的 `sed` 命令來實現這個效果： 
 
 	$ git cat-file commit ca82a6 | sed '1,/^$/d'
@@ -924,7 +925,6 @@ A simple way to get the commit message from a commit when you have the SHA-1 val
 
 	git rev-list ^#{sha}^@ refs/remotes/#{remote_ref}
 
-The `SHA^@` syntax resolves to all the parents of that commit. You’re looking for any commit that is reachable from the last commit on the remote and that isn’t reachable from any parent of any of the SHAs you’re trying to push up — meaning it’s a fast-forward.
 `SHA^@` 語法解析該次提交的所有祖先。我們尋找任何一個提交，這個提交可以從遠端最後一次提交衍變獲得(reachable)，但從我們嘗試推送的任何一個提交的 SHA 值的任何一個祖先都無法衍變獲得——也就是 fast-forward 的內容。
 
 這個解決方案的缺點在於它可能會很慢而且通常是沒有必要的——只要不用 -f 來強制推送，伺服器會自動給出警告並且拒絕推送內容。然而，這是個不錯的練習，而且理論上能幫助用戶避免一個將來不得不回頭修改的衍合操作。

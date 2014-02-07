@@ -144,7 +144,6 @@ Git 中所有 Subversion 橋接命令的基礎是 `git svn` 。所有的命令�
 
 ### 拉取最新進展 ###
 
-If you’re working with other developers, then at some point one of you will push, and then the other one will try to push a change that conflicts. That change will be rejected until you merge in their work. In `git svn`, it looks like this:
 如果要與其他開發者協作，總有那麼一天你推送完畢之後，其他人發現他們推送自己修改的時候（與你推送的內容）產生衝突。這些修改在你合併之前將一直被拒絕。在 `git svn` 裡這種情況像這樣： 
 
 	$ git svn dcommit
@@ -397,17 +396,19 @@ Git 通過搜尋提交歷史中 Subversion 分支的頭部(tip)來決定 dcommit
 
 要把標籤變成合適的 Git 標籤，執行 
 
-	$ cp -Rf .git/refs/remotes/tags/* .git/refs/tags/
-	$ rm -Rf .git/refs/remotes/tags
+	$ git for-each-ref refs/remotes/tags | cut -d / -f 4- | grep -v @ | while read tagname; do git tag "$tagname" "tags/$tagname"; git branch -r -d "tags/$tagname"; done
 
 該命令將原本以 `tag/` 開頭的遠端分支的索引變成真正的 (lightweight) 標籤。 
 
 接下來，把 `refs/remotes` 下面剩下的索引(reference)變成本地分支： 
 
-	$ cp -Rf .git/refs/remotes/* .git/refs/heads/
-	$ rm -Rf .git/refs/remotes
+	$ git for-each-ref refs/remotes | cut -d / -f 3- | grep -v @ | while read branchname; do git branch "$branchname" "refs/remotes/$branchname"; git branch -r -d "$branchname"; done
 
 現在所有的舊分支都變成真正的 Git 分支，所有的舊標籤也變成真正的 Git 標籤。最後一項工作就是把新建的 Git 伺服器添加為遠端伺服器並且向它推送。為了讓所有的分支和標籤都得到上傳，我們使用這條命令： 
+
+	$ git remote add origin git@my-git-server:myrepository.git
+
+Because you want all your branches and tags to go up, you can now run this:
 
 	$ git push origin --all
 	$ git push origin --tags
@@ -559,7 +560,8 @@ Git 通過搜尋提交歷史中 Subversion 分支的頭部(tip)來決定 dcommit
 	export_data('imported from ' + dir)
 	puts 'from :' + last_mark if last_mark
 
-為了簡化，時區寫死(hardcode)為（-0700）。如果是從其他版本控制系統導入，則必須以變數的形式指明時區。提交訊息必須以特定格式給出： 
+為了簡化，時區寫死(hardcode)為（-0700）。如果是從其他版本控制系統導入，則必須以變數的形式指明時區。
+提交訊息必須以特定格式給出： 
 
 	data (size)\n(contents)
 

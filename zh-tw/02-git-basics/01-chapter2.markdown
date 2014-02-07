@@ -616,6 +616,7 @@ The lines must be formatted as follows
 
 	選項	選項的說明
 	-p	顯示每個更新與上一個的差異。
+	--word-diff	使用 word diff 格式顯示 patch 內容。
 	--stat	顯示每個更新更動的檔案的統計及摘要資訊。
 	--shortstat	僅顯示--stat提供的的訊息中關於更動、插入、刪除的文字。
 	--name-only	在更新的訊息後方顯示更動的檔案列表。
@@ -624,6 +625,7 @@ The lines must be formatted as follows
 	--relative-date	以相對於目前時間方式顯示日期（例如：“2 weeks ago”），而不是完整的日期格式。
 	--graph	以 ASCII 在 log 輸出旁邊畫出分支的分歧及合併。
 	--pretty	以其它格式顯示更新。 可用的選項包含oneline、short、full、fuller及可自訂格式的format。
+	--oneline	`--pretty=oneline --abbrev-commit` 的簡短用法。
 
 ### 限制 log 的輸出範圍 ###
 

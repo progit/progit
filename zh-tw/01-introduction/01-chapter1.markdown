@@ -132,16 +132,16 @@ Git目錄是Git用來儲存讀者的專案的元數據及物件資料庫。 這�
 	  openssl-devel zlib-devel
 
 	$ apt-get install libcurl4-gnutls-dev libexpat1-dev gettext \
-	  libz-dev
-	
+	  libz-dev libssl-dev
+
 當讀者安裝所有必要的程式庫，讀者可到Git的網站取得最新版本：
 
 	http://git-scm.com/download
 
 接著，編譯及安裝：
 
-	$ tar -zxf git-1.6.0.5.tar.gz
-	$ cd git-1.6.0.5
+	$ tar -zxf git-1.7.2.2.tar.gz
+	$ cd git-1.7.2.2
 	$ make prefix=/usr/local all
 	$ sudo make prefix=/usr/local install
 

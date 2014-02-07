@@ -97,18 +97,18 @@ Questo rende l'uso di Git un piacere perché sappiamo che possiamo sperimentare 
 
 ### I Tre Stati ###
 
-Ora, presta attenzione. Questa è la prima cosa da ricordare su Git se si vuole affrontare al meglio il processo di apprendimento. Git ha tre stati principali, in cui possono risiedere i file: committed, modified e staged. Committed significa che il file è immagazzinato al sicuro, nel database locale. Modified significa che il file è stato modificato, ma non è stato ancora eseguito il commit nel proprio database. Staged significa che un file modificato nella versione corrente, è stato contrassegnato per essere inserito nello snapshot, al commit successivo.
+Ora, presta attenzione. La prima cosa da ricordare sempre di Git se vuoi affrontare al meglio il processo di apprendimento. I tuoi file in Git possono essere in tre stati: _committed_ (committati), _modified_ (modificati) e _staged_ (in stage). Committato significa che il file è al sicuro nel database locale. Modificato significa che il file è stato modificato, ma non è ancora stato committato nel database. In stage significa che hai contrassegnato un file, modificato nella versione corrente, perché venga inserito nello snapshot alla prossima commit.
 
-Questo ci conduce alle tre sezioni principali di un progetto Git: la directory di Git, la directory di lavoro e l'area di stage.
+Questo ci porta alle tre sezioni principali di un progetto Git: la directory di Git, la directory di lavoro e l'area di stage.
 
 Insert 18333fig0106.png 
 Figura 1-6. Directory di lavoro, area di stage e directory di Git.
 
-La directory di Git è il luogo dove Git salva i metadati ed il database degli oggetti di un progetto. Questa è la parte più importante di Git, ed è ciò che viene copiato quando si clona un repository da un altro computer.
+La directory di Git è dove Git salva i metadati e il database degli oggetti del tuo progetto. Questa è la parte più importante di Git, ed è ciò che viene copiato quando si clona un repository da un altro computer.
 
-La directory di lavoro è un singolo checkout di una versione del progetto. Questi file sono estratti dal database compresso, nella directory di Git, e posizionati nel disco per essere usati o modificati.
+La directory di lavoro è un checkout di una versione specifica del progetto. Questi file vengono estratti dal database compresso nella directory di Git, e salvati sul disco per essere usati o modificati.
 
-L'area di stage è un semplice file, generalmente contenuto nella directory di Git, contenente le informazioni riguardanti il commit successivo. Qualche volta viene indicato come l'indice, ma sta diventando d'uso comune riferirsi ad essa, come all'area di stage (sosta, ndt).
+L'area di stage è un file, contenuto generalmente nella directory di Git, con tutte le informazioni riguardanti la tua prossima commit. A volte viene indicato anche come 'indice', ma lo standard è definirlo come 'area di stage' (area di sosta, ndt).
 
 Il flusso base di lavoro in Git, funziona come segue:
 

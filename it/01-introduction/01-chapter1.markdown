@@ -1,79 +1,79 @@
 # Per Iniziare #
 
-Questo capitolo spiegherà come iniziare ad usare Git.  Inizieremo con una introduzione sugli strumenti di controllo della versione,  per poi passare a come far funzionare Git sul proprio sistema  ed infine come configurarlo per lavorarci.  Alla fine di questo capitolo, dovresti capire a cosa serve Git, perché lo dovresti usare ed essere pronto ad usarlo.
+Questo capitolo spiegherà come iniziare ad usare Git. Inizieremo con una introduzione sugli strumenti per il controllo delle versioni,  per poi passare a come far funzionare Git sul proprio sistema e quindi come configurarlo per lavorarci. Alla fine di questo capitolo, dovresti capire a cosa serve Git, perché dovresti usarlo e dovresti essere pronto ad usarlo.
 
 ## Il Controllo di Versione ##
 
-Cos'è il controllo di versione, e perché dovresti usarlo? Il controllo di versione è un sistema che registra i cambiamenti ad un file o ad una serie di file nel tempo, così da poter richiamare una versione specifica successivamente. Per gli esempi in questo libro, useremo i file del codice sorgente di un software per controllarne la versione, anche se in realtà si può fare con quasi ogni tipo di file sul computer.
+Cos'è il controllo di versione, e perché dovresti usarlo? Il controllo di versione è un sistema che registra, nel tempo, i cambiamenti ad un file o ad una serie di file, così da poter richiamare una specifica versione in un secondo momento. Sebbene gli esempi di questo libro usino i sorgenti di un software per controllarne la versione, qualsiasi file di un computer può essere posto sotto controllo di versione.
 
-Se sei un grafico o un webdesigner e vuoi tenere tutte le versioni di un'immagine o di un layout (e sicuramente lo vorrai fare), un Version Control System (VCS) è una cosa saggia da usare. Ti permette di ripristinare i file ad uno stato precedente, ripristinare l'intero progetto ad uno stato precedente, comparare i cambiamenti nel tempo, vedere chi ha modificato cosa che può aver causato un problema, chi ha introdotto un problema e quando, e altro ancora. Usare un VCS, in generale, significa che se si fanno dei pasticci o si perdono dei file, si possono facilmente ripristinare. In aggiunta, si ottiene tutto questo con un piccolo dispendio di risorse.
+Se sei un grafico o un webdesigner e vuoi tenere tutte le versioni di un'immagine o di un layout (e sicuramente lo vorrai fare), sarebbe saggio usare un Sistema per il Controllo di Versione (_Version Control System_ - VCS). Un VCS ti permette di ripristinare i file ad una versione precedente, ripristinare l'intero progetto a uno stato precedente, revisionare le modifiche fatte nel tempo, vedere chi ha cambiato qualcosa che può aver causato un problema, chi ha introdotto un problema e quando, e molto altro ancora. Usare un VCS significa anche che se fai un pasticcio o perdi qualche file, puoi facilmente recuperare la situazione. E ottieni tutto questo con poca fatica.
 
 ### Sistema di Controllo di Versione Locale ###
 
-Il metodo di controllo di versione scelto da molte persone è di copiare i file in un'altra directory (magari una directory denominata con la data, se sono furbi). Questo approccio è molto comune perché è molto semplice, ma è anche incredibilmente soggetto ad errori. É facile dimenticarsi la directory in cui ci si trova e accidentalmente scrivere sul file sbagliato o copiare i file che non si intendevano copiare.
+Molte persone gestiscono le diverse versioni copiando i file in un'altra directory (magari una directory denominata con la data, se sono furbi). Questo approccio è molto comune perché è molto semplice, ma è anche incredibilmente soggetto ad errori. É facile dimenticare in quale directory sei e modificare il file sbagliato o copiare dei file che non intendevi copiare.
 
-Per far fronte a questo problema, i programmatori svilupparono VCS locali che avevano un semplice database che manteneva tutti i cambiamenti dei file sotto controllo di revisione (vedi Figura 1-1).
+Per far fronte a questo problema, i programmatori svilupparono VCS locali che avevano un database semplice che manteneva tutti i cambiamenti dei file sotto controllo di revisione (vedi Figura 1-1).
 
 Insert 18333fig0101.png 
-Figura 1-1. Diagramma di controllo di versione locale.
+Figura 1-1. Diagramma di controllo di un sistema locale.
 
-Uno dei più popolari strumenti VCS era un sistema chiamato rcs, che è ancora oggi distribuito con alcuni computer. Anche il popolare sistema operativo Mac OS X include il comando rcs quando si installano gli Strumenti di Sviluppo. Semplicemente questo strumento funziona mantenendo una serie di patch (che sono le differenze fra i file) da un cambiamento ad un altro in un formato specifico sul disco; esso può poi ricreare qualsiasi file come se fosse quel file in un determinato momento aggiungendo tutte le patch.
+Uno dei più popolari strumenti VCS era un sistema chiamato rcs, che è ancora oggi distribuito con molti computer. Anche il popolare sistema operativo Mac OS X include il comando rcs quando si installano gli Strumenti di Sviluppo. Questo strumento funziona salvando sul disco una serie di patch (ovvero le differenze tra i file) tra una versione e l'altra, in un formato specifico; può quindi ricreare lo stato di qualsiasi file in qualsiasi momento determinato momento, aggiungendo le varie patch.
 
 ### Sistemi di Controllo di Versione Centralizzati ###
 
-Il problema successivo in cui incorsero le persone è che queste hanno bisogno di collaborare con altri sviluppatori su altri sistemi. Per far fronte a questo problema, vennero sviluppati sistemi di controllo di versione centralizzati (Centralized Version Control Systems, CVCS). Questi sistemi, come CVS, Subversion e Perforce, hanno un singolo server che contiene tutte le versioni dei file e un numero di utenti che controllano i file dalla centrale. Per alcuni anni, questo fu lo standard per il controllo di versione (vedi Figura 1-2).
+Successivamente queste persone dovettero affrontare il problema del collaborare con altri sviluppatori su altri sistemi. Per far fronte a questo problema, vennero sviluppati sistemi di controllo di versione centralizzati (_Centralized Version Control Systems_ - CVCS). Questi sistemi, come CVS, Subversion e Perforce, hanno un unico server che contiene tutte le versioni dei file e un numero di utenti che scaricano i file dal server centrale. Questo è stato lo standard del controllo di versione per molti anni (vedi Figura 1-2).
 
 Insert 18333fig0102.png 
 Figura 1-2. Diagramma controllo di versione centralizzato.
 
-Questa impostazione offre molti vantaggi, specialmente rispetto ai VCS locali.  Per esempio, chiunque sa, ad un certo livello, cosa stia facendo un'altra persona nel progetto. Gli amministratori hanno un controllo preciso su chi può fare cosa; ed è molto più facile amministrare un tale CVCS che un database locale su ogni client.
+Questa impostazione offre molti vantaggi, specialmente rispetto ai VCS locali.  Per esempio, chiunque sa, con una certa approssimazione, cosa stia facendo un'altra persona del progetto. Gli amministratori hanno un controllo preciso su chi può fare cosa, ed è molto più facile amministrare un CVCS che un database locale su ogni client.
 
-Tuttavia, questa configurazione ha alcuni gravi lati negativi. La più ovvia è il singolo punto di fallimento che il server centralizzato rappresenta. Se questo va giù per un'ora, durante questo periodo nessuno può collaborare o salvare le modifiche di versione di qualsiasi cosa su cui sta lavorando. Se il disco rigido del database centrale si danneggia, e non sono state effettuate copie di backup, perdi assolutamente tutto - tutta la storia del progetto, ad eccezione di singoli snapshot (istantanee) fatte dalle persone sulla loro macchina locale. Anche i sistemi locali di VCS soffrono di questo problema - ogni volta che si ha tutta la storia del progetto in un unico posto, si rischia di perdere tutto.
+Questa configurazione ha tuttavia alcune gravi controindicazioni. La più ovvia è che il server centralizzato rappresenta il singolo punto di rottura del sistema. Se questo va giù per un'ora, in quel periodo nessuno può collaborare o salvare una nuova versione di qualsiasi cosa su cui sta lavorando. Se il disco rigido del database centrale si danneggia, e non ci sono i backup, perdi assolutamente tutto: tutta la storia del progetto ad eccezione dei singoli snapshot (istantanee) che le persone possono avere in locale sulle loro macchine. Anche i sistemi locali di VCS soffrono di questo problema: ogni volta che tutta la storia del progetto è in un unico posto, si rischia di perdere tutto.
 
 ### Sistemi di Controllo di Versione Distribuiti ###
 
-E qui entrano in gioco i Sistemi di Controllo di Versione Distribuiti (Distributed Version Control Systems o DVCS). In un DVCS (come Git, Mercurial, Bazaar o Darcs), i client non solo controllano il recente snapshot dei file: essi fanno una copia completa del repository. In tal modo, se si blocca un server ed i sistemi interagiscono tramite un DVCS, un qualsiasi repository di client può essere copiato sul server e quindi ripristinarlo. Ogni checkout, in realtà, è un backup completo di tutti i dati (vedi Figura 1-3).
+E qui entrano in gioco i Sistemi di Controllo di Versione Distribuiti (_Distributed Version Control Systems_ - DVCS). In un DVCS (come Git, Mercurial, Bazaar o Darcs), i client non solo controllano lo _snapshot_ più recente dei file, ma fanno una copia completa del repository. In questo modo se un server morisse e i sistemi interagiscono tramite il DVCS, il repository di un qualsiasi client può essere copiato sul server per ripristinarlo. Ogni checkout è un backup completo di tutti i dati (vedi Figura 1-3).
 
 Insert 18333fig0103.png 
-Figura 1-3. Diagramma controllo di versione distribuito.
+Figura 1-3. Diagramma del controllo di versione distribuito.
 
 Inoltre, molti di questi sistemi trattano bene l'avere più repository remoti su cui poter lavorare, così puoi collaborare con gruppi differenti di persone in modi differenti, simultaneamente sullo stesso progetto. Questo ti permette di impostare diversi tipi di flussi di lavoro che non sono possibili in sistemi centralizzati, come i modelli gerarchici.
 
 ## Una Breve Storia di Git ##
 
-Come per molte grandi cose nella vita, Git è iniziato con un po' di distruzione creativa e polemiche di fuoco. Il kernel di Linux è un progetto software open source di portata abbastanza ampia. Per la manutenzione del kernel Linux, per diverso tempo (1991-2002), le modifiche al software venivano passate sotto forma di patch e file d'archivio. Nel 2002, il progetto del kernel di Linux iniziò ad utilizzare un sistema proprietario chiamato DVCS BitKeeper.
+Come per molte grandi cose della vita, Git è nato con un po' di distruzione creativa e polemiche infuocate. Il kernel di Linux è un progetto software open source di grande portata abbastanza. Per buona parte del tempo (1991-2002) della manutenzione del kernel Linux le modifiche al software venivano passate sotto forma di patch e file compressi. Nel 2002, il progetto del kernel Linux iniziò ad utilizzare un sistema DVCS proprietario chiamato BitKeeper.
 
-Nel 2005, il rapporto tra la comunità che ha sviluppato il kernel Linux e la società commerciale che ha sviluppato BitKeeper si ruppe, e l'uso gratuito di questo strumento fu revocato. Ciò ha indotto la comunità di sviluppo di Linux (e in particolare Linus Torvalds, il creatore di Linux) a sviluppare il proprio strumento, basandosi su alcune delle lezioni apprese durante l'utilizzo di BitKeeper. Alcuni degli obiettivi del nuovo sistema sono i seguenti:
+Nel 2005 il rapporto tra la comunità che sviluppa il kernel Linux e la società commerciale che aveva sviluppato BitKeeper si ruppe, e fu revocato l'uso gratuito di BitKeeper. Ciò indusse la comunità di sviluppo di Linux (e in particolare Linus Torvalds, il creatore di Linux) a sviluppare uno strumento proprio, basandosi su alcune delle lezioni apprese durante l'utilizzo di BitKeeper. Alcuni degli obiettivi del nuovo sistema erano i seguenti:
 
 *	Velocità
 *	Design semplice
-*	Forte supporto allo sviluppo non-lineare (migliaia di rami paralleli)
+*	Ottimo supporto allo sviluppo non-lineare (migliaia di rami paralleli)
 *	Completamente distribuito
 *	Capacità di gestire, in modo efficiente (velocità e dimensione dei dati), grandi progetti come il kernel Linux
 
-Fin dalla sua nascita nel 2005, Git si è evoluto e maturato per essere facile da usare e tuttora mantiene le sue qualità iniziali. E' incredibilmente veloce, è molto efficiente con grandi progetti, ed ha un incredibile sistema di ramificazioni, per lo sviluppo non lineare (Vedi Capitolo 3).
+Fin dalla sua nascita nel 2005 Git si è evoluto e maturato per essere facile da usare e tuttora mantiene le sue qualità iniziali. È incredibilmente veloce, è molto efficiente con progetti grandi e ha un incredibile sistema di ramificazioni, per lo sviluppo non lineare (Vedi Capitolo 3).
 
 ## Basi di Git ##
 
-Quindi, cos'è Git in poche parole? Questa è una sezione importante da assorbire, perché se comprendi che cosa è Git e gli elementi fondamentali di come funziona, allora probabilmente, sarà molto più facile per te usare Git efficacemente. Mentre impari Git, cerca di liberare la mente dalle cose che eventualmente conosci su altri VCS, come Subversion e Perforce; ciò ti aiuterà ad evitare di far confusione utilizzando lo strumento. Git immagazzina e tratta le informazioni in modo diverso dagli altri sistemi, anche se l'interfaccia utente è abbastanza simile; comprendere queste differenze aiuta a prevenire di sentirsi confusi, mentre lo si usa.
+Quindi, cos'è Git in poche parole? Questa è una sezione importante da comprendere, perché se capisci che cos'è Git e gli elementi fondamentali di come funziona, allora sarà probabilmente molto più facile per te usare efficacemente Git. Mentre impari Git, cerca di liberare la tua mente dalle cose che eventualmente già conosci di altri VCS come Subversion e Perforce; ciò ti aiuterà a evitare di far confusione utilizzando lo strumento. Git immagazzina e tratta le informazioni in modo molto diverso dagli altri sistemi, anche se l'interfaccia utente è abbastanza simile; comprendere queste differenze aiuta a prevenire di sentirsi confusi mentre lo si usa.
 
 ### Istantanee, non Differenze ###
 
-La principale differenza tra Git e gli altri VCS (Subversion e compagnia), è il modo in cui Git considera i suoi dati. Concettualmente, la maggior parte degli altri sistemi salvano l'informazione come una lista di cambiamenti  apportati ai file. Questi sistemi (CVS, Subversion, Perforce, Bazaar e così via), considerano le informazioni che essi mantengono come un insieme di file, con le relative modifiche fatte ai file, nel tempo, come illustrato in Figura 1-4.
+La principale differenza tra Git e gli altri VCS (inclusi Subversion e compagni), è come Git considera i suoi dati. Concettualmente la maggior parte degli altri sistemi salvano l'informazione come una lista di modifiche ai file. Questi sistemi (CVS, Subversion, Perforce, Bazaar e così via), considerano le informazioni che mantengono come un insieme di file, con le relative modifiche fatte ai file nel tempo, come illustrato in Figura 1-4.
 
 Insert 18333fig0104.png 
 Figura 1-4. Gli altri sistemi tendono ad immagazzinare i dati come cambiamenti alla versione base di ogni file.
 
-Git non considera i dati in questo modo né li immagazzina in questo modo. Invece, Git considera i propri dati più come una serie di istantanee (snapshot) di un mini filesystem.  Ogni volta che si fa un commit, o si salva lo stato del proprio progetto in Git, esso fondamentalmente fa un'immagine di tutti i file in quel momento, salvando un riferimento allo snapshot. Per essere efficiente, se alcuni file non sono cambiati, Git non li immagazzina nuovamente — semplicemente crea un collegamento agli stessi file, già immagazzinati, della versione precedente. Git considera i propri dati più come in Figura 1-5.
+Git non considera i dati né li registra in questo modo. Git considera i propri dati più come una serie di istantanee (_snapshot_) di un mini filesystem.  Ogni volta che committi, o salvi lo stato del tuo progetto in Git, fondamentalmente lui fa un'immagine di tutti i file in quel momento, salvando un riferimento allo _snapshot_. Per essere efficiente, se alcuni file non sono cambiati, Git non li risalva, ma crea semplicemente un collegamento al file precedente già salvato. Git considera i propri dati più come in Figura 1-5.
 
 Insert 18333fig0105.png 
 Figura 1-5.  Git immagazzina i dati come snapshot del progetto nel tempo.
 
-Questa è una distinzione importante tra Git e gli altri VCS. Git riconsidera tutti gli aspetti del controllo di versione mentre la maggior parte degli altri sistemi copiano dalle precedenti generazioni. Questo fa di Git più un qualche cosa di simile ad un mini filesystem con alcuni incredibili e potenti strumenti costruiti su di esso, invece che un semplice VCS. Esploreremo alcuni benefici che potrai avere immaginando i tuoi dati in questo modo quando vedremo le ramificazioni con Git nel Capitolo 3.
+Questa è una distinzione importante tra Git e pressocché tutti gli altri VCS. Git riconsidera quasi tutti gli aspetti del controllo di versione che la maggior parte degli altri sistemi ha copiato dalle generazioni precedenti. Questo rende Git più simile a un mini filesystem con a dispoizione strumenti incredibilmente potenti che un semplice VCS. Esploreremo alcuni benefici che ottieni pensando in questo modo ai tuoi dati vedremo le ramificazioni (i _branch_) in Git nel Capitolo 3.
 
 ### Quasi Tutte le Operazioni Sono Locali ###
 
-La maggior parte delle operazioni in Git, necessitano solo di file e risorse locali per operare — generalmente non occorrono informazioni da altri computer nella rete. Se eri abituato ad un CVCS, in cui la maggior parte delle operazioni erano soggette alle latenze di rete, questo aspetto di Git ti farà pensare che gli dei della velocità abbiano benedetto Git con poteri soprannaturali. Giacché l'intera storia del progetto sta qui, sul proprio disco locale, le operazioni sembrano quasi istantanee.
+La maggior parte delle operazioni in Git, necessitano solo di file e risorse locali per operare — generalmente non occorrono informazioni da altri computer della rete. Se sei abituato ad un CVCS in cui la maggior parte delle operazioni sono soggette alle latenze di rete, questo aspetto di Git ti farà pensare che gli Dei della velocità abbiano benedetto Git con poteri soprannaturali. Poiché hai l'intera storia del progetto sul tuo disco locale, molte operazioni sembrano quasi istantanee.
 
 Per esempio, per scorrere la storia di un progetto, Git non ha bisogno di connettersi al server per scaricarla e per poi visualizzarla — la legge direttamente dal database locale. Questo significa che puoi vedere la storia del progetto quasi istantaneamente. Se vuoi vedere i cambiamenti introdotti tra la versione corrente di un file e la versione di un mese fa, Git può consultare il file di un mese fa e calcolare localmente le differenze, invece di richiedere di farlo ad un server remoto o di estrarre una precedente versione del file dal server remoto, per poi farlo in locale.
 

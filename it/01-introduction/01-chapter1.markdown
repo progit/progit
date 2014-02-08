@@ -219,9 +219,9 @@ Un'altra opzione utile che potresti voler configurare, è lo strumento diff pred
 
 Git accetta kdeff3, tkdiff, meld, xxdiff, emerge, vimdiff, gvimdiff, ecmerge e opendiff, come strumenti di merge validi. Puoi anche definire uno personalizzato: vedi il Capitolo 7 per maggiori informazioni su come farlo.
 
-### Controllare le Impostazioni ###
+### Controlla le tue impostazioni ###
 
-Per controllare le proprie impostazioni, si può usare il comando `git config --list`, che elenca tutte le impostazioni di Git, fatte fino a questo punto:
+Per controllare le tue impostazioni puoi usare il comando `git config --list` che elenca tutte le impostazioni attuali di Git:
 
 	$ git config --list
 	user.name=Scott Chacon
@@ -232,28 +232,28 @@ Per controllare le proprie impostazioni, si può usare il comando `git config --
 	color.diff=auto
 	...
 
-La stessa chiave può comparire più volte, perché Git legge la stessa chiave da file differenti (`/etc/gitconfig` e `~/.gitconfig`, per esempio). In questo caso, Git usa l'ultimo valore per ogni chiave unica che vede.
+Potresti vedere più volte la stessa chiave perché Git legge la stessa chiave da file differenti (`/etc/gitconfig` e `~/.gitconfig`, per esempio). In questo caso, Git usa l'ultimo valore per ogni chiave unica che trova.
 
-Per controllare quale sia il valore di una chiave, ritenuto da Git usare, `git config {key}`:
+Puoi anche controllare quale sia il valore di una chiave specifica digitando `git config {key}`:
 
 	$ git config user.name
 	Scott Chacon
 
-## Ottenere Aiuto ##
+## Ottieni aiuto ##
 
-Se dovessi avere bisogno di aiuto durante l'uso di Git, ci sono tre modi per vedere le pagine del manuale di aiuto per ogni comando di Git:
+Se dovessi avere bisogno di aiuto durante l'uso di Git, ci sono tre modi per vedere le pagine del manuale (_manpage_) per ogni comando di Git:
 
 	$ git help <verb>
 	$ git <verb> --help
 	$ man git-<verb>
 
-Per esempio, puoi avere la pagina del manuale di aiuto, per il comando config, lanciando
+Per esempio, puoi consultare la pagina del manuale per il comando config digitanto
 
 	$ git help config
 
-Questi comandi sono utili, perché puoi accedere ad essi da ogni dove, anche se sei offline.
-Se il manuale e questo libro non sono sufficienti e hai bisogno di un aiuto più diretto da una persona, puoi provare i canali `#git` o `#github`, sul server IRC di Freenode (irc.freenode.com). Questi canali sono regolarmente frequentati da centinaia di persone che conoscono molto bene Git e saranno davvero felici di aiutarti.
+Questi comandi sono utili perché puoi accedervi dappertutto, anche quando sei offline.
+Se il manuale e questo libro non fossero sufficienti e avessi bisogno dell'aiuto di una persona, puoi provare i canali `#git` o `#github` sul server IRC di Freenode (irc.freenode.com). Questi canali sono frequentati regolarmente da centinaia di persone che conoscono molto bene Git e spesso sono disponibili per dare una mano.
 
-## Riassunto ##
+## Sommario ##
 
-Dovresti avere le basi per capire cos'è Git e come è differente dai CVCS che puoi aver usato. Dovresti anche avere una versione funzionante di Git sul tuo sistema che è configurata con la tua personale identità. É ora tempo di imparare qualcosa delle basi di Git.
+Dovresti avere le basi per capire cos'è Git e com'è diverso dai CVCS che potresti aver usato. Dovresti avere già una versione funzionante di Git sul tuo sistema che è configurata con i tuoi dati. È ora tempo di imparare alcune delle basi di Git.

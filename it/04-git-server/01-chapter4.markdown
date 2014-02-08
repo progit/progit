@@ -368,7 +368,7 @@ Gitosis richiede alcuni strumenti Python, così prima devi installare il pacchet
 
 Poi, puoi clonare ed installare Gitosis dal progetto principale:
 
-	$ git clone git://eagain.net/gitosis.git
+	$ git clone https://github.com/tv42/gitosis.git
 	$ cd gitosis
 	$ sudo python setup.py install
 

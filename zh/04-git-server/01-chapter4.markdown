@@ -366,7 +366,7 @@ Gitosis 的工作依赖于某些 Python 工具，所以首先要安装 Python �
 
 接下来，从 Gitosis 项目主页克隆并安装：
 
-	$ git clone git://eagain.net/gitosis.git
+	$ git clone https://github.com/tv42/gitosis.git
 	$ cd gitosis
 	$ sudo python setup.py install
 

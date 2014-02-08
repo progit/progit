@@ -363,7 +363,7 @@ Gitosis는 Python이 필요하기 때문에 먼저 Python setuptools 패키지�
 
 그리고 Gitosis 프로젝트 사이트에서 Gitosis를 Clone한 후 설치한다:
 
-	$ git clone git://eagain.net/gitosis.git
+	$ git clone https://github.com/tv42/gitosis.git
 	$ cd gitosis
 	$ sudo python setup.py install
 

@@ -369,7 +369,7 @@ Gitosis vereist enkele Python tools, dus moet je eerst het Python setuptools pak
 
 Vervolgens kloon en installeer je Gitosis van de hoofdpagina van het project:
 
-	$ git clone git://eagain.net/gitosis.git
+	$ git clone https://github.com/tv42/gitosis.git
 	$ cd gitosis
 	$ sudo python setup.py install
 

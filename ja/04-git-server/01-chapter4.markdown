@@ -365,7 +365,7 @@ Gitosis は Python のツールを使います。まずは Python の setuptools
 
 次に、プロジェクトのメインサイトから Gitosis をクローンしてインストールします。
 
-	$ git clone git://eagain.net/gitosis.git
+	$ git clone https://github.com/tv42/gitosis.git
 	$ cd gitosis
 	$ sudo python setup.py install
 

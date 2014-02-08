@@ -369,7 +369,7 @@ Gitosis wymaga pewnych pakietów Pythona, więc najpierw trzeba uruchomić pakie
 
 Następnie musisz skopiować oraz zainstalować pakiet Gitosis z głównej strony projektu:
 
-	$ git clone git://eagain.net/gitosis.git
+	$ git clone https://github.com/tv42/gitosis.git
 	$ cd gitosis
 	$ sudo python setup.py install
 

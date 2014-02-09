@@ -97,36 +97,36 @@ Questo rende l'uso di Git un piacere perché sappiamo che possiamo sperimentare 
 
 ### I Tre Stati ###
 
-Ora, presta attenzione. Questa è la prima cosa da ricordare su Git se si vuole affrontare al meglio il processo di apprendimento. Git ha tre stati principali, in cui possono risiedere i file: committed, modified e staged. Committed significa che il file è immagazzinato al sicuro, nel database locale. Modified significa che il file è stato modificato, ma non è stato ancora eseguito il commit nel proprio database. Staged significa che un file modificato nella versione corrente, è stato contrassegnato per essere inserito nello snapshot, al commit successivo.
+Ora, presta attenzione. La prima cosa da ricordare sempre di Git se vuoi affrontare al meglio il processo di apprendimento. I tuoi file in Git possono essere in tre stati: _committed_ (committati), _modified_ (modificati) e _staged_ (in stage). Committato significa che il file è al sicuro nel database locale. Modificato significa che il file è stato modificato, ma non è ancora stato committato nel database. In stage significa che hai contrassegnato un file, modificato nella versione corrente, perché venga inserito nello snapshot alla prossima commit.
 
-Questo ci conduce alle tre sezioni principali di un progetto Git: la directory di Git, la directory di lavoro e l'area di stage.
+Questo ci porta alle tre sezioni principali di un progetto Git: la directory di Git, la directory di lavoro e l'area di stage.
 
 Insert 18333fig0106.png 
 Figura 1-6. Directory di lavoro, area di stage e directory di Git.
 
-La directory di Git è il luogo dove Git salva i metadati ed il database degli oggetti di un progetto. Questa è la parte più importante di Git, ed è ciò che viene copiato quando si clona un repository da un altro computer.
+La directory di Git è dove Git salva i metadati e il database degli oggetti del tuo progetto. Questa è la parte più importante di Git, ed è ciò che viene copiato quando si clona un repository da un altro computer.
 
-La directory di lavoro è un singolo checkout di una versione del progetto. Questi file sono estratti dal database compresso, nella directory di Git, e posizionati nel disco per essere usati o modificati.
+La directory di lavoro è un checkout di una versione specifica del progetto. Questi file vengono estratti dal database compresso nella directory di Git, e salvati sul disco per essere usati o modificati.
 
-L'area di stage è un semplice file, generalmente contenuto nella directory di Git, contenente le informazioni riguardanti il commit successivo. Qualche volta viene indicato come l'indice, ma sta diventando d'uso comune riferirsi ad essa, come all'area di stage (sosta, ndt).
+L'area di stage è un file, contenuto generalmente nella directory di Git, con tutte le informazioni riguardanti la tua prossima commit. A volte viene indicato anche come 'indice', ma lo standard è definirlo come 'area di stage' (area di sosta, ndt).
 
-Il flusso base di lavoro in Git, funziona come segue:
+Il flusso di lavoro (_workflow_) di base in Git funziona così:
 
-1. Modifica i file nella directory di lavoro
-2. Esegui l'operazione di stage dei file, per aggiungere i relativi snapshot all'area di stage
-3. Esegui il commit, per immagazzinare permanentemente nella directory di Git, lo snapshot relativo, una volta presi i file nell'area di stage
+1. Modifica i file nella tua directory di lavoro
+2. Fanno lo stage, aggiungendone le istantanee all'area di stage
+3. Committa, che salva i file nell'area di stage in un'istantanea (_snapshot_) permanente nella tua directory di Git.
 
-Se una versione particolare di un file è nella directory git, sarà considerata già affidata. Se il file è stato modificato, ma è stato aggiunto all'area di staging, è in sosta. E se è stato modificato da quando è stata controllato, ma non è stato messo in sosta, sarà modificato.  Nel Capitolo 2, imparerai di più su questi stati e come trarne vantaggio da essi o saltare interamente la parte di staging.
+Se una particolare versione di un file è nella directory git, viene considerata già committata. Se il file è stato modificato, ma è stato aggiunto all'area di staging, è _in stage_. E se è stato modificato da quando è stata estratto, ma non è _in stage_, è modificato.  Nel Capitolo 2, imparerai di più su questi stati e come trarne vantaggio o saltare la parte di staging.
 
 ## Installare Git ##
 
-Incominciamo ad usare un po' di Git! Per prima cosa — occorre installarlo. Puoi ottenere Git in diversi modi; i due principali sono: installarlo dai sorgenti o installarlo da un pacchetto pre-esistente per la tua piattaforma.
+Incominciamo ad usare un po' di Git! Per prima cosa devi installarlo. Puoi ottenere Git in diversi modi; i principali due sono: installarlo dai sorgenti o installarlo da un pacchetto pre-esistente per la tua piattaforma.
 
 ### Installare da Sorgenti ###
 
-Se puoi, è generalmente vantaggioso installare Git dai sorgenti, perché così puoi usare la versione più recente. Ogni versione di Git, tende ad includere utili miglioramenti all'interfaccia utente, quindi, avere l'ultima versione disponibile è spesso la scelta migliore, se hai familiarità con la compilazione dei sorgenti. Inoltre capita anche, che molte distribuzioni Linux contengano pacchetti molto vecchi; perciò, se non stai usando una distro aggiornata o dei backport, l'installazione da sorgente può essere la cosa migliore da fare.
+Se puoi, generalmente è vantaggioso installare Git dai sorgenti perché avrai la versione più recente. Ogni versione di Git tende ad includere utili miglioramenti all'interfaccia utente e avere quindi l'ultima versione disponibile è spesso la scelta migliore, se hai familiarità con la compilazione dei sorgenti. Inoltre capita anche, che molte distribuzioni Linux usino pacchetti molto vecchi; perciò, se non stai usando una distro aggiornata o dei backport, l'installazione da sorgente può essere la cosa migliore da fare.
 
-Per installare Git, hai bisogno delle seguenti librerie, da cui dipende Git: curl, zlib, openssl, expat e libiconv. Per esempio, se sei su un sistema che usa yum (come in Fedora), o apt-get (come nei sistemi Debian), puoi usare uno dei seguenti comandi per installare tutte le dipendenze:
+Per installare Git, hai bisogno delle librerie da cui dipende Git che sono: curl, zlib, openssl, expat e libiconv. Per esempio, se sei su un sistema che usa yum (come Fedora), o apt-get (come nei sistemi Debian), puoi usare uno dei seguenti comandi per installare tutte le dipendenze:
 
 	$ yum install curl-devel expat-devel gettext-devel \
 	  openssl-devel zlib-devel
@@ -140,18 +140,18 @@ Quando avrai tutte le dipendenze necessarie, puoi proseguire ed andare a recuper
 	
 Poi, compilalo ed installalo:
 
-	$ tar -zxf git-1.6.0.5.tar.gz
-	$ cd git-1.6.0.5
+	$ tar -zxf git-1.7.2.2.tar.gz
+	$ cd git-1.7.2.2
 	$ make prefix=/usr/local all
 	$ sudo make prefix=/usr/local install
 
-Dopo aver fatto questo, puoi ottenere Git da Git stesso per gli aggiornamenti:
+Dopo aver fatto questo, puoi scaricare gli aggiornamenti di Git con lo stesso Git:
 
 	$ git clone git://git.kernel.org/pub/scm/git/git.git
 	
 ### Installare su Linux ###
 
-Se vuoi installare Git su Linux, tramite una installazione da binario, generalmente, puoi farlo con lo strumento base di amministrazione-dei-pacchetti della tua distribuzione. Se sei su Fedora, puoi usare yum:
+Se vuoi installare Git su Linux, tramite una installazione da binario, generalmente puoi farlo con lo strumento base di amministrazione dei pacchetti della tua distribuzione. Se usi Fedora, puoi usare yum:
 
 	$ yum install git-core
 
@@ -161,67 +161,67 @@ O se sei su una distribuzione basata su Debian, come Ubuntu, prova apt-get:
 
 ### Installazione su Mac ###
 
-Ci sono due metodi per installare Git su Mac. Il più semplice è usare l'installatore grafico di Git, che puoi scaricare dalla pagina di Google Code (vedi Figura 1-7):
+Ci sono due metodi per installare Git su Mac. Il più semplice è usare l'installer grafico di Git, che puoi scaricare dalla pagina di Google Code (vedi Figura 1-7):
 
 	http://code.google.com/p/git-osx-installer
 
 Insert 18333fig0107.png 
-Figura 1-7. Installatore di Git per SO X.
+Figura 1-7. Installer di Git per OS X.
 
-L'altro metodo è installare Git via MacPorts (`http://www.macports.org`). Se hai MacPorts installato, installa Git con:
+L'altro metodo è installare Git con MacPorts (`http://www.macports.org`). Se hai MacPorts installato puoi farlo con:
 
 	$ sudo port install git-core +svn +doc +bash_completion +gitweb
 
-Non ti occorre aggiungere tutti i pacchetti, ma evidentemente vorrai includere +svn, nel caso tu debba usare Git con i repository di Subversion (vedi Capitolo 8).
+Non ti occorre aggiungere tutti i pacchetti extra, ma probabilmente vorrai includere +svn, nel caso tu debba usare Git con i repository di Subversion (vedi Capitolo 8).
 
 ### Installare su Windows ###
 
-Installare Git su Windows è davvero facile. Il progetto msysGit ha una delle procedure di installazione tra le più facili. Semplicemente scarica l'installatore eseguibile dalla pagina di GitHub, e lancialo:
+Installare Git su Windows è davvero facile. Il progetto msysGit ha una delle procedure di installazione più facili. Semplicemente scarica l'eseguibile dalla pagina di GitHub e lancialo:
 
 	http://msysgit.github.com/
 
-Una volta installato, hai a disposizione sia la versione da riga di comando (incluso un client SSH che sarà utile, in seguito) sia l'interfaccia grafica (GUI) standard.
+Una volta installato avrai a disposizione sia la versione da riga di comando (incluso un client SSH ti servirà in seguito) sia l'interfaccia grafica (_GUI_) standard.
 
-Nota sull'uso su Windows: dovresti usare Git con la shell msysGit fornita (stile Unix), permette di usare complesse linee di comando date in questo libro. Se hai bisogno, per qualche ragione, di usare la shell nativa di Windows / la console a linea di comando, devi usare le doppie virgolette invece delle virgolette semplici (per i parametri con che contengono spazi) e devi virgolettare i parametri che terminano con l'accento circonflesso (^) se questi sono al termine della linea, poiché esso è un simbolo di proseguimento in Windows.
+Nota sull'uso su Windows: dovresti usare Git con la shell msysGit fornita (stile Unix) perché permette di usare le complesse linee di comando di questo libro. Se hai bisogno, per qualche ragione, di usare la shell nativa di Windows / la console a linea di comando, devi usare le doppie virgolette invece delle virgolette semplici (per i parametri con che contengono spazi) e devi virgolettare i parametri che terminano con l'accento circonflesso (^) se questi sono al termine della linea, poiché in Windows è uno dei simboli di proseguimento.
 
 ## Prima Configurazione di Git ##
 
-Ora che hai Git sul tuo sistema, vorrai fare un paio di cose per personalizzare l'ambiente di Git. Ti occorre farle solo una volta; esse rimangono invariate anche dopo un aggiornamento. Comunque, puoi cambiarle, in ogni momento, eseguendo di nuovo questi comandi.
+Ora che hai Git sul tuo sistema vorrai fare un paio di cose per personalizzare l'ambiente di Git. Devi farle solo una volta: rimarrano invariate anche dopo un aggiornamento. Puoi comunque cambiarle in ogni momento, rieseguendo i comandi.
 
-Git è rilasciato con uno strumento che si chiama git config che ti permetterà di ottenere ed impostare le variabili di configurazione che controllano ogni aspetto delle operazioni e del look di Git. Queste variabili possono essere salvate in tre posti differenti:
+Git viene con uno strumento che si chiama 'git config' che ti permetterà d'impostare e conoscere le variabili di configurazione che controllano ogni aspetto di come appare Git e come opera. Queste variabili possono essere salvate in tre posti differenti:
 
-*	file `/etc/gitconfig`: Contiene i valori per ogni utente sul sistema e per tutti i loro repository. Se si passa l'opzione` --system` a `git config`, lui legge e scrive da questo specifico file. 
-*	file `~/.gitconfig`: Specifico per il tuo utente. Puoi far leggere e scrivere a Git questo file passando l'opzione `--global`. 
-*	file di configurazione nella directory git (che è `.git/config`) di ogni repository che si sta usando. Specifico per ogni singolo repository. Ogni livello sovrascrive i valori del livello precedente, così i valori in `.git/config` vincono su quelli in `/etc/gitconfig`.
+*	`/etc/gitconfig`: Contiene i valori per ogni utente sul sistema e per tutti i loro repository. Se passi l'opzione` --system` a `git config`, lui legge e scrive da questo file specifico. 
+*	`~/.gitconfig`: Specifico per il tuo utente. Puoi far leggere e scrivere a Git questo file passando l'opzione `--global`. 
+*	file di configurazione nella directory git (cioè `.git/config`) di qualsiasi repository che si stia usando. È Specifico di quel singolo repository. Ogni livello sovrascrive i valori del precedente, così che i valori in `.git/config` vincono su quelli in `/etc/gitconfig`.
 
-Sui sistemi Windows, Git cerca il file `.gitconfig` nella directory `$HOME` (`C:\Documents and Settings\$USER` per la maggior parte delle persone). Inoltre per quanto riguarda /etc/gitconfig, sarà relativo alla radice di MSys, che dipende da dove si vorrà installare Git sul sistema Windows quando si lancia l'installazione.
+Su Windows Git cerca il file `.gitconfig` nella directory `$HOME` (`%USERPROFILE%` in Windows), che per la maggior parte delle persone è `C:\Documents and Settings\$USER` o `C:\Users\$USER`, dipendendo dalla versione (`$USER` è `%USERNAME%` in Windows). Controlla comunque anche /etc/gitconfig, sebbene sia relativo alla root di MSys, che è dove hai deciso di installare Git in Windows quando si lancia l'installazione.
 
-### La Propria Identità ###
+### La tua Identità ###
 
-La prima cosa che occorrerebbe fare, quando si installa Git, è impostare il proprio nome utente e indirizzo e-mail. Ciò è importante, perché ogni commit di Git usa queste informazioni, che vengono incapsulate nei commit che si fanno:
+La prima cosa che occorrerebbe fare quando installi Git è impostare il tuo nome utente e il tuo indirizzo e-mail. Questo è importante perché ogni commit di Git usa queste informazioni che vengono incapsulate nelle tue commit:
 
 	$ git config --global user.name "John Doe"
 	$ git config --global user.email johndoe@example.com
 
-Di nuovo, passando l'opzione `--global`, occorre fare ciò solo una volta, dopo di che Git userà sempre queste informazioni, per qualsiasi operazione fatta sul sistema. Se si vuole sovrascriverle con un nome o una e-mail per progetti specifici, basta eseguire il comando senza l'opzione `--global`, quando si è in uno di quei progetti.
+Con l'opzione `--global` dovrai farlo solo una volta, dopo di che Git userà sempre queste informazioni per qualsiasi operazione fatta sul sistema. Se vuoi sovrascriverle con un nome o una e-mail diversi per progetti specifici potrai eseguire il comando senza l'opzione `--global`stando in uno di quei progetti.
 
-### Il Proprio Editor ###
+### Il tuo Editor ###
 
-Ora che è configurata la propria identità, si può configurare l'editor di testo predefinito, da usare quando Git avrà bisogno di inserire un messaggio. Per impostazione predefinita, Git usa l'editor di testo predefinito del sistema, che generalmente è Vi o Vim. Se vuoi usare un editor di testo differente, come Emacs, puoi fare come segue:
+Ora che hai configurato la tua identità, puoi configurare il tuo editor di testo predefinito, che verrà usato quando Git avrà bisogno che scriva un messaggio. Per impostazione predefinita Git usa l'editor di testo predefinito del sistema, che generalmente è Vi o Vim. Se vuoi usarne uno diverso, come Emacs, potrai eseguire:
 
 	$ git config --global core.editor emacs
 	
-### Il Proprio Diff ###
+### Il tuo Diff ###
 
-Un'altra utile opzione, che si potrebbe voler configurare, è lo strumento diff, predefinito, da usare per risolvere i conflitti di merge (fusione, ndt). Per usare vimdiff:
+Un'altra opzione utile che potresti voler configurare, è lo strumento diff predefinito, da usare per risolvere i conflitti di _merge_ (unione, ndt). Per usare vimdiff, potrai eseguire:
 
 	$ git config --global merge.tool vimdiff
 
-Git accetta kdeff3, tkdiff, meld, xxdiff, emerge, vimdiff, gvimdiff, ecmerge e opendiff, come strumenti validi di merge. E' anche possibile impostare uno strumento personalizzato; vedere il Capitolo 7, per maggiori informazioni su come farlo.
+Git accetta kdeff3, tkdiff, meld, xxdiff, emerge, vimdiff, gvimdiff, ecmerge e opendiff, come strumenti di merge validi. Puoi anche definire uno personalizzato: vedi il Capitolo 7 per maggiori informazioni su come farlo.
 
-### Controllare le Impostazioni ###
+### Controlla le tue impostazioni ###
 
-Per controllare le proprie impostazioni, si può usare il comando `git config --list`, che elenca tutte le impostazioni di Git, fatte fino a questo punto:
+Per controllare le tue impostazioni puoi usare il comando `git config --list` che elenca tutte le impostazioni attuali di Git:
 
 	$ git config --list
 	user.name=Scott Chacon
@@ -232,28 +232,28 @@ Per controllare le proprie impostazioni, si può usare il comando `git config --
 	color.diff=auto
 	...
 
-La stessa chiave può comparire più volte, perché Git legge la stessa chiave da file differenti (`/etc/gitconfig` e `~/.gitconfig`, per esempio). In questo caso, Git usa l'ultimo valore per ogni chiave unica che vede.
+Potresti vedere più volte la stessa chiave perché Git legge la stessa chiave da file differenti (`/etc/gitconfig` e `~/.gitconfig`, per esempio). In questo caso, Git usa l'ultimo valore per ogni chiave unica che trova.
 
-Per controllare quale sia il valore di una chiave, ritenuto da Git usare, `git config {key}`:
+Puoi anche controllare quale sia il valore di una chiave specifica digitando `git config {key}`:
 
 	$ git config user.name
 	Scott Chacon
 
-## Ottenere Aiuto ##
+## Ottieni aiuto ##
 
-Se dovessi avere bisogno di aiuto durante l'uso di Git, ci sono tre modi per vedere le pagine del manuale di aiuto per ogni comando di Git:
+Se dovessi avere bisogno di aiuto durante l'uso di Git, ci sono tre modi per vedere le pagine del manuale (_manpage_) per ogni comando di Git:
 
 	$ git help <verb>
 	$ git <verb> --help
 	$ man git-<verb>
 
-Per esempio, puoi avere la pagina del manuale di aiuto, per il comando config, lanciando
+Per esempio, puoi consultare la pagina del manuale per il comando config digitanto
 
 	$ git help config
 
-Questi comandi sono utili, perché puoi accedere ad essi da ogni dove, anche se sei offline.
-Se il manuale e questo libro non sono sufficienti e hai bisogno di un aiuto più diretto da una persona, puoi provare i canali `#git` o `#github`, sul server IRC di Freenode (irc.freenode.com). Questi canali sono regolarmente frequentati da centinaia di persone che conoscono molto bene Git e saranno davvero felici di aiutarti.
+Questi comandi sono utili perché puoi accedervi dappertutto, anche quando sei offline.
+Se il manuale e questo libro non fossero sufficienti e avessi bisogno dell'aiuto di una persona, puoi provare i canali `#git` o `#github` sul server IRC di Freenode (irc.freenode.com). Questi canali sono frequentati regolarmente da centinaia di persone che conoscono molto bene Git e spesso sono disponibili per dare una mano.
 
-## Riassunto ##
+## Sommario ##
 
-Dovresti avere le basi per capire cos'è Git e come è differente dai CVCS che puoi aver usato. Dovresti anche avere una versione funzionante di Git sul tuo sistema che è configurata con la tua personale identità. É ora tempo di imparare qualcosa delle basi di Git.
+Dovresti avere le basi per capire cos'è Git e com'è diverso dai CVCS che potresti aver usato. Dovresti avere già una versione funzionante di Git sul tuo sistema che è configurata con i tuoi dati. È ora tempo di imparare alcune delle basi di Git.

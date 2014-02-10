@@ -102,7 +102,7 @@ Let’s go through a simple example of branching and merging with a workflow tha
 
 At this stage, you’ll receive a call that another issue is critical and you need a hotfix. You’ll do the following:
 
-1. Revert back to your production branch.
+1. Switch back to your production branch.
 2. Create a branch to add the hotfix.
 3. After it’s tested, merge the hotfix branch, and push to production.
 4. Switch back to your original story and continue working.

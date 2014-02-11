@@ -252,8 +252,8 @@ Nachdem Du die genannten Bibliotheken installiert hast, besorge Dir die aktuelle
 
 Danach kannst Du dann Git kompilieren und installieren:
 
-	$ tar -zxf git-1.6.0.5.tar.gz
-	$ cd git-1.6.0.5
+	$ tar -zxf git-1.7.2.2.tar.gz
+	$ cd git-1.7.2.2
 	$ make prefix=/usr/local all
 	$ sudo make prefix=/usr/local install
 

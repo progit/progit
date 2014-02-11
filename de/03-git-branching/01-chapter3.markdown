@@ -206,7 +206,7 @@ Abbildung 3-10. Eine kurze, einfache Commit-Historie
 Du hast Dich dafür entschieden an dem Issue #53, des Issue-Trackers XY, zu arbeiten. Um eines klarzustellen, Git ist an kein Issue-Tracking-System gebunden. Da der Issue #53 allerdings ein Schwerpunktthema betrifft, wirst Du einen neuen Branch erstellen um daran zu arbeiten. Um in einem Arbeitsschritt einen neuen Branch zu erstellen und zu aktivieren kannst Du das Kommando `git checkout` mit der Option `-b` verwenden:
 
 	$ git checkout -b iss53
-	Switched to a new branch "iss53"
+	Switched to a new branch 'iss53'
 
 <!--This is shorthand for:-->
 
@@ -245,7 +245,7 @@ Nun bekommst Du einen Anruf, in dem Dir mitgeteilt wird, dass es ein Problem mit
 Beachte jedoch, dass Dich Git den Branch nur wechseln lässt, wenn bisherige Änderungen in Deinem Arbeitsverzeichnis oder Deiner Staging-Area nicht in Konflikt mit dem Zweig stehen, zu dem Du nun wechseln möchtest. Am besten es liegt ein sauberer Status vor wenn man den Branch wechselt. Wir werden uns später mit Wegen befassen, dieses Verhalten zu umgehen (namentlich „Stashing“ und „Commit Ammending“). Vorerst aber hast Du Deine Änderungen bereits comitted, sodass Du zu Deinem MASTER-Branch zurückwechseln kannst.
 
 	$ git checkout master
-	Switched to branch "master"
+	Switched to branch 'master'
 
 <!--At this point, your project working directory is exactly the way it was before you started working on issue #53, and you can concentrate on your hotfix. This is an important point to remember: Git resets your working directory to look like the snapshot of the commit that the branch you check out points to. It adds, removes, and modifies files automatically to make sure your working copy is what the branch looked like on your last commit to it.-->
 
@@ -256,11 +256,11 @@ Zu diesem Zeitpunkt befindet sich das Arbeitsverzeichnis des Projektes in exakt 
 Nun hast Du einen Hotfix zu erstellen. Lass uns dazu einen Hotfix-Branch erstellen, an dem Du bis zu dessen Fertigstellung arbeitest (siehe Abbildung 3-13):
 
 	$ git checkout -b hotfix
-	Switched to a new branch "hotfix"
+	Switched to a new branch 'hotfix'
 	$ vim index.html
 	$ git commit -a -m 'fixed the broken email address'
-	[hotfix]: created 3a0874c: "fixed the broken email address"
-	 1 files changed, 0 insertions(+), 1 deletions(-)
+	[hotfix 3a0874c] fixed the broken email address
+	 1 files changed, 1 deletion(-)
 
 <!--Figure 3-13. hotfix branch based back at your master branch point.-->
 
@@ -274,9 +274,9 @@ Mach Deine Tests, stell sicher das sich der Hotfix verhält wie erwartet und fü
 	$ git checkout master
 	$ git merge hotfix
 	Updating f42c576..3a0874c
-	Fast forward
-	 README |    1 -
-	 1 files changed, 0 insertions(+), 1 deletions(-)
+	Fast-forward
+	 README | 1 -
+	 1 file changed, 1 deletion(-)
 
 <!--You’ll notice the phrase "Fast forward" in that merge. Because the commit pointed to by the branch you merged in was directly upstream of the commit you’re on, Git moves the pointer forward. To phrase that another way, when you try to merge one commit with a commit that can be reached by following the first commit’s history, Git simplifies things by moving the pointer forward because there is no divergent work to merge together — this is called a "fast forward".-->
 
@@ -296,18 +296,18 @@ Abbildung 3-14. Der Master-Branch zeigt nach der Zusammenführung auf den gleich
 Nachdem Dein superwichtiger Hotfix veröffentlicht wurde, kannst Du Dich wieder Deiner ursprünglichen Arbeit zuwenden. Vorher wird sich allerdings des nun nutzlosen Hotfix-Zweiges entledigt, schließlich zeigt der Master-Branch ebenfalls auf die aktuelle Version. Du kannst ihn mit der `-d`-Option von `git branch` entfernen:
 
 	$ git branch -d hotfix
-	Deleted branch hotfix (3a0874c).
+	Deleted branch hotfix (was 3a0874c).
 
 <!--Now you can switch back to your work-in-progress branch on issue #53 and continue working on it (see Figure 3-15):-->
 
 Nun kannst Du zu Deinem Issue #53-Branch zurückwechseln und mit Deiner Arbeit fortfahren (Abbildung 3-15):
 
 	$ git checkout iss53
-	Switched to branch "iss53"
+	Switched to branch 'iss53'
 	$ vim index.html
 	$ git commit -a -m 'finished the new footer [issue 53]'
-	[iss53]: created ad82d7a: "finished the new footer [issue 53]"
-	 1 files changed, 1 insertions(+), 0 deletions(-)
+	[iss53 ad82d7a] finished the new footer [issue 53]
+	 1 file changed, 1 insertion(+)
 
 <!--Figure 3-15. Your iss53 branch can move forward independently.-->
 
@@ -328,9 +328,10 @@ Angenommen Du entscheidest dich, dass Deine Arbeit an issue #53 getan ist und Du
 
 	$ git checkout master
 	$ git merge iss53
-	Merge made by recursive.
-	 README |    1 +
-	 1 files changed, 1 insertions(+), 0 deletions(-)
+	Auto-merging README
+	Merge made by the 'recursive' strategy.
+	 README | 1 +
+	 1 file changed, 1 insertion(+)
 
 <!--This looks a bit different than the `hotfix` merge you did earlier. In this case, your development history has diverged from some older point. Because the commit on the branch you’re on isn’t a direct ancestor of the branch you’re merging in, Git has to do some work. In this case, Git does a simple three-way merge, using the two snapshots pointed to by the branch tips and the common ancestor of the two. Figure 3-16 highlights the three snapshots that Git uses to do its merge in this case.-->
 
@@ -376,27 +377,29 @@ Gelegentlich verläuft der Prozess nicht ganz so glatt. Wenn Du an den selben St
 
 Git hat hier keinen 'merge commit' erstellt. Es hat den Prozess gestoppt, damit Du den Konflikt beseitigen kannst. Wenn Du sehen willst, welche Dateien 'unmerged' aufgrund eines 'merge' Konflikts sind, benutze einfach `git status`:
 
-	[master*]$ git status
-	index.html: needs merge
-	# On branch master
-	# Changes not staged for commit:
-	#   (use "git add <file>..." to update what will be committed)
-	#   (use "git checkout -- <file>..." to discard changes in working directory)
-	#
-	#	unmerged:   index.html
-	#
+	$ git status
+	On branch master
+	You have unmerged paths.
+	  (fix conflicts and run "git commit")
+	
+	Unmerged paths:
+	  (use "git add <file>..." to mark resolution)
+	
+	        both modified:      index.html
+	
+	no changes added to commit (use "git add" and/or "git commit -a")
 
 <!--Anything that has merge conflicts and hasn’t been resolved is listed as unmerged. Git adds standard conflict-resolution markers to the files that have conflicts, so you can open them manually and resolve those conflicts. Your file contains a section that looks something like this:-->
 
 Alles, was einen 'merge' Konflikt aufweist und nicht gelöst werden konnte, wird als 'unmerged' aufgeführt. Git fügt den betroffenen Dateien Standard-Konfliktlösungsmarker hinzu, sodass Du diese öffnen und den Konflikt manuell lösen kannst. Deine Datei enthält einen Bereich, der so aussehen könnte:
 
-	<<<<<<< HEAD:index.html
+	<<<<<<< HEAD
 	<div id="footer">contact : email.support@github.com</div>
 	=======
 	<div id="footer">
 	  please contact us at support@github.com
 	</div>
-	>>>>>>> iss53:index.html
+	>>>>>>> iss53
 
 <!--This means the version in HEAD (your master branch, because that was what you had checked out when you ran your merge command) is the top part of that block (everything above the `=======`), while the version in your `iss53` branch looks like everything in the bottom part. In order to resolve the conflict, you have to either choose one side or the other or merge the contents yourself. For instance, you might resolve this conflict by replacing the entire block with this:-->
 
@@ -413,12 +416,17 @@ Diese Lösung hat von beiden Teilen etwas und ich habe die Zeilen mit `<<<<<<<`,
 Wenn Du ein grafischen Tool zur Bereinigung benutzen willst, dann verwende `git mergetool`. Das welches ein passendes grafisches 'merge'-Tool startet und Dich durch die Konfliktbereiche führt:
 
 	$ git mergetool
-	merge tool candidates: kdiff3 tkdiff xxdiff meld gvimdiff opendiff emerge vimdiff
-	Merging the files: index.html
+
+	This message is displayed because 'merge.tool' is not configured.
+	See 'git mergetool --tool-help' or 'git help config' for more details.
+	'git mergetool' will now attempt to use one of the following tools:
+	opendiff kdiff3 tkdiff xxdiff meld tortoisemerge gvimdiff diffuse diffmerge ecmerge p4merge araxis bc3 codecompare vimdiff emerge
+	Merging:
+	index.html
 
 	Normal merge conflict for 'index.html':
-	  {local}: modified
-	  {remote}: modified
+	  {local}: modified file
+	  {remote}: modified file
 	Hit return to start merge resolution tool (opendiff):
 
 <!--If you want to use a merge tool other than the default (Git chose `opendiff` for me in this case because I ran the command on a Mac), you can see all the supported tools listed at the top after “merge tool candidates”. Type the name of the tool you’d rather use. In Chapter 7, we’ll discuss how you can change this default value for your environment.-->
@@ -434,12 +442,12 @@ Wenn Du das 'merge' Werkzeug beendest, fragt Dich Git, ob das Zusammenführen er
 Du kannst `git status` erneut ausführen, um zu sehen, ob alle Konflikte gelöst sind:
 
 	$ git status
-	# On branch master
-	# Changes to be committed:
-	#   (use "git reset HEAD <file>..." to unstage)
-	#
-	#	modified:   index.html
-	#
+	On branch master
+	Changes to be committed:
+	  (use "git reset HEAD <file>..." to unstage)
+	
+	        modified:   index.html
+	
 
 <!--If you’re happy with that, and you verify that everything that had conflicts has been staged, you can type `git commit` to finalize the merge commit. The commit message by default looks something like this:-->
 
@@ -450,9 +458,9 @@ Wenn Du zufrieden bist und Du geprüft hast, dass alle Konflikte beseitigt wurde
 	Conflicts:
 	  index.html
 	#
-	# It looks like you may be committing a MERGE.
+	# It looks like you may be committing a merge.
 	# If this is not correct, please remove the file
-	# .git/MERGE_HEAD
+	#       .git/MERGE_HEAD
 	# and try again.
 	#
 
@@ -509,7 +517,7 @@ Um alle Branches zu sehen, welche noch nicht gemergte Änderungen enthalten, kan
 Die Liste zeigt Dir den anderen Branch. Er enthält Arbeit, die noch nicht gemergt wurde. Der Versuch, den Branch mit `git branch -d` zu löschen schlägt fehl:
 
 	$ git branch -d testing
-	error: The branch 'testing' is not an ancestor of your current HEAD.
+	error: The branch 'testing' is not fully merged.
 	If you are sure you want to delete it, run 'git branch -D testing'.
 
 <!--If you really do want to delete the branch and lose that work, you can force it with `-D`, as the helpful message points out.-->
@@ -711,16 +719,16 @@ Das Auschecken eines lokalen Branches von einem Remote-Branch erzeugt automatisc
 Wenn Du ein Repository klonst, wird automatisch ein `master`-Branch erzeugt, welcher `origin/master` verfolgt. Deshalb können `git push` und `git pull` ohne weitere Argumente aufgerufen werden. Du kannst natürlich auch eigene Tracking-Branches erzeugen – welche die nicht Zweige auf `origin` und dessen `master`-Branch verfolgen. Der einfachste Fall ist das bereits gesehene Beispiel in welchem Du `git checkout -b [branch] [remotename]/[branch]` ausführst. Mit der Git-Version 1.6.2 oder später kannst Du auch die `--track`-Kurzvariante nutzen:
 
 	$ git checkout --track origin/serverfix
-	Branch serverfix set up to track remote branch refs/remotes/origin/serverfix.
-	Switched to a new branch "serverfix"
+	Branch serverfix set up to track remote branch serverfix from origin.
+	Switched to a new branch 'serverfix'
 
 <!--To set up a local branch with a different name than the remote branch, you can easily use the first version with a different local branch name:-->
 
 Um einen lokalen Branch mit einem anderem Namen als der Remote-Branch, kannst Du einfach die erste Varianten mit einem neuen lokalen Branch-Namen:
 
 	$ git checkout -b sf origin/serverfix
-	Branch sf set up to track remote branch refs/remotes/origin/serverfix.
-	Switched to a new branch "sf"
+	Branch sf set up to track remote branch serverfix from origin.
+	Switched to a new branch 'sf'
 
 <!--Now, your local branch `sf` will automatically push to and pull from `origin/serverfix`.-->
 

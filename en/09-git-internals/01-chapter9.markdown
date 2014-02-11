@@ -456,7 +456,7 @@ You can then check how big is that object on your disk:
 
 Now, modify that file a little, and see what happens:
 
-	$ echo '# testing' >> repo.rb 
+	$ echo '# testing' >> repo.rb
 	$ git commit -am 'modified repo a bit'
 	[master ab1afef] modified repo a bit
 	 1 files changed, 1 insertions(+), 0 deletions(-)

@@ -570,7 +570,7 @@ Gitosis setzt einige Python Werkzeuge voraus. Deshalb solltest Du zuerst das Pyt
 
 Danach klonst Du Gitosis von der offiziellen Projektseite und installierst es:
 
-	$ git clone git://eagain.net/gitosis.git
+	$ git clone https://github.com/tv42/gitosis.git
 	$ cd gitosis
 	$ sudo python setup.py install
 

@@ -370,7 +370,7 @@ Gitosis vyžaduje některé nástroje v jazyce Python, a proto první, co musít
 
 Dále naklonujte a nainstalujte Gitosis z hlavní stránky projektu:
 
-	$ git clone git://eagain.net/gitosis.git
+	$ git clone https://github.com/tv42/gitosis.git
 	$ cd gitosis
 	$ sudo python setup.py install
 

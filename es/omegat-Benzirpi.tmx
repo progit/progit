@@ -7133,12 +7133,12 @@ Figura 5-2.</seg>
     </tu>
     <tu>
       <tuv lang="EN">
-        <seg>$ git clone git://eagain.net/gitosis.git
+        <seg>$ git clone https://github.com/tv42/gitosis.git
 	$ cd gitosis
 	$ sudo python setup.py install</seg>
       </tuv>
       <tuv lang="ES">
-        <seg>$ git clone git://eagain.net/gitosis.git
+        <seg>$ git clone https://github.com/tv42/gitosis.git
 	$ cd gitosis
 	$ sudo python setup.py install</seg>
       </tuv>

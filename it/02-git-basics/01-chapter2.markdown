@@ -1,26 +1,26 @@
 # Basi di Git #
 
-Se puoi leggere solo un capitolo per capire l'uso di Git, questo fa per te.  Questo capitolo illustra tutti i comandi base per fare la stragrande maggioranza delle cose impiegando al meglio il tuo tempo con Git. Alla fine del capitolo, dovresti essere in grado di configurare ed inizializzare un repository, avviare e fermare il tracciamento dei file e mettere in stage o eseguire il commit dei cambiamenti. Vedremo come impostare Git per ignorare certi file o pattern di file, come correggere gli errori velocemente e facilmente, come navigare nella storia del tuo progetto e vedere i cambiamenti tra i vari commit e come fare il push ed il pull da repository remoti.
+Se puoi leggere un solo capitolo per imparare Git, leggi questo.  Questo capitolo illustra tutti i comandi base di cui hai bisogno per la stragrande maggioranza delle cose che farai con Git. Alla fine del capitolo sarai in grado di configurare e creare un repository, iniziare e interrompere il tracciamento dei file e mettere in stage e committare le modifiche. Vedremo come impostare Git per ignorare certi file o pattern, come annullare velocemente e facilmente gli errori, come navigare la cronologia del tuo progetto e vedere le modifiche tra le varie commit e come fare il push ed il pull da repository remoti.
 
-## Ottenere un Repository Git ##
+## Repository Git ##
 
-Puoi creare un progetto Git usando due approcci principali. Il primo prende un progetto esistente o una directory e la importa in Git. Il secondo clona un repository Git esistente da un altro server.
+Puoi creare un progetto Git principalmente con due approcci. Il primo prende un progetto esistente o una directory e la importa in Git. Il secondo clona un repository Git esistente, su un altro server.
 
-### Inizializzare un Repository in una Directory Esistente ###
+### Creare un repository in una directory preesistente ###
 
-Se stai iniziando a tracciare un progetto esistente con Git, devi posizionarti nella directory del progetto e digitare:
+Se vuoi iniziare a tenere traccia con Git di un progetto esistente, devi andare nella directory del progetto e digitare:
 
 	$ git init
 
-Questo creerà una nuova sottodirectory chiamata .git che conterrà tutti i file necessari per il repository — uno scheletro del repository Git. A questo punto, niente del tuo progetto è già tracciato. (Vedi il Capitolo 9 per avere maggiori informazioni esatte sui file che sono contenuti nella directory `.git` che hai appena creato.)
+Questo creerà una nuova sottodirectory chiamata .git che conterrà tutti i file necessari per il tuo repository: una struttura del repository Git. A questo punto non è ancora stato tracciato niente del tuo progetto. (Vedi il *Capitolo 9* per sapere quali file sono contenuti nella directory `.git` che hai appena creato.)
 
-Se vuoi iniziare a tracciare i file esistenti (al contrario di una directory vuota), dovresti iniziare a monitorare questi file eseguendo un commit iniziale. Lo puoi fare con pochi comandi che specificano quali file vuoi controllare, seguiti da un commit: 
+Se vuoi iniziare a tracciare i file esistenti (a differenza di una directory vuota), dovresti iniziare a monitorare questi file con una commit iniziale. Lo puoi fare con pochi comandi `git add`, che specificano quali file vuoi tracciare, seguiti da un commit: 
 
 	$ git add *.c
 	$ git add README
 	$ git commit -m 'initial project version'
 
-Vedremo in seguito velocemente cosa fanno questi comandi. A questo punto hai un repository Git con dei file tracciati ed un commit iniziale.
+Tra un minuto vedremo cosa fanno questi comandi. A questo punto hai un repository Git con dei file tracciati e una commit iniziale.
 
 ### Clonare un Repository Esistente ###
 

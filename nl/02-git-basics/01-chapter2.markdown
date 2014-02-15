@@ -1,3 +1,5 @@
+# De basis van Git #
+
 <!-- Attentie heren en dames vertalers.
 
 Ik zou het volgende willen voorstellen:
@@ -13,7 +15,6 @@ Let wel: ik wil niemand tot iets verplichten, maar ik denk dat we moeten streven
 Veel succes en plezier bij het vertalen...
 
 -->
-# De basis van Git #
 
 Als je slechts één hoofdstuk kunt lezen om met Git aan de slag te gaan, dan is deze het. In dit hoofdstuk worden alle basiscommando's behandeld, die je nodig hebben om het leeuwendeel van de dingen te doen waarmee je uiteindelijk je tijd met Git zult doorbrengen. Als je dit hoofdstuk doorgenomen hebt, zul je een repository kunnen configureren en initialiseren, bestanden beginnen en stoppen te volgen en veranderingen te ‘stagen’ en ‘committen’. We laten ook zien hoe je Git kunt instellen zodat het bepaalde bestanden en bestandspatronen negeert, hoe je vergissingen snel en gemakkelijk ongedaan kunt maken, hoe je de geschiedenis van je project kan doorlopen en wijzigingen tussen commits kunt zien, en hoe je kunt pushen en pullen van en naar repositories.
 

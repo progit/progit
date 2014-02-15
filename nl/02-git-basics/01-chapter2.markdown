@@ -599,6 +599,7 @@ De meest interessante optie is `format`, waarmee je je eigen log uitvoer formaat
 	a11bef0 - Scott Chacon, 11 months ago : first commit
 
 Tabel 2-1 toont een aantal handige opties die aan format gegeven kunnen worden.
+
 <!-- Attention to translators: this is a table declaration.
 The lines must be formatted as follows
 <TAB><First column text><TAB><Second column text>

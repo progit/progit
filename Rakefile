@@ -212,7 +212,7 @@ def test_lang(lang, out)
   end
   begin
     mark = (source_files.map{|mk_filename| File.open(mk_filename, 'r'){
-                |mk| mk.read.encode("UTF-8")}}).join('\n\n')
+                |mk| mk.read.encode("UTF-8")}}).join("\n\n")
     require 'maruku'
     code = Maruku.new(mark, :on_error => :raise, :error_stream => StderrDecorator.new(out))
   rescue

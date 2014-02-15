@@ -2,7 +2,7 @@
 
 Ik zou het volgende willen voorstellen:
 Er zijn bepaalde termen die voor de gemiddelde Nederlandse computer gebruiker veel beter klinken (of bekender voorkomen) als de orginele Engelse term. In het begin zullen deze termen niet vaak voorkomen, maar in de meer diepgaandere hoofdstukken komen deze steeds meer voor. Termen als "Committen", "Mergen" en "Applyen" klinken beter dan "Plegen" of "Toepassen", "Samenvoegen" en "Toepassen" (wat bovendien slecht valt te onderscheiden van de commit-toepassing). De mensen die dit boek lezen zijn, naar mijn bescheiden inschatting, al redelijk op de hoogte van versiebeheer en passen (zie ik in de praktijk) deze termen al toe. Een nieuwe terminologie introduceren lijkt me dan ook niet noodzakelijk.
-Verder blijven er altijd kreten over als "directory", wat vertaald zou kunnen worden als "map", maar bij het Engelse werkwoord to map, krijgen we dan weer het probleem: hoe dit weer te vertalen. Daarom zou ik willen voorstellen om deze basis-termen toch onvertaald te laten.
+Verder blijven er altijd kreten over als "directory", wat vertaald zou kunnen worden als "map", maar bij het Engelse werkwoord to map krijgen we dan weer het probleem: hoe dit weer te vertalen? Daarom zou ik willen voorstellen om deze basis-termen toch onvertaald te laten.
 Twijfelgevallen zullen altijd blijven zoals de term "file", daarvan wordt in de praktijk zowel de term file als bestand gebruikt. Ik denk dat we hier moeten kijken hoe het in de context past. 
 Maar ook een term als "tool" en (ik zit zelf nog op een mooie Nederlandse term te broeden) "plumbing", hierbij stel ik voor om eenmalig een Nederlandse vertaling te geven, tussen haakjes de Engelse term te geven en in het vervolg de Engelse term te gebruiken. Wederom is de context hier belangrijk.
 
@@ -55,7 +55,7 @@ Git heeft een aantal verschillende transport protocollen die je kunt gebruiken. 
 
 ## Wijzigingen aan het repository vastleggen ##
 
-Je hebt een eersteklas Git repository en een checkout of werkkopie van de bestanden binnen dat project. Als je wijzigingen maakt dan moet je deze committen in je repository op elk momend dat het project een status bereikt die je wilt vastleggen.
+Je hebt een eersteklas Git repository en een checkout of werkkopie van de bestanden binnen dat project. Als je wijzigingen maakt dan moet je deze committen in je repository op elk moment dat het project een status bereikt die je wilt vastleggen.
 
 Onthoud dat elk bestand in je werkdirectory in een van twee statussen kan verkeren: *gevolgd (tracked)* of *niet gevolgd (untracked)*. *Tracked* bestanden zijn bestanden die in het laatste snapshot zaten; ze kunnen *ongewijzigd (unmodified)*, *gewijzigd (modified)* of *staged* zijn. *untracked* bestanden zijn al het andere; elk bestand in je werkdirectory dat niet in je laatste snapshot en niet in je staging area zit. Als je een repository voor het eerst cloned, zullen alle bestanden tracked en unmodified zijn, omdat je ze zojuist uitgechecked hebt en nog niets gewijzigd hebt.
 
@@ -78,11 +78,12 @@ Stel dat je een nieuw bestand toevoegt aan je project, een simpel README bestand
 
 	$ vim README
 	$ git status
-	# On branch master
-	# Untracked files:
-	#   (use "git add <file>..." to include in what will be committed)
-	#
-	#	README
+	On branch master
+	Untracked files:
+	  (use "git add <file>..." to include in what will be committed)
+	
+	        README
+
 	nothing added to commit but untracked files present (use "git add" to track)
 
 Je kunt zien dat het nieuwe README bestand untrackt is, omdat het onder de “Untracked files” kop staat in je status output. Untrackt betekent eigenlijk dat Git een bestand ziet dat je niet in het vorige snapshot (commit) had; Git zal het niet in je commit snapshots toevoegen totdat jij dit expliciet aangeeft. Dit wordt zo gedaan zodat je niet per ongeluk gegenereerde binaire bestanden toevoegt, of andere bestanden die je niet wilt toevoegen. Je wilt dit README bestand wel meenemen, dus laten we het gaan tracken.
@@ -96,12 +97,12 @@ Om een nieuw bestand te beginnen te tracken, gebruik je het commando `git add`. 
 Als je het status commando nogmaals uitvoert, zie je dat je README bestand nu getrackt en ge-staged is:
 
 	$ git status
-	# On branch master
-	# Changes to be committed:
-	#   (use "git reset HEAD <file>..." to unstage)
-	#
-	#	new file:   README
-	#
+	On branch master
+	Changes to be committed:
+	  (use "git reset HEAD <file>..." to unstage)
+	
+	        new file:   README
+	
 
 Je kunt zien dat het gestaged is, omdat het onder de kop “Changes to be committed” staat. Als je nu een commit doet, zal de versie van het bestand zoals het was ten tijde van je `git add` commando in de historische snapshot toegevoegd worden. Je zult je misschien herinneren dat, toen je `git init` eerder uitvoerde, je daarna `git add (bestanden)` uitvoerde; dat was om bestanden in je directory te beginnen te tracken. Het `git add` commando beschouwt een padnaam als een bestand of een directory. Als de padnaam een directory is, dan voegt het commando alle bestanden in die directory recursief toe.
 
@@ -127,13 +128,13 @@ Het `benchmarks.rb` bestand verschijnt onder een sectie genaamd “Changes not s
 
 	$ git add benchmarks.rb
 	$ git status
-	# On branch master
-	# Changes to be committed:
-	#   (use "git reset HEAD <file>..." to unstage)
-	#
-	#	new file:   README
-	#	modified:   benchmarks.rb
-	#
+	On branch master
+	Changes to be committed:
+	  (use "git reset HEAD <file>..." to unstage)
+	
+	        new file:   README
+	        modified:   benchmarks.rb
+	
 
 Beide bestanden zijn gestaged en zullen met je volgende commit meegaan. Stel nu dat je je herinnert dat je nog een kleine wijziging in `benchmarks.rb` wilt maken voordat je het commit. Je kunt het opnieuw openen en die wijziging maken, en dan ben je klaar voor de commit. Alhoewel, laten we `git status` nog een keer uitvoeren:
 
@@ -157,13 +158,13 @@ Asjemenou?! Nu staat `benchmarks.rb` zowel bij de staged en unstaged genoemd. Ho
 
 	$ git add benchmarks.rb
 	$ git status
-	# On branch master
-	# Changes to be committed:
-	#   (use "git reset HEAD <file>..." to unstage)
-	#
-	#	new file:   README
-	#	modified:   benchmarks.rb
-	#
+	On branch master
+	Changes to be committed:
+	  (use "git reset HEAD <file>..." to unstage)
+	
+	        new file:   README
+	        modified:   benchmarks.rb
+	
 
 ### Bestanden negeren ###
 
@@ -186,16 +187,16 @@ Expansie (`glob`) patronen zijn vereenvoudigde reguliere expressies die in shell
 
 Hier is nog een voorbeeld van een `.gitignore` bestand:
 
-	# a comment – this is ignored
-	# no .a files
+	# een commentaar – dit wordt genegeerd
+	# geen .a files
 	*.a
-	# but do track lib.a, even though you're ignoring .a files above
+	# maar track lib.a wel, ook al negeer je hierboven .a files
 	!lib.a
-	# only ignore the root TODO file, not subdir/TODO
+	# negeer alleen de file TODO in de root, niet de subdirectory /TODO
 	/TODO
-	# ignore all files in the build/ directory
+	# negeer alle bestanden in de build/ directory
 	build/
-	# ignore doc/notes.txt, but not doc/server/arch.txt
+	# negeer doc/notes.txt, maar niet doc/server/arch.txt
 	doc/*.txt
 
 Een `**/` patroon is sinds versie 1.8.2 beschikbaar in Git.
@@ -385,13 +386,12 @@ Als je daarna `git rm` uitvoert, zal de verwijdering van het bestand gestaged wo
 	$ git rm grit.gemspec
 	rm 'grit.gemspec'
 	$ git status
-	# On branch master
-	#
-	# Changes to be committed:
-	#   (use "git reset HEAD <file>..." to unstage)
-	#
-	#       deleted:    grit.gemspec
-	#
+	On branch master
+	Changes to be committed:
+	  (use "git reset HEAD <file>..." to unstage)
+	
+	        deleted:    grit.gemspec
+	
 
 Als je de volgende keer een commit doet, zal het bestand verdwenen zijn en niet meer getrackt worden. Als je het bestand veranderd hebt en al aan de index toegevoegd, dan zul je de verwijdering moeten forceren met de `-f` optie. Dit is een veiligheidsmaatregel om te voorkomen dat je per ongeluk data die nog niet in een snapshot zit, en dus niet teruggehaald kan worden uit Git, weggooit.
 
@@ -652,6 +652,11 @@ Je kunt ook de lijst met commits filteren op bepaalde criteria. De `--author` op
 De laatste echt handige optie om aan `git log` als filter mee te geven is een pad. Als je een directory of bestandsnaam opgeeft, kun je de log output limiteren tot commits die een verandering introduceren op die bestanden. Dit is altijd de laatste optie en wordt over het algemeen vooraf gegaan door dubbele streepjes (`--`) om de paden van de opties te scheiden.
 
 In Tabel 2-3 laten we deze en een paar andere veel voorkomende opties zien als referentie.
+
+<!-- Attention to translators: this is a table declaration.
+The lines must be formatted as follows
+<TAB><First column text><TAB><Second column text>
+-->
 
 	Optie	Omschrijving
 	-(n)	Laat alleen de laatste n commits zien

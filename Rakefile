@@ -264,7 +264,7 @@ namespace :ci do
       end
       langs -= excluded_langs
     end
-    errors = langs.each do |lang|
+    errors = langs.map do |lang|
       print "processing #{lang} "
       error_code=test_lang(lang, $out)
       if error_code

@@ -1,3 +1,4 @@
+
 <!-- Attentie heren en dames vertalers.
 Ik zou het volgende willen voorstellen:
 Er zijn bepaalde termen die voor de gemiddelde Nederlandse computer gebruiker 

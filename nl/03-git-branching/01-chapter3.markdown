@@ -1,23 +1,36 @@
+<!-- Attentie heren en dames vertalers.
+
+Ik zou het volgende willen voorstellen:
+Er zijn bepaalde termen die voor de gemiddelde Nederlandse computer gebruiker veel beter klinken (of bekender voorkomen) als de orginele Engelse term. In het begin zullen deze termen niet vaak voorkomen, maar in de meer diepgaandere hoofdstukken komen deze steeds meer voor. Termen als "Committen", "Mergen" en "Applyen" klinken beter dan "Plegen" of "Toepassen", "Samenvoegen" en "Toepassen" (wat bovendien slecht valt te onderscheiden van de commit-toepassing). De mensen die dit boek lezen zijn, naar mijn bescheiden inschatting, al redelijk op de hoogte van versiebeheer en passen (zie ik in de praktijk) deze termen al toe. Een nieuwe terminologie introduceren lijkt me dan ook niet noodzakelijk.
+Verder blijven er altijd kreten over als "directory", wat vertaald zou kunnen worden als "map", maar bij het Engelse werkwoord to map, krijgen we dan weer het probleem: hoe dit weer te vertalen. Daarom zou ik willen voorstellen om deze basis-termen toch onvertaald te laten.
+Twijfelgevallen zullen altijd blijven zoals de term "file", daarvan wordt in de praktijk zowel de term file als bestand gebruikt. Ik denk dat we hier moeten kijken hoe het in de context past. 
+Maar ook een term als "tool" en (ik zit zelf nog op een mooie Nederlandse term te broeden) "plumbing", hierbij stel ik voor om eenmalig een Nederlandse vertaling te geven, tussen haakjes de Engelse term te geven en in het vervolg de Engelse term te gebruiken. Wederom is de context hier belangrijk.
+
+Let wel: ik wil niemand tot iets verplichten, maar ik denk dat we moeten streven naar een zo duidelijk mogelijke en best bij de praktijk aansluitende vertaling moeten proberen te maken.
+
+Veel succes en plezier bij het vertalen...
+
+-->
 # Branchen in Git #
 
 Bijna elk versiebeheersysteem ondersteunt een bepaalde vorm van branchen. Branchen komt erop neer dat je een tak afsplitst van de hoofd ontwikkellijn en daar verder mee gaat werken zonder aan de hoofdlijn te komen. Bij veel VCS'en is dat nogal een duur proces, vaak wordt er een nieuwe kopie gemaakt van de directory waar je broncode in staan, wat lang kan duren voor grote projecten.
 
-Sommige mensen verwijzen naar het branch model in Git als de "killer eigenschap", en het onderscheidt Git zeker in de VCS gemeenschap. Waarom maakt het zo bijzonder? De manier waarop Git branched is ongelooflijk lichtgewicht, waardoor branch operaties vrijwel instant zijn en het wisselen tussen de branches over het algemeen net zo snel. In tegenstelling to vele andere VCS's, moedigt Git juist een werkwijze aan die vaak branched en merged, zelfs meerdere keren per dag. Deze eigenschap begrijpen en de techniek beheersen geeft je een krachtig en uniek gereedschap en kan letterlijk de manier waarop je ontwikkelt veranderen.
+Sommige mensen verwijzen naar het branch model in Git als de "killer eigenschap", en het onderscheidt Git zeker in de VCS gemeenschap. Waarom is het zo bijzonder? De manier waarop Git brancht is ongelooflijk lichtgewicht, waardoor branch operaties vrijwel instant zijn en het wisselen tussen de branches over het algemeen net zo snel. In tegenstelling to vele andere VCS's, moedigt Git juist een workflow aan waarbij vaak gebranched en gemerged wordt, zelfs meerdere keren per dag. Deze eigenschap begrijpen en de techniek beheersen geeft je een krachtig en uniek gereedschap en kan letterlijk de manier waarop je ontwikkelt veranderen.
 
 ## Wat een branch is ##
 
-Om de manier waarop Git branched echt te begrijpen, moeten we een stap terug doen en onderzoeken hoe Git zijn gegevens opslaat. Zoals je misschien herinnert van Hoofdstuk 1, slaat Git zijn gegevens niet op als een reeks van wijzigingen of delta's, maar in plaats daarvan als een serie snapshots.
+Om de manier waarop Git brancht echt te begrijpen, moeten we een stap terug doen en onderzoeken hoe Git zijn gegevens opslaat. Zoals je misschien herinnert van Hoofdstuk 1, slaat Git zijn gegevens niet op als een reeks van wijzigingen of delta's, maar in plaats daarvan als een serie snapshots.
 
 Als je in Git commit, dan slaat Git een commit object op dat een verwijzing bevat naar het snapshot van de inhoud die je gestaged hebt, de auteur en bericht metagegevens, en nul of meer verwijzingen naar de commit of commits die de directe ouders van deze commit waren: nul ouders voor de eerste commit, één ouder voor een normale commit, en meerdere ouders voor een commit die het resultaat is van een merge van twee of meer branches.
 
-Om dit te visualiseren, gaan we aannemen dat je een directory hebt met drie bestanden, en je staged en commit ze allemaal. Door de bestanden te stagen krijgen ze allemaal een checksum (de SHA-1 hash waar we het in Hoofdstuk 1 over hadden), bewaart die versie van het bestand in het Git repository (Git noemt ze blobs), en voegt die checksum toe aan het stage gebied:
+Om dit te visualiseren, gaan we aannemen dat je een directory hebt met drie bestanden, en je staged en commit ze allemaal. Door de bestanden te stagen krijgen ze allemaal een checksum (de SHA-1 hash waar we het in Hoofdstuk 1 over hadden), bewaart die versie van het bestand in het Git repository (Git noemt ze blobs), en voegt die checksum toe aan de staging area:
 
 	$ git add README test.rb LICENSE
 	$ git commit -m 'initial commit of my project'
 
-Als je de commit aanmaakt door `git commit` uit te voeren zal Git iedere project directory van een checksum voorzien en slaat ze als boomstructuur (`tree`) objecten in de Git repository op. Daarna creëert Git een `commit` object dat de metagegevens bevat en een verwijzing naar de hoofd project `tree`-object zodat Git deze snapshot kan opnieuw kan maken als dat nodig is.
+Als je de commit aanmaakt door `git commit` uit te voeren zal Git iedere project directory van een checksum voorzien en slaat ze als boomstructuur (`tree`) objecten in de Git repository op. Daarna creëert Git een `commit` object dat de metagegevens bevat en een verwijzing naar de hoofd project `tree`-object zodat Git deze snapshot kan opnieuw kan oproepen als dat nodig is.
 
-Je Git repository bevat nu vijf objecten: een blob voor de inhoud van ieder van de drie bestanden, een tree die de inhoud van de directory weergeeft en specificeert welke bestandsnamen opgeslagen zijn als welke blobs, en een commit met de verwijzing naar die hoofd tree en alle commit metagegevens. Conceptueel zien de gegevens in je Git repository eruit zoals in Figuur 3-1.
+Je Git repository bevat nu vijf objecten: een blob voor de inhoud van ieder van de drie bestanden, een tree die de inhoud van de directory weergeeft en specificeert welke bestandsnamen opgeslagen zijn als welke blobs, en een commit met de verwijzing naar die hoofd-tree en alle commit metagegevens. Conceptueel zien de gegevens in je Git repository eruit zoals in Figuur 3-1.
 
 Insert 18333fig0301.png
 Figuur 3-1. Repository gegevens van een enkele commit.
@@ -41,7 +54,7 @@ Dit maakt een nieuwe verwijzing naar dezelfde commit waar je nu op zit (zie Figu
 Insert 18333fig0304.png
 Figuur 3-4. Meerdere branches wijzend naar de commit gegevens historie.
 
-Hoe weet Git op welke branch je nu zit? Het houdt een speciale verwijzing bij genaamd HEAD. Let op dat dit heel anders is dan het concept van HEAD in andere VCS's waar je misschien gewend aan bent, zoals bijvoorbeeld Subversion of CVS. In Git, is dit een verwijzing naar de lokale branch waar je nu op zit. In dit geval, zit je nog steeds op master. Het git branch commando heeft alleen een nieuwe branch aangemaakt — het is nog niet overgeschakeld naar die branch (zie Figuur 3-5).
+Hoe weet Git op welke branch je nu zit? Het houdt een speciale verwijzing bij genaamd HEAD. Let op dat dit heel anders is dan het concept van HEAD in andere VCS's waar je misschien gewend aan bent, zoals Subversion of CVS. In Git is dit een verwijzing naar de lokale branch waar je nu op zit. In dit geval zit je nog steeds op master. Het git branch commando heeft alleen een nieuwe branch aangemaakt, we zijn nog niet overgeschakeld naar die branch (zie Figuur 3-5).
 
 Insert 18333fig0305.png
 Figuur 3-5. HEAD bestand wijzend naar de branch waar je op zit.
@@ -74,27 +87,27 @@ Figuur 3-8 toont het resultaat.
 Insert 18333fig0308.png
 Figuur 3-8. HEAD verschuift naar een andere branch bij een checkout.
 
-Dat commando heeft twee dingen gedaan. Het verplaatste de HEAD verwijzing terug naar de `master` branch, en het draaide de bestanden in je werkdirectory terug naar het snapshot waar die `master` naar wijst. Dit betekent ook dat de wijzigingen die je vanaf dit punt maakt uiteen zullen gaan lopen met een oudere versie van het project. In essentie betekent dat het werk dat je in je testing branch hebt gedaan tijdelijk wordt teruggedraait, zodat je een andere richting op kunt gaan.
+Dat commando heeft twee dingen gedaan. Het verplaatste de HEAD verwijzing terug naar de `master` branch, en het draaide de bestanden in je werkdirectory terug naar het snapshot waar die `master` naar wijst. Dit betekent ook dat de wijzigingen die je vanaf dit punt maakt uiteen zullen gaan lopen met een oudere versie van het project. In essentie betekent dat het werk dat je in je testing branch hebt gedaan tijdelijk wordt teruggedraaid, zodat je een andere richting op kunt gaan.
 
 Laten we een paar wijzigingen maken en nog eens committen:
 
 	$ vim test.rb
 	$ git commit -a -m 'made other changes'
 
-Nu is je project historie uiteen gelopen (zie Figuur 3-9). Je hebt een branch gemaakt en bent er naartoe overgeschakeld, hebt er wat werk op gedaan, en bent toen teruggeschakeld naar je hoofd branch en hebt nog wat ander werk gedaan. Al die veranderingen zijn geïsoleerd van elkaar in aparte branches: je kunt heen en weer schakelen tussen de branches en ze mergen als je klaar bent. En je hebt dat alles gedaan met eenvoudige `branch` en `checkout` commando's.
+Nu is je project historie uiteen gelopen (zie Figuur 3-9). Je hebt een branch gemaakt en bent er naartoe overgeschakeld, hebt er wat werk op gedaan, en bent toen teruggeschakeld naar je hoofd-branch en hebt nog wat ander werk gedaan. Al die veranderingen zijn geïsoleerd van elkaar in aparte branches: je kunt heen en weer schakelen tussen de branches en ze mergen als je klaar bent. En je hebt dat alles gedaan met eenvoudige `branch` en `checkout` commando's.
 
 Insert 18333fig0309.png
 Figuur 3-9. De branch histories zijn uiteen gaan lopen.
 
 Omdat een branch in Git in feite een eenvoudig bestand is dat de 40 karakter lange SHA-1 checksum van de commit bevat waar het naar wijst, zijn branches goedkoop om te maken en weer weg te gooien. Een nieuwe branch aanmaken is zo snel en eenvoudig als 41 bytes naar een bestand schrijven (40 karakters en een harde return).
 
-Dit is in scherp contrast met de wijze waarop de meeste VCS applicaties branchen, wat vaak het kopiëren van alle project bestanden naar een tweede map inhoudt. Dit kan enkele seconden of zelfs minuten duren, afhankelijk van de grootte van het project, daarentegen is het in Git altijd vrijwel meteen klaar. En omdat we de ouders opslaan terwijl we committen, wordt het vinden van een goed punt dat kan dienen als basis voor het mergen automatisch voor ons gedaan en is dat over het algemeen eenvoudig om te doen. Deze eigenschappen helpen ontwikkelaars met vertrouwen branches vaak aan te maken en te gebruiken.
+Dit is in scherp contrast met de wijze waarop de meeste VCS applicaties branchen, wat vaak het kopiëren van alle project bestanden naar een tweede map inhoudt. Dit kan enkele seconden of zelfs minuten duren, afhankelijk van de grootte van het project, daarentegen is het in Git altijd vrijwel meteen klaar. En omdat we de ouders opslaan terwijl we committen, wordt het vinden van een goed punt dat kan dienen als basis voor het mergen automatisch voor ons gedaan en is dat over het algemeen eenvoudig om te doen. Deze eigenschappen helpen ontwikkelaars aan te moedigen vaak branches aan te maken en te gebruiken.
 
 Laten we eens kijken waarom je dat zou moeten doen.
 
 ## Eenvoudig branchen en mergen ##
 
-Laten we eens door een eenvoudig voorbeeld van branchen en mergen stappen met een werkwijze die je zou kunnen gebruiken in de echte wereld. Je zult deze stappen volgen:
+Laten we eens door een eenvoudig voorbeeld van branchen en mergen stappen met een workflow die je zou kunnen gebruiken in de echte wereld. Je zult deze stappen volgen:
 
 1. Werken aan een website.
 2. Een branch aanmaken voor een nieuw verhaal waar je aan werkt.
@@ -102,9 +115,9 @@ Laten we eens door een eenvoudig voorbeeld van branchen en mergen stappen met ee
 
 Dan ontvang je een telefoontje dat je een ander probleem direct moet repareren. Je zult het volgende doen:
 
-1. Terugdraaien naar je productie branch.
+1. Terugschakelen naar je productie branch.
 2. Een branch aanmaken om de snelle reparatie toe te voegen.
-3. Nadat het getest is, de snelle reparatie branch samenvoegen, en dat naar productie terugzetten.
+3. Nadat het getest is de snelle reparatie branch mergen, en dat naar productie terugzetten.
 4. Terugschakelen naar je originele verhaal en doorgaan met werken.
 
 ### Eenvoudig branchen ###
@@ -114,7 +127,7 @@ Als eerste, laten we zeggen dat je aan je project werkt en al een paar commits h
 Insert 18333fig0310.png
 Figuur 3-10. Een korte en eenvoudige commit historie.
 
-Je hebt besloten dan je gaat werken aan probleem #53 in wat voor systeem je bedrijf ook gebruikt om problemen te registreren. Voor de duidelijkheid: Git is niet verbonden met een probleem beheersysteem in het bijzonder, maar omdat probleem #53 een specifiek onderwerp is waar je aan wilt werken, zul je een nieuwe branch aanmaken waarin je gaat werken. Om een branch aan te maken en er meteen naartoe te schakelen, kun je het `git checkout` commando uitvoeren met de `-b` optie:
+Je hebt besloten dan je gaat werken aan probleem #53 in wat voor systeem je bedrijf ook gebruikt om problemen te registreren. Voor de duidelijkheid: Git is niet verbonden met een probleem beheersysteem in het bijzonder. En omdat probleem #53 een specifiek onderwerp is waar je aan gaat werken, maak je een nieuwe branch aan waarin je aan de slag gaat. Om een branch aan te maken en er meteen naartoe te schakelen, kun je het `git checkout` commando uitvoeren met de `-b` optie:
 
 	$ git checkout -b iss53
 	Switched to a new branch "iss53"
@@ -139,7 +152,7 @@ Figuur 3-12. De iss53 branch is vooruit gegaan met je werk.
 
 Nu krijg je het telefoontje dan er een probleem is met de web site, en je moet het meteen repareren. Met Git hoef je de reparatie niet tegelijk uit te leveren met de `iss53` wijzigingen die je gemaakt hebt, en je hoeft ook niet veel moeite te doen om die wijzigingen terug te draaien voordat je kunt werken aan het toepassen van je reparatie in productie. Het enige wat je moet doen in terugschakelen naar je master branch.
 
-Maar voordat je dat doet, let op dat als je werk directory of staging gebied wijzigingen bevat die nog niet gecommit zijn en conflicteren met de branch die je gaat uitchecken, Git je niet toestaat om te schakelen. Het is het beste om een schone werk status te hebben als je tussen branches gaat schakelen. Er zijn manieren om hier mee om te gaan (te weten, stashen en commit ammending) die we later gaan behandelen. Voor nu heb je alle wijzigingen gecommit, zodat je terug kunt schakelen naar je master branch:
+Maar voordat je dat doet, let op dat als je werk directory of staging area wijzigingen bevat die nog niet gecommit zijn en conflicteren met de branch die je gaat uitchecken, Git je niet laat om te schakelen. Het beste is  om een schone werk status te hebben als je tussen branches gaat schakelen. Er zijn manieren om hier mee om te gaan (te weten, stashen en commit ammending) die we later gaan behandelen. Voor nu heb je alle wijzigingen gecommit, zodat je terug kunt schakelen naar je master branch:
 
 	$ git checkout master
 	Switched to branch "master"
@@ -337,15 +350,15 @@ Dit toont je andere branch. Omdat het werk bevat dat nog niet samengevoegd is, z
 
 Als je de branch echt wilt verwijderen en dat werk wilt verliezen, dan kun je het forceren met `-D`, zoals het behulpzame bericht je al meldt.
 
-## Branch werkwijzen ##
+## Branch workflows ##
 
-Nu dat je de basis van het branchen en samenvoegen onder de knie hebt, wat kan of zou je met ze kunnen doen? In deze paragraaf gaan we een aantal veel voorkomende werkwijzen die deze lichtgewicht branches mogelijk maken behandelen, zodat je kunt besluiten of je ze wilt toepassen in jouw ontwikkel cyclus.
+Nu dat je de basis van het branchen en samenvoegen onder de knie hebt, wat kan of zou je met ze kunnen doen? In deze paragraaf gaan we een aantal veel voorkomende workflows die deze lichtgewicht branches mogelijk maken behandelen, zodat je kunt besluiten of je ze wilt toepassen in jouw ontwikkel cyclus.
 
 ### Lang-lopende branches ###
 
 Omdat Git gebruik maakt van een eenvoudige drieweg merge, is het meerdere keren mergen vanuit een branch in een andere gedurende een langere periode over het algemeen eenvoudig te doen. Dit betekent dat je meerdere branches kunt hebben, die altijd open staan en die je voor verschillende delen van je ontwikkel cyclus gebruikt; je kunt regelmatig een aantal mergen in andere.
 
-Veel Git ontwikkelaars hebben een werkwijze die deze aanpak omarmt, zoals het hebben van alleen volledig stabiele code in hun `master` branch — waarschijnlijk alleen code die is of zal worden vrijgegeven. Ze hebben een andere parallelle branch "develop" of "next" genaamd waarop ze werken of die ze gebruiken om stabiliteit te testen — het is niet noodzakelijk altijd stabiel, maar zodra het in een stabiele status verkeert, kan het worden gemerged in `master`. Het wordt gebruikt om topic branches (branches met een korte levensduur, zoals jou eerdere `iss53` branch) te pullen zodra die klaar zijn, om er zich ervan te verzekeren dat alle testen slagen en er geen fouten worden geïntroduceerd.
+Veel Git ontwikkelaars hebben een workflow die deze aanpak omarmt, zoals het hebben van alleen volledig stabiele code in hun `master` branch — waarschijnlijk alleen code die is of zal worden vrijgegeven. Ze hebben een andere parallelle branch "develop" of "next" genaamd waarop ze werken of die ze gebruiken om stabiliteit te testen — het is niet noodzakelijk altijd stabiel, maar zodra het in een stabiele status verkeert, kan het worden gemerged in `master`. Het wordt gebruikt om topic branches (branches met een korte levensduur, zoals jou eerdere `iss53` branch) te pullen zodra die klaar zijn, om er zich ervan te verzekeren dat alle testen slagen en er geen fouten worden geïntroduceerd.
 
 In essentie praten we over verwijzingen die zich verplaatsen over de lijn van de commits die je maakt. De stabiele branches zijn verder naar achter in je commit historie, en de splinternieuwe branches zijn verder naar voren in de historie (zie Figuur 3-18).
 

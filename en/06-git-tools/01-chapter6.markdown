@@ -59,7 +59,7 @@ A lot of people become concerned at some point that they will, by random happens
 
 If you do happen to commit an object that hashes to the same SHA-1 value as a previous object in your repository, Git will see the previous object already in your Git database and assume it was already written. If you try to check out that object again at some point, you’ll always get the data of the first object.
 
-However, you should be aware of how ridiculously unlikely this scenario is. The SHA-1 digest is 20 bytes or 160 bits. The number of randomly hashed objects needed to ensure a 50% probability of a single collision is about 2^80 (the formula for determining collision probability is `p = (n(n-1)/2) * (1/2^160))`. 2^80 is 1.2 x 10^24 or 1 million billion billion. That’s 1,200 times the number of grains of sand on the earth.
+However, you should be aware of how ridiculously unlikely this scenario is. The SHA-1 digest is 20 bytes or 160 bits. The number of randomly hashed objects needed to ensure a 50% probability of a single collision is about 2^80 (the formula for determining collision probability is `p = (n(n-1)/2) * (1/2^160)`). 2^80 is 1.2 x 10^24 or 1 million billion billion. That’s 1,200 times the number of grains of sand on the earth.
 
 Here’s an example to give you an idea of what it would take to get a SHA-1 collision. If all 6.5 billion humans on Earth were programming, and every second, each one was producing code that was the equivalent of the entire Linux kernel history (1 million Git objects) and pushing it into one enormous Git repository, it would take 5 years until that repository contained enough objects to have a 50% probability of a single SHA-1 object collision. A higher probability exists that every member of your programming team will be attacked and killed by wolves in unrelated incidents on the same night.
 
@@ -498,7 +498,7 @@ Again, if you don’t specify a stash, Git assumes the most recent stash:
 
     $ git stash show -p | git apply -R
 
-You may want to create an alias and effectively add a `stash-unapply` command to your git. For example:
+You may want to create an alias and effectively add a `stash-unapply` command to your Git. For example:
 
     $ git config --global alias.stash-unapply '!git stash show -p | git apply -R'
     $ git stash
@@ -589,6 +589,10 @@ You need to edit the script so that it stops at the commit you want to edit. To 
 	pick a5f4a0d added cat-file
 
 When you save and exit the editor, Git rewinds you back to the last commit in that list and drops you on the command line with the following message:
+
+<!-- This is actually weird, as the SHA-1 of 7482e0d is not present in the list, 
+nor is the commit message. Please review 
+-->
 
 	$ git rebase -i HEAD~3
 	Stopped at 7482e0d... updated the gemspec to hopefully work better

@@ -70,7 +70,7 @@ Si vous essayez de récupérer l'objet de nouveau à un moment donné, vous auri
 
 Quoi qu'il en soit, vous devriez être conscient à quel point ce scénario est ridiculement improbable.
 Une empreinte SHA-1 porte sur 20 octets soit 160 bits.
-Le nombre d'objets aléatoires à hacher requis pour assurer une probabilité de collision de 50 % vaut environ 2^80 (la formule pour calculer la probabilité de collision est `p = (n(n-1)/2) * (1/2^160))`.
+Le nombre d'objets aléatoires à hacher requis pour assurer une probabilité de collision de 50 % vaut environ 2^80 (la formule pour calculer la probabilité de collision est `p = (n(n-1)/2) * (1/2^160)`).
 2^80 vaut 1,2 × 10^24 soit 1 million de milliards de milliards.
 Cela représente 1200 fois le nombre de grains de sable sur Terre.
 

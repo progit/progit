@@ -120,8 +120,8 @@ def post_pandoc(string, config)
 		s /(\w)--(\w)/, '\1-\2'
 		s /``(.*?)''/, "#{config['dql']}\\1#{config['dqr']}"
 
-		# Typeset the maths in the book with TeX
-		s '\verb!p = (n(n-1)/2) * (1/2^160))!', '$p = \frac{n(n-1)}{2} \times \frac{1}{2^{160}}$)'
+		# Typeset the maths in the book with TeX 
+		s '\texttt{p = (n(n-1)/2) * (1/2\^{}160)}', '$p = \frac{n(n-1)}{2} \times \frac{1}{2^{160}}$'
 		s '2\^{}80', '$2^{80}$'
 		s /\sx\s10\\\^\{\}(\d+)/, '\e{\1}'
 

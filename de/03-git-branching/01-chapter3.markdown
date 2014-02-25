@@ -536,7 +536,7 @@ Jetzt da Du die Grundlagen von 'branching' und 'merging' kennst, fragst Du Dich 
 
 <!--Because Git uses a simple three-way merge, merging from one branch into another multiple times over a long period is generally easy to do. This means you can have several branches that are always open and that you use for different stages of your development cycle; you can merge regularly from some of them into others.-->
 
-Da Git das einfachen 3-Wege-'merge' verwendet, ist häufiges Zusammenführen von einer Branch in eine andere über einen langen Zeitraum generell einfach zu bewerkstelligen. Das heisst, Du kann mehrere Branches haben, die alle offen sind und auf unterschiedlichen Ebenen Deines Entwicklungszyklus verwendung finden, und diese regelmäßig ineinander zusammenführen.
+Da Git das einfachen 3-Wege-'merge' verwendet, ist häufiges Zusammenführen von einer Branch in eine andere über einen langen Zeitraum generell einfach zu bewerkstelligen. Das heisst, Du kannst mehrere Branches haben, die alle offen sind und auf unterschiedlichen Ebenen Deines Entwicklungszyklus verwendung finden, und diese regelmäßig ineinander zusammenführen.
 
 <!--Many Git developers have a workflow that embraces this approach, such as having only code that is entirely stable in their `master` branch — possibly only code that has been or will be released. They have another parallel branch named develop or next that they work from or use to test stability — it isn’t necessarily always stable, but whenever it gets to a stable state, it can be merged into `master`. It’s used to pull in topic branches (short-lived branches, like your earlier `iss53` branch) when they’re ready, to make sure they pass all the tests and don’t introduce bugs.-->
 

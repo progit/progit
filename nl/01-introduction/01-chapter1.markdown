@@ -33,6 +33,7 @@ vertaling moeten proberen te maken.
 
 Veel succes en plezier bij het vertalen...
 -->
+<!-- SHA-1 of last checked en-version: fbf24105 -->
 # Aan de slag #
 
 In dit hoofdstuk wordt uitgelegd hoe je aan de slag kunt gaan met Git. We zullen bij het begin beginnen door wat achtergrondinformatie over versiebeheersystemen te geven, daarna een korte uitleg hoe je Git werkend kan krijgen op je computer en sluiten af door uit te leggen hoe je Git kan instellen zodat je ermee aan het werk kunt.  Aan het einde van dit hoofdstuk zou je moeten kunnen begrijpen waarom Git er is, waarom je het zou moeten gebruiken en zal je helemaal klaar zijn om er mee aan de slag te gaan.

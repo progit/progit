@@ -33,6 +33,7 @@ vertaling moeten proberen te maken.
 
 Veel succes en plezier bij het vertalen...
 -->
+<!-- SHA-1 of last checked en-version: fbf24105 -->
 # Git op maat maken #
 
 Tot zover heb ik de fundamentele werking van Git behandeld en hoe het te gebruiken, en ik heb een aantal tools geïntroduceerd die Git tot je beschikking stelt om je het makkelijk en efficiënt te laten gebruiken. In dit hoofdstuk zal ik wat operaties doorlopen die je kunt gebruiken om Git op een maat gemaakte manier te laten werken middels het introduceren van een aantal belangrijke configuratie-instellingen en het inhaak-systeem (hooks). Met deze tools is het makkelijk om Git precies te laten werken op de manier zoals jij, je bedrijf, of je groep het nodig hebben.

@@ -33,6 +33,7 @@ vertaling moeten proberen te maken.
 
 Veel succes en plezier bij het vertalen...
 -->
+<!-- SHA-1 of last checked en-version: fbf24105 -->
 # Het binnenwerk van Git #
 
 Je zult misschien naar dit hoofdstuk gesprongen zijn vanuit een voorafgaand hoofdstuk, of je zult hier gekomen zijn nadat je de rest van het boek gelezen hebt; hoe dan ook, hier is waar het binnenwerk en implementatie van Git behandeld gaat worden. Ik heb gemerkt dat het leren van deze informatie van fundamenteel belang is om te begrijpen hoe bruikbaar en krachtig Git is, maar anderen hebben daar tegenin gebracht dat het erg verwarrend en onnodig complex kan zijn voor beginners. Daarom heb ik de behandeling hiervan het laatste hoofdstuk gemaakt in het boek, zodat je kunt besluiten om het het vroeg of later in je leerproces kunt lezen. Ik laat het aan jou over om dat te beslissen.

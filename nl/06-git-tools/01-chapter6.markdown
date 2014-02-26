@@ -33,6 +33,7 @@ vertaling moeten proberen te maken.
 
 Veel succes en plezier bij het vertalen...
 -->
+<!-- SHA-1 of last checked en-version: fbf24105 -->
 # Git tools #
 
 Nu heb je de meeste commando's en werkwijzen geleerd die je dagelijks nodig hebt om een Git repository voor je broncode te beheren en te onderhouden. Je hebt de basistaken van het tracken en committen van bestanden onder de knie, en je hebt de kracht van de staging area en lichtgewicht topic branching en mergen in de vingers.

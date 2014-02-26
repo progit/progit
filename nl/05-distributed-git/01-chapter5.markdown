@@ -33,6 +33,7 @@ vertaling moeten proberen te maken.
 
 Veel succes en plezier bij het vertalen...
 -->
+<!-- SHA-1 of last checked en-version: fbf24105 -->
 # Gedistribueerd Git #
 
 Nu je een remote Git repository hebt ingesteld als een plaats waar alle ontwikkelaars hun code kunnen delen, en je bekend bent met fundamentele Git commando's in een lokale workflow, zul je hier zien hoe je een paar gedistribueerde workflows kunt gebruiken die je met Git kunt bereiken.

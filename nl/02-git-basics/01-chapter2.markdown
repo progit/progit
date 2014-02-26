@@ -33,6 +33,7 @@ vertaling moeten proberen te maken.
 
 Veel succes en plezier bij het vertalen...
 -->
+<!-- SHA-1 of last checked en-version: fbf24105 -->
 # De basis van Git #
 
 Als je slechts één hoofdstuk kunt lezen om met Git aan de slag te gaan, dan is deze het. In dit hoofdstuk worden alle basiscommando's behandeld, die je nodig hebben om het leeuwendeel van de dingen te doen waarmee je uiteindelijk je tijd met Git zult doorbrengen. Als je dit hoofdstuk doorgenomen hebt, zul je een repository kunnen configureren en initialiseren, bestanden beginnen en stoppen te volgen en veranderingen te ‘stagen’ en ‘committen’. We laten ook zien hoe je Git kunt instellen zodat het bepaalde bestanden en bestandspatronen negeert, hoe je vergissingen snel en gemakkelijk ongedaan kunt maken, hoe je de geschiedenis van je project kan doorlopen en wijzigingen tussen commits kunt zien, en hoe je kunt pushen en pullen van en naar repositories.
@@ -485,7 +486,7 @@ Als je `git log` in dit project uitvoert, zou je output moeten krijgen die er on
 
 	    first commit
 
-Zonder argumenten toont `git log` de commits die gedaan zijn in die repository, in omgekeerde chronologische volgorde. Dat wil zeggen: de meest recente commits worden als eerste getoond. Zoals je kunt zien, toont dit commando iedere commit met zijn SHA-1 checksum, de naam van de auteur en zijn e-mail, de datum van opslaan, en de commit boodschap.
+Zonder argumenten toont `git log` standaard de commits die gedaan zijn in die repository, in omgekeerde chronologische volgorde. Dat wil zeggen: de meest recente commits worden als eerste getoond. Zoals je kunt zien, toont dit commando iedere commit met zijn SHA-1 checksum, de naam van de auteur en zijn e-mail, de datum van opslaan, en de commit boodschap.
 
 Een gigantisch aantal en variëteit aan opties zijn beschikbaar voor het `git log` commando om je precies te laten zien waar je naar op zoek bent. Hier laten we je de meest gebruikte opties zien.
 
@@ -851,7 +852,7 @@ Nu kun je de naam pb op de commandoregel gebruiken in plaats van de hele URL. Bi
 	 * [new branch]      master     -> pb/master
 	 * [new branch]      ticgit     -> pb/ticgit
 
-Paul zijn master branch is lokaal toegankelijk als `pb/master`; je kunt het in een van jouw branches mergen, of je kunt een lokale branch uitchecken op dat punt als je het wil zien.
+De master branch van Paul is lokaal toegankelijk als `pb/master`; je kunt het in een van jouw branches mergen, of je kunt een lokale branch uitchecken op dat punt als je het wil zien.
 
 ### Van je remotes fetchen en pullen ###
 
@@ -931,9 +932,9 @@ Als je om een of andere reden een referentie wilt verwijderen, je hebt de server
 	$ git remote
 	origin
 
-## Labelen (Taggen) ##
+## Taggen (Labelen) ##
 
-Zoals de meeste VCS'en, heeft git de mogelijkheid om specifieke punten in de history als belangrijk te labelen (taggen). Over het algemeen gebruiken mensen deze functionaliteit om versie punten te markeren (`v1.0`, en zo). In deze paragraaf zul je leren hoe de beschikbare tags te tonen, hoe nieuwe tags te creëren, en wat de verschillende typen tags zijn.
+Zoals de meeste VCS'en, heeft git de mogelijkheid om specifieke punten in de history als belangrijk te taggen (labelen). Over het algemeen gebruiken mensen deze functionaliteit om versie punten te markeren (`v1.0`, en zo). In deze paragraaf zul je leren hoe de beschikbare tags te tonen, hoe nieuwe tags te creëren, en wat de verschillende typen tags zijn.
 
 ### Jouw tags laten zien ###
 
@@ -955,7 +956,7 @@ Je kunt ook zoeken op tags met een bepaald patroon. De Git bron repository, bijv
 
 ### Tags creëren ###
 
-Git gebruikt twee soorten tags: lichtgewicht (lightweight) en beschreven (annotated). Een lightweight tag komt overeen met een branch die niet verandert: het is slechts een wijzer naar een specifieke commit. Annotated tags daarentegen, zijn als volwaardige objecten in de Git database opgeslagen. Ze worden gechecksummed, bevatten de naam van de tagger, e-mail en datum, hebben een tag boodschap, en kunnen gesigneerd en geverifieerd worden met GNU Privacy Guard (GPG). Het wordt over het algemeen aangeraden om annotated tags te maken zodat je deze informatie hebt; maar als je een tijdelijke tag wilt of om een of andere reden de andere informatie niet wilt houden, dan zijn er ook lichtgewicht tags.
+Git gebruikt twee soorten tags: lightweight (lichtgewicht) en annotated (beschreven). Een lightweight tag komt overeen met een branch die niet verandert: het is slechts een wijzer naar een specifieke commit. Annotated tags daarentegen, zijn als volwaardige objecten in de Git database opgeslagen. Ze worden gechecksummed, bevatten de naam van de tagger, e-mail en datum, hebben een tag boodschap, en kunnen gesigneerd en geverifieerd worden met GNU Privacy Guard (GPG). Het wordt over het algemeen aangeraden om annotated tags te maken zodat je deze informatie hebt; maar als je een tijdelijke tag wilt of om een of andere reden de andere informatie niet wilt houden, dan zijn er ook lichtgewicht tags.
 
 ### Annotated tags ###
 
@@ -1134,7 +1135,7 @@ Als je veel tags hebt die je ineens wilt pushen, kun je ook de `--tags` optie aa
 	 * [new tag]         v1.4-lw -> v1.4-lw
 	 * [new tag]         v1.5 -> v1.5
 
-Als nu iemand anders van jouw repository cloned of pulled, dan zullen zij al jouw tags ook krijgen.
+Als nu iemand anders van jouw repository cloned of pullt, dan zullen zij al jouw tags ook krijgen.
 
 ## Tips en trucs ##
 
@@ -1155,7 +1156,7 @@ Druk de Tab toets als je een Git commando aan het typen bent, en het zou een lij
 	$ git co<tab><tab>
 	commit config
 
-In dit geval zal git co en dan de Tab toets twee keer indrukken git commit en config voorstellen. Als je daarna `m<tab>` toevoegt, wordt het automatisch tot `git commit` gecompleteerd.
+In dit geval zal `git co` en dan de Tab toets twee keer indrukken git commit en config voorstellen. Als je daarna `m<tab>` toevoegt, wordt het automatisch tot `git commit` gecompleteerd.
 
 Dit werkt ook met opties, wat nog bruikbaarder is. Bijvoorbeeld, als je een `git log` commando uitvoert en je een van de opties niet meer kunt herinneren, dan kun je beginnen met het te typen en Tab indrukken om te zien wat er past:
 

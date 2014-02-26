@@ -33,6 +33,7 @@ vertaling moeten proberen te maken.
 
 Veel succes en plezier bij het vertalen...
 -->
+<!-- SHA-1 of last checked en-version: fbf24105 -->
 # Branchen in Git #
 
 Bijna elk versiebeheersysteem ondersteunt een bepaalde vorm van branchen. Branchen komt erop neer dat je een tak afsplitst van de hoofd ontwikkellijn en daar verder mee gaat werken zonder aan de hoofdlijn te komen. Bij veel VCS'en is dat nogal een duur proces, vaak wordt er een nieuwe kopie gemaakt van de directory waar je broncode in staan, wat lang kan duren voor grote projecten.
@@ -164,7 +165,7 @@ Figuur 3-11 toont het resultaat.
 Insert 18333fig0311.png
 Figuur 3-11. Een nieuwe branch verwijzing maken.
 
-Je doet wat werk aan je web site en doet wat commits. Door dat te doen beweegt de `iss53` branch vooruit, omdat je het uitgechecked hebt (dat wil zeggen, je HEAD wijst ernaar; zie Figuur 3-12):
+Je doet wat werk aan je web site en doet wat commits. Door dat te doen beweegt de `iss53` branch vooruit, omdat je het uitgecheckt hebt (dat wil zeggen, je HEAD wijst ernaar; zie Figuur 3-12):
 
 	$ vim index.html
 	$ git commit -a -m 'added a new footer [issue 53]'
@@ -288,7 +289,7 @@ Alles wat merge conflicten heeft en wat nog niet is opgelost wordt getoond als u
 	</div>
 	>>>>>>> iss53
 
-Dit betekent dat de versie in HEAD (jouw master branch, omdat dat degene was dat je uitgechecked had toen je het merge commando uitvoerde) is het bovenste gedeelte van dat blok (alles boven de `======`), terwijl de versie in je `iss53` branch eruit ziet zoals alles in het onderste gedeelte. Om het conflict op te lossen, moet je één van de twee gedeeltes kiezen of de inhoud zelf mergen. Je zou bijvoorbeeld dit conflict op kunnen lossen door het hele blok met dit te vervangen:
+Dit betekent dat de versie in HEAD (jouw master branch, omdat dat degene was dat je uitgecheckt had toen je het merge commando uitvoerde) is het bovenste gedeelte van dat blok (alles boven de `======`), terwijl de versie in je `iss53` branch eruit ziet zoals alles in het onderste gedeelte. Om het conflict op te lossen, moet je één van de twee gedeeltes kiezen of de inhoud zelf mergen. Je zou bijvoorbeeld dit conflict op kunnen lossen door het hele blok met dit te vervangen:
 
 	<div id="footer">
 	please contact us at email.support@github.com
@@ -350,7 +351,7 @@ Het `git branch` commando doet meer dan alleen branches aanmaken en verwijderen.
 	* master
 	  testing
 
-Merk op dat het `*` karakter vooraf gaat aan de `master` branch: het geeft de branch aan dat je op dit moment uitgechecked hebt. Dit betekent dat als je op dit punt commit, de `master` branch vooruit zal gaan met je nieuwe werk. Om de laatste commit op iedere branch te zien, kun je `git branch -v` uitvoeren:
+Merk op dat het `*` karakter vooraf gaat aan de `master` branch: het geeft de branch aan dat je op dit moment uitgecheckt hebt. Dit betekent dat als je op dit punt commit, de `master` branch vooruit zal gaan met je nieuwe werk. Om de laatste commit op iedere branch te zien, kun je `git branch -v` uitvoeren:
 
 	$ git branch -v
 	  iss53   93b412c fix javascript issue
@@ -489,9 +490,9 @@ Dit maakt een lokale branch aan waar je op kunt werken, die begint met waar `ori
 
 ### Tracking branches ###
 
-Een lokale branch uitchecken van een remote branch creëert automatisch een zogenaamde _volg branch_ (_tracking branch_). Tracking branches zijn lokale branches die een directe releatie met een remote branch hebben. Als je op een tracking branch zit en `git push` typt, dat weet Git automatisch naar welke server en branch hij moet pushen. En, als je op een van die branches zit zal het uitvoeren van `git pull` alle remote referenties ophalen en automatisch de corresponderende remote branch erin mergen.
+Een lokale branch uitchecken van een remote branch creëert automatisch een zogenaamde _tracking branch_ (_volg branch_). Tracking branches zijn lokale branches die een directe releatie met een remote branch hebben. Als je op een tracking branch zit en `git push` typt, dat weet Git automatisch naar welke server en branch hij moet pushen. En, als je op een van die branches zit zal het uitvoeren van `git pull` alle remote referenties ophalen en automatisch de corresponderende remote branch erin mergen.
 
-Als je een repository cloned, zal het over het algemeen automatisch een `master` branch aanmaken die `origin/master` tracked. Daarom werken `git push` en `git pull` zo uit het doosje, zonder verdere argumenten. Maar je kan ook andere tracking branches aanmaken als je dat wilt, andere die niet branches tracken op `origin` en niet de `master` branch tracken. Een eenvoudig voorbeeld is wat je zojuist gezien hebt: `git checkout -b [branch] [remotenaam]/[branch]` uitvoeren. Als je Git versie 1.6.2 of nieuwer hebt, kun je ook de `--track` afkorting gebruiken:
+Als je een repository cloned, zal het over het algemeen automatisch een `master` branch aanmaken die `origin/master` trackt. Daarom werken `git push` en `git pull` zo uit het doosje, zonder verdere argumenten. Maar je kan ook andere tracking branches aanmaken als je dat wilt, andere die niet branches tracken op `origin` en niet de `master` branch tracken. Een eenvoudig voorbeeld is wat je zojuist gezien hebt: `git checkout -b [branch] [remotenaam]/[branch]` uitvoeren. Als je Git versie 1.6.2 of nieuwer hebt, kun je ook de `--track` afkorting gebruiken:
 
 	$ git checkout --track origin/serverfix
 	Branch serverfix set up to track remote branch serverfix from origin.
@@ -513,7 +514,7 @@ Stel dat je klaar bent met een remote branch - zeg maar, jij en je medewerkers z
 	To git@github.com:schacon/simplegit.git
 	 - [deleted]         serverfix
 
-Boem. Geen branch meer op je server. Je zult deze pagina wel een ezelsoortje willen geven, omdat je dat commando nodig gaat hebben en het waarschijnlijk zult vergeten. Een manier om dit commando te onthouden is door de `git push [remotenaam] [lokalebranch]:[remotebranch]` syntax te onthouden die we kortgeleden behandeld hebben. Als je het `[lokalebranch]` gedeelte weglaat dan zeg je in feite, "Neem niets aan mijn kant en maak dat de `[remotebranch]`."
+Poef. Geen branch meer op je server. Je zult deze pagina wel een ezelsoortje willen geven, omdat je dat commando nodig gaat hebben en het waarschijnlijk zult vergeten. Een manier om dit commando te onthouden is door de `git push [remotenaam] [lokalebranch]:[remotebranch]` syntax te onthouden die we kortgeleden behandeld hebben. Als je het `[lokalebranch]` gedeelte weglaat dan zeg je in feite, "Neem niets aan mijn kant en maak dat de `[remotebranch]`."
 
 ## Rebasen ##
 
@@ -622,7 +623,7 @@ Nu doet iemand anders wat meer werk wat een merge bevat, en pusht dat werk naar 
 Insert 18333fig0337.png
 Figuur 3-37. Haal meer commits op, en merge ze in je werk.
 
-Daarna, beslist de persoon die het werk gepusht heeft om erop terug te komen en in plaats daarvan zijn werk te gaan rebasen; hij voeren een `git push --force` uit om de historie op de server te herschrijven. Je pulled daarna van die server, waarbij je de nieuwe commits binnen krijgt.
+Daarna, beslist de persoon die het werk gepusht heeft om erop terug te komen en in plaats daarvan zijn werk te gaan rebasen; hij voeren een `git push --force` uit om de historie op de server te herschrijven. Je pullt daarna van die server, waarbij je de nieuwe commits binnen krijgt.
 
 Insert 18333fig0338.png
 Figuur 3-38. Iemand pusht gerebasede commits, daarbij commits buitenspel zettend waar jij werk op gebaseerd hebt.

@@ -3,7 +3,7 @@
 Tato kapitola vám ve stručnosti představí systém Git. Začneme od samého začátku. Nahlédneme do historie nástrojů ke správě verzí, poté se budeme věnovat tomu, jak spustit systém Git ve vašem počítači, a nakonec se podíváme na možnosti úvodního nastavení. V této kapitole se dozvíte, k čemu Git slouží a proč byste ho měli používat. Kromě toho se také naučíte, jak Git nastavit podle svých potřeb.
 
 ## Správa verzí ##
-hi
+
 Co je to správa verzí a proč by vás měla zajímat? Správa verzí je systém, který zaznamenává změny souboru nebo sady souborů v průběhu času, a uživatel tak může kdykoli obnovit jeho/jejich konkrétní verzi (tzv. verzování). Příklady verzovaných souborů jsou v této knize ilustrovány na zdrojovém kódu softwaru, avšak ve skutečnosti lze verzování provádět téměř se všemi typy souborů v počítači.
 
 Pokud jste grafik nebo webdesigner a chcete uchovávat všechny verze obrázku nebo všechna rozložení stránky (což jistě není k zahození), je pro vás systém správy verzí (zkráceně VCS z angl. Version Control System) ideálním nástrojem. VCS umožňuje vrátit jednotlivé soubory nebo celý projekt do předchozího stavu, porovnávat změny provedené v průběhu času, zjistit, kdo naposledy upravil něco, co nyní možná způsobuje problémy, kdo vložil jakou verzi a kdy a mnoho dalšího. Používáte-li verzovací systém, většinou to také znamená, že snadno obnovíte soubory, které jste ztratili nebo v nichž byly provedeny nežádoucí změny. Všechny funkcionality verzovacího systému můžete navíc používat velice jednoduchým způsobem.
@@ -120,13 +120,13 @@ Nachází-li se konkrétní verze souboru v adresáři Git, je považována za z
 
 ## Instalace systému Git ##
 
-Je načase začít systém Git aktivně používat. Instalaci můžete provést celou řadou způsobů — obvyklá je instalace ze zdrojových souborů nebo instalace existujícího balíčku, určeného pro vaši platformu.
+Je načase začít systém Git aktivně používat. Instalaci můžete provést celou řadou způsobů. Většinou se využívá buď instalace ze zdrojových souborů, nebo instalace z existujícího balíčku, určeného pro vaši platformu.
 
 ### Instalace ze zdrojových souborů ###
 
-Pokud je to možné, je nejvhodnější instalovat Git ze zdrojových souborů. Tak je zaručeno, že vždy získáte aktuální verzi. Každá další verze systému se snaží přidat nová vylepšení uživatelského rozhraní. Použití poslední verze je tedy zpravidla tou nejlepší cestou, samozřejmě pokud vám nedělá problémy kompilace softwaru ze zdrojových souborů.
+Pokud je to možné, je nejvhodnější instalovat Git ze zdrojových souborů. Tak je zaručeno, že vždy získáte aktuální verzi. Každá další verze systému se snaží přidat nová vylepšení uživatelského rozhraní. Použití poslední verze je tedy zpravidla tou nejlepší cestou, samozřejmě pokud vám nedělá problémy kompilace softwaru ze zdrojových souborů. Skutečností také je, že mnoho linuxových distribucí obsahuje velmi staré balíčky. Takže pokud nepoužíváte velmi čerstvou distribuci, nebo pokud záměrně používáte starší verzi, bývá instalace ze zdrojových souborů nejlepší volbou.
 
-Před instalcí samotného Gitu musí váš systém obsahovat následující knihovny, na nichž je Git závislý: curl, zlib, openssl, expat, a libiconv. Pokud používáte yum (např. Fedora) nebo apt-get (např. distribuce založené na Debianu), můžete k instalaci použít jeden z následujících příkazů:
+Před instalací samotného Gitu musí váš systém obsahovat následující knihovny, na nichž je Git závislý: curl, zlib, openssl, expat, a libiconv. Pokud používáte systém s nástrojem yum (například u distribuce Fedora) nebo apt-get (například distribuce odvozené od Debianu), můžete k instalaci použít jeden z následujících příkazů:
 
 	$ yum install curl-devel expat-devel gettext-devel \
 	  openssl-devel zlib-devel
@@ -138,7 +138,7 @@ Po doinstalování všech potřebných závislostí můžete pokračovat stažen
 
 	http://git-scm.com/download
 
-Poté přistupte ke kompilaci a instalaci:
+Poté spusťte kompilaci a instalaci:
 
 	$ tar -zxf git-1.7.2.2.tar.gz
 	$ cd git-1.7.2.2
@@ -151,11 +151,11 @@ Po dokončení instalace můžete rovněž vyhledat aktualizace systému Git pro
 
 ### Instalace v Linuxu ###
 
-Chcete-li nainstalovat Git v Linuxu pomocí binárního instalátoru, většinou tak můžete učinit pomocí základního nástroje pro správu balíčků, který byl součástí vaší distribuce. Ve Fedoře můžete použít nástroj yum:
+Chcete-li nainstalovat Git v Linuxu pomocí binárního instalátoru, většinou tak můžete učinit pomocí základního nástroje pro správu balíčků, který je součástí vaší distribuce. Ve Fedoře můžete použít nástroj yum:
 
 	$ yum install git-core
 
-V distribuci založené na Debianu (např. Ubuntu) zkuste použít program apt-get:
+V distribuci založené na Debianu (jako je například Ubuntu) zkuste použít program apt-get:
 
 	$ apt-get install git
 

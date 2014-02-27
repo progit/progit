@@ -190,7 +190,7 @@ Git config 파일에 이 스크립트를 모두 추가한다. 설정해야 하�
 diff 결과가 터미널에 출력되는 대신 P4Merge가 실행된다. 그리고 그림 7-1처럼 그 프로그램 안에서 보여준다:
 
 Insert 18333fig0701.png
-그림 7-1 P4Merge
+그림 7-1. P4Merge
 
 브랜치를 Merge할 때 충돌이 나면 `git mergetool` 명령을 실행한다. 이 명령을 실행하면 GUI 도구로 충돌을 해결할 수 있도록 P4Merge를 실행해준다.
 
@@ -333,11 +333,9 @@ Git은 바이너리 파일도 diff할 수 있다. Git Attribute를 통해 Git이
 위의 명령은 아래와 같은 내용을 `.git/config` 파일에 추가한다:
 
 	[diff "word"]
-	    textconv = strings
+	    textconv = catdoc
 
-댓글: `.doc` 파일의 종류는 여러가지이다. UTF-16 인코딩을 쓰거나 "codepages" 기반(역주: 한글은 Codepage 949) 인코딩을 사용 할 수도 있다. `catdoc`으로는 유용한 정보를 아무것도 찾지 못할 수 있다.
-
-이제 Git은 확장자가 `.doc`인 파일의 스냅샷을 diff할 때 "word" 필터로 정의한 `strings` 프로그램을 사용한다. 이 프로그램은 Word 파일을 텍스트 파일로 변환해 주기 때문에 diff할 수 있다.
+이제 Git은 확장자가 `.doc`인 파일의 스냅샷을 diff할 때 "word" 필터로 정의한 `catdoc` 프로그램을 사용한다. 이 프로그램은 Word 파일을 텍스트 파일로 변환해 주기 때문에 diff할 수 있다.
 
 이 책의 *1장*을 Word 파일로 만들어서 Git에 넣고 나서 단락 하나를 수정하고 저장하는 예를 살펴보자. `git diff`를 실행하면 어디가 달려졌는지 확인할 수 있다:
 
@@ -456,10 +454,10 @@ Git은 이 파일을 Checkout할 때마다 SHA 값을 삽입해준다:
 Commit/Checkout할 때 사용하는 필터를 직접 만들어 쓸 수 있다. 방향에 따라 "clean" 필터와 "smudge" 필터라고 부른다. ".gitattributes" 파일에 설정하고 파일 경로마다 다른 필터를 설정할 수 있다. Checkout할 때 파일을 처리하는 것이 "smudge" 필터이고(그림 7-2) 커밋할 때 처리하는 필터가 "clean" 필터이다. 이 필터로 할 수 있는 일은 무궁무진하다.
 
 Insert 18333fig0702.png
-그림 7-2 "smudge" 필터는 Checkout할 때 실행된다
+그림 7-2. "smudge" 필터는 Checkout할 때 실행된다
 
 Insert 18333fig0703.png
-그림 7-3 "clean" 필터는 파일을 Stage할 때 실행된다
+그림 7-3. "clean" 필터는 파일을 Stage할 때 실행된다
 
 커밋하기 전에 `indent` 프로그램으로 C 코드 전부를 필터링하지만 커밋 메시지는 단순한 예제를 보자. `*.c` 파일은 indent 필터를 사용하도록 `.gitattributes` 파일에 설정한다:
 

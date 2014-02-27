@@ -92,8 +92,8 @@ Bild 2-1. Zyklus der Grundzustände Deiner Dateien
 Das wichtigste Hilfsmittel, um den Zustand zu überprüfen, in dem sich die Dateien in Deinem Repository gerade befinden, ist der Befehl `git status`. Wenn Du diesen Befehl unmittelbar nach dem Klonen eines Repositorys ausführst, sollte er folgende Ausgabe liefern:
 
 	$ git status
-	# On branch master
-	nothing to commit (working directory clean)
+	On branch master
+	nothing to commit, working directory clean
 
 <!--This means you have a clean working directory — in other words, no tracked files are modified. Git also doesn’t see any untracked files, or they would be listed here. Finally, the command tells you which branch you’re on. For now, that is always `master`, which is the default; you won’t worry about it here. The next chapter will go over branches and references in detail.-->
 
@@ -105,11 +105,12 @@ Sagen wir Du fügst eine neue `README` Datei zu Deinem Projekt hinzu. Wenn die D
 
 	$ vim README
 	$ git status
-	# On branch master
-	# Untracked files:
-	#   (use "git add <file>..." to include in what will be committed)
-	#
-	#	README
+	On branch master
+	Untracked files:
+	  (use "git add <file>..." to include in what will be committed)
+	
+	        README
+
 	nothing added to commit but untracked files present (use "git add" to track)
 
 <!--You can see that your new `README` file is untracked, because it’s under the “Untracked files” heading in your status output. Untracked basically means that Git sees a file you didn’t have in the previous snapshot (commit); Git won’t start including it in your commit snapshots until you explicitly tell it to do so. It does this so you don’t accidentally begin including generated binary files or other files that you did not mean to include. You do want to start including README, so let’s start tracking the file.-->
@@ -130,12 +131,12 @@ Um eine neue Datei zur Versionskontrolle hinzuzufügen, verwendest Du den Befehl
 Wenn Du den `git status` Befehl erneut ausführst, siehst Du, dass sich Deine `README` Datei jetzt unter Versionskontrolle befindet und für den nächsten Commit vorgemerkt ist (gestaged ist):
 
 	$ git status
-	# On branch master
-	# Changes to be committed:
-	#   (use "git reset HEAD <file>..." to unstage)
-	#
-	#	new file:   README
-	#
+	On branch master
+	Changes to be committed:
+	  (use "git reset HEAD <file>..." to unstage)
+	
+	        new file:   README
+	
 
 <!--You can tell that it’s staged because it’s under the “Changes to be committed” heading. If you commit at this point, the version of the file at the time you ran `git add` is what will be in the historical snapshot. You may recall that when you ran `git init` earlier, you then ran `git add (files)` — that was to begin tracking files in your directory. The `git add` command takes a path name for either a file or a directory; if it’s a directory, the command adds all the files in that directory recursively.-->
 
@@ -149,17 +150,18 @@ Dass die Datei für den nächsten Commit vorgemerkt ist, siehst Du daran, dass s
 Wenn Du eine bereits versionierte Datei `benchmarks.rb` änderst und den `git status` Befehl ausführst, erhältst Du folgendes:
 
 	$ git status
-	# On branch master
-	# Changes to be committed:
-	#   (use "git reset HEAD <file>..." to unstage)
-	#
-	#	new file:   README
-	#
-	# Changes not staged for commit:
-	#   (use "git add <file>..." to update what will be committed)
-	#
-	#	modified:   benchmarks.rb
-	#
+	On branch master
+	Changes to be committed:
+	  (use "git reset HEAD <file>..." to unstage)
+	
+	        new file:   README
+
+	Changes not staged for commit:
+	  (use "git add <file>..." to update what will be committed)
+	  (use "git checkout -- <file>..." to discard changes in working directory)
+	
+	        modified:   benchmarks.rb
+	
 
 <!--The `benchmarks.rb` file appears under a section named “Changes not staged for commit” — which means that a file that is tracked has been modified in the working directory but not yet staged. To stage it, you run the `git add` command (it’s a multipurpose command — you use it to begin tracking new files, to stage files, and to do other things like marking merge-conflicted files as resolved). Let’s run `git add` now to stage the `benchmarks.rb` file, and then run `git status` again:-->
 
@@ -167,13 +169,13 @@ Die Datei `benchmarks.rb` erscheint in der Sektion „Changes not staged for com
 
 	$ git add benchmarks.rb
 	$ git status
-	# On branch master
-	# Changes to be committed:
-	#   (use "git reset HEAD <file>..." to unstage)
-	#
-	#	new file:   README
-	#	modified:   benchmarks.rb
-	#
+	On branch master
+	Changes to be committed:
+	  (use "git reset HEAD <file>..." to unstage)
+	
+	        new file:   README
+	        modified:   benchmarks.rb
+	
 
 <!--Both files are staged and will go into your next commit. At this point, suppose you remember one little change that you want to make in `benchmarks.rb` before you commit it. You open it again and make that change, and you’re ready to commit. However, let’s run `git status` one more time:-->
 
@@ -181,18 +183,19 @@ Beide Dateien sind nun für den nächsten Commit vorgemerkt. Nehmen wir an, Du w
 
 	$ vim benchmarks.rb
 	$ git status
-	# On branch master
-	# Changes to be committed:
-	#   (use "git reset HEAD <file>..." to unstage)
-	#
-	#	new file:   README
-	#	modified:   benchmarks.rb
-	#
-	# Changes not staged for commit:
-	#   (use "git add <file>..." to update what will be committed)
-	#
-	#	modified:   benchmarks.rb
-	#
+	On branch master
+	Changes to be committed:
+	  (use "git reset HEAD <file>..." to unstage)
+	
+	        new file:   README
+	        modified:   benchmarks.rb
+	
+	Changes not staged for commit:
+	  (use "git add <file>..." to update what will be committed)
+	  (use "git checkout -- <file>..." to discard changes in working directory)
+	
+	        modified:   benchmarks.rb
+	
 
 <!--What the heck? Now `benchmarks.rb` is listed as both staged and unstaged. How is that possible? It turns out that Git stages a file exactly as it is when you run the `git add` command. If you commit now, the version of `benchmarks.rb` as it was when you last ran the `git add` command is how it will go into the commit, not the version of the file as it looks in your working directory when you run `git commit`. If you modify a file after you run `git add`, you have to run `git add` again to stage the latest version of the file:-->
 
@@ -200,13 +203,13 @@ Huch, was ist das? Jetzt wird `benchmarks.rb` sowohl in der Staging Area als auc
 
 	$ git add benchmarks.rb
 	$ git status
-	# On branch master
-	# Changes to be committed:
-	#   (use "git reset HEAD <file>..." to unstage)
-	#
-	#	new file:   README
-	#	modified:   benchmarks.rb
-	#
+	On branch master
+	Changes to be committed:
+	  (use "git reset HEAD <file>..." to unstage)
+	
+	        new file:   README
+	        modified:   benchmarks.rb
+	
 
 <!--### Ignoring Files ###-->
 ### Dateien ignorieren ###
@@ -227,10 +230,10 @@ Die erste Zeile weist Git an, alle Dateien zu ignorieren, die mit einem `.o` ode
 
 Folgende Regeln gelten in einer `.gitignore` Datei:
 
-<!--*	Blank lines or lines starting with `#` are ignored.
-*	Standard glob patterns work.
-*	You can end patterns with a forward slash (`/`) to specify a directory.
-*	You can negate a pattern by starting it with an exclamation point (`!`).-->
+<!--*	Blank lines or lines starting with `#` are ignored.-->
+<!--*	Standard glob patterns work.-->
+<!--*	You can end patterns with a forward slash (`/`) to specify a directory.-->
+<!--*	You can negate a pattern by starting it with an exclamation point (`!`).-->
 
 *	Leere Zeilen oder Zeilen, die mit `#` beginnen, werden ignoriert.
 *	Standard `glob` Muster funktionieren.
@@ -245,6 +248,20 @@ Glob Muster sind vereinfachte reguläre Ausdrücke, die von der Shell verwendet 
 
 Hier ist ein weiteres Beispiel für eine `.gitignore` Datei:
 
+<!--	# a comment - this is ignored-->
+<!--	# no .a files-->
+<!--	*.a-->
+<!--	# but do track lib.a, even though you're ignoring .a files above-->
+<!--	!lib.a-->
+<!--	# only ignore the root TODO file, not subdir/TODO-->
+<!--	/TODO-->
+<!--	# ignore all files in the build/ directory-->
+<!--	build/-->
+<!--	# ignore doc/notes.txt, but not doc/server/arch.txt-->
+<!--	doc/*.txt-->
+<!--	# ignore all .txt files in the doc/ directory-->
+<!--	doc/**/*.txt-->
+
 	# ein Kommentar - dieser wird ignoriert
 	# ignoriert alle Dateien, die mit .a enden
 	*.a
@@ -252,12 +269,16 @@ Hier ist ein weiteres Beispiel für eine `.gitignore` Datei:
 	!lib.a
 	# ignoriert eine TODO Datei nur im Wurzelverzeichnis, nicht aber
 	/TODO
-	# in Unterverzeichnissen
-
 	# ignoriert alle Dateien im build/ Verzeichnis
 	build/
 	# ignoriert doc/notes.txt, aber nicht doc/server/arch.txt
 	doc/*.txt
+	# ignoriert alle .txt Dateien unterhalb des doc/ Verzeichnis
+	doc/**/*.txt
+
+<!--A `**/` pattern is available in Git since version 1.8.2.-->
+
+Die Kombination `**/` wurde in der Git Version 1.8.2 eingeführt.
 
 <!--### Viewing Your Staged and Unstaged Changes ###-->
 ### Die Änderungen in der Staging Area durchsehen ###
@@ -271,17 +292,18 @@ Wenn Dir die Ausgabe des Befehl `git status` nicht aussagekräftig genug ist, we
 Nehmen wir an, Du hast die Datei `README` geändert und für einen Commit in der Staging Area vorgemerkt. Dann änderst Du außerdem die Datei `benchmarks.rb`, fügst sie aber noch nicht zur Staging Area hinzu. Wenn Du den `git status` Befehl dann ausführst, zeigt er Dir in etwa Folgendes an:
 
 	$ git status
-	# On branch master
-	# Changes to be committed:
-	#   (use "git reset HEAD <file>..." to unstage)
-	#
-	#	new file:   README
-	#
-	# Changes not staged for commit:
-	#   (use "git add <file>..." to update what will be committed)
-	#
-	#	modified:   benchmarks.rb
-	#
+	On branch master
+	Changes to be committed:
+	  (use "git reset HEAD <file>..." to unstage)
+	
+	        new file:   README
+	
+	Changes not staged for commit:
+	  (use "git add <file>..." to update what will be committed)
+	  (use "git checkout -- <file>..." to discard changes in working directory)
+	
+	        modified:   benchmarks.rb
+	
 
 <!--To see what you’ve changed but not yet staged, type `git diff` with no other arguments:-->
 
@@ -336,16 +358,18 @@ Ein anderes Beispiel: Wenn Du Änderungen an der Datei `benchmarks.rb` bereits z
 	$ git add benchmarks.rb
 	$ echo '# test line' >> benchmarks.rb
 	$ git status
-	# On branch master
-	#
-	# Changes to be committed:
-	#
-	#	modified:   benchmarks.rb
-	#
-	# Changes not staged for commit:
-	#
-	#	modified:   benchmarks.rb
-	#
+	On branch master
+	Changes to be committed:
+	  (use "git reset HEAD <file>..." to unstage)
+	
+	        modified:   benchmarks.rb
+	
+	Changes not staged for commit:
+	  (use "git add <file>..." to update what will be committed)
+	  (use "git checkout -- <file>..." to discard changes in working directory)
+	
+	        modified:   benchmarks.rb
+	
 
 <!--Now you can use `git diff` to see what is still unstaged-->
 
@@ -386,8 +410,8 @@ und `git diff --cached`, um zu sehen, was für den nächsten Commit vorgesehen i
 <!--### Committing Your Changes ###-->
 ### Einen Commit erzeugen ###
 
-<!--Now that your staging area is set up the way you want it, you can commit your changes. Remember that anything that is still unstaged — any files you have created or modified that you haven’t run `git add` on since you edited them — won’t go into this commit. They will stay as modified files on your disk.
-In this case, the last time you ran `git status`, you saw that everything was staged, so you’re ready to commit your changes. The simplest way to commit is to type `git commit`:-->
+<!--Now that your staging area is set up the way you want it, you can commit your changes. Remember that anything that is still unstaged — any files you have created or modified that you haven’t run `git add` on since you edited them — won’t go into this commit. They will stay as modified files on your disk.-->
+<!--In this case, the last time you ran `git status`, you saw that everything was staged, so you’re ready to commit your changes. The simplest way to commit is to type `git commit`:-->
 
 Nachdem Du jetzt alle Änderungen, die Du im nächsten Commit haben willst, in Deiner Staging Area gesammelt hast, kannst Du den Commit anlegen. Denke daran, dass Änderungen, die nicht in der Staging Area sind (also alle Änderungen, die Du vorgenommen hast, seit Du zuletzt `git add` ausgeführt hast), auch nicht in den Commit aufgenommen werden. Sie werden ganz einfach weiterhin als geänderte Dateien im Arbeitsverzeichnis verbleiben. In unserem Beispiel haben wir gesehen, dass alle Änderungen vorgemerkt waren, als wir zuletzt `git status` ausgeführt haben, also können wir den Commit jetzt anlegen. Das geht am einfachsten mit dem Befehl:
 
@@ -405,10 +429,9 @@ Der Editor zeigt in etwa folgenden Text an (dies ist ein Beispiel mit vim):
 	# with '#' will be ignored, and an empty message aborts the commit.
 	# On branch master
 	# Changes to be committed:
-	#   (use "git reset HEAD <file>..." to unstage)
-	#
 	#       new file:   README
 	#       modified:   benchmarks.rb
+	#
 	~
 	~
 	~
@@ -423,8 +446,8 @@ Du siehst, dass die vorausgefüllte Commit Meldung die Ausgabe des letzten `git 
 Alternativ kannst Du die Commit Meldung direkt mit dem Befehl `git commit` angeben, indem Du die Option `-m` wie folgt verwendest:
 
 	$ git commit -m "Story 182: Fix benchmarks for speed"
-	[master]: created 463dc4f: "Fix benchmarks for speed"
-	 2 files changed, 3 insertions(+), 0 deletions(-)
+	[master 463dc4f] Fix benchmarks for speed
+	 2 files changed, 3 insertions(+)
 	 create mode 100644 README
 
 <!--Now you’ve created your first commit! You can see that the commit has given you some output about itself: which branch you committed to (`master`), what SHA-1 checksum the commit has (`463dc4f`), how many files were changed, and statistics about lines added and removed in the commit.-->
@@ -443,15 +466,17 @@ Denke daran, dass jeder neue Commit denjenigen Snapshot aufzeichnet, den Du in d
 Obwohl die Staging Area unglaublich nützlich ist, um genau diejenigen Commits anzulegen, die Du in Deiner Projekt Historie haben willst, ist sie manchmal auch ein bisschen umständlich. Git stellt Dir deshalb eine Alternative zur Verfügung, mit der Du die Staging Area überspringen kannst. Wenn Du den Befehl `git commit` mit der Option `-a` ausführst, übernimmt Git automatisch alle Änderungen an dejenigen Dateien, die sich bereits unter Versionskontrolle befinden, in den Commit – sodass Du auf diese Weise den Schritt `git add` weglassen kannst:
 
 	$ git status
-	# On branch master
-	#
-	# Changes not staged for commit:
-	#
-	#	modified:   benchmarks.rb
-	#
+	On branch master
+	Changes not staged for commit:
+	  (use "git add <file>..." to update what will be committed)
+	  (use "git checkout -- <file>..." to discard changes in working directory)
+	
+	        modified:   benchmarks.rb
+	
+	no changes added to commit (use "git add" and/or "git commit -a")
 	$ git commit -a -m 'added new benchmarks'
 	[master 83e38c7] added new benchmarks
-	 1 files changed, 5 insertions(+), 0 deletions(-)
+	 1 files changed, 5 insertions(+)
 
 <!--Notice how you don’t have to run `git add` on the `benchmarks.rb` file in this case before you commit.-->
 
@@ -470,13 +495,14 @@ Wenn Du einfach nur eine Datei aus dem Arbeitsverzeichnis löschst, wird sie in 
 
 	$ rm grit.gemspec
 	$ git status
-	# On branch master
-	#
-	# Changes not staged for commit:
-	#   (use "git add/rm <file>..." to update what will be committed)
-	#
-	#       deleted:    grit.gemspec
-	#
+	On branch master
+	Changes not staged for commit:
+	  (use "git add/rm <file>..." to update what will be committed)
+	  (use "git checkout -- <file>..." to discard changes in working directory)
+	
+	        deleted:    grit.gemspec
+	
+	no changes added to commit (use "git add" and/or "git commit -a")
 
 <!--Then, if you run `git rm`, it stages the file’s removal:-->
 
@@ -485,13 +511,12 @@ Wenn Du jetzt `git rm` ausführst, wird diese Änderung für den nächsten Commi
 	$ git rm grit.gemspec
 	rm 'grit.gemspec'
 	$ git status
-	# On branch master
-	#
-	# Changes to be committed:
-	#   (use "git reset HEAD <file>..." to unstage)
-	#
-	#       deleted:    grit.gemspec
-	#
+	On branch master
+	Changes to be committed:
+	  (use "git reset HEAD <file>..." to unstage)
+	
+	        deleted:    grit.gemspec
+	
 
 <!--The next time you commit, the file will be gone and no longer tracked. If you modified the file and added it to the index already, you must force the removal with the `-f` option. This is a safety feature to prevent accidental removal of data that hasn’t yet been recorded in a snapshot and that can’t be recovered from Git.-->
 
@@ -538,14 +563,12 @@ Das funktioniert einwandfrei. Wenn Du diesen Befehl ausführst und danach den `g
 
 	$ git mv README.txt README
 	$ git status
-	# On branch master
-	# Your branch is ahead of 'origin/master' by 1 commit.
-	#
-	# Changes to be committed:
-	#   (use "git reset HEAD <file>..." to unstage)
-	#
-	#       renamed:    README.txt -> README
-	#
+	On branch master
+	Changes to be committed:
+	  (use "git reset HEAD <file>..." to unstage)
+	
+	        renamed:    README.txt -> README
+	
 
 <!--However, this is equivalent to running something like this:-->
 Allerdings kannst Du genauso folgendes tun:
@@ -617,11 +640,13 @@ Eine sehr nützliche Option ist `-p`. Sie zeigt die Änderungen an, die in einem
 	index a874b73..8f94139 100644
 	--- a/Rakefile
 	+++ b/Rakefile
-	@@ -5,7 +5,7 @@ require 'rake/gempackagetask'
+	@@ -5,5 +5,5 @@ require 'rake/gempackagetask'
 	 spec = Gem::Specification.new do |s|
+	     s.name      =   "simplegit"
 	-    s.version   =   "0.1.0"
 	+    s.version   =   "0.1.1"
 	     s.author    =   "Scott Chacon"
+	     s.email     =   "schacon@gee-mail.com
 
 	commit 085bb3bcb608e1e8451d4b2432f8ecbe6306e7e7
 	Author: Scott Chacon <schacon@gee-mail.com>
@@ -644,10 +669,37 @@ Eine sehr nützliche Option ist `-p`. Sie zeigt die Änderungen an, die in einem
 	-end
 	\ No newline at end of file
 
-<!--This option displays the same information but with a diff directly following each entry. This is very helpful for code review or to quickly browse what happened during a series of commits that a collaborator has added.
-You can also use a series of summarizing options with `git log`. For example, if you want to see some abbreviated stats for each commit, you can use the `-\-stat` option:-->
+<!--This option displays the same information but with a diff directly following each entry. This is very helpful for code review or to quickly browse what happened during a series of commits that a collaborator has added.-->
 
-Diese Option zeigt also im Prinzip die gleiche Information wie zuvor, aber zusätzlich zu jedem Eintrag ein Diff. Das ist nützlich, um einen Code Review zu machen oder eben mal eine Reihe von Commits durchzuschauen, die ein Mitarbeiter angelegt hat. Außerdem gibt es verschiedene Optionen, die nützlich sind, um Dinge zusammenzufassen. Beispielsweise kannst Du eine kurze Statistik über jeden Commit mit der Option `--stat` anzeigen lassen:
+Diese Option zeigt also im Prinzip die gleiche Information wie zuvor, aber zusätzlich zu jedem Eintrag ein Diff. Das ist nützlich, um einen Code Review zu machen oder eben mal eine Reihe von Commits durchzuschauen, die ein Mitarbeiter angelegt hat.
+
+<!--Sometimes it's easier to review changes on the word level rather than on the line level. There is a `-\-word-diff` option available in Git, that you can append to the `git log -p` command to get word diff instead of normal line by line diff. Word diff format is quite useless when applied to source code, but it comes in handy when applied to large text files, like books or your dissertation. Here is an example:-->
+
+Manchmal ist es einfacher Änderungen an Hand der Wörter anstatt zeilenbasiert zu überprüfen. Git bietet dafür die Option `--word-diff`, welche man an den Befehl `git log -p` anhängen kann. Man weist Git damit an, einen Vergleich auf Basis der Wörter anstatt Zeile für Zeile durchzuführen. Dieser Vergleich ist ziemlich nutzlos wenn man Änderungen innerhalb von Quellcode vergleicht. Beim Vergleich von langen Textdateien zeigt er aber seine Stärke. Er bietet sich zum Beispiel für Bücher oder wissenschaftliche Texte an. Hierzu ein Beispiel:
+
+	$ git log -U1 --word-diff
+	commit ca82a6dff817ec66f44342007202690a93763949
+	Author: Scott Chacon <schacon@gee-mail.com>
+	Date:   Mon Mar 17 21:52:11 2008 -0700
+
+	    changed the version number
+
+	diff --git a/Rakefile b/Rakefile
+	index a874b73..8f94139 100644
+	--- a/Rakefile
+	+++ b/Rakefile
+	@@ -7,3 +7,3 @@ spec = Gem::Specification.new do |s|
+	    s.name      =   "simplegit"
+	    s.version   =   [-"0.1.0"-]{+"0.1.1"+}
+	    s.author    =   "Scott Chacon"
+
+<!--As you can see, there is no added and removed lines in this output as in a normal diff. Changes are shown inline instead. You can see the added word enclosed in `{+ +}` and removed one enclosed in `[- -]`. You may also want to reduce the usual three lines context in diff output to only one line, as the context is now words, not lines. You can do this with `-U1` as we did in the example above.-->
+
+Wie man in der Ausgabe sehen kann, zeigt dieser Vergleich nicht an, welche Zeilen hinzugekommen und welche entfallen sind. Stattdessen werden Änderungen innerhalb der Zeilen dargestellt. Mit der Sequenz `{+ +}` wird ein neu hinzugekommes Wort gekennzeichnet, mit `[- -]` ein Wort, welches entfernt wurde. Normalerweise zeigt Git bei einem Vergleich drei zusätzliche Zeilen ober- und unterhalb der eigentlichen Änderung an. Bei einem Textvergleich reicht meist eine zusätzliche Zeile. Man kann dies mit der Option `-U1` erreichen, so wie in dem oben gezeigten Beispiel.
+
+<!--You can also use a series of summarizing options with `git log`. For example, if you want to see some abbreviated stats for each commit, you can use the `-\-stat` option:-->
+
+Außerdem gibt es verschiedene Optionen, die nützlich sind, um Dinge zusammenzufassen. Beispielsweise kannst Du eine kurze Statistik über jeden Commit mit der Option `--stat` anzeigen lassen:
 
 	$ git log --stat
 	commit ca82a6dff817ec66f44342007202690a93763949
@@ -657,7 +709,7 @@ Diese Option zeigt also im Prinzip die gleiche Information wie zuvor, aber zusä
 	    changed the version number
 
 	 Rakefile |    2 +-
-	 1 files changed, 1 insertions(+), 1 deletions(-)
+	 1 file changed, 1 insertion(+), 1 deletion(-)
 
 	commit 085bb3bcb608e1e8451d4b2432f8ecbe6306e7e7
 	Author: Scott Chacon <schacon@gee-mail.com>
@@ -666,7 +718,7 @@ Diese Option zeigt also im Prinzip die gleiche Information wie zuvor, aber zusä
 	    removed unnecessary test code
 
 	 lib/simplegit.rb |    5 -----
-	 1 files changed, 0 insertions(+), 5 deletions(-)
+	 1 file changed, 5 deletions(-)
 
 	commit a11bef06a3f659402fe7563abf99ad00de2209e6
 	Author: Scott Chacon <schacon@gee-mail.com>
@@ -677,10 +729,10 @@ Diese Option zeigt also im Prinzip die gleiche Information wie zuvor, aber zusä
 	 README           |    6 ++++++
 	 Rakefile         |   23 +++++++++++++++++++++++
 	 lib/simplegit.rb |   25 +++++++++++++++++++++++++
-	 3 files changed, 54 insertions(+), 0 deletions(-)
+	 3 files changed, 54 insertions(+)
 
-<!--As you can see, the `-\-stat` option prints below each commit entry a list of modified files, how many files were changed, and how many lines in those files were added and removed. It also puts a summary of the information at the end.
-Another really useful option is `-\-pretty`. This option changes the log output to formats other than the default. A few prebuilt options are available for you to use. The `oneline` option prints each commit on a single line, which is useful if you’re looking at a lot of commits. In addition, the `short`, `full`, and `fuller` options show the output in roughly the same format but with less or more information, respectively:-->
+<!--As you can see, the `-\-stat` option prints below each commit entry a list of modified files, how many files were changed, and how many lines in those files were added and removed. It also puts a summary of the information at the end.-->
+<!--Another really useful option is `-\-pretty`. This option changes the log output to formats other than the default. A few prebuilt options are available for you to use. The `oneline` option prints each commit on a single line, which is useful if you’re looking at a lot of commits. In addition, the `short`, `full`, and `fuller` options show the output in roughly the same format but with less or more information, respectively:-->
 
 Die `--stat` Option zeigt unterhalb jedes Commits eine kurze Statistik über die jeweiligen Änderungen an: welche Dateien geändert wurden und wieviele Zeilen insgesamt hinzugefügt oder entfernt wurden. Eine weitere nützliche Option ist `--pretty`. Diese Option ändert das Format der Ausgabe und es gibt eine Anzahl mitgelieferter Formate. Das `oneline` Format listet jeden Commit in einer einzigen Zeile, was nützlich ist, wenn Du eine große Anzahl von Commits durchsuchen willst. Die `short`, `full` und `fuller` Formate zeigen die Commits in ähnlicher Form an, aber mit jeweils mehr oder weniger Informationen.
 
@@ -702,22 +754,22 @@ Eines der interessantesten Formate ist `format`, das Dir erlaubt, Dein eigenes F
 
 Tabelle 2-1 zeigt einige nützliche Optionen, die von `format` akzeptiert werden:
 
-<!--	Option	Description of Output
-	%H	Commit hash
-	%h	Abbreviated commit hash
-	%T	Tree hash
-	%t	Abbreviated tree hash
-	%P	Parent hashes
-	%p	Abbreviated parent hashes
-	%an	Author name
-	%ae	Author e-mail
-	%ad	Author date (format respects the -\-date= option)
-	%ar	Author date, relative
-	%cn	Committer name
-	%ce	Committer email
-	%cd	Committer date
-	%cr	Committer date, relative
-	%s	Subject-->
+<!--	Option	Description of Output-->
+<!--	%H	Commit hash-->
+<!--	%h	Abbreviated commit hash-->
+<!--	%T	Tree hash-->
+<!--	%t	Abbreviated tree hash-->
+<!--	%P	Parent hashes-->
+<!--	%p	Abbreviated parent hashes-->
+<!--	%an	Author name-->
+<!--	%ae	Author e-mail-->
+<!--	%ad	Author date (format respects the -\-date= option)-->
+<!--	%ar	Author date, relative-->
+<!--	%cn	Committer name-->
+<!--	%ce	Committer email-->
+<!--	%cd	Committer date-->
+<!--	%cr	Committer date, relative-->
+<!--	%s	Subject-->
 
 	Option	Beschreibung
 	%H	Commit Hash
@@ -760,20 +812,22 @@ Die `oneline` und `format` Optionen können außerdem zusammen mit einer weitere
 
 Das sind nur einige eher simple Format Optionen für die Ausgabe von `git log` – es gibt sehr viel mehr davon. Tabelle 2-2 listet diejenigen Optionen auf, die wir bisher besprochen haben, und einige weitere, die besonders nützlich sind:
 
-<!--	Option	Description
-	-p	Show the patch introduced with each commit.
-	-\-stat	Show statistics for files modified in each commit.
-	-\-shortstat	Display only the changed/insertions/deletions line from the -\-stat command.
-	-\-name-only	Show the list of files modified after the commit information.
-	-\-name-status	Show the list of files affected with added/modified/deleted information as well.
-	-\-abbrev-commit	Show only the first few characters of the SHA-1 checksum instead of all 40.
-	-\-relative-date	Display the date in a relative format (for example, “2 weeks ago”) instead of using the full date format.
-	-\-graph	Display an ASCII graph of the branch and merge history beside the log output.
-	-\-pretty	Show commits in an alternate format. Options include oneline, short, full, fuller, and format (where you specify your own format).
-	-\-oneline	A convenience option short for `-\-pretty=oneline -\-abbrev-commit`.-->
+<!--	Option	Description-->
+<!--	-p	Show the patch introduced with each commit.-->
+<!--	-\-word-diff	Show the patch in a word diff format.-->
+<!--	-\-stat	Show statistics for files modified in each commit.-->
+<!--	-\-shortstat	Display only the changed/insertions/deletions line from the -\-stat command.-->
+<!--	-\-name-only	Show the list of files modified after the commit information.-->
+<!--	-\-name-status	Show the list of files affected with added/modified/deleted information as well.-->
+<!--	-\-abbrev-commit	Show only the first few characters of the SHA-1 checksum instead of all 40.-->
+<!--	-\-relative-date	Display the date in a relative format (for example, “2 weeks ago”) instead of using the full date format.-->
+<!--	-\-graph	Display an ASCII graph of the branch and merge history beside the log output.-->
+<!--	-\-pretty	Show commits in an alternate format. Options include oneline, short, full, fuller, and format (where you specify your own format).-->
+<!--	-\-oneline	A convenience option short for `-\-pretty=oneline -\-abbrev-commit`.-->
 
 	Option	Beschreibung
 	-p	Zeigt den Patch, der einem Commit entspricht.
+	--word-diff	Führt den Vergleich Wort für Wort, anstatt Zeile für Zeile aus.
 	--stat	Zeigt Statistiken über die in einem Commit geänderten Dateien und eingefügten/entfernten Zeilen.
 	--shortstat	Zeigt nur die Kurzstatistik über eingefügte/entfernte Zeilen aus der `--stat` Option.
 	--name-only	Zeigt die Liste der geänderte Dateien nach der Commit Information.
@@ -812,12 +866,12 @@ Eine letzte sehr nützliche Option, die von `git log` akzeptiert wird, ist ein P
 
 Tabelle 2-3 zeigt die besprochenen und einige weitere, übliche Optionen:
 
-<!--	Option	Description
-	-(n)	Show only the last n commits
-	-\-since, -\-after	Limit the commits to those made after the specified date.
-	-\-until, -\-before	Limit the commits to those made before the specified date.
-	-\-author	Only show commits in which the author entry matches the specified string.
-	-\-committer	Only show commits in which the committer entry matches the specified string.-->
+<!--	Option	Description-->
+<!--	-(n)	Show only the last n commits-->
+<!--	-\-since, -\-after	Limit the commits to those made after the specified date.-->
+<!--	-\-until, -\-before	Limit the commits to those made before the specified date.-->
+<!--	-\-author	Only show commits in which the author entry matches the specified string.-->
+<!--	-\-committer	Only show commits in which the committer entry matches the specified string.-->
 
 	Option	Beschreibung
 	-(n)	Begrenzt die Ausgabe auf die letzten n commits
@@ -911,33 +965,34 @@ Die nächsten zwei Abschnitte gehen darauf ein, wie Du Änderungen in der Stagin
 
 	$ git add .
 	$ git status
-	# On branch master
-	# Changes to be committed:
-	#   (use "git reset HEAD <file>..." to unstage)
-	#
-	#       modified:   README.txt
-	#       modified:   benchmarks.rb
-	#
+	On branch master
+	Changes to be committed:
+	  (use "git reset HEAD <file>..." to unstage)
+	
+	        modified:   README.txt
+	        modified:   benchmarks.rb
+	
 
 <!--Right below the “Changes to be committed” text, it says "use `git reset HEAD <file>...` to unstage". So, let’s use that advice to unstage the `benchmarks.rb` file:-->
 
 Direkt unter der Zeile „Changes to be committed“ findest Du den Hinweis „use `git reset HEAD <file>...` to unstage“, d.h. „aus der Staging Area zu entfernen“. Wir verwenden nun also diesen Befehl, um die Änderungen an der Datei `benchmarks.rb` aus der Staging Area zu nehmen:
 
 	$ git reset HEAD benchmarks.rb
-	benchmarks.rb: locally modified
+	Unstaged changes after reset:
+	M       benchmarks.rb
 	$ git status
-	# On branch master
-	# Changes to be committed:
-	#   (use "git reset HEAD <file>..." to unstage)
-	#
-	#       modified:   README.txt
-	#
-	# Changes not staged for commit:
-	#   (use "git add <file>..." to update what will be committed)
-	#   (use "git checkout -- <file>..." to discard changes in working directory)
-	#
-	#       modified:   benchmarks.rb
-	#
+	On branch master
+	Changes to be committed:
+	  (use "git reset HEAD <file>..." to unstage)
+	
+	        modified:   README.txt
+	
+	Changes not staged for commit:
+	  (use "git add <file>..." to update what will be committed)
+	  (use "git checkout -- <file>..." to discard changes in working directory)
+	
+	        modified:   benchmarks.rb
+	
 
 <!--The command is a bit strange, but it works. The `benchmarks.rb` file is modified but once again unstaged.-->
 
@@ -950,12 +1005,12 @@ Der Befehl liest sich zunächst vielleicht etwas merkwürdig, aber wie Du siehst
 
 Was aber, wenn Du die Änderungen an der Datei `benchmarks.rb` überhaupt nicht beibehalten willst? D.h., wenn Du sie in den Zustand zurückversetzen willst, in dem sie sich befand, als Du den letzten Commit angelegt hast (oder das Repository geklont hast). Das ist einfach, und glücklicherweise zeigt der `git status` Befehl ebenfalls bereits einen Hinweis dafür an. Die obige Ausgabe enthält den folgenden Text:
 
-	# Changes not staged for commit:
-	#   (use "git add <file>..." to update what will be committed)
-	#   (use "git checkout -- <file>..." to discard changes in working directory)
-	#
-	#       modified:   benchmarks.rb
-	#
+	Changes not staged for commit:
+	  (use "git add <file>..." to update what will be committed)
+	  (use "git checkout -- <file>..." to discard changes in working directory)
+	
+	        modified:   benchmarks.rb
+	
 
 <!--It tells you pretty explicitly how to discard the changes you’ve made (at least, the newer versions of Git, 1.6.1 and later, do this — if you have an older version, we highly recommend upgrading it to get some of these nicer usability features). Let’s do what it says:-->
 
@@ -963,12 +1018,12 @@ Das sagt ziemlich klar, was wir zu tun haben um die Änderungen an der Datei zu 
 
 	$ git checkout -- benchmarks.rb
 	$ git status
-	# On branch master
-	# Changes to be committed:
-	#   (use "git reset HEAD <file>..." to unstage)
-	#
-	#       modified:   README.txt
-	#
+	On branch master
+	Changes to be committed:
+	  (use "git reset HEAD <file>..." to unstage)
+	
+	        modified:   README.txt
+	
 
 <!--You can see that the changes have been reverted. You should also realize that this is a dangerous command: any changes you made to that file are gone — you just copied another file over it. Don’t ever use this command unless you absolutely know that you don’t want the file. If you just need to get it out of the way, we’ll go over stashing and branching in the next chapter; these are generally better ways to go.-->
 
@@ -981,8 +1036,8 @@ Beachte, dass alles was jemals in einem Commit in Git enthalten war, fast immer 
 <!--## Working with Remotes ##-->
 ## Mit externen Repositorys arbeiten ##
 
-<!--To be able to collaborate on any Git project, you need to know how to manage your remote repositories. Remote repositories are versions of your project that are hosted on the Internet or network somewhere. You can have several of them, each of which generally is either read-only or read/write for you. Collaborating with others involves managing these remote repositories and pushing and pulling data to and from them when you need to share work.
-Managing remote repositories includes knowing how to add remote repositories, remove remotes that are no longer valid, manage various remote branches and define them as being tracked or not, and more. In this section, we’ll cover these remote-management skills.-->
+<!--To be able to collaborate on any Git project, you need to know how to manage your remote repositories. Remote repositories are versions of your project that are hosted on the Internet or network somewhere. You can have several of them, each of which generally is either read-only or read/write for you. Collaborating with others involves managing these remote repositories and pushing and pulling data to and from them when you need to share work.-->
+<!--Managing remote repositories includes knowing how to add remote repositories, remove remotes that are no longer valid, manage various remote branches and define them as being tracked or not, and more. In this section, we’ll cover these remote-management skills.-->
 
 Um mit anderen via Git zusammenzuarbeiten, musst Du wissen, wie Du auf externe (engl. „remote“) Repositorys zugreifen kannst. Remote Repositorys sind Versionen Deines Projektes, die im Internet oder irgendwo in einem anderen Netzwerk gespeichert sind. Du kannst mehrere solcher Repositorys haben und Du kannst jedes davon entweder nur lesen oder lesen und schreiben. Mit anderen via Git zusammenzuarbeiten impliziert, solche Repositorys zu verwalten und Daten aus ihnen herunter- oder heraufzuladen, um Deine Arbeit für andere verfügbar zu machen. Um Remote Repositorys zu verwalten, muss man wissen, wie man sie anlegt und wieder entfernt, wenn sie nicht mehr verwendet werden, wie man externe Branches verwalten und nachverfolgen kann, und mehr. In diesem Kapitel werden wir auf diese Aufgaben eingehen.
 
@@ -994,12 +1049,12 @@ Um mit anderen via Git zusammenzuarbeiten, musst Du wissen, wie Du auf externe (
 Der `git remote` Befehl zeigt Dir an, welche externen Server Du für Dein Projekt lokal konfiguriert hast, und listet die Kurzbezeichnungen für diese Remote Repository auf. Wenn Du ein Repository geklont hast, solltest Du mindestens `origin` sehen – welches der Standardname ist, den Git für denjenigen Server vergibt, von dem Du geklont hast:
 
 	$ git clone git://github.com/schacon/ticgit.git
-	Initialized empty Git repository in /private/tmp/ticgit/.git/
-	remote: Counting objects: 595, done.
-	remote: Compressing objects: 100% (269/269), done.
-	remote: Total 595 (delta 255), reused 589 (delta 253)
-	Receiving objects: 100% (595/595), 73.31 KiB | 1 KiB/s, done.
-	Resolving deltas: 100% (255/255), done.
+	Cloning into 'ticgit'...
+	remote: Reusing existing pack: 1857, done.
+	remote: Total 1857 (delta 0), reused 0 (delta 0)
+	Receiving objects: 100% (1857/1857), 374.35 KiB | 193.00 KiB/s, done.
+	Resolving deltas: 100% (772/772), done.
+	Checking connectivity... done.
 	$ cd ticgit
 	$ git remote
 	origin
@@ -1233,6 +1288,7 @@ Die Option `-m` gibt dabei wiederum die Meldung an, die zum Tag hinzugefügt wir
 	Date:   Mon Feb 9 14:45:11 2009 -0800
 
 	my version 1.4
+
 	commit 15027957951b64cf874c3557a0f3547bd83b3ff6
 	Merge: 4a447f7... a6b4c97...
 	Author: Scott Chacon <schacon@gee-mail.com>
@@ -1363,7 +1419,7 @@ Du kannst Commits jederzeit taggen, auch lange Zeit nachdem sie angelegt wurden.
 
 Nehmen wir an, dass Du vergessen hast, Version v1.2 des Projekts zu taggen und dass dies der Commit „updated rakefile“ gewesen ist. Du kannst diesen jetzt im Nachhinein taggen, indem Du die Checksumme des Commits (oder einen Teil davon) am Ende des Befehls angibst:
 
-	$ git tag -a v1.2 9fceb02
+	$ git tag -a v1.2 -m 'version 1.2' 9fceb02
 
 <!--You can see that you’ve tagged the commit:-->
 
@@ -1435,11 +1491,11 @@ Bevor wir zum Ende dieses Grundlagenkapitels kommen, möchten wir noch einige Ti
 <!--### Auto-Completion ###-->
 ### Auto-Vervollständigung ###
 
-<!--If you use the Bash shell, Git comes with a nice auto-completion script you can enable. Download the Git source code, and look in the `contrib/completion` directory; there should be a file called `git-completion.bash`. Copy this file to your home directory, and add this to your `.bashrc` file:-->
+<!--If you use the Bash shell, Git comes with a nice auto-completion script you can enable. Download it directly from the Git source code at https://github.com/git/git/blob/master/contrib/completion/git-completion.bash . Copy this file to your home directory, and add this to your `.bashrc` file:-->
 
-Wenn Du die Bash Shell verwendest, dann kannst Du ein Skript für die Git Auto-Vervollständigung einbinden. Ein solches Skript wird mit Git zusammen ausgeliefert. Wenn Du den Git Quellcode heruntergeladen hast, findest Du im Verzeichnis `contrib/completion` die Datei `git-completion.bash`. Kopiere diese Datei in Dein Home Verzeichnis  und füge die folgende Zeile in Deine `.bashrc` Datei hinzu:
+Wenn Du die Bash Shell verwendest, dann kannst Du ein Skript für die Git Auto-Vervollständigung einbinden. Du kannst dieses Skript direkt aus den Git Quellen von https://github.com/git/git/blob/master/contrib/completion/git-completion.bash herunterladen. Kopiere diese Datei in Dein Home Verzeichnis  und füge die folgende Zeile in Deine `.bashrc` Datei hinzu:
 
-	source ~/.git-completion.bash
+	source ~/git-completion.bash
 
 <!--If you want to set up Git to automatically have Bash shell completion for all users, copy this script to the `/opt/local/etc/bash_completion.d` directory on Mac systems or to the `/etc/bash_completion.d/` directory on Linux systems. This is a directory of scripts that Bash will automatically load to provide shell completions.-->
 

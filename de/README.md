@@ -13,26 +13,26 @@ In diesem Projekt kannst Du Dich nun austoben und Deinen Beitrag zur Übersetzun
 Beispielhaftes Vorgehen:
 
 	git clone git@github.com:deinname/progit.git
-	
+
 	# Trage das deutsche Repository ebenso als Remote ein
 	git remote add progit-de git@github.com:progit-de/progit.git
-	
+
 	# Lokalen Branch anlegen und daran arbeiten
 	git checkout -b Chapter71
 	git commit -m "[de] Fix headings in chapter 7.1"
-	
+
 	# Wenn Deine Arbeit in sich abgeschlossen ist, kannst Du die Ergebnisse pushen.
 	# Vor einem Push solltest Du allerdings prüfen, ob sich zwischenzeitlich
 	# das Repository git@github.com:progit-de/progit.git aktualisiert hat.
 	git fetch progit-de
-	
-	# Falls es sich aktualisiert hat, führe einen Rebase aus und 
+
+	# Falls es sich aktualisiert hat, führe einen Rebase aus und
 	# behebe die ggf. aufgetretenden Konflikte
 	git rebase progit-de/next
-	
+
 	# Pushe Deine Ergebnisse in Dein Github Repository
 	git push origin
-	
+
 Informiere uns jetzt mit einem Pull Request unter Github, dass Dein Branch fertiggestellt und bereit zum mergen ist.
 
 Wir werden dann Dein Ergebnis prüfen bzw. ein weiterer Helfer wird Dein Ergebnis reviewen. Das kann dazu führen, dass Du Deine Übersetzung noch überarbeiten musst. Siehe das Review als positive Hilfestellung damit das Ergebnis insgesamt besser wird und nimm die Kritik nicht negativ auf. Danach werden wir Deine Arbeit übernehmen und schließlich in den Hauptzweig unter progit/progit einpflegen.
@@ -44,7 +44,7 @@ Die Commit Nachrichten beginnen mit einem vorangestellten [de], dann ein Leerzei
 Beispiel:
 
 	[de] Remove comment for Figure 7-1 because it is shown on git-scm.com
-	
+
 	- Bla bla blub
 
 ## Vorgaben für das Übersetzen ##
@@ -62,6 +62,50 @@ Beispiel:
 * Der Leser wird mit "Du" angesprochen und das "Du" wird auch groß geschrieben. Bitte beachte dies auch bei Possessivpronomen, wie z.B. Dein, Deine. Siehe hierzu auch http://www.duden.de/sprachwissen/sprachratgeber/gross-oder-kleinschreibung-von--em-du-du--em--und--em-ihr-ihr--em--1
 
 * Bei englischen Nomen, die auf "y" enden, wird beim Plural nur ein einzelnes "s" angehängt (kein ies). Siehe hierzu auch http://www.duden.de/sprachwissen/sprachratgeber/crashkurs--in-25-schritten-zur-neuen-rechtschreibung
+
+#### Schreibweise von verschiedenen Git-Begriffen ####
+
+##### A - D #####
+
+* Branch (Plural: Branches)
+* Branch-Name
+* Branch-Referenz (Plural: Branch-Referenzen)
+* Commit
+* Commit-Datum
+* Commit-ID
+* Commit-Objekt (Plural: Commit-Objekte)
+* Commit-Nachricht
+* Drei-Punkte-Syntax
+
+##### E - H #####
+
+* Git-Repository
+* HEAD
+* HEAD-Referenz
+
+##### I - Q #####
+
+* der Klon (Plural: Klone)
+* Low-Level-Operation
+
+##### R - T #####
+
+* Reflog-Ausgabe
+* Remote-Repository
+* Repository (Plural: Repositorys)
+* SHA-1
+* SHA-1-Hash (Genitiv: SHA-1-Hashes)
+* SHA-1-Hashwert (Plural: SHA-1-Hashwerte)
+* SHA-1-Prüfsumme
+* SHA-1-Wert
+* stagen (gestaget, ungestaget)
+* Staging-Area
+* Stash
+* stashen
+
+##### U - Z #####
+
+* Zwei-Punkte-Syntax
 
 ### Übersetzung von Git spezifischen Begriffen ###
 
@@ -379,63 +423,63 @@ Bitte den Status nicht aktualisieren. Dies übernimmt ein Maintainer.
 <td>Ja</td>
 <td>Nein</td>
 <td>Ja</td>
-<td bgcolor="yellow">Review notwendig</td>
+<td bgcolor="green">Ok</td>
 </tr>
 <tr>
 <td>6.1</td>
 <td>Ja</td>
 <td>Nein</td>
 <td>Ja</td>
-<td bgcolor="yellow">Review notwendig</td>
+<td bgcolor="green">Ok</td>
 </tr>
 <tr>
 <td>6.2</td>
 <td>Ja</td>
 <td>Nein</td>
 <td>Ja</td>
-<td bgcolor="yellow">Review notwendig</td>
+<td bgcolor="green">Ok</td>
 </tr>
 <tr>
 <td>6.3</td>
 <td>Ja</td>
 <td>Nein</td>
 <td>Ja</td>
-<td bgcolor="yellow">Review notwendig</td>
+<td bgcolor="green">Ok</td>
 </tr>
 <tr>
 <td>6.4</td>
 <td>Ja</td>
 <td>Nein</td>
 <td>Ja</td>
-<td bgcolor="yellow">Review notwendig</td>
+<td bgcolor="green">Ok</td>
 </tr>
 <tr>
 <td>6.5</td>
 <td>Ja</td>
 <td>Nein</td>
 <td>Ja</td>
-<td bgcolor="yellow">Review notwendig</td>
+<td bgcolor="green">Ok</td>
 </tr>
 <tr>
 <td>6.6</td>
 <td>Ja</td>
 <td>Nein</td>
 <td>Ja</td>
-<td bgcolor="yellow">Review notwendig</td>
+<td bgcolor="green">Ok</td>
 </tr>
 <tr>
 <td>6.7</td>
 <td>Nein</td>
 <td>Nein</td>
 <td>Ja</td>
-<td bgcolor="red">Übersetzung fehlt</td>
+<td bgcolor="green">Ok</td>
 </tr>
 <tr>
 <td>6.8</td>
 <td>Nein</td>
 <td>Nein</td>
 <td>Ja</td>
-<td bgcolor="red">Übersetzung fehlt</td>
+<td bgcolor="green">Ok</td>
 </tr>
 <tr>
 <td>7</td>
@@ -512,63 +556,63 @@ Bitte den Status nicht aktualisieren. Dies übernimmt ein Maintainer.
 <td>Ja</td>
 <td>Nein</td>
 <td>Ja</td>
-<td bgcolor="yellow">Review notwendig</td>
+<td bgcolor="green">Ok</td>
 </tr>
 <tr>
 <td>9.1</td>
 <td>Ja</td>
 <td>Nein</td>
 <td>Ja</td>
-<td bgcolor="yellow">Review notwendig</td>
+<td bgcolor="green">Ok</td>
 </tr>
 <tr>
 <td>9.2</td>
 <td>Ja</td>
 <td>Nein</td>
 <td>Ja</td>
-<td bgcolor="yellow">Review notwendig</td>
+<td bgcolor="green">Ok</td>
 </tr>
 <tr>
 <td>9.3</td>
 <td>Ja</td>
 <td>Nein</td>
 <td>Ja</td>
-<td bgcolor="yellow">Review notwendig</td>
+<td bgcolor="green">Ok</td>
 </tr>
 <tr>
 <td>9.4</td>
 <td>Teilweise</td>
 <td>Nein</td>
 <td>Ja</td>
-<td bgcolor="yellow">Review notwendig</td>
+<td bgcolor="green">Ok</td>
 </tr>
 <tr>
 <td>9.5</td>
 <td>Ja</td>
 <td>Nein</td>
 <td>Ja</td>
-<td bgcolor="yellow">Review notwendig</td>
+<td bgcolor="green">Ok</td>
 </tr>
 <tr>
 <td>9.6</td>
 <td>Ja</td>
 <td>Nein</td>
 <td>Ja</td>
-<td bgcolor="yellow">Review notwendig</td>
+<td bgcolor="green">Ok</td>
 </tr>
 <tr>
 <td>9.7</td>
 <td>Ja</td>
 <td>Nein</td>
 <td>Ja</td>
-<td bgcolor="yellow">Review notwendig</td>
+<td bgcolor="green">Ok</td>
 </tr>
 <tr>
 <td>9.8</td>
 <td>Ja</td>
 <td>Nein</td>
 <td>Ja</td>
-<td bgcolor="yellow">Review notwendig</td>
+<td bgcolor="green">Ok</td>
 </tr>
 <tr>
 <td>Index of Commands</td>

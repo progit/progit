@@ -156,13 +156,13 @@ diff包装脚本首先确定传递过来7个参数，随后把其中2个传递�
 
 由于你仅仅需要`old-file`和`new-file`参数，用diff包装脚本来传递它们吧。
 
-	$ cat /usr/local/bin/extDiff 
+	$ cat /usr/local/bin/extDiff
 	#!/bin/sh
 	[ $# -eq 7 ] && /usr/local/bin/extMerge "$2" "$5"
 
 确认这两个脚本是可执行的：
 
-	$ sudo chmod +x /usr/local/bin/extMerge 
+	$ sudo chmod +x /usr/local/bin/extMerge
 	$ sudo chmod +x /usr/local/bin/extDiff
 
 现在来配置使用你自定义的比较和合并工具吧。这需要许多自定义设置：`merge.tool`通知 Git 使用哪个合并工具；`mergetool.*.cmd`规定命令运行的方式；`mergetool.trustExitCode`会通知 Git 程序的退出是否指示合并操作成功；`diff.external`通知 Git 用什么命令做比较。因此，你能运行以下4条配置命令：
@@ -184,12 +184,12 @@ diff包装脚本首先确定传递过来7个参数，随后把其中2个传递�
 	  external = extDiff
 
 设置完毕后，运行diff命令：
-	
+
 	$ git diff 32d1776b1^ 32d1776b1
 
 命令行居然没有发现diff命令的输出，其实，Git 调用了刚刚设置的P4Merge，它看起来像图7-1这样：
 
-Insert 18333fig0701.png 
+Insert 18333fig0701.png
 Figure 7-1. P4Merge.
 
 当你设法合并两个分支，结果却有冲突时，运行`git mergetool`，Git 会调用P4Merge让你通过图形界面来解决冲突。
@@ -197,7 +197,7 @@ Figure 7-1. P4Merge.
 设置包装脚本的好处是你能简单地改变diff和merge工具，例如把`extDiff`和`extMerge`改成KDiff3，要做的仅仅是编辑`extMerge`脚本文件：
 
 	$ cat /usr/local/bin/extMerge
-	#!/bin/sh	
+	#!/bin/sh
 	/Applications/kdiff3.app/Contents/MacOS/kdiff3 $*
 
 现在 Git 会使用KDiff3来做比较、合并和解决冲突。
@@ -271,7 +271,7 @@ Git默认情况下不会在推送期间检查所有对象的一致性。虽然�
 
 要禁用这样的强制更新功能，可以设置`receive.denyNonFastForwards`：
 
-    $ git config --system receive.denyNonFastForwards true
+	$ git config --system receive.denyNonFastForwards true
 
 稍后你会看到，用服务器端的接收钩子也能达到同样的目的。这个方法可以做更细致的控制，例如：禁用特定的用户做强制更新。
 
@@ -279,7 +279,7 @@ Git默认情况下不会在推送期间检查所有对象的一致性。虽然�
 
 规避`denyNonFastForwards`策略的方法之一就是用户删除分支，然后推回新的引用。在更新的 Git 版本中（从1.6.1版本开始），把`receive.denyDeletes`设置为true：
 
-    $ git config --system receive.denyDeletes true
+	$ git config --system receive.denyDeletes true
 
 这样会在推送过程中阻止删除分支和标签 — 没有用户能够这么做。要删除远程分支，必须从服务器手动删除引用文件。通过用户访问控制列表也能这么做，在本章结尾将会介绍这些有趣的方式。
 
@@ -299,75 +299,137 @@ Git默认情况下不会在推送期间检查所有对象的一致性。虽然�
 
 让 Git 把所有`pbxproj`文件当成二进制文件，在`.gitattributes`文件中设置如下：
 
-    *.pbxproj -crlf -diff
+	*.pbxproj -crlf -diff
 
 现在，Git 会尝试转换和修正CRLF（回车换行）问题，也不会当你在项目中运行git show或git diff时，比较不同的内容。在Git 1.6及之后的版本中，可以用一个宏代替`-crlf -diff`：
 
-    *.pbxproj binary
+	*.pbxproj binary
 
 #### 比较二进制文件 ####
 
-在Git 1.6及以上版本中，你能利用 Git 属性来有效地比较二进制文件。可以设置 Git 把二进制数据转换成文本格式，用通常的diff来比较。
+在 Git 中，你能利用 Git 属性来有效地比较二进制文件。可以设置 Git 把二进制数据转换成文本格式，用通常的diff来比较。
+
+We'll make use of the both described approaches to get usable diffs for some widely used binary formats.
+
+Side note: There are different kinds of binary formats with a text content, which are hard to find usable converter for. In such a case you could try to extract a text from your file with the `strings` program. Some of these files may use an UTF-16 encoding or other "codepages" and `strings` won’t find anything useful in there. Your mileage may vary. However, `strings` is available on most Mac and Linux systems, so it may be a good first try to do this with many binary formats.
+
+##### MS Word files #####
 
 这个特性很酷，而且鲜为人知，因此我会结合实例来讲解。首先，要解决的是最令人头疼的问题：对Word文档进行版本控制。很多人对Word文档又恨又爱，如果想对其进行版本控制，你可以把文件加入到 Git 库中，每次修改后提交即可。但这样做没有一点实际意义，因为运行`git diff`命令后，你只能得到如下的结果：
 
-    $ git diff
-    diff --git a/chapter1.doc b/chapter1.doc
-    index 88839c4..4afcb7c 100644
-    Binary files a/chapter1.doc and b/chapter1.doc differ
+	$ git diff
+	diff --git a/chapter1.doc b/chapter1.doc
+	index 88839c4..4afcb7c 100644
+	Binary files a/chapter1.doc and b/chapter1.doc differ
 
 你不能直接比较两个不同版本的Word文件，除非进行手动扫描，不是吗？ Git 属性能很好地解决此问题，把下面的行加到`.gitattributes`文件：
 
-    *.doc diff=word
+	*.doc diff=word
 
 当你要看比较结果时，如果文件扩展名是"doc"，Git 调用"word"过滤器。什么是"word"过滤器呢？其实就是 Git 使用`strings` 程序，把Word文档转换成可读的文本文件，之后再进行比较：
 
-    $ git config diff.word.textconv strings
+	$ git config diff.word.textconv catdoc
+
+This command adds a section to your `.git/config` that looks like this:
+
+	[diff "word"]
+		textconv = catdoc
 
 现在如果在两个快照之间比较以`.doc`结尾的文件，Git 对这些文件运用"word"过滤器，在比较前把Word文件转换成文本文件。
 
 下面展示了一个实例，我把此书的第一章纳入 Git 管理，在一个段落中加入了一些文本后保存，之后运行`git diff`命令，得到结果如下：
 
-    $ git diff
-    diff --git a/chapter1.doc b/chapter1.doc
-    index c1c8a0a..b93c9e4 100644
-    --- a/chapter1.doc
-    +++ b/chapter1.doc
-    @@ -8,7 +8,8 @@ re going to cover Version Control Systems (VCS) and Git basics
-     re going to cover how to get it and set it up for the first time if you don
-     t already have it on your system.
-     In Chapter Two we will go over basic Git usage - how to use Git for the 80%
-    -s going on, modify stuff and contribute changes. If the book spontaneously
-    +s going on, modify stuff and contribute changes. If the book spontaneously
-    +Let's see if this works.
+	$ git diff
+	diff --git a/chapter1.doc b/chapter1.doc
+	index c1c8a0a..b93c9e4 100644
+	--- a/chapter1.doc
+	+++ b/chapter1.doc
+	@@ -128,7 +128,7 @@ and data size)
+	 Since its birth in 2005, Git has evolved and matured to be easy to use
+	 and yet retain these initial qualities. It’s incredibly fast, it’s
+	 very efficient with large projects, and it has an incredible branching
+	-system for non-linear development.
+	+system for non-linear development (See Chapter 3).
 
 Git 成功且简洁地显示出我增加的文本"Let’s see if this works"。虽然有些瑕疵，在末尾显示了一些随机的内容，但确实可以比较了。如果你能找到或自己写个Word到纯文本的转换器的话，效果可能会更好。 `strings`可以在大部分Mac和Linux系统上运行，所以它是处理二进制格式的第一选择。
 
+##### OpenDocument Text files #####
+
+The same approach that we used for MS Word files (`*.doc`) can be used for OpenDocument Text files (`*.odt`) created by OpenOffice.org.
+
+Add the following line to your `.gitattributes` file:
+
+	*.odt diff=odt
+
+Now set up the `odt` diff filter in `.git/config`:
+
+	[diff "odt"]
+		binary = true
+		textconv = /usr/local/bin/odt-to-txt
+
+OpenDocument files are actually zip’ped directories containing multiple files (the content in an XML format, stylesheets, images, etc.). We’ll need to write a script to extract the content and return it as plain text. Create a file `/usr/local/bin/odt-to-txt` (you are free to put it into a different directory) with the following content:
+
+	#! /usr/bin/env perl
+	# Simplistic OpenDocument Text (.odt) to plain text converter.
+	# Author: Philipp Kempgen
+
+	if (! defined($ARGV[0])) {
+		print STDERR "No filename given!\n";
+		print STDERR "Usage: $0 filename\n";
+		exit 1;
+	}
+
+	my $content = '';
+	open my $fh, '-|', 'unzip', '-qq', '-p', $ARGV[0], 'content.xml' or die $!;
+	{
+		local $/ = undef;  # slurp mode
+		$content = <$fh>;
+	}
+	close $fh;
+	$_ = $content;
+	s/<text:span\b[^>]*>//g;           # remove spans
+	s/<text:h\b[^>]*>/\n\n*****  /g;   # headers
+	s/<text:list-item\b[^>]*>\s*<text:p\b[^>]*>/\n    --  /g;  # list items
+	s/<text:list\b[^>]*>/\n\n/g;       # lists
+	s/<text:p\b[^>]*>/\n  /g;          # paragraphs
+	s/<[^>]+>//g;                      # remove all XML tags
+	s/\n{2,}/\n\n/g;                   # remove multiple blank lines
+	s/\A\n+//;                         # remove leading blank lines
+	print "\n", $_, "\n\n";
+
+And make it executable
+
+	chmod +x /usr/local/bin/odt-to-txt
+
+Now `git diff` will be able to tell you what changed in `.odt` files.
+
+##### Image files #####
+
 你还能用这个方法比较图像文件。当比较时，对JPEG文件运用一个过滤器，它能提炼出EXIF信息 — 大部分图像格式使用的元数据。如果你下载并安装了`exiftool`程序，可以用它参照元数据把图像转换成文本。比较的不同结果将会用文本向你展示：
 
-    $ echo '*.png diff=exif' >> .gitattributes
-    $ git config diff.exif.textconv exiftool
+	$ echo '*.png diff=exif' >> .gitattributes
+	$ git config diff.exif.textconv exiftool
 
 如果在项目中替换了一个图像文件，运行`git diff`命令的结果如下：
 
-    diff --git a/image.png b/image.png
-    index 88839c4..4afcb7c 100644
-    --- a/image.png
-    +++ b/image.png
-    @@ -1,12 +1,12 @@
-     ExifTool Version Number         : 7.74
-    -File Size                       : 70 kB
-    -File Modification Date/Time     : 2009:04:21 07:02:45-07:00
-    +File Size                       : 94 kB
-    +File Modification Date/Time     : 2009:04:21 07:02:43-07:00
-     File Type                       : PNG
-     MIME Type                       : image/png
-    -Image Width                     : 1058
-    -Image Height                    : 889
-    +Image Width                     : 1056
-    +Image Height                    : 827
-     Bit Depth                       : 8
-     Color Type                      : RGB with Alpha
+	diff --git a/image.png b/image.png
+	index 88839c4..4afcb7c 100644
+	--- a/image.png
+	+++ b/image.png
+	@@ -1,12 +1,12 @@
+	 ExifTool Version Number         : 7.74
+	-File Size                       : 70 kB
+	-File Modification Date/Time     : 2009:04:17 10:12:35-07:00
+	+File Size                       : 94 kB
+	+File Modification Date/Time     : 2009:04:21 07:02:43-07:00
+	 File Type                       : PNG
+	 MIME Type                       : image/png
+	-Image Width                     : 1058
+	-Image Height                    : 889
+	+Image Width                     : 1056
+	+Image Height                    : 827
+	 Bit Depth                       : 8
+	 Color Type                      : RGB with Alpha
 
 你会发现文件的尺寸大小发生了改变。
 
@@ -377,15 +439,15 @@ Git 成功且简洁地显示出我增加的文本"Let’s see if this works"。�
 
 首先，你能够把blob的SHA-1校验和自动注入文件的`$Id$`字段。如果在一个或多个文件上设置了此字段，当下次你签出分支的时候，Git 用blob的SHA-1值替换那个字段。注意，这不是提交对象的SHA校验和，而是blob本身的校验和：
 
-    $ echo '*.txt ident' >> .gitattributes
-    $ echo '$Id$' > test.txt
+	$ echo '*.txt ident' >> .gitattributes
+	$ echo '$Id$' > test.txt
 
 下次签出文件时，Git 入了blob的SHA值：
 
-    $ rm text.txt
-    $ git checkout -- text.txt
-    $ cat test.txt
-    $Id: 42812b7653c7b88933f8a9d6cad0ca16714b9bb3 $
+	$ rm test.txt
+	$ git checkout -- test.txt
+	$ cat test.txt
+	$Id: 42812b7653c7b88933f8a9d6cad0ca16714b9bb3 $
 
 然而，这样的显示结果没有多大的实际意义。这个SHA的值相当地随机，无法区分日期的前后，所以，如果你在CVS或Subversion中用过关键字替换，一定会包含一个日期值。
 
@@ -399,40 +461,40 @@ Insert 18333fig0703.png
 
 这里举一个简单的例子：在暂存前，用`indent`（缩进）程序过滤所有C源代码。在`.gitattributes`文件中设置"indent"过滤器过滤`*.c`文件：
 
-    *.c     filter=indent
+	*.c     filter=indent
 
 然后，通过以下配置，让 Git 知道"indent"过滤器在遇到"smudge"和"clean"时分别该做什么：
 
-    $ git config --global filter.indent.clean indent
-    $ git config --global filter.indent.smudge cat
+	$ git config --global filter.indent.clean indent
+	$ git config --global filter.indent.smudge cat
 
 于是，当你暂存`*.c`文件时，`indent`程序会被触发，在把它们签出之前，`cat`程序会被触发。但`cat`程序在这里没什么实际作用。这样的组合，使C源代码在暂存前被`indent`程序过滤，非常有效。
 
 另一个例子是类似RCS的`$Date$`关键字扩展。为了演示，需要一个小脚本，接受文件名参数，得到项目的最新提交日期，最后把日期写入该文件。下面用Ruby脚本来实现：
 
-    #! /usr/bin/env ruby
-    data = STDIN.read
-    last_date = `git log --pretty=format:"%ad" -1`
-    puts data.gsub('$Date$', '$Date: ' + last_date.to_s + '$')
+	#! /usr/bin/env ruby
+	data = STDIN.read
+	last_date = `git log --pretty=format:"%ad" -1`
+	puts data.gsub('$Date$', '$Date: ' + last_date.to_s + '$')
 
 该脚本从`git log`命令中得到最新提交日期，找到文件中的所有`$Date$`字符串，最后把该日期填充到`$Date$`字符串中 — 此脚本很简单，你可以选择你喜欢的编程语言来实现。把该脚本命名为`expand_date`，放到正确的路径中，之后需要在 Git 中设置一个过滤器（`dater`），让它在签出文件时调用`expand_date`，在暂存文件时用Perl清除之：
 
-    $ git config filter.dater.smudge expand_date
-    $ git config filter.dater.clean 'perl -pe "s/\\\$Date[^\\\$]*\\\$/\\\$Date\\\$/"'
+	$ git config filter.dater.smudge expand_date
+	$ git config filter.dater.clean 'perl -pe "s/\\\$Date[^\\\$]*\\\$/\\\$Date\\\$/"'
 
 这个Perl小程序会删除`$Date$`字符串里多余的字符，恢复`$Date$`原貌。到目前为止，你的过滤器已经设置完毕，可以开始测试了。打开一个文件，在文件中输入`$Date$`关键字，然后设置 Git 属性：
 
-    $ echo '# $Date$' > date_test.txt
-    $ echo 'date*.txt filter=dater' >> .gitattributes
+	$ echo '# $Date$' > date_test.txt
+	$ echo 'date*.txt filter=dater' >> .gitattributes
 
 如果暂存该文件，之后再签出，你会发现关键字被替换了：
 
-    $ git add date_test.txt .gitattributes
-    $ git commit -m "Testing date expansion in Git"
-    $ rm date_test.txt
-    $ git checkout date_test.txt
-    $ cat date_test.txt
-    # $Date: Tue Apr 21 07:26:52 2009 -0700$
+	$ git add date_test.txt .gitattributes
+	$ git commit -m "Testing date expansion in Git"
+	$ rm date_test.txt
+	$ git checkout date_test.txt
+	$ cat date_test.txt
+	# $Date: Tue Apr 21 07:26:52 2009 -0700$
 
 虽说这项技术对自定义应用来说很有用，但还是要小心，因为`.gitattributes`文件会随着项目一起提交，而过滤器（例如：`dater`）不会，所以，过滤器不会在所有地方都生效。当你在设计这些过滤器时要注意，即使它们无法正常工作，也要让整个项目运作下去。
 
@@ -446,7 +508,7 @@ Git属性在导出项目归档时也能发挥作用。
 
 例如，在`test/`子目录中有一些测试文件，在项目的压缩包中包含他们是没有意义的。因此，可以增加下面这行到 Git 属性文件中：
 
-    test/ export-ignore
+	test/ export-ignore
 
 现在，当运行git archive来创建项目的压缩包时，那个目录不会在归档中出现。
 
@@ -454,15 +516,15 @@ Git属性在导出项目归档时也能发挥作用。
 
 还能对归档做一些简单的关键字替换。在第2章中已经可以看到，可以以`--pretty=format`形式的简码在任何文件中放入`$Format:$` 字符串。例如，如果想在项目中包含一个叫作`LAST_COMMIT`的文件，当运行`git archive`时，最后提交日期自动地注入进该文件，可以这样设置：
 
-    $ echo 'Last commit date: $Format:%cd$' > LAST_COMMIT
-    $ echo "LAST_COMMIT export-subst" >> .gitattributes
-    $ git add LAST_COMMIT .gitattributes
-    $ git commit -am 'adding LAST_COMMIT file for archives'
+	$ echo 'Last commit date: $Format:%cd$' > LAST_COMMIT
+	$ echo "LAST_COMMIT export-subst" >> .gitattributes
+	$ git add LAST_COMMIT .gitattributes
+	$ git commit -am 'adding LAST_COMMIT file for archives'
 
 运行`git archive`后，打开该文件，会发现其内容如下：
 
-    $ cat LAST_COMMIT
-    Last commit date: $Format:Tue Apr 21 08:38:48 2009 -0700$
+	$ cat LAST_COMMIT
+	Last commit date: $Format:Tue Apr 21 08:38:48 2009 -0700$
 
 ### 合并策略 ###
 
@@ -470,13 +532,13 @@ Git属性在导出项目归档时也能发挥作用。
 
 如果项目的一个分支有歧义或比较特别，但你想从该分支合并，而且需要忽略其中某些文件，这样的合并策略是有用的。例如，你有一个数据库设置文件database.xml，在2个分支中他们是不同的，你想合并一个分支到另一个，而不弄乱该数据库文件，可以设置属性如下：
 
-    database.xml merge=ours
+	database.xml merge=ours
 
 如果合并到另一个分支，database.xml文件不会有合并冲突，显示如下：
 
-    $ git merge topic
-    Auto-merging database.xml
-    Merge made by recursive.
+	$ git merge topic
+	Auto-merging database.xml
+	Merge made by recursive.
 
 这样，database.xml会保持原样。
 
@@ -682,7 +744,7 @@ update 脚本和 `pre-receive` 脚本十分类似。不同之处在于它会为�
 	        exit 1
 	      end
 	    end
-	  end  
+	  end
 	end
 
 	check_directory_perms
@@ -717,9 +779,9 @@ update 脚本和 `pre-receive` 脚本十分类似。不同之处在于它会为�
 	Writing objects: 100% (3/3), 323 bytes, done.
 	Total 3 (delta 1), reused 0 (delta 0)
 	Unpacking objects: 100% (3/3), done.
-	Enforcing Policies... 
+	Enforcing Policies...
 	(refs/heads/master) (8338c5) (c5b616)
-	[POLICY] Cannot push a non-fast-forward reference
+	[POLICY] Cannot push a non fast-forward reference
 	error: hooks/update exited with error code 1
 	error: hook declined to update refs/heads/master
 	To git@gitserver:project.git
@@ -728,8 +790,8 @@ update 脚本和 `pre-receive` 脚本十分类似。不同之处在于它会为�
 
 这里有几个有趣的信息。首先，我们可以看到挂钩运行的起点：
 
-	Enforcing Policies... 
-	(refs/heads/master) (fb8c72) (c56860)
+	Enforcing Policies...
+	(refs/heads/master) (8338c5) (c5b616)
 
 注意这是从 update 脚本开头输出到标准你输出的。所有从脚本输出的提示都会发送到客户端，这点很重要。
 
@@ -855,7 +917,7 @@ update 脚本和 `pre-receive` 脚本十分类似。不同之处在于它会为�
 	target_shas.each do |sha|
 	  remote_refs.each do |remote_ref|
 	    shas_pushed = `git rev-list ^#{sha}^@ refs/remotes/#{remote_ref}`
-	    if shas_pushed.split(“\n”).include?(sha)
+	    if shas_pushed.split("\n").include?(sha)
 	      puts "[POLICY] Commit #{sha} has already been pushed to #{remote_ref}"
 	      exit 1
 	    end

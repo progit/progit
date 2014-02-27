@@ -29,14 +29,14 @@ Git 中所有 Subversion 橋接命令的基礎是 `git svn` 。所有的命令�
 
 然後，允許所有用戶修改 revprop —— 簡單的做法是添加一個總是以 0 作為傳回值的 pre-revprop-change 腳本： 
 
-	$ cat /tmp/test-svn/hooks/pre-revprop-change 
+	$ cat /tmp/test-svn/hooks/pre-revprop-change
 	#!/bin/sh
 	exit 0;
 	$ chmod +x /tmp/test-svn/hooks/pre-revprop-change
 
 現在可以呼叫 `svnsync init`，參數加目標倉庫，再加來源倉庫，就可以把該專案同步到本地了： 
 
-	$ svnsync init file:///tmp/test-svn http://progit-example.googlecode.com/svn/ 
+	$ svnsync init file:///tmp/test-svn http://progit-example.googlecode.com/svn/
 
 這將建立進行同步所需的屬性(property)。可以通過執行以下命令來 clone 程式碼：
 
@@ -144,7 +144,6 @@ Git 中所有 Subversion 橋接命令的基礎是 `git svn` 。所有的命令�
 
 ### 拉取最新進展 ###
 
-If you’re working with other developers, then at some point one of you will push, and then the other one will try to push a change that conflicts. That change will be rejected until you merge in their work. In `git svn`, it looks like this:
 如果要與其他開發者協作，總有那麼一天你推送完畢之後，其他人發現他們推送自己修改的時候（與你推送的內容）產生衝突。這些修改在你合併之前將一直被拒絕。在 `git svn` 裡這種情況像這樣： 
 
 	$ git svn dcommit
@@ -282,7 +281,7 @@ Git 通過搜尋提交歷史中 Subversion 分支的頭部(tip)來決定 dcommit
 
 	------------------------------------------------------------------------
 	r85 | schacon | 2009-05-02 16:00:09 -0700 (Sat, 02 May 2009) | 2 lines
-	
+
 	updated the changelog
 
 關於 `git svn log` ，有兩點需要注意。首先，它可以離線工作，不像 `svn log 命令`，需要向 Subversion 伺服器索取資料。其次，它僅僅顯示已經提交到 Subversion 伺服器上的 commit。在本地尚未 dcommit 的 Git 資料不會出現在這裡；其他人向 Subversion 伺服器新提交的資料也不會顯示。等於說是顯示了最近已知 Subversion 伺服器上的狀態。 
@@ -291,19 +290,19 @@ Git 通過搜尋提交歷史中 Subversion 分支的頭部(tip)來決定 dcommit
 
 類似 `git svn log` 命令模擬了 `svn log` 命令的離線操作，`svn annotate` 的等效命令是 `git svn blame [檔案名]`。其輸出如下： 
 
-	$ git svn blame README.txt 
+	$ git svn blame README.txt
 	 2   temporal Protocol Buffers - Google's data interchange format
 	 2   temporal Copyright 2008 Google Inc.
 	 2   temporal http://code.google.com/apis/protocolbuffers/
-	 2   temporal 
+	 2   temporal
 	22   temporal C++ Installation - Unix
 	22   temporal =======================
-	 2   temporal 
+	 2   temporal
 	79    schacon Committing in git-svn.
-	78    schacon 
+	78    schacon
 	 2   temporal To build and install the C++ Protocol Buffer runtime and the Protocol
 	 2   temporal Buffer compiler (protoc) execute the following:
-	 2   temporal 
+	 2   temporal
 
 同樣，它不顯示本地的 Git 提交以及 Subversion 上後來更新的內容。
 
@@ -370,7 +369,7 @@ Git 通過搜尋提交歷史中 Subversion 分支的頭部(tip)來決定 dcommit
 
 為 `git svn` 提供該檔可以讓它更精確的映射作者資料。你還可以在 `clone` 或者 `init` 後面添加 `--no-metadata` 來阻止 `git svn` 包含那些 Subversion 的附加資訊。這樣 `import` 命令就變成了：
 
-	$ git-svn clone http://my-project.googlecode.com/svn/ \
+	$ git svn clone http://my-project.googlecode.com/svn/ \
 	      --authors-file=users.txt --no-metadata -s my_project
 
 現在 `my_project` 目錄下導入的 Subversion 應該比原來整潔多了。原來的 commit 看上去是這樣： 
@@ -383,7 +382,6 @@ Git 通過搜尋提交歷史中 Subversion 分支的頭部(tip)來決定 dcommit
 
 	    git-svn-id: https://my-project.googlecode.com/svn/trunk@94 4c93b258-373f-11de-
 	    be05-5f7a86268029
-
 現在是這樣： 
 
 	commit 03a8785f44c8ea5cdb0e8834b7c8e6c469be2ff2
@@ -398,19 +396,22 @@ Git 通過搜尋提交歷史中 Subversion 分支的頭部(tip)來決定 dcommit
 
 要把標籤變成合適的 Git 標籤，執行 
 
-	$ cp -Rf .git/refs/remotes/tags/* .git/refs/tags/
-	$ rm -Rf .git/refs/remotes/tags
+	$ git for-each-ref refs/remotes/tags | cut -d / -f 4- | grep -v @ | while read tagname; do git tag "$tagname" "tags/$tagname"; git branch -r -d "tags/$tagname"; done
 
 該命令將原本以 `tag/` 開頭的遠端分支的索引變成真正的 (lightweight) 標籤。 
 
 接下來，把 `refs/remotes` 下面剩下的索引(reference)變成本地分支： 
 
-	$ cp -Rf .git/refs/remotes/* .git/refs/heads/
-	$ rm -Rf .git/refs/remotes
+	$ git for-each-ref refs/remotes | cut -d / -f 3- | grep -v @ | while read branchname; do git branch "$branchname" "refs/remotes/$branchname"; git branch -r -d "$branchname"; done
 
 現在所有的舊分支都變成真正的 Git 分支，所有的舊標籤也變成真正的 Git 標籤。最後一項工作就是把新建的 Git 伺服器添加為遠端伺服器並且向它推送。為了讓所有的分支和標籤都得到上傳，我們使用這條命令： 
 
+	$ git remote add origin git@my-git-server:myrepository.git
+
+Because you want all your branches and tags to go up, you can now run this:
+
 	$ git push origin --all
+	$ git push origin --tags
 
 所有的分支和標籤現在都應該整齊乾淨的躺在新的 Git 伺服器裡了。 
 
@@ -510,7 +511,7 @@ Git 通過搜尋提交歷史中 Subversion 分支的頭部(tip)來決定 dcommit
 	    next if File.file?(dir)
 
 	    # move into the target directory
-	    Dir.chdir(dir) do 
+	    Dir.chdir(dir) do
 	      last_mark = print_export(dir, last_mark)
 	    end
 	  end
@@ -559,7 +560,8 @@ Git 通過搜尋提交歷史中 Subversion 分支的頭部(tip)來決定 dcommit
 	export_data('imported from ' + dir)
 	puts 'from :' + last_mark if last_mark
 
-為了簡化，時區寫死(hardcode)為（-0700）。如果是從其他版本控制系統導入，則必須以變數的形式指明時區。提交訊息必須以特定格式給出： 
+為了簡化，時區寫死(hardcode)為（-0700）。如果是從其他版本控制系統導入，則必須以變數的形式指明時區。
+提交訊息必須以特定格式給出： 
 
 	data (size)\n(contents)
 
@@ -605,7 +607,7 @@ Git 通過搜尋提交歷史中 Subversion 分支的頭部(tip)來決定 dcommit
 
 搞定了。現在執行該腳本，你將得到如下內容： 
 
-	$ ruby import.rb /opt/import_from 
+	$ ruby import.rb /opt/import_from
 	commit refs/heads/master
 	mark :1
 	committer Scott Chacon <schacon@geemail.com> 1230883200 -0700

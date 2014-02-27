@@ -26,7 +26,7 @@ Git では、データ転送用のネットワークプロトコルとして Loc
 
 	$ git clone file:///opt/git/project.git
 
-URL の先頭に `file://` を明示するかどうかで、Git の動きは微妙に異なります。単にパスを指定した場合は、Git はハードリンクを行うか、必要に応じて直接ファイルをコピーします。`file://` を指定した場合は、Git がプロセスを立ち上げ、そのプロセスが (通常は) ネットワーク越しにデータを転送します。一般的に、直接のコピーに比べてこれは非常に非効率的です。`file://` プレフィックスをつける最も大きな理由は、(他のバージョン管理システムからインポートしたときなどにあらわれる) 関係のない参照やオブジェクトを除いたクリーンなコピーがほしいということです。本書では通常のパス表記を使用します。そのほうがたいていの場合に高速となるからです。
+URL の先頭に `file://` を明示するかどうかで、Git の動きは微妙に異なります。`file://` を明示せずパスだけを指定し、かつコピー元とコピー先が同一のファイルシステム上にある場合は、Git は必要なオブジェクトにハードリンクを張ろうとします。もし異なるファイルシステム上にある場合は、Git はシステムデフォルトのファイルコピー機能を使って必要なオブジェクトをコピーします。一方 `file://` を指定した場合は、Git がプロセスを立ち上げ、そのプロセスが (通常は) ネットワーク越しにデータを転送します。一般的に、直接のコピーに比べてこれは非常に非効率的です。`file://` プレフィックスをつける最も大きな理由は、(他のバージョン管理システムからインポートしたときなどにあらわれる) 関係のない参照やオブジェクトを除いたクリーンなコピーがほしいということです。本書では通常のパス表記を使用します。そのほうがたいていの場合に高速となるからです。
 
 ローカルのリポジトリを既存の Git プロジェクトに追加するには、このようなコマンドを実行します。
 
@@ -70,7 +70,7 @@ SSH の欠点は、リポジトリへの匿名アクセスを許可できない�
 
 ### Git プロトコル ###
 
-次は Git プロトコルです。これは Git に標準で付属する特別なデーモンです。専用のポート (9418) をリスンし、SSH プロトコルと同様のサービスを提供しますが、認証は行いません。Git プロトコルを提供するリポジトリを準備するには、`git-export-daemon-ok` というファイルを作らなければなりません (このファイルがなければデーモンはサービスを提供しません)。ただ、このままでは一切セキュリティはありません。Git リポジトリをすべての人に開放し、クローンさせることができます。しかし、一般に、このプロトコルでプッシュさせることはありません。プッシュアクセスを認めることは可能です。しかし認証がないということは、その URL を知ってさえいればインターネット上の誰もがプロジェクトにプッシュできるということになります。これはありえない話だと言っても差し支えないでしょう。
+次は Git プロトコルです。これは Git に標準で付属する特別なデーモンです。専用のポート (9418) をリスンし、SSH プロトコルと同様のサービスを提供しますが、認証は行いません。Git プロトコルを提供するリポジトリを準備するには、`git-daemon-export-ok` というファイルを作らなければなりません (このファイルがなければデーモンはサービスを提供しません)。ただ、このままでは一切セキュリティはありません。Git リポジトリをすべての人に開放し、クローンさせることができます。しかし、一般に、このプロトコルでプッシュさせることはありません。プッシュアクセスを認めることは可能です。しかし認証がないということは、その URL を知ってさえいればインターネット上の誰もがプロジェクトにプッシュできるということになります。これはありえない話だと言っても差し支えないでしょう。
 
 #### 利点 ####
 
@@ -115,7 +115,8 @@ HTTP によるリポジトリの提供の問題点は、クライアント側か
 Git サーバーを立ち上げるには、既存のリポジトリをエクスポートして新たなベアリポジトリ (作業ディレクトリを持たないリポジトリ) を作らなければなりません。これは簡単にできます。リポジトリをクローンして新たにベアリポジトリを作成するには、clone コマンドでオプション `--bare` を指定します。慣例により、ベアリポジトリのディレクトリ名の最後は `.git` とすることになっています。
 
 	$ git clone --bare my_project my_project.git
-	Initialized empty Git repository in /opt/projects/my_project.git/
+    Cloning into bare repository 'my_project.git'...
+    done.
 
 このコマンドを実行したときの出力はちょっとわかりにくいかもしれません。`clone` は基本的に `git init` をしてから `git fetch` をするのと同じことなので、`git init` の部分の出力も見ることになります。そのメッセージは「空のディレクトリを作成しました」というものです。実際にどんなオブジェクトの転送が行われたのかは何も表示されませんが、きちんと転送は行われています。これで、`my_project.git` ディレクトリに Git リポジトリのデータができあがりました。
 
@@ -186,7 +187,7 @@ Git サーバーを立ち上げるには、既存のリポジトリをエクス�
 
 まず、鍵の保存先 (`.ssh/id_rsa`) を指定し、それからパスフレーズを二回入力するよう求められます。鍵を使うときにパスフレーズを入力したくない場合は、パスフレーズを空のままにしておきます。
 
-さて、次に各ユーザーは自分の公開鍵をあなた (あるいは Git サーバーの管理者である誰か) に送らなければなりません (ここでは、すでに公開鍵認証を使用するように SSH サーバーが設定済みであると仮定します)。公開鍵を送るには、`.pub` ファイルの中身をコピーしてメールで送ります (訳注: メールなんかで送っていいの? とツッコミたいところだ……)。公開鍵は、このようなファイルになります。
+さて、次に各ユーザーは自分の公開鍵をあなた (あるいは Git サーバーの管理者である誰か) に送らなければなりません (ここでは、すでに公開鍵認証を使用するように SSH サーバーが設定済みであると仮定します)。公開鍵を送るには、`.pub` ファイルの中身をコピーしてメールで送ります。公開鍵は、このようなファイルになります。
 
 	$ cat ~/.ssh/id_rsa.pub
 	ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAklOUpkDHrfHY17SbrmTIpNLTGK9Tjom/BWDSU
@@ -284,6 +285,13 @@ Git サーバーを立ち上げるには、既存のリポジトリをエクス�
 
 	$ cat .git/hooks/post-update
 	#!/bin/sh
+    #
+    # An example hook script to prepare a packed repository for use over
+    # dumb transports.
+    #
+    # To enable this hook, rename this file to "post-update".
+    #
+    
 	exec git-update-server-info
 
 SSH 経由でサーバーへのプッシュが行われると、Git はこのコマンドを実行し、HTTP 経由での取得に必要なファイルを更新します。
@@ -365,7 +373,7 @@ Gitosis は Python のツールを使います。まずは Python の setuptools
 
 次に、プロジェクトのメインサイトから Gitosis をクローンしてインストールします。
 
-	$ git clone git://eagain.net/gitosis.git
+	$ git clone https://github.com/tv42/gitosis.git
 	$ cd gitosis
 	$ sudo python setup.py install
 
@@ -399,7 +407,7 @@ Gitosis は鍵の管理も行うので、まず現在の鍵ファイルを削除
 
 	$ ssh git@gitserver
 	PTY allocation request failed on channel 0
-	fatal: unrecognized command 'gitosis-serve schacon@quaternion'
+    ERROR:gitosis.serve.main:Need SSH_ORIGINAL_COMMAND in environment.
 	  Connection to gitserver closed.
 
 これは「何も Git のコマンドを実行していないので、接続を拒否した」というメッセージです。では、実際に何か Git のコマンドを実行してみましょう。Gitosis 管理リポジトリをクローンします。
@@ -423,28 +431,28 @@ Gitosis は鍵の管理も行うので、まず現在の鍵ファイルを削除
 	[gitosis]
 
 	[group gitosis-admin]
-	writable = gitosis-admin
 	members = scott
+	writable = gitosis-admin
 
 これは、'scott' ユーザー（Gitosis の初期化時に公開鍵を指定したユーザー）だけが `gitosis-admin` プロジェクトにアクセスできるという意味です。
 
 では、新しいプロジェクトを追加してみましょう。`mobile` という新しいセクションを作成し、モバイルチームのメンバーとモバイルチームがアクセスするプロジェクトを書き入れます。今のところ存在するユーザーは 'scott' だけなので、とりあえずは彼をメンバーとして追加します。そして、新しいプロジェクト `iphone_project` を作ることにしましょう。
 
 	[group mobile]
-	writable = iphone_project
 	members = scott
+	writable = iphone_project
 
 `gitosis-admin` プロジェクトに手を入れたら、それをコミットしてサーバーにプッシュしないと変更が反映されません。
 
 	$ git commit -am 'add iphone_project and mobile group'
-	[master]: created 8962da8: "changed name"
-	 1 files changed, 4 insertions(+), 0 deletions(-)
-	$ git push
+    [master 8962da8] add iphone_project and mobile group
+     1 file changed, 4 insertions(+)
+    $ git push origin master
 	Counting objects: 5, done.
-	Compressing objects: 100% (2/2), done.
-	Writing objects: 100% (3/3), 272 bytes, done.
-	Total 3 (delta 1), reused 0 (delta 0)
-	To git@gitserver:/opt/git/gitosis-admin.git
+    Compressing objects: 100% (3/3), done.
+    Writing objects: 100% (3/3), 272 bytes | 0 bytes/s, done.
+    Total 3 (delta 0), reused 0 (delta 0)
+    To git@gitserver:gitosis-admin.git
 	   fb27aec..8962da8  master -> master
 
 新しい `iphone_project` プロジェクトにプッシュするには、ローカル側のプロジェクトに、このサーバーをリモートとして追加します。サーバー側でわざわざベアリポジトリを作る必要はありません。先ほどプッシュした地点で、Gitosis が自動的にベアリポジトリの作成を済ませています。
@@ -453,7 +461,7 @@ Gitosis は鍵の管理も行うので、まず現在の鍵ファイルを削除
 	$ git push origin master
 	Initialized empty Git repository in /opt/git/iphone_project.git/
 	Counting objects: 3, done.
-	Writing objects: 100% (3/3), 230 bytes, done.
+    Writing objects: 100% (3/3), 230 bytes | 0 bytes/s, done.
 	Total 3 (delta 0), reused 0 (delta 0)
 	To git@gitserver:iphone_project.git
 	 * [new branch]      master -> master
@@ -469,20 +477,20 @@ Gitosis は鍵の管理も行うので、まず現在の鍵ファイルを削除
 そして彼らを 'mobile' チームに追加し、`iphone_project` を読み書きできるようにします。
 
 	[group mobile]
-	writable = iphone_project
 	members = scott john josie jessica
+	writable = iphone_project
 
 この変更をコミットしてプッシュすると、この四人のユーザーがプロジェクトへの読み書きをできるようになります。
 
 Gitosis にはシンプルなアクセス制御機能もあります。John には読み込み専用のアクセス権を設定したいという場合は、このようにします。
 
 	[group mobile]
-	writable = iphone_project
 	members = scott josie jessica
+	writable = iphone_project
 
 	[group mobile_ro]
-	readonly = iphone_project
 	members = john
+	readonly = iphone_project
 
 John はプロジェクトをクローンして変更内容を受け取れます。しかし、手元での変更をプッシュしようとすると Gitosis に拒否されます。このようにして好きなだけのグループを作成し、それぞれに個別のユーザーとプロジェクトを含めることができます。また、グループのメンバーとして別のグループを指定し (その場合は先頭に `@` をつけます)、メンバーを自動的に継承することもできます。
 
@@ -490,12 +498,12 @@ John はプロジェクトをクローンして変更内容を受け取れます
 	members = scott josie jessica
 
 	[group mobile]
-	writable  = iphone_project
 	members   = @mobile_committers
+	writable  = iphone_project
 
 	[group mobile_2]
-	writable  = another_iphone_project
 	members   = @mobile_committers john
+	writable  = another_iphone_project
 
 何か問題が発生した場合には、`[gitosis]` セクションの下に `loglevel=DEBUG` を書いておくと便利です。設定ミスでプッシュ権限を奪われてしまった場合は、サーバー上の `/home/git/.gitosis.conf` を直接編集して元に戻します。Gitosis は、このファイルから情報を読み取っています。`gitosis.conf` ファイルへの変更がプッシュされてきたときに、その内容をこのファイルに書き出します。このファイルを手動で変更しても、次に `gitosis-admin` プロジェクトへのプッシュが成功した時点でその内容が書き換えられることになります。
 

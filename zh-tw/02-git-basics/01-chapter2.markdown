@@ -46,7 +46,7 @@ Git提供很多種協定給讀者使用。 上一個範例採用 `git://` 協定
 
 只要讀者編輯任何已被追蹤的檔案。 Git將它們視為被更動的，因為讀者將它們改成與最後一次提交不同。 讀者暫存這些已更動檔案並提供所有被暫存的更新， 並重複此週期。 此生命週期如圖2-1所示。
 
-Insert 18333fig0201.png 
+Insert 18333fig0201.png
 圖2-1. 檔案狀態的生命週期。
 
 ### 檢視檔案的狀態 ###
@@ -54,8 +54,8 @@ Insert 18333fig0201.png
 主要給讀者用來檢視檔案的狀態是 git status 命令。 若讀者在複製完複本後馬上執行此命令，會看到如下的文字：
 
 	$ git status
-	# On branch master
-	nothing to commit (working directory clean)
+	On branch master
+	nothing to commit, working directory clean
 
 這意謂著讀者有一份乾淨的工作目錄（換句話說，沒有未被追蹤或已被修改的檔案）。 Git未看到任何未被追蹤的檔案，否則會將它們列出。 最後，這個命令告訴讀者目前在哪一個分支。 到目前為止，一直都是master，這是預設的。 目前讀者不用考慮它。 下一個章節會詳細介紹分支。
 
@@ -63,11 +63,12 @@ Insert 18333fig0201.png
 
 	$ vim README
 	$ git status
-	# On branch master
-	# Untracked files:
-	#   (use "git add <file>..." to include in what will be committed)
-	#
-	#	README
+	On branch master
+	Untracked files:
+	  (use "git add <file>..." to include in what will be committed)
+	
+	        README
+
 	nothing added to commit but untracked files present (use "git add" to track)
 
 讀者可看到新增的`README`尚未被追蹤，因為它被列在輸出訊息的 Untracked files 下方。 除非讀者明確指定要將該檔案加入提交的快照，Git不會主動將它加入。 這樣就不會突然地將一些二進位格式的檔案或其它讀者並不想加入的檔案含入。 讀者的確是要新增 `README` 檔案，因此讓我們開始追蹤該檔案。
@@ -81,12 +82,12 @@ Insert 18333fig0201.png
 若讀者再度檢查目前狀態，可看到`README`檔案已被列入追蹤並且已被暫存：
 
 	$ git status
-	# On branch master
-	# Changes to be committed:
-	#   (use "git reset HEAD <file>..." to unstage)
-	#
-	#	new file:   README
-	#
+	On branch master
+	Changes to be committed:
+	  (use "git reset HEAD <file>..." to unstage)
+	
+	        new file:   README
+	
 
 因為它被放在Changes to be commited文字下方，讀者可得知它已被暫存起來。 若讀者此時提交更新，剛才執行`git add`加進來的檔案就會被記錄在歷史的快照。 讀者可能可回想一下先前執行`git init`後也有執行過`git add`，開始追蹤目錄內的檔案。 `git add`命令可接受檔名或者目錄名。 若是目錄名，會遞迴將整個目錄下所有檔案及子目錄都加進來。
 
@@ -95,58 +96,60 @@ Insert 18333fig0201.png
 讓我們修改已被追蹤的檔案。 若讀者修改先前已被追蹤的檔案，名為`benchmarks.rb`，並檢查目前儲存庫的狀態。 讀者會看到類似以下文字：
 
 	$ git status
-	# On branch master
-	# Changes to be committed:
-	#   (use "git reset HEAD <file>..." to unstage)
-	#
-	#	new file:   README
-	#
-	# Changes not staged for commit:
-	#   (use "git add <file>..." to update what will be committed)
-	#
-	#	modified:   benchmarks.rb
-	#
+	On branch master
+	Changes to be committed:
+	  (use "git reset HEAD <file>..." to unstage)
+	
+	        new file:   README
+
+	Changes not staged for commit:
+	  (use "git add <file>..." to update what will be committed)
+	  (use "git checkout -- <file>..." to discard changes in working directory)
+	
+	        modified:   benchmarks.rb
+	
 
 `benchmarks.rb`檔案出現在 “Changes not staged for commit” 下方，代表著這個檔案已被追蹤，而且位於工作目錄的該檔案已被修改，但尚未暫存。 要暫存該檔案，可執行`git add`命令（這是一個多重用途的指令）。現在，讀者使用 `git add` 將`benchmarks.rb`檔案暫存起來，並再度執行`git status`：
 
 	$ git add benchmarks.rb
 	$ git status
-	# On branch master
-	# Changes to be committed:
-	#   (use "git reset HEAD <file>..." to unstage)
-	#
-	#	new file:   README
-	#	modified:   benchmarks.rb
-	#
+	On branch master
+	Changes to be committed:
+	  (use "git reset HEAD <file>..." to unstage)
+	
+	        new file:   README
+	        modified:   benchmarks.rb
+	
 
 這兩個檔案目前都被暫存起來，而且會進入下一次的提交。 假設讀者記得仍需要對`benchmarks.rb`做一點修改後才要提交，可再度開啟並編輯該檔案。 然而，當我們再度執行`git status`：
 
-	$ vim benchmarks.rb 
+	$ vim benchmarks.rb
 	$ git status
-	# On branch master
-	# Changes to be committed:
-	#   (use "git reset HEAD <file>..." to unstage)
-	#
-	#	new file:   README
-	#	modified:   benchmarks.rb
-	#
-	# Changes not staged for commit:
-	#   (use "git add <file>..." to update what will be committed)
-	#
-	#	modified:   benchmarks.rb
-	#
+	On branch master
+	Changes to be committed:
+	  (use "git reset HEAD <file>..." to unstage)
+	
+	        new file:   README
+	        modified:   benchmarks.rb
+	
+	Changes not staged for commit:
+	  (use "git add <file>..." to update what will be committed)
+	  (use "git checkout -- <file>..." to discard changes in working directory)
+	
+	        modified:   benchmarks.rb
+	
 
 到底發生了什麼事？ 現在`benchmarks.rb`同時被列在已被暫存及未被暫存。 這怎麼可能？ 這表示Git的確在讀者執行`git add`命令後，將檔案暫存起來。 若讀者現在提交更新，最近一次執行`git add`命令時暫存的`benchmarks.rb`會被提交。 若讀者在`git add`後修改檔案，需要再度執行`git add`將最新版的檔案暫存起來：
 
 	$ git add benchmarks.rb
 	$ git status
-	# On branch master
-	# Changes to be committed:
-	#   (use "git reset HEAD <file>..." to unstage)
-	#
-	#	new file:   README
-	#	modified:   benchmarks.rb
-	#
+	On branch master
+	Changes to be committed:
+	  (use "git reset HEAD <file>..." to unstage)
+	
+	        new file:   README
+	        modified:   benchmarks.rb
+	
 
 ### 忽略某些檔案 ###
 
@@ -167,7 +170,6 @@ Insert 18333fig0201.png
 
 Glob pattern就像是shell使用的簡化版正規運算式。 星號（`*`）匹配零個或多個字元；`[abc]`匹配中括弧內的任一字元（此例為`a`、`b`、`c`）；問號（`?`）匹配單一個字元；中括孤內的字以連字符連接（如：`[0-9]`），用來匹配任何符合該範圍的字（此例為0到9）。
 
-
 以下是另一個`.gitignore`的範例檔案：
 
 	# 註解，會被忽略。
@@ -181,6 +183,10 @@ Glob pattern就像是shell使用的簡化版正規運算式。 星號（`*`）�
 	build/
 	# 忽略doc/notes.txt但不包含doc/server/arch.txt
 	doc/*.txt
+	# ignore all .txt files in the doc/ directory
+	doc/**/*.txt
+
+A `**/` pattern is available in Git since version 1.8.2.
 
 ### 檢視已暫存及尚未暫存的更動 ###
 
@@ -189,17 +195,18 @@ Glob pattern就像是shell使用的簡化版正規運算式。 星號（`*`）�
 假設讀者編輯並暫存`README`，接者修改`benchmarks.rb`檔案，卻未暫存。 若讀者檢視目前的狀況，會看到類似下方文字：
 
 	$ git status
-	# On branch master
-	# Changes to be committed:
-	#   (use "git reset HEAD <file>..." to unstage)
-	#
-	#	new file:   README
-	#
-	# Changes not staged for commit:
-	#   (use "git add <file>..." to update what will be committed)
-	#
-	#	modified:   benchmarks.rb
-	#
+	On branch master
+	Changes to be committed:
+	  (use "git reset HEAD <file>..." to unstage)
+	
+	        new file:   README
+	
+	Changes not staged for commit:
+	  (use "git add <file>..." to update what will be committed)
+	  (use "git checkout -- <file>..." to discard changes in working directory)
+	
+	        modified:   benchmarks.rb
+	
 
 想瞭解尚未暫存的修改，執行`git diff`，不用帶任何參數：
 
@@ -244,20 +251,22 @@ Glob pattern就像是shell使用的簡化版正規運算式。 星號（`*`）�
 	$ git add benchmarks.rb
 	$ echo '# test line' >> benchmarks.rb
 	$ git status
-	# On branch master
-	#
-	# Changes to be committed:
-	#
-	#	modified:   benchmarks.rb
-	#
-	# Changes not staged for commit:
-	#
-	#	modified:   benchmarks.rb
-	#
+	On branch master
+	Changes to be committed:
+	  (use "git reset HEAD <file>..." to unstage)
+	
+	        modified:   benchmarks.rb
+	
+	Changes not staged for commit:
+	  (use "git add <file>..." to update what will be committed)
+	  (use "git checkout -- <file>..." to discard changes in working directory)
+	
+	        modified:   benchmarks.rb
+	
 
 現在讀者可使用`git diff`檢視哪些部份尚未被暫存：
 
-	$ git diff 
+	$ git diff
 	diff --git a/benchmarks.rb b/benchmarks.rb
 	index e445e28..86b2f7c 100644
 	--- a/benchmarks.rb
@@ -265,7 +274,7 @@ Glob pattern就像是shell使用的簡化版正規運算式。 星號（`*`）�
 	@@ -127,3 +127,4 @@ end
 	 main()
 
-	 ##pp Grit::GitRuby.cache_client.stats 
+	 ##pp Grit::GitRuby.cache_client.stats
 	+# test line
 
 以及使用`git diff --cached`檢視目前已暫存的變更：
@@ -282,7 +291,7 @@ Glob pattern就像是shell使用的簡化版正規運算式。 星號（`*`）�
 	+        run_code(x, 'commits 1') do
 	+          git.commits.size
 	+        end
-	+              
+	+
 	        run_code(x, 'commits 2') do
 	          log = git.commits('master', 15)
 	          log.size
@@ -302,10 +311,9 @@ Glob pattern就像是shell使用的簡化版正規運算式。 星號（`*`）�
 	# with '#' will be ignored, and an empty message aborts the commit.
 	# On branch master
 	# Changes to be committed:
-	#   (use "git reset HEAD <file>..." to unstage)
-	#
 	#       new file:   README
-	#       modified:   benchmarks.rb 
+	#       modified:   benchmarks.rb
+	#
 	~
 	~
 	~
@@ -316,8 +324,8 @@ Glob pattern就像是shell使用的簡化版正規運算式。 星號（`*`）�
 另一種方式則是在commit命令後方以`-m`參數指定提交訊息，如下：
 
 	$ git commit -m "Story 182: Fix benchmarks for speed"
-	[master]: created 463dc4f: "Fix benchmarks for speed"
-	 2 files changed, 3 insertions(+), 0 deletions(-)
+	[master 463dc4f] Fix benchmarks for speed
+	 2 files changed, 3 insertions(+)
 	 create mode 100644 README
 
 現在讀者已建立第一個提交！ 讀者可從輸出的訊息看到此提交、放到哪個分支（`master`）、SHA-1查核碼（`463dc4f`）、有多少檔案被更動，以及統計此提交有多少列被新增及移除。
@@ -329,15 +337,17 @@ Glob pattern就像是shell使用的簡化版正規運算式。 星號（`*`）�
 雖然優秀好用的暫存區域能很有技巧且精確的提交讀者想記錄的資訊，有時候暫存區域也比讀者實際需要的工作流程繁瑣。 若讀者想跳過暫存區域，Git提供了簡易的使用方式。 在`git commit`命令後方加上`-a`參數，Git自動將所有已被追蹤且被修改的檔案送到暫存區域並開始提交程序，讓讀者略過`git add`的步驟：
 
 	$ git status
-	# On branch master
-	#
-	# Changes not staged for commit:
-	#
-	#	modified:   benchmarks.rb
-	#
+	On branch master
+	Changes not staged for commit:
+	  (use "git add <file>..." to update what will be committed)
+	  (use "git checkout -- <file>..." to discard changes in working directory)
+	
+	        modified:   benchmarks.rb
+	
+	no changes added to commit (use "git add" and/or "git commit -a")
 	$ git commit -a -m 'added new benchmarks'
 	[master 83e38c7] added new benchmarks
-	 1 files changed, 5 insertions(+), 0 deletions(-)
+	 1 files changed, 5 insertions(+)
 
 留意本次的提交之前，讀者並不需要執行`git add`將`benchmarks.rb`檔案加入。
 
@@ -349,26 +359,26 @@ Glob pattern就像是shell使用的簡化版正規運算式。 星號（`*`）�
 
 	$ rm grit.gemspec
 	$ git status
-	# On branch master
-	#
-	# Changes not staged for commit:
-	#   (use "git add/rm <file>..." to update what will be committed)
-	#
-	#       deleted:    grit.gemspec
-	#
+	On branch master
+	Changes not staged for commit:
+	  (use "git add/rm <file>..." to update what will be committed)
+	  (use "git checkout -- <file>..." to discard changes in working directory)
+	
+	        deleted:    grit.gemspec
+	
+	no changes added to commit (use "git add" and/or "git commit -a")
 
 接著，若執行`git rm`，則會將暫存區域內的該檔案移除：
 
 	$ git rm grit.gemspec
 	rm 'grit.gemspec'
 	$ git status
-	# On branch master
-	#
-	# Changes to be committed:
-	#   (use "git reset HEAD <file>..." to unstage)
-	#
-	#       deleted:    grit.gemspec
-	#
+	On branch master
+	Changes to be committed:
+	  (use "git reset HEAD <file>..." to unstage)
+	
+	        deleted:    grit.gemspec
+	
 
 下一次提交時，該檔案將會消失而且不再被追蹤。 若已更動過該檔案且將它記錄到暫存區域。 必須使用`-f`參數才能將它強制移除。 這是為了避免已被記錄的快照意外被移除且再也無法使用Git復原。
 
@@ -398,14 +408,12 @@ Git並不像其它檔案控制系統一樣，明確地追蹤檔案的移動。 �
 
 	$ git mv README.txt README
 	$ git status
-	# On branch master
-	# Your branch is ahead of 'origin/master' by 1 commit.
-	#
-	# Changes to be committed:
-	#   (use "git reset HEAD <file>..." to unstage)
-	#
-	#       renamed:    README.txt -> README
-	#
+	On branch master
+	Changes to be committed:
+	  (use "git reset HEAD <file>..." to unstage)
+	
+	        renamed:    README.txt -> README
+	
 
 不過，這就相當於執行下列命令：
 
@@ -450,7 +458,7 @@ Git會在背後判斷檔案是否被更名，因此不管是用上述方法還�
 
 最常用的選項之一為 `-p`，用來顯示每個更新之間差別的內容。 另外還可以加上 `-2` 參數，限制為只輸出最後兩個更新。
 
-	$ git log –p -2
+	$ git log -p -2
 	commit ca82a6dff817ec66f44342007202690a93763949
 	Author: Scott Chacon <schacon@gee-mail.com>
 	Date:   Mon Mar 17 21:52:11 2008 -0700
@@ -461,11 +469,13 @@ Git會在背後判斷檔案是否被更名，因此不管是用上述方法還�
 	index a874b73..8f94139 100644
 	--- a/Rakefile
 	+++ b/Rakefile
-	@@ -5,7 +5,7 @@ require 'rake/gempackagetask'
+	@@ -5,5 +5,5 @@ require 'rake/gempackagetask'
 	 spec = Gem::Specification.new do |s|
+	     s.name      =   "simplegit"
 	-    s.version   =   "0.1.0"
 	+    s.version   =   "0.1.1"
 	     s.author    =   "Scott Chacon"
+	     s.email     =   "schacon@gee-mail.com
 
 	commit 085bb3bcb608e1e8451d4b2432f8ecbe6306e7e7
 	Author: Scott Chacon <schacon@gee-mail.com>
@@ -489,9 +499,30 @@ Git會在背後判斷檔案是否被更名，因此不管是用上述方法還�
 	\ No newline at end of file
 
 這個選項除了顯示相同的資訊外，還另外附上每個更新的差異。 這對於重新檢視或者快速的瀏覽協同工作伙伴新增的更新非常有幫助。
+
+Sometimes it's easier to review changes on the word level rather than on the line level. There is a `--word-diff` option available in Git, that you can append to the `git log -p` command to get word diff instead of normal line by line diff. Word diff format is quite useless when applied to source code, but it comes in handy when applied to large text files, like books or your dissertation. Here is an example:
+
+	$ git log -U1 --word-diff
+	commit ca82a6dff817ec66f44342007202690a93763949
+	Author: Scott Chacon <schacon@gee-mail.com>
+	Date:   Mon Mar 17 21:52:11 2008 -0700
+
+	    changed the version number
+
+	diff --git a/Rakefile b/Rakefile
+	index a874b73..8f94139 100644
+	--- a/Rakefile
+	+++ b/Rakefile
+	@@ -7,3 +7,3 @@ spec = Gem::Specification.new do |s|
+	    s.name      =   "simplegit"
+	    s.version   =   [-"0.1.0"-]{+"0.1.1"+}
+	    s.author    =   "Scott Chacon"
+
+As you can see, there is no added and removed lines in this output as in a normal diff. Changes are shown inline instead. You can see the added word enclosed in `{+ +}` and removed one enclosed in `[- -]`. You may also want to reduce the usual three lines context in diff output to only one line, as the context is now words, not lines. You can do this with `-U1` as we did in the example above.
+
 另外也可以使用`git log`提供的一系統摘要選項。 例如：若想檢視每個更新的簡略統計資訊，可使用 `--stat` 選項：
 
-	$ git log --stat 
+	$ git log --stat
 	commit ca82a6dff817ec66f44342007202690a93763949
 	Author: Scott Chacon <schacon@gee-mail.com>
 	Date:   Mon Mar 17 21:52:11 2008 -0700
@@ -499,7 +530,7 @@ Git會在背後判斷檔案是否被更名，因此不管是用上述方法還�
 	    changed the version number
 
 	 Rakefile |    2 +-
-	 1 files changed, 1 insertions(+), 1 deletions(-)
+	 1 file changed, 1 insertion(+), 1 deletion(-)
 
 	commit 085bb3bcb608e1e8451d4b2432f8ecbe6306e7e7
 	Author: Scott Chacon <schacon@gee-mail.com>
@@ -508,7 +539,7 @@ Git會在背後判斷檔案是否被更名，因此不管是用上述方法還�
 	    removed unnecessary test code
 
 	 lib/simplegit.rb |    5 -----
-	 1 files changed, 0 insertions(+), 5 deletions(-)
+	 1 file changed, 5 deletions(-)
 
 	commit a11bef06a3f659402fe7563abf99ad00de2209e6
 	Author: Scott Chacon <schacon@gee-mail.com>
@@ -519,7 +550,7 @@ Git會在背後判斷檔案是否被更名，因此不管是用上述方法還�
 	 README           |    6 ++++++
 	 Rakefile         |   23 +++++++++++++++++++++++
 	 lib/simplegit.rb |   25 +++++++++++++++++++++++++
-	 3 files changed, 54 insertions(+), 0 deletions(-)
+	 3 files changed, 54 insertions(+)
 
 如以上所示，`--stat`選項在每個更新項目的下方列出被更動的檔案、有多少檔案被更動，以及有多行列被加入或移出該檔案。 也會在最後印出摘要的訊息。
 其它實用的選項是 `--pretty`。 這個選項改變原本預設輸出的格式。 有數個內建的選項供讀者選用。 其中 `oneline` 選項將每一個更新印到單獨一行，對於檢視很多更新時很有用。 更進一步，`short`、`full`、`fuller` 選項輸出的格式大致相同，但會少一些或者多一些資訊。
@@ -537,6 +568,11 @@ Git會在背後判斷檔案是否被更名，因此不管是用上述方法還�
 	a11bef0 - Scott Chacon, 11 months ago : first commit
 
 表格2-1列出一些 `format` 支援的選項。
+
+<!-- Attention to translators: this is a table declaration.
+The lines must be formatted as follows
+<TAB><First column text><TAB><Second column text>
+-->
 
 	選項	選項的說明
 	%H	該更新的SHA1雜湊值
@@ -562,19 +598,25 @@ Git會在背後判斷檔案是否被更名，因此不管是用上述方法還�
 	$ git log --pretty=format:"%h %s" --graph
 	* 2d3acf9 ignore errors from SIGCHLD on trap
 	*  5e3ee11 Merge branch 'master' of git://github.com/dustin/grit
-	|\  
+	|\
 	| * 420eac9 Added a method for getting the current branch.
 	* | 30e367c timeout code and tests
 	* | 5a09431 add timeout protection to grit
 	* | e1193f8 support for heads with slashes in them
-	|/  
+	|/
 	* d6016bc require time for xmlschema
 	*  11d191e Merge branch 'defunkt' into local
 
 這些只是一些簡單的 `git log` 的選項，還有許多其它的。 表格2-2列出目前我們涵蓋的及一些可能有用的格式選項，以及它們如何更動 `log` 命令的輸出格式。
 
+<!-- Attention to translators: this is a table declaration.
+The lines must be formatted as follows
+<TAB><First column text><TAB><Second column text>
+-->
+
 	選項	選項的說明
 	-p	顯示每個更新與上一個的差異。
+	--word-diff	使用 word diff 格式顯示 patch 內容。
 	--stat	顯示每個更新更動的檔案的統計及摘要資訊。
 	--shortstat	僅顯示--stat提供的的訊息中關於更動、插入、刪除的文字。
 	--name-only	在更新的訊息後方顯示更動的檔案列表。
@@ -583,6 +625,7 @@ Git會在背後判斷檔案是否被更名，因此不管是用上述方法還�
 	--relative-date	以相對於目前時間方式顯示日期（例如：“2 weeks ago”），而不是完整的日期格式。
 	--graph	以 ASCII 在 log 輸出旁邊畫出分支的分歧及合併。
 	--pretty	以其它格式顯示更新。 可用的選項包含oneline、short、full、fuller及可自訂格式的format。
+	--oneline	`--pretty=oneline --abbrev-commit` 的簡短用法。
 
 ### 限制 log 的輸出範圍 ###
 
@@ -599,6 +642,11 @@ Git會在背後判斷檔案是否被更名，因此不管是用上述方法還�
 最後一個有用的選項是過濾路徑。 若指定目錄或檔案名稱，可僅印出更動到這些檔案的更新。 這選項永遠放在最後，而且一般來說會在前方加上 -- 以資區別。
 
 在表格2-3，我們列出這些選項以及少數其它常見選項以供參考。
+
+<!-- Attention to translators: this is a table declaration.
+The lines must be formatted as follows
+<TAB><First column text><TAB><Second column text>
+-->
 
 	選項	選項的說明文字
 	-(n)	僅顯示最後 n 個更新
@@ -624,7 +672,7 @@ Git 原始碼的更新歷史接近二萬筆更新，本命令顯示符合條件�
 
 若讀者較偏向使用圖形界面檢視歷史，或與會想看一下隨著 Git 發佈的，名為 `gitk` 的 Tcl/Tk 程式。 Gitk 基本上就是 `git log` 的圖形界面版本，而且幾乎接受所有 `git log` 支援的過濾用選項。 若在專案所在目錄下執行 gitk 命令，將會看到如圖2-2的畫面。
 
-Insert 18333fig0202.png 
+Insert 18333fig0202.png
 圖2-2。 gitk檢視歷史程式。
 
 在上圖中可看到視窗的上半部顯示相當棒的更新歷史圖。 視窗下半部則顯示當時被點選的更新引入的變更。
@@ -647,7 +695,7 @@ Insert 18333fig0202.png
 
 	$ git commit -m 'initial commit'
 	$ git add forgotten_file
-	$ git commit --amend 
+	$ git commit --amend
 
 這些命令的僅僅會提交一個更新，第二個被提交的更新會取代第一個。
 
@@ -657,31 +705,32 @@ Insert 18333fig0202.png
 
 	$ git add .
 	$ git status
-	# On branch master
-	# Changes to be committed:
-	#   (use "git reset HEAD <file>..." to unstage)
-	#
-	#       modified:   README.txt
-	#       modified:   benchmarks.rb
-	#
+	On branch master
+	Changes to be committed:
+	  (use "git reset HEAD <file>..." to unstage)
+	
+	        modified:   README.txt
+	        modified:   benchmarks.rb
+	
 
 在 “Changes to be commited” 文字下方，註明著使用 “`git reset HEAD <file>...`，將 file 移出暫存區”。 因此，讓我們依循該建議將 `benchmarks.rb` 檔案移出暫存區：
 
-	$ git reset HEAD benchmarks.rb 
-	benchmarks.rb: locally modified
+	$ git reset HEAD benchmarks.rb
+	Unstaged changes after reset:
+	M       benchmarks.rb
 	$ git status
-	# On branch master
-	# Changes to be committed:
-	#   (use "git reset HEAD <file>..." to unstage)
-	#
-	#       modified:   README.txt
-	#
-	# Changes not staged for commit:
-	#   (use "git add <file>..." to update what will be committed)
-	#   (use "git checkout -- <file>..." to discard changes in working directory)
-	#
-	#       modified:   benchmarks.rb
-	#
+	On branch master
+	Changes to be committed:
+	  (use "git reset HEAD <file>..." to unstage)
+	
+	        modified:   README.txt
+	
+	Changes not staged for commit:
+	  (use "git add <file>..." to update what will be committed)
+	  (use "git checkout -- <file>..." to discard changes in working directory)
+	
+	        modified:   benchmarks.rb
+	
 
 這個命令看起來有點奇怪，不過它的確可行。 `benchmarks.rb` 檔案被移出暫存區了。
 
@@ -689,23 +738,23 @@ Insert 18333fig0202.png
 
 若讀者發現其者並不需要保留 `benchmarks.rb` 檔案被更動部份，應該如何做才能很容易的復原為最後一次提交的狀態（或者最被複製儲存庫時、或放到工作目錄時的版本）？ 很幸運的，`git status` 同樣也告訴讀者如何做。 在最近一次檢視狀態時，暫存區看起來應如下所示：
 
-	# Changes not staged for commit:
-	#   (use "git add <file>..." to update what will be committed)
-	#   (use "git checkout -- <file>..." to discard changes in working directory)
-	#
-	#       modified:   benchmarks.rb
-	#
+	Changes not staged for commit:
+	  (use "git add <file>..." to update what will be committed)
+	  (use "git checkout -- <file>..." to discard changes in working directory)
+	
+	        modified:   benchmarks.rb
+	
 
 在這訊息中已很明確的說明如何拋棄所做的修改（至少需升級為 Git 1.6.1或更新版本。 若讀者使用的是舊版，強烈建議升級，以取得更好用的功能。） 讓我們依據命令執行：
 
 	$ git checkout -- benchmarks.rb
 	$ git status
-	# On branch master
-	# Changes to be committed:
-	#   (use "git reset HEAD <file>..." to unstage)
-	#
-	#       modified:   README.txt
-	#
+	On branch master
+	Changes to be committed:
+	  (use "git reset HEAD <file>..." to unstage)
+	
+	        modified:   README.txt
+	
 
 在上述文字可看到該變更已被復原。 讀者應該瞭解這是危險的命令，任何對該檔案做的修改將不復存在，就好像複製別的檔案將它覆蓋。 除非很清楚真的不需要該檔案，絕不要使用此檔案。 若需要將這些修改排除，我們在下一章節會介紹備份及分支。 一般來說會比此方法來的好。
 
@@ -721,20 +770,21 @@ Insert 18333fig0202.png
 欲瞭解目前已加進來的遠端儲存庫，可執行 `git remote` 命令。 它會列出當初加入遠端儲存庫時指定的名稱。 若目前所在儲存庫是從其它儲存庫複製過來的，至少應該看到 *origin*，也就是 Git 複製儲存庫時預設名字：
 
 	$ git clone git://github.com/schacon/ticgit.git
-	Initialized empty Git repository in /private/tmp/ticgit/.git/
-	remote: Counting objects: 595, done.
-	remote: Compressing objects: 100% (269/269), done.
-	remote: Total 595 (delta 255), reused 589 (delta 253)
-	Receiving objects: 100% (595/595), 73.31 KiB | 1 KiB/s, done.
-	Resolving deltas: 100% (255/255), done.
+	Cloning into 'ticgit'...
+	remote: Reusing existing pack: 1857, done.
+	remote: Total 1857 (delta 0), reused 0 (delta 0)
+	Receiving objects: 100% (1857/1857), 374.35 KiB | 193.00 KiB/s, done.
+	Resolving deltas: 100% (772/772), done.
+	Checking connectivity... done.
 	$ cd ticgit
-	$ git remote 
+	$ git remote
 	origin
 
 也可以再加上 `-v` 參數，將會在名稱後方顯示其URL：
 
 	$ git remote -v
-	origin	git://github.com/schacon/ticgit.git
+	origin  git://github.com/schacon/ticgit.git (fetch)
+	origin  git://github.com/schacon/ticgit.git (push)
 
 若有一個以上遠端儲存庫，此命令會全部列出。 例如：我的 Grit 儲存庫包含以下遠端儲存庫。
 
@@ -898,6 +948,7 @@ Git使用兩大類的標籤：輕量級(lightweight)和含附註(annotated)。�
 	Date:   Mon Feb 9 14:45:11 2009 -0800
 
 	my version 1.4
+
 	commit 15027957951b64cf874c3557a0f3547bd83b3ff6
 	Merge: 4a447f7... a6b4c97...
 	Author: Scott Chacon <schacon@gee-mail.com>
@@ -1008,7 +1059,7 @@ Git使用兩大類的標籤：輕量級(lightweight)和含附註(annotated)。�
 
 你可以看到標籤已經補上：
 
-	$ git tag 
+	$ git tag
 	v0.1
 	v1.2
 	v1.3
@@ -1057,7 +1108,6 @@ Git使用兩大類的標籤：輕量級(lightweight)和含附註(annotated)。�
 
 現在，當其他使用者clone或pull你的儲存庫時，他們也同時會取得所有你的標籤。
 
-
 ## 提示和技巧 ##
 
 在結束Git基礎這個章節前，我們將介紹有一些將會使你的Git使用經驗更簡單、方便和親切的提示和技巧。或許很多人從未運用過這些技巧，我們也不會假設你在本書的後續章節會使用它們。但你也許會想知道如何使用它們。
@@ -1066,7 +1116,7 @@ Git使用兩大類的標籤：輕量級(lightweight)和含附註(annotated)。�
 
 如果你用的是 Bash shell，你可以啟動Git本身寫好的自動補齊腳本。下載Git原始碼，切到`contrib/completion`目錄；可以看到檔案名為`git-completion.bash`。將它複製到你的家目錄，並加入以下指令到你的`.bashrc`檔案裡：
 
-	source ~/.git-completion.bash
+	source ~/git-completion.bash
 
 如果你想為所有使用者都自動設置Bash shell的補齊功能，在Mac系統上將這個腳本複製到`/opt/local/etc/bash_completion.d`目錄，若你使用Linux系統複製到 `/etc/bash_completion.d/`目錄。這兩個目錄中的脚本，都會在 Bash 啟動時自動載入。
 
@@ -1085,7 +1135,6 @@ Git使用兩大類的標籤：輕量級(lightweight)和含附註(annotated)。�
 	--shortstat  --since=  --src-prefix=  --stat   --summary
 
 這是個好用的小技巧，或許可以省下許多輸入和查文件的時間
-
 
 ### Git 命令別名 ###
 
@@ -1112,7 +1161,7 @@ Git使用兩大類的標籤：輕量級(lightweight)和含附註(annotated)。�
 	$ git config --global alias.last 'log -1 HEAD'
 
 如此一來，將可更簡單地看到最新的提交訊息：
-	
+
 	$ git last
 	commit 66938dae3329c7aebe598c2246a8e6af90d04646
 	Author: Josh Goebel <dreamer3@example.com>

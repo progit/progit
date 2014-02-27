@@ -1330,7 +1330,7 @@ Dzieje się tak dlatego, ponieważ wskaźnik który masz dla modułu zależnego,
 	   08d709f..6c5e70b  master     -> origin/master
 	Submodule path 'rack': checked out '6c5e70b984a60b3cecd395edd5b48a7575bf58e0'
 
-Musisz wykonywać tą komendę, za każdym razem gdy ściągniesz zmiany z modułu do swojego projektu. Trochę to dziwne, ale działa.
+Musisz wykonywać tę komendę, za każdym razem gdy ściągniesz zmiany z modułu do swojego projektu. Trochę to dziwne, ale działa.
 
 <!-- You have to do this every time you pull down a submodule change in the main project. It’s strange, but it works. -->
 

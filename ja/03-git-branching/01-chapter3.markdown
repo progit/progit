@@ -117,7 +117,7 @@ Insert 18333fig0310.png
 ここで、あなたの勤務先で使っている何らかの問題追跡システムに登録されている問題番号 53 への対応を始めることにしました。念のために言っておくと、Git は何かの問題追跡システムと連動しているわけではありません。しかし、今回の作業はこの問題番号 53 に対応するものであるため、作業用に新しいブランチを作成します。ブランチの作成と新しいブランチへの切り替えを同時に行うには、`git checkout` コマンドに `-b` スイッチをつけて実行します。
 
 	$ git checkout -b iss53
-	Switched to a new branch "iss53"
+	Switched to a new branch 'iss53'
 
 これは、次のコマンドのショートカットです。
 
@@ -142,18 +142,18 @@ Insert 18333fig0312.png
 しかしその前に注意すべき点があります。作業ディレクトリやステージングエリアに未コミットの変更が残っている場合、それがもしチェックアウト先のブランチと衝突する内容ならブランチの切り替えはできません。ブランチを切り替える際には、クリーンな状態にしておくのが一番です。これを回避する方法もあります (stash およびコミットの amend という処理です) が、また後ほど説明します。今回はすべての変更をコミットし終えているので、master ブランチに戻ることができます。
 
 	$ git checkout master
-	Switched to branch "master"
+	Switched to branch 'master'
 
 作業ディレクトリは問題番号 53 の対応を始める前とまったく同じ状態に戻りました。これで、緊急の問題対応に集中できます。ここで覚えておくべき重要な点は、Git が作業ディレクトリの状態をリセットし、チェックアウトしたブランチが指すコミットの時と同じ状態にするということです。そのブランチにおける直近のコミットと同じ状態にするため、ファイルの追加・削除・変更を自動的に行います。
 
 次に、緊急の問題対応を行います。緊急作業用に hotfix ブランチを作成し、作業をそこで進めるようにしましょう (図 3-13 を参照ください)。
 
 	$ git checkout -b hotfix
-	Switched to a new branch "hotfix"
+	Switched to a new branch 'hotfix'
 	$ vim index.html
 	$ git commit -a -m 'fixed the broken email address'
-	[hotfix]: created 3a0874c: "fixed the broken email address"
-	 1 files changed, 0 insertions(+), 1 deletions(-)
+	[hotfix 3a0874c] fixed the broken email address
+	 1 files changed, 1 deletion(-)
 
 Insert 18333fig0313.png
 図 3-13. master ブランチから新たに作成した hotfix ブランチ
@@ -163,11 +163,11 @@ Insert 18333fig0313.png
 	$ git checkout master
 	$ git merge hotfix
 	Updating f42c576..3a0874c
-	Fast forward
-	 README |    1 -
-	 1 files changed, 0 insertions(+), 1 deletions(-)
+	Fast-forward
+	 README | 1 -
+	 1 file changed, 1 deletion(-)
 
-このマージ処理で "Fast forward" というフレーズが登場したのにお気づきでしょうか。マージ先のブランチが指すコミットがマージ元のコミットの直接の親であるため、Git がポインタを前に進めたのです。言い換えると、あるコミットに対してコミット履歴上で直接到達できる別のコミットをマージしようとした場合、Git は単にポインタを前に進めるだけで済ませます。マージ対象が分岐しているわけではないからです。この処理のことを "fast forward" と言います。
+このマージ処理で "Fast-forward" というフレーズが登場したのにお気づきでしょうか。マージ先のブランチが指すコミットがマージ元のコミットの直接の親であるため、Git がポインタを前に進めたのです。言い換えると、あるコミットに対してコミット履歴上で直接到達できる別のコミットをマージしようとした場合、Git は単にポインタを前に進めるだけで済ませます。マージ対象が分岐しているわけではないからです。この処理のことを "fast forward" と言います。
 
 変更した内容が、これで `master` ブランチの指すスナップショットに反映されました。これで変更をリリースできます (図 3-14 を参照ください)。
 
@@ -177,16 +177,16 @@ Insert 18333fig0314.png
 超重要な修正作業が終わったので、横やりが入る前にしていた作業に戻ることができます。しかしその前に、まずは `hotfix` ブランチを削除しておきましょう。`master` ブランチが同じ場所を指しているので、もはやこのブランチは不要だからです。削除するには `git branch` で `-d` オプションを指定します。
 
 	$ git branch -d hotfix
-	Deleted branch hotfix (3a0874c).
+	Deleted branch hotfix (was 3a0874c).
 
 では、先ほどまで問題番号 53 の対応をしていたブランチに戻り、作業を続けましょう (図 3-15 を参照ください)。
 
 	$ git checkout iss53
-	Switched to branch "iss53"
+	Switched to branch 'iss53'
 	$ vim index.html
 	$ git commit -a -m 'finished the new footer [issue 53]'
-	[iss53]: created ad82d7a: "finished the new footer [issue 53]"
-	 1 files changed, 1 insertions(+), 0 deletions(-)
+	[iss53 ad82d7a] finished the new footer [issue 53]
+	 1 file changed, 1 insertion(+)
 
 Insert 18333fig0315.png
 図 3-15. iss53 ブランチは独立して進めることができる
@@ -199,9 +199,10 @@ Insert 18333fig0315.png
 
 	$ git checkout master
 	$ git merge iss53
-	Merge made by recursive.
-	 README |    1 +
-	 1 files changed, 1 insertions(+), 0 deletions(-)
+	Auto-merging README
+	Merge made by the 'recursive' strategy.
+	 README | 1 +
+	 1 file changed, 1 insertion(+)
 
 先ほどの `hotfix` のマージとはちょっとちがう感じですね。今回の場合、開発の歴史が過去のとある時点で分岐しています。マージ先のコミットがマージ元のコミットの直系の先祖ではないため、Git 側でちょっとした処理が必要だったのです。ここでは、各ブランチが指すふたつのスナップショットとそれらの共通の先祖との間で三方向のマージを行いました。図 3-16 に、今回のマージで使用した三つのスナップショットを示します。
 
@@ -230,25 +231,27 @@ Insert 18333fig0317.png
 
 Git は新たなマージコミットを自動的には作成しませんでした。コンフリクトを解決するまで、処理は中断されます。コンフリクトが発生してマージできなかったのがどのファイルなのかを知るには `git status` を実行します。
 
-	[master*]$ git status
-	index.html: needs merge
-	# On branch master
-	# Changes not staged for commit:
-	#   (use "git add <file>..." to update what will be committed)
-	#   (use "git checkout -- <file>..." to discard changes in working directory)
-	#
-	#	unmerged:   index.html
-	#
+	$ git status
+	On branch master
+	You have unmerged paths.
+	  (fix conflicts and run "git commit")
+	
+	Unmerged paths:
+	  (use "git add <file>..." to mark resolution)
+	
+	        both modified:      index.html
+	
+	no changes added to commit (use "git add" and/or "git commit -a")
 
 コンフリクトが発生してまだ解決されていないものについては unmerged として表示されます。Git は、標準的なコンフリクトマーカーをファイルに追加するので、ファイルを開いてそれを解決することにします。コンフリクトが発生したファイルの中には、このような部分が含まれています。
 
-	<<<<<<< HEAD:index.html
+	<<<<<<< HEAD
 	<div id="footer">contact : email.support@github.com</div>
 	=======
 	<div id="footer">
 	  please contact us at support@github.com
 	</div>
-	>>>>>>> iss53:index.html
+	>>>>>>> iss53
 
 これは、HEAD (merge コマンドを実行したときにチェックアウトしていたブランチなので、ここでは master となります) の内容が上の部分 (`=======` の上にある内容)、そして `iss53` ブランチの内容が下の部分であるということです。コンフリクトを解決するには、どちらを採用するかをあなたが判断することになります。たとえば、ひとつの解決法としてブロック全体を次のように書き換えます。
 
@@ -259,12 +262,17 @@ Git は新たなマージコミットを自動的には作成しませんでし�
 このような解決を各部分に対して行い、`<<<<<<<` や `=======` そして `>>>>>>>` の行をすべて除去します。そしてすべてのコンフリクトを解決したら、各ファイルに対して `git add` を実行して解決済みであることを通知します。ファイルをステージすると、Git はコンフリクトが解決されたと見なします。コンフリクトの解決をグラフィカルに行いたい場合は `git mergetool` を実行します。これは、適切なビジュアルマージツールを立ち上げてコンフリクトの解消を行います。
 
 	$ git mergetool
-	merge tool candidates: kdiff3 tkdiff xxdiff meld gvimdiff opendiff emerge vimdiff
-	Merging the files: index.html
+
+	This message is displayed because 'merge.tool' is not configured.
+	See 'git mergetool --tool-help' or 'git help config' for more details.
+	'git mergetool' will now attempt to use one of the following tools:
+	opendiff kdiff3 tkdiff xxdiff meld tortoisemerge gvimdiff diffuse diffmerge ecmerge p4merge araxis bc3 codecompare vimdiff emerge
+	Merging:
+	index.html
 
 	Normal merge conflict for 'index.html':
-	  {local}: modified
-	  {remote}: modified
+	  {local}: modified file
+	  {remote}: modified file
 	Hit return to start merge resolution tool (opendiff):
 
 デフォルトのツール (Git は `opendiff` を選びました。私がこのコマンドを Mac で実行したからです) 以外のマージツールを使いたい場合は、“merge tool candidates”にあるツール一覧を見ましょう。そして、使いたいツールの名前を打ち込みます。第 7 章で、環境にあわせてこのデフォルトを変更する方法を説明します。
@@ -274,12 +282,12 @@ Git は新たなマージコミットを自動的には作成しませんでし�
 再び `git status` を実行すると、すべてのコンフリクトが解決したことを確認できます。
 
 	$ git status
-	# On branch master
-	# Changes to be committed:
-	#   (use "git reset HEAD <file>..." to unstage)
-	#
-	#	modified:   index.html
-	#
+	On branch master
+	Changes to be committed:
+	  (use "git reset HEAD <file>..." to unstage)
+	
+	        modified:   index.html
+	
 
 結果に満足し、すべてのコンフリクトがステージされていることが確認できたら、`git commit` を実行してマージコミットを完了させます。デフォルトのコミットメッセージは、このようになります。
 
@@ -288,9 +296,9 @@ Git は新たなマージコミットを自動的には作成しませんでし�
 	Conflicts:
 	  index.html
 	#
-	# It looks like you may be committing a MERGE.
+	# It looks like you may be committing a merge.
 	# If this is not correct, please remove the file
-	# .git/MERGE_HEAD
+	#       .git/MERGE_HEAD
 	# and try again.
 	#
 
@@ -330,7 +338,7 @@ Git は新たなマージコミットを自動的には作成しませんでし�
 先ほどのブランチとは別のブランチが表示されます。まだマージしていない作業が残っているので、このブランチを `git branch -d` で削除しようとしても失敗します。
 
 	$ git branch -d testing
-	error: The branch 'testing' is not an ancestor of your current HEAD.
+	error: The branch 'testing' is not fully merged.
 	If you are sure you want to delete it, run 'git branch -D testing'.
 
 本当にそのブランチを消してしまってよいのなら `-D` で強制的に消すこともできます。……と、親切なメッセージで教えてくれていますね。
@@ -437,8 +445,8 @@ Insert 18333fig0326.png
 この作業を現在の作業ブランチにマージするには、`git merge origin/serverfix` を実行します。ローカル環境に `serverfix` ブランチを作ってそこで作業を進めたい場合は、リモートブランチからそれを作成します。
 
 	$ git checkout -b serverfix origin/serverfix
-	Branch serverfix set up to track remote branch refs/remotes/origin/serverfix.
-	Switched to a new branch "serverfix"
+	Branch serverfix set up to track remote branch serverfix from origin.
+	Switched to a new branch 'serverfix'
 
 これで、`origin/serverfix` が指す先から作業を開始するためのローカルブランチができあがりました。
 
@@ -449,16 +457,16 @@ Insert 18333fig0326.png
 あるリポジトリをクローンしたら、自動的に `master` ブランチを作成し、`origin/master` を追跡するようになります。これが、`git push` や `git pull` が引数なしでもうまく動作する理由です。しかし、必要に応じてそれ以外の追跡ブランチを作成し、`origin` 以外にあるブランチや `master` 以外のブランチを追跡させることも可能です。シンプルな方法としては、`git checkout -b [branch] [remotename]/[branch]` を実行します。Git バージョン 1.6.2 以降では、より簡単に `--track` を使うことができます。
 
 	$ git checkout --track origin/serverfix
-	Branch serverfix set up to track remote branch refs/remotes/origin/serverfix.
-	Switched to a new branch "serverfix"
+	Branch serverfix set up to track remote branch serverfix from origin.
+	Switched to a new branch 'serverfix'
 
 ローカルブランチをリモートブランチと違う名前にしたい場合は、最初に紹介した方法でローカルブランチに別の名前を指定します。
 
 	$ git checkout -b sf origin/serverfix
-	Branch sf set up to track remote branch refs/remotes/origin/serverfix.
-	Switched to a new branch "sf"
+	Branch sf set up to track remote branch serverfix from origin.
+	Switched to a new branch 'sf'
 
-これで、ローカルブランチ sf が自動的に origin/serverfix を追跡するようになりました。
+これで、ローカルブランチ `sf` が自動的に `origin/serverfix` を追跡するようになりました。
 
 ### リモートブランチの削除 ###
 

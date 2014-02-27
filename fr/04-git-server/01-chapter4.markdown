@@ -109,7 +109,7 @@ Si vous souhaitez proposer de l'accès anonyme en lecture seule à vos projets, 
 ### Protocole Git ###
 
 Vient ensuite le protocole Git. Celui-ci est géré par un *daemon* spécial livré avec Git. Ce *daemon* (démon, processus en arrière plan) écoute sur un port dédié (9418) et propose un service similaire au protocole SSH, mais sans aucune sécurisation.
-Pour qu'un dépôt soit publié via le protocole Git, le fichier `git-export-daemon-ok` doit exister mais mise à part cette condition sans laquelle le *daemon* refuse de publier un projet, il n'y a aucune sécurité.
+Pour qu'un dépôt soit publié via le protocole Git, le fichier `git-daemon-export-ok` doit exister mais mise à part cette condition sans laquelle le *daemon* refuse de publier un projet, il n'y a aucune sécurité.
 Soit le dépôt Git est disponible sans restriction en lecture, soit il n'est pas publié.
 Cela signifie qu'il ne permet pas de pousser des modifications.
 Vous pouvez activer la capacité à pousser mais étant donné l'absence d'authentification, n'importe qui sur Internet ayant trouvé l'URL du projet peut pousser sur le dépôt.
@@ -514,7 +514,7 @@ Il faut donc installer le paquet Python setuptools qu'Ubuntu fournit en tant que
 
 Ensuite, il faut cloner et installer Gitosis à partir du site principal du projet :
 
-	$ git clone git://eagain.net/gitosis.git
+	$ git clone https://github.com/tv42/gitosis.git
 	$ cd gitosis
 	$ sudo python setup.py install
 

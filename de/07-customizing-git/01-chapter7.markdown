@@ -115,7 +115,7 @@ Die Einstellung `core.pager` legt fest, welche Anwendung zur Seitenanzeige benut
 
 Wenn Du dies ausführst, wird Git immer die komplette Ausgabe aller Befehle anzeigen, egal wie lange sie ist.
 
-<!--user.signingkey ####-->
+<!--#### user.signingkey ####-->
 #### user.signingkey ####
 
 <!--If you’re making signed annotated tags (as discussed in Chapter 2), setting your GPG signing key as a configuration setting makes things easier. Set your key ID like so:-->
@@ -140,9 +140,9 @@ In Kapitel 2 habe ich bereits beschrieben, wie Du mit Hilfe der projektspezifisc
 <!--#### help.autocorrect ####-->
 #### help.autocorrect ####
 
-<!--This option is available only in Git 1.6.1 and later. If you mistype a command in Git 1.6, it shows you something like this:-->
+<!--This option is available only in Git 1.6.1 and later. If you mistype a command in Git, it shows you something like this:-->
 
-Diese Option ist in Git ab Version 1.6.1 verfügbar. Wenn Du in Git 1.6 einen Befehl falsch schreibst, bekommst Du eine Meldung wie diese:
+Diese Option ist in Git ab Version 1.6.1 verfügbar. Wenn Du in Git einen Befehl falsch schreibst, bekommst Du eine Meldung wie diese:
 
 	$ git com
 	git: 'com' is not a git-command. See 'git --help'.
@@ -170,9 +170,9 @@ Wenn Du Git entsprechend konfigurierst, wird es den Großteil der Ausgaben autom
 
 	$ git config --global color.ui true
 
-<!--When that value is set, Git colors its output if the output goes to a terminal. Other possible settings are false, which never colors the output, and always, which sets colors all the time, even if you’re redirecting Git commands to a file or piping them to another command. This setting was added in Git version 1.5.5; if you have an older version, you’ll have to specify all the color settings individually.-->
+<!--When that value is set, Git colors its output if the output goes to a terminal. Other possible settings are false, which never colors the output, and always, which sets colors all the time, even if you’re redirecting Git commands to a file or piping them to another command.-->
 
-Wenn dieser Wert gesetzt wurde, benutzt Git für seine Ausgaben Farben, sofern diese zu einem Terminal geleitet werden. Weitere mögliche Einstellungen sind ‚false‘, wodurch alle Farben deaktiviert werden, sowie ‚always‘, wodurch Farben immer aktiviert sind, selbst wenn Du Git Befehle in eine Datei oder über eine Pipe zu einem anderen Befehl umleitest. Diese Option wurde in Git 1.5.5 hinzugefügt. Solltest Du eine ältere Git Version benutzen, so musst Du alle Farbeinstellungen einzeln vornehmen.
+Wenn dieser Wert gesetzt wurde, benutzt Git für seine Ausgaben Farben, sofern diese zu einem Terminal geleitet werden. Weitere mögliche Einstellungen sind ‚false‘, wodurch alle Farben deaktiviert werden, sowie ‚always‘, wodurch Farben immer aktiviert sind, selbst wenn Du Git Befehle in eine Datei oder über eine Pipe zu einem anderen Befehl umleitest.
 
 <!--You’ll rarely want `color.ui = always`. In most scenarios, if you want color codes in your redirected output, you can instead pass a `-\-color` flag to the Git command to force it to use color codes. The `color.ui = true` setting is almost always what you’ll want to use.-->
 
@@ -181,9 +181,9 @@ Du wirst selten die Einstellung `color.ui = always` benötigen. In den meisten F
 <!--#### `color.*` ####-->
 #### `color.*` ####
 
-<!--If you want to be more specific about which commands are colored and how, or you have an older version, Git provides verb-specific coloring settings. Each of these can be set to `true`, `false`, or `always`:-->
+<!--If you want to be more specific about which commands are colored and how, Git provides verb-specific coloring settings. Each of these can be set to `true`, `false`, or `always`:-->
 
-Falls Du im Detail einstellen willst, welche Befehle wie gefärbt werden, oder wenn Du eine ältere Version benutzt, dann stellt Git Verb-spezifische Farbeinstellungen zur Verfügung. Jede dieser Optionen kann auf `true`, `false`, oder `always` eingestellt werden:
+Falls Du im Detail einstellen willst, welche Befehle wie gefärbt werden, dann stellt Git Verb-spezifische Farbeinstellungen zur Verfügung. Jede dieser Optionen kann auf `true`, `false`, oder `always` eingestellt werden:
 
 	color.branch
 	color.diff
@@ -468,25 +468,33 @@ Um Git anzuweisen alle `pbxproj` Dateien als Binärdateien zu behandeln, kannst 
 
 	*.pbxproj -crlf -diff
 
-<!--Now, Git won’t try to convert or fix CRLF issues; nor will it try to compute or print a diff for changes in this file when you run git show or git diff on your project. In the 1.6 series of Git, you can also use a macro that is provided that means `-crlf -diff`:-->
+<!--Now, Git won’t try to convert or fix CRLF issues; nor will it try to compute or print a diff for changes in this file when you run `git show` or `git diff` on your project. You can also use a built-in macro `binary` that means `-crlf -diff`:-->
 
-Ab jetzt wird Git nicht mehr versuchen CRLF Probleme zu lösen oder die Datei beim Commit oder Checkout zu ändern. Außerdem ermittelt Git keine Dateiunterschiede mehr und gibt diese auch nicht aus, wenn Du den Befehl ‚git show‘ oder ‚git diff‘ ausführst. Ab der Git Version 1.6 steht Dir auch ein Makro zur Verfügung, welches den Parametern `-crlf -diff` entspricht:
+Ab jetzt wird Git nicht mehr versuchen CRLF Probleme zu lösen oder die Datei beim Commit oder Checkout zu ändern. Außerdem ermittelt Git keine Dateiunterschiede mehr und gibt diese auch nicht aus, wenn Du den Befehl `git show` oder `git diff` ausführst. Alternativ gibt es auch ein integriertes Makro `binary`, welches den Parametern `-crlf -diff` entspricht:
 
 	*.pbxproj binary
 
 <!--#### Diffing Binary Files ####-->
 #### Diff bei Binärdateien ####
 
-<!--In the 1.6 series of Git, you can use the Git attributes functionality to effectively diff binary files. You do this by telling Git how to convert your binary data to a text format that can be compared via the normal diff.-->
+<!--In Git, you can use the attributes functionality to effectively diff binary files. You do this by telling Git how to convert your binary data to a text format that can be compared via the normal diff. But the question is how do you convert *binary* data to a text? The best solution is to find some tool that does conversion for your binary format to a text representation. Unfortunately, very few binary formats can be represented as human readable text (imagine trying to convert audio data to a text). If this is the case and you failed to get a text presentation of your file's contents, it's often relatively easy to get a human readable description of that content, or metadata. Metadata won't give you a full representation of your file's content, but in any case it's better than nothing.-->
 
-Mit Hilfe der Git Attribute können seit der Version 1.6, Unterschiede in binären Dateien effektiv und leicht angezeigt werden. Du kannst Git so konfigurieren, dass es automatisch Binärdateien in Textdateien umwandelt, damit sie mit einem normalen Diff verglichen werden können.
+Mit Hilfe der Git Attribute können Unterschiede in binären Dateien effektiv und leicht angezeigt werden. Du kannst Git so konfigurieren, dass es automatisch Binärdateien in Textdateien umwandelt, damit sie mit einem normalen Diff verglichen werden können. Meist stellt sich aber die Frage, wie man binäre Daten in Text konvertieren soll. Wenn man ein Werkzeug findet, welches einem diese Konvertierung abnimmt und die binäre Daten in ein Textformat umwandelt, ist dies meist die beste Lösung. Leider gibt es nur sehr wenige binäre Formate, die sich dafür eignen, dass man sie in lesbare Textformate umwandelt (Ich denke dabei zum Beispiel an Audio-Daten). Wenn dies der Fall ist und Du keine geeignete Möglichkeit gefunden hast, die Daten in lesbare Form zu wandeln, dann ist es oft relativ einfach eine entsprechende Beschreibung des eigentlichen Inhalts zu erhalten. Alternativ gibt es noch Metadaten, wobei Metadaten einem nicht ein vollständiges Abbild vom Dateiinhalt liefern können, aber in diesem Fall ist das besser als gar nichts.
+
+<!--We'll make use of the both described approaches to get usable diffs for some widely used binary formats.-->
+
+Im folgenden Abschnitt werden wir beide Möglichkeiten besprechen, wie man für weit verbreitete binäre Formate eine lesbare Form für einen Vergleich erhält.
+
+<!--Side note: There are different kinds of binary formats with a text content, which are hard to find usable converter for. In such a case you could try to extract a text from your file with the `strings` program. Some of these files may use an UTF-16 encoding or other "codepages" and `strings` won’t find anything useful in there. Your mileage may vary. However, `strings` is available on most Mac and Linux systems, so it may be a good first try to do this with many binary formats.-->
+
+Anmerkung: Es gibt verschiedene Arten von binären Formaten, welche Text beinhalten, und es ist meist sehr schwierig einen passenden Konverter zu finden. In solchen Fällen kann man sein Glück mit dem `strings`-Programm versuchen. Manche der Formate verwenden ein UTF-16 Encoding oder andere Zeichentabellen. In diesem Fall wird es mit dem Programm `strings` meist nicht funktionieren. Da `strings` jedoch auf den meisten Mac- und Linux-Systemen verfügbar ist, sollte man es durchaus auf einen Versuch ankommen lassen.
 
 <!--##### MS Word files #####-->
 ##### MS Word files #####
 
-<!--Because this is a pretty cool and not widely known feature, I’ll go over a few examples. First, you’ll use this technique to solve one of the most annoying problems known to humanity: version-controlling Word documents. Everyone knows that Word is the most horrific editor around; but, oddly, everyone uses it. If you want to version-control Word documents, you can stick them in a Git repository and commit every once in a while; but what good does that do? If you run `git diff` normally, you only see something like this:-->
+<!--First, you’ll use the described technique to solve one of the most annoying problems known to humanity: version-controlling Word documents. Everyone knows that Word is the most horrific editor around; but, oddly, everyone uses it. If you want to version-control Word documents, you can stick them in a Git repository and commit every once in a while; but what good does that do? If you run `git diff` normally, you only see something like this:-->
 
-Da das eine ziemlich praktische, aber nicht sehr bekannt Funktionalität ist, werde ich einige Beispiele besprechen. Als erstes werden wir diese Technik benutzen um eines der lästigsten Probleme der Menschheit zu lösen: Versionskontrolle von Word Dokumenten. Jeder weiß, dass Word der schrecklichste Editor der Welt ist, aber trotzdem benutzt ihn jeder. Wenn Du Word Dokumente versionieren willst, kannst Du sie in Dein Repository packen und ab und zu einen Commit durchführen. Aber wozu ist das nützlich? Wenn Du einen Vergleich mit `git diff` ausführst, erhälst Du ähnliche Ausgabe wie diese:
+Als erstes werden wir die beschriebene Technik benutzen um eines der lästigsten Probleme der Menschheit zu lösen: Versionskontrolle von Word Dokumenten. Jeder weiß, dass Word der schrecklichste Editor der Welt ist, aber trotzdem benutzt ihn jeder. Wenn Du Word Dokumente versionieren willst, kannst Du sie in Dein Repository packen und ab und zu einen Commit durchführen. Aber wozu ist das nützlich? Wenn Du einen Vergleich mit `git diff` ausführst, erhälst Du ähnliche Ausgabe wie diese:
 
 	$ git diff
 	diff --git a/chapter1.doc b/chapter1.doc
@@ -499,26 +507,22 @@ Du kannst zwei Versionen nicht direkt vergleichen, außer Du checkst sie aus und
 
 	*.doc diff=word
 
-<!--This tells Git that any file that matches this pattern (.doc) should use the "word" filter when you try to view a diff that contains changes. What is the "word" filter? You have to set it up. Here you’ll configure Git to use the `strings` program to convert Word documents into readable text files, which it will then diff properly:-->
+<!--This tells Git that any file that matches this pattern (.doc) should use the "word" filter when you try to view a diff that contains changes. What is the "word" filter? You have to set it up. Here you’ll configure Git to use the `catdoc` program, which was written specifically for extracting text from a binary MS Word documents (you can get it from `http://www.wagner.pp.ru/~vitus/software/catdoc/`), to convert Word documents into readable text files, which it will then diff properly:-->
 
-Dies weist Git an, dass auf jede Datei, die diesem Dateimuster (.doc) entspricht, der „word“ Filter angewandt werden soll, wenn Du versuchst, einen Diff mit Dateiunterschieden anzusehen. Was ist nun der „word“ Filter? Dieser muss von Dir noch konfiguriert werden. Du kannst Git so konfigurieren, dass es das `strings` Programm verwendet um Word Dokumente in lesbare Textdateien zu konvertieren. Bei jedem Diff wird Git diese Konvertierung durchführen:
+Dies weist Git an, dass auf jede Datei, die diesem Dateimuster (.doc) entspricht, der „word“ Filter angewandt werden soll, wenn Du versuchst, einen Diff mit Dateiunterschieden anzusehen. Was ist nun der „word“ Filter? Dieser muss von Dir noch konfiguriert werden. Du kannst Git so konfigurieren, dass es das `catdoc` Programm verwendet um Word Dokumente in lesbare Textdateien zu konvertieren. `catdoc` wurde speziell dafür entwickelt um lesbaren Text aus binären MS Word Dokumenten zu extrahieren (du erhälst es unter `http://www.wagner.pp.ru/~vitus/software/catdoc/`).   Bei jedem Diff wird Git diese Konvertierung durchführen:
 
-	$ git config diff.word.textconv strings
+	$ git config diff.word.textconv catdoc
 
 <!--This command adds a section to your `.git/config` that looks like this:-->
 
 Dieser Befehl fügt in der Datei `.git/config` eine Sektion mit folgendem Aufbau hinzu:
 
 	[diff "word"]
-		textconv = strings
+		textconv = catdoc
 
-<!--Side note: There are different kinds of `.doc` files. Some use an UTF-16 encoding or other "codepages" and `strings` won’t find anything useful in there. Your mileage may vary.-->
+<!--Now Git knows that if it tries to do a diff between two snapshots, and any of the files end in `.doc`, it should run those files through the "word" filter, which is defined as the `catdoc` program. This effectively makes nice text-based versions of your Word files before attempting to diff them.-->
 
-Anmerkung: Es gibt verschiedene Arten von `.doc` Dateien. Manche verwenden UTF-16 Kodierung oder andere Zeichensätze. Das führt dazu, dass `strings` nichts verwertbares findet. Probier Dein Glück.
-
-<!--Now Git knows that if it tries to do a diff between two snapshots, and any of the files end in `.doc`, it should run those files through the "word" filter, which is defined as the `strings` program. This effectively makes nice text-based versions of your Word files before attempting to diff them.-->
-
-Bei jedem Vergleich von zwei Schnappschüssen wird Git Dateien mit der Dateiendung `.doc` durch den „word“ Filter jagen, welcher durch das `strings` Programm definiert ist. Das erzeugt gut lesbare Textversionen Deiner Word Dateien, die für den Vergleich herangezogen werden.
+Bei jedem Vergleich von zwei Schnappschüssen wird Git Dateien mit der Dateiendung `.doc` durch den „word“ Filter jagen, welcher durch das `catdoc` Programm definiert ist. Das erzeugt gut lesbare Textversionen Deiner Word Dateien, die für den Vergleich herangezogen werden.
 
 <!--Here’s an example. I put Chapter 1 of this book into Git, added some text to a paragraph, and saved the document. Then, I ran `git diff` to see what changed:-->
 
@@ -529,17 +533,16 @@ Dazu ein Beispiel. Ich habe Kapitel 1 des Buches in ein Word-Dokument einfgefüg
 	index c1c8a0a..b93c9e4 100644
 	--- a/chapter1.doc
 	+++ b/chapter1.doc
-	@@ -8,7 +8,8 @@ re going to cover Version Control Systems (VCS) and Git basics
-	 re going to cover how to get it and set it up for the first time if you don
-	 t already have it on your system.
-	 In Chapter Two we will go over basic Git usage - how to use Git for the 80%
-	-s going on, modify stuff and contribute changes. If the book spontaneously
-	+s going on, modify stuff and contribute changes. If the book spontaneously
-	+Let's see if this works.
+	@@ -128,7 +128,7 @@ and data size)
+	 Since its birth in 2005, Git has evolved and matured to be easy to use
+	 and yet retain these initial qualities. It’s incredibly fast, it’s
+	 very efficient with large projects, and it has an incredible branching
+	-system for non-linear development.
+	+system for non-linear development (See Chapter 3).
 
-<!--Git successfully and succinctly tells me that I added the string "Let’s see if this works", which is correct. It’s not perfect — it adds a bunch of random stuff at the end — but it certainly works. If you can find or write a Word-to-plain-text converter that works well enough, that solution will likely be incredibly effective. However, `strings` is available on most Mac and Linux systems, so it may be a good first try to do this with many binary formats.-->
+<!--Git successfully and succinctly tells me that I added the string "(See Chapter 3)", which is correct. Works perfectly!-->
 
-Git war erfolgreich und zeigt nun kurz und bündig an, dass ich den Text „Let's see if this works“ hinzugefügt habe, was korrekt ist. Es ist nicht perfekt, es wird etwas zufälliger Kram am Ende angefügt — aber es funktioniert. Falls Du einen guten Word-nach-Text Konverter findest oder schreibst, dann ist diese Lösung wahrscheinlich äußerst effektiv. Für den Anfang sollte `strings` für die meisten Binärformate jedoch ausreichen, vor allem da es für die meisten Mac und Linux Systeme verfügbar ist.
+Git war erfolgreich und zeigt nun kurz und bündig an, dass ich den Text „(See Chapter 3)“ hinzugefügt habe, was korrekt ist. Wie du siehst, funktioniert perfekt.
 
 <!--##### OpenDocument Text files #####-->
 ##### OpenDocument Textdateien #####
@@ -815,9 +818,9 @@ Genau wie bei vielen anderen Versionskontrollsystemen gibt es auch bei Git die M
 <!--### Installing a Hook ###-->
 ### Installieren eines Hooks ###
 
-<!--The hooks are all stored in the `hooks` subdirectory of the Git directory. In most projects, that’s `.git/hooks`. By default, Git populates this directory with a bunch of example scripts, many of which are useful by themselves; but they also document the input values of each script. All the examples are written as shell scripts, with some Perl thrown in, but any properly named executable scripts will work fine — you can write them in Ruby or Python or what have you. For post-1.6 versions of Git, these example hook files end with .sample; you’ll need to rename them. For pre-1.6 versions of Git, the example files are named properly but are not executable.-->
+<!--The hooks are all stored in the `hooks` subdirectory of the Git directory. In most projects, that’s `.git/hooks`. By default, Git populates this directory with a bunch of example scripts, many of which are useful by themselves; but they also document the input values of each script. All the examples are written as shell scripts, with some Perl thrown in, but any properly named executable scripts will work fine — you can write them in Ruby or Python or what have you. These example hook files end with .sample; you’ll need to rename them.-->
 
-Sämtliche Hooks werden im `hooks` Unterverzeichnis des Git Verzeichnisses gespeichert. In den meisten Projekten wird das `.git/hooks` sein. Git installiert in dieses Verzeichnis standardmäßig Beispielskripte. Einige davon sind auch ohne Änderung nützlich und sofort einsetzbar. Zusätzlich dokumentieren diese Beispiele die Eingabewerte des jeweiligen Skripts. Alle Beispiele sind Shellskripte, die hier und da ein Paar Zeilen Perl Code enthalten. Prinzipiell sollte aber jedes ausführbare Skript funktionieren, wenn es korrekt benannt wird. Du kannst also die Skriptsprache Deiner Wahl verwenden, z.B. Ruby oder Python. Ab Version 1.6 haben die Beispieldateien die Endung .sample, sie müssen also noch umbenannt werden. In älteren Versionen sind die Beispieldateien korrekt benannt, aber dafür nicht ausführbar.
+Sämtliche Hooks werden im `hooks` Unterverzeichnis des Git Verzeichnisses gespeichert. In den meisten Projekten wird das `.git/hooks` sein. Git installiert in dieses Verzeichnis standardmäßig Beispielskripte. Einige davon sind auch ohne Änderung nützlich und sofort einsetzbar. Zusätzlich dokumentieren diese Beispiele die Eingabewerte des jeweiligen Skripts. Alle Beispiele sind Shellskripte, die hier und da ein Paar Zeilen Perl Code enthalten. Prinzipiell sollte aber jedes ausführbare Skript funktionieren, wenn es korrekt benannt wird. Du kannst also die Skriptsprache Deiner Wahl verwenden, z.B. Ruby oder Python. Die Beispieldateien haben die Endung .sample, sie müssen also nur noch umbenannt werden.
 
 <!--To enable a hook script, put a file in the `hooks` subdirectory of your Git directory that is named appropriately and is executable. From that point forward, it should be called. I’ll cover most of the major hook filenames here.-->
 
@@ -1114,9 +1117,9 @@ Ab jetzt haben alle Benutzer nur für die jeweils freigegebenen Verzeichnisse Zu
 <!--#### Enforcing Fast-Forward-Only Pushes ####-->
 #### Verweigern von Pushes, welche nicht einem Fast-Forward entsprechen ####
 
-<!--The only thing left is to enforce fast-forward-only pushes. In Git versions 1.6 or newer, you can set the `receive.denyDeletes` and `receive.denyNonFastForwards` settings. But enforcing this with a hook will work in older versions of Git, and you can modify it to do so only for certain users or whatever else you come up with later.-->
+<!--The only thing left is to enforce fast-forward-only pushes. To do so, you can simply set the `receive.denyDeletes` and `receive.denyNonFastForwards` settings. But enforcing this with a hook will also work, and you can modify it to do so only for certain users or whatever else you come up with later.-->
 
-Nun müssen wir unser System nur noch so einrichten, dass es nur Fast-Forward Push-Operationen zulässt. Ab der Version 1.6 von Git kann man dazu die `receive.denyDeletes` und `receive.denyNonFastForwards` Konfigurationsparameter verwenden. In älteren Versionen benötigt man dafür einen Hook und man kann diesen dann so konfigurieren, dass die Regeln nur für bestimmte Benutzer gelten.
+Nun müssen wir unser System nur noch so einrichten, dass es nur Fast-Forward Push-Operationen zulässt. Man verwendet dafür die `receive.denyDeletes` und `receive.denyNonFastForwards` Konfigurationsparameter. Das gleiche Ergebnis kann man aber auch über einen Hook erreichen und diesen kann man dann so konfigurieren, dass die Regeln nur für bestimmte Benutzer gelten.
 
 <!--The logic for checking this is to see if any commits are reachable from the older revision that aren’t reachable from the newer one. If there are none, then it was a fast-forward push; otherwise, you deny it:-->
 

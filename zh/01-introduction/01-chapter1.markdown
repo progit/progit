@@ -14,7 +14,7 @@
 
 为了解决这个问题，人们很久以前就开发了许多种本地版本控制系统，大多都是采用某种简单的数据库来记录文件的历次更新差异（见图 1-1）。
 
-Insert 18333fig0101.png 
+Insert 18333fig0101.png
 图 1-1. 本地版本控制系统
 
 其中最流行的一种叫做 rcs，现今许多计算机系统上都还看得到它的踪影。甚至在流行的 Mac OS X 系统上安装了开发者工具包之后，也可以使用 rcs 命令。它的工作原理基本上就是保存并管理文件补丁（patch）。文件补丁是一种特定格式的文本文件，记录着对应文件修订前后的内容变化。所以，根据每次修订后的补丁，rcs 可以通过不断打补丁，计算出各个版本的文件内容。
@@ -23,7 +23,7 @@ Insert 18333fig0101.png
 
 接下来人们又遇到一个问题，如何让在不同系统上的开发者协同工作？于是，集中化的版本控制系统（ Centralized Version Control Systems，简称 CVCS ）应运而生。这类系统，诸如 CVS，Subversion 以及 Perforce 等，都有一个单一的集中管理的服务器，保存所有文件的修订版本，而协同工作的人们都通过客户端连到这台服务器，取出最新的文件或者提交更新。多年以来，这已成为版本控制系统的标准做法（见图 1-2）。
 
-Insert 18333fig0102.png 
+Insert 18333fig0102.png
 图 1-2. 集中化的版本控制系统
 
 这种做法带来了许多好处，特别是相较于老式的本地 VCS 来说。现在，每个人都可以在一定程度上看到项目中的其他人正在做些什么。而管理员也可以轻松掌控每个开发者的权限，并且管理一个 CVCS 要远比在各个客户端上维护本地数据库来得轻松容易。
@@ -34,7 +34,7 @@ Insert 18333fig0102.png
 
 于是分布式版本控制系统（ Distributed Version Control System，简称 DVCS ）面世了。在这类系统中，像 Git，Mercurial，Bazaar 以及 Darcs 等，客户端并不只提取最新版本的文件快照，而是把代码仓库完整地镜像下来。这么一来，任何一处协同工作用的服务器发生故障，事后都可以用任何一个镜像出来的本地仓库恢复。因为每一次的提取操作，实际上都是一次对代码仓库的完整备份（见图 1-3）。
 
-Insert 18333fig0103.png 
+Insert 18333fig0103.png
 图 1-3. 分布式版本控制系统
 
 更进一步，许多这类系统都可以指定和若干不同的远端代码仓库进行交互。籍此，你就可以在同一个项目中，分别和不同工作小组的人相互协作。你可以根据需要设定不同的协作流程，比如层次模型式的工作流，而这在以前的集中式系统中是无法实现的。
@@ -45,11 +45,11 @@ Insert 18333fig0103.png
 
 到了 2005 年，开发 BitKeeper 的商业公司同 Linux 内核开源社区的合作关系结束，他们收回了免费使用 BitKeeper 的权力。这就迫使 Linux 开源社区（特别是 Linux 的缔造者 Linus Torvalds ）不得不吸取教训，只有开发一套属于自己的版本控制系统才不至于重蹈覆辙。他们对新的系统制订了若干目标：
 
-* 速度
-* 简单的设计
-* 对非线性开发模式的强力支持（允许上千个并行开发的分支）
-* 完全分布式
-* 有能力高效管理类似 Linux 内核一样的超大规模项目（速度和数据量）
+*	速度
+*	简单的设计
+*	对非线性开发模式的强力支持（允许上千个并行开发的分支）
+*	完全分布式
+*	有能力高效管理类似 Linux 内核一样的超大规模项目（速度和数据量）
 
 自诞生于 2005 年以来，Git 日臻成熟完善，在高度易用的同时，仍然保留着初期设定的目标。它的速度飞快，极其适合管理大项目，它还有着令人难以置信的非线性分支管理系统（见第三章），可以应付各种复杂的项目开发需求。
 
@@ -61,12 +61,12 @@ Insert 18333fig0103.png
 
 Git 和其他版本控制系统的主要差别在于，Git 只关心文件数据的整体是否发生变化，而大多数其他系统则只关心文件内容的具体差异。这类系统（CVS，Subversion，Perforce，Bazaar 等等）每次记录有哪些文件作了更新，以及都更新了哪些行的什么内容，请看图 1-4。
 
-Insert 18333fig0104.png 
+Insert 18333fig0104.png
 图 1-4. 其他系统在每个版本中记录着各个文件的具体差异
 
 Git 并不保存这些前后变化的差异数据。实际上，Git 更像是把变化的文件作快照后，记录在一个微型的文件系统中。每次提交更新时，它会纵览一遍所有文件的指纹信息并对文件作一快照，然后保存一个指向这次快照的索引。为提高性能，若文件没有变化，Git 不会再次保存，而只对上次保存的快照作一链接。Git 的工作方式就像图 1-5 所示。
 
-Insert 18333fig0105.png 
+Insert 18333fig0105.png
 图 1-5. Git 保存每次更新时的文件快照
 
 这是 Git 同其他系统的重要区别。它完全颠覆了传统版本控制的套路，并对各个环节的实现方式作了新的设计。Git 更像是个小型的文件系统，但它同时还提供了许多以此为基础的超强工具，而不只是一个简单的 VCS。稍后在第三章讨论 Git 分支管理的时候，我们会再看看这样的设计究竟会带来哪些好处。
@@ -101,7 +101,7 @@ Git 的工作完全依赖于这类指纹字串，所以你会经常看到这样�
 
 由此我们看到 Git 管理项目时，文件流转的三个工作区域：Git 的工作目录，暂存区域，以及本地仓库。
 
-Insert 18333fig0106.png 
+Insert 18333fig0106.png
 图 1-6. 工作目录，暂存区域，以及本地仓库
 
 每个项目都有一个 Git 目录（译注：如果 `git clone` 出来的话，就是其中 `.git` 的目录；如果 `git clone --bare` 的话，新建的目录本身就是 Git 目录。），它是 Git 用来保存元数据和对象数据库的地方。该目录非常重要，每次克隆镜像仓库的时候，实际拷贝的就是这个目录里面的数据。
@@ -133,7 +133,7 @@ Git 的工作需要调用 curl，zlib，openssl，expat，libiconv 等库的代�
 
 	$ apt-get install libcurl4-gnutls-dev libexpat1-dev gettext \
 	  libz-dev libssl-dev
-	
+
 之后，从下面的 Git 官方站点下载最新版本源代码：
 
 	http://git-scm.com/download
@@ -148,7 +148,7 @@ Git 的工作需要调用 curl，zlib，openssl，expat，libiconv 等库的代�
 现在已经可以用 `git` 命令了，用 `git` 把 Git 项目仓库克隆到本地，以便日后随时更新：
 
 	$ git clone git://git.kernel.org/pub/scm/git/git.git
-	
+
 ### 在 Linux 上安装 ###
 
 如果要在 Linux 上安装预编译好的 Git 二进制安装包，可以直接用系统提供的包管理工具。在 Fedora 上用 yum 安装：
@@ -165,7 +165,7 @@ Git 的工作需要调用 curl，zlib，openssl，expat，libiconv 等库的代�
 
 	http://code.google.com/p/git-osx-installer
 
-Insert 18333fig0107.png 
+Insert 18333fig0107.png
 图 1-7. Git OS X 安装工具
 
 另一种是通过 MacPorts (`http://www.macports.org`) 安装。如果已经装好了 MacPorts，用下面的命令安装 Git：
@@ -182,15 +182,17 @@ Insert 18333fig0107.png
 
 完成安装之后，就可以使用命令行的 `git` 工具（已经自带了 ssh 客户端）了，另外还有一个图形界面的 Git 项目管理工具。
 
+Note on Windows usage: you should use Git with the provided msysGit shell (Unix style), it allows to use the complex lines of command given in this book. If you need, for some reason, to use the native Windows shell / command line console, you have to use double quotes instead of simple quotes (for parameters with spaces in them) and you must quote the parameters ending with the circumflex accent (^) if they are last on the line, as it is a continuation symbol in Windows.
+
 ## 初次运行 Git 前的配置 ##
 
 一般在新的系统上，我们都需要先配置下自己的 Git 工作环境。配置工作只需一次，以后升级时还会沿用现在的配置。当然，如果需要，你随时可以用相同的命令修改已有的配置。
 
 Git 提供了一个叫做 git config 的工具（译注：实际是 `git-config` 命令，只不过可以通过 `git` 加一个名字来呼叫此命令。），专门用来配置或读取相应的工作环境变量。而正是由这些环境变量，决定了 Git 在各个环节的具体工作方式和行为。这些变量可以存放在以下三个不同的地方：
 
-* `/etc/gitconfig` 文件：系统中对所有用户都普遍适用的配置。若使用 `git config` 时用 ` --system` 选项，读写的就是这个文件。
-* `~/.gitconfig` 文件：用户目录下的配置文件只适用于该用户。若使用 `git config` 时用 ` --global` 选项，读写的就是这个文件。
-* 当前项目的 git 目录中的配置文件（也就是工作目录中的 `.git/config` 文件）：这里的配置仅仅针对当前项目有效。每一个级别的配置都会覆盖上层的相同配置，所以 `.git/config` 里的配置会覆盖 `/etc/gitconfig` 中的同名变量。
+*	`/etc/gitconfig` 文件：系统中对所有用户都普遍适用的配置。若使用 `git config` 时用 ` --system` 选项，读写的就是这个文件。
+*	`~/.gitconfig` 文件：用户目录下的配置文件只适用于该用户。若使用 `git config` 时用 ` --global` 选项，读写的就是这个文件。
+*	当前项目的 git 目录中的配置文件（也就是工作目录中的 `.git/config` 文件）：这里的配置仅仅针对当前项目有效。每一个级别的配置都会覆盖上层的相同配置，所以 `.git/config` 里的配置会覆盖 `/etc/gitconfig` 中的同名变量。
 
 在 Windows 系统上，Git 会找寻用户主目录下的 `.gitconfig` 文件。主目录即 `$HOME` 变量指定的目录，一般都是 `C:\Documents and Settings\$USER`。此外，Git 还会尝试找寻 `/etc/gitconfig` 文件，只不过看当初 Git 装在什么目录，就以此作为根目录来定位。
 
@@ -208,7 +210,7 @@ Git 提供了一个叫做 git config 的工具（译注：实际是 `git-config`
 接下来要设置的是默认使用的文本编辑器。Git 需要你输入一些额外消息的时候，会自动调用一个外部文本编辑器给你用。默认会使用操作系统指定的默认编辑器，一般可能会是 Vi 或者 Vim。如果你有其他偏好，比如 Emacs 的话，可以重新设置：
 
 	$ git config --global core.editor emacs
-	
+
 ### 差异分析工具 ###
 
 还有一个比较常用的是，在解决合并冲突时使用哪种差异分析工具。比如要改用 vimdiff 的话：
@@ -249,7 +251,8 @@ Git 可以理解 kdiff3，tkdiff，meld，xxdiff，emerge，vimdiff，gvimdiff�
 
 	$ git help config
 
-我们随时都可以浏览这些帮助信息而无需连网。不过，要是你觉得还不够，可以到 Frenode IRC 服务器（irc.freenode.net）上的 `#git` 或 `#github` 频道寻求他人帮助。这两个频道上总有着上百号人，大多都有着丰富的 git 知识，并且乐于助人。
+我们随时都可以浏览这些帮助信息而无需连网。
+不过，要是你觉得还不够，可以到 Frenode IRC 服务器（irc.freenode.net）上的 `#git` 或 `#github` 频道寻求他人帮助。这两个频道上总有着上百号人，大多都有着丰富的 git 知识，并且乐于助人。
 
 ## 小结 ##
 

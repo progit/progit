@@ -1,3 +1,5 @@
+[![Build-Status](https://secure.travis-ci.org/progit-de/progit.png?branch=master)](https://travis-ci.org/progit-de/progit)
+
 # Deutsche Übersetzung #
 
 Die deutsche Übersetzung wird im Repository progit-de/progit verwaltet. Wenn Du an der deutschen Übersetzung mitarbeiten willst, dann melde Dich am besten bei uns. Du kannst dazu einen Issue im Repository progit-de/progit erzeugen. Wir werden Dir dann einen Vorschlag machen, wie Du uns am besten helfen kannst. Der Workflow an sich ist unter Workflow beschrieben. Ein Status der Übersetzung der jeweiligen Kapitel findest Du unter "Status der Übersetzung".

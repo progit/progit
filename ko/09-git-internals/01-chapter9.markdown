@@ -453,7 +453,7 @@ Git은 zlib으로 파일 내용을 압축하기 때문에 저장 공간이 많�
 	$ du -b .git/objects/9b/c1dc421dcd51b4ac296e3e5b6e2a99cf44391e
 	4102	.git/objects/9b/c1dc421dcd51b4ac296e3e5b6e2a99cf44391e
 
-피일을 수정하면 어떻게 되는지 살펴보자:
+파일을 수정하면 어떻게 되는지 살펴보자:
 
 	$ echo '# testing' >> repo.rb
 	$ git commit -am 'modified repo a bit'

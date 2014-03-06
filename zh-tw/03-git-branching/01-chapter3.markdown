@@ -119,7 +119,7 @@ Insert 18333fig0310.png
 	$ git checkout -b iss53
 	Switched to a new branch 'iss53'
 
-這相當於執行下麵這兩條命令：
+這相當於執行下面這兩條命令：
 
 	$ git branch iss53
 	$ git checkout iss53

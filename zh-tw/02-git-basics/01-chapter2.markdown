@@ -500,7 +500,7 @@ Git會在背後判斷檔案是否被更名，因此不管是用上述方法還�
 
 這個選項除了顯示相同的資訊外，還另外附上每個更新的差異。 這對於重新檢視或者快速的瀏覽協同工作伙伴新增的更新非常有幫助。
 
-Sometimes it's easier to review changes on the word level rather than on the line level. There is a `--word-diff` option available in Git, that you can append to the `git log -p` command to get word diff instead of normal line by line diff. Word diff format is quite useless when applied to source code, but it comes in handy when applied to large text files, like books or your dissertation. Here is an example:
+有時候用 word level 的方式比 line level 更容易看懂變化。在 `git log -p` 後面附加 `--word-diff` 選項，就可以取代預設的  line level 模式。當你在看原始碼的時候 word level 還挺有用的，還有一些大型文字檔，如書籍或論文就派上用場了，範例如下：
 
 	$ git log -U1 --word-diff
 	commit ca82a6dff817ec66f44342007202690a93763949
@@ -518,7 +518,7 @@ Sometimes it's easier to review changes on the word level rather than on the lin
 	    s.version   =   [-"0.1.0"-]{+"0.1.1"+}
 	    s.author    =   "Scott Chacon"
 
-As you can see, there is no added and removed lines in this output as in a normal diff. Changes are shown inline instead. You can see the added word enclosed in `{+ +}` and removed one enclosed in `[- -]`. You may also want to reduce the usual three lines context in diff output to only one line, as the context is now words, not lines. You can do this with `-U1` as we did in the example above.
+如你所見，輸出範例中沒有列出新增與刪除的行，變動的地方用內嵌的方式顯示，你可以看到新增的字被包括在 `{+ +}` 內，而刪除的則包括在 `{- -}` 內，如果你想再減少顯示的資訊，將上述的三行再減少到只顯示變動的那行。你可以用 `-U1` 選項，就像上述的範例中那樣。
 
 另外也可以使用`git log`提供的一系統摘要選項。 例如：若想檢視每個更新的簡略統計資訊，可使用 `--stat` 選項：
 

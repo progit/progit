@@ -412,7 +412,7 @@ Insert 18333fig0904.png
 	$ cat .git/refs/remotes/origin/master
 	ca82a6dff817ec66f44342007202690a93763949
 
-Remote 应用和分支主要区别在于他们是不能被 check out 的。Git 把他们当作是标记这些了这些分支在服务器上最后状态的一种书签。
+Remote 引用和分支主要区别在于他们是不能被 check out 的。Git 把他们当作是标记了这些分支在服务器上最后状态的一种书签。
 
 ## Packfiles ##
 

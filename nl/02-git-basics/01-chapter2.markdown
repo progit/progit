@@ -1,7 +1,7 @@
 <!-- Attentie heren en dames vertalers.
 Ik zou het volgende willen voorstellen:
 Er zijn bepaalde termen die voor de gemiddelde Nederlandse computer gebruiker 
-veel beter klinken (of bekender voorkomen) als de orginele Engelse term. In het
+veel beter klinken (of bekender voorkomen) dan de orginele Engelse term. In het
 begin zullen deze termen niet vaak voorkomen, maar in de meer diepgaandere 
 hoofdstukken komen deze steeds meer voor. Termen als "Committen", "Mergen" 
 en "Applyen" klinken beter dan "Plegen" of "Toepassen", "Samenvoegen" en 
@@ -36,7 +36,7 @@ Veel succes en plezier bij het vertalen...
 <!-- SHA-1 of last checked en-version: fbf24105 -->
 # De basis van Git #
 
-Als je slechts één hoofdstuk kunt lezen om met Git aan de slag te gaan, dan is deze het. In dit hoofdstuk worden alle basiscommando's behandeld, die je nodig hebben om het leeuwendeel van de dingen te doen waarmee je uiteindelijk je tijd met Git zult doorbrengen. Als je dit hoofdstuk doorgenomen hebt, zul je een repository kunnen configureren en initialiseren, bestanden beginnen en stoppen te volgen en veranderingen te ‘stagen’ en ‘committen’. We laten ook zien hoe je Git kunt instellen zodat het bepaalde bestanden en bestandspatronen negeert, hoe je vergissingen snel en gemakkelijk ongedaan kunt maken, hoe je de geschiedenis van je project kan doorlopen en wijzigingen tussen commits kunt zien, en hoe je kunt pushen en pullen van en naar repositories.
+Als je slechts één hoofdstuk kunt lezen om met Git aan de slag te gaan, dan is dit het. In dit hoofdstuk worden alle basiscommando's behandeld, die je nodig hebben om het leeuwendeel van de dingen te doen waarmee je uiteindelijk je tijd met Git zult doorbrengen. Als je dit hoofdstuk doorgenomen hebt, zul je een repository kunnen configureren en initialiseren, bestanden beginnen en stoppen te volgen en veranderingen te ‘stagen’ en ‘committen’. We laten ook zien hoe je Git kunt instellen zodat het bepaalde bestanden en bestandspatronen negeert, hoe je vergissingen snel en gemakkelijk ongedaan kunt maken, hoe je de geschiedenis van je project kan doorlopen en wijzigingen tussen commits kunt zien, en hoe je kunt pushen naar en pullen van repositories.
 
 ## Een Git repository verkrijgen ##
 
@@ -62,25 +62,25 @@ We zullen zodadelijk beschrijven wat deze commando's doen. Op dit punt heb je ee
 
 Als je een kopie wilt van een bestaande Git repository, bijvoorbeeld een project waaraan je wilt bijdragen, dan is `git clone` het commando dat je nodig hebt. Als je bekend bent met andere versie-beheersystemen zoals Subversion, dan zal het je opvallen dat het commando `clone` is en niet `checkout`. Dit is een belangrijk verschil: Git ontvangt een kopie van bijna alle gegevens die de server heeft. Elke versie van ieder bestand in de hele geschiedenis van een project wordt binnengehaald als je `git clone` doet. In feite kun je als de schijf van de server kapot gaat, een clone van een willekeurige client gebruiken om de server terug in de status te brengen op het moment van clonen (al zou je wel wat hooks aan de kant van de server en dergelijke verliezen, maar alle versies van alle bestanden zullen er zijn; zie *Hoofdstuk 4* voor meer informatie).
 
-Je cloned een repository met `git clone [url]`. Bijvoorbeeld, als je de Ruby Git bibliotheek genaamd Grit wilt clonen, kun je dit als volgt doen:
+Je clonet een repository met `git clone [url]`. Bijvoorbeeld, als je de Ruby Git bibliotheek genaamd Grit wilt clonen, kun je dit als volgt doen:
 
 	$ git clone git://github.com/schacon/grit.git
 
-Dat maakt een directory genaamd `grit` aan, initialiseert hierin een `.git` directory, haalt alle data voor die repository binnen en doet een checkout van een werkkopie van de laatste versie. Als je in de nieuwe `grit` directory gaat kijken zal je de project bestanden vinden, klaar om gebruikt of aan gewerkt te worden. Als je de repository in een directory met een andere naam dan grit wilt clonen, dan kun je dit met het volgende commando specificeren:
+Dat maakt een directory genaamd `grit` aan, initialiseert hierin een `.git` directory, haalt alle data voor die repository binnen en doet een checkout van een werkkopie van de laatste versie. Als je in de nieuwe `grit` directory gaat kijken zal je de projectbestanden vinden, klaar om gebruikt of aan gewerkt te worden. Als je de repository in een directory met een andere naam dan grit wilt clonen, dan kun je dit met het volgende commando specificeren:
 
 	$ git clone git://github.com/schacon/grit.git mygrit
 
 Dat commando doet hetzelfde als het vorige, maar dan heet de doeldirectory `mygrit`.
 
-Git heeft een aantal verschillende transport protocollen die je kunt gebruiken. Het vorige voorbeeld maakt gebruik van het `git://` protocol, maar je kunt ook `http(s)://` of `gebruiker@server:/pad.git` tegenkomen, dat het SSH transport protocol gebruikt. *Hoofdstuk 4* zal alle beschikbare opties introduceren die de server kan inrichten om je toegang tot de Git repositories te geven, met daarbij de voors en tegens van elk.
+Git heeft een aantal verschillende transportprotocollen die je kunt gebruiken. Het vorige voorbeeld maakt gebruik van het `git://` protocol, maar je kunt ook `http(s)://` of `gebruiker@server:/pad.git` tegenkomen, dat het SSH transport protocol gebruikt. *Hoofdstuk 4* zal alle beschikbare opties introduceren die de server kan inrichten om je toegang tot de Git-repositories te geven, met daarbij de voors en tegens van elk.
 
 ## Wijzigingen aan het repository vastleggen ##
 
-Je hebt een eersteklas Git repository en een checkout of werkkopie van de bestanden binnen dat project. Als je wijzigingen maakt dan moet je deze committen in je repository op elk moment dat het project een status bereikt die je wilt vastleggen.
+Je hebt een eersteklas Git-repository en een checkout of werkkopie van de bestanden binnen dat project. Als je wijzigingen maakt dan moet je deze committen in je repository op elk moment dat het project een status bereikt die je wilt vastleggen.
 
-Onthoud dat elk bestand in je werkdirectory in een van twee statussen kan verkeren: *gevolgd (tracked)* of *niet gevolgd (untracked)*. *Tracked* bestanden zijn bestanden die in het laatste snapshot zaten; ze kunnen *ongewijzigd (unmodified)*, *gewijzigd (modified)* of *staged* zijn. *untracked* bestanden zijn al het andere; elk bestand in je werkdirectory dat niet in je laatste snapshot en niet in je staging area zit. Als je een repository voor het eerst cloned, zullen alle bestanden tracked en unmodified zijn, omdat je ze zojuist uitgechecked hebt en nog niets gewijzigd hebt.
+Onthoud dat elk bestand in je werkdirectory in een van twee statussen kan verkeren: *gevolgd (tracked)* of *niet gevolgd (untracked)*. *Tracked* bestanden zijn bestanden die in het laatste snapshot zaten; ze kunnen *ongewijzigd (unmodified)*, *gewijzigd (modified)* of *staged* zijn. *untracked* bestanden zijn al het andere; elk bestand in je werkdirectory dat niet in je laatste snapshot en niet in je staging area zit. Als je een repository voor het eerst clonet, zullen alle bestanden tracked en unmodified zijn, omdat je ze zojuist uitgechecked hebt en nog niets gewijzigd hebt.
 
-Zodra je bestanden wijzigt, ziet Git ze als modified omdat je ze veranderd hebt sinds je laatste commit. Je *staged* deze gewijzigde bestanden en commit al je gestagede wijzigingen, en de cyclus begint weer van voor af aan. Deze cyclus wordt in Figuur 2-1 geïllustreerd.
+Zodra je bestanden wijzigt, ziet Git ze als modified omdat je ze veranderd hebt sinds je laatste commit. Je *staget* deze gewijzigde bestanden en commit al je gestagede wijzigingen, en de cyclus begint weer van voor af aan. Deze cyclus wordt in Figuur 2-1 geïllustreerd.
 
 Insert 18333fig0201.png
 Figuur 2-1. De levenscyclus van de status van je bestanden.
@@ -93,7 +93,7 @@ Het commando dat je voornamelijk zult gebruiken om te bepalen welk bestand zich 
 	# On branch master
 	nothing to commit (working directory clean)
 
-Dit betekent dat je een schone werkdirectory hebt, met andere woorden er zijn geen untracked bestanden die gewijzigd zijn. Git ziet ook geen untracked bestanden, anders zouden ze hier getoond worden. Als laatste vertelt het commando op welke tak (branch) je nu zit. Voor nu is dit altijd `master`, dat is de standaard; besteed daar voor nu nog geen aandacht aan. In het volgende hoofdstuk wordt gedetaileerd ingegaan op branches en referenties.
+Dit betekent dat je een schone werkdirectory hebt, met andere woorden er zijn geen tracked bestanden die gewijzigd zijn. Git ziet ook geen untracked bestanden, anders zouden ze hier getoond worden. Als laatste vertelt het commando op welke tak (branch) je nu zit. Voor nu is dit altijd `master`, dat is de standaard; besteed daar voor nu nog geen aandacht aan. In het volgende hoofdstuk wordt gedetaileerd ingegaan op branches en referenties.
 
 Stel dat je een nieuw bestand toevoegt aan je project, een simpel README bestand. Als het bestand voorheen nog niet bestond, en je doet `git status`, dan zul je het niet getrackte bestand op deze manier zien:
 
@@ -115,7 +115,7 @@ Om een nieuw bestand te beginnen te tracken, gebruik je het commando `git add`. 
 
 	$ git add README
 
-Als je het status commando nogmaals uitvoert, zie je dat je README bestand nu getrackt en ge-staged is:
+Als je het `status` commando nogmaals uitvoert, zie je dat je README bestand nu getrackt en ge-staged is:
 
 	$ git status
 	On branch master
@@ -129,7 +129,7 @@ Je kunt zien dat het gestaged is, omdat het onder de kop “Changes to be commit
 
 ### Gewijzigde bestanden stagen ###
 
-Laten we een getrackte bestand wijzigen. Als je een reeds getrackt bestand genaamd `benchmarks.rb` wijzigt, en dan je `status` commando nog eens uitvoert, krijg je iets dat er zo uitziet:
+Laten we een getrackt bestand wijzigen. Als je een reeds getrackt bestand genaamd `benchmarks.rb` wijzigt, en dan je `status` commando nog eens uitvoert, krijg je iets dat er zo uitziet:
 
 	$ git status
 	On branch master
@@ -175,7 +175,7 @@ Beide bestanden zijn gestaged en zullen met je volgende commit meegaan. Stel nu 
 	        modified:   benchmarks.rb
 	
 
-Asjemenou?! Nu staat `benchmarks.rb` zowel bij de staged en unstaged genoemd. Hoe is dat mogelijk? Het blijkt dat Git een bestand precies zoals het is staged wanneer je het `git add` commando uitvoert. Als je nu commit, dan zal de versie van `benchmarks.rb` zoals het was toen je voor 't laatst `git add` uitvoerde worden toegevoegd in de commit, en niet de versie van het bestand zoals het eruit ziet in je werkdirectory toen je `git commit` uitvoerde. Als je een bestand wijzigt nadat je `git add` uitvoert, dan moet je `git add` nogmaals uitvoeren om de laatste versie van het bestand te stagen:
+Asjemenou?! Nu staat `benchmarks.rb` zowel bij de staged en unstaged genoemd. Hoe is dat mogelijk? Het blijkt dat Git een bestand precies zoals het is staget wanneer je het `git add` commando uitvoert. Als je nu commit, dan zal de versie van `benchmarks.rb` zoals het was toen je voor 't laatst `git add` uitvoerde worden toegevoegd in de commit, en niet de versie van het bestand zoals het eruit ziet in je werkdirectory toen je `git commit` uitvoerde. Als je een bestand wijzigt nadat je `git add` uitvoert, dan moet je `git add` nogmaals uitvoeren om de laatste versie van het bestand te stagen:
 
 	$ git add benchmarks.rb
 	$ git status
@@ -195,7 +195,7 @@ Vaak zul je een klasse bestanden hebben waarvan je niet wilt dat Git deze automa
 	*.[oa]
 	*~
 
-De eerste regel vertelt Git om ieder bestand te negeren waarvan de naam eindigt op een `.o` of `.a` (*object* en *archief* bestanden die het product kunnen zijn van het bouwen van je code). De tweede regel vertelt Git dat ze alle bestanden die eindigen op een tilde (`~`), wat gebruikt wordt door editors zoals Emacs om tijdelijke bestanden aan te geven, moet negeren. Je mag ook `log`, `tmp` of een `pid` directory toevoegen, automatisch gegenereerde documentatie, enzovoort. Een `.gitignore` bestand aanmaken voordat je gaat beginnen is over 't algemeen een goed idee, zodat je niet per ongeluk bestanden commit die je echt niet in je repository wilt hebben.
+De eerste regel vertelt Git om ieder bestand te negeren waarvan de naam eindigt op een `.o` of `.a` (*object* en *archief* bestanden die het product kunnen zijn van het bouwen van je code). De tweede regel vertelt Git dat ze alle bestanden moet negeren die eindigen op een tilde (`~`), wat gebruikt wordt door editors zoals Emacs om tijdelijke bestanden aan te geven. Je mag ook `log`, `tmp` of een `pid` directory toevoegen, automatisch gegenereerde documentatie, enzovoort. Een `.gitignore` bestand aanmaken voordat je gaat beginnen is over 't algemeen een goed idee, zodat je niet per ongeluk bestanden commit die je echt niet in je repository wilt hebben.
 
 De regels voor patronen die je in het `.gitignore` bestand kunt zetten zijn als volgt:
 
@@ -204,7 +204,7 @@ De regels voor patronen die je in het `.gitignore` bestand kunt zetten zijn als 
 *	Je mag patronen laten eindigen op een schuine streep (`/`) om een directory te specificeren.
 *	Je mag een patroon ontkennend maken door het te laten beginnen met een uitroepteken (`!`).
 
-Expansie (`glob`) patronen zijn vereenvoudigde reguliere expressies die in shell omgevingen gebruikt worden. Een asterisk (`*`) komt overeen met nul of meer karakters, `[abc]` komt overeen met ieder karakter dat tussen de blokhaken staat (in dit geval `a`, `b` of `c`), een vraagteken (`?`) komt overeen met een enkel karakter en blokhaken waartussen karakters staan die gescheiden zijn door een streepje (`[0-9]`) komen overeen met ieder karakter wat tussen die karakters zit (in dit geval 0 tot en met 9).
+Expansie (`glob`) patronen zijn vereenvoudigde reguliere expressies die in shell-omgevingen gebruikt worden. Een asterisk (`*`) komt overeen met nul of meer karakters, `[abc]` komt overeen met ieder karakter dat tussen de blokhaken staat (in dit geval `a`, `b` of `c`), een vraagteken (`?`) komt overeen met een enkel karakter en blokhaken waartussen karakters staan die gescheiden zijn door een streepje (`[0-9]`) komen overeen met ieder karakter wat tussen die karakters zit (in dit geval 0 tot en met 9).
 
 Hier is nog een voorbeeld van een `.gitignore` bestand:
 
@@ -226,7 +226,7 @@ Een `**/` patroon is sinds versie 1.8.2 beschikbaar in Git.
 
 Als het `git status` commando te vaag is voor je, je wilt precies weten wat je veranderd hebt en niet alleen welke bestanden veranderd zijn, dan kun je het `git diff` commando gebruiken. We zullen `git diff` later in meer detail bespreken, maar je zult dit commando het meest gebruiken om deze twee vragen te beantwoorden: Wat heb je veranderd maar nog niet gestaged? En wat heb je gestaged en sta je op het punt te committen? Waar `git status` deze vragen heel algemeen beantwoordt, laat `git diff` je de exacte toegevoegde en verwijderde regels zien, de patch, als het ware.
 
-Stel dat je het `README` bestand opnieuw verandert en staged, en dan het `benchmarks.rb` bestand verandert zonder het te stagen. Als je je `status` commando uitvoert, dan zie je nogmaals zoiets als dit:
+Stel dat je het `README` bestand opnieuw verandert en staget, en dan het `benchmarks.rb` bestand verandert zonder het te stagen. Als je je `status` commando uitvoert, dan zie je nogmaals zoiets als dit:
 
 	$ git status
 	On branch master
@@ -280,7 +280,7 @@ Als je wilt zien wat je gestaged hebt en in je volgende commit zal zitten, dan k
 
 Het is belangrijk om te zien dat `git diff` zelf niet alle wijzigingen sinds je laatste commit laat zien, alleen wijzigingen die nog niet gestaged zijn. Dit kan verwarrend zijn, omdat als je al je wijzigingen gestaged hebt, `git diff` geen output zal geven.
 
-Nog een voorbeeld. Als je het `benchmarks.rb` bestand staged en vervolgens verandert, dan kun je `git diff` gebruiken om de wijzigingen in het bestand te zien dat gestaged is en de wijzigingen die niet gestaged zijn:
+Nog een voorbeeld. Als je het `benchmarks.rb` bestand staget en vervolgens verandert, dan kun je `git diff` gebruiken om de wijzigingen in het bestand te zien dat gestaged is en de wijzigingen die niet gestaged zijn:
 
 	$ git add benchmarks.rb
 	$ echo '# test line' >> benchmarks.rb
@@ -364,7 +364,7 @@ Als alternatief kun je de commit boodschap met het `commit` commando meegeven do
 
 Nu heb je je eerste commit gemaakt! Je kunt zien dat de commit je wat output over zichzelf heeft gegeven: op welke branch je gecommit hebt (`master`), welke SHA-1 checksum de commit heeft (`463dc4f`), hoeveel bestanden er veranderd zijn, en statistieken over toegevoegde en verwijderde regels in de commit.
 
-Onthoud dat de commit de snapshot, die je in je staging area ingesteld hebt, opslaat. Alles wat je niet gestaged hebt staat nog steeds gewijzigd; je kunt een volgende commit doen om het aan je geschiedenis toe te voegen. Iedere keer dat je een commit doet, leg je een snapshot van je project vast dat je later terug kunt draaien of mee kunt vergelijken.
+Onthoud dat de commit de snapshot, die je in je staging area ingesteld hebt, opslaat. Alles wat je niet gestaged hebt staat nog steeds gewijzigd; je kunt een volgende commit doen om het aan je geschiedenis toe te voegen. Iedere keer dat je een commit doet, leg je een snapshot van je project vast dat je later terug kunt draaien of waarmee je kunt vergelijken.
 
 ### De staging area overslaan ###
 
@@ -424,7 +424,7 @@ Je kunt bestanden, directories en bestandspatronen aan het `git rm` commando mee
 
 	$ git rm log/\*.log
 
-Let op de backslash (`\`) voor de `*`. Dit is nodig omdat Git zijn eigen bestandsnaam expansie doet, naast die van je shell. In de Windows systeemconsole moet de backslash worden weggelaten. Dit commando verwijdert alle bestanden die de `.log` extensie hebben in de `log/` directory. Of, je kunt zoiets als dit doen:
+Let op de backslash (`\`) voor de `*`. Dit is nodig omdat Git zijn eigen bestandsnaam-expansie doet, naast die van je shell. In de Windows systeemconsole moet de backslash worden weggelaten. Dit commando verwijdert alle bestanden die de `.log` extensie hebben in de `log/` directory. Of, je kunt zoiets als dit doen:
 
 	$ git rm \*~
 
@@ -432,7 +432,7 @@ Dit commando verwijdert alle bestanden die eindigen met `~`.
 
 ### Bestanden verplaatsen ###
 
-Anders dan vele andere VCS systemen, traceert Git niet expliciet verplaatsingen van bestanden. Als je een bestand een nieuwe naam geeft in Git, is er geen metadata opgeslagen in Git die vertelt dat je het bestand hernoemd hebt. Maar Git is slim genoeg om dit alsnog te zien, we zullen bestandsverplaatsing detectie wat later behandelen.
+Anders dan vele andere VCS systemen, traceert Git niet expliciet verplaatsingen van bestanden. Als je een bestand een nieuwe naam geeft in Git, is er geen metadata opgeslagen in Git die vertelt dat je het bestand hernoemd hebt. Maar Git is slim genoeg om dit alsnog te zien, we zullen bestandsverplaatsing-detectie wat later behandelen.
 
 Het is daarom een beetje verwarrend dat Git een `mv` commando heeft. Als je een bestand wilt hernoemen in Git, kun je zoiets als dit doen
 
@@ -459,7 +459,7 @@ Git komt er impliciet achter dat het om een hernoemd bestand gaat, dus het maakt
 
 ## De commit geschiedenis bekijken ##
 
-Nadat je een aantal commits gemaakt hebt, of als je een repository met een bestaande commit geschiedenis gecloned hebt, zul je waarschijnlijk terug willen zien wat er gebeurd is. Het meest basale en krachtige tool om dit te doen is het `git log` commando.
+Nadat je een aantal commits gemaakt hebt, of als je een repository met een bestaande commit-geschiedenis gecloned hebt, zul je waarschijnlijk terug willen zien wat er gebeurd is. Het meest basale en krachtige tool om dit te doen is het `git log` commando.
 
 Deze voorbeelden maken gebruik van een eenvoudig project genaamd simplegit dat ik vaak voor demonstraties gebruikt. Om het project op te halen, voer dit uit
 
@@ -592,7 +592,7 @@ Een andere handige optie is `--pretty`. Deze optie verandert de log output naar 
 	085bb3bcb608e1e8451d4b2432f8ecbe6306e7e7 removed unnecessary test code
 	a11bef06a3f659402fe7563abf99ad00de2209e6 first commit
 
-De meest interessante optie is `format`, waarmee je je eigen log uitvoer formaat kunt specificeren. Dit is in het bijzonder handig als je output aan het genereren bent voor automatische verwerking; omdat je expliciet het formaat kan specificeren, weet je dat het niet zal veranderen bij volgende versies van Git:
+De meest interessante optie is `format`, waarmee je je eigen log-uitvoer-formaat kunt specificeren. Dit is in het bijzonder handig als je output aan het genereren bent voor automatische verwerking; omdat je expliciet het formaat kan specificeren, weet je dat het niet zal veranderen bij volgende versies van Git:
 
 	$ git log --pretty=format:"%h - %an, %ar : %s"
 	ca82a6d - Scott Chacon, 11 months ago : changed the version number
@@ -615,7 +615,7 @@ The lines must be formatted as follows
 	%p	Afgekorte parent hashes
 	%an	Auteur naam
 	%ae	Auteur e-mail
-	%ad	Auteur datum (formaat respecteerd de –date= optie)
+	%ad	Auteur datum (formaat respecteert de –date= optie)
 	%ar	Auteur datum, relatief
 	%cn	Committer naam
 	%ce	Committer e-mail
@@ -625,7 +625,7 @@ The lines must be formatted as follows
 
 Je zult je misschien afvragen wat het verschil is tussen _author_ en _committer_. De _author_ is de persoon die de patch oorspronkelijk geschreven heeft, en de _committer_ is de persoon die de patch als laatste heeft toegepast. Dus als je een patch naar een project stuurt en een van de kernleden past de patch toe, dan krijgen jullie beiden de eer, jij als de auteur en het kernlid als de committer. We gaan hier wat verder op in in *Hoofdstuk 5*.
 
-De `oneline` en `format` opties zijn erg handig in combinatie met een andere `log` optie genaamd `--graph`. Deze optie maakt een mooie ASCII grafiek waarin je branch en merge geschiedenis getoond worden, die we kunnen zien in onze kopie van het Grit project repository:
+De `oneline` en `format` opties zijn erg handig in combinatie met een andere `log` optie genaamd `--graph`. Deze optie maakt een mooie ASCII grafiek waarin je branch- en merge-geschiedenis getoond worden, die we kunnen zien in onze kopie van het Grit project repository:
 
 	$ git log --pretty=format:"%h %s" --graph
 	* 2d3acf9 ignore errors from SIGCHLD on trap
@@ -639,7 +639,7 @@ De `oneline` en `format` opties zijn erg handig in combinatie met een andere `lo
 	* d6016bc require time for xmlschema
 	*  11d191e Merge branch 'defunkt' into local
 
-Dat zijn slechts een paar simpele output formaat opties voor `git log`; er zijn er nog veel meer. Tabel 2-2 toont de opties waarover we het tot nog toe gehad hebben, en wat veel voorkomende formaat opties die je misschien handig vindt, samen met hoe ze de output van het `log` commando veranderen.
+Dat zijn slechts een paar simpele output formaat opties voor `git log`; er zijn er nog veel meer. Tabel 2-2 toont de opties waarover we het tot nog toe gehad hebben, en wat veel voorkomende formaat-opties die je misschien handig vindt, samen met hoe ze de output van het `log` commando veranderen.
 
 <!-- Attention to translators: this is a table declaration.
 The lines must be formatted as follows
@@ -651,11 +651,11 @@ The lines must be formatted as follows
 	--word-diff	Toon de patch in een woord diff formaat.
 	--stat	Toon statistieken voor gewijzigde bestanden per commit.
 	--shortstat	Toon alleen de gewijzigde/ingevoegde/verwijderde regel van het --stat commando.
-	--name-only	Toon de lijst van bestanden die gewijzigd zijn na de commit informatie.
+	--name-only	Toon de lijst van bestanden die gewijzigd zijn na de commit-informatie.
 	--name-status	Toon ook de lijst van bestanden die beïnvloed zijn door de toegevoegde/gewijzigde/verwijderde informatie.
 	--abbrev-commit	Toon alleen de eerste paar karakters van de SHA-1 checksum in plaats van alle 40.
 	--relative-date	Toon de datum in een relatief formaat (bijvoorbeeld, "2 weken geleden"), in plaats van het volledige datum formaat.
-	--graph		Toon een ASCII grafiek van de branch en merge geschiedenis naast de log output.
+	--graph		Toon een ASCII grafiek van de branch- en merge-geschiedenis naast de log output.
 	--pretty	Toon commits in een alternatief formaat. De opties bevatten oneline, short, full, fuller, en format (waarbij je je eigen formaat specificeert).
 	--oneline	Een gemaks-optie, staat voor `--pretty=oneline --abbrev-commit`.
 
@@ -663,7 +663,7 @@ The lines must be formatted as follows
 
 Naast het formatteren van de output, heeft `git log` nog een aantal bruikbare limiterende opties; dat wil zeggen, opties die je een subset van de commits tonen. Je hebt zo'n optie al gezien: de `-2` optie, die slechts de laatste twee commits laat zien. Sterker nog: je kunt `-<n>` doen, waarbij `n` een heel getal is om de laatste `n` commits te laten zien. In feite zul je deze vorm weinig gebruiken, omdat Git standaard alle output door een pager (pagineer applicatie) stuurt zodat je de log-uitvoer pagina voor pagina ziet.
 
-Dat gezegd hebbende, zijn de tijd limiterende opties zoals `--since` en `--until` erg handig. Dit commando bijvoorbeeld, geeft een lijst met commits die gedaan zijn gedurende de laatste twee weken:
+Dat gezegd hebbende, zijn de tijd-limiterende opties zoals `--since` en `--until` erg handig. Dit commando bijvoorbeeld, geeft een lijst met commits die gedaan zijn gedurende de laatste twee weken:
 
 	$ git log --since=2.weeks
 
@@ -687,7 +687,7 @@ The lines must be formatted as follows
 	--author	Laat alleen de commits zien waarvan de auteur bij de gegeven tekst past.
 	--committer	Laat alleen de commits zien waarvan de committer bij de gegeven tekst past.
 
-Bijvoorbeeld, als je wilt zien welke commits test bestanden in de Git broncode geschiedenis aanpasten waarvan de committer Junio Hamano is en die niet in de maand oktober van 2008 gemerged zijn, kun je zoiets als dit uitvoeren:
+Bijvoorbeeld, als je wilt zien welke commits test bestanden in de Git broncode geschiedenis aanpasten waarvan de committer Junio Hamano is en die in de maand oktober van 2008 gemerged zijn, kun je zoiets als dit uitvoeren:
 
 	$ git log --pretty="%h - %s" --author=gitster --since="2008-10-01" \
 	   --before="2008-11-01" --no-merges -- t/
@@ -705,13 +705,13 @@ Van de bijna 20.000 commits in de Git broncode historie, laat dit commando de 6 
 Als je een meer grafische applicatie wilt gebruiken om je commit historie te visualiseren, wil je misschien een kijkje nemen naar het Tcl/Tk programma genaamd `gitk` dat met Git meegeleverd wordt. Gitk is eigenlijk een visuele `git log` tool, en het accepteert bijna alle filter opties die `git log` ook accepteert. Als je `gitk` in op de commandoregel in je project typt, zou je zoiets als in Figuur 2-2 moeten zien.
 
 Insert 18333fig0202.png
-Figuur 2-2. De gitk historie visualiseerder.
+Figuur 2-2. De gitk historie-visualiseerder.
 
-Je kunt de commit historie in de bovenste helft van het scherm zien, samen met een afkomst graaf. De diff in de onderste helft van het scherm laat je de veranderingen zien die geïntroduceerd zijn bij iedere commit die je aanklikt.
+Je kunt de commit-historie in de bovenste helft van het scherm zien, samen met een afkomst graaf. De diff in de onderste helft van het scherm laat je de veranderingen zien die geïntroduceerd zijn bij iedere commit die je aanklikt.
 
 ## Dingen ongedaan maken ##
 
-Op enig moment wil je misschien iets ongedaan maken. Hier zullen we een aantal basis tools laten zien om veranderingen die je gemaakt hebt weer ongedaan te maken. Maar pas op, je kunt niet altijd het ongedaan maken weer ongedaan maken. Dit is één van de weinige gedeeltes in Git waarbij je werk kwijt kunt raken als je het verkeerd doet.
+Op enig moment wil je misschien iets ongedaan maken. Hier zullen we een aantal basis-tools laten zien om veranderingen die je gemaakt hebt weer ongedaan te maken. Maar pas op, je kunt niet altijd het ongedaan maken weer ongedaan maken. Dit is één van de weinige gedeeltes in Git waarbij je werk kwijt kunt raken als je het verkeerd doet.
 
 ### Je laatste commit veranderen ###
 
@@ -768,7 +768,7 @@ Het commando is een beetje vreemd, maar het werkt. Het benchmarks.rb bestand is 
 
 ### Een gewijzigd bestand weer ongewijzigd maken ###
 
-Wat als je je realiseert dat je de wijzigingen aan het `benchmarks.rb` bestand niet wilt behouden? Hoe kun je dit makkelijk ongedaan maken; terug brengen in de staat waarin het was toen je voor het laatst gecommit hebt (of initieel gecloned, of hoe je het ook in je werkdirectory gekregen hebt)? Gelukkig vertelt `git status` je ook hoe je dat moet doen. In de laatste voorbeeld output, ziet het unstaged gebied er zo uit:
+Wat als je je realiseert dat je de wijzigingen aan het `benchmarks.rb` bestand niet wilt behouden? Hoe kun je dit makkelijk ongedaan maken; terugbrengen in de staat waarin het was toen je voor het laatst gecommit hebt (of initieel gecloned, of hoe je het ook in je werkdirectory gekregen hebt)? Gelukkig vertelt `git status` je ook hoe je dat moet doen. In de laatste voorbeeld-output, ziet het unstaged gebied er zo uit:
 
 	Changes not staged for commit:
 	  (use "git add <file>..." to update what will be committed)
@@ -841,7 +841,7 @@ Ik heb het toevoegen van remote repositories al genoemd en getoond in vorige par
 	origin	git://github.com/schacon/ticgit.git
 	pb	git://github.com/paulboone/ticgit.git
 
-Nu kun je de naam pb op de commandoregel gebruiken in plaats van de hele URL. Bijvoorbeeld, als je alle informatie die Paul wel, maar jij niet in je repository wilt fetchen, dan kun je git fetch pb uitvoeren:
+Nu kun je de naam pb op de commandoregel gebruiken in plaats van de hele URL. Bijvoorbeeld, als je alle informatie die Paul wel, maar jij niet in je repository hebt wilt fetchen, dan kun je git fetch pb uitvoeren:
 
 	$ git fetch pb
 	remote: Counting objects: 58, done.
@@ -860,9 +860,9 @@ Zoals je zojuist gezien hebt, kun je om data van je remote projecten te halen di
 
 	$ git fetch [remote-name]
 
-Het commando gaat naar het remote project en haalt alle data van dat remote project dat jij nog niet hebt. Nadat je dit gedaan hebt, zou je references (referenties) naar alle branches van dat remote moeten hebben, die je op ieder tijdstip kunt mergen en bekijken. (We zullen in meer detail zien wat branches precies zijn, en hoe je ze moet gebruiken in *Hoofdstuk 3*.)
+Het commando gaat naar het remote project en haalt alle data van dat remote project dat jij nog niet hebt. Nadat je dit gedaan hebt, zou je references (referenties) naar alle branches van dat remote project moeten hebben, die je op ieder tijdstip kunt mergen en bekijken. (We zullen in meer detail zien wat branches precies zijn, en hoe je ze moet gebruiken in *Hoofdstuk 3*.)
 
-Als je een repository cloned, voegt dat commando die remote repository automatisch toe onder de naam *origin*. Dus `git fetch origin` fetcht (haalt) ieder nieuw werk dat gepusht is naar die server sinds je gecloned hebt (of voor het laatst gefetcht hebt). Het is belangrijk om te weten dat het fetch commando de data naar je locale repository haalt; het merged niet automatisch met je werk of verandert waar je momenteel aan zit te werken. Je moet het handmatig in je werk mergen wanneer je er klaar voor bent.
+Als je een repository clonet, voegt dat commando die remote repository automatisch toe onder de naam *origin*. Dus `git fetch origin` fetcht (haalt) ieder nieuw werk dat gepusht is naar die server sinds je gecloned hebt (of voor het laatst gefetcht hebt). Het is belangrijk om te weten dat het fetch commando de data naar je locale repository haalt; het merget niet automatisch met je werk of verandert waar je momenteel aan zit te werken. Je moet het handmatig in je werk mergen wanneer je er klaar voor bent.
 
 Als je een branch geconfigureerd hebt om een remote branch te volgen (tracken) (zie de volgende paragraaf en *Hoofdstuk 3* voor meer informatie), dan kun je het `git pull` commando gebruiken om automatisch een remote branch te fetchen en mergen in je huidige branch. Dit kan makkelijker of meer comfortabele workflow zijn voor je; en standaard stelt het `git clone` commando je lokale master branch zo in dat het de remote master branch van de server waarvan je gecloned hebt volgt (aangenomen dat de remote een master branch heeft). Over het algemeen zal een `git pull` dat van de server waarvan je origineel gecloned hebt halen en proberen het automatisch in de code waar je op dat moment aan zit te werken te mergen.
 
@@ -934,7 +934,7 @@ Als je om een of andere reden een referentie wilt verwijderen, je hebt de server
 
 ## Taggen (Labelen) ##
 
-Zoals de meeste VCS'en, heeft git de mogelijkheid om specifieke punten in de history als belangrijk te taggen (labelen). Over het algemeen gebruiken mensen deze functionaliteit om versie punten te markeren (`v1.0`, en zo). In deze paragraaf zul je leren hoe de beschikbare tags te tonen, hoe nieuwe tags te creëren, en wat de verschillende typen tags zijn.
+Zoals de meeste VCS'en, heeft git de mogelijkheid om specifieke punten in de history als belangrijk te taggen (labelen). Over het algemeen gebruiken mensen deze functionaliteit om versie-punten te markeren (`v1.0`, en zo). In deze paragraaf zul je leren hoe de beschikbare tags te tonen, hoe nieuwe tags te creëren, en wat de verschillende typen tags zijn.
 
 ### Jouw tags laten zien ###
 
@@ -946,7 +946,7 @@ De beschikbare tags in Git laten zien is rechttoe rechtaan. Type gewoon `git tag
 
 Dit commando toont de tags in alfabetische volgorde; de volgorde waarin ze verschijnen heeft geen echte betekenis.
 
-Je kunt ook zoeken op tags met een bepaald patroon. De Git bron repository, bijvoorbeeld, bevat meer dan 240 tags. Als je alleen geïnteresseerd bent om naar de 1.4.2 serie te kijken, kun je dit uitvoeren:
+Je kunt ook zoeken op tags met een bepaald patroon. De Git bron-repository, bijvoorbeeld, bevat meer dan 240 tags. Als je alleen geïnteresseerd bent om naar de 1.4.2 serie te kijken, kun je dit uitvoeren:
 
 	$ git tag -l 'v1.4.2.*'
 	v1.4.2.1
@@ -1135,7 +1135,7 @@ Als je veel tags hebt die je ineens wilt pushen, kun je ook de `--tags` optie aa
 	 * [new tag]         v1.4-lw -> v1.4-lw
 	 * [new tag]         v1.5 -> v1.5
 
-Als nu iemand anders van jouw repository cloned of pullt, dan zullen zij al jouw tags ook krijgen.
+Als nu iemand anders van jouw repository clonet of pullt, dan zullen zij al jouw tags ook krijgen.
 
 ## Tips en trucs ##
 
@@ -1167,7 +1167,7 @@ Dat is een erg handig trucje en zal je misschien wat tijd en documentatie lezen 
 
 ### Git aliassen ###
 
-Git zal geen commando's afleiden uit wat gedeeltelijk intypt. Als je niet de hele tekst van ieder Git commando wilt intypen, kun je gemakkelijk een alias voor ieder commando configureren door `git config` te gebruiken. Hier zijn een aantal voorbeelden die je misschien wilt instellen:
+Git zal geen commando's afleiden uit wat je gedeeltelijk intypt. Als je niet de hele tekst van ieder Git commando wilt intypen, kun je gemakkelijk een alias voor ieder commando configureren door `git config` te gebruiken. Hier zijn een aantal voorbeelden die je misschien wilt instellen:
 
 	$ git config --global alias.co checkout
 	$ git config --global alias.br branch

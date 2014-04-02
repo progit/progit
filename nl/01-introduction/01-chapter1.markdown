@@ -1,7 +1,7 @@
 <!-- Attentie heren en dames vertalers.
 Ik zou het volgende willen voorstellen:
 Er zijn bepaalde termen die voor de gemiddelde Nederlandse computer gebruiker 
-veel beter klinken (of bekender voorkomen) als de orginele Engelse term. In het
+veel beter klinken (of bekender voorkomen) dan de orginele Engelse term. In het
 begin zullen deze termen niet vaak voorkomen, maar in de meer diepgaandere 
 hoofdstukken komen deze steeds meer voor. Termen als "Committen", "Mergen" 
 en "Applyen" klinken beter dan "Plegen" of "Toepassen", "Samenvoegen" en 
@@ -42,7 +42,7 @@ In dit hoofdstuk wordt uitgelegd hoe je aan de slag kunt gaan met Git. We zullen
 
 Wat is versiebeheer, en wat heeft dat met jou te maken? Versiebeheer is het systeem waarbij veranderingen in een bestand of groep van bestanden over de tijd wordt bijgehouden, zodat je later specifieke versies kan opvragen. In de voorbeelden in dit boek is het broncode van computersoftware waarvan de versies beheerd worden maar in principe kan elk soort bestand op een computer aan versiebeheer worden onderworpen.
 
-Als je een grafisch ontwerper bent of websites ontwerpt en elke versie van een afbeelding of opmaak wilt bewaren (wat je vrijwel zeker zult willen), is het verstandig een versiebeheersysteem (Version Control System in het Engels, afgekort tot VCS) te gebruiken. Als je dat gebruikt kan je eerdere versies van bestanden of het hele project terughalen, wijzigingen tussen twee momententen in tijd bekijken, zien wie het laatst iets aangepast heeft wat een probleem zou kunnen veroorzaken, wie een probleen heeft veroorzaakt en wanneer en nog veel meer. Een VCS gebruiken betekent meestal ook dat je de situatie gemakkelijk terug kan draaien als je een fout maakt of bestanden kwijtraakt. Daarbij komt nog dat dit allemaal heel weinig extra belasting met zich mee brengt.
+Als je een grafisch ontwerper bent of websites ontwerpt en elke versie van een afbeelding of opmaak wilt bewaren (wat je vrijwel zeker zult willen), is het verstandig een versiebeheersysteem (Version Control System in het Engels, afgekort tot VCS) te gebruiken. Als je dat gebruikt kan je eerdere versies van bestanden of het hele project terughalen, wijzigingen tussen twee momententen in tijd bekijken, zien wie het laatst iets aangepast heeft wat een probleem zou kunnen veroorzaken, wie een probleem heeft veroorzaakt en wanneer en nog veel meer. Een VCS gebruiken betekent meestal ook dat je de situatie gemakkelijk terug kan draaien als je een fout maakt of bestanden kwijtraakt. Daarbij komt nog dat dit allemaal heel weinig extra belasting met zich mee brengt.
 
 ### Lokale versiebeheersystemen ###
 
@@ -53,11 +53,11 @@ Om met dit probleem om te gaan hebben programmeurs lang geleden lokale VCSen ont
 Insert 18333fig0101.png
 Figuur 1-1. Een diagram van een lokaal versiebeheersysteem.
 
-Een populair gereedschap voor VCS was een systeem genaamd rcs, wat vandaag de dag nog steeds met veel computers wordt mee geleverd. Zelfs het populaire besturingssysteem Mac OS X heeft rcs als je de Developer Tools installeert. Dit gereedschap werkt in principe door verzamelingen van ‘patches’ (de verschillen tussen bestanden) van de opvolgende bestandsversies in een speciaal formaat op de harde schijf op te slaan. Zo kan je een bestand reproduceren bestand zoals deze er uitzag op enig moment in tijd door alle patches bij elkaar op te tellen.
+Een populair gereedschap voor VCS was een systeem genaamd rcs, wat vandaag de dag nog steeds met veel computers wordt meegeleverd. Zelfs het populaire besturingssysteem Mac OS X heeft rcs als je de Developer Tools installeert. Dit gereedschap werkt in principe door verzamelingen van ‘patches’ (de verschillen tussen bestanden) van de opvolgende bestandsversies in een speciaal formaat op de harde schijf op te slaan. Zo kan je een bestand reproduceren zoals deze er uitzag op enig moment in tijd door alle patches bij elkaar op te tellen.
 
 ### Gecentraliseerde versiebeheersystemen ###
 
-De volgende belangrijke uitdaging waar mensen tegenaan lopen is dat ze samen moeten werken met ontwikkelaars op andere computers. Om deze uitdaging te aan te gaan ontwikkelde men Gecentraliseerde Versiebeheersystemen (Centralized Version Control Systems, afgekort CVCSs). Deze systemen, zoals CVS, Subversion en Perforce, hebben één centrale server waarop alle versies van de bestanden staan en een aantal clients die de bestanden daar van ophalen (‘check out’). Vele jaren was dit de standaard voor versiebeheer (zie Figuur 1-2).
+De volgende belangrijke uitdaging waar mensen tegenaan lopen is dat ze samen moeten werken met ontwikkelaars op andere computers. Om deze uitdaging aan te gaan ontwikkelde men Gecentraliseerde Versiebeheersystemen (Centralized Version Control Systems, afgekort CVCSs). Deze systemen, zoals CVS, Subversion en Perforce, hebben één centrale server waarop alle versies van de bestanden staan en een aantal clients die de bestanden daar van ophalen (‘check out’). Vele jaren was dit de standaard voor versiebeheer (zie Figuur 1-2).
 
 Insert 18333fig0102.png
 Figuur 1-2. Een diagram van een gecentraliseerd versiebeheersysteem.
@@ -91,7 +91,7 @@ Sinds het ontstaan in 2005 is Git gegroeid tot zijn huidige vorm: het is eenvoud
 
 ## De basis van Git ##
 
-Dus, wat is Git in een notendop? Dit is een belangrijke paragraaf om in je op te nemen, omdat als je goed begrijpt wat Git is en de fundamenten van de interne werking begrijpt, het waarschijnlijk een stuk makkelijker wordt om Git effectief te gebruiken. Probeer, als je Git aan het leren bent, te vergeten wat je al weet over andere VCSen zoals Subversion en Perforce; zo kan je verwarring bij gebruik door de subtiele verschillen voorkomen. Git gaat op een hele andere manier met informatie om dan die andere systemen, ook al lijken de verschillende commando’s behoorlijk op elkaar. Als je die verschillen begrijpt, kan je voorkomen dat je verward raakt als je Git gebruikt.
+Dus, wat is Git in een notendop? Dit is een belangrijke paragraaf om in je op te nemen, omdat, als je goed begrijpt wat Git is en de fundamenten van de interne werking begrijpt, het waarschijnlijk een stuk makkelijker wordt om Git effectief te gebruiken. Probeer, als je Git aan het leren bent, te vergeten wat je al weet over andere VCSen zoals Subversion en Perforce; zo kan je verwarring bij gebruik door de subtiele verschillen voorkomen. Git gaat op een hele andere manier met informatie om dan die andere systemen, ook al lijken de verschillende commando’s behoorlijk op elkaar. Als je die verschillen begrijpt, kan je voorkomen dat je verward raakt als je Git gebruikt.
 
 ### Momentopnames in plaats van verschillen ###
 
@@ -100,12 +100,12 @@ Een groot verschil tussen Git en elke andere VCS (inclusief Subversion en consor
 Insert 18333fig0104.png
 Figuur 1-4. Andere systemen bewaren data meestal als veranderingen aan een basisversie van elk bestand.
 
-Git ziet en bewaart zijn data heel anders. De kijk van Git op zijn data kan worden uitgelegd als een reeks momentopnames (snapshots) van een miniatuurbestandsysteem. Elke keer dat je ‘commit’ (de status van van je project in Git opslaat) neemt het een soort van foto van hoe al je bestanden er op dat moment uitzien en slaat een verwijzing naar die foto op. Voor efficiëntie slaat Git ongewijzigde bestanden niet elke keer opnieuw op, alleen een verwijzing naar het eerdere identieke bestand dat het eerder al opgeslagen had. In Figuur 1-5 kan je zie hoe Git ongeveer over zijn data denkt.
+Git ziet en bewaart zijn data heel anders. De kijk van Git op zijn data kan worden uitgelegd als een reeks momentopnames (snapshots) van een miniatuurbestandssysteem. Elke keer dat je ‘commit’ (de status van je project in Git opslaat) neemt het een soort van foto van hoe al je bestanden er op dat moment uitzien en slaat een verwijzing naar die foto op. Voor efficiëntie slaat Git ongewijzigde bestanden niet elke keer opnieuw op, alleen een verwijzing naar het eerdere identieke bestand dat het eerder al opgeslagen had. In Figuur 1-5 kan je zie hoe Git ongeveer over zijn data denkt.
 
 Insert 18333fig0105.png
 Figuur 1-5. Git bewaart data als momentopnames van het project.
 
-Dat is een belangrijk onderscheid tussen Git en bijna alle overige VCSen. Hierdoor moet Git bijna elk aspect van versiebeheer heroverwegen, terwijl de meeste andere systemen het van hebben overgenomen van voorgaande generaties. Dit maakt Git meer een soort mini-bestandssysteem met een paar ongelooflijk krachtige gereedschappen, in plaats van niets meer of minder dan een VCS. We zullen een paar van de voordelen die je krijgt als je op die manier over data denkt gaan onderzoeken, als we ‘branching’ (gesplitste ontwikkeling) toelichten in Hoofdstuk 3.
+Dat is een belangrijk onderscheid tussen Git en bijna alle overige VCSen. Hierdoor moet Git bijna elk aspect van versiebeheer heroverwegen, terwijl de meeste andere systemen het hebben overgenomen van voorgaande generaties. Dit maakt Git meer een soort mini-bestandssysteem met een paar ongelooflijk krachtige gereedschappen, in plaats van niets meer of minder dan een VCS. We zullen een paar van de voordelen die je krijgt als je op die manier over data denkt gaan onderzoeken, als we ‘branching’ (gesplitste ontwikkeling) toelichten in Hoofdstuk 3.
 
 ### Bijna alles is lokaal ###
 
@@ -127,18 +127,18 @@ Je zult deze hashwaarden overal tegenkomen omdat Git er zoveel gebruik van maakt
 
 ### Git voegt normaal gesproken alleen data toe ###
 
-Bijna alles wat je in Git doet, leidt tot toevoeging van data in de Git database. Het is erg moeilijk om het systeem iets te laten doen wat je niet ongedaan kan maken of het de gegevens te laten wissen op wat voor manier dan ook. Zoals met elke VCS kun je veranderingen verliezen of verhaspelen als deze nog niet hebt gecommit; maar als je dat eenmaal hebt gedaan, is het erg moeilijk om die data te verliezen, zeker als je de lokale database regelmatig uploadt (‘push’) naar een andere repository.
+Bijna alles wat je in Git doet, leidt tot toevoeging van data in de Git database. Het is erg moeilijk om het systeem iets te laten doen wat je niet ongedaan kan maken of het de gegevens te laten wissen op wat voor manier dan ook. Zoals met elke VCS kun je veranderingen verliezen of verhaspelen als je deze nog niet hebt gecommit; maar als je dat eenmaal hebt gedaan, is het erg moeilijk om die data te verliezen, zeker als je de lokale database regelmatig uploadt (‘push’) naar een andere repository.
 
 Dit maakt het gebruik van Git zo plezierig omdat je weet dat je kunt experimenteren zonder het gevaar te lopen jezelf behoorlijk in de nesten te werken. Zie Hoofdstuk 9 voor een iets diepgaandere uitleg over hoe Git zijn data bewaart en hoe je de data die verloren lijkt kunt terughalen.
 
 ### De drie toestanden ###
 
-Let nu goed op. Dit is het belangrijkste dat je over Git moet weten als je wilt dat de rest van het leerproces gladjes verloopt. Git heeft drie hoofdtoestanden waarin bestanden zich kunnen bevinden: gecommit (‘commited’), aangepast (‘modified’) en voorbereid voor een commit (‘staged’). Committed houdt in dat alle data veilig opgeslagen is in je lokale database. Modified betekent dat je het bestand hebt gewijzigd maar dat je nog niet naar je database gecommit hebt. Staged betekent dat je al hebt aangegeven dat je de huidige versie van het aangepaste bestand in je volgende commit meegenomen moet worden.
+Let nu goed op. Dit is het belangrijkste dat je over Git moet weten als je wilt dat de rest van het leerproces gladjes verloopt. Git heeft drie hoofdtoestanden waarin bestanden zich kunnen bevinden: gecommit (‘commited’), aangepast (‘modified’) en voorbereid voor een commit (‘staged’). Committed houdt in dat alle data veilig opgeslagen is in je lokale database. Modified betekent dat je het bestand hebt gewijzigd maar dat je nog niet naar je database gecommit hebt. Staged betekent dat je al hebt aangegeven dat de huidige versie van het aangepaste bestand in je volgende commit meegenomen moet worden.
 
-Dit brengt ons tot de drie hoofdonderdelen van een Gitproject: de Git directory, de werk directory, en de wachtrij voor een commit (‘staging area’)
+Dit brengt ons tot de drie hoofdonderdelen van een Gitproject: de Git directory, de werk-directory, en de wachtrij voor een commit (‘staging area’)
 
 Insert 18333fig0106.png 
-Figuur 1-6. Werk directory, wachtrij en Git directory
+Figuur 1-6. Werk-directory, wachtrij en Git directory
 
 De Git directory is waar Git de metadata en objectdatabase van je project opslaat. Dit is het belangrijkste deel van Git. Deze directory wordt gekopiëerd wanneer je een repository kloont vanaf een andere computer.
 
@@ -228,7 +228,7 @@ Git bevat standaard een stuk gereedschap genaamd `git config`, waarmee je de con
 
 *	Het bestand `/etc/gitconfig`: Bevat eigenschappen voor elk account op de computer en al hun repositories. Als je de optie `--system` meegeeft aan `git config`, zal het de configuratiegegevens in dit bestand lezen en schrijven.
 *	Het bestand `~/.gitconfig`: Eigenschappen voor jouw account. Je kunt Git dit bestand laten lezen en schrijven door de optie `--global` mee te geven.
-*	Het configuratiebestand in de Gitdirectory (dus `.git/config`) van de repository dat je op het moment gebruikt: Specifiek voor die ene repository. Elk niveau neemt voorrang boven het voorgaande, dus waarden die in `.git/config` zijn gebruikt zullen worden gebruikt in plaats van die in `/etc/gitconfig`.
+*	Het configuratiebestand in de Gitdirectory (dus `.git/config`) van de repository die je op het moment gebruikt: Specifiek voor die ene repository. Elk niveau neemt voorrang boven het voorgaande, dus waarden die in `.git/config` zijn gebruikt zullen worden gebruikt in plaats van die in `/etc/gitconfig`.
 
 Op systemen met Windows zoekt Git naar het `.gitconfig`-bestand in de `$HOME` directory (`%USERPROFILE%` in een Windows omgeving) wat zich vertaalt in `C:\Documents and Settings\$USER` of `C:\Users\$USER` voor de meesten, afhankelijk van de versie (`$USER` is `%USERNAME%` in Windows omgevingen). Het zoekt ook nog steeds naar `/etc/gitconfig`, maar dan gerelateerd aan de plek waar je MSys hebt staan, en dat is de plek is waar je Git op je Windowscomputer geïnstalleerd hebt.
 
@@ -249,7 +249,7 @@ Nu Git weet wie je bent, kun je de standaard tekstverwerker instellen die gebrui
 
 ### Je diffprogramma ###
 
-En andere nuttige optie die je misschien wel wilt instellen is het standaard diffprogramma om mergeconflicten op te lossen. Stel dat je vimdiff wilt gebruiken:
+Een andere nuttige optie die je misschien wel wilt instellen is het standaard diffprogramma om mergeconflicten op te lossen. Stel dat je vimdiff wilt gebruiken:
 
 	$ git config --global merge.tool vimdiff
 

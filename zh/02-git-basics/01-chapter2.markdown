@@ -497,9 +497,9 @@ A `**/` pattern is available in Git since version 1.8.2.
 	-end
 	\ No newline at end of file
 
-This option displays the same information but with a diff directly following each entry. This is very helpful for code review or to quickly browse what happened during a series of commits that a collaborator has added.
+该选项除了显示基本信息之外，还在附带了每次 commit 的变化。当进行代码审查，或者快速浏览某个搭档提交的 commit 的变化的时候，这个参数就非常有用了。
 
-Sometimes it's easier to review changes on the word level rather than on the line level. There is a `--word-diff` option available in Git, that you can append to the `git log -p` command to get word diff instead of normal line by line diff. Word diff format is quite useless when applied to source code, but it comes in handy when applied to large text files, like books or your dissertation. Here is an example:
+某些时候，单词层面的对比，比行层面的对比，更加容易观察。Git 提供了 `--word-diff` 选项。我们可以将其添加到 `git log -p` 命令的后面，从而获取单词层面上的对比。在程序代码中进行单词层面的对比常常是没什么用的。不过当你需要在书籍、论文这种很大的文本文件上进行对比的时候，这个功能就显出用武之地了。下面是一个简单的例子：
 
 	$ git log -U1 --word-diff
 	commit ca82a6dff817ec66f44342007202690a93763949
@@ -517,9 +517,9 @@ Sometimes it's easier to review changes on the word level rather than on the lin
 	    s.version   =   [-"0.1.0"-]{+"0.1.1"+}
 	    s.author    =   "Scott Chacon"
 
-As you can see, there is no added and removed lines in this output as in a normal diff. Changes are shown inline instead. You can see the added word enclosed in `{+ +}` and removed one enclosed in `[- -]`. You may also want to reduce the usual three lines context in diff output to only one line, as the context is now words, not lines. You can do this with `-U1` as we did in the example above.
+如你所见，这里并没有平常看到的添加行或者删除行的信息。这里的对比显示在行间。新增加的单词被 `{+ +}` 括起来，被删除的单词被 `[- -]` 括起来。在进行单词层面的对比的时候，你可能希望上下文（ context ）行数从默认的 3 行，减为 1 行，那么可以使用 `-U1` 选项。上面的例子中，我们就使用了这个选项。 
 
-在做代码审查，或者要快速浏览其他协作者提交的更新都作了哪些改动时，就可以用这个选项。此外，还有许多摘要选项可以用，比如 `--stat`，仅显示简要的增改行数统计：
+另外，`git log` 还提供了许多摘要选项可以用，比如 `--stat`，仅显示简要的增改行数统计：
 
 	$ git log --stat
 	commit ca82a6dff817ec66f44342007202690a93763949

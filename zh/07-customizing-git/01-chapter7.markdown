@@ -301,13 +301,13 @@ Git默认情况下不会在推送期间检查所有对象的一致性。虽然�
 
 	*.pbxproj -crlf -diff
 
-现在，Git 会尝试转换和修正CRLF（回车换行）问题，也不会当你在项目中运行git show或git diff时，比较不同的内容。在Git 1.6及之后的版本中，可以用一个宏代替`-crlf -diff`：
+现在，Git 会尝试转换和修正CRLF（回车换行）问题，也不会当你在项目中运行`git show`或`git diff`时，比较不同的内容。在Git 1.6及之后的版本中，可以用一个宏代替`-crlf -diff`：
 
 	*.pbxproj binary
 
 #### 比较二进制文件 ####
 
-在 Git 中，你能利用 Git 属性来有效地比较二进制文件。可以设置 Git 把二进制数据转换成文本格式，用通常的diff来比较。
+你可以使用 Git 属性来有效地比较两个二进制文件（binary files，译注：指非文本文件）。那么第一步要做的是，告诉 Git 怎么把你的二进制文件转化为纯文本格式，从而让普通的 diff 命令可以进行文本对比。但是，我们怎么把*二进制文件*转化为文本呢？最好的解决方法是找到一个转换工具帮助我们进行转化。但是，大部分的二进制文件不能表示为可读的文本，例如语音文件就很难转化为文本文件。如果你遇到这些情况，比较简单的解决方法是从这些二进制文件中获取简介，或者元数据。虽然这些数据并不能完全描述一个二进制文件，但是这总能表明一些情况。
 
 We'll make use of the both described approaches to get usable diffs for some widely used binary formats.
 

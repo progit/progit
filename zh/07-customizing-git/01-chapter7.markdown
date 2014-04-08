@@ -301,17 +301,17 @@ Git默认情况下不会在推送期间检查所有对象的一致性。虽然�
 
 	*.pbxproj -crlf -diff
 
-现在，Git 会尝试转换和修正CRLF（回车换行）问题，也不会当你在项目中运行git show或git diff时，比较不同的内容。在Git 1.6及之后的版本中，可以用一个宏代替`-crlf -diff`：
+现在，Git 会尝试转换和修正CRLF（回车换行）问题，也不会当你在项目中运行`git show`或`git diff`时，比较不同的内容。在Git 1.6及之后的版本中，可以用一个宏代替`-crlf -diff`：
 
 	*.pbxproj binary
 
 #### 比较二进制文件 ####
 
-在 Git 中，你能利用 Git 属性来有效地比较二进制文件。可以设置 Git 把二进制数据转换成文本格式，用通常的diff来比较。
+你可以使用 Git 属性来有效地比较两个二进制文件（binary files，译注：指非文本文件）。那么第一步要做的是，告诉 Git 怎么把你的二进制文件转化为纯文本格式，从而让普通的 diff 命令可以进行文本对比。但是，我们怎么把*二进制文件*转化为文本呢？最好的解决方法是找到一个转换工具帮助我们进行转化。但是，大部分的二进制文件不能表示为可读的文本，例如语音文件就很难转化为文本文件。如果你遇到这些情况，比较简单的解决方法是从这些二进制文件中获取元数据。虽然这些元数据并不能完全描述一个二进制文件，但大多数情况下，都是能够概括文件情况的。
 
-We'll make use of the both described approaches to get usable diffs for some widely used binary formats.
+下面，我们将会展示，如何使用转化工具进行二进制文件的比较。
 
-Side note: There are different kinds of binary formats with a text content, which are hard to find usable converter for. In such a case you could try to extract a text from your file with the `strings` program. Some of these files may use an UTF-16 encoding or other "codepages" and `strings` won’t find anything useful in there. Your mileage may vary. However, `strings` is available on most Mac and Linux systems, so it may be a good first try to do this with many binary formats.
+边注：有一些二进制文件虽然包含文字，但是却难以转换。（译注：例如 Word 文档。）在这些情况，你可以尝试使用 `strings` 工具来获取其中的文字。但如果当这些文档包含 UTF-16 编码，或者其他代码页（codepages），`strings` 也可能无补于事。`strings` 在大部分的 Mac 和 Linux 下都有安装。当遇到有二进制文件需要转换的时候，你可以试试这个工具。
 
 ##### MS Word files #####
 
@@ -330,7 +330,7 @@ Side note: There are different kinds of binary formats with a text content, whic
 
 	$ git config diff.word.textconv catdoc
 
-This command adds a section to your `.git/config` that looks like this:
+这个命令会在你的 `.git/config` 文件中增加一节：
 
 	[diff "word"]
 		textconv = catdoc

@@ -12,9 +12,9 @@ Se vuoi iniziare a tenere traccia con Git di un progetto esistente, devi andare 
 
 	$ git init
 
-Questo creerà una nuova sottodirectory chiamata .git che conterrà tutti i file necessari per il tuo repository: una struttura del repository Git. A questo punto non è ancora stato tracciato niente del tuo progetto. (Vedi il *Capitolo 9* per sapere quali file sono contenuti nella directory `.git` che hai appena creato.)
+Questo creerà una nuova sottodirectory chiamata `.git` che conterrà tutti i file necessari per il tuo repository, una struttura del repository Git. A questo punto non è ancora stato tracciato niente del tuo progetto. (Vedi il *Capitolo 9* per sapere quali file sono contenuti nella directory `.git` che hai appena creato.)
 
-Se vuoi iniziare a tracciare i file esistenti (a differenza di una directory vuota), dovresti iniziare a monitorare questi file con una commit iniziale. Lo puoi fare con pochi comandi `git add`, che specificano quali file vuoi tracciare, seguiti da un commit: 
+Se vuoi iniziare a tracciare i file esistenti (a differenza di una directory vuota), dovresti iniziare a monitorare questi file con una commit iniziale. Lo puoi fare con pochi `git add`, che specificano quali file vuoi tracciare, seguiti da una commit: 
 
 	$ git add *.c
 	$ git add README

@@ -136,7 +136,7 @@ Web sitesi üzerinde çalışıp bazı kayıtlar yapıyorsunuz. Bunu yaptığın
 	$ git commit -a -m 'added a new footer [issue 53]'
 
 Insert 18333fig0312.png 
-Figür 3-12. Çalışamız sonucunda iss53 dalı ilerledi.
+Figür 3-12. Çalışmamız sonucunda iss53 dalı ilerledi.
 
 Şimdi, sizden web sitesindeki bir sorun için acilen bir yama hazırlamanız istensin. Git kullanıyorsanız, yamayı daha önce `iss53` dalında yaptığınız yaptığınız değişikliklerle birlikte yayına sokmanız gerekmez; yama üzerinde çalışmaya başlamadan önce söz konusu değişiklikleri geri alıp yayındaki web sitesini kaynak koduna ulaşabilmek için fazla çabalamanıza da gerek yok. Tek yapmanız gereken `master` dalına geri dönmek.
 

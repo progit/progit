@@ -24,19 +24,19 @@ Tra un minuto vedremo cosa fanno questi comandi. A questo punto hai un repositor
 
 ### Clonare un Repository Esistente ###
 
-Se vuoi avere la copia di un repository Git esistente — per esempio, un progetto a cui vuoi contribuire — il comando di cui hai bisogno è git clone. Se hai familiarità con altri sistemi VCS come Subversion, noterai che il comando è clone e non checkout. Questa è una distinzione importante — Git riceve una copia di circa tutti i dati che un server possiede. Ogni versione di ogni file della storia del progetto sono scaricate quando lanci `git clone`. Infatti, se il disco del tuo server è corrotto, puoi usare qualsiasi copia di qualsiasi client per ripristinare il server allo stato in cui era quando è stato clonato (puoi perdere alcuni agganci server, ma tutte le versioni dei dati saranno presenti — vedi il Capitolo 4 per maggiori dettagli).
+Se vuoi copiare un repository Git esistente — per esempio, un progetto a cui vuoi contribuire — il comando di cui hai bisogno è `git clone`. Se hai familiarità con altri sistemi VCS come Subversion, noterai che il comando è `clone` e non `checkout`. Questa è una distinzione importante: Git riceve una copia di quasi tutti i dati che sono sul server. Quando esegui `git clone` vengono scaricate tutte le versioni di ciascun file della cronologia del progetto. Infatti, se si danneggiasse il disco del tuo server, potresti usare qualsiasi clone di qualsiasi client per ripristinare il server allo stato in cui era quando è stato clonato (potresti perdere alcuni `hooks` lato-server, ma tutte le versioni dei dati saranno presenti: vedi il *Capitolo 4* per maggiori dettagli).
 
-Clona un repository con `git clone [url]`. Per esempio, se vuoi clonare la libreria Ruby Git chiamata Grit, puoi farlo così:
+Cloni un repository con `git clone [url]`. Per esempio, se vuoi clonare la libreria Ruby Git chiamata Grit, puoi farlo così:
 
 	$ git clone git://github.com/schacon/grit.git
 
-Questo comando crea un directory "grit", inizializza una directory `.git` dentro di essa, scarica tutti i dati per questo repository ed imposta la copia di lavoro dell'ultima versione. Se entri nella nuova directory `grit`, vedrai i file del progetto, pronti per essere modificati o usati. Se vuoi clonare il repository in una directory con un nome diverso da grit, puoi specificarlo come opzione successiva al comando da terminale:
+Questo comando crea un directory "grit", dentro di questa inizializza una directory `.git`, scarica tutti i dati del repository e fa il checkout dell'ultima versione per poterci lavorare su. Se vai nella nuova directory `grit`, vedrai i file del progetto, pronti per essere modificati o usati. Se vuoi clonare il repository in una directory con un nome diverso da grit, puoi specificarlo sulla riga di comando:
 
 	$ git clone git://github.com/schacon/grit.git mygrit
 
-Questo comando fa la stessa cosa del precedente, ma la directory di destinazione è chiamata mygrit.
+Questo comando fa la stessa cosa del precedente, ma la directory di destinazione è chiamata `mygrit`.
 
-Git può usare differenti protocolli di trasferimento. L'esempio precedente usa il protocollo `git://`, ma puoi anche vedere `http(s)://` o `user@server:/path.git`, che usa il protocollo di trasferimento SSH. Il Capitolo 4 introdurrà tutte le opzioni disponibili che il server può impostare per farti accedere al repository Git ed i pro e i contro di ognuna.
+Git può usare differenti protocolli di trasferimento. L'esempio precedente usa il protocollo `git://`, ma puoi anche vedere `http(s)://` o `user@server:/path.git`, che usa il protocollo di trasferimento SSH. Il *Capitolo 4* introdurrà tutte le opzioni che un server può rendere disponibili per l'accesso al repository Git e i pro e i contro di ciascuna.
 
 ## Registrare i Cambiamenti nel Repository ##
 

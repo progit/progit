@@ -38,18 +38,18 @@ Questo comando fa la stessa cosa del precedente, ma la directory di destinazione
 
 Git può usare differenti protocolli di trasferimento. L'esempio precedente usa il protocollo `git://`, ma puoi anche vedere `http(s)://` o `user@server:/path.git`, che usa il protocollo di trasferimento SSH. Il *Capitolo 4* introdurrà tutte le opzioni che un server può rendere disponibili per l'accesso al repository Git e i pro e i contro di ciascuna.
 
-## Registrare i Cambiamenti nel Repository ##
+## Salvare le modifiche sul repository ##
 
-In buona fede hai copiato un repository Git e hai la copia di lavoro dei file di questo progetto. Ora puoi apportare alcune modifiche ed inviare gli snapshots di questi cambiamenti nel tuo repository ogni volta che il progetto raggiunge uno stato che vuoi registrare.
+Hai clonato un vero repository Git e hai la copia di lavoro dei file del progetto. Ora puoi fare qualche modifica e inviare gli snapshots di queste al tuo repository ogni volta che il progetto raggiunga uno stato che vuoi salvare.
 
-Ricorda che ogni file nella tua directory di lavoro è in una dei due stati seguenti: *tracciato* o *non tracciato*. I file *tracciati* sono i file presenti nell'ultimo snapshot; possono essere *non modificati*, *modificati* o *staged* (parcheggiati, ndt). I file *non tracciati* sono tutti gli altri - qualsiasi file nella tua directory di lavoro che non è presente nel tuo ultimo snapshot o nella tua area di stage. Quando cloni per la prima volta un repository, tutti i tuoi file sono tracciati e non modificati perché li hai appena prelevati e non hai modificato ancora niente.
+Ricorda che ogni file della tua directory di lavoro può essere in uno dei due stati seguenti: *tracked* (tracciato, ndt.) o *untracked* (non tracciato, ndt.). I file *tracked* sono già presenti nell'ultimo snapshot; possono quindi essere *unmodified* (non modificati, ndt.), *modified* (modificati, ndt.) o *staged*. I file *untracked* sono tutti gli altri: qualsiasi file nella tua directory di lavoro che non è presente nell'ultimo snapshot o nella tua area di stage. Quando cloni per la prima volta un repository, tutti i tuoi file sono tracciati e non modificati perché li hai appena prelevati e non hai modificato ancora niente.
 
-Quando modifichi i file, Git li vede come cambiati, perché li hai modificati rispetto all'ultimo commit. Parcheggi questi file e poi esegui il commit di tutti i cambiamenti presenti nell'area di stage, ed il ciclo si ripete. Questo ciclo di vita è illustrato nella Figura 2-1.
+Quando modifichi i file, Git li vede come modificati, perché li hai cambiati rispetto all'ultima commit. Metti nell'area di stage i file modificati e poi fai la commit di tutto ciò che è in quest'area, e quindi il ciclo si ripete. Questo ciclo di vita è illustrato nella Figura 2-1.
 
 Insert 18333fig0201.png
 Figura 2-1. Il ciclo di vita dello stato dei tuoi file.
 
-### Controlla lo Stato dei Tuoi File ###
+### Controlla lo stato dei tuoi file ###
 
 Lo strumento principale che userai per determinare quali file sono in un certo stato è il comando git status. Se lanci questo comando direttamente dopo aver fatto una clonazione, dovresti vedere qualcosa di simile a:
 

@@ -115,7 +115,7 @@ Bu noktada, sizden kritik önemde başka sorun üzerinde çalışıp hızlıca b
 Insert 18333fig0310.png 
 Figür 3-10. Kısa ve basit bir kayıt tarihçesi.
 
-Şirketinizin kullandığı sorun izleme programındaki #53 numaralı sorun üzerinde çalışmaya karar verdiniz. Açıklığa kavuşturmak için söyleyelim: Git herhangi bir sorun izleme programına bağlı değildir; ama #53 numaralı sorun üzerinde çalışmak istediğiniz başı sonu belli bir konu olduğu için, çalışmanızı bir dal üzerinde yapacaksınız. Bir dalı yaratır yaratmaz hemen ona geçiş yapmak için `git checout` komutunu `-b` seçeneğiyle birlikte kullanabilirsiniz:
+Şirketinizin kullandığı sorun izleme programındaki #53 numaralı sorun üzerinde çalışmaya karar verdiniz. Açıklığa kavuşturmak için söyleyelim: Git herhangi bir sorun izleme programına bağlı değildir; ama #53 numaralı sorun üzerinde çalışmak istediğiniz başı sonu belli bir konu olduğu için, çalışmanızı bir dal üzerinde yapacaksınız. Bir dalı yaratır yaratmaz hemen ona geçiş yapmak için `git checkout` komutunu `-b` seçeneğiyle birlikte kullanabilirsiniz:
 
 	$ git checkout -b iss53
 	Switched to a new branch "iss53"
@@ -136,7 +136,7 @@ Web sitesi üzerinde çalışıp bazı kayıtlar yapıyorsunuz. Bunu yaptığın
 	$ git commit -a -m 'added a new footer [issue 53]'
 
 Insert 18333fig0312.png 
-Figür 3-12. Çalışamız sonucunda iss53 dalı ilerledi.
+Figür 3-12. Çalışmamız sonucunda iss53 dalı ilerledi.
 
 Şimdi, sizden web sitesindeki bir sorun için acilen bir yama hazırlamanız istensin. Git kullanıyorsanız, yamayı daha önce `iss53` dalında yaptığınız yaptığınız değişikliklerle birlikte yayına sokmanız gerekmez; yama üzerinde çalışmaya başlamadan önce söz konusu değişiklikleri geri alıp yayındaki web sitesini kaynak koduna ulaşabilmek için fazla çabalamanıza da gerek yok. Tek yapmanız gereken `master` dalına geri dönmek.
 
@@ -464,17 +464,17 @@ Uzak uçbirim dalının adından başka bir adla yerel dal oluşturmak isterseni
 
 ### Uzak Uçbirim Dallarını Silmek ###
 
-Suppose you’re done with a remote branch — say, you and your collaborators are finished with a feature and have merged it into your remote’s `master` branch (or whatever branch your stable codeline is in). You can delete a remote branch using the rather obtuse syntax `git push [remotename] :[branch]`. If you want to delete your `serverfix` branch from the server, you run the following:
+Diyelim ki uzak bir dalla yapacaklarınız bitti ve siz ile takım arkadaşlarınız bir özelliği tamamlayıp sizin uzaktaki `master` dalınıza (veya kararlı kodunuzun olduğu herhangi bir dalda) birleştirdi. Bir uzak dalı `git push [uzakadı] :[dal]` sabit sözdizimini kullanarak silebilirsiniz. Eğer sunucudan `serverfix` dalını silmek isterseniz, şu komutu çalıştırın:
 
 	$ git push origin :serverfix
 	To git@github.com:schacon/simplegit.git
 	 - [deleted]         serverfix
 
-Boom. No more branch on your server. You may want to dog-ear this page, because you’ll need that command, and you’ll likely forget the syntax. A way to remember this command is by recalling the `git push [remotename] [localbranch]:[remotebranch]` syntax that we went over a bit earlier. If you leave off the `[localbranch]` portion, then you’re basically saying, “Take nothing on my side and make it be `[remotebranch]`.”
+İşte bu! Artık sunucunuzda bu dal olmayacak. Bu sayfayı dikkatlice anlamak isteyebilirsiniz, çünkü muhtemelen bu komuta ihtiyacınız olacak ancak sözdizimini unutacaksınız. Bu komutu hatırlamanın bir yolu daha önceden biraz bahsedilen `git push [uzakadı] [yereldal]:[uzakdal]` sözdizimini hatırlamaktır. Eğer `[yereldal]` kısmını yazmazsanız, aslında dediğiniz şey “Benim tarafımdan bir şey alma ancak `[uzakdal]`dan al.”
 
-## Rebasing ## Zemin, Kök, Temel
+## Rebasing (Tekrar Adresleme) ## Zemin, Kök, Temel
 
-In Git, there are two main ways to integrate changes from one branch into another: the `merge` and the `rebase`. In this section you’ll learn what rebasing is, how to do it, why it’s a pretty amazing tool, and in what cases you won’t want to use it.
+Git içerisinde, değişiklikleri bir daldan diğerine bütünleştirmek için iki temel yol bulunuyor: `merge` ve `rebase`. Bu bölümde sadece rebase komutunun ne olduğunu, nasıl yapılacağını, neden mükemmel bir araç olduğunu ve hangi durumlarda kullanmak istemeyeceğinizi öğreneceksiniz.
 
 ### The Basic Rebase ###
 

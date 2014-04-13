@@ -115,7 +115,7 @@ Bu noktada, sizden kritik önemde başka sorun üzerinde çalışıp hızlıca b
 Insert 18333fig0310.png 
 Figür 3-10. Kısa ve basit bir kayıt tarihçesi.
 
-Şirketinizin kullandığı sorun izleme programındaki #53 numaralı sorun üzerinde çalışmaya karar verdiniz. Açıklığa kavuşturmak için söyleyelim: Git herhangi bir sorun izleme programına bağlı değildir; ama #53 numaralı sorun üzerinde çalışmak istediğiniz başı sonu belli bir konu olduğu için, çalışmanızı bir dal üzerinde yapacaksınız. Bir dalı yaratır yaratmaz hemen ona geçiş yapmak için `git checout` komutunu `-b` seçeneğiyle birlikte kullanabilirsiniz:
+Şirketinizin kullandığı sorun izleme programındaki #53 numaralı sorun üzerinde çalışmaya karar verdiniz. Açıklığa kavuşturmak için söyleyelim: Git herhangi bir sorun izleme programına bağlı değildir; ama #53 numaralı sorun üzerinde çalışmak istediğiniz başı sonu belli bir konu olduğu için, çalışmanızı bir dal üzerinde yapacaksınız. Bir dalı yaratır yaratmaz hemen ona geçiş yapmak için `git checkout` komutunu `-b` seçeneğiyle birlikte kullanabilirsiniz:
 
 	$ git checkout -b iss53
 	Switched to a new branch "iss53"

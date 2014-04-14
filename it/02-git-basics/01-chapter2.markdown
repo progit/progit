@@ -44,33 +44,34 @@ Hai clonato un vero repository Git e hai la copia di lavoro dei file del progett
 
 Ricorda che ogni file della tua directory di lavoro può essere in uno dei due stati seguenti: *tracked* (tracciato, ndt.) o *untracked* (non tracciato, ndt.). I file *tracked* sono già presenti nell'ultimo snapshot; possono quindi essere *unmodified* (non modificati, ndt.), *modified* (modificati, ndt.) o *staged*. I file *untracked* sono tutti gli altri: qualsiasi file nella tua directory di lavoro che non è presente nell'ultimo snapshot o nella tua area di stage. Quando cloni per la prima volta un repository, tutti i tuoi file sono tracciati e non modificati perché li hai appena prelevati e non hai modificato ancora niente.
 
-Quando modifichi i file, Git li vede come modificati, perché li hai cambiati rispetto all'ultima commit. Metti nell'area di stage i file modificati e poi fai la commit di tutto ciò che è in quest'area, e quindi il ciclo si ripete. Questo ciclo di vita è illustrato nella Figura 2-1.
+Quando editi dei file, Git li vede come modificati, perché sono cambiati rispetto all'ultima commit. Metti nell'area di stage i file modificati e poi fai la commit di tutto ciò che è in quest'area, e quindi il ciclo si ripete. Questo ciclo di vita è illustrato nella Figura 2-1.
 
 Insert 18333fig0201.png
 Figura 2-1. Il ciclo di vita dello stato dei tuoi file.
 
 ### Controlla lo stato dei tuoi file ###
 
-Lo strumento principale che userai per determinare quali file sono in un certo stato è il comando git status. Se lanci questo comando direttamente dopo aver fatto una clonazione, dovresti vedere qualcosa di simile a:
+Lo strumento principale che userai per determinare lo stato dei tuoi file è il comando `git status`. Se esegui questo comando appena dopo un clone, dovresti vedere qualcosa di simile:
 
 	$ git status
 	# On branch master
-	nothing to commit (working directory clean)
+	nothing to commit, working directory clean
 
-Questo significa che hai una directory di lavoro pulita — in altre parole, non c'è traccia di file modificati. Git inoltre non vede altri file non tracciati, altrimenti sarebbero elencati qui. Infine, il comando ci dice in quale ramo si è. Per ora, è sempre il master, che è il predefinito; non preoccuparti di questo per ora. Il prossimo capitolo tratterà delle ramificazioni e dei riferimenti nei dettagli.
+Questo significa che hai una directory di lavoro pulita, ovvero che nessuno dei file tracciati è stato modificato. Inoltre Git non ha trovato nessun file non ancora tracciato, altrimenti sarebbero elencati qui. In aggiunta il comando indica anche in quale ramo sei. Per ora, è sempre `master`, che è il predefinito; non preoccupartene per ora. Il prossimo capitolo tratterà in dettagli dei `branch` (ramificazioni) e dei riferimenti.
 
-Ora diciamo che hai aggiunto un nuovo file al tuo progetto, un semplice file README. Se il file non esisteva prima, e lanci `git status`, vedrai il tuo file non tracciato come segue:
+Immagina di aver aggiunto un nuovo file al tuo progetto, un semplice README. Se il file non esisteva e lanci `git status`, vedrai così il file non tracciato:
 
 	$ vim README
 	$ git status
-	# On branch master
-	# Untracked files:
-	#   (use "git add <file>..." to include in what will be committed)
-	#
-	#	README
+	On branch master
+	Untracked files:
+	  (use "git add <file>..." to include in what will be committed)
+	
+	        README
+
 	nothing added to commit but untracked files present (use "git add" to track)
 
-Puoi vedere che il tuo nuovo file README non è tracciato, perché è sotto al titolo "Untracked files" nell'output degli stati. Untracked fondamentalmente significa che Git vede un file che non avevi nel precedente snapshot (commit); Git non inizierà ad includerlo negli snapshot dei tuoi commit fino a quando tu non glielo dirai esplicitamente. Si comporta così per evitare che tu accidentalmente includa file binari generati o qualsiasi altro tipo di file che non vuoi sia incluso. Se vuoi includere il file README, continua con il tracciamento dei file.
+Puoi vedere che il nuovo file README non è tracciato poiché nell'output è nella sezione dal titolo "Untracked files". `Untracked` significa che Git vede un file che non avevi nello `snapshot` precedente (commit); Git non lo includerà negli snapshot delle tuoe commit fino a quando non glielo dirai esplicitamente. Fa così per evitare che includa accidentalmente dei file binari generati o qualsiasi altro tipo di file che non intendi includere. Se vuoi includere il  README, iniziamo a tracciarlo.
 
 ### Tracciare Nuovi File ###
 

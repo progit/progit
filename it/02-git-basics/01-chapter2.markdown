@@ -332,22 +332,24 @@ Hai creato la tua prima commit! Puoi vedere che la commit restituisce alcune inf
 
 Ricorda che la commit registra lo snapshot che hai salvato nella tua area di `stage`. Qualsiasi cosa che non è nello `stage` rimarrà lì come modificata; puoi fare un'altra commit per aggiungerli alla cronologia del progetto. Ogni volta che fai una commit, stai salvando un'istantanea (`snapshot`) del tuo progetto che puoi ripristinare o confrontare in seguito.
 
-### Saltare l'Area di Stage ###
+### Saltare l'area di stage ###
 
-Anche se può essere estremamente utile per amministrare i commit esattamente come li vuoi, l'area di stage è molto più complessa di quanto tu possa averne bisogno nel lavoro normale. Se vuoi saltare l'area di parcheggio, Git fornisce una semplice scorciatoia. Passando l'opzione `-a` al comando `git commit` Git automaticamente parcheggia tutti i file che sono già stati tracciati facendo il commit, permettendoti di saltare la parte `git add`:
+Sebbene sia estremamente utile per amministrare le commit come vuoi, l'area di stage è molto più complessa di quanto tu possa averne bisogno nel lavoro normale. Se vuoi saltare l'area di `stage`, Git fornisce una semplice accorciatoia. Con l'opzione `-a` al comando `git commit`, Git, committando, mette automaticamente nello `stage` tutti i file che erano già tracciati, permettendoti di saltare la parte `git add`:
 
 	$ git status
-	# On branch master
-	#
-	# Changes not staged for commit:
-	#
-	#	modified:   benchmarks.rb
-	#
+	On branch master
+	Changes not staged for commit:
+	  (use "git add <file>..." to update what will be committed)
+	  (use "git checkout -- <file>..." to discard changes in working directory)
+	
+	        modified:   benchmarks.rb
+	
+	no changes added to commit (use "git add" and/or "git commit -a")
 	$ git commit -a -m 'added new benchmarks'
 	[master 83e38c7] added new benchmarks
-	 1 files changed, 5 insertions(+), 0 deletions(-)
+	 1 files changed, 5 insertions(+)
 
-Nota come non hai bisogno, in questo caso, di lanciare `git add` sul file benchmarks.rb prima del commit.
+Nota come in questo caso non hai bisogno di eseguire `git add` per benchmarks.rb prima della commit.
 
 ### Rimuovere File ###
 

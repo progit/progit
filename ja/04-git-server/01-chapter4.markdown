@@ -393,7 +393,7 @@ Gitosis は鍵の管理も行うので、まず現在の鍵ファイルを削除
 
 	git:x:1000:1000::/home/git:/bin/sh
 
-いよいよ Gitosis の初期設定です。自分の秘密鍵を使って `gitosis-init` コマンドを実行します。サーバー上に自分の公開鍵をおいていない場合は、まず公開鍵をコピーしましょう。
+いよいよ Gitosis の初期設定です。自分の公開鍵を使って `gitosis-init` コマンドを実行します。サーバー上に自分の公開鍵をおいていない場合は、まず公開鍵をコピーしましょう。
 
 	$ sudo -H -u git gitosis-init < /tmp/id_dsa.pub
 	Initialized empty Git repository in /opt/git/gitosis-admin.git/

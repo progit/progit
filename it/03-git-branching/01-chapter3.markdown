@@ -268,7 +268,7 @@ Se vuoi usare uno strumento grafico per risolvere i problemi, puoi lanciare `git
 	  {remote}: modified
 	Hit return to start merge resolution tool (opendiff):
 
-Se vuoi usare uno strumento di fusione differente dal predefinito (Git usa `opendiff` in questo caso perché ho lanciato il comando su un Mac), puoi vedere tutti gli strumenti supportati all'inizio dopo “merge tool candidates”. Scrivi il nome dello strumento che vorresti usare. Nel Capitolo 7, discuteremo su come puoi modificare i valori predefiniti del tuo ambiente.
+Se vuoi usare uno strumento di fusione differente dal predefinito (Git usa `opendiff` in questo caso perché ho lanciato il comando su un Mac), puoi vedere tutti gli strumenti supportati all'inizio dopo “... one of the following tools:” (uno dei seguenti strumenti, ndt.). Scrivi il nome dello strumento che vorresti usare. Nel Capitolo 7, discuteremo su come puoi modificare i valori predefiniti del tuo ambiente.
 
 Dopo che sei uscito dallo strumento di fusione, Git ti chiederà se la fusione è avvenuta con successo. Se gli dirai allo script che è così, parcheggerà i file in modo da segnarli come risolti per te.
 

@@ -296,42 +296,41 @@ e `git diff --cached` per vedere cos'è già in `stage`:
 	          log = git.commits('master', 15)
 	          log.size
 
-### Eseguire il Commit delle Tue Modifiche ###
+### Committa le tue modifiche ###
 
-Ora la tua area di stage è impostata come volevi, puoi eseguire il commit delle tue modifiche. Ricorda che qualsiasi cosa che non è parcheggiata — qualsiasi file che hai creato o modificato e a cui non hai fatto `git add` — non andrà nel commit. Rimarranno come file modificati sul tuo disco.
-In questo caso, l'ultima volta che hai lanciato `git status`, hai visto che tutto era parcheggiato, così sei pronto ad inviare le tue modifiche con un commit. Il modo più semplice per eseguire il commit è digitare `git commit`:
+Ora che la tua area di stage è configurata come vuoi, puoi fare la commit delle tue modifiche. Ricorda che tutto ciò che non è in `stage` — qualsiasi file che hai creato o modificato per cui non hai fatto `git add` — non sarà nella commit. Rimarranno come file modificati sul tuo disco.
+In questo caso, l'ultima volta che hai eseguito `git status`, hai visto che tutto era in `stage`, così sei pronto a committare le tue modifiche. Il modo più semplice per farlo è eseguire `git commit`:
 
 	$ git commit
 
-Facendo questo lanci l'editor che avevi scelto. (Questo è impostato nella tua shell dalla variabile di ambiente `$EDITOR` — generalmente vim o emacs, ovviamente puoi configurarlo con qualsiasi altro editor usando il comando `git config --global core.editor` come visto nel Capitolo 1).
+Facendolo lanci il tuo editor predefinito. (Questo è impostato nella tua shell con la variabile di ambiente `$EDITOR` — generalmente vim o emacs, sebbene tu possa configurarlo con qualsiasi altro editor, usando il comando `git config --global core.editor` come hai visto nel *Capitolo 1*).
 
-L'editor visualizzerà il seguente testo (questo è un esempio della schermata di Vim):
+L'editor visualizzerà il testo (questo è un esempio della schermata di Vim):
 
 	# Please enter the commit message for your changes. Lines starting
 	# with '#' will be ignored, and an empty message aborts the commit.
 	# On branch master
 	# Changes to be committed:
-	#   (use "git reset HEAD <file>..." to unstage)
-	#
 	#       new file:   README
 	#       modified:   benchmarks.rb
+	#
 	~
 	~
 	~
 	".git/COMMIT_EDITMSG" 10L, 283C
 
-Puoi vedere che il messaggio predefinito del commit contiene l'ultimo output del comando `git status`, commentato, e la prima riga in alto è vuota. Puoi rimuovere questi commenti ed inserire il tuo messaggio, o puoi lasciarli così per aiutarti a ricordare cosa hai inviato. (Per avere una nota di ricordo più esplicita puoi passare l'opzione `-v` a `git commit`. Così facendo inserirai i cambiamenti effettuati nell'editor in modo che tu possa vedere esattamente cosa hai fatto). Quando esci dall'editor, Git crea il tuo commit con un messaggio (con i commenti ed i cambiamenti eliminati).
+Come vedi, il messaggio predefinito della commit contiene l'ultimo output del comando `git status`, commentato, e la prima riga in alto è vuota. Puoi rimuovere questi commenti e inserire il tuo messaggio di commit, o puoi lasciarli così per aiutarti a ricordare cosa stai committando. (Per una nota ancora più esplicita puoi usare l'opzione `-v` a `git commit`. Facendo saranno nel commento saranno inserite anche le modifiche stesse, così che tu possa vedere esattamente cosa hai fatto). Quando esci dall'editor, Git crea la tuo commit con un messaggio (rimuovendo commenti ed eventuali diff).
 
-In alternativa, puoi inserire il messaggio del tuo commit in linea con il comando `commit` specificando dopo di esso l'opzione -m, come segue:
+In alternativa, puoi inserire il messaggio per la tua commit alla riga di comando della `commit` specificando l'opzione -m, come segue:
 
 	$ git commit -m "Story 182: Fix benchmarks for speed"
-	[master]: created 463dc4f: "Fix benchmarks for speed"
-	 2 files changed, 3 insertions(+), 0 deletions(-)
+	[master 463dc4f] Fix benchmarks for speed
+	 2 files changed, 3 insertions(+)
 	 create mode 100644 README
 
-Ora hai creato il tuo primo commit! Puoi vedere che il commit ha riportato alcune informazioni sull'operazione: a quale ramo hai affidato il commit (`master`), quale checksum SHA-1 ha il commit (`463dc4f`), quanti file sono stati modificati e le statistiche sulle linee aggiunte e rimosse nel commit.
+Hai creato la tua prima commit! Puoi vedere che la commit restituisce alcune informazioni su se stessa: su quale `branch` (ramo, ndt) hai fatto la commit (`master`), quale checksum SHA-1 ha la commit (`463dc4f`), quanti file sono stati modificati e le statistiche sulle righe aggiunte e rimosse con la commit.
 
-Ricorda che il commit registra lo snapshot che hai impostato nella tua area di stage. Qualsiasi cosa che non hai parcheggiato rimarrà come modificata; puoi fare un altro commit per aggiungere questi alla storia del progetto. Ogni volta che fai un commit stai registrando una istantanea del tuo progetto, che puoi ripristinare o comparare successivamente.
+Ricorda che la commit registra lo snapshot che hai salvato nella tua area di `stage`. Qualsiasi cosa che non è nello `stage` rimarrà lì come modificata; puoi fare un'altra commit per aggiungerli alla cronologia del progetto. Ogni volta che fai una commit, stai salvando un'istantanea (`snapshot`) del tuo progetto che puoi ripristinare o confrontare in seguito.
 
 ### Saltare l'Area di Stage ###
 

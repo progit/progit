@@ -91,63 +91,65 @@ Se lanci nuovamente il comando per lo stato, puoi vedere il tuo file `README` or
 
 Sai che è nell'area di `stage` perché è nella sezione "Changes to be committed". Se a questo punto fai commit, la versione del file com'era quando hai lanciato `git add` sarà quella che troverai nella cronologia dello snapshot. Ricorderai che quando prima hai eseguito `git init`, poi hai dovuto lanciare `git add (file)`, che era necessario per iniziare a tracciare i file nella tua directory. Il comando `git add` accetta il nome del percorso di un file o una directory; se è una directory, il comando aggiunge ricorsivamente tutti i file in quella directory.
 
-### Parcheggiare File Modificati ###
+### Fare lo stage dei file modificati ###
 
-Ora modifichiamo un file che è già stato tracciato. Se modifichi un file precedentemente tracciato chiamato `benchmarks.rb` e poi avvii nuovamente il comando `status`, otterrai qualcosa di simile a:
+Modifichiamo un file che è già tracciato. Se modifichi un file tracciato chiamato `benchmarks.rb` e poi esegui il comando `status`, otterrai qualcosa di simile a:
 
 	$ git status
-	# On branch master
-	# Changes to be committed:
-	#   (use "git reset HEAD <file>..." to unstage)
-	#
-	#	new file:   README
-	#
-	# Changes not staged for commit:
-	#   (use "git add <file>..." to update what will be committed)
-	#
-	#	modified:   benchmarks.rb
-	#
+	On branch master
+	Changes to be committed:
+	  (use "git reset HEAD <file>..." to unstage)
+	
+	        new file:   README
 
-Il file benchmarks.rb appare sotto la sezione chiamata "Changes not staged for commit" — che significa che un file che è tracciato è stato modificato nella directory di lavoro ma non ancora messo in stage. Per parcheggiarlo, avvia il comando `git add` (è un comando multifunzione — è usato per iniziare a tracciare nuovi file, per parcheggiare i file e per fare altre cose come eseguire la fusione dei file che entrano in conflitto dopo che sono stati risolti). Avvia dunque `git add` per parcheggiare ora il file benchmarks.rb, e avvia nuovamente `git status`:
+	Changes not staged for commit:
+	  (use "git add <file>..." to update what will be committed)
+	  (use "git checkout -- <file>..." to discard changes in working directory)
+	
+	        modified:   benchmarks.rb
+	
+
+Il file benchmarks.rb appare nella sezione chiamata "Changes not staged for commit" — che significa che un file tracciato è stato modificato nella directory di lavoro ma non è ancora nello stage. Per farlo, esegui il comando `git add` (è un comando multifunzione — lo usi per iniziare a tracciare nuovi file, per fare lo stage dei file e per fare altre cose segnare come risolti i conflitti causati da un `merge`). Esegui `git add` per mettere in `stage` il file benchmarks.rb, e riesegui `git status`:
 
 	$ git add benchmarks.rb
 	$ git status
-	# On branch master
-	# Changes to be committed:
-	#   (use "git reset HEAD <file>..." to unstage)
-	#
-	#	new file:   README
-	#	modified:   benchmarks.rb
-	#
+	On branch master
+	Changes to be committed:
+	  (use "git reset HEAD <file>..." to unstage)
+	
+	        new file:   README
+	        modified:   benchmarks.rb
+	
 
-Entrambi i file sono parcheggiati ed entreranno nel prossimo commit. A questo punto, supponendo che tu ti sia ricordato di una piccola modifica da fare a benchmarks.rb prima di fare il commit. Apri nuovamente il file ed esegui la modifica, e ora sei pronto per il commit. Come sempre, lanci `git status` ancora una volta:
+Entrambi i file sono nello `stage` e staranno nella prossima commit. A questo punto, immagina che ti sia ricordato di una piccola modifica da fare in 'benchmarks.rb' prima della commit. Riapri il file e fai la modifica: ora sei pronto per la commit. Come sempre, esegui `git status` di nuovo:
 
 	$ vim benchmarks.rb
 	$ git status
-	# On branch master
-	# Changes to be committed:
-	#   (use "git reset HEAD <file>..." to unstage)
-	#
-	#	new file:   README
-	#	modified:   benchmarks.rb
-	#
-	# Changes not staged for commit:
-	#   (use "git add <file>..." to update what will be committed)
-	#
-	#	modified:   benchmarks.rb
-	#
+	On branch master
+	Changes to be committed:
+	  (use "git reset HEAD <file>..." to unstage)
+	
+	        new file:   README
+	        modified:   benchmarks.rb
+	
+	Changes not staged for commit:
+	  (use "git add <file>..." to update what will be committed)
+	  (use "git checkout -- <file>..." to discard changes in working directory)
+	
+	        modified:   benchmarks.rb
+	
 
-Che succede? Ora benchmarks.rb è elencato sia in stage che non. Come è possibile? É saltato fuori che Git ha parcheggiato il file esattamente come se tu avessi avviato il comando git add. Se esegui ora il commit, la versione di benchmarks.rb che verrà inviata nel commit sarà quella di quando tu hai lanciato il comando git add, non la versione del file che appare nella tua directory di lavoro quando lanci git commit. Se modifichi un file dopo che hai lanciato `git add`, devi nuovamente avviare `git add` per parcheggiare l'ultima versione del file:
+Cos'è successo? Ora `benchmarks.rb` è elencato sia dentro che fuori lo `stage`. Come è possibile? È saltato fuori che Git ha messo in `stage` il file esattamente com'era quando hai eseguito `git add`. Se committi ora, la versione di `benchmarks.rb` che verrà committata sarà quella che avevi quando hai eseguito il `git add`, non la versione del file che trovi nella directory di lavoro quando esegui `git commit`. Se modifichi un file dopo che hai eseguito `git add`, ridevi eseguire `git add` per mettere nello `stage` l'ultima versione del file:
 
 	$ git add benchmarks.rb
 	$ git status
-	# On branch master
-	# Changes to be committed:
-	#   (use "git reset HEAD <file>..." to unstage)
-	#
-	#	new file:   README
-	#	modified:   benchmarks.rb
-	#
+	On branch master
+	Changes to be committed:
+	  (use "git reset HEAD <file>..." to unstage)
+	
+	        new file:   README
+	        modified:   benchmarks.rb
+	
 
 ### Ignorare File ###
 

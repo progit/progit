@@ -351,50 +351,50 @@ Sebbene sia estremamente utile per amministrare le commit come vuoi, l'area di s
 
 Nota come in questo caso non hai bisogno di eseguire `git add` per benchmarks.rb prima della commit.
 
-### Rimuovere File ###
+### Rimuovere i file ###
 
-Per rimuovere un file con Git, hai bisogno di rimuoverlo dai file tracciati (più precisamente,  rimuoverlo dall'area di stage) e poi di fare il commit. Il comando `git rm` fa questo ed inoltre rimuove il file dalla tua directory di lavoro così non lo vedrai come un file non tracciato la prossima volta.
+Per rimuovere un file da Git devi rimuoverlo dai file tracciati (più precisamente,  rimuoverlo dall'area di `stage`) e quindi committare. Il comando `git rm` fa questo e lo rimuove dalla tua directory di lavoro, così che la prossima volta non lo vedrai come un file non tracciato.
 
-Se semplicemente rimuovi il file dalla directory di lavoro, sarà visto sotto l'area "Changes not staged for commit" (cioè, _non parcheggiato_) dell'output `git status`:
+Se rimuovi semplicemente il file dalla directory di lavoro, apparirà nella sezione "Changes not staged for commit" (cioè, _no in `stage_) dell'output `git status`:
 
 	$ rm grit.gemspec
 	$ git status
-	# On branch master
-	#
-	# Changes not staged for commit:
-	#   (use "git add/rm <file>..." to update what will be committed)
-	#
-	#       deleted:    grit.gemspec
-	#
+	On branch master
+	Changes not staged for commit:
+	  (use "git add/rm <file>..." to update what will be committed)
+	  (use "git checkout -- <file>..." to discard changes in working directory)
+	
+	        deleted:    grit.gemspec
+	
+	no changes added to commit (use "git add" and/or "git commit -a")
 
-Poi, se lanci `git rm`, parcheggia il file rimosso:
+Se poi esegui `git rm`, la rimozione del file viene messa nello `stage:
 
 	$ git rm grit.gemspec
 	rm 'grit.gemspec'
 	$ git status
-	# On branch master
-	#
-	# Changes to be committed:
-	#   (use "git reset HEAD <file>..." to unstage)
-	#
-	#       deleted:    grit.gemspec
-	#
+	On branch master
+	Changes to be committed:
+	  (use "git reset HEAD <file>..." to unstage)
+	
+	        deleted:    grit.gemspec
+	
 
-La prossima volta che fai il commit, il file se ne andrà e non sarà più tracciato. Se modifichi il file e già aggiunto all'indice, devi forzarne la rimozione con l'opzione `-f`. Questa è una caratteristica di sicurezza per prevenire la rimozione accidentale dei dati che non sono ancora stati registrati in uno snapshot e che non possono essere recuperati da Git.
+La prossima volta che committerai, il file sparirà e non sarà più tracciato. Se avevi già modificato il file e lo avevi aggiunto all'indice, devi forzarne la rimozione con l'opzione `-f`. Questa è una misura di sicurezza per prevenire la rimozione accidentale dei dati che non sono ancora stati salvati in uno `snapshot` e che non possono essere recuperati con Git.
 
-Un'altra cosa utile che potresti voler fare è mantenere il file nel tuo albero di lavoro ma rimuoverlo dall'area di stage. In altre parole, vuoi mantenere il file sul tuo disco ma non vuoi che Git ne mantenga ancora traccia. Questo è particolarmente utile se ti dimentichi di aggiungere qualcosa al tuo file `.gitignore` ed accidentalmente lo aggiungi, come un lungo file di log od un gruppo di file `.a` compilati. Per fare questo, usa l'opzione `--cached`:
+Un'altra cosa utile che potresti voler fare è mantenere il file nel tuo ambiente di di lavoro ma rimuoverlo dall'area di `stage`. In altre parole, vuoi mantenere il file sul tuo disco ma non vuoi che Git continui a tracciarlo. Questo è particolarmente utile se hai dimenticato di aggiungere qualcosa al tuo `.gitignore` e accidentalmente lo metti in `stage`, come un file di log molto grande o un gruppo di file compilati `.a`. Per farlo usa l'opzione `--cached`:
 
 	$ git rm --cached readme.txt
 
-Puoi passare file, directory o glob pattern di file al comando `git rm`. Questo significa che puoi fare cose come
+Puoi passare file, directory o pattern glob di file al comando `git rm`. Questo significa che puoi fare
 
 	$ git rm log/\*.log
 
-Nota la barra inversa (`\`) di fronte a `*`. Questo è necessario perché Git ha una sua espansione dei nomi di file in aggiunta all'espansione dei filename della tua shell. Questo comando rimuove tutti i file che hanno l'estensione `.log` nella directory `log/`. O puoi fare qualcosa di simile a:
+Nota la barra inversa (`\`) prima di `*`. Questo è necessario perché Git ha un'espansione propria dei nomi di file oltre a quella della tua shell. Questo comando rimuove tutti i file che hanno l'estensione `.log` nella directory `log/`. O puoi eseguire:
 
 	$ git rm \*~
 
-Questo comando rimuove tutti i file che finiscono con `~`.
+Per rimuovere tutti i file che finiscono con `~`.
 
 ### Muovere File ###
 

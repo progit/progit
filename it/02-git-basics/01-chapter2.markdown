@@ -396,34 +396,32 @@ Nota la barra inversa (`\`) prima di `*`. Questo è necessario perché Git ha un
 
 Per rimuovere tutti i file che finiscono con `~`.
 
-### Muovere File ###
+### Spostare i file ###
 
-A differenza di altri sistemi VCS, Git non traccia esplicitamente i movimenti di file. Se rinomini un file in Git, nessun metadato è immagazzinato in Git che ti dirà che hai rinominato il file. Tuttavia, Git è abbastanza intelligente da capirlo dopo che è avvenuto — ci occuperemo di rilevare il movimento dei file più tardi.
+A differenza di altri sistemi VCS, Git non traccia esplicitamente gli spostamenti dei file. Se rinomini un file in Git, nessun metadato viene salvato per dirgli che lo hai rinominato. Tuttavia, Git è abbastanza intelligente da capirlo dopo che l'hai fatto — più in la ci occuperemo di rilevare il movimento dei file.
 
-Perciò crea un po' di confusione il fatto che Git  abbia un comando `mv`. Se vuoi rinominare un file in Git, puoi lanciare qualcosa come
+Può perciò creare un po' di confusione il fatto che Git abbia un comando `mv`. Se vuoi rinominare un file in Git puoi eseguire qualcosa come
 
 	$ git mv file_from file_to
 
-e questo funziona bene. Infatti, se lanci qualcosa come questo e guardi lo stato, vedrai che Git considera il file rinominato:
+e funziona. Se, infatti, lanci un comando del genere e controlli lo stato, vedrai che Git considera il file rinominato:
 
 	$ git mv README.txt README
 	$ git status
-	# On branch master
-	# Your branch is ahead of 'origin/master' by 1 commit.
-	#
-	# Changes to be committed:
-	#   (use "git reset HEAD <file>..." to unstage)
-	#
-	#       renamed:    README.txt -> README
-	#
+	On branch master
+	Changes to be committed:
+	  (use "git reset HEAD <file>..." to unstage)
+	
+	        renamed:    README.txt -> README
+	
 
-Ovviamente, questo è equivalente a lanciare qualcosa come:
+Ovviamente, questo è equivalente a eseguire:
 
 	$ mv README.txt README
 	$ git rm README.txt
 	$ git add README
 
-Git capisce implicitamente che è stato rinominato, così non è un problema rinominare un file in questo modo o con il comando `mv`. L'unica reale differenza è che `mv` è un solo comando invece di tre — è un comando di convenienza.  Più importante è che tu puoi usare qualsiasi strumento per rinominare un file, ed aggiungere/togliere più tardi, prima di un commit.
+Git capisce che, implicitamente stai rinominando il file, così che non c'è differenza se rinominare un file in questo modo o con il comando `mv`. L'unica differenza reale è che `mv` è un solo comando invece di tre: è un questione di convenienza. La cosa più importante è che puoi usare qualsiasi strumento per rinominare un file, e gestire l'aggiunta/rimozione più tardi, prima della commit.
 
 ## Vedere la Storia dei Commit ##
 

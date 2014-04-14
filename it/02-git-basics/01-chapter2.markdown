@@ -188,26 +188,27 @@ Questo è un altro esempio di file .gitignore:
 
 Il pattern `**/` è disponibile in Git dalla version 1.8.2.
 
-### Visualizzare le Tue Modifiche Parcheggiate e Non ###
+### Mostra le modifiche dentro e fuori lo `stage` ###
 
-Se il comando `git status` è troppo vago per te — vorrai conoscere esattamente cosa hai modificato, non solamente i file che hai cambiato — puoi usare il comando `git diff`. Scopriremo in maggior dettaglio `git diff` più avanti; ma probabilmente lo userai più spesso per rispondere a queste due domande: Cosa hai modificato, ma non ancora parcheggiato? E cosa hai parcheggiato e che sta per mettere nel commit? Certamente, `git status` risponde a queste domande in generale, `git diff` ti mostra le linee esatte aggiunte e rimosse — la patch, per così dire.
+Se `git status` è troppo vago per te - vuoi sapere cos'è stato effettivamente modificato e non solo quali file — puoi usare il comando `git diff`. Tratteremo più avanti `git diff` con maggior dettaglio, ma probabilmente lo userai molto spesso per rispondere a queste due domande: Cos'è che hai modificato ma non è ancora in `stage`? E cos'hai nello `stage` che non hai ancora committato? Sebbene `git status` risponda a queste domande in modo generico, `git diff` mostra le righe effettivamente aggiunte e rimosse — la patch così com'è.
 
-Nuovamente ti chiedo di modificare e parcheggiare il file README e poi modificare il file benchmarks.rb senza parcheggiarlo. Se lanci il comando `status`, vedrai nuovamente questo:
+Supponiamo che tu habbia modificato nuovamente `README` e `benchmarks.rb` ma messo nello `stage` solo il primo. Se esegui il comando `status`, vedrai qualcosa come questo:
 
 	$ git status
-	# On branch master
-	# Changes to be committed:
-	#   (use "git reset HEAD <file>..." to unstage)
-	#
-	#	new file:   README
-	#
-	# Changes not staged for commit:
-	#   (use "git add <file>..." to update what will be committed)
-	#
-	#	modified:   benchmarks.rb
-	#
+	On branch master
+	Changes to be committed:
+	  (use "git reset HEAD <file>..." to unstage)
+	
+	        new file:   README
+	
+	Changes not staged for commit:
+	  (use "git add <file>..." to update what will be committed)
+	  (use "git checkout -- <file>..." to discard changes in working directory)
+	
+	        modified:   benchmarks.rb
+	
 
-Per vedere cosa hai modificato, ma non ancora parcheggiato, digita `git diff` senza altri argomenti:
+Per vedere cosa hai modificato, ma non ancora nello `stage`, digita `git diff` senza altri argomenti:
 
 	$ git diff
 	diff --git a/benchmarks.rb b/benchmarks.rb
@@ -226,9 +227,9 @@ Per vedere cosa hai modificato, ma non ancora parcheggiato, digita `git diff` se
 	           log = git.commits('master', 15)
 	           log.size
 
-Questo comando compara cosa c'è nella tua directory di lavoro con quello che è nella tua area di stage. Il risultato ti dice i cambiamenti che hai fatto che non sono ancora stati parcheggiati.
+Questo comando confronta cosa c'è nella tua directory di lavoro con quello che c'è nella tua area di `stage`. Il risultato mostra le tue modifiche che ancora non hai messo nello `stage`.
 
-Se vuoi vedere cosa hai parcheggiato e cosa sarà inviato con il tuo prossimo commit, puoi usare `git diff --cached`. (Nella versione 1.6.1 e successive di Git, puoi usare anche `git diff --staged`, che dovrebbe essere più facile da ricordare). Questo comando compara i tuoi cambiamenti nell'area di stage ed il tuo ultimo commit:
+Se vuoi vedere cosa c'è nello `stage` e che farà parte della prossima commit, puoi usare `git diff --cached`. (Da Git 1.6.1 in poi, puoi usare anche `git diff --staged`, che dovrebbe essere più facile da ricordare). Questo comando confronta le modifiche che hai nell'area di `stage` e la tua ultima commit:
 
 	$ git diff --cached
 	diff --git a/README b/README
@@ -243,25 +244,27 @@ Se vuoi vedere cosa hai parcheggiato e cosa sarà inviato con il tuo prossimo co
 	+
 	+Grit is a Ruby library for extracting information from a Git repository
 
-É importante notare che `git diff` di per se non visualizza tutti i cambiamenti fatti dal tuo ultimo commit — solo i cambiamenti che ancora non sono parcheggiati. Questo può confondere, perché se hai messo in stage tutte le tue modifiche, `git diff` non darà nessun output.
+È importante notare che `git diff` di per se non visualizza tutte le modifiche fatte dall'ultima commit, ma solo quelle che non sono ancora in `stage`. Questo può confondere, perché se hai messo in `stage` tutte le tue modifiche, `git diff` non mostrereà nulla.
 
-Per un altro esempio, se parcheggi il file benchmarks.rb e lo modifichi, puoi usare `git diff` per vedere i cambiamenti nel file che sono in stage e i cambiamenti che non sono parcheggiati:
+Ecco un altro esempio, se metti in `stage` il file `benchmarks.rb` e lo modifichi, puoi usare `git diff` per vedere quali modifiche al file sono in stage e i quali non ancora:
 
 	$ git add benchmarks.rb
 	$ echo '# test line' >> benchmarks.rb
 	$ git status
-	# On branch master
-	#
-	# Changes to be committed:
-	#
-	#	modified:   benchmarks.rb
-	#
-	# Changes not staged for commit:
-	#
-	#	modified:   benchmarks.rb
-	#
+	On branch master
+	Changes to be committed:
+	  (use "git reset HEAD <file>..." to unstage)
+	
+	        modified:   benchmarks.rb
+	
+	Changes not staged for commit:
+	  (use "git add <file>..." to update what will be committed)
+	  (use "git checkout -- <file>..." to discard changes in working directory)
+	
+	        modified:   benchmarks.rb
+	
 
-Ora puoi usare `git diff` per vedere cosa non è ancora parcheggiato
+Puoi quindi usare `git diff` per vedere cosa non è ancora in `stage`
 
 	$ git diff
 	diff --git a/benchmarks.rb b/benchmarks.rb
@@ -274,7 +277,7 @@ Ora puoi usare `git diff` per vedere cosa non è ancora parcheggiato
 	 ##pp Grit::GitRuby.cache_client.stats
 	+# test line
 
-e `git diff --cached` per vedere cosa hai parcheggiato precedentemente:
+e `git diff --cached` per vedere cos'è già in `stage`:
 
 	$ git diff --cached
 	diff --git a/benchmarks.rb b/benchmarks.rb

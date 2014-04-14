@@ -75,21 +75,21 @@ Puoi vedere che il nuovo file README non è tracciato poiché nell'output è nel
 
 ### Tracciare Nuovi File ###
 
-Per iniziare a tracciare un nuovo file, usa il comando `git add`. Per tracciare il file `README`, lancia questo comando:
+Per iniziare a tracciare un nuovo file, si usa il comando `git add`. Per tracciare il file `README`, usa questo comando:
 
 	$ git add README
 
-Se lanci nuovamente il comando di stato, puoi vedere il tuo file `README` tracciato e parcheggiato:
+Se lanci nuovamente il comando per lo stato, puoi vedere il tuo file `README` ora è tracciato e nell'area si `stage`:
 
 	$ git status
-	# On branch master
-	# Changes to be committed:
-	#   (use "git reset HEAD <file>..." to unstage)
-	#
-	#	new file:   README
-	#
+	On branch master
+	Changes to be committed:
+	  (use "git reset HEAD <file>..." to unstage)
+	
+	        new file:   README
+	
 
-Ti dice che è in stage (parcheggiato, ndt) perché è sotto al titolo "Changes to be committed". Se fai ora il commit, la versione del file al momento in cui hai lanciato `git add` sarà quella che troverai nella storia dello snapshot.  Potresti ricordare che quando hai eseguito `git init` precedentemente, poi hai dovuto lanciare `git add (file)` — che era necessario per l'inizio del tracciamento dei file nella tua directory. Il comando git add prende il nome del percorso di ogni file o directory; se è una directory, il comando aggiunge tutti i file in quella directory ricorsivamente.
+Sai che è nell'area di `stage` perché è nella sezione "Changes to be committed". Se a questo punto fai commit, la versione del file com'era quando hai lanciato `git add` sarà quella che troverai nella cronologia dello snapshot. Ricorderai che quando prima hai eseguito `git init`, poi hai dovuto lanciare `git add (file)`, che era necessario per iniziare a tracciare i file nella tua directory. Il comando `git add` accetta il nome del percorso di un file o una directory; se è una directory, il comando aggiunge ricorsivamente tutti i file in quella directory.
 
 ### Parcheggiare File Modificati ###
 

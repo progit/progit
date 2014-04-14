@@ -472,21 +472,21 @@ Diyelim ki uzak bir dalla yapacaklarınız bitti ve siz ile takım arkadaşları
 
 İşte bu! Artık sunucunuzda bu dal olmayacak. Bu sayfayı dikkatlice anlamak isteyebilirsiniz, çünkü muhtemelen bu komuta ihtiyacınız olacak ancak sözdizimini unutacaksınız. Bu komutu hatırlamanın bir yolu daha önceden biraz bahsedilen `git push [uzakadı] [yereldal]:[uzakdal]` sözdizimini hatırlamaktır. Eğer `[yereldal]` kısmını yazmazsanız, aslında dediğiniz şey “Benim tarafımdan bir şey alma ancak `[uzakdal]`dan al.”
 
-## Rebasing (Tekrar Adresleme) ## Zemin, Kök, Temel
+## Rebasing (Tekrar Adresleme) ##
 
 Git içerisinde, değişiklikleri bir daldan diğerine bütünleştirmek için iki temel yol bulunuyor: `merge` ve `rebase`. Bu bölümde sadece rebase komutunun ne olduğunu, nasıl yapılacağını, neden mükemmel bir araç olduğunu ve hangi durumlarda kullanmak istemeyeceğinizi öğreneceksiniz.
 
-### The Basic Rebase ###
+### Temel Tekrar Adresleme ###
 
-If you go back to an earlier example from the Merge section (see Figure 3-27), you can see that you diverged your work and made commits on two different branches.
+Birleştirme kısmındaki örneğe geri giderseniz (Figür 3-27'ye bakın), çalışmanızı ayırdığınızı ve iki farklı dal üzerinde gönderi yaptığınızı görebilirsiniz.
 
 Insert 18333fig0327.png 
-Figure 3-27. Your initial diverged commit history.
+Figure 3-27. İlk ayrılan gönderi geçmişi.
 
-The easiest way to integrate the branches, as we’ve already covered, is the `merge` command. It performs a three-way merge between the two latest branch snapshots (C3 and C4) and the most recent common ancestor of the two (C2), creating a new snapshot (and commit), as shown in Figure 3-28.
+Dalları bütünlemenin en kolay yolu - daha önceden anlattığımız gibi - `merge` komutudur. Bu komut, en son iki dal bellek kopyası (C3 ve C4) ve ikisinin en yakın ortak atası (C2) arasında üç yönlü bir birleştirme yapar. Bunun sonucunda yeni bir bellek kopyası (ve gönderi) oluşturur. Bkz. Figür 3-28.
 
 Insert 18333fig0328.png 
-Figure 3-28. Merging a branch to integrate the diverged work history.
+Figure 3-28. Ayrılmış çalışma geçmişini bütünleştirmek için bir dal birleştirmek.
 
 However, there is another way: you can take the patch of the change that was introduced in C3 and reapply it on top of C4. In Git, this is called _rebasing_. With the `rebase` command, you can take all the changes that were committed on one branch and replay them on another one.
 

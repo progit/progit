@@ -153,31 +153,31 @@ Cos'è successo? Ora `benchmarks.rb` è elencato sia dentro che fuori lo `stage`
 
 ### Ignorare File ###
 
-Spesso, si ha una classe di file che non si vuole automaticamente aggiungere o far vedere come file non tracciati a Git. Ci sono generalmente alcuni file generati automaticamente come i file di log o i file prodotti dalla creazione di un sistema. In questi casi, puoi creare un file chiamato .gitignore con una lista di pattern corrispondente ad essi. Questo è un esempio di file .gitignore:
+Spesso hai un tipo di file che non vuoi che Git li aggiunga automaticamente e nemmeno te li mostri come tracciati. Generalmente si tratta di file generati automaticamente, come i log o quelli prodotti dal tuoi sistema di `build`. In questi casi puoi creare un file chiamato `.gitignore` con la lista di pattern dei file che vuoi ignorare. Questo è un `.gitignore` d'esempio:
 
 	$ cat .gitignore
 	*.[oa]
 	*~
 
-La prima linea dice a Git di ignorare qualsiasi file che finisce con .o o .a — file di oggetti o archivi che possono essere il prodotto di una compilazione del tuo codice. La seconda linea dice a Git di ignorare tutti i file che finiscono con la tilde (`~`), che è usata da alcuni editor di testo come Emacs per marcare i file temporanei. Puoi anche includere directory di log, tmp o pid; documentazioni generate automaticamente; e così via. Imposta un file .gitignore prima di di procedere è generalmente una buona idea, così si evita il rischio di eseguire accidentalmente dei commit dei file che non vuoi nel tuo repository Git.
+La prima riga dice a Git di ignorare qualsiasi file che finisce in `.o` o `.a` — file di oggetti o archivi che possono essere il prodotto di una compilazione del tuo codice. La seconda riga dice a Git di ignorare tutti i file che finiscono con tilde (`~`), che è usata da alcuni editor di testo come Emacs per marcare i file temporanei. Puoi anche includere le directory `log`, `tmp` o `pid`, documenti generati automaticamente e così via. Definire un file `.gitignore` prima di iniziare generalmente è una buona idea, così eviti il rischio di committare accidentalmente dei file che non vuoi nel tuo repository Git.
 
-Le regole per i pattern che puoi mettere nel file .gitignore sono le seguenti:
+Queste sono le regole per i pattern che puoi usare in `.gitignore`:
 
-*	Linee vuote o linee che iniziano con # sono ignorate.
-*	I glob pattern standard (formati usati per indicare classi di caratteri nelle shell, ndt) funzionano.
-*	Puoi terminare i pattern con un diviso (`/`) per specificare una directory.
-*	Puoi negare un pattern aggiungendo all'inizio il punto di esclamazione (`!`).
+*	Le righe vuote o che inizino con `#` vengono ignorate.
+*	Gli standard `glob pattern` funzionano (http://it.wikipedia.org/wiki/Glob_pattern, ndt).
+*	Puoi terminare i pattern con uno slash (`/`) per indicare una directory.
+*	Puoi negare un pattern facendolo iniziare con un punto esclamativo (`!`).
 
-I glob pattern sono come espressioni regolari semplificate usate dalla shell. Un asterisco (`*`) corrisponde a zero o più caratteri; `[abc]` corrispondente ad ogni carattere all'interno delle parentesi (in questo caso a, b, o c); il punto di domanda (`?`) corrispondente ad un singolo carattere; ed i caratteri all'interno delle parentesi quadre separati dal segno meno (`[0-9]`) corrispondono ad ogni carattere all'interno del range impostato (in questo caso da 0 a 9).
+I `glob pattern` sono come espressioni regolari semplificate, usate dalla shell. L'asterisco (`*`) corrisponde a zero o più caratteri; `[abc]` corrisponde a ogni carattere all'interno delle parentesi (in questo caso `a`, `b`, o `c`); il punto interrogativo (`?`) corrisponden ad un carattere singolo; e i caratteri all'interno delle parentesi quadre separati dal segno meno (`[0-9]`) corrispondono ad ogni carattere all'interno dell'intervallo (in questo caso da 0 a 9).
 
 Questo è un altro esempio di file .gitignore:
 
 	# un commento - questo è ignorato
-	# no file .a
+	# escludi i file .a
 	*.a
-	# ma traccia lib.a, mentre vengono ignorati tutti i file .a come sopra
+	# ma traccia lib.a, sebbene su tu stia ignorando tutti i file `.a`
 	!lib.a
-	# ignora solamente il file TODO in root, non del tipo subdir/TODO
+	# ignora solo il TODO nella root, e non subdir/TODO
 	/TODO
 	# ignora tutti i file nella directory build/
 	build/
@@ -186,7 +186,7 @@ Questo è un altro esempio di file .gitignore:
 	# ignora tutti i file .txt nella directory doc/
 	doc/**/*.txt
 
-Un pattern `**/` è disponibile in Git dalla version 1.8.2.
+Il pattern `**/` è disponibile in Git dalla version 1.8.2.
 
 ### Visualizzare le Tue Modifiche Parcheggiate e Non ###
 

@@ -681,23 +681,23 @@ Puoi vedere la cronologia delle commit, nella metà superiore, della finestra co
 
 In qualsiasi momento puoi voler annullare qualcosa. Rivedremo alcuni strumenti basilari per annullare le modifiche fatte. Attenzione però, perché non sempre puoi ripristinare ciò che annulli. Questa è una delle aree di Git dove puoi perdere del lavoro svolto se commetti un errore.
 
-### Modificare il Tuo Ultimo Commit ###
+### Modifica la tua ultima commit ###
 
-Uno degli annullamenti comuni avviene quando invii troppo presto un commit e magari dimentichi di aggiungere alcuni file, o sbagli il messaggio di commit. Se vuoi provare nuovamente questo commit, puoi lanciare commit con l'opzione `--amend`:
+Uno degli annullamenti più comuni si verifica quando committi qualcosa troppo presto e magari dimentichi di aggiungere qualche file, o sbagli qualcosa nel messaggio di commit. Se vuoi modificare questa commit puoi eseguire il comando commit con l'opzione `--amend`:
 
 	$ git commit --amend
 
-Questo comando prende la tua area di stage e la usa per il commit. Se non hai fatto cambiamenti dal tuo ultimo commit (per esempio, lanci questo comando subito dopo il tuo commit precedente), allora il tuo snapshot sarà esattamente uguale e potrai cambiare il tuo messaggio di commit.
+Questo comando usa la tua area di `stage` per la commit. Se non hai fatto modifiche dalla tua ultima commit (per esempio, esegui questo comando subito dopo la tua commit precedente), allora il tuo snapshot sarà identico e potrai cambiare il tuo messaggio di commit.
 
-L'editor per il messaggio del commit apparirà, ma già contiene il messaggio del commit precedente. Puoi modificare il messaggio come sempre, ma sovrascriverà il commit precedente.
+Verrà lanciata la stessa applicazione per scrivere il messaggio della commit, ma conterrà già il messaggio della commit precedente. Puoi modificare il messaggio normalmente, ma questo sovrascriverà la commit precedente.
 
-Come esempio, se fai il commit e poi realizzi di aver dimenticato un cambiamento nella tua area di stage di un file e vuoi aggiungerlo a questo commit, puoi farlo così:
+Per esempio, se fai una commit e realizzi di non aver messo nello `stage` le modifiche a un file e vuoi aggiungerlo a questa commit, puoi fare così:
 
 	$ git commit -m 'initial commit'
 	$ git add forgotten_file
 	$ git commit --amend
 
-Tutti e tre i comandi finisco in un singolo commit —  il secondo commit riscrive il risultato del primo.
+Dopo questi tre comandi ti ritroverai con una sola commit: la seconda sovrascrive la prima.
 
 ### Disimpegnare un File Staged ###
 

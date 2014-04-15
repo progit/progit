@@ -677,9 +677,9 @@ Figura 2-2. Il grafico della cronologia con gitk.
 
 Puoi vedere la cronologia delle commit, nella metà superiore, della finestra come un albero genealogico carino. La finestra delle differenza, nella metà inferiore, mostra le modifiche introdotte con ciascuna commit che selezioni.
 
-## Annullare le Cose ##
+## Annullare qualcosa ##
 
-Ad ogni stadio potresti voler annullare qualcosa. Qui, vedremo alcuni strumenti fondamentali per annullare i cambiamenti che hai fatto. Attenzione, perché non sempre puoi invertire alcuni annullamenti. Questa è una delle aree in Git dove puoi perdere qualche lavoro se sbagli.
+In qualsiasi momento puoi voler annullare qualcosa. Rivedremo alcuni strumenti basilari per annullare le modifiche fatte. Attenzione però, perché non sempre puoi ripristinare ciò che annulli. Questa è una delle aree di Git dove puoi perdere del lavoro svolto se commetti un errore.
 
 ### Modificare il Tuo Ultimo Commit ###
 

@@ -249,6 +249,594 @@ In questo è comune usare il parametro `--left-right` con il comando `log`, che 
 	> C
 
 Con questi strumenti puoi dire facilmente a Git quale o quali commit vuoi ispezionare.
+<!-- da tradurre fino a riga 840 -->
+## Interactive Staging ## 
+
+Git comes with a couple of scripts that make some command-line tasks easier. Here, you’ll look at a few interactive commands that can help you easily craft your commits to include only certain combinations and parts of files. These tools are very helpful if you modify a bunch of files and then decide that you want those changes to be in several focused commits rather than one big messy commit. This way, you can make sure your commits are logically separate changesets and can be easily reviewed by the developers working with you.
+If you run `git add` with the `-i` or `--interactive` option, Git goes into an interactive shell mode, displaying something like this:
+
+	$ git add -i
+	           staged     unstaged path
+	  1:    unchanged        +0/-1 TODO
+	  2:    unchanged        +1/-1 index.html
+	  3:    unchanged        +5/-1 lib/simplegit.rb
+
+	*** Commands ***
+	  1: status     2: update      3: revert     4: add untracked
+	  5: patch      6: diff        7: quit       8: help
+	What now>
+
+You can see that this command shows you a much different view of your staging area — basically the same information you get with `git status` but a bit more succinct and informative. It lists the changes you’ve staged on the left and unstaged changes on the right.
+
+After this comes a Commands section. Here you can do a number of things, including staging files, unstaging files, staging parts of files, adding untracked files, and seeing diffs of what has been staged.
+
+### Staging and Unstaging Files ###
+
+If you type `2` or `u` at the `What now>` prompt, the script prompts you for which files you want to stage:
+
+	What now> 2
+	           staged     unstaged path
+	  1:    unchanged        +0/-1 TODO
+	  2:    unchanged        +1/-1 index.html
+	  3:    unchanged        +5/-1 lib/simplegit.rb
+	Update>>
+
+To stage the TODO and index.html files, you can type the numbers:
+
+	Update>> 1,2
+	           staged     unstaged path
+	* 1:    unchanged        +0/-1 TODO
+	* 2:    unchanged        +1/-1 index.html
+	  3:    unchanged        +5/-1 lib/simplegit.rb
+	Update>>
+
+The `*` next to each file means the file is selected to be staged. If you press Enter after typing nothing at the `Update>>` prompt, Git takes anything selected and stages it for you:
+
+	Update>>
+	updated 2 paths
+
+	*** Commands ***
+	  1: status     2: update      3: revert     4: add untracked
+	  5: patch      6: diff        7: quit       8: help
+	What now> 1
+	           staged     unstaged path
+	  1:        +0/-1      nothing TODO
+	  2:        +1/-1      nothing index.html
+	  3:    unchanged        +5/-1 lib/simplegit.rb
+
+Now you can see that the TODO and index.html files are staged and the simplegit.rb file is still unstaged. If you want to unstage the TODO file at this point, you use the `3` or `r` (for revert) option:
+
+	*** Commands ***
+	  1: status     2: update      3: revert     4: add untracked
+	  5: patch      6: diff        7: quit       8: help
+	What now> 3
+	           staged     unstaged path
+	  1:        +0/-1      nothing TODO
+	  2:        +1/-1      nothing index.html
+	  3:    unchanged        +5/-1 lib/simplegit.rb
+	Revert>> 1
+	           staged     unstaged path
+	* 1:        +0/-1      nothing TODO
+	  2:        +1/-1      nothing index.html
+	  3:    unchanged        +5/-1 lib/simplegit.rb
+	Revert>> [enter]
+	reverted one path
+
+Looking at your Git status again, you can see that you’ve unstaged the TODO file:
+
+	*** Commands ***
+	  1: status     2: update      3: revert     4: add untracked
+	  5: patch      6: diff        7: quit       8: help
+	What now> 1
+	           staged     unstaged path
+	  1:    unchanged        +0/-1 TODO
+	  2:        +1/-1      nothing index.html
+	  3:    unchanged        +5/-1 lib/simplegit.rb
+
+To see the diff of what you’ve staged, you can use the `6` or `d` (for diff) command. It shows you a list of your staged files, and you can select the ones for which you would like to see the staged diff. This is much like specifying `git diff --cached` on the command line:
+
+	*** Commands ***
+	  1: status     2: update      3: revert     4: add untracked
+	  5: patch      6: diff        7: quit       8: help
+	What now> 6
+	           staged     unstaged path
+	  1:        +1/-1      nothing index.html
+	Review diff>> 1
+	diff --git a/index.html b/index.html
+	index 4d07108..4335f49 100644
+	--- a/index.html
+	+++ b/index.html
+	@@ -16,7 +16,7 @@ Date Finder
+
+	 <p id="out">...</p>
+
+	-<div id="footer">contact : support@github.com</div>
+	+<div id="footer">contact : email.support@github.com</div>
+
+	 <script type="text/javascript">
+
+With these basic commands, you can use the interactive add mode to deal with your staging area a little more easily.
+
+### Staging Patches ###
+
+It’s also possible for Git to stage certain parts of files and not the rest. For example, if you make two changes to your simplegit.rb file and want to stage one of them and not the other, doing so is very easy in Git. From the interactive prompt, type `5` or `p` (for patch). Git will ask you which files you would like to partially stage; then, for each section of the selected files, it will display hunks of the file diff and ask if you would like to stage them, one by one:
+
+	diff --git a/lib/simplegit.rb b/lib/simplegit.rb
+	index dd5ecc4..57399e0 100644
+	--- a/lib/simplegit.rb
+	+++ b/lib/simplegit.rb
+	@@ -22,7 +22,7 @@ class SimpleGit
+	   end
+
+	   def log(treeish = 'master')
+	-    command("git log -n 25 #{treeish}")
+	+    command("git log -n 30 #{treeish}")
+	   end
+
+	   def blame(path)
+	Stage this hunk [y,n,a,d,/,j,J,g,e,?]?
+
+You have a lot of options at this point. Typing `?` shows a list of what you can do:
+
+	Stage this hunk [y,n,a,d,/,j,J,g,e,?]? ?
+	y - stage this hunk
+	n - do not stage this hunk
+	a - stage this and all the remaining hunks in the file
+	d - do not stage this hunk nor any of the remaining hunks in the file
+	g - select a hunk to go to
+	/ - search for a hunk matching the given regex
+	j - leave this hunk undecided, see next undecided hunk
+	J - leave this hunk undecided, see next hunk
+	k - leave this hunk undecided, see previous undecided hunk
+	K - leave this hunk undecided, see previous hunk
+	s - split the current hunk into smaller hunks
+	e - manually edit the current hunk
+	? - print help
+
+Generally, you’ll type `y` or `n` if you want to stage each hunk, but staging all of them in certain files or skipping a hunk decision until later can be helpful too. If you stage one part of the file and leave another part unstaged, your status output will look like this:
+
+	What now> 1
+	           staged     unstaged path
+	  1:    unchanged        +0/-1 TODO
+	  2:        +1/-1      nothing index.html
+	  3:        +1/-1        +4/-0 lib/simplegit.rb
+
+The status of the simplegit.rb file is interesting. It shows you that a couple of lines are staged and a couple are unstaged. You’ve partially staged this file. At this point, you can exit the interactive adding script and run `git commit` to commit the partially staged files.
+
+Finally, you don’t need to be in interactive add mode to do the partial-file staging — you can start the same script by using `git add -p` or `git add --patch` on the command line.
+
+## Stashing ##
+
+Often, when you’ve been working on part of your project, things are in a messy state and you want to switch branches for a bit to work on something else. The problem is, you don’t want to do a commit of half-done work just so you can get back to this point later. The answer to this issue is the `git stash` command.
+
+Stashing takes the dirty state of your working directory — that is, your modified tracked files and staged changes — and saves it on a stack of unfinished changes that you can reapply at any time.
+
+### Stashing Your Work ###
+
+To demonstrate, you’ll go into your project and start working on a couple of files and possibly stage one of the changes. If you run `git status`, you can see your dirty state:
+
+	$ git status
+	# On branch master
+	# Changes to be committed:
+	#   (use "git reset HEAD <file>..." to unstage)
+	#
+	#      modified:   index.html
+	#
+	# Changes not staged for commit:
+	#   (use "git add <file>..." to update what will be committed)
+	#
+	#      modified:   lib/simplegit.rb
+	#
+
+Now you want to switch branches, but you don’t want to commit what you’ve been working on yet; so you’ll stash the changes. To push a new stash onto your stack, run `git stash`:
+
+	$ git stash
+	Saved working directory and index state \
+	  "WIP on master: 049d078 added the index file"
+	HEAD is now at 049d078 added the index file
+	(To restore them type "git stash apply")
+
+Your working directory is clean:
+
+	$ git status
+	# On branch master
+	nothing to commit (working directory clean)
+
+At this point, you can easily switch branches and do work elsewhere; your changes are stored on your stack. To see which stashes you’ve stored, you can use `git stash list`:
+
+	$ git stash list
+	stash@{0}: WIP on master: 049d078 added the index file
+	stash@{1}: WIP on master: c264051... Revert "added file_size"
+	stash@{2}: WIP on master: 21d80a5... added number to log
+
+In this case, two stashes were done previously, so you have access to three different stashed works. You can reapply the one you just stashed by using the command shown in the help output of the original stash command: `git stash apply`. If you want to apply one of the older stashes, you can specify it by naming it, like this: `git stash apply stash@{2}`. If you don’t specify a stash, Git assumes the most recent stash and tries to apply it:
+
+	$ git stash apply
+	# On branch master
+	# Changes not staged for commit:
+	#   (use "git add <file>..." to update what will be committed)
+	#
+	#      modified:   index.html
+	#      modified:   lib/simplegit.rb
+	#
+
+You can see that Git re-modifies the files you uncommitted when you saved the stash. In this case, you had a clean working directory when you tried to apply the stash, and you tried to apply it on the same branch you saved it from; but having a clean working directory and applying it on the same branch aren’t necessary to successfully apply a stash. You can save a stash on one branch, switch to another branch later, and try to reapply the changes. You can also have modified and uncommitted files in your working directory when you apply a stash — Git gives you merge conflicts if anything no longer applies cleanly.
+
+The changes to your files were reapplied, but the file you staged before wasn’t restaged. To do that, you must run the `git stash apply` command with a `--index` option to tell the command to try to reapply the staged changes. If you had run that instead, you’d have gotten back to your original position:
+
+	$ git stash apply --index
+	# On branch master
+	# Changes to be committed:
+	#   (use "git reset HEAD <file>..." to unstage)
+	#
+	#      modified:   index.html
+	#
+	# Changes not staged for commit:
+	#   (use "git add <file>..." to update what will be committed)
+	#
+	#      modified:   lib/simplegit.rb
+	#
+
+The apply option only tries to apply the stashed work — you continue to have it on your stack. To remove it, you can run `git stash drop` with the name of the stash to remove:
+
+	$ git stash list
+	stash@{0}: WIP on master: 049d078 added the index file
+	stash@{1}: WIP on master: c264051... Revert "added file_size"
+	stash@{2}: WIP on master: 21d80a5... added number to log
+	$ git stash drop stash@{0}
+	Dropped stash@{0} (364e91f3f268f0900bc3ee613f9f733e82aaed43)
+
+You can also run `git stash pop` to apply the stash and then immediately drop it from your stack.
+
+### Un-applying a Stash ###
+
+In some use case scenarios you might want to apply stashed changes, do some work, but then un-apply those changes that originally came from the stash. Git does not provide such a `stash unapply` command, but it is possible to achieve the effect by simply retrieving the patch associated with a stash and applying it in reverse:
+
+    $ git stash show -p stash@{0} | git apply -R
+
+Again, if you don’t specify a stash, Git assumes the most recent stash:
+
+    $ git stash show -p | git apply -R
+
+You may want to create an alias and effectively add a `stash-unapply` command to your Git. For example:
+
+    $ git config --global alias.stash-unapply '!git stash show -p | git apply -R'
+    $ git stash
+    $ #... work work work
+    $ git stash-unapply
+
+### Creating a Branch from a Stash ###
+
+If you stash some work, leave it there for a while, and continue on the branch from which you stashed the work, you may have a problem reapplying the work. If the apply tries to modify a file that you’ve since modified, you’ll get a merge conflict and will have to try to resolve it. If you want an easier way to test the stashed changes again, you can run `git stash branch`, which creates a new branch for you, checks out the commit you were on when you stashed your work, reapplies your work there, and then drops the stash if it applies successfully:
+
+	$ git stash branch testchanges
+	Switched to a new branch "testchanges"
+	# On branch testchanges
+	# Changes to be committed:
+	#   (use "git reset HEAD <file>..." to unstage)
+	#
+	#      modified:   index.html
+	#
+	# Changes not staged for commit:
+	#   (use "git add <file>..." to update what will be committed)
+	#
+	#      modified:   lib/simplegit.rb
+	#
+	Dropped refs/stash@{0} (f0dfc4d5dc332d1cee34a634182e168c4efc3359)
+
+This is a nice shortcut to recover stashed work easily and work on it in a new branch.
+
+## Rewriting History ##
+
+Many times, when working with Git, you may want to revise your commit history for some reason. One of the great things about Git is that it allows you to make decisions at the last possible moment. You can decide what files go into which commits right before you commit with the staging area, you can decide that you didn’t mean to be working on something yet with the stash command, and you can rewrite commits that already happened so they look like they happened in a different way. This can involve changing the order of the commits, changing messages or modifying files in a commit, squashing together or splitting apart commits, or removing commits entirely — all before you share your work with others.
+
+In this section, you’ll cover how to accomplish these very useful tasks so that you can make your commit history look the way you want before you share it with others.
+
+### Changing the Last Commit ###
+
+Changing your last commit is probably the most common rewriting of history that you’ll do. You’ll often want to do two basic things to your last commit: change the commit message, or change the snapshot you just recorded by adding, changing and removing files.
+
+If you only want to modify your last commit message, it’s very simple:
+
+	$ git commit --amend
+
+That drops you into your text editor, which has your last commit message in it, ready for you to modify the message. When you save and close the editor, the editor writes a new commit containing that message and makes it your new last commit.
+
+If you’ve committed and then you want to change the snapshot you committed by adding or changing files, possibly because you forgot to add a newly created file when you originally committed, the process works basically the same way. You stage the changes you want by editing a file and running `git add` on it or `git rm` to a tracked file, and the subsequent `git commit --amend` takes your current staging area and makes it the snapshot for the new commit.
+
+You need to be careful with this technique because amending changes the SHA-1 of the commit. It’s like a very small rebase — don’t amend your last commit if you’ve already pushed it.
+
+### Changing Multiple Commit Messages ###
+
+To modify a commit that is farther back in your history, you must move to more complex tools. Git doesn’t have a modify-history tool, but you can use the rebase tool to rebase a series of commits onto the HEAD they were originally based on instead of moving them to another one. With the interactive rebase tool, you can then stop after each commit you want to modify and change the message, add files, or do whatever you wish. You can run rebase interactively by adding the `-i` option to `git rebase`. You must indicate how far back you want to rewrite commits by telling the command which commit to rebase onto.
+
+For example, if you want to change the last three commit messages, or any of the commit messages in that group, you supply as an argument to `git rebase -i` the parent of the last commit you want to edit, which is `HEAD~2^` or `HEAD~3`. It may be easier to remember the `~3` because you’re trying to edit the last three commits; but keep in mind that you’re actually designating four commits ago, the parent of the last commit you want to edit:
+
+	$ git rebase -i HEAD~3
+
+Remember again that this is a rebasing command — every commit included in the range `HEAD~3..HEAD` will be rewritten, whether you change the message or not. Don’t include any commit you’ve already pushed to a central server — doing so will confuse other developers by providing an alternate version of the same change.
+
+Running this command gives you a list of commits in your text editor that looks something like this:
+
+	pick f7f3f6d changed my name a bit
+	pick 310154e updated README formatting and added blame
+	pick a5f4a0d added cat-file
+
+	# Rebase 710f0f8..a5f4a0d onto 710f0f8
+	#
+	# Commands:
+	#  p, pick = use commit
+	#  r, reword = use commit, but edit the commit message
+	#  e, edit = use commit, but stop for amending
+	#  s, squash = use commit, but meld into previous commit
+	#  f, fixup = like "squash", but discard this commit's log message
+	#  x, exec = run command (the rest of the line) using shell
+	#
+	# These lines can be re-ordered; they are executed from top to bottom.
+	#
+	# If you remove a line here THAT COMMIT WILL BE LOST.
+	#
+	# However, if you remove everything, the rebase will be aborted.
+	#
+	# Note that empty commits are commented out
+
+It’s important to note that these commits are listed in the opposite order than you normally see them using the `log` command. If you run a `log`, you see something like this:
+
+	$ git log --pretty=format:"%h %s" HEAD~3..HEAD
+	a5f4a0d added cat-file
+	310154e updated README formatting and added blame
+	f7f3f6d changed my name a bit
+
+Notice the reverse order. The interactive rebase gives you a script that it’s going to run. It will start at the commit you specify on the command line (`HEAD~3`) and replay the changes introduced in each of these commits from top to bottom. It lists the oldest at the top, rather than the newest, because that’s the first one it will replay.
+
+You need to edit the script so that it stops at the commit you want to edit. To do so, change the word pick to the word edit for each of the commits you want the script to stop after. For example, to modify only the third commit message, you change the file to look like this:
+
+	edit f7f3f6d changed my name a bit
+	pick 310154e updated README formatting and added blame
+	pick a5f4a0d added cat-file
+
+When you save and exit the editor, Git rewinds you back to the last commit in that list and drops you on the command line with the following message:
+
+<!-- This is actually weird, as the SHA-1 of 7482e0d is not present in the list, 
+nor is the commit message. Please review 
+-->
+
+	$ git rebase -i HEAD~3
+	Stopped at 7482e0d... updated the gemspec to hopefully work better
+	You can amend the commit now, with
+
+	       git commit --amend
+
+	Once you’re satisfied with your changes, run
+
+	       git rebase --continue
+
+These instructions tell you exactly what to do. Type
+
+	$ git commit --amend
+
+Change the commit message, and exit the editor. Then, run
+
+	$ git rebase --continue
+
+This command will apply the other two commits automatically, and then you’re done. If you change pick to edit on more lines, you can repeat these steps for each commit you change to edit. Each time, Git will stop, let you amend the commit, and continue when you’re finished.
+
+### Reordering Commits ###
+
+You can also use interactive rebases to reorder or remove commits entirely. If you want to remove the "added cat-file" commit and change the order in which the other two commits are introduced, you can change the rebase script from this
+
+	pick f7f3f6d changed my name a bit
+	pick 310154e updated README formatting and added blame
+	pick a5f4a0d added cat-file
+
+to this:
+
+	pick 310154e updated README formatting and added blame
+	pick f7f3f6d changed my name a bit
+
+When you save and exit the editor, Git rewinds your branch to the parent of these commits, applies `310154e` and then `f7f3f6d`, and then stops. You effectively change the order of those commits and remove the "added cat-file" commit completely.
+
+### Squashing Commits ###
+
+It’s also possible to take a series of commits and squash them down into a single commit with the interactive rebasing tool. The script puts helpful instructions in the rebase message:
+
+	#
+	# Commands:
+	#  p, pick = use commit
+	#  r, reword = use commit, but edit the commit message
+	#  e, edit = use commit, but stop for amending
+	#  s, squash = use commit, but meld into previous commit
+	#  f, fixup = like "squash", but discard this commit's log message
+	#  x, exec = run command (the rest of the line) using shell
+	#
+	# These lines can be re-ordered; they are executed from top to bottom.
+	#
+	# If you remove a line here THAT COMMIT WILL BE LOST.
+	#
+	# However, if you remove everything, the rebase will be aborted.
+	#
+	# Note that empty commits are commented out
+
+If, instead of "pick" or "edit", you specify "squash", Git applies both that change and the change directly before it and makes you merge the commit messages together. So, if you want to make a single commit from these three commits, you make the script look like this:
+
+	pick f7f3f6d changed my name a bit
+	squash 310154e updated README formatting and added blame
+	squash a5f4a0d added cat-file
+
+When you save and exit the editor, Git applies all three changes and then puts you back into the editor to merge the three commit messages:
+
+	# This is a combination of 3 commits.
+	# The first commit's message is:
+	changed my name a bit
+
+	# This is the 2nd commit message:
+
+	updated README formatting and added blame
+
+	# This is the 3rd commit message:
+
+	added cat-file
+
+When you save that, you have a single commit that introduces the changes of all three previous commits.
+
+### Splitting a Commit ###
+
+Splitting a commit undoes a commit and then partially stages and commits as many times as commits you want to end up with. For example, suppose you want to split the middle commit of your three commits. Instead of "updated README formatting and added blame", you want to split it into two commits: "updated README formatting" for the first, and "added blame" for the second. You can do that in the `rebase -i` script by changing the instruction on the commit you want to split to "edit":
+
+	pick f7f3f6d changed my name a bit
+	edit 310154e updated README formatting and added blame
+	pick a5f4a0d added cat-file
+
+When you save and exit the editor, Git rewinds to the parent of the first commit in your list, applies the first commit (`f7f3f6d`), applies the second (`310154e`), and drops you to the console. There, you can do a mixed reset of that commit with `git reset HEAD^`, which effectively undoes that commit and leaves the modified files unstaged. Now you can take the changes that have been reset, and create multiple commits out of them. Simply stage and commit files until you have several commits, and run `git rebase --continue` when you’re done:
+
+	$ git reset HEAD^
+	$ git add README
+	$ git commit -m 'updated README formatting'
+	$ git add lib/simplegit.rb
+	$ git commit -m 'added blame'
+	$ git rebase --continue
+
+Git applies the last commit (`a5f4a0d`) in the script, and your history looks like this:
+
+	$ git log -4 --pretty=format:"%h %s"
+	1c002dd added cat-file
+	9b29157 added blame
+	35cfb2b updated README formatting
+	f3cc40e changed my name a bit
+
+Once again, this changes the SHAs of all the commits in your list, so make sure no commit shows up in that list that you’ve already pushed to a shared repository.
+
+### The Nuclear Option: filter-branch ###
+
+There is another history-rewriting option that you can use if you need to rewrite a larger number of commits in some scriptable way — for instance, changing your e-mail address globally or removing a file from every commit. The command is `filter-branch`, and it can rewrite huge swaths of your history, so you probably shouldn’t use it unless your project isn’t yet public and other people haven’t based work off the commits you’re about to rewrite. However, it can be very useful. You’ll learn a few of the common uses so you can get an idea of some of the things it’s capable of.
+
+#### Removing a File from Every Commit ####
+
+This occurs fairly commonly. Someone accidentally commits a huge binary file with a thoughtless `git add .`, and you want to remove it everywhere. Perhaps you accidentally committed a file that contained a password, and you want to make your project open source. `filter-branch` is the tool you probably want to use to scrub your entire history. To remove a file named passwords.txt from your entire history, you can use the `--tree-filter` option to `filter-branch`:
+
+	$ git filter-branch --tree-filter 'rm -f passwords.txt' HEAD
+	Rewrite 6b9b3cf04e7c5686a9cb838c3f36a8cb6a0fc2bd (21/21)
+	Ref 'refs/heads/master' was rewritten
+
+The `--tree-filter` option runs the specified command after each checkout of the project and then recommits the results. In this case, you remove a file called passwords.txt from every snapshot, whether it exists or not. If you want to remove all accidentally committed editor backup files, you can run something like `git filter-branch --tree-filter "rm -f *~" HEAD`.
+
+You’ll be able to watch Git rewriting trees and commits and then move the branch pointer at the end. It’s generally a good idea to do this in a testing branch and then hard-reset your master branch after you’ve determined the outcome is what you really want. To run `filter-branch` on all your branches, you can pass `--all` to the command.
+
+#### Making a Subdirectory the New Root ####
+
+Suppose you’ve done an import from another source control system and have subdirectories that make no sense (trunk, tags, and so on). If you want to make the `trunk` subdirectory be the new project root for every commit, `filter-branch` can help you do that, too:
+
+	$ git filter-branch --subdirectory-filter trunk HEAD
+	Rewrite 856f0bf61e41a27326cdae8f09fe708d679f596f (12/12)
+	Ref 'refs/heads/master' was rewritten
+
+Now your new project root is what was in the `trunk` subdirectory each time. Git will also automatically remove commits that did not affect the subdirectory.
+
+#### Changing E-Mail Addresses Globally ####
+
+Another common case is that you forgot to run `git config` to set your name and e-mail address before you started working, or perhaps you want to open-source a project at work and change all your work e-mail addresses to your personal address. In any case, you can change e-mail addresses in multiple commits in a batch with `filter-branch` as well. You need to be careful to change only the e-mail addresses that are yours, so you use `--commit-filter`:
+
+	$ git filter-branch --commit-filter '
+	        if [ "$GIT_AUTHOR_EMAIL" = "schacon@localhost" ];
+	        then
+	                GIT_AUTHOR_NAME="Scott Chacon";
+	                GIT_AUTHOR_EMAIL="schacon@example.com";
+	                git commit-tree "$@";
+	        else
+	                git commit-tree "$@";
+	        fi' HEAD
+
+This goes through and rewrites every commit to have your new address. Because commits contain the SHA-1 values of their parents, this command changes every commit SHA in your history, not just those that have the matching e-mail address.
+
+## Debugging with Git ##
+
+Git also provides a couple of tools to help you debug issues in your projects. Because Git is designed to work with nearly any type of project, these tools are pretty generic, but they can often help you hunt for a bug or culprit when things go wrong.
+
+### File Annotation ###
+
+If you track down a bug in your code and want to know when it was introduced and why, file annotation is often your best tool. It shows you what commit was the last to modify each line of any file. So, if you see that a method in your code is buggy, you can annotate the file with `git blame` to see when each line of the method was last edited and by whom. This example uses the `-L` option to limit the output to lines 12 through 22:
+
+	$ git blame -L 12,22 simplegit.rb
+	^4832fe2 (Scott Chacon  2008-03-15 10:31:28 -0700 12)  def show(tree = 'master')
+	^4832fe2 (Scott Chacon  2008-03-15 10:31:28 -0700 13)   command("git show #{tree}")
+	^4832fe2 (Scott Chacon  2008-03-15 10:31:28 -0700 14)  end
+	^4832fe2 (Scott Chacon  2008-03-15 10:31:28 -0700 15)
+	9f6560e4 (Scott Chacon  2008-03-17 21:52:20 -0700 16)  def log(tree = 'master')
+	79eaf55d (Scott Chacon  2008-04-06 10:15:08 -0700 17)   command("git log #{tree}")
+	9f6560e4 (Scott Chacon  2008-03-17 21:52:20 -0700 18)  end
+	9f6560e4 (Scott Chacon  2008-03-17 21:52:20 -0700 19)
+	42cf2861 (Magnus Chacon 2008-04-13 10:45:01 -0700 20)  def blame(path)
+	42cf2861 (Magnus Chacon 2008-04-13 10:45:01 -0700 21)   command("git blame #{path}")
+	42cf2861 (Magnus Chacon 2008-04-13 10:45:01 -0700 22)  end
+
+Notice that the first field is the partial SHA-1 of the commit that last modified that line. The next two fields are values extracted from that commit—the author name and the authored date of that commit — so you can easily see who modified that line and when. After that come the line number and the content of the file. Also note the `^4832fe2` commit lines, which designate that those lines were in this file’s original commit. That commit is when this file was first added to this project, and those lines have been unchanged since. This is a tad confusing, because now you’ve seen at least three different ways that Git uses the `^` to modify a commit SHA, but that is what it means here.
+
+Another cool thing about Git is that it doesn’t track file renames explicitly. It records the snapshots and then tries to figure out what was renamed implicitly, after the fact. One of the interesting features of this is that you can ask it to figure out all sorts of code movement as well. If you pass `-C` to `git blame`, Git analyzes the file you’re annotating and tries to figure out where snippets of code within it originally came from if they were copied from elsewhere. Recently, I was refactoring a file named `GITServerHandler.m` into multiple files, one of which was `GITPackUpload.m`. By blaming `GITPackUpload.m` with the `-C` option, I could see where sections of the code originally came from:
+
+	$ git blame -C -L 141,153 GITPackUpload.m
+	f344f58d GITServerHandler.m (Scott 2009-01-04 141)
+	f344f58d GITServerHandler.m (Scott 2009-01-04 142) - (void) gatherObjectShasFromC
+	f344f58d GITServerHandler.m (Scott 2009-01-04 143) {
+	70befddd GITServerHandler.m (Scott 2009-03-22 144)         //NSLog(@"GATHER COMMI
+	ad11ac80 GITPackUpload.m    (Scott 2009-03-24 145)
+	ad11ac80 GITPackUpload.m    (Scott 2009-03-24 146)         NSString *parentSha;
+	ad11ac80 GITPackUpload.m    (Scott 2009-03-24 147)         GITCommit *commit = [g
+	ad11ac80 GITPackUpload.m    (Scott 2009-03-24 148)
+	ad11ac80 GITPackUpload.m    (Scott 2009-03-24 149)         //NSLog(@"GATHER COMMI
+	ad11ac80 GITPackUpload.m    (Scott 2009-03-24 150)
+	56ef2caf GITServerHandler.m (Scott 2009-01-05 151)         if(commit) {
+	56ef2caf GITServerHandler.m (Scott 2009-01-05 152)                 [refDict setOb
+	56ef2caf GITServerHandler.m (Scott 2009-01-05 153)
+
+This is really useful. Normally, you get as the original commit the commit where you copied the code over, because that is the first time you touched those lines in this file. Git tells you the original commit where you wrote those lines, even if it was in another file.
+
+### Binary Search ###
+
+Annotating a file helps if you know where the issue is to begin with. If you don’t know what is breaking, and there have been dozens or hundreds of commits since the last state where you know the code worked, you’ll likely turn to `git bisect` for help. The `bisect` command does a binary search through your commit history to help you identify as quickly as possible which commit introduced an issue.
+
+Let’s say you just pushed out a release of your code to a production environment, you’re getting bug reports about something that wasn’t happening in your development environment, and you can’t imagine why the code is doing that. You go back to your code, and it turns out you can reproduce the issue, but you can’t figure out what is going wrong. You can bisect the code to find out. First you run `git bisect start` to get things going, and then you use `git bisect bad` to tell the system that the current commit you’re on is broken. Then, you must tell bisect when the last known good state was, using `git bisect good [good_commit]`:
+
+	$ git bisect start
+	$ git bisect bad
+	$ git bisect good v1.0
+	Bisecting: 6 revisions left to test after this
+	[ecb6e1bc347ccecc5f9350d878ce677feb13d3b2] error handling on repo
+
+Git figured out that about 12 commits came between the commit you marked as the last good commit (v1.0) and the current bad version, and it checked out the middle one for you. At this point, you can run your test to see if the issue exists as of this commit. If it does, then it was introduced sometime before this middle commit; if it doesn’t, then the problem was introduced sometime after the middle commit. It turns out there is no issue here, and you tell Git that by typing `git bisect good` and continue your journey:
+
+	$ git bisect good
+	Bisecting: 3 revisions left to test after this
+	[b047b02ea83310a70fd603dc8cd7a6cd13d15c04] secure this thing
+
+Now you’re on another commit, halfway between the one you just tested and your bad commit. You run your test again and find that this commit is broken, so you tell Git that with `git bisect bad`:
+
+	$ git bisect bad
+	Bisecting: 1 revisions left to test after this
+	[f71ce38690acf49c1f3c9bea38e09d82a5ce6014] drop exceptions table
+
+This commit is fine, and now Git has all the information it needs to determine where the issue was introduced. It tells you the SHA-1 of the first bad commit and show some of the commit information and which files were modified in that commit so you can figure out what happened that may have introduced this bug:
+
+	$ git bisect good
+	b047b02ea83310a70fd603dc8cd7a6cd13d15c04 is first bad commit
+	commit b047b02ea83310a70fd603dc8cd7a6cd13d15c04
+	Author: PJ Hyett <pjhyett@example.com>
+	Date:   Tue Jan 27 14:48:32 2009 -0800
+
+	    secure this thing
+
+	:040000 040000 40ee3e7821b895e52c1695092db9bdc4c61d1730
+	f24d3c6ebcfc639b1a3814550e62d60b8e68a8e4 M  config
+
+When you’re finished, you should run `git bisect reset` to reset your HEAD to where you were before you started, or you’ll end up in a weird state:
+
+	$ git bisect reset
+
+This is a powerful tool that can help you check hundreds of commits for an introduced bug in minutes. In fact, if you have a script that will exit 0 if the project is good or non-0 if the project is bad, you can fully automate `git bisect`. First, you again tell it the scope of the bisect by providing the known bad and good commits. You can do this by listing them with the `bisect start` command if you want, listing the known bad commit first and the known good commit second:
+
+	$ git bisect start HEAD v1.0
+	$ git bisect run test-error.sh
+
+Doing so automatically runs `test-error.sh` on each checked-out commit until Git finds the first broken commit. You can also run something like `make` or `make tests` or whatever you have that runs automated tests for you.
 
 ## Moduli ##
 
@@ -425,7 +1013,7 @@ A volte gli sviluppatori vogliono scaricare una combinazione di subdirectory di 
 
 Un buon modo per farlo in Git è quello di rendere ciascuna sottodirectory un repository Git separato e creare quindi un repository Git con il super-progetto che contenga più moduli. Un vantaggio di questo approccio è che puoi definire meglio i rapporti tra i progetti con tag e branch nei super-progetti.
 
-### Problemi con i sottomoduli ###
+### Problemi con i moduli ###
 
 Usare i moduli può comunque presentare qualche intoppo. Prima di tutto devi fare molta attenzione quando lavori nella directory del modulo. Quando esegui `git submodule update`, viene fatto il checkout della versione specifica del progetto, ma non del branch. Questo viene detto “avere l’HEAD separato: significa che il file HEAD punta direttamente alla commit, e non un riferimento simbolico. Il problema è che generalmente non vuoi lavorare in un ambiente separato perché è facile perdere commit, e non un riferimento simbolico. Il problema è che generalmente non vuoi lavorare in un ambiente separato perché è facile perdere le tue modifiche. Se inizi col comando `submodule update` e poi fai una commit nella directory del modulo senza aver creato prima un branch per lavorarci e quindi esegui una `git submodule update` dal super-progetto senz’aver committato nel frattempo, Git sovrascriverà le tue modifiche senza dirti nulla.  Tecnicamente non hai perso il tuo lavoro, ma non avendo nessun branch che vi punti sarà difficile da recuperare.
 

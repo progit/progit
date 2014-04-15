@@ -435,7 +435,7 @@ A volte gli sviluppatori vogliono scaricare una combinazione di subdirectory di 
 
 Un buon modo per farlo in Git è quello di rendere ciascuna sottodirectory un repository Git separato e creare quindi un repository Git con il super-progetto che contenga più moduli. Un vantaggio di questo approccio è che puoi definire meglio i rapporti tra i progetti con tag e branch nei super-progetti.
 
-### Issues with Submodules ###
+### Problemi con i sottomoduli ###
 
 Usare i moduli può comunque presentare qualche intoppo. Prima di tutto devi fare molta attenzione quando lavori nella directory del modulo. Quando esegui `git submodule update`, viene fatto il checkout della versione specifica del progetto, ma non del branch. Questo viene detto “avere l’HEAD separato: significa che il file HEAD punta direttamente alla commit, e non un riferimento simbolico. Il problema è che generalmente non vuoi lavorare in un ambiente separato perché è facile perdere commit, e non un riferimento simbolico. Il problema è che generalmente non vuoi lavorare in un ambiente separato perché è facile perdere le tue modifiche. Se inizi col comando `submodule update` e poi fai una commit nella directory del modulo senza aver creato prima un branch per lavorarci e quindi esegui una `git submodule update` dal super-progetto senz’aver committato nel frattempo, Git sovrascriverà le tue modifiche senza dirti nulla.  Tecnicamente non hai perso il tuo lavoro, ma non avendo nessun branch che vi punti sarà difficile da recuperare.
 

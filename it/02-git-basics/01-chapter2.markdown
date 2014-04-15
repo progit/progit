@@ -675,7 +675,7 @@ Se vuoi usare uno strumento più grafico per visualizzare la cronologia delle tu
 Insert 18333fig0202.png
 Figura 2-2. Il grafico della cronologia con gitk.
 
-Puoi vedere la storia delle commit, nella metà superiore, della finestra come un albero genealogico carino. La finestra delle differenza, nella metà inferiore, mostra le modifiche introdotte con ciascuna commit che selezioni.
+Puoi vedere la cronologia delle commit, nella metà superiore, della finestra come un albero genealogico carino. La finestra delle differenza, nella metà inferiore, mostra le modifiche introdotte con ciascuna commit che selezioni.
 
 ## Annullare le Cose ##
 

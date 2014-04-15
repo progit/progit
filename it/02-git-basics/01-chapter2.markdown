@@ -699,39 +699,40 @@ Per esempio, se fai una commit e realizzi di non aver messo nello `stage` le mod
 
 Dopo questi tre comandi ti ritroverai con una sola commit: la seconda sovrascrive la prima.
 
-### Disimpegnare un File Staged ###
+### Rimuovere un file dall'area di `stage` ###
 
-Le prossime due sezioni mostrano come gestire le modifiche della tua area di stage e della directory di lavoro. La parte divertente è che il comando che usi per determinare lo stato di queste due aree ricorda come annullare i cambiamenti fatti. Per esempio, supponiamo che hai modificato due file e vuoi inviarli come modifiche separate, ma accidentalmente digiti `git add *` e li parcheggi entrambi. Come puoi disimpegnare uno dei due? Il comando `git status` ti ricorda:
+Le prossime due sezioni mostrano come gestire le modifiche della tua area di stage e della directory di lavoro. La parte divertente è che il comando che usi per determinare lo stato di queste due aree ti ricorda come annullare le modifiche alle stesse. Per esempio, supponiamo che hai modificato due file e vuoi committarli come modifiche separate, ma accidentalmente digiti `git add *` e li metti entrambi in `stage`. Come puoi rimuoverne uno? Il comando `git status` ti ricorda:
 
 	$ git add .
 	$ git status
-	# On branch master
-	# Changes to be committed:
-	#   (use "git reset HEAD <file>..." to unstage)
-	#
-	#       modified:   README.txt
-	#       modified:   benchmarks.rb
-	#
+	On branch master
+	Changes to be committed:
+	  (use "git reset HEAD <file>..." to unstage)
+	
+	        modified:   README.txt
+	        modified:   benchmarks.rb
+	
 
-Ora il testo sotto “Changes to be committed”, dice di usare `git reset HEAD <file>...` per annullare. Così, usa questo avviso per disimpegnare il file benchmarks.rb dal parcheggio:
+Il testo sotto “Changes to be committed” ti dice di usare `git reset HEAD <file>...` per rimuovere dallo `stage`. Usa quindi questo consiglio per rimuoever `benchmarks.rb`:
 
 	$ git reset HEAD benchmarks.rb
-	benchmarks.rb: locally modified
+	Unstaged changes after reset:
+	M       benchmarks.rb
 	$ git status
-	# On branch master
-	# Changes to be committed:
-	#   (use "git reset HEAD <file>..." to unstage)
-	#
-	#       modified:   README.txt
-	#
-	# Changes not staged for commit:
-	#   (use "git add <file>..." to update what will be committed)
-	#   (use "git checkout -- <file>..." to discard changes in working directory)
-	#
-	#       modified:   benchmarks.rb
-	#
+	On branch master
+	Changes to be committed:
+	  (use "git reset HEAD <file>..." to unstage)
+	
+	        modified:   README.txt
+	
+	Changes not staged for commit:
+	  (use "git add <file>..." to update what will be committed)
+	  (use "git checkout -- <file>..." to discard changes in working directory)
+	
+	        modified:   benchmarks.rb
+	
 
-Il comando è un po' strano, ma funziona. Il file benchmarks.rb è modificato ma non parcheggiato.
+Il comando è un po' strano, ma funziona. Il file `benchmarks.rb` ora è modificato ma non più nello `stage`.
 
 ### Annullare le Modifiche di un File Modificato ###
 

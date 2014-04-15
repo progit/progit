@@ -734,31 +734,31 @@ Il testo sotto “Changes to be committed” ti dice di usare `git reset HEAD <f
 
 Il comando è un po' strano, ma funziona. Il file `benchmarks.rb` ora è modificato ma non più nello `stage`.
 
-### Annullare le Modifiche di un File Modificato ###
+### Annullare le modifiche a un file ###
 
-Come fare se hai realizzato che non vuoi più tenere le modifiche che hai fatto al file `benchmarks.rb`? Come puoi annullarle facilmente — ritornare a come era al tuo ultimo commit (o alla clonazione iniziale, o come lo avevi nella tua directory di lavoro)? Fortunatamente, `git status` ci dice come farlo. Nell'ultimo output di esempio, l'area di unstage (file non parcheggiati) assomiglia a:
+Come fare se ti rendi conto che non vuoi più mantenere le modifiche di `benchmarks.rb`? Come puoi annullarle facilmente — ritornare a come era prima dell'ultima commit (o al clone iniziale, o comunque lo avevi nella tua directory di lavoro)? Fortunatamente `git status` ti dice come farlo. Nell'ultimo output di esempio, l'area dei file modificati appare così:
 
-	# Changes not staged for commit:
-	#   (use "git add <file>..." to update what will be committed)
-	#   (use "git checkout -- <file>..." to discard changes in working directory)
-	#
-	#       modified:   benchmarks.rb
-	#
+	Changes not staged for commit:
+	  (use "git add <file>..." to update what will be committed)
+	  (use "git checkout -- <file>..." to discard changes in working directory)
+	
+	        modified:   benchmarks.rb
+	
 
-Ci dice abbastanza esplicitamente come annullare le modifiche fatte (al limite, le nuove versioni di Git, 1.6.1 e successive, lo fanno —  se hai una versione più vecchia è raccomandato aggiornarla per avere queste funzioni utili). Vediamo cosa ci dice:
+Ti dice abbastanza chiaramente come annullare le tue modifiche (almeno le nuove versioni di Git, dalla 1.6.1 in poi, lo fanno:  se hai una versione più vecchia ti raccomandiamo di aggiornarla per avere alcune di queste funzioni utili e carine). Vediamo cosa dice:
 
 	$ git checkout -- benchmarks.rb
 	$ git status
-	# On branch master
-	# Changes to be committed:
-	#   (use "git reset HEAD <file>..." to unstage)
-	#
-	#       modified:   README.txt
-	#
+	On branch master
+	Changes to be committed:
+	  (use "git reset HEAD <file>..." to unstage)
+	
+	        modified:   README.txt
+	
 
-Puoi vedere come le modifiche sono state annullate. Dovresti inoltre realizzare che è un comando pericoloso: ogni cambiamento fatto al file è sparito — semplicemente hai copiato un altro file su di esso. Non usare mai questo comando a meno che non sai assolutamente che non vuoi il file. Se hai bisogno solamente di toglierlo di torno, vedremo ripostigli e ramificazioni nei capitoli successivi ; queste sono generalmente le vie migliori da seguire.
+Puoi vedere come le modifiche siano state annullate. Dovresti capire quanto questo sia un comando pericoloso: tutte le modifiche fatte al file sono sparite: lo hai praticamente sovrascritto con un altro file. Non usare mai questo comando a meno che non sia assolutamente certo di non volere il file. Se hai solo bisogno di toglierlo di torno, vedremo i `ripostigli` (*stash*) e le diramazioni (*branch*) nei prossimi capitoli, che generalmente sono le strade migliori da seguire.
 
-Ricorda, qualsiasi cosa che è stata affidata a Git può quasi sempre essere recuperata. Tutti i commit che erano su rami che sono stati cancellati o sovrascritti tramite un commit `--amend` possono essere recuperati (vedi il *Capitolo 9* per il recupero dei dati). Tuttavia, qualsiasi cosa che perdi e che non è stata affidata a Git probabilmente non sarà mai più visto.
+Ricorda: qualsiasi cosa che sia stata committata in Git può quasi sempre essere recuperata. Tutte le commit che erano sulle diramazioni che sono state cancellate o sovrascritte con una commit `--amend` possono essere recuperate (vedi il *Capitolo 9* per il recupero dei dati). Ma qualsiasi cosa che perdi che non sia stata mai committata non la vedrai mai più.
 
 ## Lavorare con Sorgenti Remote ##
 

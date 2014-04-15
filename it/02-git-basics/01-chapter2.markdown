@@ -396,44 +396,42 @@ Nota la barra inversa (`\`) prima di `*`. Questo è necessario perché Git ha un
 
 Per rimuovere tutti i file che finiscono con `~`.
 
-### Muovere File ###
+### Spostare i file ###
 
-A differenza di altri sistemi VCS, Git non traccia esplicitamente i movimenti di file. Se rinomini un file in Git, nessun metadato è immagazzinato in Git che ti dirà che hai rinominato il file. Tuttavia, Git è abbastanza intelligente da capirlo dopo che è avvenuto — ci occuperemo di rilevare il movimento dei file più tardi.
+A differenza di altri sistemi VCS, Git non traccia esplicitamente gli spostamenti dei file. Se rinomini un file in Git, nessun metadato viene salvato per dirgli che lo hai rinominato. Tuttavia, Git è abbastanza intelligente da capirlo dopo che l'hai fatto — più in la ci occuperemo di rilevare il movimento dei file.
 
-Perciò crea un po' di confusione il fatto che Git  abbia un comando `mv`. Se vuoi rinominare un file in Git, puoi lanciare qualcosa come
+Può perciò creare un po' di confusione il fatto che Git abbia un comando `mv`. Se vuoi rinominare un file in Git puoi eseguire qualcosa come
 
 	$ git mv file_from file_to
 
-e questo funziona bene. Infatti, se lanci qualcosa come questo e guardi lo stato, vedrai che Git considera il file rinominato:
+e funziona. Se, infatti, lanci un comando del genere e controlli lo stato, vedrai che Git considera il file rinominato:
 
 	$ git mv README.txt README
 	$ git status
-	# On branch master
-	# Your branch is ahead of 'origin/master' by 1 commit.
-	#
-	# Changes to be committed:
-	#   (use "git reset HEAD <file>..." to unstage)
-	#
-	#       renamed:    README.txt -> README
-	#
+	On branch master
+	Changes to be committed:
+	  (use "git reset HEAD <file>..." to unstage)
+	
+	        renamed:    README.txt -> README
+	
 
-Ovviamente, questo è equivalente a lanciare qualcosa come:
+Ovviamente, questo è equivalente a eseguire:
 
 	$ mv README.txt README
 	$ git rm README.txt
 	$ git add README
 
-Git capisce implicitamente che è stato rinominato, così non è un problema rinominare un file in questo modo o con il comando `mv`. L'unica reale differenza è che `mv` è un solo comando invece di tre — è un comando di convenienza.  Più importante è che tu puoi usare qualsiasi strumento per rinominare un file, ed aggiungere/togliere più tardi, prima di un commit.
+Git capisce che, implicitamente stai rinominando il file, così che non c'è differenza se rinominare un file in questo modo o con il comando `mv`. L'unica differenza reale è che `mv` è un solo comando invece di tre: è un questione di convenienza. La cosa più importante è che puoi usare qualsiasi strumento per rinominare un file, e gestire l'aggiunta/rimozione più tardi, prima della commit.
 
-## Vedere la Storia dei Commit ##
+## Vedere la cronologia delle commit ##
 
-Dopo che hai creato un po' di commit, o se hai clonato un repository che contiene una storia di commit, probabilmente vuoi guardare indietro per vedere cosa è successo. Lo strumento base e più potente per farlo è il comando `git log`.
+Dopo che avrai creato un po' di commit, o se hai clonato un repository che già ha la sua cronologia di commit, vorrai probabilmente guardare cos'è successo nel passato. Lo strumento essenziale e quello più potente per farlo è il comando `git log`.
 
-Questi esempi usano un progetto veramente semplice chiamato simplegit che è spesso usato per le dimostrazioni. Per ottenere il progetto, lancia:
+Questi esempi usano un progetto veramente semplice chiamato `simplegit` che uso spesso per gli esempi. Per ottenere il progetto, esegui
 
 	git clone git://github.com/schacon/simplegit-progit.git
 
-Quando lanci `git log` in questo progetto, dovresti avere un output che assomiglia a questo:
+Quando esegui `git log` in questo progetto, dovresti avere un output che assomiglia a questo:
 
 	$ git log
 	commit ca82a6dff817ec66f44342007202690a93763949
@@ -454,11 +452,11 @@ Quando lanci `git log` in questo progetto, dovresti avere un output che assomigl
 
 	    first commit
 
-In modo predefinito, senza argomenti, `git log` mostra i commit fatti nel repository in ordine cronologico inverso. Così, il commit più recente è mostrato all'inizio. Come puoi vedere, questo comando elenca ogni commit con il suo codice SHA-1, il nome dell'autore e la sua e-mail, la data di scrittura ed il messaggio di invio.
+In modo predefinito, senza argomenti, `git log` mostra le commit fatte nel repository in ordine cronologico inverso. In questo modo la commit più recente è la prima ad apparire. Come vedi, questo comando elenca ogni commit con il suo codice SHA-1, il nome e l'email dell'autore, la data di salvataggio e il messaggio della commit.
 
-Un enorme numero e varietà di opzioni da passare al comando `git log` sono disponibili per vedere esattamente cosa si sta cercando. Qui, vedremo alcune opzioni più usate.
+Sono disponibili moltissime opzioni da passare al comando `git log` per vedere esattamente quello che stai cercando. Qui ne vedremo alcune tra quelle più usate.
 
-Una delle opzioni più utili è `-p`, che mostra l'introduzione del diff di ogni commit. Puoi anche usare `-2`, che limita l'output solamente agli ultimi due ingressi: 
+Una delle opzioni più utili è `-p`, che mostra le differenze introdotte da ciascuna commit. Puoi usare anche `-2`, che limita l'output agli ultimi due elementi: 
 
 	$ git log -p -2
 	commit ca82a6dff817ec66f44342007202690a93763949
@@ -471,11 +469,13 @@ Una delle opzioni più utili è `-p`, che mostra l'introduzione del diff di ogni
 	index a874b73..8f94139 100644
 	--- a/Rakefile
 	+++ b/Rakefile
-	@@ -5,7 +5,7 @@ require 'rake/gempackagetask'
+	@@ -5,5 +5,5 @@ require 'rake/gempackagetask'
 	 spec = Gem::Specification.new do |s|
+	     s.name      =   "simplegit"
 	-    s.version   =   "0.1.0"
 	+    s.version   =   "0.1.1"
 	     s.author    =   "Scott Chacon"
+	     s.email     =   "schacon@gee-mail.com
 
 	commit 085bb3bcb608e1e8451d4b2432f8ecbe6306e7e7
 	Author: Scott Chacon <schacon@gee-mail.com>
@@ -498,28 +498,29 @@ Una delle opzioni più utili è `-p`, che mostra l'introduzione del diff di ogni
 	-end
 	\ No newline at end of file
 
-Questa opzione visualizza le stessi informazioni ma direttamente seguita dal diff di ogni voce. Questo è veramente utile per la revisione del codice o per sfogliare velocemente cosa è successo in una serie di commit che un collaboratore ha aggiunto.
+Quest'opzione mostra le stessi informazioni ma ciascun elemento è seguito dalle differenze. Questo è molto utile per revisionare il codice o per dare un'occhiata veloce a cosa è successo in una serie di commit che un collaboratore ha aggiunto.
 
-Qualche volta è più semplice controllare i cambiamenti per parole piuttosto che per linee. Esiste un'opzione `--word-diff` disponibile in Git, che puoi aggiungere al comando `git log -p` per ottenere un word diff (differenza per parole, ndt) invece del normale diff linea per linea. Il formato Word diff è piuttosto inutile quando applicato al codice sorgente, ma diviene utile quando applicato a grandi file di testo, come libri o la tua dissertazione. Ecco un esempio:
+Qualche volta è più semplice verificare le singole modifiche piuttosto che intere righe. Per questo in Git è disponibile l'opzione `--word-diff`, che puoi aggiungere al comando `git log -p` per vedere le differenze tra le parole invece di quella normale, linea per linea. Il formato `word diff` è piuttosto inutile quando applicato al codice sorgente, ma diventa utile quando applicato a grandi file di testo, come i libri o la tua tesi. Ecco un esempio:
 
 	$ git log -U1 --word-diff
-	commit da734f4151c0bf92798edd67fb571f86ab4179e6
-	Author: Jed Hartman <jhartman@google.com>
-	Date:   Tue Mar 19 18:00:35 2013 -0700
+	commit ca82a6dff817ec66f44342007202690a93763949
+	Author: Scott Chacon <schacon@gee-mail.com>
+	Date:   Mon Mar 17 21:52:11 2008 -0700
 
-	    Added a missing "in" to a sentence.
+	    changed the version number
 
-	diff --git a/en/01-chapter2.markdown b/en/01-chapter2.markdown
-	index 879e48c..a992ff3 100644
-	--- a/en/01-chapter2.markdown
-	+++ b/en/01-chapter2.markdown
-	@@ -553,3 +553,3 @@ You may be wondering what the difference is
+	diff --git a/Rakefile b/Rakefile
+	index a874b73..8f94139 100644
+	--- a/Rakefile
+	+++ b/Rakefile
+	@@ -7,3 +7,3 @@ spec = Gem::Specification.new do |s|
+	    s.name      =   "simplegit"
+	    s.version   =   [-"0.1.0"-]{+"0.1.1"+}
+	    s.author    =   "Scott Chacon"
 
-	This option adds a nice little ASCII graph showing your branch and merge history, which we can see {+in+} our copy of the Grit project repository:
+Come puoi vedere, non ci sono righe aggiunte o rimosse in questo output, come in una normale differenza. I cambiamente sono invece mostrati sulla stessa riga. Puoi vedere la parola aggiunta racchiusa tra `{+ +}` e quella rimossa tra `[- -]`. Potresti anche volere ridurre le solite tre righe di contesto dall'output delle differenze a una sola, poiché ora il contesto è costituito da parole e non righe. Puoi farlo con `-U1`, come abbiamo fatto nell'esempio qui sopra.
 
-Come puoi vedere, non ci sono linee aggiunte o rimosse in questo output come in un normale diff. Invece i cambiamenti sono mostrati sulla linea. Puoi vedere la parola racchiusa in `{+ +}` (parole rimosse sarebbe state mostrate come `[-removed-]`). Potresti anche volere ridurre le solite tre linee di contesto nell'output di diff a solo una linea, dato che il contesto è ora costituito da parole, non linee. Puoi farlo con `-U1` come abbiamo fatto nell'esempio qui sopra.
-
-Puoi anche usare una serie di opzioni di riassunto con `git log`. Per esempio, se vuoi vedere alcune statistiche brevi per ogni commit, puoi usare l'opzione `--stat`:
+Puoi usare anche una serie di opzioni di riassunto con `git log`. Per esempio, se vuoi vedere alcune statistiche brevi per ciascuna commit, puoi usare l'opzione `--stat`:
 
 	$ git log --stat
 	commit ca82a6dff817ec66f44342007202690a93763949
@@ -529,7 +530,7 @@ Puoi anche usare una serie di opzioni di riassunto con `git log`. Per esempio, s
 	    changed the version number
 
 	 Rakefile |    2 +-
-	 1 files changed, 1 insertions(+), 1 deletions(-)
+	 1 file changed, 1 insertion(+), 1 deletion(-)
 
 	commit 085bb3bcb608e1e8451d4b2432f8ecbe6306e7e7
 	Author: Scott Chacon <schacon@gee-mail.com>
@@ -538,7 +539,7 @@ Puoi anche usare una serie di opzioni di riassunto con `git log`. Per esempio, s
 	    removed unnecessary test code
 
 	 lib/simplegit.rb |    5 -----
-	 1 files changed, 0 insertions(+), 5 deletions(-)
+	 1 file changed, 5 deletions(-)
 
 	commit a11bef06a3f659402fe7563abf99ad00de2209e6
 	Author: Scott Chacon <schacon@gee-mail.com>
@@ -549,45 +550,50 @@ Puoi anche usare una serie di opzioni di riassunto con `git log`. Per esempio, s
 	 README           |    6 ++++++
 	 Rakefile         |   23 +++++++++++++++++++++++
 	 lib/simplegit.rb |   25 +++++++++++++++++++++++++
-	 3 files changed, 54 insertions(+), 0 deletions(-)
+	 3 files changed, 54 insertions(+)
 
-Come puoi vedere, l'opzione `--stat` stampa sotto ogni voce di commit una lista dei file modificati, quanti file sono stati modificati, e quante linee in questi file sono state aggiunte o rimosse. Inoltre aggiunge un resoconto delle informazioni alla fine.
-Un'altra opzione veramente utile è `--pretty`. Questa opzione modifica gli output di log per la formattazione rispetto a quella predefinita. Alcune opzioni pre-costruite sono pronte all'uso. L'opzione  `oneline` stampa ogni commit in una singola linea, che è utile se stai guardando una lunga serie di commit. In aggiunta le opzioni `sort`, `full` e `fuller` mostrano l'output pressapoco nello stesso modo ma con più o meno informazioni, rispettivamente:
+Come puoi vedere, l'opzione `--stat` visualizza sotto ogni commit la lista dei file modificati, quanti file sono stati modificati, e quante righe in questi file sono state aggiunte e rimosse. Alla fine aggiunge anche un resoconto delle informazioni.
+Un'altra opzione veramente utile è `--pretty`. Questa opzione modifica gli output di log rispetto a quella predefinita. Alcune opzioni predefinite sono pronte per l'uso. L'opzione  `oneline` visualizza ogni commit su una singola linea, che è utile se stai controllando una lunga serie di commit. In aggiunta le opzioni `short`, `full` e `fuller` mostrano più o meno lo stesso output ma con più o meno informazioni, rispettivamente:
 
 	$ git log --pretty=oneline
 	ca82a6dff817ec66f44342007202690a93763949 changed the version number
 	085bb3bcb608e1e8451d4b2432f8ecbe6306e7e7 removed unnecessary test code
 	a11bef06a3f659402fe7563abf99ad00de2209e6 first commit
 
-L'opzione più interessante è `format`, che ti permette di specificare la tua formattazione dell'output di log. Questa è specialmente utile quando stai generando un output da analizzare su una macchina —  perché specifichi in modo preciso il formato, sai che non cambierà con gli aggiornamenti di Git:
+L'opzione più interessante è `format`, che ti permette di specificare la formattazione dell'output di log. Questa è specialmente utile quando stai generando un output che sarà analizzo da una macchina, perché specificando esplicitamente il formato, sai che non cambierà con gli aggiornamenti di Git:
 
 	$ git log --pretty=format:"%h - %an, %ar : %s"
 	ca82a6d - Scott Chacon, 11 months ago : changed the version number
 	085bb3b - Scott Chacon, 11 months ago : removed unnecessary test code
 	a11bef0 - Scott Chacon, 11 months ago : first commit
 
-La Tabella 2-1 elenca alcune delle opzioni più utili da usare.
+Table 2-1 lists some of the more useful options that format takes.
+
+<!-- Messaggio per i traduttori: questa è una tabella dichiarativa.
+Le righe devono essere formattate come segue:
+<TAB><Prima colonna di testo><TAB><Seconda colunna di testo>
+-->
 
 	Opzione	Descrizione dell'output
-	%H	Hash commit
-	%h	Hash commit abbreviato
-	%T	Hash tree
-	%t	Hash tree abbreviato
-	%P	Hash genitore
-	%p	Hash genitore abbreviati
-	%an	Nome autore
-	%ae	E-mail autore
-	%ad	Data autore (rispetta il formato dell'opzione –date= )
-	%ar	Data autore, relativa
-	%cn	Nome di chi ha fatto il commit
-	%ce	E-mail di chi ha fatto il commit
-	%cd	Data di chi ha fatto il commit
-	%cr	Data di chi ha fatto il commit, relativa
+	%H	Hash della commit
+	%h	Hash della commit abbreviato
+	%T	Hash dell'albero
+	%t	Hash dell'albero abbreviato
+	%P	Hash del genitore
+	%p	Hash del genitore abbreviato
+	%an	Nome dell'autore
+	%ae	e-mail dell'autore
+	%ad	Data di commit dell'autore (il formato rispetta l'opzione --date=)
+	%ar	Data relativa di commit dell'autore
+	%cn	Nome di chi ha fatto la commit (`committer`, in inglese)
+	%ce	e-mail di chi ha fatto la commit
+	%cd	Data della commit
+	%cr	Data relativa della commit
 	%s	Oggetto
 
-Sarai sorpreso dalla differenza tra _author_ (l'autore) e _committer_ (chi ha eseguito il commit). L'autore è la persona che ha scritto originariamente il lavoro, mentre chi ha eseguito il commit è la persona che per ultima ha applicato il lavoro. Così, se invii una patch ad un progetto ed uno dei membri del progetto applica la patch, entrambi sarete riconosciuti — tu come l'autore ed il membro del progetto come colui il quale ha eseguito il commit. Scopriremo meglio questa distinzione nel Capitolo 5.
+Potresti essere sorpreso dalla differenza tra autore e _committer_ (chi ha eseguito la commit). L'autore è la persona che ha scritto la modifica, mentre il _committer_ è l'ultima persona che ha applicato la modifica. Così, se invii una modifica a un progetto ed uno dei membri principali del progetto la applica, ne avranno entrambi il riconoscimento — tu come l'autore ed il membro del progetto come chi l'ha committata. Vedremo meglio questa distinzione nel *Capitolo 5*.
 
-Le opzioni oneline e format sono particolarmente utili con un'altra opzione `log` chiamata `--graph`. Questa opzione aggiunge un grafico ASCII carino che mostra le diramazioni e le unioni della storia, che possiamo vedere nella copia del repository del progetto Grit:
+Le opzioni `oneline` e `format` sono particolarmente utili con un'altra opzione di `log` chiamata `--graph`. Questa aggiunge un piccolo grafico ASCII carino che mostra le diramazioni e le unioni della cronologia, che possiamo vedere nella copia del repository del progetto Grit:
 
 	$ git log --pretty=format:"%h %s" --graph
 	* 2d3acf9 ignore errors from SIGCHLD on trap
@@ -603,17 +609,22 @@ Le opzioni oneline e format sono particolarmente utili con un'altra opzione `log
 
 Queste sono solo alcune opzioni semplici per la formattazione dell'output di `git log` — ce ne sono altre. La tabella 2-2 elenca le opzioni che abbiamo visto prima e altre opzioni comunemente usate che possono essere utili per cambiare l'output del comando log.
 
+<!-- Messaggio per i traduttori: questa è una tabella dichiarativa.
+Le righe devono essere formattate come segue:
+<TAB><Prima colonna di testo><TAB><Seconda colunna di testo>
+-->
+
 	Opzione	Descrizione
-	-p	Mostra la patch introdotta per ogni commit.
-	--word-diff	Mostra la patch nel formato word diff.
+	-p	Mostra la modifica introdotta con ogni commit.
+	--word-diff	Mostra la modifica nel formato `word diff`.
 	--stat	Mostra le statistiche per i file modificati in ogni commit.
-	--shortstat	Mostra solo le linee cambiate/inserite/cancellate dal comando --stat.
-	--name-only	Mostra la lista dei file modificati dopo le informazione del commit.
-	--name-status	Mostra la lista dei file con le informazioni di aggiunte/modifiche/rimozioni.
-	--abbrev-commit	Mostra solo i primi caratteri del codice checksum SHA-1 invece di tutti e 40.
-	--relative-date	Mostra la data in un formato relativo (per esempio, "2 week ago", "2 settimane fa") invece di usare l'intero formato della data.
-	--graph	Mostra un grafico ASCII dei rami e delle unioni della storia accando all'output di log.
-	--pretty	Mostra i commit in un formato alternativo. L'opzione include oneline, short, full, fuller, e format (dove hai specificato la tua formattazione).
+	--shortstat	Mostra solo le righe cambiate/aggiunte/rimosse del comando --stat.
+	--name-only	Mostra l'elenco dei file modificati dopo le informazione della commit.
+	--name-status	Mostra l'elenco dei file con le informazioni  aggiunte/modifiche/eliminate.
+	--abbrev-commit	Mostra solo i primi caratteri del codice SHA-1 invece di tutti i 40.
+	--relative-date	Mostra la data in un formato relativo (per esempio, "2 week ago", "2 settimane fa") invece di usare il formato completo della data.
+	--graph	Mostra un grafico ASCII delle diramazioni e delle unioni della cronologia insieme all'output del log.
+	--pretty	Mostra le commit in un formato alternativo. L'opzione include oneline, short, full, fuller, e format (quando specifichi un tuo formato).
 	--oneline	Un'opzione di convenienza abbreviazione per `--pretty=oneline --abbrev-commit`.
 
 ### Limitare l'Output di Log ###

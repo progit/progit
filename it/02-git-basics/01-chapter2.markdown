@@ -668,14 +668,14 @@ Se vuoi, per esempio, vedere quale commit della cronologia di Git modificano i t
 
 Ci sono circa 20,000 commit nella cronologia dei sorgenti di git, questo comando mostra 6 righe che corrispondono ai termini della ricerca.
 
-### Usare una GUI per Visualizzare la Storia ###
+### Usare una GUI per visualizzare la cronologia ###
 
-Se vuoi usare uno strumento più grafico per visualizzare la storia dei tuoi commit, puoi vedere un programma in Tck/Tk chiamato gitk che è distribuito con Git. Gitk è fondamentalmente uno strumento visuale come `git log`, e accetta circa tutte le opzioni di filtro che `git log` ha. Se digiti gitk dalla riga di comando del tuo progetto, dovresti vedere qualcosa di simile alla Figura 2-2.
+Se vuoi usare uno strumento più grafico per visualizzare la cronologia delle tuoe commit, puoi provare un programma in Tck/Tk chiamato `gitk` che viene distribuito con Git. Gitk è fondamentalmente uno strumento grafico come `git log`, e accetta quasi tutte le opzioni di filtro supportate da `git log`. Se digiti `gitk` dalla riga di comando nel tuo progetto, dovresti vedere qualcosa di simile alla Figura 2-2.
 
 Insert 18333fig0202.png
-Figura 2-2. Il visualizzatore della storia gitk.
+Figura 2-2. Il grafico della cronologia con gitk.
 
-Puoi vedere la storia dei commit nella metà alta della finestra con un grafico genealogico. La finestra di diff nella metà inferiore mostra i cambiamenti introdotti ad ogni commit che selezioni.
+Puoi vedere la storia delle commit, nella metà superiore, della finestra come un albero genealogico carino. La finestra delle differenza, nella metà inferiore, mostra le modifiche introdotte con ciascuna commit che selezioni.
 
 ## Annullare le Cose ##
 

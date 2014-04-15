@@ -627,30 +627,35 @@ Le righe devono essere formattate come segue:
 	--pretty	Mostra le commit in un formato alternativo. L'opzione include oneline, short, full, fuller, e format (quando specifichi un tuo formato).
 	--oneline	Un'opzione di convenienza abbreviazione per `--pretty=oneline --abbrev-commit`.
 
-### Limitare l'Output di Log ###
+### Limita l'output del log ###
 
-Oltre alle opzioni per la formattazione dell'output, git log accetta un numero di opzioni di limitazione — cioè, opzioni che ti permettono di vedere solo alcuni commit. Hai già visto una opzione del genere — l'opzione `-2`, che mostra solamente gli ultimi due commit. Infatti, puoi fare `-<n>`, dove `n` è un intero per vedere gli ultimi `n` commit. In realtà, non userai spesso questa possibilità, perché Git di base veicola tutti gli output attraverso un impaginatore così vedrai solamente una pagina di log alla volta.
+Oltre alle opzioni per la formattazione dell'output, `git log` accetta una serie di utili opzioni restrittive, ovvero opzioni che ti permettono di vedere solo alcune commit. Abbiamo già visto una opzione del genere, l'opzione `-2`, che mostra solamente le ultime due commit. Infatti, puoi usare `-<n>`, dove `n` è un intero, per vedere le ultime `n` commit. In realtà non la userai spesso, perché Git accoda tutti gli output paginandoli, così vedrai solamente una pagina alla volta.
 
-Ovviamente, le opzioni di limitazione temporali come `--since` e `--until` sono molto utili. Per esempio, questo comando prende la lista dei commit fatti nelle ultime due settimane:
+Le opzioni temporali come `--since` e `--until` sono invece molto utili. Questo comando, per esempio, prende la lista dei commit fatti nelle ultime due settimane:
 
 	$ git log --since=2.weeks
 
 Questo comando funziona con molti formati —  puoi specificare una data (“2008-01-15”) o una data relativa come “2 years 1 day 3 minutes ago”.
 
-Puoi inoltre filtrare l'elenco dei commit che corrispondono a dei criteri di ricerca. L'opzione `--author` ti permette di filtrare uno specifico autore e l'opzione `--grep` permette di cercare delle parole chiave nei messaggi dei commit. (Nota che se vuoi specificare sia le opzioni author e grep, devi aggiungere `--all-match` o il comando ricercherà i commit sia di uno sia di quell'altro.)
+Puoi inoltre filtrare l'elenco delle commit che corrispondono a dei criteri di ricerca. L'opzione `--author` ti permette di filtrare per uno specifico autore e l'opzione `--grep` ti permette di cercare delle parole chiave nei messaggi delle commit. (Nota che se vuoi specificare entremba le opzioni devi usare `--all-match` o il comando ricercherà le commit che corrispondano ad almeno una delle due.)
 
-L'ultima opzione di filtro veramente utile da passare a `git log` è un percorso.  Se specifichi una directory o un nome di file, puoi limitare l'output del log ai commit che introducono modifiche a questi file. E' sempre l'ultima opzione fornita ed è generalmente preceduta dal doppio meno (`--`) per separare i path dalle opzioni.
+L'ultima opzione di `git log` per il filtraggio è il percorso. Se specifichi il nome di una directory o di un file, puoi limitare l'output del log alle sole commit che introducono modifiche a quei file. Questa è sempre l'ultima opzione specificata e generalmente è preceduta dal doppio meno (`--`) per separare i percorsi dalle opzioni.
 
 Nella tabella 2-3 vediamo una lista di riferimento di queste e di altre opzioni comuni.
 
-	Opzioni	Descrizione
-	-(n)	Vedi solo gli ultimi n commit
-	--since, --after	Limita ai commit fatti prima o dopo una data specificata.
-	--until, --before	Limita ai commit fatti prima o fino ad una specifica data.
-	--author	Visualizza solo i commit in cui l'autore corrisponde alla stringa specificata.
-	--committer	Visualizza solo i commit dove chi ha eseguito il commit corrisponde alla stringa specificata.
+<!-- Attention to translators: this is a table declaration.
+The lines must be formatted as follows
+<TAB><First column text><TAB><Second column text>
+-->
 
-Per esempio, se vuoi vedere quali commit modificano i file nella storia del codice sorgente di Git dove Junio Hamano ha eseguito i commit  e non sono stati unificati nel mese di Ottobre del 2008, puoi lanciare qualcosa di simile a:
+	Opzioni	Descrizione
+	-(n)	Vedi solo le ultime n commit
+	--since, --after	Mostra solo le commit fatte dopo la data specificata.
+	--until, --before	Mostra solo le commit fatte prima della data specificata.
+	--author	Mostra solo le commit dell'autore specificato.
+	--committer	Mostra solo le commit del committer specificato.
+
+Se vuoi, per esempio, vedere quale commit della cronologia di Git modificano i test e che siano state eseguite da Junio Hamano a ottobre 2008, ma che non siano ancora stati uniti, puoi eseguire questo comando:
 
 	$ git log --pretty="%h - %s" --author=gitster --since="2008-10-01" \
 	   --before="2008-11-01" --no-merges -- t/
@@ -661,16 +666,16 @@ Per esempio, se vuoi vedere quali commit modificano i file nella storia del codi
 	51a94af - Fix "checkout --track -b newbranch" on detac
 	b0ad11e - pull: allow "git pull origin $something:$cur
 
-Ci sono circa 20,000 commit nella storia del codice sorgente di git, questo comando mostra 6 righe corrispondenti ai termini di ricerca.
+Ci sono circa 20,000 commit nella cronologia dei sorgenti di git, questo comando mostra 6 righe che corrispondono ai termini della ricerca.
 
-### Usare una GUI per Visualizzare la Storia ###
+### Usare una GUI per visualizzare la cronologia ###
 
-Se vuoi usare uno strumento più grafico per visualizzare la storia dei tuoi commit, puoi vedere un programma in Tck/Tk chiamato gitk che è distribuito con Git. Gitk è fondamentalmente uno strumento visuale come `git log`, e accetta circa tutte le opzioni di filtro che `git log` ha. Se digiti gitk dalla riga di comando del tuo progetto, dovresti vedere qualcosa di simile alla Figura 2-2.
+Se vuoi usare uno strumento più grafico per visualizzare la cronologia delle tuoe commit, puoi provare un programma in Tck/Tk chiamato `gitk` che viene distribuito con Git. Gitk è fondamentalmente uno strumento grafico come `git log`, e accetta quasi tutte le opzioni di filtro supportate da `git log`. Se digiti `gitk` dalla riga di comando nel tuo progetto, dovresti vedere qualcosa di simile alla Figura 2-2.
 
 Insert 18333fig0202.png
-Figura 2-2. Il visualizzatore della storia gitk.
+Figura 2-2. Il grafico della cronologia con gitk.
 
-Puoi vedere la storia dei commit nella metà alta della finestra con un grafico genealogico. La finestra di diff nella metà inferiore mostra i cambiamenti introdotti ad ogni commit che selezioni.
+Puoi vedere la storia delle commit, nella metà superiore, della finestra come un albero genealogico carino. La finestra delle differenza, nella metà inferiore, mostra le modifiche introdotte con ciascuna commit che selezioni.
 
 ## Annullare le Cose ##
 

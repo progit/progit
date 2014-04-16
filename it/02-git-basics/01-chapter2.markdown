@@ -926,9 +926,9 @@ Puoi inoltre cercare etichette con uno schema specifico. Il repository sorgente 
 
 Git ha due tipi di etichette: semplici (`lightweight`, ndt) e annotate (`annotated`, ndt). Un'etichetta semplice è molto simile a una ramificazione che non cambia mai:  è semplicemente un riferimento ad una commit specifica. Le etichette annotate, al contrario, sono salvate come oggetti complessi nel database Git. Ne viene calcolato il checksum, contengono il nome, l'e-mail e la data di chi ha inserito l'etichetta, hanno un messaggio d'etichetta; e possono essere firmate e verificate con GPG (GNU Privacy Guard). Generalmente si raccomanda di usare le etichette annotate così da avere tutte queste informazioni, ma se vuoi aggiungere un'etichetta temporanea o per qualche ragione non vuoi salvare quelle informazioni aggiuntive, hai sempre a disposizione le etichette semplici.
 
-### Etichette Annotated ###
+### Etichette annotate ###
 
-Creare un'etichetta annotated in Git è semplice. La via più facile è specificare `-a` quando si lancia il comando `tag`:
+Creare un'etichetta annotate in Git è semplice. Il modo più facile è specificare `-a` quando esegui il comando `tag`:
 
 	$ git tag -a v1.4 -m 'my version 1.4'
 	$ git tag
@@ -936,9 +936,9 @@ Creare un'etichetta annotated in Git è semplice. La via più facile è specific
 	v1.3
 	v1.4
 
-`-m` specifica il messaggio, che è salvato con l'etichetta. Se non specifichi un messaggio per una etichetta annotated, Git lancerà il tuo editor così potrai inserirlo.
+`-m` specifica il messaggio per l'etichetta, che viene salvato con l'a stessa. Se non specifichi un messaggio per un'etichetta annotata, Git lancerà il tuo editor così da scriverla.
 
-Puoi vedere i dati dell'etichetta assieme al commit in cui è stato inserito l'etichetta con il comando `git show`:
+Puoi vedere i dati dell'etichetta assieme alla commit etichettata con il comando `git show`:
 
 	$ git show v1.4
 	tag v1.4
@@ -953,7 +953,7 @@ Puoi vedere i dati dell'etichetta assieme al commit in cui è stato inserito l'e
 
 	    Merge branch 'experiment'
 
-Questo mostra le informazioni di chi ha eseguito l'etichetta, la data del commit della stessa, ed il messaggio prima di mostrare le informazioni del commit.
+Questo mostra le informazioni dell'etichetta, la data in cui la commit è stata etichettata e il messaggio, prima di mostrare le informazioni della commit.
 
 ### Firmare le Etichette ###
 

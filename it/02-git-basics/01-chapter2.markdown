@@ -904,17 +904,17 @@ Se vuoi rimuovere un riferimento per qualsiasi ragione (hai spostato il server o
 
 Come la maggior parte dei VCS, Git ha la possibilità di contrassegnare (tag, ndt) dei punti specifici della cronologia come importanti. Le persone normalmente usano questa funzionalità per segnare i punti di rilascio (v1.0, e così via). In questa sezione, imparerai come elencare le etichette disponibili, come crearne di nuove, e i diversi tipi di etichette esistenti.
 
-### Elencare le Proprie Etichette ###
+### Elena le etichette ###
 
-Elencare le etichette disponibili in Git è facilissimo. Semplicemente digita `git tag`:
+Elencare le etichette esistenti in Git è facilissimo. Digita semplicemente `git tag`:
 
 	$ git tag
 	v0.1
 	v1.3
 
-Questo comando elenca le etichette in ordine alfabetico; l'ordine con il quale compaiono non è realmente importante.
+Questo comando elenca le etichette in ordine alfabetico; l'ordine con cui appaiono non ha importanza.
 
-Puoi inoltre cercare le etichette con uno schema specifico. Il repository sorgente di Git, per esempio, contiene più di 240 etichette. Se sei solo interessato a vedere quelli della serie 1.4.2, puoi lanciare:
+Puoi inoltre cercare etichette con uno schema specifico. Il repository sorgente di Git, per esempio, contiene più di 240 etichette. Se sei interessato a vedere solo quelli della serie 1.4.2, puoi eseguire:
 
 	$ git tag -l 'v1.4.2.*'
 	v1.4.2.1

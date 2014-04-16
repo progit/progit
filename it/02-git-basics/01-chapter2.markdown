@@ -842,9 +842,9 @@ Quando il tuo progetto raggiunge uno stato che vuoi condividere, devi caricarlo 
 
 Questo comando funziona solamente se hai clonato il tuo progetto da un server su cui hai i permessi di scrittura e se nessun altro ha caricato modifiche nel frattempo. Se cloni un repository assieme ad altri e questi caricano delle modifiche sul server, il tuo invio verrà rifiutato. Dovrai prima scaricare le loro modifiche e incorporarle con le tue per poterle poi inviare. Vedi il *Capitolo 3* per maggiori informazioni su come fare il `push` su server remoti.
 
-### Ispezionare una Sorgente Remota ###
+### Controllare un server remoto ###
 
-Se vuoi vedere più informazioni su di una sorgente remota in particolare, puoi usare il comando `git remote show [nome-remoto]`. Se lanci il comando con un soprannome particolare, come `origin`, avrai qualcosa di simile a questo:
+Se vuoi più informazioni su una particolare server remoto, puoi usare il comando `git remote show [nome-remoto]`. Se esegui il comando con un nome particolare, per esempio `origin`, avrai qualcosa di simile:
 
 	$ git remote show origin
 	* remote origin
@@ -855,9 +855,9 @@ Se vuoi vedere più informazioni su di una sorgente remota in particolare, puoi 
 	    master
 	    ticgit
 
-Questo elenca tutti gli URL del repository remoto oltre che alle informazioni sui rami tracciati. Il comando utilmente ti dirà che sei sul ramo principale e se lanci `git pull`, questo automaticamente unirà il ramo master sul server remoto dopo aver prelevato tutte i riferimenti remoti. Inoltre elencherà i riferimenti che ha scaricato.
+che mostra gli URL del repository remoto oltre alle informazioni sulle diramazioni tracciate. Il comando ti dice anche se esegui `git pull` mentre sei su `master`, integrerà le modifiche sul `master` remoto dopo aver scaricato tutti i riferimenti remoti. Elenca anche i riferimenti remoti che hai già scaricato.
 
-Questo è un semplice esempio che potrai incontrare. Quando usi moltissimo Git, tuttavia, potrai vedere molte più informazioni da `git remote show`:
+Questo è un esempio semplice di quanto probabilmente vedrai. Tuttavia, quando usi intensamente Git potresti trovare molte più informazioni con `git remote show`:
 
 	$ git remote show origin
 	* remote origin
@@ -881,7 +881,7 @@ Questo è un semplice esempio che potrai incontrare. Quando usi moltissimo Git, 
 	  Local branch pushed with 'git push'
 	    master:master
 
-Questo comando mostra quale ramo è automaticamente caricato quando lanci `git push` su certe diramazioni. Inoltre ti mostrerà quali rami remoti sul server che ancora non possiedi, quali rami remoti possiedi e che saranno rimossi dal server, e le diramazioni che saranno automaticamente unite quando lancerai `git pull`.
+Questo comando mostra quale diramazione viene scaricata automaticamente quando esegui `git push` su certe diramazioni. Mostra anche quali diramazioni remote non hai ancora scaricato, quali diramazioni remote hai in locale che sono state rimosse dal server, e le diramazioni che vengono unite automaticamente quando esegui `git pull`.
 
 ### Rimuovere e Rinominare Sorgenti Remote ###
 

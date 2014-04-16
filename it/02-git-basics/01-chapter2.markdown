@@ -902,7 +902,7 @@ Se vuoi rimuovere un riferimento per qualsiasi ragione (hai spostato il server o
 
 ### Etichettare ###
 
-Come la maggior parte dei VCS, Git ha la possibilità di contrassegnare (tag, ndt) dei punti specifici della storia come importanti. Generalmente, le persone usano questa funzionalità per marcare i punti di rilascio (v1.0, e così via). In questa sezione, imparerai come elencare le etichette disponibili, come crearne di nuove, ed i differenti tipi di etichette esistenti.
+Come la maggior parte dei VCS, Git ha la possibilità di contrassegnare (tag, ndt) dei punti specifici della cronologia come importanti. Le persone normalmente usano questa funzionalità per segnare i punti di rilascio (v1.0, e così via). In questa sezione, imparerai come elencare le etichette disponibili, come crearne di nuove, e i diversi tipi di etichette esistenti.
 
 ### Elencare le Proprie Etichette ###
 

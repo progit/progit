@@ -1010,9 +1010,9 @@ Se ora lanci `git show` per questa etichetta, non vedrai altre informazioni aggi
 
 	    Merge branch 'experiment'
 
-### Verificare le Etichette ###
+### Verificare le etichette ###
 
-Per verificarele etichetta firmate, usa `git tag -v [nome-tag]`. Questo comando usa la verifica GPG della firma. Avrai bisogno della chiave pubblica del firmatario nel tuo portachiavi affinché funzioni correttamente:
+Per verificarele un'etichetta firmata, usa `git tag -v [nome-tag]`. Questo comando usa GPG per verificare la verifica. Affinché funzioni hai bisogno che la chiave pubblica del firmatario sia nel tuo portachiavi:
 
 	$ git tag -v v1.4.2.1
 	object 883653babd8ee7ea23e6a5c392bb739348b1eb61
@@ -1028,7 +1028,7 @@ Per verificarele etichetta firmate, usa `git tag -v [nome-tag]`. Questo comando 
 	gpg:                 aka "[jpeg image of size 1513]"
 	Primary key fingerprint: 3565 2A26 2040 E066 C9A7  4A7D C0C6 D9A4 F311 9B9A
 
-Se non hai la chiave pubblica del firmatario, otterrai qualche cosa di simile a questo invece:
+Se non hai la chiave pubblica del firmatario, otterrai invece qualcosa così:
 
 	gpg: Signature made Wed Sep 13 02:08:25 2006 PDT using DSA key ID F3119B9A
 	gpg: Can't check signature: public key not found

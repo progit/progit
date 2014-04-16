@@ -1109,29 +1109,29 @@ Quando qualcuno clonerà il repository o scaricherà gli aggiornamenti, scariche
 
 Prima di terminare questo capitolo sulle basi di Git, ecco alcuni suggerimenti e trucchi per rendere la tua esperienza con Git più semplice, più facile e più familiare. Molte persone usano Git ma nessuno di questi suggerimenti e in seguito nel libro non ci riferiremo ad essi né presumeremo che tu li abbia usati, ma probabilmente dovresti sapere come realizzarli.
 
-### Auto-Completamento ###
+### Completamento automatico ###
 
-Se usi una shell Bash, Git fornisce un piacevole script di auto completamento che può essere usato. Scarica il codice sorgente di Git, e guarda nella directory `contrib/completation`; dovrebbe esserci un file chiamato `git-completation.bash`. Copia questo file nella tua directory di home e aggiungila al tuo file `.bashrc`:
+Se usi una shell Bash, Git fornisce uno script carino per il completamento automatico che potresti usare. Scaricalo direttamente dai sorgenti di Git su https://github.com/git/git/blob/master/contrib/completion/git-completion.bash. Copia questo file nella tua directory `home` e al tuo file `.bashrc` aggiungi:
 
 	source ~/.git-completion.bash
 
-Se vuoi impostare Git per avere l'auto completamento della shell Bash per tutti gli utenti, copia lo script nella directory `/opt/local/etc/bash_completion.d` sui sistemi Mac o in `/etc/bash_completion.d/` sui sistemi Linux. Questa è una directory degli script che Bash automaticamente carica per fornire l'auto completamento da shell.
+Se vuoi che Git usi il comletamento automatico in Bash per tutti gli utenti, copia lo script nella directory `/opt/local/etc/bash_completion.d` sui sistemi Mac o in `/etc/bash_completion.d/` sui sistemi Linux. Questa è una directory di script che Bash carica automaticamente, per fornire il completamento automatico nella shell.
 
-Se stai usando Windows con Git Bash, che è l'installazione di base per Git su Windows con msysGit, l'auto completamento dovrebbe essere preconfigurato.
+Se stai usando Windows con Git Bash, che è il predefinito quando installi Git su Windows con msysGit, il completamento automatico dovrebbe essere preconfigurato.
 
-Premi il tasto Tab quando stai scrivendo un comando Git, e dovresti avere una serie di suggerimenti da selezionare:
+Premi il tasto Tab quando stai scrivendo un comando Git, e dovresti vedere una serie di suggerimenti tra cui scegliere:
 
 	$ git co<tab><tab>
 	commit config
 
-In questo caso, scrivendo git co e poi premendo il tasto Tab due volte compaiono i suggerimenti commit e config. Aggiungendo `m<tab>` si completa `git commit` automaticamente.
+In questo caso, scrivendo `git co` e premendo poi due volte il tasto Tab, compaiono i suggerimenti commit e config. Aggiungendo `m<tab>` automaticamente si completa `git commit`.
 
-Questo funziona anche con le opzioni, cosa che forse è molto più utile. Per esempio, se si lancia il comando `git log` e non si ricorda una opzione, si può iniziare a pigiare il tasto Tab per vedere le corrispondenze:
+Questo funziona anche con le opzioni, che probabilmente è molto più utile. Se per esempio stai eseguendo `git log` e non ricordi un'opzione, puoi premere il tasto Tab per vedere quelle disponibili:
 
 	$ git log --s<tab>
 	--shortstat  --since=  --src-prefix=  --stat   --summary
 
-Questo è un trucco davvero utile e permette di risparmiare molto tempo e lettura della documentazione.
+Questo è un trucco davvero utile e permette di risparmiare molto tempo e evitarti la lettura della documentazione.
 
 ### Alias con Git ###
 

@@ -1133,31 +1133,31 @@ Questo funziona anche con le opzioni, che probabilmente è molto più utile. Se 
 
 Questo è un trucco davvero utile e permette di risparmiare molto tempo e evitarti la lettura della documentazione.
 
-### Alias con Git ###
+### Alias di Git ###
 
-Git non deduce il comando se si digita solo in parte. Se non si vuole scrivere l'intero testo di qualsiasi comando Git, puoi facilmente scegliere un alias per ogni comando, usando `git config`. Qui ci sono un po' di esempi su alcune configurazioni che potresti volere impostare:
+Git non indovina il tuo comando se ne digiti solo una parte. Se non vuoi vuole scrivere tutto il testo di un qualsiasi comando Git puoi configurare facilmente un alias per ogni comando usando `git config`. Di seguito ci sono alcuni esempi che potresti voler usare:
 
 	$ git config --global alias.co checkout
 	$ git config --global alias.br branch
 	$ git config --global alias.ci commit
 	$ git config --global alias.st status
 
-Questo significa che, per esempio, invece di digitare `git commit`, hai solamente bisogno di scrivere `git ci`. Andando avanti con l'uso di Git, probabilmente ci saranno altri comandi che userai di frequente; in questi casi, non esitare a creare nuovi alias.
+Questo significa che, per esempio, invece di digitare `git commit`, dovrai scrivere solo `git ci`. Andando avanti con l'uso di Git userai alcuni comandi con maggiore frequenza: e in questi casi non esitare a creare nuovi alias.
 
-Questa tecnica può anche essere molto utile per creare comandi che ritieni dovrebbero esistere. Per esempio, per correggere un problema comune in cui si incorre quando si vuole disimpegnare un file dall'area di stage, puoi aggiungere il tuo alias unstage a Git:
+Questa tecnica può essere anche molto utile per creare comandi che ritieni dovrebbero esistere. Per esempio, per correggere un problema comune in cui si incorre quando si vuole rimuovere un file dall'area di stage, puoi aggiungere il tuo alias `unstage` in Git:
 
 	$ git config --global alias.unstage 'reset HEAD --'
 
-Questo rende i seguenti due comandi equivalenti:
+Questo rende equivalenti i due comandi seguenti:
 
 	$ git unstage fileA
 	$ git reset HEAD fileA
 
-Questo sembra più pulito. É anche comodo aggiungere il comando `last`, come:
+Questo sembra più pulito. É anche comodo aggiungere il comando `last`, così:
 
 	$ git config --global alias.last 'log -1 HEAD'
 
-In questo modo puoi vedere l'ultimo commit facilmente:
+In questo modo puoi vedere facilmente l'ultima commit:
 
 	$ git last
 	commit 66938dae3329c7aebe598c2246a8e6af90d04646
@@ -1168,10 +1168,10 @@ In questo modo puoi vedere l'ultimo commit facilmente:
 
 	    Signed-off-by: Scott Chacon <schacon@example.com>
 
-Git semplicemente sostituisce il nuovo comando con quello che corrisponde all'alias. Magari, vuoi avviare un comando esterno, invece dei sotto comandi Git. In questo caso, devi avviare il comando con il carattere "!". Questo è utile se stai scrivendo i tuoi strumenti di lavoro con un repository Git. Per esempio creiamo un alias `git visual` per lanciare `gitk`:
+Come immaginerai, Git semplicemente sostituisce il nuovo comando con qualsiasi cosa corrisponda all'alias. Potresti anche voler eseguire un comando esterno, piuttosto che uno di Git. In questo caso devi iniziare il comando con un "!". Questo è utile se stai scrivendo degli strumenti di lavoro tuoi per lavorare con un repository Git. Vediamolo praticamente creando l'alias `git visual` per eseguire `gitk`:
 
 	$ git config --global alias.visual '!gitk'
 
-## Riassunto ##
+## Sommario ##
 
-A questo punto, sei in grado di fare tutte le operazioni di Git base in locale — creare o clonare un repository, fare delle modifiche, parcheggiare ed inviare queste modifiche, vedere la storia di tutti i cambiamenti del repository fatti. Nel prossimo capitolo, vedremo una caratteristica vincente di Git: il suo modello di ramificazione.
+A questo punto, sei in grado di eseguire tutte le operazioni di base di Git in locale: creare o clonare un repository, fare delle modifiche, mettere nello `stage` e inviare queste modifiche, vedere la cronologia delle modifiche fatte al repository. Nel prossimo capitolo, vedremo la caratteristica vincente di Git: il suo modello di ramificazione.

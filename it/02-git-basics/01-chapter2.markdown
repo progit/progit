@@ -1105,9 +1105,9 @@ Se hai molte etichetta che vuoi inviare tutte assieme, puoi farlo usando l'opzio
 
 Quando qualcuno clonerà il repository o scaricherà gli aggiornamenti, scaricherà anche tutte le tue etichette.
 
-## Suggerimenti e Trucchi ##
+## Suggerimenti ##
 
-Prima di finire questo capitolo sulle basi di Git, ecco alcuni suggerimenti e trucchi per rendere l'esperienza nell'uso di Git più semplice, facile e familiare. Molte persone usano Git senza usare questi suggerimenti e non ci riferiremo ad essi o presumeremo che tu li abbia usati successivamente nel libro; ma probabilmente dovresti sapere come realizzarli.
+Prima di terminare questo capitolo sulle basi di Git, ecco alcuni suggerimenti e trucchi per rendere la tua esperienza con Git più semplice, più facile e più familiare. Molte persone usano Git ma nessuno di questi suggerimenti e in seguito nel libro non ci riferiremo ad essi né presumeremo che tu li abbia usati, ma probabilmente dovresti sapere come realizzarli.
 
 ### Auto-Completamento ###
 

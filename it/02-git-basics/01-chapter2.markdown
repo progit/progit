@@ -988,9 +988,9 @@ Se esegui `git show` per questa etichetta, puoi vedere che è stata allegata la 
 
 Più avanti, imparerai come verificare le etichette firmate.
 
-### Etichette Lightweight ###
+### Etichette semplici ###
 
-Un altro modo per marcare i commit è usare le etichette lightweight. Questo è semplicemente fare il checksum del commit salvato in un file — nessun'altra informazione è mantenuta. Per creare un'etichetta semplificata, non fornire l'opzione `-a`, `s` o `-m`:
+Un altro modo per etichettare una commit è con le etichette semplici. Questo in pratica è salvare il checksum della commit in un file: non viene salvata nessun'altra informazione. Per creare un'etichetta semplice, non usare le opzioni `-a`, `s` o `-m`:
 
 	$ git tag v1.4-lw
 	$ git tag
@@ -1000,7 +1000,7 @@ Un altro modo per marcare i commit è usare le etichette lightweight. Questo è 
 	v1.4-lw
 	v1.5
 
-A questo punto, se lanci `git show` sulla tua etichetta, non vedrai altre informazioni aggiuntive. Il comando semplicemente mostra il commit:
+Se ora lanci `git show` per questa etichetta, non vedrai altre informazioni aggiuntive. Il comando mostra solamente la commit:
 
 	$ git show v1.4-lw
 	commit 15027957951b64cf874c3557a0f3547bd83b3ff6

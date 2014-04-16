@@ -767,26 +767,26 @@ Amministrare i repository remoti significa sapere come aggiungerli, rimuovere qu
 
 ### Vedi i tuoi server remoti ###
 
-Per vedere quale server remoto hai configurato, puoi lanciare il comando git remote. Questo elenca i soprannomi di ogni nodo specificato. Se hai clonato il tuo repository, dovresti al limite vedere origin —  che è il nome predefinito che Git da al server che hai clonato:
+Per vedere i server remoti che hai configurato, puoi eseguire il comando `git remote`. Questo elenca i nomi brevi di ogni nodo remoto che hai configurato. Se hai clonato il tuo repository, dovresti vedere almeno *origin* —  che è il nome predefinito che Git da al server da cui cloni:
 
 	$ git clone git://github.com/schacon/ticgit.git
-	Initialized empty Git repository in /private/tmp/ticgit/.git/
-	remote: Counting objects: 595, done.
-	remote: Compressing objects: 100% (269/269), done.
-	remote: Total 595 (delta 255), reused 589 (delta 253)
-	Receiving objects: 100% (595/595), 73.31 KiB | 1 KiB/s, done.
-	Resolving deltas: 100% (255/255), done.
+	Cloning into 'ticgit'...
+	remote: Reusing existing pack: 1857, done.
+	remote: Total 1857 (delta 0), reused 0 (delta 0)
+	Receiving objects: 100% (1857/1857), 374.35 KiB | 193.00 KiB/s, done.
+	Resolving deltas: 100% (772/772), done.
+	Checking connectivity... done.
 	$ cd ticgit
 	$ git remote
 	origin
 
-Puoi anche specificare `-v`, che mostra l'URL che Git ha salvato per il soprannome:
+Puoi anche aggiungere `-v`, che mostra anche l'URL che Git ha associato a quel nome breve:
 
 	$ git remote -v
 	origin  git://github.com/schacon/ticgit.git (fetch)
 	origin  git://github.com/schacon/ticgit.git (push)
 
-Se hai più di un repository remoto, il comando li elenca tutti. Per esempio, il mio repository Grit assomiglia a questo.
+Se hai più di un server remoto, il comando li elenca tutti. Per esempio, il mio repository di Grit appare così:
 
 	$ cd grit
 	$ git remote -v
@@ -796,7 +796,7 @@ Se hai più di un repository remoto, il comando li elenca tutti. Per esempio, il
 	koke      git://github.com/koke/grit.git
 	origin    git@github.com:mojombo/grit.git
 
-Questo significa che possiamo prendere i contributi da qualsiasi di questi utenti in modo facile. Ma nota che solo origin è un URL SSH, è l'unico dove posso fare il push (vedremo questa cosa nel Capitolo 4).
+Questo significa che posso prendere facilmente i contributi da qualunque di questi utenti. Nota però che solamente *origin* è un URL SSH, e quindi è l'unico dove posso inviare il mio lavoro con `push` (il perché lo vedremo nel *Capitolo 4*).
 
 ### Aggiungere un Repository Remoto ###
 

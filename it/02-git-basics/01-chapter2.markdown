@@ -1034,9 +1034,9 @@ Se non hai la chiave pubblica del firmatario, otterrai invece qualcosa così:
 	gpg: Can't check signature: public key not found
 	error: could not verify the tag 'v1.4.2.1'
 
-### Inserire una Etichetta Successivamente ###
+### Etichettare successivamente ###
 
-Puoi anche etichettare i commit che hai già superato. Supponiamo che la storia dei tuoi commit sia come questa: 
+Puoi etichettare anche commit passate. Supponiamo che la cronologia delle tue commit sia questa: 
 
 	$ git log --pretty=oneline
 	15027957951b64cf874c3557a0f3547bd83b3ff6 Merge branch 'experiment'
@@ -1050,11 +1050,11 @@ Puoi anche etichettare i commit che hai già superato. Supponiamo che la storia 
 	964f16d36dfccde844893cac5b347e7b3d44abbc commit the todo
 	8a5cbc430f1a9c3d00faaeffd07798508422908a updated readme
 
-Ora, supponiamo che ti sia dimenticato di mettere l'etichetta v1.2 al tuo progetto, che è al commit "updated rakefile". Puoi aggiungerlo successivamente. Per marcare questo commit, devi specificare il checksum (o parte di esso) del commit alla fine del comando:
+Supponiamo che abbia dimenticato di etichettare il progetto alla `v1.2`, che era con la commit "updated rakefile". Puoi sempre aggiungerla in un secondo momento. Per etichettare questa commit, alla fine del comando, devi indicare il checksum (o parte di esso) della commit:
 
-	$ git tag -a v1.2 9fceb02
+	$ git tag -a v1.2 -m 'version 1.2' 9fceb02
 
-Puoi vedere che hai marcato il commit:
+Puoi vedere che hai etichettato la commit:
 
 	$ git tag
 	v0.1

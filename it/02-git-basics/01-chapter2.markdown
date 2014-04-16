@@ -675,117 +675,118 @@ Se vuoi usare uno strumento più grafico per visualizzare la cronologia delle tu
 Insert 18333fig0202.png
 Figura 2-2. Il grafico della cronologia con gitk.
 
-Puoi vedere la storia delle commit, nella metà superiore, della finestra come un albero genealogico carino. La finestra delle differenza, nella metà inferiore, mostra le modifiche introdotte con ciascuna commit che selezioni.
+Puoi vedere la cronologia delle commit, nella metà superiore, della finestra come un albero genealogico carino. La finestra delle differenza, nella metà inferiore, mostra le modifiche introdotte con ciascuna commit che selezioni.
 
-## Annullare le Cose ##
+## Annullare qualcosa ##
 
-Ad ogni stadio potresti voler annullare qualcosa. Qui, vedremo alcuni strumenti fondamentali per annullare i cambiamenti che hai fatto. Attenzione, perché non sempre puoi invertire alcuni annullamenti. Questa è una delle aree in Git dove puoi perdere qualche lavoro se sbagli.
+In qualsiasi momento puoi voler annullare qualcosa. Rivedremo alcuni strumenti basilari per annullare le modifiche fatte. Attenzione però, perché non sempre puoi ripristinare ciò che annulli. Questa è una delle aree di Git dove puoi perdere del lavoro svolto se commetti un errore.
 
-### Modificare il Tuo Ultimo Commit ###
+### Modifica la tua ultima commit ###
 
-Uno degli annullamenti comuni avviene quando invii troppo presto un commit e magari dimentichi di aggiungere alcuni file, o sbagli il messaggio di commit. Se vuoi provare nuovamente questo commit, puoi lanciare commit con l'opzione `--amend`:
+Uno degli annullamenti più comuni si verifica quando committi qualcosa troppo presto e magari dimentichi di aggiungere qualche file, o sbagli qualcosa nel messaggio di commit. Se vuoi modificare questa commit puoi eseguire il comando commit con l'opzione `--amend`:
 
 	$ git commit --amend
 
-Questo comando prende la tua area di stage e la usa per il commit. Se non hai fatto cambiamenti dal tuo ultimo commit (per esempio, lanci questo comando subito dopo il tuo commit precedente), allora il tuo snapshot sarà esattamente uguale e potrai cambiare il tuo messaggio di commit.
+Questo comando usa la tua area di `stage` per la commit. Se non hai fatto modifiche dalla tua ultima commit (per esempio, esegui questo comando subito dopo la tua commit precedente), allora il tuo snapshot sarà identico e potrai cambiare il tuo messaggio di commit.
 
-L'editor per il messaggio del commit apparirà, ma già contiene il messaggio del commit precedente. Puoi modificare il messaggio come sempre, ma sovrascriverà il commit precedente.
+Verrà lanciata la stessa applicazione per scrivere il messaggio della commit, ma conterrà già il messaggio della commit precedente. Puoi modificare il messaggio normalmente, ma questo sovrascriverà la commit precedente.
 
-Come esempio, se fai il commit e poi realizzi di aver dimenticato un cambiamento nella tua area di stage di un file e vuoi aggiungerlo a questo commit, puoi farlo così:
+Per esempio, se fai una commit e realizzi di non aver messo nello `stage` le modifiche a un file e vuoi aggiungerlo a questa commit, puoi fare così:
 
 	$ git commit -m 'initial commit'
 	$ git add forgotten_file
 	$ git commit --amend
 
-Tutti e tre i comandi finisco in un singolo commit —  il secondo commit riscrive il risultato del primo.
+Dopo questi tre comandi ti ritroverai con una sola commit: la seconda sovrascrive la prima.
 
-### Disimpegnare un File Staged ###
+### Rimuovere un file dall'area di `stage` ###
 
-Le prossime due sezioni mostrano come gestire le modifiche della tua area di stage e della directory di lavoro. La parte divertente è che il comando che usi per determinare lo stato di queste due aree ricorda come annullare i cambiamenti fatti. Per esempio, supponiamo che hai modificato due file e vuoi inviarli come modifiche separate, ma accidentalmente digiti `git add *` e li parcheggi entrambi. Come puoi disimpegnare uno dei due? Il comando `git status` ti ricorda:
+Le prossime due sezioni mostrano come gestire le modifiche della tua area di stage e della directory di lavoro. La parte divertente è che il comando che usi per determinare lo stato di queste due aree ti ricorda come annullare le modifiche alle stesse. Per esempio, supponiamo che hai modificato due file e vuoi committarli come modifiche separate, ma accidentalmente digiti `git add *` e li metti entrambi in `stage`. Come puoi rimuoverne uno? Il comando `git status` ti ricorda:
 
 	$ git add .
 	$ git status
-	# On branch master
-	# Changes to be committed:
-	#   (use "git reset HEAD <file>..." to unstage)
-	#
-	#       modified:   README.txt
-	#       modified:   benchmarks.rb
-	#
+	On branch master
+	Changes to be committed:
+	  (use "git reset HEAD <file>..." to unstage)
+	
+	        modified:   README.txt
+	        modified:   benchmarks.rb
+	
 
-Ora il testo sotto “Changes to be committed”, dice di usare `git reset HEAD <file>...` per annullare. Così, usa questo avviso per disimpegnare il file benchmarks.rb dal parcheggio:
+Il testo sotto “Changes to be committed” ti dice di usare `git reset HEAD <file>...` per rimuovere dallo `stage`. Usa quindi questo consiglio per rimuoever `benchmarks.rb`:
 
 	$ git reset HEAD benchmarks.rb
-	benchmarks.rb: locally modified
+	Unstaged changes after reset:
+	M       benchmarks.rb
 	$ git status
-	# On branch master
-	# Changes to be committed:
-	#   (use "git reset HEAD <file>..." to unstage)
-	#
-	#       modified:   README.txt
-	#
-	# Changes not staged for commit:
-	#   (use "git add <file>..." to update what will be committed)
-	#   (use "git checkout -- <file>..." to discard changes in working directory)
-	#
-	#       modified:   benchmarks.rb
-	#
+	On branch master
+	Changes to be committed:
+	  (use "git reset HEAD <file>..." to unstage)
+	
+	        modified:   README.txt
+	
+	Changes not staged for commit:
+	  (use "git add <file>..." to update what will be committed)
+	  (use "git checkout -- <file>..." to discard changes in working directory)
+	
+	        modified:   benchmarks.rb
+	
 
-Il comando è un po' strano, ma funziona. Il file benchmarks.rb è modificato ma non parcheggiato.
+Il comando è un po' strano, ma funziona. Il file `benchmarks.rb` ora è modificato ma non più nello `stage`.
 
-### Annullare le Modifiche di un File Modificato ###
+### Annullare le modifiche a un file ###
 
-Come fare se hai realizzato che non vuoi più tenere le modifiche che hai fatto al file `benchmarks.rb`? Come puoi annullarle facilmente — ritornare a come era al tuo ultimo commit (o alla clonazione iniziale, o come lo avevi nella tua directory di lavoro)? Fortunatamente, `git status` ci dice come farlo. Nell'ultimo output di esempio, l'area di unstage (file non parcheggiati) assomiglia a:
+Come fare se ti rendi conto che non vuoi più mantenere le modifiche di `benchmarks.rb`? Come puoi annullarle facilmente — ritornare a come era prima dell'ultima commit (o al clone iniziale, o comunque lo avevi nella tua directory di lavoro)? Fortunatamente `git status` ti dice come farlo. Nell'ultimo output di esempio, l'area dei file modificati appare così:
 
-	# Changes not staged for commit:
-	#   (use "git add <file>..." to update what will be committed)
-	#   (use "git checkout -- <file>..." to discard changes in working directory)
-	#
-	#       modified:   benchmarks.rb
-	#
+	Changes not staged for commit:
+	  (use "git add <file>..." to update what will be committed)
+	  (use "git checkout -- <file>..." to discard changes in working directory)
+	
+	        modified:   benchmarks.rb
+	
 
-Ci dice abbastanza esplicitamente come annullare le modifiche fatte (al limite, le nuove versioni di Git, 1.6.1 e successive, lo fanno —  se hai una versione più vecchia è raccomandato aggiornarla per avere queste funzioni utili). Vediamo cosa ci dice:
+Ti dice abbastanza chiaramente come annullare le tue modifiche (almeno le nuove versioni di Git, dalla 1.6.1 in poi, lo fanno:  se hai una versione più vecchia ti raccomandiamo di aggiornarla per avere alcune di queste funzioni utili e carine). Vediamo cosa dice:
 
 	$ git checkout -- benchmarks.rb
 	$ git status
-	# On branch master
-	# Changes to be committed:
-	#   (use "git reset HEAD <file>..." to unstage)
-	#
-	#       modified:   README.txt
-	#
+	On branch master
+	Changes to be committed:
+	  (use "git reset HEAD <file>..." to unstage)
+	
+	        modified:   README.txt
+	
 
-Puoi vedere come le modifiche sono state annullate. Dovresti inoltre realizzare che è un comando pericoloso: ogni cambiamento fatto al file è sparito — semplicemente hai copiato un altro file su di esso. Non usare mai questo comando a meno che non sai assolutamente che non vuoi il file. Se hai bisogno solamente di toglierlo di torno, vedremo ripostigli e ramificazioni nei capitoli successivi ; queste sono generalmente le vie migliori da seguire.
+Puoi vedere come le modifiche siano state annullate. Dovresti capire quanto questo sia un comando pericoloso: tutte le modifiche fatte al file sono sparite: lo hai praticamente sovrascritto con un altro file. Non usare mai questo comando a meno che non sia assolutamente certo di non volere il file. Se hai solo bisogno di toglierlo di torno, vedremo i `ripostigli` (*stash*) e le diramazioni (*branch*) nei prossimi capitoli, che generalmente sono le strade migliori da seguire.
 
-Ricorda, qualsiasi cosa che è stata affidata a Git può quasi sempre essere recuperata. Tutti i commit che erano su rami che sono stati cancellati o sovrascritti tramite un commit `--amend` possono essere recuperati (vedi il *Capitolo 9* per il recupero dei dati). Tuttavia, qualsiasi cosa che perdi e che non è stata affidata a Git probabilmente non sarà mai più visto.
+Ricorda: qualsiasi cosa che sia stata committata in Git può quasi sempre essere recuperata. Tutte le commit che erano sulle diramazioni che sono state cancellate o sovrascritte con una commit `--amend` possono essere recuperate (vedi il *Capitolo 9* per il recupero dei dati). Ma qualsiasi cosa che perdi che non sia stata mai committata non la vedrai mai più.
 
-## Lavorare con Sorgenti Remote ##
+## Lavorare coi server remote ##
 
-Per essere in grado di collaborare con un qualsiasi progetto Git, hai bisogno di sapere come amministrare il tuo repository remoto. I repository remoti sono versioni di progetti che sono ospitati in Internet o su una rete da qualche parte. Puoi averne più di uno, molti dei quali possono essere di sola lettura o di scrittura e lettura per te. Collaborare con altri implica di sapere amministrare questi repository remoti e mettere e togliere i dati a e da questi quando hai necessità di condividerli per lavoro.
-Amministrare repository remoti include il sapere aggiungere repository remoti, rimuovere quelli che non sono validi, amministrare vari rami remoti e definire quando sono tracciati o meno, e altro. In questa sezione, vedremo le tecniche di amministrazione remota.
+Per poter collaborare con un qualsiasi progetto Git, devi sapere come amministrare i tuoi repository remoti. I repository remoti sono versioni dei progetti ospitate da qualche parte su Internet o sulla rete locale. Puoi averne molti e normalmente avrai un accesso in sola lettura o anche in scrittura. Collaborare con altri implica di sapere amministrare questi repository remoti, inviarne e prelevarne dati per condividere il lavoro.
+Amministrare i repository remoti significa sapere come aggiungerli, rimuovere quelli che non più validi, amministrare varie diramazioni remote e decidere quali tracciare e quali no, e ancora altro. Di seguito tratteremo le conoscenze necessarie per farlo.
 
-### Visualizzare la Sorgente Remota ###
+### Vedi i tuoi server remoti ###
 
-Per vedere quale server remoto hai configurato, puoi lanciare il comando git remote. Questo elenca i soprannomi di ogni nodo specificato. Se hai clonato il tuo repository, dovresti al limite vedere origin —  che è il nome predefinito che Git da al server che hai clonato:
+Per vedere i server remoti che hai configurato, puoi eseguire il comando `git remote`. Questo elenca i nomi brevi di ogni nodo remoto che hai configurato. Se hai clonato il tuo repository, dovresti vedere almeno *origin* —  che è il nome predefinito che Git da al server da cui cloni:
 
 	$ git clone git://github.com/schacon/ticgit.git
-	Initialized empty Git repository in /private/tmp/ticgit/.git/
-	remote: Counting objects: 595, done.
-	remote: Compressing objects: 100% (269/269), done.
-	remote: Total 595 (delta 255), reused 589 (delta 253)
-	Receiving objects: 100% (595/595), 73.31 KiB | 1 KiB/s, done.
-	Resolving deltas: 100% (255/255), done.
+	Cloning into 'ticgit'...
+	remote: Reusing existing pack: 1857, done.
+	remote: Total 1857 (delta 0), reused 0 (delta 0)
+	Receiving objects: 100% (1857/1857), 374.35 KiB | 193.00 KiB/s, done.
+	Resolving deltas: 100% (772/772), done.
+	Checking connectivity... done.
 	$ cd ticgit
 	$ git remote
 	origin
 
-Puoi anche specificare `-v`, che mostra l'URL che Git ha salvato per il soprannome:
+Puoi anche aggiungere `-v`, che mostra anche l'URL che Git ha associato a quel nome breve:
 
 	$ git remote -v
 	origin  git://github.com/schacon/ticgit.git (fetch)
 	origin  git://github.com/schacon/ticgit.git (push)
 
-Se hai più di un repository remoto, il comando li elenca tutti. Per esempio, il mio repository Grit assomiglia a questo.
+Se hai più di un server remoto, il comando li elenca tutti. Per esempio, il mio repository di Grit appare così:
 
 	$ cd grit
 	$ git remote -v
@@ -795,11 +796,11 @@ Se hai più di un repository remoto, il comando li elenca tutti. Per esempio, il
 	koke      git://github.com/koke/grit.git
 	origin    git@github.com:mojombo/grit.git
 
-Questo significa che possiamo prendere i contributi da qualsiasi di questi utenti in modo facile. Ma nota che solo origin è un URL SSH, è l'unico dove posso fare il push (vedremo questa cosa nel Capitolo 4).
+Questo significa che posso prendere facilmente i contributi da qualunque di questi utenti. Nota però che solamente *origin* è un URL SSH, e quindi è l'unico dove posso inviare il mio lavoro con `push` (il perché lo vedremo nel *Capitolo 4*).
 
-### Aggiungere un Repository Remoto ###
+### Aggiungere un repository remoto ###
 
-Ho menzionato e fornito alcune dimostrazioni, nelle sezioni precedenti, sull'aggiunta di repository remoti, ma qui scendo nello specifico. Per aggiungere un nuovo repository Git con un soprannome per riconoscerlo velocemente, avvia `git remote add [soprannome] [url]`:
+Nelle sezioni precedenti ho accennato all'aggiunta dei repository remoti e dato alcuni esempi, ma qui lo vedremo nello specifico. Per aggiungere un nuovo repository Git remoto con un nome breve a cui possa riferirti facilmente, esegui `git remote add [nome breve] [url]`:
 
 	$ git remote
 	origin
@@ -808,7 +809,7 @@ Ho menzionato e fornito alcune dimostrazioni, nelle sezioni precedenti, sull'agg
 	origin	git://github.com/schacon/ticgit.git
 	pb	git://github.com/paulboone/ticgit.git
 
-Ora puoi usare la stringa pb dalla linea di comando al posto dell'intero URL. Per esempio, se vuoi prelevare tutte le informazioni che Paul ha ma che ancora non hai nel tuo repository, puoi lanciare git fetch pb:
+Ora potrai usare il nome `pb` alla riga di comando al posto dell'URL intero. Se vuoi, per esempio, prendere tutto ciò che ha Paul, ma che non sono ancora nel tuo repository, puoi eseguire `git fetch pb`:
 
 	$ git fetch pb
 	remote: Counting objects: 58, done.
@@ -819,7 +820,7 @@ Ora puoi usare la stringa pb dalla linea di comando al posto dell'intero URL. Pe
 	 * [new branch]      master     -> pb/master
 	 * [new branch]      ticgit     -> pb/ticgit
 
-Il ramo master di Paul è accessibile localmente come `pb/master` —  puoi unirlo in uno dei tuoi rami, o puoi caricare un tuo ramo locale a questo punto per ispezionarlo.
+La diramazione `master` di Paul è accessibile localmente come `pb/master` —  puoi farne il `merge` in uno delle tue diramazioni, o puoi scaricarla in una tua diramazione locale se vuoi controllarla.
 
 ### Prelevare e Trarre da Sorgenti in Remoto ###
 

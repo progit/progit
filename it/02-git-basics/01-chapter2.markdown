@@ -955,16 +955,16 @@ Puoi vedere i dati dell'etichetta assieme alla commit etichettata con il comando
 
 Questo mostra le informazioni dell'etichetta, la data in cui la commit è stata etichettata e il messaggio, prima di mostrare le informazioni della commit.
 
-### Firmare le Etichette ###
+### Etichette firmate ###
 
-Puoi anche firmare le tue etichette con GPG, assumendo che tu abbia una chiave privata. Tutto quello che devi fare è usare `-s` invece di `-a`:
+Puoi anche firmare le tue etichette con GPG, presumendo che tu abbia una chiave privata. Tutto quello che devi fare è usare `-s` invece di `-a`:
 
 	$ git tag -s v1.5 -m 'my signed 1.5 tag'
 	You need a passphrase to unlock the secret key for
 	user: "Scott Chacon <schacon@gee-mail.com>"
 	1024-bit DSA key, ID F721C45A, created 2009-02-09
 
-Se lanci `git show` su questa etichetta, potrai vedere la tua firma GPG in allegato ad essa:
+Se esegui `git show` per questa etichetta, puoi vedere che è stata allegata la tua firma GPG:
 
 	$ git show v1.5
 	tag v1.5

@@ -883,18 +883,18 @@ Questo è un esempio semplice di quanto probabilmente vedrai. Tuttavia, quando u
 
 Questo comando mostra quale diramazione viene scaricata automaticamente quando esegui `git push` su certe diramazioni. Mostra anche quali diramazioni remote non hai ancora scaricato, quali diramazioni remote hai in locale che sono state rimosse dal server, e le diramazioni che vengono unite automaticamente quando esegui `git pull`.
 
-### Rimuovere e Rinominare Sorgenti Remote ###
+### Rimuovere e rinominare server remoti ###
 
-Se vuoi rinominare un riferimento, nelle nuove versioni di Git, puoi lanciare `git remote rename` per cambiare il soprannome di una sorgente remota. Per esempio, se vuoi rinominare `pb` in `paul`, puoi farlo con `git remote rename`:
+Se vuoi rinominare un riferimento, con versioni più recenti di Git, puoi farlo con `git remote rename` per cambiare il nome breve di un server remoto. Se vuoi per esempio rinominare `pb` in `paul`, puoi farlo con `git remote rename`:
 
 	$ git remote rename pb paul
 	$ git remote
 	origin
 	paul
 
-Vale la pena ricordare che questo cambia anche i nomi dei rami remoti. Quello che prima era riferito a `pb/master` ora è `paul/master`.
+Vale la pena ricordare che questo cambia anche i nomi delle diramazioni remote. Quello che prima veniva chiamato `pb/master` ora è `paul/master`.
 
-Se vuoi rimuovere un riferimento per una qualche ragione — hai spostato il server o non stai più usando un mirror particolare, o magari un collaboratore non collabora più — puoi usare `git remote rm`:
+Se vuoi rimuovere un riferimento per qualsiasi ragione (hai spostato il server o non stai più usando un particolare mirror, o magari un collaboratore che non collabora più) puoi usare `git remote rm`:
 
 	$ git remote rm paul
 	$ git remote

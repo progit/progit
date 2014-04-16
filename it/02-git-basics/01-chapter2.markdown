@@ -760,10 +760,10 @@ Puoi vedere come le modifiche siano state annullate. Dovresti capire quanto ques
 
 Ricorda: qualsiasi cosa che sia stata committata in Git può quasi sempre essere recuperata. Tutte le commit che erano sulle diramazioni che sono state cancellate o sovrascritte con una commit `--amend` possono essere recuperate (vedi il *Capitolo 9* per il recupero dei dati). Ma qualsiasi cosa che perdi che non sia stata mai committata non la vedrai mai più.
 
-## Lavorare con Sorgenti Remote ##
+## Lavorare con sorgenti remote ##
 
-Per essere in grado di collaborare con un qualsiasi progetto Git, hai bisogno di sapere come amministrare il tuo repository remoto. I repository remoti sono versioni di progetti che sono ospitati in Internet o su una rete da qualche parte. Puoi averne più di uno, molti dei quali possono essere di sola lettura o di scrittura e lettura per te. Collaborare con altri implica di sapere amministrare questi repository remoti e mettere e togliere i dati a e da questi quando hai necessità di condividerli per lavoro.
-Amministrare repository remoti include il sapere aggiungere repository remoti, rimuovere quelli che non sono validi, amministrare vari rami remoti e definire quando sono tracciati o meno, e altro. In questa sezione, vedremo le tecniche di amministrazione remota.
+Per poter collaborare con un qualsiasi progetto Git, devi sapere come amministrare i tuoi repository remoti. I repository remoti sono versioni dei progetti ospitate da qualche parte su Internet o sulla rete locale. Puoi averne molti e normalmente avrai un accesso in sola lettura o anche in scrittura. Collaborare con altri implica di sapere amministrare questi repository remoti, inviarne e prelevarne dati per condividere il lavoro.
+Amministrare i repository remoti significa sapere come aggiungerli, rimuovere quelli che non più validi, amministrare varie diramazioni remote e decidere quali tracciare e quali no, e ancora altro. Di seguito tratteremo le conoscenze necessarie per farlo.
 
 ### Visualizzare la Sorgente Remota ###
 

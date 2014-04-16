@@ -922,9 +922,9 @@ Puoi inoltre cercare etichette con uno schema specifico. Il repository sorgente 
 	v1.4.2.3
 	v1.4.2.4
 
-### Creare Etichette ###
+### Creare etichette ###
 
-Git usa due principali tipi di etichette: lightweight (semplificate, ndt) e annotated (commentate, ndt). Un'etichetta lightweight è molto simile ad un ramo che non è cambiato —  è semplicemente un riferimento ad uno specifico commit. Le etichette annotated, tuttavia, sono salvate come oggetti nel database Git. Ne viene calcolato il checksum; contengono il nome, l'e-mail e la data di chi ha inserito l'etichetta; hanno un messaggio; e possono essere firmati e verificati con GNU Privacy Guard (GPG). É generalmente raccomandato creare etichette annotated così puoi avere tutte queste informazioni; ma se vuoi temporaneamente inserire un'etichetta e per qualche ragione non vuoi avere queste informazioni, le etichette lightweight sono ancora disponibili.
+Git ha due tipi di etichette: semplici (`lightweight`, ndt) e annotate (`annotated`, ndt). Un'etichetta semplice è molto simile a una ramificazione che non cambia mai:  è semplicemente un riferimento ad una commit specifica. Le etichette annotate, al contrario, sono salvate come oggetti complessi nel database Git. Ne viene calcolato il checksum, contengono il nome, l'e-mail e la data di chi ha inserito l'etichetta, hanno un messaggio d'etichetta; e possono essere firmate e verificate con GPG (GNU Privacy Guard). Generalmente si raccomanda di usare le etichette annotate così da avere tutte queste informazioni, ma se vuoi aggiungere un'etichetta temporanea o per qualche ragione non vuoi salvare quelle informazioni aggiuntive, hai sempre a disposizione le etichette semplici.
 
 ### Etichette Annotated ###
 

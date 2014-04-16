@@ -834,13 +834,13 @@ Quando cloni un repository, viene aggiunto automaticamente un repository remoto 
 
 Se hai una diramazione impostata per tracciarne una remota (vedi la prossima sezione e il *Capitolo 3* per maggiori informazioni), puoi usare il comando `git pull` per scaricare e unire automaticamente una diramazione remota in quella attuale. Questo potrebbe essere un modo più facile e più comodo per lavorare; e in modo predefinito, il comando `git clone` imposta automaticamente la tua diramazione `master` per tracciare il master del server che hai clonato (supponendo che il server remoto abbia una diramazione `master`). Eseguendo `git pull` vengono generalmente scaricati i dati dal server da cui hai fatto il clone originario e prova a unirli automaticamente con il codice su cui stai lavorando.
 
-### Inserire nella Sorgente Remota ###
+### Condividi coi server remoti ###
 
-Quando hai il tuo progetto al punto in cui lo vuoi condividere, devi inviarlo a monte (push upstream). Il comando per fare questo è semplice: `git push [nome-remoto] [nome-ramo]`. Se vuoi fare il push del tuo ramo master al tuo server `origin` (ancora, generalmente con la clonazione sono impostati entrambi questi nomi automaticamente), puoi lanciare il push per mettere il tuo lavoro sul server:
+Quando il tuo progetto raggiunge uno stato che vuoi condividere, devi caricarlo sul server principale. Il comando perlo è semplice: `git push [nome-remoto] [diramazione]`. Se vuoi condividere la tua diramazione `master` sul tuo server `origin` (lo ripeto: clonando questi nomi vengono generalmente definiti automaticamente), puoi eseguire il comando seguente per caricare il tuo lavoro sul server:
 
 	$ git push origin master
 
-Questo comando funziona solamente se hai fatto una clonazione da un server in cui hai i permessi di scrittura e se nessuno ha inviato dati nel mentre. Se tu e qualcun altro clonate un repository nello stesso momento ed essi inviano i dati, e poi tu invii i dati, il tuo invio verrà gustamente rifiutato. Devi prima scaricare il loro lavoro ed incorporarlo nel tuo per poter inviare le tue modifiche. Vedi il *Capitolo 3* per maggiori dettagli ed informazioni su come fare il push su server remoti.
+Questo comando funziona solamente se hai clonato il tuo progetto da un server su cui hai i permessi di scrittura e se nessun altro ha caricato modifiche nel frattempo. Se cloni un repository assieme ad altri e questi caricano delle modifiche sul server, il tuo invio verrà rifiutato. Dovrai prima scaricare le loro modifiche e incorporarle con le tue per poterle poi inviare. Vedi il *Capitolo 3* per maggiori informazioni su come fare il `push` su server remoti.
 
 ### Ispezionare una Sorgente Remota ###
 

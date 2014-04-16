@@ -1077,9 +1077,9 @@ Puoi vedere che hai etichettato la commit:
 	    updated rakefile
 	...
 
-### Condividere le Etichette ###
+### Condividere le etichette ###
 
-Di base, il comando `git push` non trasferisce le etichette sui server remoti. Devi esplicitamente inviare le etichette da condividere con il server dopo averle create. Questo processo è come condividere rami remoti — puoi lanciare `git push origin [nometag]`.
+Normalmente il comando `git push` non invia le etichette sui server remoti. Devi farlo esplicitamente, dopo averle create, per condividerle con il server. Questo procedimento è come la condivisione delle diramazioni remote: puoi eseguire `git push origin [nome-tag
 
 	$ git push origin v1.5
 	Counting objects: 50, done.
@@ -1089,7 +1089,7 @@ Di base, il comando `git push` non trasferisce le etichette sui server remoti. D
 	To git@github.com:schacon/simplegit.git
 	* [new tag]         v1.5 -> v1.5
 
-Se hai molte etichetta che vuoi inviare tutte assieme, puoi farlo usando l'opzione `--tags` del comando `git push`. Questo trasferirà tutti le tue etichette sul server remoto che non sono ancora presenti.
+Se hai molte etichetta che vuoi inviare tutte assieme, puoi farlo usando l'opzione `--tags` col comando `git push`. Questo trasferirà al server remoto tutte le tue etichette che non sono ancora presenti.
 
 	$ git push origin --tags
 	Counting objects: 50, done.
@@ -1103,7 +1103,7 @@ Se hai molte etichetta che vuoi inviare tutte assieme, puoi farlo usando l'opzio
 	 * [new tag]         v1.4-lw -> v1.4-lw
 	 * [new tag]         v1.5 -> v1.5
 
-Ora, quando qualcun altro clona o scarica dal tuo repository, avrà anche tutti le tue etichette.
+Quando qualcuno clonerà il repository o scaricherà gli aggiornamenti, scaricherà anche tutte le tue etichette.
 
 ## Suggerimenti e Trucchi ##
 

@@ -798,9 +798,9 @@ Se hai più di un server remoto, il comando li elenca tutti. Per esempio, il mio
 
 Questo significa che posso prendere facilmente i contributi da qualunque di questi utenti. Nota però che solamente *origin* è un URL SSH, e quindi è l'unico dove posso inviare il mio lavoro con `push` (il perché lo vedremo nel *Capitolo 4*).
 
-### Aggiungere un Repository Remoto ###
+### Aggiungere un repository remoto ###
 
-Ho menzionato e fornito alcune dimostrazioni, nelle sezioni precedenti, sull'aggiunta di repository remoti, ma qui scendo nello specifico. Per aggiungere un nuovo repository Git con un soprannome per riconoscerlo velocemente, avvia `git remote add [soprannome] [url]`:
+Nelle sezioni precedenti ho accennato all'aggiunta dei repository remoti e dato alcuni esempi, ma qui lo vedremo nello specifico. Per aggiungere un nuovo repository Git remoto con un nome breve a cui possa riferirti facilmente, esegui `git remote add [nome breve] [url]`:
 
 	$ git remote
 	origin
@@ -809,7 +809,7 @@ Ho menzionato e fornito alcune dimostrazioni, nelle sezioni precedenti, sull'agg
 	origin	git://github.com/schacon/ticgit.git
 	pb	git://github.com/paulboone/ticgit.git
 
-Ora puoi usare la stringa pb dalla linea di comando al posto dell'intero URL. Per esempio, se vuoi prelevare tutte le informazioni che Paul ha ma che ancora non hai nel tuo repository, puoi lanciare git fetch pb:
+Ora potrai usare il nome `pb` alla riga di comando al posto dell'URL intero. Se vuoi, per esempio, prendere tutto ciò che ha Paul, ma che non sono ancora nel tuo repository, puoi eseguire `git fetch pb`:
 
 	$ git fetch pb
 	remote: Counting objects: 58, done.
@@ -820,7 +820,7 @@ Ora puoi usare la stringa pb dalla linea di comando al posto dell'intero URL. Pe
 	 * [new branch]      master     -> pb/master
 	 * [new branch]      ticgit     -> pb/ticgit
 
-Il ramo master di Paul è accessibile localmente come `pb/master` —  puoi unirlo in uno dei tuoi rami, o puoi caricare un tuo ramo locale a questo punto per ispezionarlo.
+La diramazione `master` di Paul è accessibile localmente come `pb/master` —  puoi farne il `merge` in uno delle tue diramazioni, o puoi scaricarla in una tua diramazione locale se vuoi controllarla.
 
 ### Prelevare e Trarre da Sorgenti in Remoto ###
 

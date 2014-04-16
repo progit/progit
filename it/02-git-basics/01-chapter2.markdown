@@ -822,17 +822,17 @@ Ora potrai usare il nome `pb` alla riga di comando al posto dell'URL intero. Se 
 
 La diramazione `master` di Paul è accessibile localmente come `pb/master` —  puoi farne il `merge` in uno delle tue diramazioni, o puoi scaricarla in una tua diramazione locale se vuoi controllarla.
 
-### Prelevare e Trarre da Sorgenti in Remoto ###
+### Scarica e condividi coi server remoti ###
 
-Come già visto, per ottenere i dati da un progetto remoto, puoi farlo:
+Come abbiamo appena visto, per scaricare dati da un progetto remoto, puoi fare:
 
 	$ git fetch [nome-remoto]
 
-Il comando va sul progetto remoto e si tira giù tutti i dati dal progetto remoto che ancora non hai. Dopo aver fatto questo, dovresti avere tutti i riferimenti ai rami da questa sorgente remota, che poi potrai fondere o ispezionare in ogni momento. (Vedremo cosa sono i rami e come usarli in maggior dettaglio al *Capitolo 3*).
+Il comando va sul progetto remoto e scarica tutti i dati dal progetto remoto che tu ancora non hai. Dopo averlo fatto dovresti trovare i riferimenti a tutte le diramazioni di quel server, che potrai unire o controllare in qualsiasi momento. (Vedremo in dettaglio cosa sono le diramazioni e come usarle nel *Capitolo 3*).
 
-Se hai clonato un repository, il comando automaticamente aggiunge un repository remoto sotto il nome origin. Così, `git fetch origin` preleva ogni lavoro che è stato inserito su quel server da quando hai fatto la clonazione (o dall'ultimo prelievo). E' importante notare che il comando `fetch` mette i dati nel tuo repository locale — non unisce automaticamente e non modifica alcun file su cui tu stai lavorando. Devi eseguire la fusione manualmente nel tuo lavoro, quando sei pronto.
+Quando cloni un repository, viene aggiunto automaticamente un repository remoto chiamato *origin*. In questo modo `git fetch origin` scarica le modifiche che sono state condividise con server remoto da quando lo hai clonato (o dall'ultimo tuo aggiornamento). È importante notare che il comando `fetch` scarica queste informazioni nel tuo repository locale: non le unisce automaticamente e non modifica alcun file su cui stai lavorando. Quando sei pronto dovrai essere tu a unirle al tuo lavoro, manualmente.
 
-Se hai un ramo impostato per tracciare un ramo remoto (vedi la prossima sezione e il Capitolo 3 per maggiori informazioni), puoi usare il comando `git pull` per prelevare automaticamente e poi fondere un ramo remoto nel ramo corrente. Questo è un modo più facile e comodo di lavorare; e in modo predefinito, il comando `git clone` automaticamente imposta il tuo ramo locale master per tracciare il ramo remoto master del server che hai clonato (assumendo che il sorgente remoto abbia un ramo master). Lanciare `git pull` generalmente preleva i dati dal server di origine clonato e automaticamente prova a fondere il codice con il codice su cui stai lavorando.
+Se hai una diramazione impostata per tracciarne una remota (vedi la prossima sezione e il *Capitolo 3* per maggiori informazioni), puoi usare il comando `git pull` per scaricare e unire automaticamente una diramazione remota in quella attuale. Questo potrebbe essere un modo più facile e più comodo per lavorare; e in modo predefinito, il comando `git clone` imposta automaticamente la tua diramazione `master` per tracciare il master del server che hai clonato (supponendo che il server remoto abbia una diramazione `master`). Eseguendo `git pull` vengono generalmente scaricati i dati dal server da cui hai fatto il clone originario e prova a unirli automaticamente con il codice su cui stai lavorando.
 
 ### Inserire nella Sorgente Remota ###
 

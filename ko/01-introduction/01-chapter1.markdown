@@ -161,9 +161,9 @@ Ubuntu같은 데비안류 배포판에서는 apt-get을 사용한다:
 
 ### Mac에 설치하기 ###
 
-Mac에 Git을 쉽게 설치하는 방법은 두 가지가 있다. GUI 인스톨러가 가장 쉽게 사용할 수 있다. Google Code 페이지에서 내려받는다:
+Mac에 Git을 쉽게 설치하는 방법은 두 가지가 있다. GUI 인스톨러가 가장 쉽게 사용할 수 있다. SourceForge 페이지에서 내려받는다:
 
-	http://code.google.com/p/git-osx-installer
+	http://sourceforge.net/projects/git-osx-installer/
 
 Insert 18333fig0107.png 
 그림 1-7. OS X Git 인스톨러

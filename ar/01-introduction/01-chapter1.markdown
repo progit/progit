@@ -168,7 +168,7 @@ If a particular version of a file is in the git directory, it’s considered com
 
 هناك طريقتين للتنصيب على  ماك أو اس، الأسهل هي استخدام الواجهة الرسومية للتنصيب، والتي يمكنك تحميلها من صفحة المشروع على غوغل كود (انظر الشكل 1-7):
 
-	http://code.google.com/p/git-osx-installer
+	http://sourceforge.net/projects/git-osx-installer/
 
 Insert 18333fig0107.png 
 الشكل 1-7. تنصيب Git على ماك أو اس.

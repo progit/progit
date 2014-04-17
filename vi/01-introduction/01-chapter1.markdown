@@ -161,9 +161,9 @@ Còn nếu bạn đang sử dụng một hệ điều hành dựa trên nhân De
 
 ### Cài Đặt Trên Mac ###
 
-Có hai cách đơn giản để cài đặt Git trên Mac. Cách đơn giản nhất là sử dụng chương trình cài đặt có hỗ trợ giao diện, bạn có thể tải về từ trang web của Google Code (xem Hình 1-7):
+Có hai cách đơn giản để cài đặt Git trên Mac. Cách đơn giản nhất là sử dụng chương trình cài đặt có hỗ trợ giao diện, bạn có thể tải về từ trang web của SourceForge (xem Hình 1-7):
 
-	http://code.google.com/p/git-osx-installer
+	http://sourceforge.net/projects/git-osx-installer/
 
 Insert 18333fig0107.png
 Hình 1-7. Chương trình cài đặt Git cho Mac OS X.

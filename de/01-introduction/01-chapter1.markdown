@@ -281,11 +281,11 @@ Auf einem Debian-basierten System wie Ubuntu steht Dir apt-get zur Verfügung:
 <!--### Installing on Mac ###-->
 ### Installation unter Mac OS X ###
 
-<!--There are two easy ways to install Git on a Mac. The easiest is to use the graphical Git installer, which you can download from the Google Code page (see Figure 1-7):-->
+<!--There are two easy ways to install Git on a Mac. The easiest is to use the graphical Git installer, which you can download from the SourceForge page (see Figure 1-7):-->
 
-Auf einem Mac kann man Git auf zwei Arten installieren. Der einfachste ist, das grafische Git Installationsprogramm zu verwenden, den man von der Google Code Webseite herunterladen kann (siehe Bild 1-7)
+Auf einem Mac kann man Git auf zwei Arten installieren. Der einfachste ist, das grafische Git Installationsprogramm zu verwenden, den man von der SourceForge Webseite herunterladen kann (siehe Bild 1-7)
 
-	http://code.google.com/p/git-osx-installer
+	http://sourceforge.net/projects/git-osx-installer/
 
 <!--Figure 1-7. Git OS X installer.-->
 

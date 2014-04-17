@@ -163,7 +163,7 @@ Tai jos olet Debian-pohjaisessa julkaisussa kuten Ubuntussa, kokeile apt-getiä:
 
 On olemassa kaksi helppoa tapaa asentaa Git Macissä. Helpoin on käyttää graafista Git-asennusohjelmaa, jonka voit ladata Googlen Code -verkkosivuilta (katso Kuva 1-7):
 
-	http://code.google.com/p/git-osx-installer
+	http://sourceforge.net/projects/git-osx-installer/
 
 Insert 18333fig0107.png
 Kuva 1-7. Git OS X -asennusohjelma.

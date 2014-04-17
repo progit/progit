@@ -20,7 +20,7 @@ Don’t rewrite your history and try to push again, and don’t push to a parall
 
 ### Setting Up ###
 
-To demonstrate this functionality, you need a typical SVN repository that you have write access to. If you want to copy these examples, you’ll have to make a writeable copy of my test repository. In order to do that easily, you can use a tool called `svnsync` that comes with more recent versions of Subversion — it should be distributed with at least 1.4. For these tests, I created a new Subversion repository on Google code that was a partial copy of the `protobuf` project, which is a tool that encodes structured data for network transmission. 
+To demonstrate this functionality, you need a typical SVN repository that you have write access to. If you want to copy these examples, you’ll have to make a writeable copy of my test repository. In order to do that easily, you can use a tool called `svnsync` that comes with more recent versions of Subversion — it should be distributed with at least 1.4. For these tests, I created a new Subversion repository on SourceForge that was a partial copy of the `protobuf` project, which is a tool that encodes structured data for network transmission. 
 
 To follow along, you first need to create a new local Subversion repository:
 

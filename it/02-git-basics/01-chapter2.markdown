@@ -822,29 +822,29 @@ Ora potrai usare il nome `pb` alla riga di comando al posto dell'URL intero. Se 
 
 La diramazione `master` di Paul è accessibile localmente come `pb/master` —  puoi farne il `merge` in uno delle tue diramazioni, o puoi scaricarla in una tua diramazione locale se vuoi controllarla.
 
-### Prelevare e Trarre da Sorgenti in Remoto ###
+### Scarica e condividi coi server remoti ###
 
-Come già visto, per ottenere i dati da un progetto remoto, puoi farlo:
+Come abbiamo appena visto, per scaricare dati da un progetto remoto, puoi fare:
 
 	$ git fetch [nome-remoto]
 
-Il comando va sul progetto remoto e si tira giù tutti i dati dal progetto remoto che ancora non hai. Dopo aver fatto questo, dovresti avere tutti i riferimenti ai rami da questa sorgente remota, che poi potrai fondere o ispezionare in ogni momento. (Vedremo cosa sono i rami e come usarli in maggior dettaglio al *Capitolo 3*).
+Il comando va sul progetto remoto e scarica tutti i dati dal progetto remoto che tu ancora non hai. Dopo averlo fatto dovresti trovare i riferimenti a tutte le diramazioni di quel server, che potrai unire o controllare in qualsiasi momento. (Vedremo in dettaglio cosa sono le diramazioni e come usarle nel *Capitolo 3*).
 
-Se hai clonato un repository, il comando automaticamente aggiunge un repository remoto sotto il nome origin. Così, `git fetch origin` preleva ogni lavoro che è stato inserito su quel server da quando hai fatto la clonazione (o dall'ultimo prelievo). E' importante notare che il comando `fetch` mette i dati nel tuo repository locale — non unisce automaticamente e non modifica alcun file su cui tu stai lavorando. Devi eseguire la fusione manualmente nel tuo lavoro, quando sei pronto.
+Quando cloni un repository, viene aggiunto automaticamente un repository remoto chiamato *origin*. In questo modo `git fetch origin` scarica le modifiche che sono state condividise con server remoto da quando lo hai clonato (o dall'ultimo tuo aggiornamento). È importante notare che il comando `fetch` scarica queste informazioni nel tuo repository locale: non le unisce automaticamente e non modifica alcun file su cui stai lavorando. Quando sei pronto dovrai essere tu a unirle al tuo lavoro, manualmente.
 
-Se hai un ramo impostato per tracciare un ramo remoto (vedi la prossima sezione e il Capitolo 3 per maggiori informazioni), puoi usare il comando `git pull` per prelevare automaticamente e poi fondere un ramo remoto nel ramo corrente. Questo è un modo più facile e comodo di lavorare; e in modo predefinito, il comando `git clone` automaticamente imposta il tuo ramo locale master per tracciare il ramo remoto master del server che hai clonato (assumendo che il sorgente remoto abbia un ramo master). Lanciare `git pull` generalmente preleva i dati dal server di origine clonato e automaticamente prova a fondere il codice con il codice su cui stai lavorando.
+Se hai una diramazione impostata per tracciarne una remota (vedi la prossima sezione e il *Capitolo 3* per maggiori informazioni), puoi usare il comando `git pull` per scaricare e unire automaticamente una diramazione remota in quella attuale. Questo potrebbe essere un modo più facile e più comodo per lavorare; e in modo predefinito, il comando `git clone` imposta automaticamente la tua diramazione `master` per tracciare il master del server che hai clonato (supponendo che il server remoto abbia una diramazione `master`). Eseguendo `git pull` vengono generalmente scaricati i dati dal server da cui hai fatto il clone originario e prova a unirli automaticamente con il codice su cui stai lavorando.
 
-### Inserire nella Sorgente Remota ###
+### Condividi coi server remoti ###
 
-Quando hai il tuo progetto al punto in cui lo vuoi condividere, devi inviarlo a monte (push upstream). Il comando per fare questo è semplice: `git push [nome-remoto] [nome-ramo]`. Se vuoi fare il push del tuo ramo master al tuo server `origin` (ancora, generalmente con la clonazione sono impostati entrambi questi nomi automaticamente), puoi lanciare il push per mettere il tuo lavoro sul server:
+Quando il tuo progetto raggiunge uno stato che vuoi condividere, devi caricarlo sul server principale. Il comando perlo è semplice: `git push [nome-remoto] [diramazione]`. Se vuoi condividere la tua diramazione `master` sul tuo server `origin` (lo ripeto: clonando questi nomi vengono generalmente definiti automaticamente), puoi eseguire il comando seguente per caricare il tuo lavoro sul server:
 
 	$ git push origin master
 
-Questo comando funziona solamente se hai fatto una clonazione da un server in cui hai i permessi di scrittura e se nessuno ha inviato dati nel mentre. Se tu e qualcun altro clonate un repository nello stesso momento ed essi inviano i dati, e poi tu invii i dati, il tuo invio verrà gustamente rifiutato. Devi prima scaricare il loro lavoro ed incorporarlo nel tuo per poter inviare le tue modifiche. Vedi il *Capitolo 3* per maggiori dettagli ed informazioni su come fare il push su server remoti.
+Questo comando funziona solamente se hai clonato il tuo progetto da un server su cui hai i permessi di scrittura e se nessun altro ha caricato modifiche nel frattempo. Se cloni un repository assieme ad altri e questi caricano delle modifiche sul server, il tuo invio verrà rifiutato. Dovrai prima scaricare le loro modifiche e incorporarle con le tue per poterle poi inviare. Vedi il *Capitolo 3* per maggiori informazioni su come fare il `push` su server remoti.
 
-### Ispezionare una Sorgente Remota ###
+### Controllare un server remoto ###
 
-Se vuoi vedere più informazioni su di una sorgente remota in particolare, puoi usare il comando `git remote show [nome-remoto]`. Se lanci il comando con un soprannome particolare, come `origin`, avrai qualcosa di simile a questo:
+Se vuoi più informazioni su una particolare server remoto, puoi usare il comando `git remote show [nome-remoto]`. Se esegui il comando con un nome particolare, per esempio `origin`, avrai qualcosa di simile:
 
 	$ git remote show origin
 	* remote origin
@@ -855,9 +855,9 @@ Se vuoi vedere più informazioni su di una sorgente remota in particolare, puoi 
 	    master
 	    ticgit
 
-Questo elenca tutti gli URL del repository remoto oltre che alle informazioni sui rami tracciati. Il comando utilmente ti dirà che sei sul ramo principale e se lanci `git pull`, questo automaticamente unirà il ramo master sul server remoto dopo aver prelevato tutte i riferimenti remoti. Inoltre elencherà i riferimenti che ha scaricato.
+che mostra gli URL del repository remoto oltre alle informazioni sulle diramazioni tracciate. Il comando ti dice anche se esegui `git pull` mentre sei su `master`, integrerà le modifiche sul `master` remoto dopo aver scaricato tutti i riferimenti remoti. Elenca anche i riferimenti remoti che hai già scaricato.
 
-Questo è un semplice esempio che potrai incontrare. Quando usi moltissimo Git, tuttavia, potrai vedere molte più informazioni da `git remote show`:
+Questo è un esempio semplice di quanto probabilmente vedrai. Tuttavia, quando usi intensamente Git potresti trovare molte più informazioni con `git remote show`:
 
 	$ git remote show origin
 	* remote origin
@@ -881,20 +881,20 @@ Questo è un semplice esempio che potrai incontrare. Quando usi moltissimo Git, 
 	  Local branch pushed with 'git push'
 	    master:master
 
-Questo comando mostra quale ramo è automaticamente caricato quando lanci `git push` su certe diramazioni. Inoltre ti mostrerà quali rami remoti sul server che ancora non possiedi, quali rami remoti possiedi e che saranno rimossi dal server, e le diramazioni che saranno automaticamente unite quando lancerai `git pull`.
+Questo comando mostra quale diramazione viene scaricata automaticamente quando esegui `git push` su certe diramazioni. Mostra anche quali diramazioni remote non hai ancora scaricato, quali diramazioni remote hai in locale che sono state rimosse dal server, e le diramazioni che vengono unite automaticamente quando esegui `git pull`.
 
-### Rimuovere e Rinominare Sorgenti Remote ###
+### Rimuovere e rinominare server remoti ###
 
-Se vuoi rinominare un riferimento, nelle nuove versioni di Git, puoi lanciare `git remote rename` per cambiare il soprannome di una sorgente remota. Per esempio, se vuoi rinominare `pb` in `paul`, puoi farlo con `git remote rename`:
+Se vuoi rinominare un riferimento, con versioni più recenti di Git, puoi farlo con `git remote rename` per cambiare il nome breve di un server remoto. Se vuoi per esempio rinominare `pb` in `paul`, puoi farlo con `git remote rename`:
 
 	$ git remote rename pb paul
 	$ git remote
 	origin
 	paul
 
-Vale la pena ricordare che questo cambia anche i nomi dei rami remoti. Quello che prima era riferito a `pb/master` ora è `paul/master`.
+Vale la pena ricordare che questo cambia anche i nomi delle diramazioni remote. Quello che prima veniva chiamato `pb/master` ora è `paul/master`.
 
-Se vuoi rimuovere un riferimento per una qualche ragione — hai spostato il server o non stai più usando un mirror particolare, o magari un collaboratore non collabora più — puoi usare `git remote rm`:
+Se vuoi rimuovere un riferimento per qualsiasi ragione (hai spostato il server o non stai più usando un particolare mirror, o magari un collaboratore che non collabora più) puoi usare `git remote rm`:
 
 	$ git remote rm paul
 	$ git remote
@@ -902,19 +902,19 @@ Se vuoi rimuovere un riferimento per una qualche ragione — hai spostato il ser
 
 ### Etichettare ###
 
-Come la maggior parte dei VCS, Git ha la possibilità di contrassegnare (tag, ndt) dei punti specifici della storia come importanti. Generalmente, le persone usano questa funzionalità per marcare i punti di rilascio (v1.0, e così via). In questa sezione, imparerai come elencare le etichette disponibili, come crearne di nuove, ed i differenti tipi di etichette esistenti.
+Come la maggior parte dei VCS, Git ha la possibilità di contrassegnare (tag, ndt) dei punti specifici della cronologia come importanti. Le persone normalmente usano questa funzionalità per segnare i punti di rilascio (v1.0, e così via). In questa sezione, imparerai come elencare le etichette disponibili, come crearne di nuove, e i diversi tipi di etichette esistenti.
 
-### Elencare le Proprie Etichette ###
+### Elena le etichette ###
 
-Elencare le etichette disponibili in Git è facilissimo. Semplicemente digita `git tag`:
+Elencare le etichette esistenti in Git è facilissimo. Digita semplicemente `git tag`:
 
 	$ git tag
 	v0.1
 	v1.3
 
-Questo comando elenca le etichette in ordine alfabetico; l'ordine con il quale compaiono non è realmente importante.
+Questo comando elenca le etichette in ordine alfabetico; l'ordine con cui appaiono non ha importanza.
 
-Puoi inoltre cercare le etichette con uno schema specifico. Il repository sorgente di Git, per esempio, contiene più di 240 etichette. Se sei solo interessato a vedere quelli della serie 1.4.2, puoi lanciare:
+Puoi inoltre cercare etichette con uno schema specifico. Il repository sorgente di Git, per esempio, contiene più di 240 etichette. Se sei interessato a vedere solo quelli della serie 1.4.2, puoi eseguire:
 
 	$ git tag -l 'v1.4.2.*'
 	v1.4.2.1
@@ -922,13 +922,13 @@ Puoi inoltre cercare le etichette con uno schema specifico. Il repository sorgen
 	v1.4.2.3
 	v1.4.2.4
 
-### Creare Etichette ###
+### Creare etichette ###
 
-Git usa due principali tipi di etichette: lightweight (semplificate, ndt) e annotated (commentate, ndt). Un'etichetta lightweight è molto simile ad un ramo che non è cambiato —  è semplicemente un riferimento ad uno specifico commit. Le etichette annotated, tuttavia, sono salvate come oggetti nel database Git. Ne viene calcolato il checksum; contengono il nome, l'e-mail e la data di chi ha inserito l'etichetta; hanno un messaggio; e possono essere firmati e verificati con GNU Privacy Guard (GPG). É generalmente raccomandato creare etichette annotated così puoi avere tutte queste informazioni; ma se vuoi temporaneamente inserire un'etichetta e per qualche ragione non vuoi avere queste informazioni, le etichette lightweight sono ancora disponibili.
+Git ha due tipi di etichette: semplici (`lightweight`, ndt) e annotate (`annotated`, ndt). Un'etichetta semplice è molto simile a una ramificazione che non cambia mai:  è semplicemente un riferimento ad una commit specifica. Le etichette annotate, al contrario, sono salvate come oggetti complessi nel database Git. Ne viene calcolato il checksum, contengono il nome, l'e-mail e la data di chi ha inserito l'etichetta, hanno un messaggio d'etichetta; e possono essere firmate e verificate con GPG (GNU Privacy Guard). Generalmente si raccomanda di usare le etichette annotate così da avere tutte queste informazioni, ma se vuoi aggiungere un'etichetta temporanea o per qualche ragione non vuoi salvare quelle informazioni aggiuntive, hai sempre a disposizione le etichette semplici.
 
-### Etichette Annotated ###
+### Etichette annotate ###
 
-Creare un'etichetta annotated in Git è semplice. La via più facile è specificare `-a` quando si lancia il comando `tag`:
+Creare un'etichetta annotate in Git è semplice. Il modo più facile è specificare `-a` quando esegui il comando `tag`:
 
 	$ git tag -a v1.4 -m 'my version 1.4'
 	$ git tag
@@ -936,9 +936,9 @@ Creare un'etichetta annotated in Git è semplice. La via più facile è specific
 	v1.3
 	v1.4
 
-`-m` specifica il messaggio, che è salvato con l'etichetta. Se non specifichi un messaggio per una etichetta annotated, Git lancerà il tuo editor così potrai inserirlo.
+`-m` specifica il messaggio per l'etichetta, che viene salvato con l'a stessa. Se non specifichi un messaggio per un'etichetta annotata, Git lancerà il tuo editor così da scriverla.
 
-Puoi vedere i dati dell'etichetta assieme al commit in cui è stato inserito l'etichetta con il comando `git show`:
+Puoi vedere i dati dell'etichetta assieme alla commit etichettata con il comando `git show`:
 
 	$ git show v1.4
 	tag v1.4
@@ -953,18 +953,18 @@ Puoi vedere i dati dell'etichetta assieme al commit in cui è stato inserito l'e
 
 	    Merge branch 'experiment'
 
-Questo mostra le informazioni di chi ha eseguito l'etichetta, la data del commit della stessa, ed il messaggio prima di mostrare le informazioni del commit.
+Questo mostra le informazioni dell'etichetta, la data in cui la commit è stata etichettata e il messaggio, prima di mostrare le informazioni della commit.
 
-### Firmare le Etichette ###
+### Etichette firmate ###
 
-Puoi anche firmare le tue etichette con GPG, assumendo che tu abbia una chiave privata. Tutto quello che devi fare è usare `-s` invece di `-a`:
+Puoi anche firmare le tue etichette con GPG, presumendo che tu abbia una chiave privata. Tutto quello che devi fare è usare `-s` invece di `-a`:
 
 	$ git tag -s v1.5 -m 'my signed 1.5 tag'
 	You need a passphrase to unlock the secret key for
 	user: "Scott Chacon <schacon@gee-mail.com>"
 	1024-bit DSA key, ID F721C45A, created 2009-02-09
 
-Se lanci `git show` su questa etichetta, potrai vedere la tua firma GPG in allegato ad essa:
+Se esegui `git show` per questa etichetta, puoi vedere che è stata allegata la tua firma GPG:
 
 	$ git show v1.5
 	tag v1.5
@@ -988,9 +988,9 @@ Se lanci `git show` su questa etichetta, potrai vedere la tua firma GPG in alleg
 
 Più avanti, imparerai come verificare le etichette firmate.
 
-### Etichette Lightweight ###
+### Etichette semplici ###
 
-Un altro modo per marcare i commit è usare le etichette lightweight. Questo è semplicemente fare il checksum del commit salvato in un file — nessun'altra informazione è mantenuta. Per creare un'etichetta semplificata, non fornire l'opzione `-a`, `s` o `-m`:
+Un altro modo per etichettare una commit è con le etichette semplici. Questo in pratica è salvare il checksum della commit in un file: non viene salvata nessun'altra informazione. Per creare un'etichetta semplice, non usare le opzioni `-a`, `s` o `-m`:
 
 	$ git tag v1.4-lw
 	$ git tag
@@ -1000,7 +1000,7 @@ Un altro modo per marcare i commit è usare le etichette lightweight. Questo è 
 	v1.4-lw
 	v1.5
 
-A questo punto, se lanci `git show` sulla tua etichetta, non vedrai altre informazioni aggiuntive. Il comando semplicemente mostra il commit:
+Se ora lanci `git show` per questa etichetta, non vedrai altre informazioni aggiuntive. Il comando mostra solamente la commit:
 
 	$ git show v1.4-lw
 	commit 15027957951b64cf874c3557a0f3547bd83b3ff6
@@ -1010,9 +1010,9 @@ A questo punto, se lanci `git show` sulla tua etichetta, non vedrai altre inform
 
 	    Merge branch 'experiment'
 
-### Verificare le Etichette ###
+### Verificare le etichette ###
 
-Per verificarele etichetta firmate, usa `git tag -v [nome-tag]`. Questo comando usa la verifica GPG della firma. Avrai bisogno della chiave pubblica del firmatario nel tuo portachiavi affinché funzioni correttamente:
+Per verificarele un'etichetta firmata, usa `git tag -v [nome-tag]`. Questo comando usa GPG per verificare la verifica. Affinché funzioni hai bisogno che la chiave pubblica del firmatario sia nel tuo portachiavi:
 
 	$ git tag -v v1.4.2.1
 	object 883653babd8ee7ea23e6a5c392bb739348b1eb61
@@ -1028,15 +1028,15 @@ Per verificarele etichetta firmate, usa `git tag -v [nome-tag]`. Questo comando 
 	gpg:                 aka "[jpeg image of size 1513]"
 	Primary key fingerprint: 3565 2A26 2040 E066 C9A7  4A7D C0C6 D9A4 F311 9B9A
 
-Se non hai la chiave pubblica del firmatario, otterrai qualche cosa di simile a questo invece:
+Se non hai la chiave pubblica del firmatario, otterrai invece qualcosa così:
 
 	gpg: Signature made Wed Sep 13 02:08:25 2006 PDT using DSA key ID F3119B9A
 	gpg: Can't check signature: public key not found
 	error: could not verify the tag 'v1.4.2.1'
 
-### Inserire una Etichetta Successivamente ###
+### Etichettare successivamente ###
 
-Puoi anche etichettare i commit che hai già superato. Supponiamo che la storia dei tuoi commit sia come questa: 
+Puoi etichettare anche commit passate. Supponiamo che la cronologia delle tue commit sia questa: 
 
 	$ git log --pretty=oneline
 	15027957951b64cf874c3557a0f3547bd83b3ff6 Merge branch 'experiment'
@@ -1050,11 +1050,11 @@ Puoi anche etichettare i commit che hai già superato. Supponiamo che la storia 
 	964f16d36dfccde844893cac5b347e7b3d44abbc commit the todo
 	8a5cbc430f1a9c3d00faaeffd07798508422908a updated readme
 
-Ora, supponiamo che ti sia dimenticato di mettere l'etichetta v1.2 al tuo progetto, che è al commit "updated rakefile". Puoi aggiungerlo successivamente. Per marcare questo commit, devi specificare il checksum (o parte di esso) del commit alla fine del comando:
+Supponiamo che abbia dimenticato di etichettare il progetto alla `v1.2`, che era con la commit "updated rakefile". Puoi sempre aggiungerla in un secondo momento. Per etichettare questa commit, alla fine del comando, devi indicare il checksum (o parte di esso) della commit:
 
-	$ git tag -a v1.2 9fceb02
+	$ git tag -a v1.2 -m 'version 1.2' 9fceb02
 
-Puoi vedere che hai marcato il commit:
+Puoi vedere che hai etichettato la commit:
 
 	$ git tag
 	v0.1
@@ -1077,9 +1077,9 @@ Puoi vedere che hai marcato il commit:
 	    updated rakefile
 	...
 
-### Condividere le Etichette ###
+### Condividere le etichette ###
 
-Di base, il comando `git push` non trasferisce le etichette sui server remoti. Devi esplicitamente inviare le etichette da condividere con il server dopo averle create. Questo processo è come condividere rami remoti — puoi lanciare `git push origin [nometag]`.
+Normalmente il comando `git push` non invia le etichette sui server remoti. Devi farlo esplicitamente, dopo averle create, per condividerle con il server. Questo procedimento è come la condivisione delle diramazioni remote: puoi eseguire `git push origin [nome-tag
 
 	$ git push origin v1.5
 	Counting objects: 50, done.
@@ -1089,7 +1089,7 @@ Di base, il comando `git push` non trasferisce le etichette sui server remoti. D
 	To git@github.com:schacon/simplegit.git
 	* [new tag]         v1.5 -> v1.5
 
-Se hai molte etichetta che vuoi inviare tutte assieme, puoi farlo usando l'opzione `--tags` del comando `git push`. Questo trasferirà tutti le tue etichette sul server remoto che non sono ancora presenti.
+Se hai molte etichetta che vuoi inviare tutte assieme, puoi farlo usando l'opzione `--tags` col comando `git push`. Questo trasferirà al server remoto tutte le tue etichette che non sono ancora presenti.
 
 	$ git push origin --tags
 	Counting objects: 50, done.
@@ -1103,61 +1103,61 @@ Se hai molte etichetta che vuoi inviare tutte assieme, puoi farlo usando l'opzio
 	 * [new tag]         v1.4-lw -> v1.4-lw
 	 * [new tag]         v1.5 -> v1.5
 
-Ora, quando qualcun altro clona o scarica dal tuo repository, avrà anche tutti le tue etichette.
+Quando qualcuno clonerà il repository o scaricherà gli aggiornamenti, scaricherà anche tutte le tue etichette.
 
-## Suggerimenti e Trucchi ##
+## Suggerimenti ##
 
-Prima di finire questo capitolo sulle basi di Git, ecco alcuni suggerimenti e trucchi per rendere l'esperienza nell'uso di Git più semplice, facile e familiare. Molte persone usano Git senza usare questi suggerimenti e non ci riferiremo ad essi o presumeremo che tu li abbia usati successivamente nel libro; ma probabilmente dovresti sapere come realizzarli.
+Prima di terminare questo capitolo sulle basi di Git, ecco alcuni suggerimenti e trucchi per rendere la tua esperienza con Git più semplice, più facile e più familiare. Molte persone usano Git ma nessuno di questi suggerimenti e in seguito nel libro non ci riferiremo ad essi né presumeremo che tu li abbia usati, ma probabilmente dovresti sapere come realizzarli.
 
-### Auto-Completamento ###
+### Completamento automatico ###
 
-Se usi una shell Bash, Git fornisce un piacevole script di auto completamento che può essere usato. Scarica il codice sorgente di Git, e guarda nella directory `contrib/completation`; dovrebbe esserci un file chiamato `git-completation.bash`. Copia questo file nella tua directory di home e aggiungila al tuo file `.bashrc`:
+Se usi una shell Bash, Git fornisce uno script carino per il completamento automatico che potresti usare. Scaricalo direttamente dai sorgenti di Git su https://github.com/git/git/blob/master/contrib/completion/git-completion.bash. Copia questo file nella tua directory `home` e al tuo file `.bashrc` aggiungi:
 
 	source ~/.git-completion.bash
 
-Se vuoi impostare Git per avere l'auto completamento della shell Bash per tutti gli utenti, copia lo script nella directory `/opt/local/etc/bash_completion.d` sui sistemi Mac o in `/etc/bash_completion.d/` sui sistemi Linux. Questa è una directory degli script che Bash automaticamente carica per fornire l'auto completamento da shell.
+Se vuoi che Git usi il comletamento automatico in Bash per tutti gli utenti, copia lo script nella directory `/opt/local/etc/bash_completion.d` sui sistemi Mac o in `/etc/bash_completion.d/` sui sistemi Linux. Questa è una directory di script che Bash carica automaticamente, per fornire il completamento automatico nella shell.
 
-Se stai usando Windows con Git Bash, che è l'installazione di base per Git su Windows con msysGit, l'auto completamento dovrebbe essere preconfigurato.
+Se stai usando Windows con Git Bash, che è il predefinito quando installi Git su Windows con msysGit, il completamento automatico dovrebbe essere preconfigurato.
 
-Premi il tasto Tab quando stai scrivendo un comando Git, e dovresti avere una serie di suggerimenti da selezionare:
+Premi il tasto Tab quando stai scrivendo un comando Git, e dovresti vedere una serie di suggerimenti tra cui scegliere:
 
 	$ git co<tab><tab>
 	commit config
 
-In questo caso, scrivendo git co e poi premendo il tasto Tab due volte compaiono i suggerimenti commit e config. Aggiungendo `m<tab>` si completa `git commit` automaticamente.
+In questo caso, scrivendo `git co` e premendo poi due volte il tasto Tab, compaiono i suggerimenti commit e config. Aggiungendo `m<tab>` automaticamente si completa `git commit`.
 
-Questo funziona anche con le opzioni, cosa che forse è molto più utile. Per esempio, se si lancia il comando `git log` e non si ricorda una opzione, si può iniziare a pigiare il tasto Tab per vedere le corrispondenze:
+Questo funziona anche con le opzioni, che probabilmente è molto più utile. Se per esempio stai eseguendo `git log` e non ricordi un'opzione, puoi premere il tasto Tab per vedere quelle disponibili:
 
 	$ git log --s<tab>
 	--shortstat  --since=  --src-prefix=  --stat   --summary
 
-Questo è un trucco davvero utile e permette di risparmiare molto tempo e lettura della documentazione.
+Questo è un trucco davvero utile e permette di risparmiare molto tempo e evitarti la lettura della documentazione.
 
-### Alias con Git ###
+### Alias di Git ###
 
-Git non deduce il comando se si digita solo in parte. Se non si vuole scrivere l'intero testo di qualsiasi comando Git, puoi facilmente scegliere un alias per ogni comando, usando `git config`. Qui ci sono un po' di esempi su alcune configurazioni che potresti volere impostare:
+Git non indovina il tuo comando se ne digiti solo una parte. Se non vuoi vuole scrivere tutto il testo di un qualsiasi comando Git puoi configurare facilmente un alias per ogni comando usando `git config`. Di seguito ci sono alcuni esempi che potresti voler usare:
 
 	$ git config --global alias.co checkout
 	$ git config --global alias.br branch
 	$ git config --global alias.ci commit
 	$ git config --global alias.st status
 
-Questo significa che, per esempio, invece di digitare `git commit`, hai solamente bisogno di scrivere `git ci`. Andando avanti con l'uso di Git, probabilmente ci saranno altri comandi che userai di frequente; in questi casi, non esitare a creare nuovi alias.
+Questo significa che, per esempio, invece di digitare `git commit`, dovrai scrivere solo `git ci`. Andando avanti con l'uso di Git userai alcuni comandi con maggiore frequenza: e in questi casi non esitare a creare nuovi alias.
 
-Questa tecnica può anche essere molto utile per creare comandi che ritieni dovrebbero esistere. Per esempio, per correggere un problema comune in cui si incorre quando si vuole disimpegnare un file dall'area di stage, puoi aggiungere il tuo alias unstage a Git:
+Questa tecnica può essere anche molto utile per creare comandi che ritieni dovrebbero esistere. Per esempio, per correggere un problema comune in cui si incorre quando si vuole rimuovere un file dall'area di stage, puoi aggiungere il tuo alias `unstage` in Git:
 
 	$ git config --global alias.unstage 'reset HEAD --'
 
-Questo rende i seguenti due comandi equivalenti:
+Questo rende equivalenti i due comandi seguenti:
 
 	$ git unstage fileA
 	$ git reset HEAD fileA
 
-Questo sembra più pulito. É anche comodo aggiungere il comando `last`, come:
+Questo sembra più pulito. É anche comodo aggiungere il comando `last`, così:
 
 	$ git config --global alias.last 'log -1 HEAD'
 
-In questo modo puoi vedere l'ultimo commit facilmente:
+In questo modo puoi vedere facilmente l'ultima commit:
 
 	$ git last
 	commit 66938dae3329c7aebe598c2246a8e6af90d04646
@@ -1168,10 +1168,10 @@ In questo modo puoi vedere l'ultimo commit facilmente:
 
 	    Signed-off-by: Scott Chacon <schacon@example.com>
 
-Git semplicemente sostituisce il nuovo comando con quello che corrisponde all'alias. Magari, vuoi avviare un comando esterno, invece dei sotto comandi Git. In questo caso, devi avviare il comando con il carattere "!". Questo è utile se stai scrivendo i tuoi strumenti di lavoro con un repository Git. Per esempio creiamo un alias `git visual` per lanciare `gitk`:
+Come immaginerai, Git semplicemente sostituisce il nuovo comando con qualsiasi cosa corrisponda all'alias. Potresti anche voler eseguire un comando esterno, piuttosto che uno di Git. In questo caso devi iniziare il comando con un "!". Questo è utile se stai scrivendo degli strumenti di lavoro tuoi per lavorare con un repository Git. Vediamolo praticamente creando l'alias `git visual` per eseguire `gitk`:
 
 	$ git config --global alias.visual '!gitk'
 
-## Riassunto ##
+## Sommario ##
 
-A questo punto, sei in grado di fare tutte le operazioni di Git base in locale — creare o clonare un repository, fare delle modifiche, parcheggiare ed inviare queste modifiche, vedere la storia di tutti i cambiamenti del repository fatti. Nel prossimo capitolo, vedremo una caratteristica vincente di Git: il suo modello di ramificazione.
+A questo punto, sei in grado di eseguire tutte le operazioni di base di Git in locale: creare o clonare un repository, fare delle modifiche, mettere nello `stage` e inviare queste modifiche, vedere la cronologia delle modifiche fatte al repository. Nel prossimo capitolo, vedremo la caratteristica vincente di Git: il suo modello di ramificazione.

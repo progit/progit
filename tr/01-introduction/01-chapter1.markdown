@@ -163,9 +163,9 @@ Ubuntu gibi Debian-tabanlı bir sistemdeyseniz, apt-get'i kullanabilirsiniz:
 
 ### Mac'te Kurulum ###
 
-Git'i Mac'te kurmak için iki kolay yol vardır. En kolayı, Google Code sayfasından indirebileceğiniz görsel Git yükleyicisini kullanmaktır (bkz. Figür 1-7).
+Git'i Mac'te kurmak için iki kolay yol vardır. En kolayı, SourceForge sayfasından indirebileceğiniz görsel Git yükleyicisini kullanmaktır (bkz. Figür 1-7).
 
-	http://code.google.com/p/git-osx-installer
+	http://sourceforge.net/projects/git-osx-installer/
 
 Insert 18333fig0107.png 
 Figür 1-7. Git OS X yükleyicisi.

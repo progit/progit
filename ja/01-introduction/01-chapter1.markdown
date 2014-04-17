@@ -163,9 +163,9 @@ Gitをインストールするためには、Gitが依存するライブラリ�
 
 ### Macにインストール ###
 
-MacにGitをインストールするには2つの簡単な方法があります。もっとも簡単な方法は、グラフィカルなGitインストーラーを使うことで、このGitインストーラーはGoogle Codeのページ（図1-7参照）からダウンロードすることができます：
+MacにGitをインストールするには2つの簡単な方法があります。もっとも簡単な方法は、グラフィカルなGitインストーラーを使うことで、このGitインストーラーはSourceForgeのページ（図1-7参照）からダウンロードすることができます：
 
-	http://code.google.com/p/git-osx-installer
+	http://sourceforge.net/projects/git-osx-installer/
 
 Insert 18333fig0107.png
 図 1-7. Git OS X installer

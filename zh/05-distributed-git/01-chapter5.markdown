@@ -539,9 +539,9 @@ Insert 18333fig0518.png
 	sending 2 messages
 	100% (2/2) done
 
-At this point, you should be able to go to your Drafts folder, change the To field to the mailing list you’re sending the patch to, possibly CC the maintainer or person responsible for that section, and send it off.
+然后，你应该去你到草稿箱去更改你要发送的补丁的收件人信息，以及需要抄送的人，然后发送它。
 
-You can also send the patches through an SMTP server. As before, you can set each value separately with a series of `git config` commands, or you can add them manually in the sendemail section in your `~/.gitconfig` file:
+您也可以通过SMTP服务器发送补丁。和上面一样，你可以通过`git config`命令单独设置每个参数，也可以在你的`~/.gitconfig`文件中的sendemail节点手动添加它们。
 
 	[sendemail]
 	  smtpencryption = tls
@@ -549,7 +549,7 @@ You can also send the patches through an SMTP server. As before, you can set eac
 	  smtpuser = user@gmail.com
 	  smtpserverport = 587
 
-After this is done, you can use `git send-email` to send your patches:
+配置完成后，您可以使用`git send-email`来发送你的补丁：
 
 	$ git send-email *.patch
 	0001-added-limit-to-log-function.patch

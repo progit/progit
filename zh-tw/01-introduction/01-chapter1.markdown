@@ -161,9 +161,9 @@ Git目錄是Git用來儲存讀者的專案的元數據及物件資料庫。 這�
 
 ### 在Mac系統安裝 ###
 
-有兩種很容易將Git安裝到Mac的方法。 最簡單的是使用圖形化界面的Git安裝程式，可從Google Code下載）圖1－7）：
+有兩種很容易將Git安裝到Mac的方法。 最簡單的是使用圖形化界面的Git安裝程式，可從SourceForge下載）圖1－7）：
 
-	http://code.google.com/p/git-osx-installer
+	http://sourceforge.net/projects/git-osx-installer/
 
 Insert 18333fig0107.png
 圖1-7. Git OS X 安裝程式。
@@ -176,7 +176,7 @@ Insert 18333fig0107.png
 
 ### 在Windows系統安裝 ###
 
-在Windows系統安裝Git相當地容易。 msysGit專案已提供相當容易安裝的程序。 只要從Google Code網頁下載安裝程式並執行即可：
+在Windows系統安裝Git相當地容易。 msysGit專案已提供相當容易安裝的程序。 只要從GitHub網頁下載安裝程式並執行即可：
 
 	http://msysgit.github.com/
 

@@ -14,9 +14,9 @@ Puoi fare riferimento a una singola commit usando l’hash SHA-1 attribuito, ma 
 
 ### SHA breve ###
 
-Git è abbastanza intelligente da capire a quale *commit* ti riferisci scrivi i primi caratteri purché il codice SHA-1 sia di almeno quattro caratteri e sia univoco, ovvero che un solo oggetti nel *repository* attuale inizi con quel SHA-1.
+Git è abbastanza intelligente da capire a quale *commit* ti riferisci se scrivi i primi caratteri purché il codice SHA-1 sia di almeno quattro caratteri e sia univoco: ovvero che uno solo degli oggetti nel *repository* inizi con quel SHA-1.
 
-Per vedere per esempio una *commit*  specifica, immaginiamo di eseguire 'git log' e venga identificata una *commit* dove sono state aggiunte determinate funzionalità:
+Per vedere per esempio una specifica *commit*, immagina di eseguire 'git log' e trovi la *commit* dove sono state aggiunte determinate funzionalità:
 
 	$ git log
 	commit 734713bc047d87bf7eac9674765ae793478c50d3
@@ -38,7 +38,7 @@ Per vedere per esempio una *commit*  specifica, immaginiamo di eseguire 'git log
 
 	    added some blame and merge stuff
 
-In questo caso scegliamo '1c002dd....'. Se vuoi eseguire 'git show' su quella *commit*, i seguenti comandi sono equivalenti (assumendo che le versioni più brevi siano univoche):            
+In questo caso scegli '1c002dd....'. Se vuoi eseguire 'git show' su quella *commit*, i seguenti comandi sono equivalenti (assumendo che le versioni più brevi siano univoche):            
 
 	$ git show 1c002dd4b536e7479fe34593e72e6c6c1819e53b
 	$ git show 1c002dd4b536e7479f

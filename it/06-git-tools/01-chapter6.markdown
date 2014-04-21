@@ -1,8 +1,8 @@
 # Strumenti di Git #
 
-Finora hai imparato la la maggior parte dei comandi d’uso quotidiani e i workflow che potrebbero essere necessari a gestire e mantenere un repository per il controllo del codice sorgente con Git. Hai eseguito le attività di base per il tracciamento e la commit dei file, e hai sfruttato il potere della *staging area* e il *branch* (la ramificazione) e il *merge* di argomenti dall’impatto leggero.
+Finora hai imparato la maggior parte dei comandi d’uso quotidiani e i flussi di lavoro che devi conoscere per gestire o mantenere un repository Git per i tuoi sorgenti. Hai eseguito le attività di base per tracciare e committare i file, hai sfruttato il potere dell' *area di staging* e le diramazioni (*branch*) e le unioni (*merge*) leggere.
 
-Vedremo ora una serie di potenzialità di Git che potresti non usare quotidianamente, ma di cui potresti averne bisogno a un certo punto.
+Ora vedremo una serie di cose molto potenti di Git che potresti non usare quotidianamente, ma di cui a un certo punto potresti averne bisogno.
 
 ## Selezione della revisione ##
 
@@ -14,9 +14,9 @@ Puoi fare riferimento a una singola commit usando l’hash SHA-1 attribuito, ma 
 
 ### SHA breve ###
 
-Git è abbastanza intelligente da capire a quale *commit* ti riferisci scrivi i primi caratteri purché il codice SHA-1 sia di almeno quattro caratteri e sia univoco, ovvero che un solo oggetti nel *repository* attuale inizi con quel SHA-1.
+Git è abbastanza intelligente da capire a quale *commit* ti riferisci se scrivi i primi caratteri purché il codice SHA-1 sia di almeno quattro caratteri e sia univoco: ovvero che uno solo degli oggetti nel *repository* inizi con quel SHA-1.
 
-Per vedere per esempio una *commit*  specifica, immaginiamo di eseguire 'git log' e venga identificata una *commit* dove sono state aggiunte determinate funzionalità:
+Per vedere per esempio una specifica *commit*, immagina di eseguire 'git log' e trovi la *commit* dove sono state aggiunte determinate funzionalità:
 
 	$ git log
 	commit 734713bc047d87bf7eac9674765ae793478c50d3
@@ -38,7 +38,7 @@ Per vedere per esempio una *commit*  specifica, immaginiamo di eseguire 'git log
 
 	    added some blame and merge stuff
 
-In questo caso scegliamo '1c002dd....'. Se vuoi eseguire 'git show' su quella *commit*, i seguenti comandi sono equivalenti (assumendo che le versioni più brevi siano univoche):            
+In questo caso scegli '1c002dd....'. Se vuoi eseguire 'git show' su quella *commit*, i seguenti comandi sono equivalenti (assumendo che le versioni più brevi siano univoche):            
 
 	$ git show 1c002dd4b536e7479fe34593e72e6c6c1819e53b
 	$ git show 1c002dd4b536e7479f

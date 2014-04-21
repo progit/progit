@@ -637,7 +637,9 @@ Le opzioni temporali come `--since` e `--until` sono invece molto utili. Questo 
 
 Questo comando funziona con molti formati —  puoi specificare una data (“2008-01-15”) o una data relativa come “2 years 1 day 3 minutes ago”.
 
-Puoi inoltre filtrare l'elenco delle commit che corrispondono a dei criteri di ricerca. L'opzione `--author` ti permette di filtrare per uno specifico autore e l'opzione `--grep` ti permette di cercare delle parole chiave nei messaggi delle commit. (Nota che se vuoi specificare entremba le opzioni devi usare `--all-match` o il comando ricercherà le commit che corrispondano ad almeno una delle due.)
+Puoi inoltre filtrare l'elenco delle commit che corrispondono a dei criteri di ricerca. L'opzione `--author` ti permette di filtrare per uno specifico autore e l'opzione `--grep` ti permette di cercare delle parole chiave nei messaggi delle commit. (Nota che specifichi entrambe le opzioni il comando cercherà le commit che corrispondano a tutte le opzioni specificate.)
+
+Se vuoi specificare più opzioni `--grep` alternative devi usare `--all-match`.
 
 L'ultima opzione di `git log` per il filtraggio è il percorso. Se specifichi il nome di una directory o di un file, puoi limitare l'output del log alle sole commit che introducono modifiche a quei file. Questa è sempre l'ultima opzione specificata e generalmente è preceduta dal doppio meno (`--`) per separare i percorsi dalle opzioni.
 

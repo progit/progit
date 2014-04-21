@@ -55,13 +55,13 @@ Da otto a dieci caratteri sono, generalmente, più che sufficienti per essere un
 
 ### Una breve nota su SHA-1 ###
 
-Arriva un momento in cui molte persone si preoccupano che possano avere, per puro caso, due oggetti nel proprio *repository* che abbiano lo stesso hash SHA-1. E allora?
+Molte persone si preoccupa che a un certo punto, in modo del tutto casuale, ci possano essere due oggetti nel tuo *repository* che abbiano lo stesso SHA-1. Cosa succederebbe?
 
-Se capita di fare la *commit* di un oggetto a che abbia lo stesso SHA-1 di un oggetto già presente nel tuo *repository*, Git vedrà l’oggetto precedente già nel database di Git e lo riterrà già scritto. Se successivamente proverai a fare il checkout di quest’ultimo oggetto, otterrai sempre i dati del primo oggetto.
+Se dovessi committare un oggetto che abbia lo stesso hash SHA-1 di un altro oggetto che sia già nel tuo repository, Git troverà l'altro oggetto già nel database di Git e lo considererà già scritto. Se in seguito vorrai scaricare quest'ultimo ogetto, otterrai sempre le informazioni del più vecchio.
 
-Ad ogni modo, è necessario essere consapevoli di quanto sia ridicolmente improbabile questo scenario. Il codice SHA-1 è di 20 bytes o 160 bits. Il numero di oggetti casuali necessari perché ci sia la probabilità del 50% di una singola collisione è di circa 2^80 (la formula per determinare la probabilità di collisione è `p = (n(n-1)/2) * (1/2^160)`). 2^80 è 1.2 x 10^24 ovvero un milione di miliardi di miliardi. È 1.200 volte il numero di granelli di sabbia sulla terra.
+Dovresti comunque essere consapevole che questo sia uno scenario molto improbabile. Il codice SHA-1 è di 20 bytes o 160 bits. Il numero di oggetti casuali necessari perché ci sia la probabilità del 50% di una singola collisione è di circa 2^80 (la formula per determinare la probabilità di collisione è `p = (n(n-1)/2) * (1/2^160)`). 2^80 è 1.2 x 10^24 ovvero 1 milione di miliardi di miliardi. È 1.200 volte il numero di granelli di sabbia sulla terra.
 
-Ecco un esempio per dare un'idea di cosa ci vorrebbe per ottenere una collisione SHA-1. Se tutti i 6.5 miliardi di esseri umani sulla Terra programmassero e, ogni secondo, ognuno scrivesse codice che fosse equivalente all'intera cronologia del kernel Linux (1 milione di oggetti Git) e ne facesse la push su un enorme *repository* Git, ci vorrebbero 5 anni per contenere abbastanza oggetti in quel *repository* per avere il 50% di possibilità di una singola collisione di oggetti SHA-1. Esiste una probabilità più alta che ogni membro del tuo gruppo di sviluppo, per pura coincidenza, venga attaccato e ucciso da dei lupi nella stessa notte.
+Ecco un esempio per dare un'idea di cosa ci vorrebbe per ottenere una collisione SHA-1. Se tutti i 6.5 miliardi di esseri umani sulla Terra programmassero e, ogni secondo, ognuno scrivesse codice che sia equivalente all'intera cronologia del kernel Linux (1 milione di oggetti Git) e ne facesse la push su un enorme *repository* Git, ci vorrebbero 5 anni per contenere abbastanza oggetti in quel *repository* per avere il 50% di possibilità di una singola collisione di oggetti SHA-1. Esiste una probabilità più alta che ogni membro del tuo gruppo di sviluppo, in incidenti non correlati venga attaccato e ucciso da dei lupi nella stessa notte.
 
 ### Riferimenti alle diramazioni (*branch*) ###
 

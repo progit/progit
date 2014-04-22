@@ -355,7 +355,7 @@ Nota come in questo caso non hai bisogno di eseguire `git add` per benchmarks.rb
 
 Per rimuovere un file da Git devi rimuoverlo dai file tracciati (più precisamente,  rimuoverlo dall'area di `stage`) e quindi committare. Il comando `git rm` fa questo e lo rimuove dalla tua directory di lavoro, così che la prossima volta non lo vedrai come un file non tracciato.
 
-Se rimuovi semplicemente il file dalla directory di lavoro, apparirà nella sezione "Changes not staged for commit" (cioè, _no in `stage_) dell'output `git status`:
+Se rimuovi semplicemente il file dalla directory di lavoro, apparirà nella sezione "Changes not staged for commit" (cioè, _no in `stage`_) dell'output `git status`:
 
 	$ rm grit.gemspec
 	$ git status

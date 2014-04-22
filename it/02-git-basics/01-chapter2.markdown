@@ -368,7 +368,7 @@ Se rimuovi semplicemente il file dalla directory di lavoro, apparirà nella sezi
 	
 	no changes added to commit (use "git add" and/or "git commit -a")
 
-Se poi esegui `git rm`, la rimozione del file viene messa nello `stage:
+Se poi esegui `git rm`, la rimozione del file viene messa nello `stage`:
 
 	$ git rm grit.gemspec
 	rm 'grit.gemspec'
@@ -1081,7 +1081,7 @@ Puoi vedere che hai etichettato la commit:
 
 ### Condividere le etichette ###
 
-Normalmente il comando `git push` non invia le etichette sui server remoti. Devi farlo esplicitamente, dopo averle create, per condividerle con il server. Questo procedimento è come la condivisione delle diramazioni remote: puoi eseguire `git push origin [nome-tag
+Normalmente il comando `git push` non invia le etichette sui server remoti. Devi farlo esplicitamente, dopo averle create, per condividerle con il server. Questo procedimento è come la condivisione delle diramazioni remote: puoi eseguire `git push origin [nome-tag]`
 
 	$ git push origin v1.5
 	Counting objects: 50, done.

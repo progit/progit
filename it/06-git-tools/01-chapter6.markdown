@@ -250,7 +250,7 @@ In questo è comune usare il parametro `--left-right` con il comando `log`, che 
 
 Con questi strumenti puoi dire facilmente a Git quale o quali commit vuoi ispezionare.
 <!-- da tradurre fino a riga 840 -->
-## Interactive Staging ## 
+## Interactive Staging ##
 
 Git comes with a couple of scripts that make some command-line tasks easier. Here, you’ll look at a few interactive commands that can help you easily craft your commits to include only certain combinations and parts of files. These tools are very helpful if you modify a bunch of files and then decide that you want those changes to be in several focused commits rather than one big messy commit. This way, you can make sure your commits are logically separate changesets and can be easily reviewed by the developers working with you.
 If you run `git add` with the `-i` or `--interactive` option, Git goes into an interactive shell mode, displaying something like this:

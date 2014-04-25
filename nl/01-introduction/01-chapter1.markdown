@@ -33,7 +33,7 @@ vertaling moeten proberen te maken.
 
 Veel succes en plezier bij het vertalen...
 -->
-<!-- SHA-1 of last checked en-version: fbf24105 -->
+<!-- SHA-1 of last checked en-version: 3c18779 -->
 # Aan de slag #
 
 In dit hoofdstuk wordt uitgelegd hoe je aan de slag kunt gaan met Git. We zullen bij het begin beginnen door wat achtergrondinformatie over versiebeheersystemen te geven, daarna een korte uitleg hoe je Git werkend kan krijgen op je computer en sluiten af door uit te leggen hoe je Git kan instellen zodat je ermee aan het werk kunt.  Aan het einde van dit hoofdstuk zou je moeten kunnen begrijpen waarom Git er is, waarom je het zou moeten gebruiken en zal je helemaal klaar zijn om er mee aan de slag te gaan.
@@ -197,7 +197,7 @@ Of als je een distributie hebt die op Debian gebaseerd is, zoals Ubuntu, kun je 
 
 ### Op een Mac installeren ###
 
-Er zijn twee makkelijke manieren om Git op een Mac te installeren. De simpelste is om het grafische Git installatieprogramma te gebruiken, dat je van de volgende pagina op Google Code kunt downloaden (zie Figuur 1-7):
+Er zijn twee makkelijke manieren om Git op een Mac te installeren. De simpelste is om het grafische Git installatieprogramma te gebruiken, dat je van de volgende pagina op SourceForge kunt downloaden (zie Figuur 1-7):
 
 	http://sourceforge.net/projects/git-osx-installer/
 

@@ -33,7 +33,7 @@ vertaling moeten proberen te maken.
 
 Veel succes en plezier bij het vertalen...
 -->
-<!-- SHA-1 of last checked en-version: fbf24105 -->
+<!-- SHA-1 of last checked en-version: 3c18779  -->
 # De basis van Git #
 
 Als je slechts één hoofdstuk kunt lezen om met Git aan de slag te gaan, dan is dit het. In dit hoofdstuk worden alle basiscommando's behandeld, die je nodig hebben om het leeuwendeel van de dingen te doen waarmee je uiteindelijk je tijd met Git zult doorbrengen. Als je dit hoofdstuk doorgenomen hebt, zul je een repository kunnen configureren en initialiseren, bestanden beginnen en stoppen te volgen en veranderingen te ‘stagen’ en ‘committen’. We laten ook zien hoe je Git kunt instellen zodat het bepaalde bestanden en bestandspatronen negeert, hoe je vergissingen snel en gemakkelijk ongedaan kunt maken, hoe je de geschiedenis van je project kan doorlopen en wijzigingen tussen commits kunt zien, en hoe je kunt pushen naar en pullen van repositories.
@@ -669,7 +669,7 @@ Dat gezegd hebbende, zijn de tijd-limiterende opties zoals `--since` en `--until
 
 Dit commando werkt met veel formaten: je kunt een specifieke datum kiezen ("2008-01-15”) of een relatieve datum zoals "2 jaar 1 dag en 3 minuten geleden".
 
-Je kunt ook de lijst met commits filteren op bepaalde criteria. De `--author` optie laat je filteren op een specifieke auteur, en de `--grep` optie laat je op bepaalde zoekwoorden filteren in de commit boodschappen. (Let op dat als je zowel auteur als grep opties wilt specificeren, je `--all-match` moet toevoegen of anders zal het commando ook commits met één van de twee criteria selecteren.)
+Je kunt ook de lijst met commits filteren op bepaalde criteria. De `--author` optie laat je filteren op een specifieke auteur, en de `--grep` optie laat je op bepaalde zoekwoorden filteren in de commit boodschappen. (Let op dat als je zowel auteur als grep opties specificeert het commando commits zal matchen met beide.) Als je meerdere grep opties wilt specificeren, zal je `--all-match` moet toevoegen, anders zal het commando ook commits met één van de twee criteria selecteren.
 
 De laatste echt handige optie om aan `git log` als filter mee te geven is een pad. Als je een directory of bestandsnaam opgeeft, kun je de log output limiteren tot commits die een verandering introduceren op die bestanden. Dit is altijd de laatste optie en wordt over het algemeen vooraf gegaan door dubbele streepjes (`--`) om de paden van de opties te scheiden.
 

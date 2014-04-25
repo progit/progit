@@ -33,7 +33,7 @@ vertaling moeten proberen te maken.
 
 Veel succes en plezier bij het vertalen...
 -->
-<!-- SHA-1 of last checked en-version: fbf24105 -->
+<!-- SHA-1 of last checked en-version: 3c18779  -->
 # Git tools #
 
 Nu heb je de meeste commando's en werkwijzen geleerd die je dagelijks nodig hebt om een Git repository voor je broncode te beheren en te onderhouden. Je hebt de basistaken van het tracken en committen van bestanden onder de knie, en je hebt de kracht van de staging area en lichtgewicht topic branching en mergen in de vingers.
@@ -603,12 +603,19 @@ Dit commando uitvoeren geeft je een lijst met commits in je tekst editor die er 
 	#
 	# Commands:
 	#  p, pick = use commit
+	#  r, reword = use commit, but edit the commit message
 	#  e, edit = use commit, but stop for amending
 	#  s, squash = use commit, but meld into previous commit
+	#  f, fixup = like "squash", but discard this commit's log message
+	#  x, exec = run command (the rest of the line) using shell
+	#
+	# These lines can be re-ordered; they are executed from top to bottom.
 	#
 	# If you remove a line here THAT COMMIT WILL BE LOST.
+	#
 	# However, if you remove everything, the rebase will be aborted.
 	#
+	# Note that empty commits are commented out
 
 Het is belangrijk om op te merken dat deze commits in de tegengestelde volgorde getoond worden dan hoe je ze normaliter ziet als je het `log` commando gebruikt. Als je een `log` uitvoert, zie je zoiets als dit:
 
@@ -669,12 +676,19 @@ Het is ook mogelijk een serie commits te pakken en ze in één enkele commit sam
 	#
 	# Commands:
 	#  p, pick = use commit
+	#  r, reword = use commit, but edit the commit message
 	#  e, edit = use commit, but stop for amending
 	#  s, squash = use commit, but meld into previous commit
+	#  f, fixup = like "squash", but discard this commit's log message
+	#  x, exec = run command (the rest of the line) using shell
+	#
+	# These lines can be re-ordered; they are executed from top to bottom.
 	#
 	# If you remove a line here THAT COMMIT WILL BE LOST.
+	#
 	# However, if you remove everything, the rebase will be aborted.
 	#
+	# Note that empty commits are commented out
 
 Als je in plaats van "pick" of "edit", "squash" specificeert zal Git zowel die verandering als de verandering die er direct aan vooraf gaat toepassen, en je dwingen om de commit berichten samen te voegen. Dus als je een enkele commit van deze drie commits wil maken, laat je het script er zo uit zien:
 

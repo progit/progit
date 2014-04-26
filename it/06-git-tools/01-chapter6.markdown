@@ -240,7 +240,6 @@ Se vuoi vedere cosa ci sia nel `master` o in `experiment` ma non i riferimenti c
 
 Che ti mostra l’output normale del `log` mostrando solo le informazioni di quelle quattro commit nell'ordinamento cronologico normale.
 
-
 Un'opzione comunemente usata in questi casi con il comando `log` è il parametro `--left-right`, che mostra da che lato dell'intervallo si trovi ciascuna commit dell’intervallo selezionato, che rende le informazioni molto più utili:
 
 	$ git log --left-right master...experiment

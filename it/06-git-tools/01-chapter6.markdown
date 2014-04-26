@@ -209,8 +209,8 @@ Questo è utile se vuoi mantenere aggiornata la diramazione `experiment` e saper
 
 	$ git log origin/master..HEAD
 
-Questo comando mostra tutte le commit nel tuo branch che non sono nel branch `master` del tuo repository remoto `origin`. Se esegui `git push` quando il tuo branch è associato a `origin/master`, le commit elencate da `git log origin/master..HEAD` saranno le commit che saranno inviate al server.
-Puoi anche omettere una delle parti della sintassi, e Git assumerà che sia HEAD. Puoi per esempio ottenere lo stesso risultato dell’esempio precedente scrivendo `git log origin/master..`: Git sostituisce la parte mancante con HEAD.
+Questo comando mostra tutte le commit della tua diramazione che non sono in quella `master` del tuo repository remoto `origin`. Se esegui `git push` quando la tua diramazione attuale è associata a `origin/master`, le commit elencate da `git log origin/master..HEAD` saranno quelle che saranno inviate al server.
+Puoi anche omettere una delle parti della sintassi, e Git assumerà che sia HEAD. Per esempio puoi ottenere lo stesso risultato dell’esempio precedente scrivendo `git log origin/master..`: Git sostituisce la parte mancante con HEAD.
 
 #### Punti multipli ####
 

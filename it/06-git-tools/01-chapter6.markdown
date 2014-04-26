@@ -249,11 +249,11 @@ Un'opzione comunemente usata in questi casi con il comando `log` è il parametro
 	> C
 
 Con questi strumenti puoi dire facilmente a Git quali commit vuoi ispezionare.
-<!-- da tradurre fino a riga 840 -->
-## Interactive Staging ##
 
-Git comes with a couple of scripts that make some command-line tasks easier. Here, you’ll look at a few interactive commands that can help you easily craft your commits to include only certain combinations and parts of files. These tools are very helpful if you modify a bunch of files and then decide that you want those changes to be in several focused commits rather than one big messy commit. This way, you can make sure your commits are logically separate changesets and can be easily reviewed by the developers working with you.
-If you run `git add` with the `-i` or `--interactive` option, Git goes into an interactive shell mode, displaying something like this:
+## Assemblaggio interattivo ##
+
+Git viene distribuito con un paio di script che rendono più semplice l'uso della riga di comando. In questo capitolo vedremo alcuni comandi interattivi che possono aiutarti a modellare le tue commit perché includano solo determinate combinazioni di parti dei file. Questi strumenti sono molto utili se modifichi molti file tutti assieme e poi decidi che vuoi distribuire le modifiche in più commit puntuali, piuttosto che un'unica grossa commit confusa. In questo modo puoi fare che le tue commit separino logicamente le tue modifiche e possano essere facilmente revisionate dagli altri sviluppatori con cui lavori.
+Se esegui `git add` con le opzioni `-i` o `--interactive`, Git entrerà nella modalità interattiva, mostrandoti qualcosa del genere:
 
 	$ git add -i
 	           staged     unstaged path
@@ -266,10 +266,10 @@ If you run `git add` with the `-i` or `--interactive` option, Git goes into an i
 	  5: patch      6: diff        7: quit       8: help
 	What now>
 
-You can see that this command shows you a much different view of your staging area — basically the same information you get with `git status` but a bit more succinct and informative. It lists the changes you’ve staged on the left and unstaged changes on the right.
+Come vedi, questo comando mostra una vista della tua area di assemblaggio molto diversa: sono le stesse informazioni che otterà con il comando `git status`, ma in maniera più succinta e con più informazioni. Sulla sinistra mostra le modifiche che stai assemblando e quelle non ancora assemblate sulla destra.
 
-After this comes a Commands section. Here you can do a number of things, including staging files, unstaging files, staging parts of files, adding untracked files, and seeing diffs of what has been staged.
-
+Dopo questa sezione c'è quella dei Comandi. Qui puoi fare una serie di cose, incluso assemblare file, disassemblarli, assemblare alcune parti dei file, aggiungere file non ancora tracciati e vedere le differenze con ciò che è già stato assemblato.
+<!-- da tradurre fino a riga 840 -->
 ### Staging and Unstaging Files ###
 
 If you type `2` or `u` at the `What now>` prompt, the script prompts you for which files you want to stage:

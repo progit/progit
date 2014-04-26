@@ -63,14 +63,14 @@ Dovresti comunque essere consapevole che questo sia uno scenario molto improbabi
 
 Ecco un esempio per dare un'idea di cosa ci vorrebbe per ottenere una collisione SHA-1. Se tutti i 6.5 miliardi di esseri umani sulla Terra programmassero e, ogni secondo, ognuno scrivesse codice che sia equivalente all'intera cronologia del kernel Linux (1 milione di oggetti Git) e ne facesse la push su un enorme *repository* Git, ci vorrebbero 5 anni per contenere abbastanza oggetti in quel *repository* per avere il 50% di possibilità di una singola collisione di oggetti SHA-1. Esiste una probabilità più alta che ogni membro del tuo gruppo di sviluppo, in incidenti non correlati venga attaccato e ucciso da dei lupi nella stessa notte.
 
-### Riferimenti alle diramazioni (*branch*) ###
+### Riferimenti alle diramazioni ###
 
-Il modo più diretto per specificare una *commit* è avere un *branch* che vi faccia riferimento, che ti permetterebbe di usare il nome del *branch* in qualsiasi comando Git che richieda un oggetto *commit* o un valore SHA-1. Se vuoi, per esempio, mostrare l'ultima *commit* di un *branch*, i seguenti comandi sono equivalenti, supponendo che il *branch* 'topic1' punti a 'ca82a6d':
+Il modo più diretto per specificare una *commit* è avere una diramazione (*branch* in inglese) che vi faccia riferimento, che ti permetterebbe di usare il nome della diramazione in qualsiasi comando Git che richieda un oggetto *commit* o un valore SHA-1. Se per esempio vuoi vedere l'ultima *commit* di una diramazione, i comandi seguenti sono equivalenti (supponendo che la diramazione 'topic1' punti a 'ca82a6d'):
 
 	$ git show ca82a6dff817ec66f44342007202690a93763949
 	$ git show topic1
 
-Se vuoi vedere a quale SHA specifico punti un *branch*, o se vuoi vedere a quale SHA puntino questi esempi, puoi usare il comando 'rev-parse' di Git, che fa parte dei comandi *plumbing* . Nel Capitolo 9 trovi maggiori informazioni sui comandi *plumbing*: brevemente, 'rev-parse' esiste per operazioni di basso livello e non è concepito per essere usato nelle operazioni quotidiane. Può Comunque essere d'aiuto quando hai bisogno di vedere cosa sta succedendo. Puoi quindi eseguire 'rev-parse' su tuo *branch*.
+Se vuoi vedere a quale SHA specifico punti una diramazione, o se vuoi vedere a quali SHA puntino questi esempi, puoi usare il comando 'rev-parse' di Git, che fa parte dei comandi sottotraccia (*plumbing* in inglese) . Nel Capitolo 9 trovi maggiori informazioni sui comandi sottotraccia ma, brevemente, 'rev-parse' esiste per operazioni di basso livello e non è concepito per essere usato nelle operazioni quotidiane. Può comunque essere d'aiuto quando hai bisogno di vedere cosa sta succedendo davvero. Qui puoi quindi eseguire 'rev-parse' sulla tua diramazione.
 
 	$ git rev-parse topic1
 	ca82a6dff817ec66f44342007202690a93763949

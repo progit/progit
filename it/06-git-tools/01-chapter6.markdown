@@ -1,6 +1,6 @@
 # Strumenti di Git #
 
-Finora hai imparato la maggior parte dei comandi d’uso quotidiani e i flussi di lavoro che devi conoscere per gestire o mantenere un repository Git per i tuoi sorgenti. Hai eseguito le attività di base per tracciare e committare i file, hai sfruttato il potere dell' *area di staging* e le diramazioni (*branch*) e le unioni (*merge*) leggere.
+Finora hai imparato la maggior parte dei comandi d’uso quotidiani e i flussi di lavoro che devi conoscere per gestire o mantenere un repository Git per i tuoi sorgenti. Hai eseguito le attività di base per tracciare e committare i file, hai sfruttato il potere dell' *area di assemblamento* e le diramazioni (*branch*) e le unioni (*merge*) leggere.
 
 Ora vedremo una serie di cose molto potenti di Git che potresti non usare quotidianamente, ma di cui a un certo punto potresti averne bisogno.
 
@@ -55,57 +55,57 @@ Da otto a dieci caratteri sono, generalmente, più che sufficienti per essere un
 
 ### Una breve nota su SHA-1 ###
 
-Arriva un momento in cui molte persone si preoccupano che possano avere, per puro caso, due oggetti nel proprio *repository* che abbiano lo stesso hash SHA-1. E allora?
+Molte persone si preoccupa che a un certo punto, in modo del tutto casuale, ci possano essere due oggetti nel tuo *repository* che abbiano lo stesso SHA-1. Cosa succederebbe?
 
-Se capita di fare la *commit* di un oggetto a che abbia lo stesso SHA-1 di un oggetto già presente nel tuo *repository*, Git vedrà l’oggetto precedente già nel database di Git e lo riterrà già scritto. Se successivamente proverai a fare il checkout di quest’ultimo oggetto, otterrai sempre i dati del primo oggetto.
+Se dovessi committare un oggetto che abbia lo stesso hash SHA-1 di un altro oggetto che sia già nel tuo repository, Git troverà l'altro oggetto già nel database di Git e lo considererà già scritto. Se in seguito vorrai scaricare quest'ultimo ogetto, otterrai sempre le informazioni del più vecchio.
 
-Ad ogni modo, è necessario essere consapevoli di quanto sia ridicolmente improbabile questo scenario. Il codice SHA-1 è di 20 bytes o 160 bits. Il numero di oggetti casuali necessari perché ci sia la probabilità del 50% di una singola collisione è di circa 2^80 (la formula per determinare la probabilità di collisione è `p = (n(n-1)/2) * (1/2^160)`). 2^80 è 1.2 x 10^24 ovvero un milione di miliardi di miliardi. È 1.200 volte il numero di granelli di sabbia sulla terra.
+Dovresti comunque essere consapevole che questo sia uno scenario molto improbabile. Il codice SHA-1 è di 20 bytes o 160 bits. Il numero di oggetti casuali necessari perché ci sia la probabilità del 50% di una singola collisione è di circa 2^80 (la formula per determinare la probabilità di collisione è `p = (n(n-1)/2) * (1/2^160)`). 2^80 è 1.2 x 10^24 ovvero 1 milione di miliardi di miliardi. È 1.200 volte il numero di granelli di sabbia sulla terra.
 
-Ecco un esempio per dare un'idea di cosa ci vorrebbe per ottenere una collisione SHA-1. Se tutti i 6.5 miliardi di esseri umani sulla Terra programmassero e, ogni secondo, ognuno scrivesse codice che fosse equivalente all'intera cronologia del kernel Linux (1 milione di oggetti Git) e ne facesse la push su un enorme *repository* Git, ci vorrebbero 5 anni per contenere abbastanza oggetti in quel *repository* per avere il 50% di possibilità di una singola collisione di oggetti SHA-1. Esiste una probabilità più alta che ogni membro del tuo gruppo di sviluppo, per pura coincidenza, venga attaccato e ucciso da dei lupi nella stessa notte.
+Ecco un esempio per dare un'idea di cosa ci vorrebbe per ottenere una collisione SHA-1. Se tutti i 6.5 miliardi di esseri umani sulla Terra programmassero e, ogni secondo, ognuno scrivesse codice che sia equivalente all'intera cronologia del kernel Linux (1 milione di oggetti Git) e ne facesse la push su un enorme *repository* Git, ci vorrebbero 5 anni per contenere abbastanza oggetti in quel *repository* per avere il 50% di possibilità di una singola collisione di oggetti SHA-1. Esiste una probabilità più alta che ogni membro del tuo gruppo di sviluppo, in incidenti non correlati venga attaccato e ucciso da dei lupi nella stessa notte.
 
-### Riferimenti alle diramazioni (*branch*) ###
+### Riferimenti alle diramazioni ###
 
-Il modo più diretto per specificare una *commit* è avere un *branch* che vi faccia riferimento, che ti permetterebbe di usare il nome del *branch* in qualsiasi comando Git che richieda un oggetto *commit* o un valore SHA-1. Se vuoi, per esempio, mostrare l'ultima *commit* di un *branch*, i seguenti comandi sono equivalenti, supponendo che il *branch* 'topic1' punti a 'ca82a6d':
+Il modo più diretto per specificare una *commit* è avere una diramazione (*branch* in inglese) che vi faccia riferimento, che ti permetterebbe di usare il nome della diramazione in qualsiasi comando Git che richieda un oggetto *commit* o un valore SHA-1. Se per esempio vuoi vedere l'ultima *commit* di una diramazione, i comandi seguenti sono equivalenti (supponendo che la diramazione 'topic1' punti a 'ca82a6d'):
 
 	$ git show ca82a6dff817ec66f44342007202690a93763949
 	$ git show topic1
 
-Se vuoi vedere a quale SHA specifico punti un *branch*, o se vuoi vedere a quale SHA puntino questi esempi, puoi usare il comando 'rev-parse' di Git, che fa parte dei comandi *plumbing* . Nel Capitolo 9 trovi maggiori informazioni sui comandi *plumbing*: brevemente, 'rev-parse' esiste per operazioni di basso livello e non è concepito per essere usato nelle operazioni quotidiane. Può Comunque essere d'aiuto quando hai bisogno di vedere cosa sta succedendo. Puoi quindi eseguire 'rev-parse' su tuo *branch*.
+Se vuoi vedere a quale SHA specifico punti una diramazione, o se vuoi vedere a quali SHA puntino questi esempi, puoi usare il comando 'rev-parse' di Git, che fa parte dei comandi sottotraccia (*plumbing* in inglese) . Nel Capitolo 9 trovi maggiori informazioni sui comandi sottotraccia ma, brevemente, 'rev-parse' esiste per operazioni di basso livello e non è concepito per essere usato nelle operazioni quotidiane. Può comunque essere d'aiuto quando hai bisogno di vedere cosa sta succedendo davvero. Qui puoi quindi eseguire 'rev-parse' sulla tua diramazione.
 
 	$ git rev-parse topic1
 	ca82a6dff817ec66f44342007202690a93763949
 
-### Nomi brevi dei RefLog ###
+### Nomi brevi dei riferimenti ###
 
-Una delle cose che Git fa dietro le quinte è aggiornare il file reflog, che memorizza silenziosamente la posizione negli ultimi mesi del tuo HEAD e dei riferimenti ai tuoi branch , ogni volta che li cambi.
+Una delle cose che Git fa dietro le quinte è aggiornare il registro dei riferimenti (*reflog* in inglese), che registra la posizione dei tuoi riferimenti HEAD e delle diramazione su cui hai lavorato negli ulti mesi.
 
-Puoi consultare il reflog con il comando 'git reflog':
+Puoi consultare il registro con il comando 'git reflog':
 
 	$ git reflog
-	734713b... HEAD@{0}: commit: fixed refs handling, added gc auto, updated
-	d921970... HEAD@{1}: merge phedders/rdocs: Merge made by recursive.
-	1c002dd... HEAD@{2}: commit: added some blame and merge stuff
-	1c36188... HEAD@{3}: rebase -i (squash): updating HEAD
-	95df984... HEAD@{4}: commit: # This is a combination of two commits.
-	1c36188... HEAD@{5}: rebase -i (squash): updating HEAD
-	7e05da5... HEAD@{6}: rebase -i (pick): updating HEAD
+	734713b HEAD@{0}: commit: fixed refs handling, added gc auto, updated
+	d921970 HEAD@{1}: merge phedders/rdocs: Merge made by recursive.
+	1c002dd HEAD@{2}: commit: added some blame and merge stuff
+	1c36188 HEAD@{3}: rebase -i (squash): updating HEAD
+	95df984 HEAD@{4}: commit: # This is a combination of two commits.
+	1c36188 HEAD@{5}: rebase -i (squash): updating HEAD
+	7e05da5 HEAD@{6}: rebase -i (pick): updating HEAD
 
-Ogni volta che un *branch* viene aggiornato per qualsiasi ragione, Git memorizza questa informazione in questa cronologia temporanea. E puoi anche specificare *commit* più vecchie. Se vuoi vedere la cronologia a partire dalla quinta commit più vecchia a partire dalla *HEAD* del tuo *repository*, puoi usare il riferimento '@{n}' che vedi nel *output* di reflog:
+Ogni volta che una diramazione viene aggiornata per qualsiasi ragione, Git memorizza questa informazione in questa cronologia temporanea. E puoi anche specificare *commit* più vecchie. Se vuoi vedere la cronologia a partire dalla quintultima commit a partire dalla *HEAD* del tuo *repository*, puoi usare il riferimento '@{n}' che vedi nel *output* del registro:
 
 	$ git show HEAD@{5}
 
-Puoi usare usare questa sintassi anche per vedere dove era un *branch* a una certa data. Se vuoi vedere, per esempio, dov'era il 'master' *branch* ieri, puoi scrivere:
+Puoi anche usare questa sintassi per vedere dov'era una diramazione a una certa data. Se vuoi vedere, per esempio, dov'era ieri la diramazione 'master' puoi scrivere:
 
 	$ git show master@{yesterday}
 
-Questo mostra dove era il *branch* ieri. Questa tecnica funziona solo per i dati che sono ancora nel *reflog* e non puoi quindi usarla per vedere *commit* più vecchie di qualche mese.
+Che mostra dov'era ieri la diramazione. Questa tecnica funziona solo per i dati che sono ancora nel registri e non puoi quindi usarla per vedere *commit* più vecchie di qualche mese.
 
-Per vedere le informazioni del *reflog* formattate come l’output di '*git log*', puoi eseguire il comando 'git log -g':
+Per vedere le informazioni del registro formattate come l’output di `git log`, puoi eseguire il comando `git log -g`:
 
 	$ git log -g master
 	commit 734713bc047d87bf7eac9674765ae793478c50d3
 	Reflog: master@{0} (Scott Chacon <schacon@gmail.com>)
-	Reflog message: commit: fixed refs handling, added gc auto, updated 
+	Reflog message: commit: fixed refs handling, added gc auto, updated
 	Author: Scott Chacon <schacon@gmail.com>
 	Date:   Fri Jan 2 18:32:33 2009 -0800
 
@@ -119,24 +119,24 @@ Per vedere le informazioni del *reflog* formattate come l’output di '*git log*
 
 	    Merge commit 'phedders/rdocs'
 
-E' importante notare che l'informazione del *reflog* è strettamente locale: è un log di cosa hai fatto nel tuo *repository*. I riferimenti non saranno uguali sui cloni degli altri. Appena dopo aver clonato un *repository* il tuo reflog sarà vuoto perché ancora non hai svolto nessuna attività sul tuo *repository*. Eseguendo 'git show HEAD@{2.months.ago}' funzionerà solo se hai clonato il progetto almeno due mesi fa: se è stato clonato cinque minuti fa non otterrai nessun risultato.
+E' importante notare che l'informazione del registro è solamente locale: è un registro di ciò che hai fatto nel tuo *repository*. I riferimenti non saranno uguali sui cloni degli altri. Appena dopo aver clonato un *repository* il tuo registro sarà vuoto perché non è successo ancora nulla nel tuo *repository*. Potrai eseguire 'git show HEAD@{2.months.ago}' solo se hai clonato il progetto almeno due mesi fa: se è stato clonato cinque minuti fa non otterrai nessun risultato.
 
 ### Riferimenti ancestrali ###
 
-L'altro modo principale per specificare una *commit* è attraverso i suoi ascendenti. Se metti un `^` alla fine di un riferimento, Git lo risolve interpretandolo come il padre
-padre di quella determinata *commit*. Immagina di guardare la cronologia del tuo progetto:
+L'altro modo principale per specificare una *commit* è attraverso i suoi ascendenti. Se metti un `^` alla fine di un riferimento, Git lo risolve interpretandolo come il padre padre di quella determinata *commit*.
+Immagina di vedere la cronologia del tuo progetto:
 
 	$ git log --pretty=format:'%h %s' --graph
 	* 734713b fixed refs handling, added gc auto, updated tests
 	*   d921970 Merge commit 'phedders/rdocs'
-	|\  
+	|\
 	| * 35cfb2b Some rdoc changes
 	* | 1c002dd added some blame and merge stuff
-	|/  
+	|/
 	* 1c36188 ignore *.gem
 	* 9b29157 add open3_detach to gemspec file list
 
-Puoi quindi vedere la *commit* precedente specificando `HEAD^`, che significa "il genitore di HEAD":
+Puoi quindi vedere la *commit* precedente specificando `HEAD^`, che significa "l'ascendente di HEAD":
 
 	$ git show HEAD^
 	commit d921970aadf03b3cf0e71becdaab3147ba71cdef
@@ -146,7 +146,7 @@ Puoi quindi vedere la *commit* precedente specificando `HEAD^`, che significa "i
 
 	    Merge commit 'phedders/rdocs'
 
-Puoi anche specificare un numero dopo `^`: per esempio `d921970^2` significa "il secondo genitore di d921870." Questa sintassi è utile solo per fare il *merge* di *commit* che hanno più di un genitore. Il primo genitore è il *branch* dove ti trovi al momento del *merge*, e il secondo è la *commit* sul *branch* da cui hai fatto il *merge*:
+Puoi specificare anche un numero dopo la `^`: per esempio `d921970^2` significa "il secondo ascendente di d921870." Questa sintassi è utile solo per incorporare delle *commit* che hanno più di un ascendente. Il primo ascendente è la diramazione dove ti trovi al momento dell'incorporamento, e il secondo è la *commit* sulla diramazione da cui hai fatto l'incorporamento:
 
 	$ git show d921970^
 	commit 1c002dd4b536e7479fe34593e72e6c6c1819e53b
@@ -162,7 +162,7 @@ Puoi anche specificare un numero dopo `^`: per esempio `d921970^2` significa "il
 
 	    Some rdoc changes
 
-Un altro modo riferimento ancestrale è `~`. Questo si riferisce anche al genitore, quindi `HEAD~` e `HEAD^` sono equivalenti. La differenza si nota quando specifichi un numero. `HEAD~2` significa "il genitore del genitore", o "il nonno”: attraversa i primi genitori il numero di volte che specifichi. Per esempio, nella cronologia precedente, `HEAD~3` sarebbe
+Un altro modo di specificare un riferimento ancestrale è la `~`. Questo si riferisce anche al primo ascendente, quindi `HEAD~` e `HEAD^` sono equivalenti. La differenza diventa evidente quando specifichi un numero. `HEAD~2` significa "il primo ascendente del primo ascendente", o "il nonno”: attraversa i primi ascendenti il numero di volte specificato. Per esempio, nella cronologia precedente, `HEAD~3` sarebbe
 
 	$ git show HEAD~3
 	commit 1c3618887afb5fbcbea25b7c013f4e2114448b8d
@@ -171,7 +171,7 @@ Un altro modo riferimento ancestrale è `~`. Questo si riferisce anche al genito
 
 	    ignore *.gem
 
-Che può anche essere scritto come `HEAD^^^` che, di nuovo, è sempre il genitore del genitore del genitore:
+Che può essere scritto anche come `HEAD^^^` che, di nuovo, è sempre il primo genitore del primo genitore del primo genitore:
 
 	$ git show HEAD^^^
 	commit 1c3618887afb5fbcbea25b7c013f4e2114448b8d
@@ -180,57 +180,57 @@ Che può anche essere scritto come `HEAD^^^` che, di nuovo, è sempre il genitor
 
 	    ignore *.gem
 
-È anche possibile combinare queste sintassi: puoi prendere il nonno del riferimento precedente (assumendo che si tratti di una commit di *merge*) usando `HEAD~3^2`, e così via.
+È anche possibile combinare queste sintassi: puoi prendere il secondo genitore del riferimento precedente (assumendo che si tratti di una commit d'incorporamento) usando `HEAD~3^2`, e così via.
 
-### Intervalli di Commit ###
+### Intervalli di commit ###
 
-Ora che sai come specificare delle commit singole, vediamo come specificare intervalli di commit. Ciò è particolarmente utile per gestire i tuoi branch: se hai molti branch puoi usare gli intervalli per rispondere a domande come “cosa c’è nel tuo branch di cui io non ho ancora fatto il merge?”
+Ora che sai come specificare singole commit, vediamo come specificare intervalli di commit. Ciò è particolarmente utile per gestire le tue diramazioni: se ne hai molte puoi usare gli intervalli per rispondere a domande come “cosa c’è in questa diramazione che non ho ancora incorporato?”
 
 #### Due punti ####
 
-Il modo più comune per specificare un intervallo è con i due punti che, praticamente, chiedono a Git di risolvere l’intervallo tra commit che sia raggiungibile da una commit, ma che non sia raggiungibile dall’altra. Per esempio, immaginiamo di avere una cronologia come nell’immagine 6-1
+Il modo più comune per specificare un intervallo è con i due punti che, praticamente, chiede a Git di risolvere l’intervallo tra commit che sia raggiungibile da una commit, ma non dall’altra. Immaginiamo di avere la cronologia dell’immagine 6-1
 
 Insert 18333fig0601.png
-Figure 6-1. Esempio di cronologia per selezione di intervalli.
+Figure 6-1. Esempio di cronologia per la selezione di intervalli.
 
-Vuoi vedere cosa sia nel tuo branch sperimentale che non sia ancora stato incluso nel branch master: puoi chiedere a Git di mostrarti il log esclusivamente di quelle commit con `master..experiment`: questo significa “tutte le commit raggiungibili da experiment che non siano raggiungibili da master”. Affinché questi esempi siano sintetici ma chiari, invece del log effettivamente scritto da Git, userò le lettere degli oggetti commit del diagramma:
+Vuoi vedere cosa sia nella tua diramazione sperimentale che non sia ancora stato incorporato nella master: puoi chiedere a Git di mostrarti solo il registro delle commit con `master..experiment`: questo significa “tutte le commit raggiungibili da experiment che non lo siano da master”. Affinché questi esempi siano sintetici ma chiari, invece del registro effettivo di Git, userò le lettere degli oggetti commit del diagramma:
 
 	$ git log master..experiment
 	D
 	C
 
-Se, invece vuoi vedere il contrario, ovvero tutte le commit in `master` che non siano in `experiment`, puoi invertire i nomi dei branch: `experiment..master` ti mostra tutto ciò che è in `master` e che non sia raggiungibile da `experiment`:
+Se volessi invece vedere il contrario, ovvero tutte le commit in `master` che non siano in `experiment`, puoi invertire i nomi dei branch: `experiment..master` ti mostra tutto ciò che è in `master` e che non sia raggiungibile da `experiment`:
 
 	$ git log experiment..master
 	F
 	E
 
-Questo è utile se vuoi mantenere il branch `experiment` aggiornato e sapere di cosa stai per fare il merge. Un’altro caso in cui si usa spesso questa sintassi è quando stai per fare una push verso un repository remoto:
+Questo è utile se vuoi mantenere aggiornata la diramazione `experiment` e sapere cosa stai per incorporare. Un’altro caso in cui si usa spesso questa sintassi è quando stai per condividere delle commit verso un repository remoto:
 
 	$ git log origin/master..HEAD
 
-Questo comando mostra tutte le commit nel tuo branch che non sono nel branch `master` del tuo repository remoto `origin`. Se esegui `git push` quando il tuo branch è associato a `origin/master`, le commit elencate da `git log origin/master..HEAD` saranno le commit che saranno inviate al server.
-Puoi anche omettere una delle parti della sintassi, e Git assumerà che sia HEAD. Puoi per esempio ottenere lo stesso risultato dell’esempio precedente scrivendo `git log origin/master..`: Git sostituisce la parte mancante con HEAD.
+Questo comando mostra tutte le commit della tua diramazione che non sono in quella `master` del tuo repository remoto `origin`. Se esegui `git push` quando la tua diramazione attuale è associata a `origin/master`, le commit elencate da `git log origin/master..HEAD` saranno quelle che saranno inviate al server.
+Puoi anche omettere una delle parti della sintassi, e Git assumerà che sia HEAD. Per esempio puoi ottenere lo stesso risultato dell’esempio precedente scrivendo `git log origin/master..`: Git sostituisce la parte mancante con HEAD.
 
 #### Punti multipli ####
 
-La sintassi dei due punti è utile come la stenografia, ma potresti voler specificare più di due branch, così come vedere le commit che sono nei vari branch e che non sono nel tuo branch attuale. Git ti permette di farlo sia con il carattere `^` che con l’opzione `--not` prima di ciascun riferimento del quale vuoi vedere le commit non raggiungibili. Quindi questi tre comandi sono equivalenti:
+La sintassi dei due punti è utile come la stenografia, ma potresti voler specificare più di due branch per indicare la tua revisione, per vedere le commit che sono nelle varie diramazioni che non siano in quella attuale. Git ti permette di farlo sia con `^` che con l’opzione `--not` prima di ciascun riferimento del quale vuoi vedere le commit raggiungibili. Quindi questi tre comandi sono equivalenti:
 
 	$ git log refA..refB
 	$ git log ^refA refB
 	$ git log refB --not refA
 
-Questo è interessante, perché con questa sintassi puoi specificare più di due riferimenti nella tua query, cosa che non puoi fare con i due punti. Se per esempio vuoi vedere tutte le commit che siano raggiungibili da `refA` o da `refB` ma non da `refC` puoi usare una delle seguenti alternative:
+Questo è interessante, perché con questa sintassi puoi specificare più di due riferimenti nella tua richiesta, cosa che non puoi fare con i due punti. Se per esempio vuoi vedere tutte le commit che siano raggiungibili da `refA` o da `refB` ma non da `refC` puoi usare una delle seguenti alternative:
 
 	$ git log refA refB ^refC
 	$ git log refA refB --not refC
 
-Questo la rende un sistema potente di query di revisione che dovrebbe aiutarti a capire cosa c’è nei tuo branch.
+Questo produce un sistema di revisione molto potente che dovrebbe aiutarti a capire cosa c’è nelle tue diramazioni.
 
 #### Tre punti ####
 
-L’ultima sintassi per la selezione di intervalli è quella dei tre punti che indica tutte le commit raggiungibili da ciascuno dei riferimenti ma non da entrambi. Rivedi la cronologia delle commit nella Figura 6-1.
-Se vuoi vedere cosa sia in `master` o in `experiment` ma non i riferimenti comuni puoi eseguire questo comando
+L’ultima sintassi per la selezione di intervalli è quella dei tre punti, che indica tutte le commit raggiungibili da uno qualsiasi dei riferimenti ma non da entrambi. Rivedi la cronologia delle commit nella Figura 6-1.
+Se vuoi vedere cosa ci sia nel `master` o in `experiment` ma non i riferimenti comuni, puoi eseguire
 
 	$ git log master...experiment
 	F
@@ -238,9 +238,9 @@ Se vuoi vedere cosa sia in `master` o in `experiment` ma non i riferimenti comun
 	D
 	C
 
-Che ti mostra l’output normale del *log*, ma solo con le informazioni di quelle quattro commit nel solito ordinamento cronologico.
+Che ti mostra l’output normale del `log` mostrando solo le informazioni di quelle quattro commit nell'ordinamento cronologico normale.
 
-In questo è comune usare il parametro `--left-right` con il comando `log`, che mostra da che parte è la commit nell’intervallo selezionato, che rende i dati molto più utili:
+Un'opzione comunemente usata in questi casi con il comando `log` è il parametro `--left-right`, che mostra da che lato dell'intervallo si trovi ciascuna commit dell’intervallo selezionato, che rende le informazioni molto più utili:
 
 	$ git log --left-right master...experiment
 	< F
@@ -248,12 +248,12 @@ In questo è comune usare il parametro `--left-right` con il comando `log`, che 
 	> D
 	> C
 
-Con questi strumenti puoi dire facilmente a Git quale o quali commit vuoi ispezionare.
-<!-- da tradurre fino a riga 840 -->
-## Interactive Staging ##
+Con questi strumenti puoi dire facilmente a Git quali commit vuoi ispezionare.
 
-Git comes with a couple of scripts that make some command-line tasks easier. Here, you’ll look at a few interactive commands that can help you easily craft your commits to include only certain combinations and parts of files. These tools are very helpful if you modify a bunch of files and then decide that you want those changes to be in several focused commits rather than one big messy commit. This way, you can make sure your commits are logically separate changesets and can be easily reviewed by the developers working with you.
-If you run `git add` with the `-i` or `--interactive` option, Git goes into an interactive shell mode, displaying something like this:
+## Assemblaggio interattivo ##
+
+Git viene distribuito con un paio di script che rendono più semplice l'uso della riga di comando. In questo capitolo vedremo alcuni comandi interattivi che possono aiutarti a modellare le tue commit perché includano solo determinate combinazioni di parti dei file. Questi strumenti sono molto utili se modifichi molti file tutti assieme e poi decidi che vuoi distribuire le modifiche in più commit puntuali, piuttosto che un'unica grossa commit confusa. In questo modo puoi fare che le tue commit separino logicamente le tue modifiche e possano essere facilmente revisionate dagli altri sviluppatori con cui lavori.
+Se esegui `git add` con le opzioni `-i` o `--interactive`, Git entrerà nella modalità interattiva, mostrandoti qualcosa del genere:
 
 	$ git add -i
 	           staged     unstaged path
@@ -266,13 +266,13 @@ If you run `git add` with the `-i` or `--interactive` option, Git goes into an i
 	  5: patch      6: diff        7: quit       8: help
 	What now>
 
-You can see that this command shows you a much different view of your staging area — basically the same information you get with `git status` but a bit more succinct and informative. It lists the changes you’ve staged on the left and unstaged changes on the right.
+Come vedi, questo comando mostra una vista della tua area di assemblaggio molto diversa: sono le stesse informazioni che otterà con il comando `git status`, ma in maniera più succinta e con più informazioni. Sulla sinistra mostra le modifiche che stai assemblando e quelle non ancora assemblate sulla destra.
 
-After this comes a Commands section. Here you can do a number of things, including staging files, unstaging files, staging parts of files, adding untracked files, and seeing diffs of what has been staged.
+Dopo questa sezione c'è quella dei Comandi. Qui puoi fare una serie di cose, incluso assemblare file, disassemblarli, assemblare alcune parti dei file, aggiungere file non ancora tracciati e vedere le differenze con ciò che è già stato assemblato.
 
-### Staging and Unstaging Files ###
+### Assemblare e disassemblare file ###
 
-If you type `2` or `u` at the `What now>` prompt, the script prompts you for which files you want to stage:
+Se digiti `2` o `u` alla richiesta `What now>`, lo script ti chiederà quale file vuoi assemblare:
 
 	What now> 2
 	           staged     unstaged path
@@ -281,7 +281,7 @@ If you type `2` or `u` at the `What now>` prompt, the script prompts you for whi
 	  3:    unchanged        +5/-1 lib/simplegit.rb
 	Update>>
 
-To stage the TODO and index.html files, you can type the numbers:
+Per assemblare i file TODO e index.html, puoi digitare i numeri:
 
 	Update>> 1,2
 	           staged     unstaged path
@@ -290,7 +290,7 @@ To stage the TODO and index.html files, you can type the numbers:
 	  3:    unchanged        +5/-1 lib/simplegit.rb
 	Update>>
 
-The `*` next to each file means the file is selected to be staged. If you press Enter after typing nothing at the `Update>>` prompt, Git takes anything selected and stages it for you:
+L'asterisco (`*`) vicino a ogni file, significa che è stato selezionato per essere assemblato. Se premi INVIO alla richiesta `Update>>`, Git assembla tutto ciò che è stato selezionato:
 
 	Update>>
 	updated 2 paths
@@ -304,7 +304,7 @@ The `*` next to each file means the file is selected to be staged. If you press 
 	  2:        +1/-1      nothing index.html
 	  3:    unchanged        +5/-1 lib/simplegit.rb
 
-Now you can see that the TODO and index.html files are staged and the simplegit.rb file is still unstaged. If you want to unstage the TODO file at this point, you use the `3` or `r` (for revert) option:
+Ora puoi vedere che i file TODO e index.html sono assemblati e simplegit.rb non lo è ancora. Se ora vuoi disassemblare il file TODO, devi digitare `3` o `r` (come `revert` - annullare):
 
 	*** Commands ***
 	  1: status     2: update      3: revert     4: add untracked
@@ -322,7 +322,7 @@ Now you can see that the TODO and index.html files are staged and the simplegit.
 	Revert>> [enter]
 	reverted one path
 
-Looking at your Git status again, you can see that you’ve unstaged the TODO file:
+Rivedendo lo stato di Git, puoi vedere che hai disassemblato il file TODO:
 
 	*** Commands ***
 	  1: status     2: update      3: revert     4: add untracked
@@ -333,7 +333,7 @@ Looking at your Git status again, you can see that you’ve unstaged the TODO fi
 	  2:        +1/-1      nothing index.html
 	  3:    unchanged        +5/-1 lib/simplegit.rb
 
-To see the diff of what you’ve staged, you can use the `6` or `d` (for diff) command. It shows you a list of your staged files, and you can select the ones for which you would like to see the staged diff. This is much like specifying `git diff --cached` on the command line:
+Per vedere le differenze di ciò che hai assemblato puoi digitare `6` o `d` (come differenza). Ti mostrerà un elenco dei tuoi file assemblati, e potrai selezionare quelli di cui vuoi vedere le modifiche assemblate. Questo fa la stessa cosa del comando `git diff --cached`:
 
 	*** Commands ***
 	  1: status     2: update      3: revert     4: add untracked
@@ -355,11 +355,11 @@ To see the diff of what you’ve staged, you can use the `6` or `d` (for diff) c
 
 	 <script type="text/javascript">
 
-With these basic commands, you can use the interactive add mode to deal with your staging area a little more easily.
+Con questi comandi elementari puoi usare la modalità interattiva per interaggire un po' più facilmente con l'area di assemblagio.
 
-### Staging Patches ###
+### Assemblare i pezzi ###
 
-It’s also possible for Git to stage certain parts of files and not the rest. For example, if you make two changes to your simplegit.rb file and want to stage one of them and not the other, doing so is very easy in Git. From the interactive prompt, type `5` or `p` (for patch). Git will ask you which files you would like to partially stage; then, for each section of the selected files, it will display hunks of the file diff and ask if you would like to stage them, one by one:
+Git può anche assemblare solo alcune parti di un file e non il resto. Se per esempio fai due modifiche al tuo simplegit.rb file e vuoi assemblarne solo una, con Git puoi farlo molto semplicemente. Al `prompt` digita `5` o `p` (come pezzo, `patch` ndt). Git ti chiederà quali file vuoi assemblare parzialmente e, per ciascuna sezione dei file selezionati, mostrerà blocchi di differenze chiedendoti se vuoi assemblarle, una per una:
 
 	diff --git a/lib/simplegit.rb b/lib/simplegit.rb
 	index dd5ecc4..57399e0 100644
@@ -376,24 +376,24 @@ It’s also possible for Git to stage certain parts of files and not the rest. F
 	   def blame(path)
 	Stage this hunk [y,n,a,d,/,j,J,g,e,?]?
 
-You have a lot of options at this point. Typing `?` shows a list of what you can do:
+A questo punto hai molte opzioni. Digitando `?` vedrai la lista di ciò che puoi fare:
 
-	Stage this hunk [y,n,a,d,/,j,J,g,e,?]? ?
-	y - stage this hunk
-	n - do not stage this hunk
-	a - stage this and all the remaining hunks in the file
-	d - do not stage this hunk nor any of the remaining hunks in the file
-	g - select a hunk to go to
-	/ - search for a hunk matching the given regex
-	j - leave this hunk undecided, see next undecided hunk
-	J - leave this hunk undecided, see next hunk
-	k - leave this hunk undecided, see previous undecided hunk
-	K - leave this hunk undecided, see previous hunk
-	s - split the current hunk into smaller hunks
-	e - manually edit the current hunk
-	? - print help
+	Assemblare questo blocco [y,n,a,d,/,j,J,g,e,?]? ?
+	y - assembla questo blocco
+	n - non assemblare questo blocco
+	a - assembla questo blocco e tutti gli altri rimanenti nel file
+	d - non assemblare questo blocco né gli altri rimanenti nel file
+	g - seleziona un blocco per continuare
+	/ - cerca un blocco con una regex
+	j - salta questo blocco e vedi il successivo saltato
+	J - salta questo blocco e vedi il prossimo blocco
+	k - salta questo blocco e vedi il precedente saltato
+	K - salta questo blocco e vedi il blocco precedente
+	s - dividi il blocco attuale in blocchi più piccoli
+	e - modifica manualmente il blocco attuale
+	? - mostra l'aiuto
 
-Generally, you’ll type `y` or `n` if you want to stage each hunk, but staging all of them in certain files or skipping a hunk decision until later can be helpful too. If you stage one part of the file and leave another part unstaged, your status output will look like this:
+Generalmente digiterai `y` o `n` se vuoi assemblare tutti i blocchi, ma assemblare tutti quelli di un file o saltarne qualcuno per decidere in un secondo momento può essere molto prezioso. Se assembli solo alcuni blocchi di un file ma non gli altri, lo stato del tuo repository sarà così:
 
 	What now> 1
 	           staged     unstaged path
@@ -401,10 +401,10 @@ Generally, you’ll type `y` or `n` if you want to stage each hunk, but staging 
 	  2:        +1/-1      nothing index.html
 	  3:        +1/-1        +4/-0 lib/simplegit.rb
 
-The status of the simplegit.rb file is interesting. It shows you that a couple of lines are staged and a couple are unstaged. You’ve partially staged this file. At this point, you can exit the interactive adding script and run `git commit` to commit the partially staged files.
+È interessante lo stato di simplegit.rb, dove alcune righe sono assemblate ma non le altre. Hai assemblato parzialmente questo file. A questo punto puoi uscire dall'area interattiva ed eseguire `git commit` per committare la parte di file assemblata.
 
-Finally, you don’t need to be in interactive add mode to do the partial-file staging — you can start the same script by using `git add -p` or `git add --patch` on the command line.
-
+Non devi essere nell'area interattiva per assemblare solo una parte di un file: puoi avviare lo stesso script dalla riga di comando con `git add -p` o `git add --patch`.
+<!-- da tradurre fino a riga 840 -->
 ## Stashing ##
 
 Often, when you’ve been working on part of your project, things are in a messy state and you want to switch branches for a bit to work on something else. The problem is, you don’t want to do a commit of half-done work just so you can get back to this point later. The answer to this issue is the `git stash` command.

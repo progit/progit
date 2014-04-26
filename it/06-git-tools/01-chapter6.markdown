@@ -487,24 +487,24 @@ L'opzione `apply` prova solo ad applicare le modifiche assemblate: continua per 
 	Dropped stash@{0} (364e91f3f268f0900bc3ee613f9f733e82aaed43)
 
 Puoi eseguire anche `git stash pop` per applicare l'accantonamento e cancellare immediatamente dopo.
-<!-- da tradurre fino a riga 840 -->
-### Un-applying a Stash ###
 
-In some use case scenarios you might want to apply stashed changes, do some work, but then un-apply those changes that originally came from the stash. Git does not provide such a `stash unapply` command, but it is possible to achieve the effect by simply retrieving the patch associated with a stash and applying it in reverse:
+### Annullare una modifica accantonata ###
+
+In alcuni scenari potresti voler applicare delle modifiche accantonate, fare dell'altro lavoro e successivamente voler rimuovere le modifiche che venivano dall'accantonamento. Git non ha un comando `stash unapply`, ma è possibile ottenere lo stesso risultato richiamando la modifica associata all'accantonamento e applicarla al contrario:
 
     $ git stash show -p stash@{0} | git apply -R
 
-Again, if you don’t specify a stash, Git assumes the most recent stash:
+Di nuovo, se non specifichi un accantonamento, Git assume che sia l'ultimo:
 
     $ git stash show -p | git apply -R
 
-You may want to create an alias and effectively add a `stash-unapply` command to your Git. For example:
+Puoi voler creare un alias per avere un comando `stash-unapply` nel tuo Git. Per esempio:
 
     $ git config --global alias.stash-unapply '!git stash show -p | git apply -R'
     $ git stash
     $ #... work work work
     $ git stash-unapply
-
+<!-- da tradurre fino a riga 840 -->
 ### Creating a Branch from a Stash ###
 
 If you stash some work, leave it there for a while, and continue on the branch from which you stashed the work, you may have a problem reapplying the work. If the apply tries to modify a file that you’ve since modified, you’ll get a merge conflict and will have to try to resolve it. If you want an easier way to test the stashed changes again, you can run `git stash branch`, which creates a new branch for you, checks out the commit you were on when you stashed your work, reapplies your work there, and then drops the stash if it applies successfully:

@@ -182,9 +182,9 @@ Che può essere scritto anche come `HEAD^^^` che, di nuovo, è sempre il primo g
 
 È anche possibile combinare queste sintassi: puoi prendere il secondo genitore del riferimento precedente (assumendo che si tratti di una commit d'incorporamento) usando `HEAD~3^2`, e così via.
 
-### Intervalli di Commit ###
+### Intervalli di commit ###
 
-Ora che sai come specificare delle commit singole, vediamo come specificare intervalli di commit. Ciò è particolarmente utile per gestire i tuoi branch: se hai molti branch puoi usare gli intervalli per rispondere a domande come “cosa c’è nel tuo branch di cui io non ho ancora fatto il merge?”
+Ora che sai come specificare singole commit, vediamo come specificare intervalli di commit. Ciò è particolarmente utile per gestire le tue diramazioni: se ne hai molte puoi usare gli intervalli per rispondere a domande come “cosa c’è in questa diramazione che non ho ancora incorporato?”
 
 #### Due punti ####
 

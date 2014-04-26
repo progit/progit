@@ -356,10 +356,10 @@ Per vedere le differenze di ciò che hai assemblato puoi digitare `6` o `d` (com
 	 <script type="text/javascript">
 
 Con questi comandi elementari puoi usare la modalità interattiva per interaggire un po' più facilmente con l'area di assemblagio.
-<!-- da tradurre fino a riga 840 -->
-### Staging Patches ###
 
-It’s also possible for Git to stage certain parts of files and not the rest. For example, if you make two changes to your simplegit.rb file and want to stage one of them and not the other, doing so is very easy in Git. From the interactive prompt, type `5` or `p` (for patch). Git will ask you which files you would like to partially stage; then, for each section of the selected files, it will display hunks of the file diff and ask if you would like to stage them, one by one:
+### Assemblare i pezzi ###
+
+Git può anche assemblare solo alcune parti di un file e non il resto. Se per esempio fai due modifiche al tuo simplegit.rb file e vuoi assemblarne solo una, con Git puoi farlo molto semplicemente. Al `prompt` digita `5` o `p` (come pezzo, `patch` ndt). Git ti chiederà quali file vuoi assemblare parzialmente e, per ciascuna sezione dei file selezionati, mostrerà blocchi di differenze chiedendoti se vuoi assemblarle, una per una:
 
 	diff --git a/lib/simplegit.rb b/lib/simplegit.rb
 	index dd5ecc4..57399e0 100644
@@ -376,24 +376,24 @@ It’s also possible for Git to stage certain parts of files and not the rest. F
 	   def blame(path)
 	Stage this hunk [y,n,a,d,/,j,J,g,e,?]?
 
-You have a lot of options at this point. Typing `?` shows a list of what you can do:
+A questo punto hai molte opzioni. Digitando `?` vedrai la lista di ciò che puoi fare:
 
-	Stage this hunk [y,n,a,d,/,j,J,g,e,?]? ?
-	y - stage this hunk
-	n - do not stage this hunk
-	a - stage this and all the remaining hunks in the file
-	d - do not stage this hunk nor any of the remaining hunks in the file
-	g - select a hunk to go to
-	/ - search for a hunk matching the given regex
-	j - leave this hunk undecided, see next undecided hunk
-	J - leave this hunk undecided, see next hunk
-	k - leave this hunk undecided, see previous undecided hunk
-	K - leave this hunk undecided, see previous hunk
-	s - split the current hunk into smaller hunks
-	e - manually edit the current hunk
-	? - print help
+	Assemblare questo blocco [y,n,a,d,/,j,J,g,e,?]? ?
+	y - assembla questo blocco
+	n - non assemblare questo blocco
+	a - assembla questo blocco e tutti gli altri rimanenti nel file
+	d - non assemblare questo blocco né gli altri rimanenti nel file
+	g - seleziona un blocco per continuare
+	/ - cerca un blocco con una regex
+	j - salta questo blocco e vedi il successivo saltato
+	J - salta questo blocco e vedi il prossimo blocco
+	k - salta questo blocco e vedi il precedente saltato
+	K - salta questo blocco e vedi il blocco precedente
+	s - dividi il blocco attuale in blocchi più piccoli
+	e - modifica manualmente il blocco attuale
+	? - mostra l'aiuto
 
-Generally, you’ll type `y` or `n` if you want to stage each hunk, but staging all of them in certain files or skipping a hunk decision until later can be helpful too. If you stage one part of the file and leave another part unstaged, your status output will look like this:
+Generalmente digiterai `y` o `n` se vuoi assemblare tutti i blocchi, ma assemblare tutti quelli di un file o saltarne qualcuno per decidere in un secondo momento può essere molto prezioso. Se assembli solo alcuni blocchi di un file ma non gli altri, lo stato del tuo repository sarà così:
 
 	What now> 1
 	           staged     unstaged path
@@ -401,10 +401,10 @@ Generally, you’ll type `y` or `n` if you want to stage each hunk, but staging 
 	  2:        +1/-1      nothing index.html
 	  3:        +1/-1        +4/-0 lib/simplegit.rb
 
-The status of the simplegit.rb file is interesting. It shows you that a couple of lines are staged and a couple are unstaged. You’ve partially staged this file. At this point, you can exit the interactive adding script and run `git commit` to commit the partially staged files.
+È interessante lo stato di simplegit.rb, dove alcune righe sono assemblate ma non le altre. Hai assemblato parzialmente questo file. A questo punto puoi uscire dall'area interattiva ed eseguire `git commit` per committare la parte di file assemblata.
 
-Finally, you don’t need to be in interactive add mode to do the partial-file staging — you can start the same script by using `git add -p` or `git add --patch` on the command line.
-
+Non devi essere nell'area interattiva per assemblare solo una parte di un file: puoi avviare lo stesso script dalla riga di comando con `git add -p` o `git add --patch`.
+<!-- da tradurre fino a riga 840 -->
 ## Stashing ##
 
 Often, when you’ve been working on part of your project, things are in a messy state and you want to switch branches for a bit to work on something else. The problem is, you don’t want to do a commit of half-done work just so you can get back to this point later. The answer to this issue is the `git stash` command.

@@ -404,13 +404,13 @@ Generalmente digiterai `y` o `n` se vuoi assemblare tutti i blocchi, ma assembla
 È interessante lo stato di simplegit.rb, dove alcune righe sono assemblate ma non le altre. Hai assemblato parzialmente questo file. A questo punto puoi uscire dall'area interattiva ed eseguire `git commit` per committare la parte di file assemblata.
 
 Non devi essere nell'area interattiva per assemblare solo una parte di un file: puoi avviare lo stesso script dalla riga di comando con `git add -p` o `git add --patch`.
+
+## Riporre ##
+
+Spesso, mentre stai lavorando ad una parte del tuo progetto, le cose possono essere in uno stato confusionario e tu vuoi passare a un'altra ramificazione per lavorare per un po' a qualcosa di diverso. Il problema è che non vuoi committare qualcosa fatta a metà per poi tornarci in un secondo momento. La risposta a questo problema è il comando `git stash`.
+
+Questo comando prende tutte le modifiche della tua cartella di lavoro — cioè tutti i file tracciati che hai modificato e le modifiche assemblate — e le salva in una pila di modifiche incomplete che puoi riapplicare in qualsiasi momento.
 <!-- da tradurre fino a riga 840 -->
-## Stashing ##
-
-Often, when you’ve been working on part of your project, things are in a messy state and you want to switch branches for a bit to work on something else. The problem is, you don’t want to do a commit of half-done work just so you can get back to this point later. The answer to this issue is the `git stash` command.
-
-Stashing takes the dirty state of your working directory — that is, your modified tracked files and staged changes — and saves it on a stack of unfinished changes that you can reapply at any time.
-
 ### Stashing Your Work ###
 
 To demonstrate, you’ll go into your project and start working on a couple of files and possibly stage one of the changes. If you run `git status`, you can see your dirty state:

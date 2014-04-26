@@ -1,6 +1,6 @@
 # Strumenti di Git #
 
-Finora hai imparato la maggior parte dei comandi d’uso quotidiani e i flussi di lavoro che devi conoscere per gestire o mantenere un repository Git per i tuoi sorgenti. Hai eseguito le attività di base per tracciare e committare i file, hai sfruttato il potere dell' *area di staging* e le diramazioni (*branch*) e le unioni (*merge*) leggere.
+Finora hai imparato la maggior parte dei comandi d’uso quotidiani e i flussi di lavoro che devi conoscere per gestire o mantenere un repository Git per i tuoi sorgenti. Hai eseguito le attività di base per tracciare e committare i file, hai sfruttato il potere dell' *area di assemblamento* e le diramazioni (*branch*) e le unioni (*merge*) leggere.
 
 Ora vedremo una serie di cose molto potenti di Git che potresti non usare quotidianamente, ma di cui a un certo punto potresti averne bisogno.
 

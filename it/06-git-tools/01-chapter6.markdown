@@ -75,37 +75,37 @@ Se vuoi vedere a quale SHA specifico punti una diramazione, o se vuoi vedere a q
 	$ git rev-parse topic1
 	ca82a6dff817ec66f44342007202690a93763949
 
-### Nomi brevi dei RefLog ###
+### Nomi brevi dei riferimenti ###
 
-Una delle cose che Git fa dietro le quinte è aggiornare il file reflog, che memorizza silenziosamente la posizione negli ultimi mesi del tuo HEAD e dei riferimenti ai tuoi branch , ogni volta che li cambi.
+Una delle cose che Git fa dietro le quinte è aggiornare il registro dei riferimenti (*reflog* in inglese), che registra la posizione dei tuoi riferimenti HEAD e delle diramazione su cui hai lavorato negli ulti mesi.
 
-Puoi consultare il reflog con il comando 'git reflog':
+Puoi consultare il registro con il comando 'git reflog':
 
 	$ git reflog
-	734713b... HEAD@{0}: commit: fixed refs handling, added gc auto, updated
-	d921970... HEAD@{1}: merge phedders/rdocs: Merge made by recursive.
-	1c002dd... HEAD@{2}: commit: added some blame and merge stuff
-	1c36188... HEAD@{3}: rebase -i (squash): updating HEAD
-	95df984... HEAD@{4}: commit: # This is a combination of two commits.
-	1c36188... HEAD@{5}: rebase -i (squash): updating HEAD
-	7e05da5... HEAD@{6}: rebase -i (pick): updating HEAD
+	734713b HEAD@{0}: commit: fixed refs handling, added gc auto, updated
+	d921970 HEAD@{1}: merge phedders/rdocs: Merge made by recursive.
+	1c002dd HEAD@{2}: commit: added some blame and merge stuff
+	1c36188 HEAD@{3}: rebase -i (squash): updating HEAD
+	95df984 HEAD@{4}: commit: # This is a combination of two commits.
+	1c36188 HEAD@{5}: rebase -i (squash): updating HEAD
+	7e05da5 HEAD@{6}: rebase -i (pick): updating HEAD
 
-Ogni volta che un *branch* viene aggiornato per qualsiasi ragione, Git memorizza questa informazione in questa cronologia temporanea. E puoi anche specificare *commit* più vecchie. Se vuoi vedere la cronologia a partire dalla quinta commit più vecchia a partire dalla *HEAD* del tuo *repository*, puoi usare il riferimento '@{n}' che vedi nel *output* di reflog:
+Ogni volta che una diramazione viene aggiornata per qualsiasi ragione, Git memorizza questa informazione in questa cronologia temporanea. E puoi anche specificare *commit* più vecchie. Se vuoi vedere la cronologia a partire dalla quintultima commit a partire dalla *HEAD* del tuo *repository*, puoi usare il riferimento '@{n}' che vedi nel *output* del registro:
 
 	$ git show HEAD@{5}
 
-Puoi usare usare questa sintassi anche per vedere dove era un *branch* a una certa data. Se vuoi vedere, per esempio, dov'era il 'master' *branch* ieri, puoi scrivere:
+Puoi anche usare questa sintassi per vedere dov'era una diramazione a una certa data. Se vuoi vedere, per esempio, dov'era ieri la diramazione 'master' puoi scrivere:
 
 	$ git show master@{yesterday}
 
-Questo mostra dove era il *branch* ieri. Questa tecnica funziona solo per i dati che sono ancora nel *reflog* e non puoi quindi usarla per vedere *commit* più vecchie di qualche mese.
+Che mostra dov'era ieri la diramazione. Questa tecnica funziona solo per i dati che sono ancora nel registri e non puoi quindi usarla per vedere *commit* più vecchie di qualche mese.
 
-Per vedere le informazioni del *reflog* formattate come l’output di '*git log*', puoi eseguire il comando 'git log -g':
+Per vedere le informazioni del registro formattate come l’output di `git log`, puoi eseguire il comando `git log -g`:
 
 	$ git log -g master
 	commit 734713bc047d87bf7eac9674765ae793478c50d3
 	Reflog: master@{0} (Scott Chacon <schacon@gmail.com>)
-	Reflog message: commit: fixed refs handling, added gc auto, updated 
+	Reflog message: commit: fixed refs handling, added gc auto, updated
 	Author: Scott Chacon <schacon@gmail.com>
 	Date:   Fri Jan 2 18:32:33 2009 -0800
 
@@ -119,7 +119,7 @@ Per vedere le informazioni del *reflog* formattate come l’output di '*git log*
 
 	    Merge commit 'phedders/rdocs'
 
-E' importante notare che l'informazione del *reflog* è strettamente locale: è un log di cosa hai fatto nel tuo *repository*. I riferimenti non saranno uguali sui cloni degli altri. Appena dopo aver clonato un *repository* il tuo reflog sarà vuoto perché ancora non hai svolto nessuna attività sul tuo *repository*. Eseguendo 'git show HEAD@{2.months.ago}' funzionerà solo se hai clonato il progetto almeno due mesi fa: se è stato clonato cinque minuti fa non otterrai nessun risultato.
+E' importante notare che l'informazione del registro è solamente locale: è un registro di ciò che hai fatto nel tuo *repository*. I riferimenti non saranno uguali sui cloni degli altri. Appena dopo aver clonato un *repository* il tuo registro sarà vuoto perché non è successo ancora nulla nel tuo *repository*. Potrai eseguire 'git show HEAD@{2.months.ago}' solo se hai clonato il progetto almeno due mesi fa: se è stato clonato cinque minuti fa non otterrai nessun risultato.
 
 ### Riferimenti ancestrali ###
 

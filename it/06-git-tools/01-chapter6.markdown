@@ -229,8 +229,8 @@ Questo produce un sistema di revisione molto potente che dovrebbe aiutarti a cap
 
 #### Tre punti ####
 
-L’ultima sintassi per la selezione di intervalli è quella dei tre punti che indica tutte le commit raggiungibili da ciascuno dei riferimenti ma non da entrambi. Rivedi la cronologia delle commit nella Figura 6-1.
-Se vuoi vedere cosa sia in `master` o in `experiment` ma non i riferimenti comuni puoi eseguire questo comando
+L’ultima sintassi per la selezione di intervalli è quella dei tre punti, che indica tutte le commit raggiungibili da uno qualsiasi dei riferimenti ma non da entrambi. Rivedi la cronologia delle commit nella Figura 6-1.
+Se vuoi vedere cosa ci sia nel `master` o in `experiment` ma non i riferimenti comuni, puoi eseguire
 
 	$ git log master...experiment
 	F
@@ -238,9 +238,10 @@ Se vuoi vedere cosa sia in `master` o in `experiment` ma non i riferimenti comun
 	D
 	C
 
-Che ti mostra l’output normale del *log*, ma solo con le informazioni di quelle quattro commit nel solito ordinamento cronologico.
+Che ti mostra l’output normale del `log` mostrando solo le informazioni di quelle quattro commit nell'ordinamento cronologico normale.
 
-In questo è comune usare il parametro `--left-right` con il comando `log`, che mostra da che parte è la commit nell’intervallo selezionato, che rende i dati molto più utili:
+
+Un'opzione comunemente usata in questi casi con il comando `log` è il parametro `--left-right`, che mostra da che lato dell'intervallo si trovi ciascuna commit dell’intervallo selezionato, che rende le informazioni molto più utili:
 
 	$ git log --left-right master...experiment
 	< F
@@ -248,7 +249,7 @@ In questo è comune usare il parametro `--left-right` con il comando `log`, che 
 	> D
 	> C
 
-Con questi strumenti puoi dire facilmente a Git quale o quali commit vuoi ispezionare.
+Con questi strumenti puoi dire facilmente a Git quali commit vuoi ispezionare.
 <!-- da tradurre fino a riga 840 -->
 ## Interactive Staging ##
 

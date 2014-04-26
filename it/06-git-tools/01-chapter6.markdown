@@ -269,10 +269,10 @@ Se esegui `git add` con le opzioni `-i` o `--interactive`, Git entrerà nella mo
 Come vedi, questo comando mostra una vista della tua area di assemblaggio molto diversa: sono le stesse informazioni che otterà con il comando `git status`, ma in maniera più succinta e con più informazioni. Sulla sinistra mostra le modifiche che stai assemblando e quelle non ancora assemblate sulla destra.
 
 Dopo questa sezione c'è quella dei Comandi. Qui puoi fare una serie di cose, incluso assemblare file, disassemblarli, assemblare alcune parti dei file, aggiungere file non ancora tracciati e vedere le differenze con ciò che è già stato assemblato.
-<!-- da tradurre fino a riga 840 -->
-### Staging and Unstaging Files ###
 
-If you type `2` or `u` at the `What now>` prompt, the script prompts you for which files you want to stage:
+### Assemblare e disassemblare file ###
+
+Se digiti `2` o `u` alla richiesta `What now>`, lo script ti chiederà quale file vuoi assemblare:
 
 	What now> 2
 	           staged     unstaged path
@@ -281,7 +281,7 @@ If you type `2` or `u` at the `What now>` prompt, the script prompts you for whi
 	  3:    unchanged        +5/-1 lib/simplegit.rb
 	Update>>
 
-To stage the TODO and index.html files, you can type the numbers:
+Per assemblare i file TODO e index.html, puoi digitare i numeri:
 
 	Update>> 1,2
 	           staged     unstaged path
@@ -290,7 +290,7 @@ To stage the TODO and index.html files, you can type the numbers:
 	  3:    unchanged        +5/-1 lib/simplegit.rb
 	Update>>
 
-The `*` next to each file means the file is selected to be staged. If you press Enter after typing nothing at the `Update>>` prompt, Git takes anything selected and stages it for you:
+L'asterisco (`*`) vicino a ogni file, significa che è stato selezionato per essere assemblato. Se premi INVIO alla richiesta `Update>>`, Git assembla tutto ciò che è stato selezionato:
 
 	Update>>
 	updated 2 paths
@@ -304,7 +304,7 @@ The `*` next to each file means the file is selected to be staged. If you press 
 	  2:        +1/-1      nothing index.html
 	  3:    unchanged        +5/-1 lib/simplegit.rb
 
-Now you can see that the TODO and index.html files are staged and the simplegit.rb file is still unstaged. If you want to unstage the TODO file at this point, you use the `3` or `r` (for revert) option:
+Ora puoi vedere che i file TODO e index.html sono assemblati e simplegit.rb non lo è ancora. Se ora vuoi disassemblare il file TODO, devi digitare `3` o `r` (come `revert` - annullare):
 
 	*** Commands ***
 	  1: status     2: update      3: revert     4: add untracked
@@ -322,7 +322,7 @@ Now you can see that the TODO and index.html files are staged and the simplegit.
 	Revert>> [enter]
 	reverted one path
 
-Looking at your Git status again, you can see that you’ve unstaged the TODO file:
+Rivedendo lo stato di Git, puoi vedere che hai disassemblato il file TODO:
 
 	*** Commands ***
 	  1: status     2: update      3: revert     4: add untracked
@@ -333,7 +333,7 @@ Looking at your Git status again, you can see that you’ve unstaged the TODO fi
 	  2:        +1/-1      nothing index.html
 	  3:    unchanged        +5/-1 lib/simplegit.rb
 
-To see the diff of what you’ve staged, you can use the `6` or `d` (for diff) command. It shows you a list of your staged files, and you can select the ones for which you would like to see the staged diff. This is much like specifying `git diff --cached` on the command line:
+Per vedere le differenze di ciò che hai assemblato puoi digitare `6` o `d` (come differenza). Ti mostrerà un elenco dei tuoi file assemblati, e potrai selezionare quelli di cui vuoi vedere le modifiche assemblate. Questo fa la stessa cosa del comando `git diff --cached`:
 
 	*** Commands ***
 	  1: status     2: update      3: revert     4: add untracked
@@ -355,8 +355,8 @@ To see the diff of what you’ve staged, you can use the `6` or `d` (for diff) c
 
 	 <script type="text/javascript">
 
-With these basic commands, you can use the interactive add mode to deal with your staging area a little more easily.
-
+Con questi comandi elementari puoi usare la modalità interattiva per interaggire un po' più facilmente con l'area di assemblagio.
+<!-- da tradurre fino a riga 840 -->
 ### Staging Patches ###
 
 It’s also possible for Git to stage certain parts of files and not the rest. For example, if you make two changes to your simplegit.rb file and want to stage one of them and not the other, doing so is very easy in Git. From the interactive prompt, type `5` or `p` (for patch). Git will ask you which files you would like to partially stage; then, for each section of the selected files, it will display hunks of the file diff and ask if you would like to stage them, one by one:

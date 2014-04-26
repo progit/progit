@@ -123,20 +123,20 @@ E' importante notare che l'informazione del registro è solamente locale: è un 
 
 ### Riferimenti ancestrali ###
 
-L'altro modo principale per specificare una *commit* è attraverso i suoi ascendenti. Se metti un `^` alla fine di un riferimento, Git lo risolve interpretandolo come il padre
-padre di quella determinata *commit*. Immagina di guardare la cronologia del tuo progetto:
+L'altro modo principale per specificare una *commit* è attraverso i suoi ascendenti. Se metti un `^` alla fine di un riferimento, Git lo risolve interpretandolo come il padre padre di quella determinata *commit*.
+Immagina di vedere la cronologia del tuo progetto:
 
 	$ git log --pretty=format:'%h %s' --graph
 	* 734713b fixed refs handling, added gc auto, updated tests
 	*   d921970 Merge commit 'phedders/rdocs'
-	|\  
+	|\
 	| * 35cfb2b Some rdoc changes
 	* | 1c002dd added some blame and merge stuff
-	|/  
+	|/
 	* 1c36188 ignore *.gem
 	* 9b29157 add open3_detach to gemspec file list
 
-Puoi quindi vedere la *commit* precedente specificando `HEAD^`, che significa "il genitore di HEAD":
+Puoi quindi vedere la *commit* precedente specificando `HEAD^`, che significa "l'ascendente di HEAD":
 
 	$ git show HEAD^
 	commit d921970aadf03b3cf0e71becdaab3147ba71cdef
@@ -146,7 +146,7 @@ Puoi quindi vedere la *commit* precedente specificando `HEAD^`, che significa "i
 
 	    Merge commit 'phedders/rdocs'
 
-Puoi anche specificare un numero dopo `^`: per esempio `d921970^2` significa "il secondo genitore di d921870." Questa sintassi è utile solo per fare il *merge* di *commit* che hanno più di un genitore. Il primo genitore è il *branch* dove ti trovi al momento del *merge*, e il secondo è la *commit* sul *branch* da cui hai fatto il *merge*:
+Puoi specificare anche un numero dopo la `^`: per esempio `d921970^2` significa "il secondo ascendente di d921870." Questa sintassi è utile solo per incorporare delle *commit* che hanno più di un ascendente. Il primo ascendente è la diramazione dove ti trovi al momento dell'incorporamento, e il secondo è la *commit* sulla diramazione da cui hai fatto l'incorporamento:
 
 	$ git show d921970^
 	commit 1c002dd4b536e7479fe34593e72e6c6c1819e53b
@@ -162,7 +162,7 @@ Puoi anche specificare un numero dopo `^`: per esempio `d921970^2` significa "il
 
 	    Some rdoc changes
 
-Un altro modo riferimento ancestrale è `~`. Questo si riferisce anche al genitore, quindi `HEAD~` e `HEAD^` sono equivalenti. La differenza si nota quando specifichi un numero. `HEAD~2` significa "il genitore del genitore", o "il nonno”: attraversa i primi genitori il numero di volte che specifichi. Per esempio, nella cronologia precedente, `HEAD~3` sarebbe
+Un altro modo di specificare un riferimento ancestrale è la `~`. Questo si riferisce anche al primo ascendente, quindi `HEAD~` e `HEAD^` sono equivalenti. La differenza diventa evidente quando specifichi un numero. `HEAD~2` significa "il primo ascendente del primo ascendente", o "il nonno”: attraversa i primi ascendenti il numero di volte specificato. Per esempio, nella cronologia precedente, `HEAD~3` sarebbe
 
 	$ git show HEAD~3
 	commit 1c3618887afb5fbcbea25b7c013f4e2114448b8d
@@ -171,7 +171,7 @@ Un altro modo riferimento ancestrale è `~`. Questo si riferisce anche al genito
 
 	    ignore *.gem
 
-Che può anche essere scritto come `HEAD^^^` che, di nuovo, è sempre il genitore del genitore del genitore:
+Che può essere scritto anche come `HEAD^^^` che, di nuovo, è sempre il primo genitore del primo genitore del primo genitore:
 
 	$ git show HEAD^^^
 	commit 1c3618887afb5fbcbea25b7c013f4e2114448b8d
@@ -180,7 +180,7 @@ Che può anche essere scritto come `HEAD^^^` che, di nuovo, è sempre il genitor
 
 	    ignore *.gem
 
-È anche possibile combinare queste sintassi: puoi prendere il nonno del riferimento precedente (assumendo che si tratti di una commit di *merge*) usando `HEAD~3^2`, e così via.
+È anche possibile combinare queste sintassi: puoi prendere il secondo genitore del riferimento precedente (assumendo che si tratti di una commit d'incorporamento) usando `HEAD~3^2`, e così via.
 
 ### Intervalli di Commit ###
 

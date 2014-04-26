@@ -504,10 +504,10 @@ Puoi voler creare un alias per avere un comando `stash-unapply` nel tuo Git. Per
     $ git stash
     $ #... work work work
     $ git stash-unapply
-<!-- da tradurre fino a riga 840 -->
-### Creating a Branch from a Stash ###
 
-If you stash some work, leave it there for a while, and continue on the branch from which you stashed the work, you may have a problem reapplying the work. If the apply tries to modify a file that you’ve since modified, you’ll get a merge conflict and will have to try to resolve it. If you want an easier way to test the stashed changes again, you can run `git stash branch`, which creates a new branch for you, checks out the commit you were on when you stashed your work, reapplies your work there, and then drops the stash if it applies successfully:
+### Creare una diramazione da un accantonamento ###
+
+Se accantoni del lavoro e lo lasci lì mentre continui a lavorare per un po' nella diramazione da cui hai creato l'accantonamento, potresti avere dei problemi a riapplicarlo. Se l'applicazione prova a modificare un file che avevi modificato successivamente, otterrai un conflitto d'incorporazione e dovrai risolverlo. Se vuoi un modo facile per ritestare le modifiche accantonate, puoi eseguire il comando `git stash branch`, che crea una diramazione, scarica la commit dov'eri quando hai accantonato il tuo lavoro, lo riapplica e, se ci riesce senza problemi, cancella l'accantonamento:
 
 	$ git stash branch testchanges
 	Switched to a new branch "testchanges"
@@ -524,8 +524,8 @@ If you stash some work, leave it there for a while, and continue on the branch f
 	#
 	Dropped refs/stash@{0} (f0dfc4d5dc332d1cee34a634182e168c4efc3359)
 
-This is a nice shortcut to recover stashed work easily and work on it in a new branch.
-
+Questa è una bella accorciatoioa per recuperare il lavoro accantonato e lavorarci in una nuova diramazione.
+<!-- da tradurre fino a riga 840 -->
 ## Rewriting History ##
 
 Many times, when working with Git, you may want to revise your commit history for some reason. One of the great things about Git is that it allows you to make decisions at the last possible moment. You can decide what files go into which commits right before you commit with the staging area, you can decide that you didn’t mean to be working on something yet with the stash command, and you can rewrite commits that already happened so they look like they happened in a different way. This can involve changing the order of the commits, changing messages or modifying files in a commit, squashing together or splitting apart commits, or removing commits entirely — all before you share your work with others.

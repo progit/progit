@@ -214,18 +214,18 @@ Puoi anche omettere una delle parti della sintassi, e Git assumerà che sia HEAD
 
 #### Punti multipli ####
 
-La sintassi dei due punti è utile come la stenografia, ma potresti voler specificare più di due branch, così come vedere le commit che sono nei vari branch e che non sono nel tuo branch attuale. Git ti permette di farlo sia con il carattere `^` che con l’opzione `--not` prima di ciascun riferimento del quale vuoi vedere le commit non raggiungibili. Quindi questi tre comandi sono equivalenti:
+La sintassi dei due punti è utile come la stenografia, ma potresti voler specificare più di due branch per indicare la tua revisione, per vedere le commit che sono nelle varie diramazioni che non siano in quella attuale. Git ti permette di farlo sia con `^` che con l’opzione `--not` prima di ciascun riferimento del quale vuoi vedere le commit raggiungibili. Quindi questi tre comandi sono equivalenti:
 
 	$ git log refA..refB
 	$ git log ^refA refB
 	$ git log refB --not refA
 
-Questo è interessante, perché con questa sintassi puoi specificare più di due riferimenti nella tua query, cosa che non puoi fare con i due punti. Se per esempio vuoi vedere tutte le commit che siano raggiungibili da `refA` o da `refB` ma non da `refC` puoi usare una delle seguenti alternative:
+Questo è interessante, perché con questa sintassi puoi specificare più di due riferimenti nella tua richiesta, cosa che non puoi fare con i due punti. Se per esempio vuoi vedere tutte le commit che siano raggiungibili da `refA` o da `refB` ma non da `refC` puoi usare una delle seguenti alternative:
 
 	$ git log refA refB ^refC
 	$ git log refA refB --not refC
 
-Questo la rende un sistema potente di query di revisione che dovrebbe aiutarti a capire cosa c’è nei tuo branch.
+Questo produce un sistema di revisione molto potente che dovrebbe aiutarti a capire cosa c’è nelle tue diramazioni.
 
 #### Tre punti ####
 

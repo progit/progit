@@ -188,24 +188,24 @@ Ora che sai come specificare singole commit, vediamo come specificare intervalli
 
 #### Due punti ####
 
-Il modo più comune per specificare un intervallo è con i due punti che, praticamente, chiedono a Git di risolvere l’intervallo tra commit che sia raggiungibile da una commit, ma che non sia raggiungibile dall’altra. Per esempio, immaginiamo di avere una cronologia come nell’immagine 6-1
+Il modo più comune per specificare un intervallo è con i due punti che, praticamente, chiede a Git di risolvere l’intervallo tra commit che sia raggiungibile da una commit, ma non dall’altra. Immaginiamo di avere la cronologia dell’immagine 6-1
 
 Insert 18333fig0601.png
-Figure 6-1. Esempio di cronologia per selezione di intervalli.
+Figure 6-1. Esempio di cronologia per la selezione di intervalli.
 
-Vuoi vedere cosa sia nel tuo branch sperimentale che non sia ancora stato incluso nel branch master: puoi chiedere a Git di mostrarti il log esclusivamente di quelle commit con `master..experiment`: questo significa “tutte le commit raggiungibili da experiment che non siano raggiungibili da master”. Affinché questi esempi siano sintetici ma chiari, invece del log effettivamente scritto da Git, userò le lettere degli oggetti commit del diagramma:
+Vuoi vedere cosa sia nella tua diramazione sperimentale che non sia ancora stato incorporato nella master: puoi chiedere a Git di mostrarti solo il registro delle commit con `master..experiment`: questo significa “tutte le commit raggiungibili da experiment che non lo siano da master”. Affinché questi esempi siano sintetici ma chiari, invece del registro effettivo di Git, userò le lettere degli oggetti commit del diagramma:
 
 	$ git log master..experiment
 	D
 	C
 
-Se, invece vuoi vedere il contrario, ovvero tutte le commit in `master` che non siano in `experiment`, puoi invertire i nomi dei branch: `experiment..master` ti mostra tutto ciò che è in `master` e che non sia raggiungibile da `experiment`:
+Se volessi invece vedere il contrario, ovvero tutte le commit in `master` che non siano in `experiment`, puoi invertire i nomi dei branch: `experiment..master` ti mostra tutto ciò che è in `master` e che non sia raggiungibile da `experiment`:
 
 	$ git log experiment..master
 	F
 	E
 
-Questo è utile se vuoi mantenere il branch `experiment` aggiornato e sapere di cosa stai per fare il merge. Un’altro caso in cui si usa spesso questa sintassi è quando stai per fare una push verso un repository remoto:
+Questo è utile se vuoi mantenere aggiornata la diramazione `experiment` e sapere cosa stai per incorporare. Un’altro caso in cui si usa spesso questa sintassi è quando stai per condividere delle commit verso un repository remoto:
 
 	$ git log origin/master..HEAD
 

@@ -404,16 +404,16 @@ Generalmente digiterai `y` o `n` se vuoi assemblare tutti i blocchi, ma assembla
 È interessante lo stato di simplegit.rb, dove alcune righe sono assemblate ma non le altre. Hai assemblato parzialmente questo file. A questo punto puoi uscire dall'area interattiva ed eseguire `git commit` per committare la parte di file assemblata.
 
 Non devi essere nell'area interattiva per assemblare solo una parte di un file: puoi avviare lo stesso script dalla riga di comando con `git add -p` o `git add --patch`.
-<!-- da tradurre fino a riga 840 -->
-## Stashing ##
 
-Often, when you’ve been working on part of your project, things are in a messy state and you want to switch branches for a bit to work on something else. The problem is, you don’t want to do a commit of half-done work just so you can get back to this point later. The answer to this issue is the `git stash` command.
+## Accantonare ##
 
-Stashing takes the dirty state of your working directory — that is, your modified tracked files and staged changes — and saves it on a stack of unfinished changes that you can reapply at any time.
+Spesso, mentre stai lavorando ad una parte del tuo progetto, le cose possono essere in uno stato confusionario e tu vuoi passare a un'altra ramificazione per lavorare per un po' a qualcosa di diverso. Il problema è che non vuoi committare qualcosa fatta a metà per poi tornarci in un secondo momento. La risposta a questo problema è il comando `git stash`.
 
-### Stashing Your Work ###
+Questo comando prende tutte le modifiche della tua cartella di lavoro — cioè tutti i file tracciati che hai modificato e le modifiche assemblate — e le accantona in una pila di modifiche incomplete che puoi riapplicare in qualsiasi momento.
 
-To demonstrate, you’ll go into your project and start working on a couple of files and possibly stage one of the changes. If you run `git status`, you can see your dirty state:
+### Accantona il tuo lavoro ###
+
+Per dimostrare come funziona, vai nella cartella del tuo progetto e modifica un paio di file e assemblane alcuni. Se esegui `git status`, puoi vederne lo stato "sporco":
 
 	$ git status
 	# On branch master
@@ -428,7 +428,7 @@ To demonstrate, you’ll go into your project and start working on a couple of f
 	#      modified:   lib/simplegit.rb
 	#
 
-Now you want to switch branches, but you don’t want to commit what you’ve been working on yet; so you’ll stash the changes. To push a new stash onto your stack, run `git stash`:
+Ora vuoi passare a un'altra diramazione, ma non vuoi ancora committare il tuo lavoro perché non è ancora pronto; accantona quindi le tue modifiche. Per aggiungere un nuovo livello alla pila devi eseguire `git stash`:
 
 	$ git stash
 	Saved working directory and index state \
@@ -436,20 +436,20 @@ Now you want to switch branches, but you don’t want to commit what you’ve be
 	HEAD is now at 049d078 added the index file
 	(To restore them type "git stash apply")
 
-Your working directory is clean:
+La tua cartella di lavoro ora è pulita:
 
 	$ git status
 	# On branch master
 	nothing to commit (working directory clean)
 
-At this point, you can easily switch branches and do work elsewhere; your changes are stored on your stack. To see which stashes you’ve stored, you can use `git stash list`:
+A questo punto puoi passare facilmente a un'altra diramazione e lavorare ad altro; le tue modifiche sono salvate nella tua pila di accantonamento. Per vedere cosa c'è nella tua pila usa `git stash list`:
 
 	$ git stash list
 	stash@{0}: WIP on master: 049d078 added the index file
-	stash@{1}: WIP on master: c264051... Revert "added file_size"
-	stash@{2}: WIP on master: 21d80a5... added number to log
+	stash@{1}: WIP on master: c264051 Revert "added file_size"
+	stash@{2}: WIP on master: 21d80a5 added number to log
 
-In this case, two stashes were done previously, so you have access to three different stashed works. You can reapply the one you just stashed by using the command shown in the help output of the original stash command: `git stash apply`. If you want to apply one of the older stashes, you can specify it by naming it, like this: `git stash apply stash@{2}`. If you don’t specify a stash, Git assumes the most recent stash and tries to apply it:
+In questo caso hai due accantonamenti precedenti, e hai così accesso a tre lavori differenti accantonati. Puoi riapplicare quello che hai appena accantonato usando il comando mostrato nell'output d'aiuto del comando che hai usato quanto hai accantonato le tue modifiche: `git stash apply`. Se vuoi applicare uno degli accantonamenti precedenti, puoi specificarlo usandone il nome così: `git stash apply stash@{2}`. Se non specifiche un accantonamento Git suppone che ti riferisca all'ultimo e prova ad applicarlo:
 
 	$ git stash apply
 	# On branch master
@@ -460,9 +460,9 @@ In this case, two stashes were done previously, so you have access to three diff
 	#      modified:   lib/simplegit.rb
 	#
 
-You can see that Git re-modifies the files you uncommitted when you saved the stash. In this case, you had a clean working directory when you tried to apply the stash, and you tried to apply it on the same branch you saved it from; but having a clean working directory and applying it on the same branch aren’t necessary to successfully apply a stash. You can save a stash on one branch, switch to another branch later, and try to reapply the changes. You can also have modified and uncommitted files in your working directory when you apply a stash — Git gives you merge conflicts if anything no longer applies cleanly.
+Puoi vedere che Git ha rimodificato i file che aveva rimosso quando hai salvato l'accantonamento. In questo caso avevi una cartella di lavoro pulita quando provasti ad applicare l'accantonamento e stai provando a riappricarlo alla stessa ramificazione da cui l'avevi salvato; ma non è necessario avere una cartella pulita per applicare un accantonamento né che sia la stessa ramificazione. Puoi salvare un accantonamento da una ramificazione, passare a un'altra e applicare le modifiche accantonate. Nella tua cartella puoi anche avere modifiche non ancora committate quando applichi un accantonamento: Git ti darà un conflitto d'incorporamento nel caso che qualcosa non si possa applicare senza problemi.
 
-The changes to your files were reapplied, but the file you staged before wasn’t restaged. To do that, you must run the `git stash apply` command with a `--index` option to tell the command to try to reapply the staged changes. If you had run that instead, you’d have gotten back to your original position:
+Le modifiche vengono riapplicate ai tuoi file, ma quello che avevi assemblato ora non lo sono. Per farlo devi eseguire il comando `git stash apply` con il parametro `--index` perché provi a riapplicare le modifiche assemblate. Se lo avessi fatto ti saresti trovato nella stessa posizione originale:
 
 	$ git stash apply --index
 	# On branch master
@@ -477,17 +477,17 @@ The changes to your files were reapplied, but the file you staged before wasn’
 	#      modified:   lib/simplegit.rb
 	#
 
-The apply option only tries to apply the stashed work — you continue to have it on your stack. To remove it, you can run `git stash drop` with the name of the stash to remove:
+L'opzione `apply` prova solo ad applicare le modifiche assemblate: continua per averle nel tuo accantonamento. Per cancellare l'accantonamento devi eseguire `git stash drop` con il nome dell'accantonamento da rimuovere:
 
 	$ git stash list
 	stash@{0}: WIP on master: 049d078 added the index file
-	stash@{1}: WIP on master: c264051... Revert "added file_size"
-	stash@{2}: WIP on master: 21d80a5... added number to log
+	stash@{1}: WIP on master: c264051 Revert "added file_size"
+	stash@{2}: WIP on master: 21d80a5 added number to log
 	$ git stash drop stash@{0}
 	Dropped stash@{0} (364e91f3f268f0900bc3ee613f9f733e82aaed43)
 
-You can also run `git stash pop` to apply the stash and then immediately drop it from your stack.
-
+Puoi eseguire anche `git stash pop` per applicare l'accantonamento e cancellare immediatamente dopo.
+<!-- da tradurre fino a riga 840 -->
 ### Un-applying a Stash ###
 
 In some use case scenarios you might want to apply stashed changes, do some work, but then un-apply those changes that originally came from the stash. Git does not provide such a `stash unapply` command, but it is possible to achieve the effect by simply retrieving the patch associated with a stash and applying it in reverse:

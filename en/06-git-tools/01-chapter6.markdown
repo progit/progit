@@ -82,13 +82,13 @@ One of the things Git does in the background while you’re working away is keep
 You can see your reflog by using `git reflog`:
 
 	$ git reflog
-	734713b... HEAD@{0}: commit: fixed refs handling, added gc auto, updated
-	d921970... HEAD@{1}: merge phedders/rdocs: Merge made by recursive.
-	1c002dd... HEAD@{2}: commit: added some blame and merge stuff
-	1c36188... HEAD@{3}: rebase -i (squash): updating HEAD
-	95df984... HEAD@{4}: commit: # This is a combination of two commits.
-	1c36188... HEAD@{5}: rebase -i (squash): updating HEAD
-	7e05da5... HEAD@{6}: rebase -i (pick): updating HEAD
+	734713b HEAD@{0}: commit: fixed refs handling, added gc auto, updated
+	d921970 HEAD@{1}: merge phedders/rdocs: Merge made by recursive.
+	1c002dd HEAD@{2}: commit: added some blame and merge stuff
+	1c36188 HEAD@{3}: rebase -i (squash): updating HEAD
+	95df984 HEAD@{4}: commit: # This is a combination of two commits.
+	1c36188 HEAD@{5}: rebase -i (squash): updating HEAD
+	7e05da5 HEAD@{6}: rebase -i (pick): updating HEAD
 
 Every time your branch tip is updated for any reason, Git stores that information for you in this temporary history. And you can specify older commits with this data, as well. If you want to see the fifth prior value of the HEAD of your repository, you can use the `@{n}` reference that you see in the reflog output:
 

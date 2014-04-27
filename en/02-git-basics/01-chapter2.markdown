@@ -659,8 +659,11 @@ The lines must be formatted as follows
 
 For example, if you want to see which commits modifying test files in the Git source code history were committed by Junio Hamano in the month of October 2008 and were not merges, you can run something like this:
 
-	$ git log --pretty="%h - %s" --author=gitster --since="2008-10-01" \
-	   --before="2008-11-01" --no-merges -- t/
+	$ # get dates on-or-after  "2008-10-01 00:00:00"
+	$ # and       on-or-before "2008-11-01 00:00:00"
+	$
+	$ git log --pretty="%h - %s" --author=gitster --after="2008-10-01 00:00:00" \
+	   --before="2008-11-01 00:00:00" --no-merges -- t/
 	5610e3b - Fix testcase failure when extended attribute
 	acd3b9e - Enhance hold_lock_file_for_{update,append}()
 	f563754 - demonstrate breakage of detached checkout wi
@@ -669,6 +672,14 @@ For example, if you want to see which commits modifying test files in the Git so
 	b0ad11e - pull: allow "git pull origin $something:$cur
 
 Of the nearly 20,000 commits in the Git source code history, this command shows the 6 that match those criteria.
+
+When using `git log` without specifying time,
+
+	git log --after=2008-10-01 --before=2008-11-01
+
+then it defaults to using the time at the instant the command is executed. For example when the above command is executed at time 09:00:00, then the result is equivalent to doing:
+
+	git log --after="2008-10-01 09:00:00" --before="2008-11-01 09:00:00"
 
 ### Using a GUI to Visualize History ###
 

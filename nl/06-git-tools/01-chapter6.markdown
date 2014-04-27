@@ -33,7 +33,7 @@ vertaling moeten proberen te maken.
 
 Veel succes en plezier bij het vertalen...
 -->
-<!-- SHA-1 of last checked en-version: 3c18779  -->
+<!-- SHA-1 of last checked en-version: 7f80ea23  -->
 # Git tools #
 
 Nu heb je de meeste commando's en werkwijzen geleerd die je dagelijks nodig hebt om een Git repository voor je broncode te beheren en te onderhouden. Je hebt de basistaken van het tracken en committen van bestanden onder de knie, en je hebt de kracht van de staging area en lichtgewicht topic branching en mergen in de vingers.
@@ -50,7 +50,7 @@ Natuurlijk kun je naar een commit refereren met de SHA-1 hash die het toegekend 
 
 ### Korte SHA ###
 
-Git is slim genoeg om uit te vinden welke commit je bedoelde te typen als je het de eerste paar karakters geeft, zolang je gedeeltelijke SHA-1 maar minstens vier karakters lang en ondubbelzinnig is; dat wil zeggen dat slechts Ã©Ã©n object in de huidige repository begint met die gedeeltelijke SHA-1.
+Git is slim genoeg om uit te vinden welke commit je bedoelde te typen als je het de eerste paar karakters geeft, zolang je gedeeltelijke SHA-1 maar minstens vier karakters lang en ondubbelzinnig is; dat wil zeggen dat slechts één object in de huidige repository begint met die gedeeltelijke SHA-1.
 
 Bijvoorbeeld, stel dat je om een specifieke commit te zien een `git log` commando uitvoert en de commit identificeert waarin je een bepaalde functionaliteit hebt toegevoegd:
 
@@ -95,10 +95,10 @@ Veel mensen beginnen bezorgd te raken dat ze op een bepaald moment door puur toe
 
 Mocht je een object committen dat hashed naar dezelfde SHA-1 waarde als een vorig object in je repository, dan zal Git het vorige reeds aanwezige object in je Git database zien en aannemen dat het al geschreven was. Als je op een bepaald moment dat object opnieuw probeert uit te checken, dan zal je altijd de gegevens van het eerste object krijgen.
 
-<!-- Vraag: weet iemand de officiÃ«le term voor botsingswaarschijnlijkheid? Via de Engelse Wikipedia kom ik (via collision probability) op universal hashing, maar is de formule niet te zien. -->
+<!-- Vraag: weet iemand de officiële term voor botsingswaarschijnlijkheid? Via de Engelse Wikipedia kom ik (via collision probability) op universal hashing, maar is de formule niet te zien. -->
 Maar wat je moet beseffen is hoe vreselijk onwaarschijnlijk dit scenario is. De SHA-1 waarde is 20 bytes, oftewel 160 bits. Het aantal benodigde random gehashte objecten om een 50% waarschijnlijkheid van een botsing te garanderen is ongeveer 2^80 (de formule om botsingswaarschijnlijkheid te bepalen is `p = (n(n-1)/2) * (1/2^160)`). 2^80 is 1.2 x 10^24 of 1 miljoen miljard miljard. Dat is 1.200 keer het aantal zandkorrels op aarde.
 
-Hier is een voorbeeld om je een idee te geven wat er voor nodig is om een SHA-1 botsing te krijgen. Als alle 6.5 miljard mensen op aarde zouden programmeren, en iedere seconde zou ieder van hen code genereren die gelijk was aan de hele Linux kernel-geschiedenis (1 miljoen Git objecten) en dat in Ã©Ã©n gigantische Git repository pushen, dan zou het vijf jaar duren voordat die repository genoeg objecten zou bevatten om een 50% waarschijnlijkheid van Ã©Ã©n enkele SHA-1 object botsing te krijgen. De kans is groter dat elk lid van je programmeerteam zal worden aangevallen en gedood door wolven bij ongerelateerde incidenten op dezelfde avond.
+Hier is een voorbeeld om je een idee te geven wat er voor nodig is om een SHA-1 botsing te krijgen. Als alle 6.5 miljard mensen op aarde zouden programmeren, en iedere seconde zou ieder van hen code genereren die gelijk was aan de hele Linux kernel-geschiedenis (1 miljoen Git objecten) en dat in één gigantische Git repository pushen, dan zou het vijf jaar duren voordat die repository genoeg objecten zou bevatten om een 50% waarschijnlijkheid van één enkele SHA-1 object botsing te krijgen. De kans is groter dat elk lid van je programmeerteam zal worden aangevallen en gedood door wolven bij ongerelateerde incidenten op dezelfde avond.
 
 ### Branch referenties ###
 
@@ -119,13 +119,13 @@ Een van de dingen die Git in de achtergrond doet terwijl jij lekker zit te werke
 Je kunt je reflog zien door `git reflog` te gebruiken:
 
 	$ git reflog
-	734713b... HEAD@{0}: commit: fixed refs handling, added gc auto, updated
-	d921970... HEAD@{1}: merge phedders/rdocs: Merge made by recursive.
-	1c002dd... HEAD@{2}: commit: added some blame and merge stuff
-	1c36188... HEAD@{3}: rebase -i (squash): updating HEAD
-	95df984... HEAD@{4}: commit: # This is a combination of two commits.
-	1c36188... HEAD@{5}: rebase -i (squash): updating HEAD
-	7e05da5... HEAD@{6}: rebase -i (pick): updating HEAD
+	734713b HEAD@{0}: commit: fixed refs handling, added gc auto, updated
+	d921970 HEAD@{1}: merge phedders/rdocs: Merge made by recursive.
+	1c002dd HEAD@{2}: commit: added some blame and merge stuff
+	1c36188 HEAD@{3}: rebase -i (squash): updating HEAD
+	95df984 HEAD@{4}: commit: # This is a combination of two commits.
+	1c36188 HEAD@{5}: rebase -i (squash): updating HEAD
+	7e05da5 HEAD@{6}: rebase -i (pick): updating HEAD
 
 Iedere keer als de punt van je branch om een of andere reden is gewijzigd, dan bewaart Git die informatie voor je in deze tijdelijke geschiedenis. En je kunt ook oudere commits met deze gegevens specificeren. Als je de vijfde voorgaande waarde van de HEAD van je repository wilt zien, dan kun je de `@{n}` referentie gebruiken, die je in de reflog output kunt zien:
 
@@ -183,7 +183,7 @@ Dan zie je de vorige commit door `HEAD^` te specificeren, wat "de ouder van HEAD
 
 	    Merge commit 'phedders/rdocs'
 
-Je kunt ook een getal na de `^` zetten, bijvoorbeeld `d921970^2` betekent "de tweede ouder van d921970." Deze syntax is alleen nuttig voor merge commits, omdat die meer dan Ã©Ã©n ouder hebben. De eerste ouder is de branch waar jij op was toen je mergede, en de andere is de commit op de branch die je gemerged hebt:
+Je kunt ook een getal na de `^` zetten, bijvoorbeeld `d921970^2` betekent "de tweede ouder van d921970." Deze syntax is alleen nuttig voor merge commits, omdat die meer dan één ouder hebben. De eerste ouder is de branch waar jij op was toen je mergede, en de andere is de commit op de branch die je gemerged hebt:
 
 	$ git show d921970^
 	commit 1c002dd4b536e7479fe34593e72e6c6c1819e53b
@@ -247,17 +247,17 @@ Dit is handig als je de `experiment` branch up to date wilt houden en alvast wil
 	$ git log origin/master..HEAD
 
 Dit commando toont je alle commits in je huidige branch, die niet in de `master` branch op de remote `origin` zitten. Als je een `git push` uitvoert, en je huidige branch volgt de `origin/master`, dan zijn de commits die getoond worden door `git log origin/master..HEAD` de commits die verstuurd zullen worden naar de server.
-Je kunt ook Ã©Ã©n kant van de syntax weglaten om Git de HEAD laten aannemen. Bijvoorbeeld, je krijgt dezelfde resultaten als in het vorige voorbeeld door `git log origin/master..` te typen - Git vult HEAD in als er Ã©Ã©n kant ontbreekt.
+Je kunt ook één kant van de syntax weglaten om Git de HEAD laten aannemen. Bijvoorbeeld, je krijgt dezelfde resultaten als in het vorige voorbeeld door `git log origin/master..` te typen - Git vult HEAD in als er één kant ontbreekt.
 
 #### Dubbele punten ####
 
-De syntax met de dubbel-punt is makkelijk als een afkorting, maar misschien wil je meer dan twee branches specificeren om je revisie aan te geven, zoals het zien welke commits in Ã©Ã©n van de branches in een reeks zitten, die nog niet in de branch zitten waar je nu op werkt. Git laat je dit doen door of het `^` karakter of `--not`, te gebruiken voor iedere referentie waarvan je de bereikbare commits niet wilt zien. Dus deze drie commando's zijn gelijk:
+De syntax met de dubbel-punt is makkelijk als een afkorting, maar misschien wil je meer dan twee branches specificeren om je revisie aan te geven, zoals het zien welke commits in één van de branches in een reeks zitten, die nog niet in de branch zitten waar je nu op werkt. Git laat je dit doen door of het `^` karakter of `--not`, te gebruiken voor iedere referentie waarvan je de bereikbare commits niet wilt zien. Dus deze drie commando's zijn gelijk:
 
 	$ git log refA..refB
 	$ git log ^refA refB
 	$ git log refB --not refA
 
-Dit is prettig omdat met deze syntax je meer dan twee referenties in je vraag kunt specificeren, wat je niet met de dubbel punt syntax kan doen. Bijvoorbeeld, als je alle commits wilt zien die bereikbaar zijn vanuit `refA` of `refB`, maar niet vanuit `refC`, dan kun je Ã©Ã©n van deze intypen:
+Dit is prettig omdat met deze syntax je meer dan twee referenties in je vraag kunt specificeren, wat je niet met de dubbel punt syntax kan doen. Bijvoorbeeld, als je alle commits wilt zien die bereikbaar zijn vanuit `refA` of `refB`, maar niet vanuit `refC`, dan kun je één van deze intypen:
 
 	$ git log refA refB ^refC
 	$ git log refA refB --not refC
@@ -266,7 +266,7 @@ Dit zorgt voor een erg krachtig revisie vraagsysteem dat je kan helpen om uit te
 
 #### Drievoudige punt ####
 
-De laatste veelgebruikte reeks-selectie syntax is de drievoudige punt syntax, wat alle commits specificeert die bereikbaar zijn door Ã©Ã©n van de twee referenties, maar niet door allebei. Kijk nog eens naar de voorbeeld commitgeschiedenis in Figuur 6-1.
+De laatste veelgebruikte reeks-selectie syntax is de drievoudige punt syntax, wat alle commits specificeert die bereikbaar zijn door één van de twee referenties, maar niet door allebei. Kijk nog eens naar de voorbeeld commitgeschiedenis in Figuur 6-1.
 Als je wilt zien wat in je `master` of in je `experiment` zit, maar geen gedeelde referenties, dan kun je dit uitvoeren
 
 	$ git log master...experiment
@@ -289,7 +289,7 @@ Met deze tools, kun je Git eenvoudiger laten weten welke commit of commits je wi
 
 ## Interactief stagen ##
 
-Bij Git worden een aantal scripts geleverd, die sommige commandline taken makkelijker maken. Hier zul je een aantal interactieve commando's zien, die je kunnen helpen om je commits zo samen te stellen dat ze alleen bepaalde combinaties en delen van bestanden bevatten. Deze tools zijn erg nuttig als je een reeks bestanden aanpast en dan besluit dat je deze wijzigingen in een aantal gefocuste commits wilt hebben in plaats van Ã©Ã©n grote rommelige commit. Op deze manier ben je er zeker van dat je commits logische aparte wijzigingensets zijn en makkelijk gereviewed kunnen worden door je mede-ontwikkelaars.
+Bij Git worden een aantal scripts geleverd, die sommige commandline taken makkelijker maken. Hier zul je een aantal interactieve commando's zien, die je kunnen helpen om je commits zo samen te stellen dat ze alleen bepaalde combinaties en delen van bestanden bevatten. Deze tools zijn erg nuttig als je een reeks bestanden aanpast en dan besluit dat je deze wijzigingen in een aantal gefocuste commits wilt hebben in plaats van één grote rommelige commit. Op deze manier ben je er zeker van dat je commits logische aparte wijzigingensets zijn en makkelijk gereviewed kunnen worden door je mede-ontwikkelaars.
 Als je `git add` uitvoert met de `-i` of `--interactive` optie, dan schakelt Git over naar een interactieve shell modus, waarbij zoiets als dit getoond wordt:
 
 	$ git add -i
@@ -396,7 +396,7 @@ Met deze simpele commando's kun je de interactieve toevoegmodus gebruiken om op 
 
 ### Patches stagen ###
 
-Het is met Git ook mogelijk om bepaalde delen van bestanden te stagen en de rest niet. Bijvoorbeeld, als je twee wijzigingen maakt in je simplegit.rb bestand en Ã©Ã©n van die twee wilt stagen en de andere niet, dan is dat eenvoudig in Git. Vanaf de interactieve prompt, type `5` of `p` (voor patch). Git zal je vragen welke bestanden je deels wilt stagen en daarna, voor iedere sectie van de geselecteerde bestanden, zal het stukken van de bestandsdiff tonen en je vragen of je ze wilt stagen, Ã©Ã©n voor Ã©Ã©n:
+Het is met Git ook mogelijk om bepaalde delen van bestanden te stagen en de rest niet. Bijvoorbeeld, als je twee wijzigingen maakt in je simplegit.rb bestand en één van die twee wilt stagen en de andere niet, dan is dat eenvoudig in Git. Vanaf de interactieve prompt, type `5` of `p` (voor patch). Git zal je vragen welke bestanden je deels wilt stagen en daarna, voor iedere sectie van de geselecteerde bestanden, zal het stukken van de bestandsdiff tonen en je vragen of je ze wilt stagen, één voor één:
 
 	diff --git a/lib/simplegit.rb b/lib/simplegit.rb
 	index dd5ecc4..57399e0 100644
@@ -483,8 +483,8 @@ Nu kan je eenvoudig van branch wisselen en ergens anders aan werken, je wijzigin
 
 	$ git stash list
 	stash@{0}: WIP on master: 049d078 added the index file
-	stash@{1}: WIP on master: c264051... Revert "added file_size"
-	stash@{2}: WIP on master: 21d80a5... added number to log
+	stash@{1}: WIP on master: c264051 Revert "added file_size"
+	stash@{2}: WIP on master: 21d80a5 added number to log
 
 In dit geval waren er twee stashes al eerder opgeslagen, dus heb je toegang tot drie verschillende gestashede werken. Je kunt degene die je zojuist gestashed hebt opnieuw toepassen, door het commando uit te voeren dat in de help output van het originele stash commando stond: `git stash apply`. Als je een van de oudere stashes wilt toepassen, dan kun je die specificeren door hem te benoemen, zoals hier: `git apply stash stash@{2}`. Als je geen stash specificeert, neemt Git aan dat je de meest recente stash bedoelt en probeert die toe te passen:
 
@@ -497,7 +497,7 @@ In dit geval waren er twee stashes al eerder opgeslagen, dus heb je toegang tot 
 	#      modified:   lib/simplegit.rb
 	#
 
-Je kunt zien dat Git opnieuw de bestanden wijzigt die je uncommitte toen je de stash opsloeg. In dit geval had je een schone werkdirectory toen je de stash probeerde toe te passen, en dat je probeerde deze op dezelfde branch toe te passen als waar je hem van opgeslagen hebt. Maar het hebben van een schone werkdirectory en het toepassen op dezelfde branch zijn niet noodzakelijk om een stash succesvol toe te kunnen passen. Je kunt een stash op Ã©Ã©n branch opslaan, later naar een andere branch omschakelen, en daar opnieuw de wijzigingen toe proberen te passen. Je kunt ook gewijzigde en uncommitted bestanden in je werkdirectory hebben wanneer je een stash probeert toe te passen, Git geeft merge conflicten aan als iets niet meer netjes toe te passen is.
+Je kunt zien dat Git opnieuw de bestanden wijzigt die je uncommitte toen je de stash opsloeg. In dit geval had je een schone werkdirectory toen je de stash probeerde toe te passen, en dat je probeerde deze op dezelfde branch toe te passen als waar je hem van opgeslagen hebt. Maar het hebben van een schone werkdirectory en het toepassen op dezelfde branch zijn niet noodzakelijk om een stash succesvol toe te kunnen passen. Je kunt een stash op één branch opslaan, later naar een andere branch omschakelen, en daar opnieuw de wijzigingen toe proberen te passen. Je kunt ook gewijzigde en uncommitted bestanden in je werkdirectory hebben wanneer je een stash probeert toe te passen, Git geeft merge conflicten aan als iets niet meer netjes toe te passen is.
 
 De wijzigingen aan je bestanden zijn opnieuw toegepast, maar het bestand dat je eerder gestaged had is niet opnieuw gestaged. Om dat te doen moet je het `git stash apply` commando met de `--index` optie uitvoeren om het commando te vertellen de gestagede wijzigingen opnieuw proberen toe te passen. Als je dat had uitgevoerd, dan zou je weer op je originele uitgangspunt zijn uitgekomen:
 
@@ -565,7 +565,7 @@ Dit is een prettige manier om gestashed werk eenvoudig terug te halen en eraan t
 
 ## Geschiedenis herschrijven ##
 
-Vaak zal je, als je met Git werkt, je commit geschiedenis om een of andere reden willen aanpassen. Ã‰Ã©n van de mooie dingen van Git is dat het je in staat stelt om beslissingen op het laatst mogelijke moment te maken. Je kunt bepalen welke bestanden in welke commits gaan vlak voordat je commit, door middel van de staging area, je kunt besluiten dat je toch nog niet aan iets had willen beginnen met het stash commando en je kunt commits herschrijven ook al zijn ze al gebeurd, waardoor het lijkt alsof ze op een andere manier gebeurd zijn. Dit kan bijvoorbeeld de volgorde van de commits zijn, berichten of bestanden in een commit wijzigen, commits samenpersen(squashen) of opsplitsen, of complete commits weghalen - en dat allemaal voordat je jouw werk met anderen deelt.
+Vaak zal je, als je met Git werkt, je commit geschiedenis om een of andere reden willen aanpassen. Ã‰én van de mooie dingen van Git is dat het je in staat stelt om beslissingen op het laatst mogelijke moment te maken. Je kunt bepalen welke bestanden in welke commits gaan vlak voordat je commit, door middel van de staging area, je kunt besluiten dat je toch nog niet aan iets had willen beginnen met het stash commando en je kunt commits herschrijven ook al zijn ze al gebeurd, waardoor het lijkt alsof ze op een andere manier gebeurd zijn. Dit kan bijvoorbeeld de volgorde van de commits zijn, berichten of bestanden in een commit wijzigen, commits samenpersen(squashen) of opsplitsen, of complete commits weghalen - en dat allemaal voordat je jouw werk met anderen deelt.
 
 In deze paragraaf zal je leren hoe je deze handige taken uitvoert, zodat je jouw commit geschiedenis er uit kunt laten zien zoals jij dat wilt, voordat je het met anderen deelt.
 
@@ -656,7 +656,7 @@ Dit commando zal de andere twee commits automatisch toepassen, en je bent klaar.
 
 ### Commits opnieuw rangschikken ###
 
-Je kunt een interactieve rebase ook gebruiken om commits opnieuw te rangschikken of zijn geheel te verwijderen. Als je de "added cat-file" commit wilt verwijderen en de volgorde waarin de andere twee commits zijn geÃ¯ntroduceerd wilt veranderen, dan kun je het rebase script van dit
+Je kunt een interactieve rebase ook gebruiken om commits opnieuw te rangschikken of zijn geheel te verwijderen. Als je de "added cat-file" commit wilt verwijderen en de volgorde waarin de andere twee commits zijn geïntroduceerd wilt veranderen, dan kun je het rebase script van dit
 
 	pick f7f3f6d changed my name a bit
 	pick 310154e updated README formatting and added blame
@@ -671,7 +671,7 @@ Als je dan opslaat en de editor sluit, zal Git je branch terugzetten naar de oud
 
 ### Een commit samenpersen (squashing) ###
 
-Het is ook mogelijk een serie commits te pakken en ze in Ã©Ã©n enkele commit samen te persen (squash) met het interactieve rebase tool. Het script stopt behulpzame instructies in het rebase bericht:
+Het is ook mogelijk een serie commits te pakken en ze in één enkele commit samen te persen (squash) met het interactieve rebase tool. Het script stopt behulpzame instructies in het rebase bericht:
 
 	#
 	# Commands:
@@ -767,7 +767,7 @@ Nu is de nieuwe project root elke keer de inhoud van de `trunk` subdirectory. Gi
 
 #### E-mail adressen globaal veranderen ####
 
-Een ander veel voorkomend geval is dat je vergeten bent om `git config` uit te voeren om je naam en e-mail adres in te stellen voordat je begon met werken, of misschien wil je een project op het werk open source maken en al je werk e-mail adressen veranderen naar je persoonlijke adres. Hoe dan ook, je kunt e-mail adressen in meerdere commits ook in Ã©Ã©n klap veranderen met `filter-branch`. Je moet wel oppassen dat je alleen die e-mail adressen aanpast die van jou zijn, dus gebruik je `--commit-filter`:
+Een ander veel voorkomend geval is dat je vergeten bent om `git config` uit te voeren om je naam en e-mail adres in te stellen voordat je begon met werken, of misschien wil je een project op het werk open source maken en al je werk e-mail adressen veranderen naar je persoonlijke adres. Hoe dan ook, je kunt e-mail adressen in meerdere commits ook in één klap veranderen met `filter-branch`. Je moet wel oppassen dat je alleen die e-mail adressen aanpast die van jou zijn, dus gebruik je `--commit-filter`:
 
 	$ git filter-branch --commit-filter '
 	        if [ "$GIT_AUTHOR_EMAIL" = "schacon@localhost" ];
@@ -787,7 +787,7 @@ Git levert ook een paar tools om je problemen te helpen debuggen in je projecten
 
 ### Aantekenen van bestanden ###
 
-Als je een bug in je code traceert en wilt weten wanneer het was geÃ¯ntroduceerd en waarom, dan is bestands aantekenen vaak je beste methode. Het toont je welke commit de laatste was die iets wijzigde in een bepaald bestand. Dus als je ziet dat een methode in je code bugs bevat, dan kun je het bestand aantekenen met `git blame` om te zien wanneer een regel van de methode voor het laatst aangepast was en door wie. Dit voorbeeld gebruikt de `-L` optie om de output te beperken tot regel 12 tot en met 22:
+Als je een bug in je code traceert en wilt weten wanneer het was geïntroduceerd en waarom, dan is bestands aantekenen vaak je beste methode. Het toont je welke commit de laatste was die iets wijzigde in een bepaald bestand. Dus als je ziet dat een methode in je code bugs bevat, dan kun je het bestand aantekenen met `git blame` om te zien wanneer een regel van de methode voor het laatst aangepast was en door wie. Dit voorbeeld gebruikt de `-L` optie om de output te beperken tot regel 12 tot en met 22:
 
 	$ git blame -L 12,22 simplegit.rb
 	^4832fe2 (Scott Chacon  2008-03-15 10:31:28 -0700 12)  def show(tree = 'master')
@@ -835,7 +835,7 @@ Stel dat je zojuist een release van je code naar een productie omgeving gepusht 
 	Bisecting: 6 revisions left to test after this
 	[ecb6e1bc347ccecc5f9350d878ce677feb13d3b2] error handling on repo
 
-Git heeft gezien dat er ongeveer 12 commits geweest zijn tussen de commit die je als laatste goede commit gemarkeerd hebt (v1.0) en de huidige slechte versie, en het heeft de middelste voor je uitgecheckt. Op dit punt kun je de test uitvoeren om te zien of het probleem op deze commit ook aanwezig is. Als dat zo is, dan was het probleem ergens voor deze middelste commit geÃ¯ntroduceerd, zo niet dan is het probleem na deze commit geÃ¯ntroduceerd. Het blijkt dat hier geen probleem is, dus vertel je Git dat door `git bisect good` te typen en je reis te vervolgen:
+Git heeft gezien dat er ongeveer 12 commits geweest zijn tussen de commit die je als laatste goede commit gemarkeerd hebt (v1.0) en de huidige slechte versie, en het heeft de middelste voor je uitgecheckt. Op dit punt kun je de test uitvoeren om te zien of het probleem op deze commit ook aanwezig is. Als dat zo is, dan was het probleem ergens voor deze middelste commit geïntroduceerd, zo niet dan is het probleem na deze commit geïntroduceerd. Het blijkt dat hier geen probleem is, dus vertel je Git dat door `git bisect good` te typen en je reis te vervolgen:
 
 	$ git bisect good
 	Bisecting: 3 revisions left to test after this
@@ -847,7 +847,7 @@ Nu zit je op een andere commit, halverwege degene die je zojuist getest hebt en 
 	Bisecting: 1 revisions left to test after this
 	[f71ce38690acf49c1f3c9bea38e09d82a5ce6014] drop exceptions table
 
-Deze commit is in orde, en nu heeft Git alle informatie die het nodig heeft om vast te stellen wanneer het probleem was geÃ¯ntroduceerd. Het vertelt je de SHA-1 van de eerste slechte commit en toont een stukje commit informatie en welke bestanden aangepast waren in die commit, zodat je er achter kunt komen wat deze bug geÃ¯ntroduceerd kan hebben:
+Deze commit is in orde, en nu heeft Git alle informatie die het nodig heeft om vast te stellen wanneer het probleem was geïntroduceerd. Het vertelt je de SHA-1 van de eerste slechte commit en toont een stukje commit informatie en welke bestanden aangepast waren in die commit, zodat je er achter kunt komen wat deze bug geïntroduceerd kan hebben:
 
 	$ git bisect good
 	b047b02ea83310a70fd603dc8cd7a6cd13d15c04 is first bad commit
@@ -875,7 +875,7 @@ Door het zo te doen wordt `test-error.sh` uitgevoerd bij elke commit die uitgech
 
 Het komt vaak voor dat terwijl je zit te werken aan het ene project, je een ander project daarbinnen moet gebruiken. Bijvoorbeeld een library die een derde partij ontwikkeld heeft, of die je separaat aan het ontwikkelen bent en gebruikt in meerdere projecten. Een veel voorkomend probleem komt in deze scenario's naar voren: je wilt de twee projecten apart behandelen, maar wel binnen de andere kunnen gebruiken.
 
-Hier is een voorbeeld. Stel dat je een website aan het ontwikkelen bent en Atom feeds aan het maken bent. In plaats van je eigen Atom-genererende code te schrijven, besluit je een library te gebruiken. Je zult deze code dan moeten includen van een gedeelde library zoals een CPAN installatie of een Ruby gem, of de broncode kopiÃ«ren naar je eigen projectboom. Het probleem met de library includen is dat het lastig is om de library op enige manier aan te passen, en vaak nog lastiger is om het uit te rollen omdat je zeker moet zijn dat iedere client die library beschikbaar heeft. Het probleem van de broncode in je project stoppen is dat alle aanpassingen die je maakt lastig te mergen zijn op het moment dat stroomopwaarts veranderingen beschikbaar komen.
+Hier is een voorbeeld. Stel dat je een website aan het ontwikkelen bent en Atom feeds aan het maken bent. In plaats van je eigen Atom-genererende code te schrijven, besluit je een library te gebruiken. Je zult deze code dan moeten includen van een gedeelde library zoals een CPAN installatie of een Ruby gem, of de broncode kopiëren naar je eigen projectboom. Het probleem met de library includen is dat het lastig is om de library op enige manier aan te passen, en vaak nog lastiger is om het uit te rollen omdat je zeker moet zijn dat iedere client die library beschikbaar heeft. Het probleem van de broncode in je project stoppen is dat alle aanpassingen die je maakt lastig te mergen zijn op het moment dat stroomopwaarts veranderingen beschikbaar komen.
 
 Git pakt dit probleem aan door submodules te gebruiken. Submodules geven je de mogelijkheid om een Git repository als een subdirectory van een ander Git repository te gebruiken. Dit stelt je in staat staat een ander repository in je project te klonen en je commits gescheiden te houden.
 
@@ -1023,7 +1023,7 @@ Dit is het omdat de pointer die je hebt voor de submodule niet is wat eigenlijk 
 
 Je moet dit iedere keer doen wanneer je een submodule wijziging pulled in het hoofdproject. Het is vreemd, maar het werkt.
 
-Ã‰Ã©n bekend probleem doet zich voor als een developer een lokale wijziging in een submodule doet maar die niet naar een publieke server pusht. Dan committen ze een pointer naar de niet-publieke status en pushen deze naar het superproject. Als andere developers dan `git submodule update` proberen uit te voeren, dan zal het submodule systeem de commit die gerefereerd wordt niet kunnen vinden omdat het alleen op het systeem van de eerste developer bestaat. Als dat gebeurt, zal je een foutmelding als deze zien:
+Ã‰én bekend probleem doet zich voor als een developer een lokale wijziging in een submodule doet maar die niet naar een publieke server pusht. Dan committen ze een pointer naar de niet-publieke status en pushen deze naar het superproject. Als andere developers dan `git submodule update` proberen uit te voeren, dan zal het submodule systeem de commit die gerefereerd wordt niet kunnen vinden omdat het alleen op het systeem van de eerste developer bestaat. Als dat gebeurt, zal je een foutmelding als deze zien:
 
 	$ git submodule update
 	fatal: reference isnâ€™t a tree: 6c5e70b984a60b3cecd395edd5b48a7575bf58e0
@@ -1044,13 +1044,13 @@ Dan stuur je een e-mail naar die jongen en gaat heel boos zijn tegen hem.
 
 Soms willen developers een combinatie van subdirectories van een groot project hebben, afhankelijk van het team waarin ze zitten. Dit komt vaak voor als je van CVS of Subversion af komt, waar je een module of verzameling subdirectory gedefinieerd hebt en je wilt deze workflow behouden.
 
-Een goeie manier om dit in Git te doen is om elk van de subdirectories een aparte Git repository te maken en dan superproject Git repositories te maken die meerdere submodules bevatten. Een voordeel van deze aanpak is dat je meer specifiek kunt definiÃ«ren wat de relaties tussen de projecten zijn met behulp van tags en branches in de superprojects.
+Een goeie manier om dit in Git te doen is om elk van de subdirectories een aparte Git repository te maken en dan superproject Git repositories te maken die meerdere submodules bevatten. Een voordeel van deze aanpak is dat je meer specifiek kunt definiëren wat de relaties tussen de projecten zijn met behulp van tags en branches in de superprojects.
 
 ### Problemen met submodules ###
 
-Submodules gebruiken is echter niet zonder probleempjes. Ten eerste moet je relatief voorzichtig zijn met het werken in de directory van de submodule. Als je `git submodule update` uitvoert, zal het de specifieke versie van het project uitchecken, maar niet binnen een branch. Dit wordt een afgekoppelde (detached) HEAD genoemd â€“ het houdt in dat het HEAD bestand direct naar een commit wijst en niet naar een symbolische referentie. Het probleem is dat je over het algemeen niet wilt werken in een detached HEAD omgeving, omdat het eenvoudig is om wijzigingen te verliezen. Als je een initiÃ«le `submodule update` doet, in die submodule directory commit zonder een branch te maken om in te werken en dan nogmaals `git submodule update` uitvoert in het superproject zonder in de tussentijd te committen, dan zal Git je wijzigingen overschrijven zonder het je te vertellen. Technisch gezien ben je het werk niet kwijt, maar je zult geen branch hebben die er naar wijst, dus het zal wat lastig zijn om het terug te halen.
+Submodules gebruiken is echter niet zonder probleempjes. Ten eerste moet je relatief voorzichtig zijn met het werken in de directory van de submodule. Als je `git submodule update` uitvoert, zal het de specifieke versie van het project uitchecken, maar niet binnen een branch. Dit wordt een afgekoppelde (detached) HEAD genoemd - het houdt in dat het HEAD bestand direct naar een commit wijst en niet naar een symbolische referentie. Het probleem is dat je over het algemeen niet wilt werken in een detached HEAD omgeving, omdat het eenvoudig is om wijzigingen te verliezen. Als je een initiële `submodule update` doet, in die submodule directory commit zonder een branch te maken om in te werken en dan nogmaals `git submodule update` uitvoert in het superproject zonder in de tussentijd te committen, dan zal Git je wijzigingen overschrijven zonder het je te vertellen. Technisch gezien ben je het werk niet kwijt, maar je zult geen branch hebben die er naar wijst, dus het zal wat lastig zijn om het terug te halen.
 
-Om dit probleem te vermijden creÃ«er je een branch zodra je in een submodule directory werkt met behulp van `git checkout -b work` of iets dergelijks. Als je de tweede keer de submodule update doet, zal het nog steeds je werk terugdraaien maar je heb tenminste een pointer om naar terug te keren.
+Om dit probleem te vermijden creëer je een branch zodra je in een submodule directory werkt met behulp van `git checkout -b work` of iets dergelijks. Als je de tweede keer de submodule update doet, zal het nog steeds je werk terugdraaien maar je heb tenminste een pointer om naar terug te keren.
 
 Tussen branches omschakelen die submodules bevatten kan ook lastig zijn. Als je een nieuwe branch aanmaakt, daar een submodule toevoegt en dat terug wisselt naar een branch zonder die submodule, zul je nog steeds de submodule directory als een ungetrackte subdirectory hebben:
 
@@ -1094,7 +1094,7 @@ Je moet de `rack` subdirectory eerst unstagen. Dan kun je de submodule toevoegen
 	Receiving objects: 100% (3184/3184), 677.42 KiB | 88 KiB/s, done.
 	Resolving deltas: 100% (1952/1952), done.
 
-Stel nu dat je dat in een branch gedaan zou hebben. Als je probeert terug te wisselen naar een branch waar die bestanden nog in de echte boom zitten in plaats van in een submodule â€“ dan krijg je deze foutmelding:
+Stel nu dat je dat in een branch gedaan zou hebben. Als je probeert terug te wisselen naar een branch waar die bestanden nog in de echte boom zitten in plaats van in een submodule - dan krijg je deze foutmelding:
 
 	$ git checkout master
 	error: Untracked working tree file 'rack/AUTHORS' would be overwritten by merge.
@@ -1111,11 +1111,11 @@ Als je dan terug schakelt krijg je een lege `rack` directory. Je kunt dan nogmaa
 
 ## Subboom mergen ##
 
-Nu je de moeilijkheden van het submodulesysteem hebt gezien, laten we eens kijken naar een alternatieve manier om hetzelfde probleem aan te pakken. Zodra Git merged, kijkt het naar wat het moet mergen en kiest dan een toepasselijke mergestrategie om te gebruiken. Als je twee branches aan het mergen bent zal Git een _recursive_ strategie gebruiken. Als je meer dan twee branches aan het mergen bent zal Git de _octopus_ strategie kiezen. Deze strategieÃ«n worden automatisch voor je gekozen omdat de recursieve strategie complexe drie-weg merge situaties aan kan - bijvoorbeeld meer dan Ã©Ã©n gezamenlijke voorouder, maar het kan het alleen mergen van twee branches aan. De octopus merge kan meerdere branches aan, maar is voorzichtiger om moeilijke conflicten te vermijden, dus wordt deze gekozen als de standaard strategie als je meer dan twee branches probeert te mergen.
+Nu je de moeilijkheden van het submodulesysteem hebt gezien, laten we eens kijken naar een alternatieve manier om hetzelfde probleem aan te pakken. Zodra Git merged, kijkt het naar wat het moet mergen en kiest dan een toepasselijke mergestrategie om te gebruiken. Als je twee branches aan het mergen bent zal Git een _recursive_ strategie gebruiken. Als je meer dan twee branches aan het mergen bent zal Git de _octopus_ strategie kiezen. Deze strategieën worden automatisch voor je gekozen omdat de recursieve strategie complexe drie-weg merge situaties aan kan - bijvoorbeeld meer dan één gezamenlijke voorouder, maar het kan het alleen mergen van twee branches aan. De octopus merge kan meerdere branches aan, maar is voorzichtiger om moeilijke conflicten te vermijden, dus wordt deze gekozen als de standaard strategie als je meer dan twee branches probeert te mergen.
 
-Maar er zijn andere strategieÃ«n die je ook kunt kiezen. EÃ©n ervan is de _subtree_ merge, en je kunt deze gebruiken om het subproject probleem aan te gaan. Hier zul je zien hoe je dezelfde rack inbedding kunt doen als in de vorige paragraaf, maar in plaats daarvan subboom-merges gebruiken.
+Maar er zijn andere strategieën die je ook kunt kiezen. Eén ervan is de _subtree_ merge, en je kunt deze gebruiken om het subproject probleem aan te gaan. Hier zul je zien hoe je dezelfde rack inbedding kunt doen als in de vorige paragraaf, maar in plaats daarvan subboom-merges gebruiken.
 
-Het idee van de subboom-merge is dat je twee projecten hebt, en Ã©Ã©n van de projecten komt overeen met een subdirectory van de andere en omgekeerd. Als je een subboommerge specificeert, dan is Git slim genoeg om erachter te komen dat de ene een subboom van de andere is en vervolgens juist te mergen - het is best wel verbazingwekkend.
+Het idee van de subboom-merge is dat je twee projecten hebt, en één van de projecten komt overeen met een subdirectory van de andere en omgekeerd. Als je een subboommerge specificeert, dan is Git slim genoeg om erachter te komen dat de ene een subboom van de andere is en vervolgens juist te mergen - het is best wel verbazingwekkend.
 
 Eerst voeg je de Rack applicatie toe aan je project. Voeg het Rack project toe als een remote reference in je eigen project en check het dan uit in zijn eigen branch:
 
@@ -1150,7 +1150,7 @@ Je gaat nu het Rack project in je `master` project pullen als een subdirectory. 
 
 	$ git read-tree --prefix=rack/ -u rack_branch
 
-Als je commit, lijkt het alsof alle Rack bestanden in die subdirectory staan - alsof je ze uit een tarball gekopieerd hebt. Waar het interessant wordt is dat je vrij makkelijk veranderingen van Ã©Ã©n branch in de andere kunt mergen. Dus als het Rack project update kan je alle wijzigingen van stroomopwaartse binnenhalen door naar die branch te wisselen en te pullen:
+Als je commit, lijkt het alsof alle Rack bestanden in die subdirectory staan - alsof je ze uit een tarball gekopieerd hebt. Waar het interessant wordt is dat je vrij makkelijk veranderingen van één branch in de andere kunt mergen. Dus als het Rack project update kan je alle wijzigingen van stroomopwaartse binnenhalen door naar die branch te wisselen en te pullen:
 
 	$ git checkout rack_branch
 	$ git pull
@@ -1174,4 +1174,4 @@ Of om te vergelijken met wat in je `rack` subdirectory zit met wat in de `master
 
 ## Samenvatting ##
 
-Je hebt een aantal geavanceerde tools gezien, die je in staat stellen je commits en staging area heel exact te manipuleren. Als je problemen signaleert kun je vrij eenvoudig uitvinden welke commit deze geÃ¯ntroduceerd heeft, wanneer, en door wie. Als je subprojecten in je project wilt gebruiken, heb je een paar manieren gezien hoe je die een plaats kunt geven. Nu zou je in staat moeten zijn om de meeste dingen in Git te doen die je dagelijks op de commandline moet doen, en je erbij op je gemak te voelen.
+Je hebt een aantal geavanceerde tools gezien, die je in staat stellen je commits en staging area heel exact te manipuleren. Als je problemen signaleert kun je vrij eenvoudig uitvinden welke commit deze geïntroduceerd heeft, wanneer, en door wie. Als je subprojecten in je project wilt gebruiken, heb je een paar manieren gezien hoe je die een plaats kunt geven. Nu zou je in staat moeten zijn om de meeste dingen in Git te doen die je dagelijks op de commandline moet doen, en je erbij op je gemak te voelen.

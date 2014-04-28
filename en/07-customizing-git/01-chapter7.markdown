@@ -535,6 +535,10 @@ This is helpful if a branch in your project has diverged or is specialized, but 
 
 	database.xml merge=ours
 
+And then define a dummy `ours` merge strategy with:
+
+    git config --global merge.ours.driver true
+
 If you merge in the other branch, instead of having merge conflicts with the database.xml file, you see something like this:
 
 	$ git merge topic

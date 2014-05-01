@@ -1069,7 +1069,7 @@ Si usas el shell Bash, Git viene con un buen script de autocompletado que puedes
 
 	source ~/.git-completion.bash
 
-Si quieres que Git tenga automáticamente autocompletado para todos los usuarios, copia este script en el  directorio `/opt/local/etc/bash_completion.d` en sistemas Mac, o en el directorio `/etc/bash_completion.d/` en sistemas Linux. Este es un directorio de scripts que Bash cargará automáticamente para proveer de autocompletado.
+Si quieres que Git tenga automáticamente autocompletado para todos los usuarios, copia este script en el directorio `/opt/local/etc/bash_completion.d` en sistemas Mac, o en el directorio `/etc/bash_completion.d/` en sistemas Linux. Este es un directorio de scripts que Bash cargará automáticamente para proveer de autocompletado.
 
 Si estás usando Windows con el Bash de Git, el cual es el predeterminado cuando instalas Git en Windows con msysGit, el autocompletado debería estar preconfigurado.
 

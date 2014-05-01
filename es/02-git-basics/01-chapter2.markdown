@@ -165,7 +165,7 @@ Las reglas para los patrones que pueden ser incluidos en el archivo .gitignore s
 *	Puedes indicar un directorio añadiendo una barra hacia delante (`/`) al final.
 *	Puedes negar un patrón añadiendo una exclamación (`!`) al principio.
 
-Los patrones glob son expresiones regulares simplificadas que pueden ser usadas por las shells. Un asterisco (`*`) reconoce cero o más caracteres; `[abc]` reconoce cualquier carácter de los especificados entre corchetes (en este caso, a, b, o c); una interrogación (`?`) reconoce un único carácter; y caracteres entre corchetes separados por un guión (`[0-9]`) reconoce cualquier carácter entre ellos (en este caso, de 0 a 9).
+Los patrones glob son expresiones regulares simplificadas que pueden ser usadas por las shells. Un asterisco (`*`) reconoce cero o más caracteres; `[abc]` reconoce cualquier carácter de los especificados entre corchetes (en este caso, a, b o c); una interrogación (`?`) reconoce un único carácter; y caracteres entre corchetes separados por un guión (`[0-9]`) reconoce cualquier carácter entre ellos (en este caso, de 0 a 9).
 
 He aquí otro ejemplo de archivo .gitignore:
 

@@ -1080,7 +1080,7 @@ Presiona el tabulador cuando estés escribiendo un comando de Git, y deberían a
 
 En este caso, escribiendo `git co` y presionando el tabulador dos veces sugiere `commit` y `config`. Añadiendo `m` y pulsando el tabulador completa `git commit` automáticamente.
 
-Esto también funciona con opciones, que probablemente es más útil. Por ejemplo, si quieres ejecutar `git log` y no recuerdas una de las opciones, puedes empezar a escribirla y presionar el tabulador para ver que coincide:
+Esto también funciona con opciones, que probablemente es más útil. Por ejemplo, si quieres ejecutar `git log` y no recuerdas una de las opciones, puedes empezar a escribirla y presionar el tabulador para ver qué coincide:
 
 	$ git log --s<tab>
 	--shortstat  --since=  --src-prefix=  --stat   --summary

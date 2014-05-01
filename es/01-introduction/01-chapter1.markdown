@@ -190,7 +190,7 @@ Git trae una herramienta llamada `git config` que te permite obtener y establece
 
 *	Archivo `/etc/gitconfig`: Contiene valores para todos los usuarios del sistema y todos sus repositorios. Si pasas la opción `--system` a `git config`, lee y escribe específicamente en este archivo.
 *	Archivo `~/.gitconfig` file: Específico a tu usuario. Puedes hacer que Git lea y escriba específicamente en este archivo pasando la opción `--global`.
-*	Archivo config en el directorio de git (es decir, `.git/config`) del repositorio que estés utilizando actualmente: Específico a ese repositorio. Cada nivel sobrescribe los valores del nivel anterior, por lo que los valores de `.git/config` tienen preferencia sobre los de `/etc/gitconfig`.
+*	Archivo config en el directorio de Git (es decir, `.git/config`) del repositorio que estés utilizando actualmente: Específico a ese repositorio. Cada nivel sobrescribe los valores del nivel anterior, por lo que los valores de `.git/config` tienen preferencia sobre los de `/etc/gitconfig`.
 
 En sistemas Windows, Git busca el archivo `.gitconfig` en el directorio `$HOME` (`C:\Documents and Settings\$USER` para la mayoría de usuarios). También busca en el directorio `/etc/gitconfig`, aunque esta ruta es relativa a la raíz MSys, que es donde quiera que decidieses instalar Git en tu sistema Windows cuando ejecutaste el instalador.
 

@@ -87,7 +87,7 @@ El mecanismo que usa Git para generar esta suma de comprobación se conoce como 
 
 	24b9da6552252987aa493b52f8696cd6d3b00373
 
-Verás estos valores hash por todos lados en Git, ya que los usa con mucha frecuencia. De hecho, Git no guarda todo por nombre de archivo, sino por el valor hash de sus contenidos.
+Verás estos valores hash por todos lados en Git, ya que los usa con mucha frecuencia. De hecho, Git guarda todo no por nombre de archivo, sino por el valor hash de sus contenidos.
 
 ### Git generalmente sólo añade información ###
 

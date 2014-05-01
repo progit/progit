@@ -1128,4 +1128,4 @@ Como puedes ver, Git simplemente reemplaza el nuevo comando con lo que le pongas
 
 ## Resumen ##
 
-En este punto puedes hacer todas las operaciones básicas de Git a nivel local —crear o clonar un repositorio, hacer cambios, preparar y confirmar esos cambios y ver la historioa de los cambios en el repositorio—. A continuación cubriremos la mejor característica de Git: su modelo de ramas.
+En este punto puedes hacer todas las operaciones básicas de Git a nivel local —crear o clonar un repositorio, hacer cambios, preparar y confirmar esos cambios y ver la historia de los cambios en el repositorio—. A continuación cubriremos la mejor característica de Git: su modelo de ramas.

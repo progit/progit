@@ -1043,7 +1043,7 @@ Por defecto, el comando `git push` no transfiere etiquetas a servidores remotos.
 	To git@github.com:schacon/simplegit.git
 	* [new tag]         v1.5 -> v1.5
 
-Si tienes un montón de etiquetas que quieres enviar a la vez, también puedes usar la opción `--tags` en el comando `git push`. Esto transifere todas tus etiquetas que no estén ya en el servidor remoto.
+Si tienes un montón de etiquetas que quieres enviar a la vez, también puedes usar la opción `--tags` en el comando `git push`. Esto transfiere todas tus etiquetas que no estén ya en el servidor remoto.
 
 	$ git push origin --tags
 	Counting objects: 50, done.

@@ -868,7 +868,7 @@ Listar las etiquetas disponibles en Git es sencillo, Simplemente escribe `git ta
 
 Este comando lista las etiquetas en orden alfabético; el orden en el que aparecen no es realmente importante.
 
-También puedes buscar etiquetas de acuerdo a un patrón en particular. El repositorio fuente de Git, por ejemplo, contiene mas de 240 etiquetas. Si solo estas interesado en la serie 1.4.2, puedes ejecutar esto:
+También puedes buscar etiquetas de acuerdo a un patrón en particular. El repositorio fuente de Git, por ejemplo, contiene mas de 240 etiquetas. Si solo estás interesado en la serie 1.4.2, puedes ejecutar esto:
 
 	$ git tag -l 'v1.4.2.*'
 	v1.4.2.1

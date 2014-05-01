@@ -990,7 +990,7 @@ Si no tienes la clave pública del autor de la firma, se obtiene algo parecido a
 
 ### Etiquetando más tarde ###
 
-Puedes incluso etiquetar confirmaciones después de avanzar sobre ellos. Supón que tu historico de confirmaciones se parece a esto:
+Puedes incluso etiquetar confirmaciones después de avanzar sobre ellas. Supón que tu historico de confirmaciones se parece a esto:
 
 	$ git log --pretty=oneline
 	15027957951b64cf874c3557a0f3547bd83b3ff6 Merge branch 'experiment'

@@ -87,7 +87,7 @@ El mecanismo que usa Git para generar esta suma de comprobación se conoce como 
 
 	24b9da6552252987aa493b52f8696cd6d3b00373
 
-Verás estos valores hash por todos lados en Git, ya que los usa con mucha frecuencia. De hecho, Git no guarda todo por nombre de archivo, sino por el valor hash de sus contenidos.
+Verás estos valores hash por todos lados en Git, ya que los usa con mucha frecuencia. De hecho, Git guarda todo no por nombre de archivo, sino por el valor hash de sus contenidos.
 
 ### Git generalmente sólo añade información ###
 
@@ -102,7 +102,7 @@ Ahora presta atención. Esto es lo más importante a recordar acerca de Git si q
 Esto nos lleva a las tres secciones principales de un proyecto de Git: el directorio de Git (Git directory), el directorio de trabajo (working directory), y el área de preparación (staging area).
 
 Insert 18333fig0106.png
-Figura 1-6. Directorio de trabajo, área de preparación, y directorio de Git.
+Figura 1-6. Directorio de trabajo, área de preparación y directorio de Git.
 
 El directorio de Git es donde Git almacena los metadatos y la base de datos de objetos para tu proyecto. Es la parte más importante de Git, y es lo que se copia cuando clonas un repositorio desde otro ordenador.
 
@@ -126,7 +126,7 @@ Vamos a empezar a usar un poco de Git. Lo primero es lo primero: tienes que inst
 
 Si puedes, en general es útil instalar Git desde código fuente, porque obtendrás la versión más reciente. Cada versión de Git tiende a incluir útiles mejoras en la interfaz de usuario, por lo que utilizar la última versión es a menudo el camino más adecuado si te sientes cómodo compilando software desde código fuente. También ocurre que muchas distribuciones de Linux contienen paquetes muy antiguos; así que a menos que estés en una distribución muy actualizada o estés usando backports, instalar desde código fuente puede ser la mejor opción.
 
-Para instalar Git, necesitas tener las siguientes librerías de las que Git depende: curl, zlib, openssl, expat, y libiconv. Por ejemplo, si estás en un sistema que tiene yum (como Fedora) o apt-get (como un sistema basado en Debian), puedes usar estos comandos para instalar todas las dependencias:
+Para instalar Git, necesitas tener las siguientes librerías de las que Git depende: curl, zlib, openssl, expat y libiconv. Por ejemplo, si estás en un sistema que tiene yum (como Fedora) o apt-get (como un sistema basado en Debian), puedes usar estos comandos para instalar todas las dependencias:
 
 	$ yum install curl-devel expat-devel gettext-devel \
 	  openssl-devel zlib-devel
@@ -190,7 +190,7 @@ Git trae una herramienta llamada `git config` que te permite obtener y establece
 
 *	Archivo `/etc/gitconfig`: Contiene valores para todos los usuarios del sistema y todos sus repositorios. Si pasas la opción `--system` a `git config`, lee y escribe específicamente en este archivo.
 *	Archivo `~/.gitconfig` file: Específico a tu usuario. Puedes hacer que Git lea y escriba específicamente en este archivo pasando la opción `--global`.
-*	Archivo config en el directorio de git (es decir, `.git/config`) del repositorio que estés utilizando actualmente: Específico a ese repositorio. Cada nivel sobrescribe los valores del nivel anterior, por lo que los valores de `.git/config` tienen preferencia sobre los de `/etc/gitconfig`.
+*	Archivo config en el directorio de Git (es decir, `.git/config`) del repositorio que estés utilizando actualmente: Específico a ese repositorio. Cada nivel sobrescribe los valores del nivel anterior, por lo que los valores de `.git/config` tienen preferencia sobre los de `/etc/gitconfig`.
 
 En sistemas Windows, Git busca el archivo `.gitconfig` en el directorio `$HOME` (`C:\Documents and Settings\$USER` para la mayoría de usuarios). También busca en el directorio `/etc/gitconfig`, aunque esta ruta es relativa a la raíz MSys, que es donde quiera que decidieses instalar Git en tu sistema Windows cuando ejecutaste el instalador.
 

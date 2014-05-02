@@ -132,7 +132,7 @@ Para instalar Git, necesitas tener las siguientes librerías de las que Git depe
 	  openssl-devel zlib-devel
 
 	$ apt-get install libcurl4-gnutls-dev libexpat1-dev gettext \
-	  libz-dev
+	  libz-dev libssl-dev
 
 Cuando tengas todas las dependencias necesarias, puedes descargar la versión más reciente de Git desde su página web:
 

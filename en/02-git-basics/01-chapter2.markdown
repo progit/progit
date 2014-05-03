@@ -652,18 +652,108 @@ The lines must be formatted as follows
 
 	Option	Description
 	-(n)	Show only the last n commits
-	--since, --after	Limit the commits to those made after the specified date.
-	--until, --before	Limit the commits to those made before the specified date.
+	--since, --after	Limit the commits to those whose CommitDate was made on-or-after the specified date/time.
+	--until, --before	Limit the commits to those whose CommitDate was made on-or-before the specified date/time.
 	--author	Only show commits in which the author entry matches the specified string.
 	--committer	Only show commits in which the committer entry matches the specified string.
 
-For example, if you want to see which commits modifying test files in the Git source code history were committed by Junio Hamano in the month of October 2008 and were not merges, you can run something like this:
 
-	$ # get dates on-or-after  "2008-10-01 00:00:00"
-	$ # and       on-or-before "2008-11-01 00:00:00"
-	$
-	$ git log --pretty="%h - %s" --author=gitster --after="2008-10-01 00:00:00" \
-	   --before="2008-11-01 00:00:00" --no-merges -- t/
+### Limiting Log Output according to Date/Time ###
+
+To determine which commits in the Git source code repository (git://git.kernel.org/pub/scm/git/git.git) have CommitDate on 2014-04-29 relative to your local timezone, use
+
+    $ git log --after="2014-04-29 00:00:00" --before="2014-04-29 23:59:59" \
+      --pretty=fuller
+
+However this command will not yield identical results, when run by collegues, who may be situated in other timezones around the world. Therefore it is recommended to always use an absolute time such as ISO 8601 format (which includes timezone information) as argument to `--after` and `--before`, so that everone running the command will get the same repeatable results. If your timezone is that of France (e.g. you are in Paris) you can change the above example, to use absolute-time arguments, so that all your collegues around the world would get the same results as you. First determine the absolute-times using e.g. the `date` program:
+
+    $ TZ="CET-1CEST,M3.5.0,M10.5.0/3" date --date="2014-04-29 00:00:00" -Is
+    2014-04-29T00:00:00+0200
+    
+    $ TZ="CET-1CEST,M3.5.0,M10.5.0/3" date --date="2014-04-29 23:59:59" -Is
+    2014-04-29T23:59:59+0200
+
+    $ # for TZ values of various countries/cities
+    $ # see http://wiki.openwrt.org/doc/uci/system#time.zones 
+
+    $ # Alternative (simplification) under GNU/Linux -- see /usr/share/zoneinfo/
+    $ TZ="Europe/Paris" date --date="2014-04-29 00:00:00" -Is
+    2014-04-29T00:00:00+0200
+    
+    $ TZ="Europe/Paris" date --date="2014-04-29 23:59:59" -Is
+    2014-04-29T23:59:59+0200
+
+Using the resulting absolute-times, we can now modify the above example and construct a git log command, that gives repeatable ("Paris"-based) results for everyone, irrespective of location:
+
+    $ git log --after="2014-04-29T00:00:00+0200" \
+    --before="2014-04-29T23:59:59+0200" --pretty=fuller
+
+`+0200` means that here Paris is 2 hours ahead of UTC: 
+
+For example: for `2014-04-29T23:59:59+0200` the corresponding 
+
+UTC is `2014-04-29 21:59:59`.
+
+
+To obtain commits made at a specific instant in time, we can use e.g.
+
+    $ git log  --after="2013-04-29T17:07:22+0200"      \
+              --before="2013-04-29T17:07:22+0200" --pretty=fuller
+    
+    commit de7c201a10857e5d424dbd8db880a6f24ba250f9
+    Author:     Ramkumar Ramachandra <artagnon@gmail.com>
+    AuthorDate: Mon Apr 29 18:19:37 2013 +0530
+    Commit:     Junio C Hamano <gitster@pobox.com>
+    CommitDate: Mon Apr 29 08:07:22 2013 -0700
+    
+        git-completion.bash: lexical sorting for diff.statGraphWidth
+        
+        df44483a (diff --stat: add config option to limit graph width,
+        2012-03-01) added the option diff.startGraphWidth to the list of
+        configuration variables in git-completion.bash, but failed to notice
+        that the list is sorted alphabetically.  Move it to its rightful place
+        in the list.
+        
+        Signed-off-by: Ramkumar Ramachandra <artagnon@gmail.com>
+        Signed-off-by: Junio C Hamano <gitster@pobox.com>
+
+The above times (`AuthorDate`, `CommitDate`) are displayed in default format (`--date=default`), which shows timezone information of respective author and commiter.
+
+We can change the way that these are displayed in the resulting log list. `--date=local` displays times according to your local timezone:
+
+    $ git log  --after="2013-04-29T17:07:22+0200" \
+              --before="2013-04-29T17:07:22+0200" --pretty=fuller --date=local
+
+To show all times according to e.g. French timezone, we can prefix an appropriate `TZ=..."` value to the above command (under GNU/Linux simply `TZ="Europe/Paris"`):
+
+    $ TZ="CET-1CEST,M3.5.0,M10.5.0/3"             \
+      git log  --after="2013-04-29T17:07:22+0200" \
+              --before="2013-04-29T17:07:22+0200" --pretty=fuller --date=local
+
+Other useful formats include `--date=iso` (ISO 8601), `--date=rfc` (RFC 2822), `--date=raw` (seconds since the epoch (1970-01-01 UTC)) as well as `--date=relative` (e.g. "2 hours ago").
+
+When using `git log` without specifying time,
+
+    $ git log --after=2008-06-01 --before=2008-07-01
+
+the time defaults to the time at which the command is run. For example when the above command is executed at 09:00, then the result is usually equivalent to doing:
+
+    $ git log --after="2008-06-01 09:00:00" \
+      --before="2008-07-01 09:00:00"
+
+More precisely: Actually in this case Git considers the time-offset from UTC to stay the same for the whole year. Offset-changes from UTC will not be considered. The time that will be considered, is the same time as when the command is run, including the identical timezone offset from UTC. Therefore when the above (date-only) command is run in December in Paris at local time `2009-12-14T09:00:00+0100`, then the result is equivalent to doing:
+
+    $ git log --after="2008-06-01T09:00:00+0100" \
+      --before="2008-07-01T09:00:00+0100"
+
+even though `2008-06-01T09:00:00+0100` would actually be 10:00 in June in Paris:
+
+ `2008-06-01T10:00:00+0200`.
+
+As a final example:, if you want to see which commits modifying test files in the Git source code history were committed by Junio Hamano and committed with CommitDate being in the month of October 2008 (relative to the timezone of New York) and were not merges, you can run something like this:
+
+	$ git log --pretty="%h - %s" --author=gitster --after="2008-10-01T00:00:00-0400" \
+           --before="2008-10-31T23:59:59-0400" --no-merges -- t/
 	5610e3b - Fix testcase failure when extended attribute
 	acd3b9e - Enhance hold_lock_file_for_{update,append}()
 	f563754 - demonstrate breakage of detached checkout wi
@@ -671,15 +761,7 @@ For example, if you want to see which commits modifying test files in the Git so
 	51a94af - Fix "checkout --track -b newbranch" on detac
 	b0ad11e - pull: allow "git pull origin $something:$cur
 
-Of the nearly 20,000 commits in the Git source code history, this command shows the 6 that match those criteria.
-
-When using `git log` without specifying time,
-
-	git log --after=2008-10-01 --before=2008-11-01
-
-then it defaults to using the time at the instant the command is executed. For example when the above command is executed at time 09:00:00, then the result is equivalent to doing:
-
-	git log --after="2008-10-01 09:00:00" --before="2008-11-01 09:00:00"
+Of the more than 36,000 commits in the Git source code history, this command shows the 6 that match those criteria.
 
 ### Using a GUI to Visualize History ###
 

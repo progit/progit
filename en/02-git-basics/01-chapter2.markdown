@@ -752,8 +752,9 @@ even though `2008-06-01T09:00:00+0100` would actually be 10:00 in June in Paris:
 
 As a final example:, if you want to see which commits modifying test files in the Git source code history were committed by Junio Hamano and committed with CommitDate being in the month of October 2008 (relative to the timezone of New York) and were not merges, you can run something like this:
 
-	$ git log --pretty="%h - %s" --author=gitster --after="2008-10-01T00:00:00-0400" \
-           --before="2008-10-31T23:59:59-0400" --no-merges -- t/
+        $ git log --pretty="%h - %s" --author=gitster \
+           --after="2008-10-01T00:00:00-0400"         \
+          --before="2008-10-31T23:59:59-0400" --no-merges -- t/
 	5610e3b - Fix testcase failure when extended attribute
 	acd3b9e - Enhance hold_lock_file_for_{update,append}()
 	f563754 - demonstrate breakage of detached checkout wi

@@ -4,7 +4,7 @@ Este capítulo tratará sobre cómo empezar con Git. Partiremos explicando algun
 
 ## Acerca del control de versiones ##
 
-¿Qué es el control de versiones, y por qué debería importarte? El control de versiones es un sistema que registra los cambios realizados sobre un archivo o conjunto de archivos a lo largo del tiempo, de modo que puedas recuperar versiones específicas más adelante. Para los ejemplos de este libro llevarás control de versiones de código fuente, aunque en realidad puedes hacer esto con casi cualquier tipo de archivo que encuentres en un ordenador.
+¿Qué es el control de versiones, y por qué debería importarte? El control de versiones es un sistema que registra los cambios realizados sobre un archivo o conjunto de archivos a lo largo del tiempo, de modo que puedas recuperar versiones específicas más adelante. A pesar de que los ejemplos de este libro muestran código fuente como archivos bajo control de versiones, en realidad cualquier tipo de archivo que encuentres en un ordenador puede ponerse bajo control de versiones.
 
 Si eres diseñador gráfico o web, y quieres mantener cada versión de una imagen o diseño (algo que sin duda quieres), un sistema de control de versiones (Version Control System o VCS en inglés) es una elección muy sabia. Te permite revertir archivos a un estado anterior, revertir el proyecto entero a un estado anterior, comparar cambios a lo largo del tiempo, ver quién modificó por última vez algo que puede estar causando un problema, quién introdujo un error y cuándo, y mucho más. Usar un VCS también significa generalmente que si fastidias o pierdes archivos, puedes recuperarlos fácilmente. Además, obtienes todos estos beneficios a un coste muy bajo.
 
@@ -93,7 +93,7 @@ Verás estos valores hash por todos lados en Git, ya que los usa con mucha frecu
 
 Cuando realizas acciones en Git, casi todas ellas sólo añaden información a la base de datos de Git. Es muy difícil conseguir que el sistema haga algo que no se pueda deshacer, o que de algún modo borre información. Como en cualquier VCS, puedes perder o estropear cambios que no has confirmado todavía; pero después de confirmar una instantánea en Git, es muy difícil de perder, especialmente si envías (push) tu base de datos a otro repositorio con regularidad.
 
-Esto hace que usar Git sea un placer, porque sabemos que podemos experimentar sin peligro de fastidiar gravemente las cosas. Para un análisis más exhaustivo de cómo almacena Git su información y cómo puedes recuperar datos aparentemente perdidos, ver “Entre bambalinas” en el Capítulo 9.
+Esto hace que usar Git sea un placer, porque sabemos que podemos experimentar sin peligro de fastidiar gravemente las cosas. Para un análisis más exhaustivo de cómo almacena Git su información y cómo puedes recuperar datos aparentemente perdidos, ver Capítulo 9.
 
 ### Los tres estados ###
 
@@ -132,7 +132,7 @@ Para instalar Git, necesitas tener las siguientes librerías de las que Git depe
 	  openssl-devel zlib-devel
 
 	$ apt-get install libcurl4-gnutls-dev libexpat1-dev gettext \
-	  libz-dev
+	  libz-dev libssl-dev
 
 Cuando tengas todas las dependencias necesarias, puedes descargar la versión más reciente de Git desde su página web:
 
@@ -182,6 +182,8 @@ Instalar Git en Windows es muy fácil. El proyecto msysGit tiene uno de los proc
 
 Una vez instalado, tendrás tanto la versión de línea de comandos (incluido un cliente SSH que nos será útil más adelante) como la interfaz gráfica de usuario estándar.
 
+Nota para el uso en Windows: Se debería usar Git con la shell provista por msysGit (estilo Unix), lo cual permite usar las complejas líneas de comandos de este libro. Si por cualquier razón se necesitara usar la shell nativa de Windows, la consola de línea de comandos, se han de usar las comillas dobles en vez de las simples (para parámetros que contengan espacios) y se deben entrecomillar los parámetros terminándolos con el acento circunflejo (^) si están al final de la línea, ya que en Windows es uno de los símbolos de continuación.
+
 ## Configurando Git por primera vez ##
 
 Ahora que tienes Git en tu sistema, querrás hacer algunas cosas para personalizar tu entorno de Git. Sólo es necesario hacer estas cosas una vez; se mantendrán entre actualizaciones. También puedes cambiarlas en cualquier momento volviendo a ejecutar los comandos correspondientes.
@@ -192,7 +194,7 @@ Git trae una herramienta llamada `git config` que te permite obtener y establece
 *	Archivo `~/.gitconfig` file: Específico a tu usuario. Puedes hacer que Git lea y escriba específicamente en este archivo pasando la opción `--global`.
 *	Archivo config en el directorio de Git (es decir, `.git/config`) del repositorio que estés utilizando actualmente: Específico a ese repositorio. Cada nivel sobrescribe los valores del nivel anterior, por lo que los valores de `.git/config` tienen preferencia sobre los de `/etc/gitconfig`.
 
-En sistemas Windows, Git busca el archivo `.gitconfig` en el directorio `$HOME` (`C:\Documents and Settings\$USER` para la mayoría de usuarios). También busca en el directorio `/etc/gitconfig`, aunque esta ruta es relativa a la raíz MSys, que es donde quiera que decidieses instalar Git en tu sistema Windows cuando ejecutaste el instalador.
+En sistemas Windows, Git busca el archivo `.gitconfig` en el directorio `$HOME` (`%USERPROFILE%` in Windows’ environment), que es `C:\Documents and Settings\$USER` para la mayoría de usuarios, dependiendo de la versión (`$USER` es `%USERNAME%` en el entorno Windows). También busca en el directorio `/etc/gitconfig`, aunque esta ruta es relativa a la raíz MSys, que es donde quiera que decidieses instalar Git en tu sistema Windows cuando ejecutaste el instalador.
 
 ### Tu identidad ###
 

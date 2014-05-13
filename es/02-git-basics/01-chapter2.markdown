@@ -1092,9 +1092,9 @@ Antes de que terminemos este capitulo de Git básico, unos pocos trucos y consej
 
 ### Autocompletado ###
 
-Si usas el shell Bash, Git viene con un buen script de autocompletado que puedes activar. Descarga el código fuente de Git y busca en el directorio `contrib/completion`; ahí debe haber un archivo llamado `git-completion.bash`. Copia este fichero en tu directorio `home` y añade esto a tu archivo `.bashrc`: 
+Si usas el shell Bash, Git viene con un buen script de autocompletado que puedes activar. Descárgalo directamente desde el código fuente de Git en `https://github.com/git/git/blob/master/contrib/completion/git-completion.bash`, copia este fichero en tu directorio `home` y añade esto a tu archivo `.bashrc`: 
 
-	source ~/.git-completion.bash
+	source ~/git-completion.bash
 
 Si quieres que Git tenga automáticamente autocompletado para todos los usuarios, copia este script en el directorio `/opt/local/etc/bash_completion.d` en sistemas Mac, o en el directorio `/etc/bash_completion.d/` en sistemas Linux. Este es un directorio de scripts que Bash cargará automáticamente para proveer de autocompletado.
 

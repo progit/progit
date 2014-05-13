@@ -1007,7 +1007,7 @@ Puedes incluso etiquetar confirmaciones después de avanzar sobre ellas. Supón 
 
 Ahora, supón que olvidaste etiquetar el proyecto en v1.2, que estaba en la confirmación "updated rakefile". Puedes hacerlo ahora. Para etiquetar esa confirmación especifica la suma de comprobación de la confirmación (o una parte de la misma) al final del comando:
 
-	$ git tag -a v1.2 9fceb02
+	$ git tag -a v1.2 -m 'version 1.2' 9fceb02
 
 Puedes ver que has etiquetado la confirmación:
 

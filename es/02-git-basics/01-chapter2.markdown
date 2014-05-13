@@ -624,6 +624,13 @@ Este comando acepta muchos formatos. Puedes indicar una fecha concreta (“2008-
 
 También puedes filtrar la lista para que muestre sólo aquellas confirmaciones que cumplen ciertos criterios. La opción `--author` te permite filtrar por autor, y `--grep` te permite buscar palabras clave entre los mensajes de confirmación. (Ten en cuenta que si quieres aplicar ambas opciones simultáneamente, tienes que añadir `--all-match`, o el comando mostrará las confirmaciones que cumplan cualquiera de las dos, no necesariamente las dos a la vez.)
 
+<!-- The prior paragraph was changed in English version for the following two in commit 60e261895a77951a6541470c9438f32a1e5b7fd0. It has not been trasnlated yet:
+
+You can also filter the list to commits that match some search criteria. The `--author` option allows you to filter on a specific author, and the `--grep` option lets you search for keywords in the commit messages. (Note that if you specify both author and grep options, the command will match commits with both.)
+
+If you want to specify multiple grep options, you have to add `--all-match` or the command will match commits with either.
+-->
+
 La última opción verdaderamente útil para filtrar la salida de `git log` es especificar una ruta. Si especificas la ruta de un directorio o archivo, puedes limitar la salida a aquellas confirmaciones que introdujeron un cambio en dichos archivos. Ésta debe ser siempre la última opción, y suele ir precedida de dos guiones (`--`) para separar la ruta del resto de opciones.
 
 En la Tabla 2-3 se listan estas opciones, y algunas otras bastante comunes, a modo de referencia.

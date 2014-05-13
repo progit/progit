@@ -585,6 +585,7 @@ Las opciones `oneline` y `format` son especialmente útiles combinadas con otra 
 	--relative-date	Muestra la fecha en formato relativo (por ejemplo, “2 weeks ago” (“hace 2 semanas”)) en lugar del formato completo.
 	--graph	Muestra un gráfico ASCII con la historia de ramificaciones y uniones.
 	--pretty	Muestra las confirmaciones usando un formato alternativo. Posibles opciones son oneline, short, full, fuller y format (mediante el cual puedes especificar tu propio formato).
+	--oneline	Un cómodo acortamiento de la opción `--pretty=oneline --abbrev-commit`.
 
 ### Limitando la salida del histórico ###
 

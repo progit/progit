@@ -494,6 +494,26 @@ Una de las opciones más útiles es `-p`, que muestra las diferencias introducid
 
 Esta opción muestra la misma información, pero añadiendo tras cada entrada las diferencias que le corresponden. Esto resulta muy útil para revisiones de código, o para visualizar rápidamente lo que ha pasado en las confirmaciones enviadas por un colaborador.
 
+A veces es más fácil revisar cambios a nivel de palabra que a nivel de línea. Git dispone de la opción `--word-diff`, que se puede añadir al comando `git log -p` para obtener las diferencias por palabras en lugar de las diferencias línea por línea. Formatear las diferencias a nivel de palabra es bastante inusual cuando se aplica a código fuente, pero resulta muy práctico cuando se aplica a grandes archivos de texto, como libros o tu propia tesis. He aquí un ejemplo:
+
+	$ git log -U1 --word-diff
+	commit ca82a6dff817ec66f44342007202690a93763949
+	Author: Scott Chacon <schacon@gee-mail.com>
+	Date:   Mon Mar 17 21:52:11 2008 -0700
+
+	    changed the version number
+
+	diff --git a/Rakefile b/Rakefile
+	index a874b73..8f94139 100644
+	--- a/Rakefile
+	+++ b/Rakefile
+	@@ -7,3 +7,3 @@ spec = Gem::Specification.new do |s|
+	    s.name      =   "simplegit"
+	    s.version   =   [-"0.1.0"-]{+"0.1.1"+}
+	    s.author    =   "Scott Chacon"
+
+Como se puede ver, no aparecen líneas añadidas o eliminadas en la salida como en las diferencias normales. Se puede ver la palabra añadida encerrada en `{+ +}` y la eliminada en `[- -]`. Puede que se quiera reducir las usuales tres líneas de contexto en las diferencias a sólo una línea puesto que el contexto es ahora de palabras, no de líneas. Se puede hacer esto con `-U1`, como hicimos en el ejemplo de arriba.
+
 También puedes usar con `git log` una serie de opciones de resumen. Por ejemplo, si quieres ver algunas estadísticas de cada confirmación, puedes usar la opción `--stat`:
 
 	$ git log --stat
@@ -581,6 +601,7 @@ Las opciones `oneline` y `format` son especialmente útiles combinadas con otra 
 
 	Opción	Descripción
 	-p	Muestra el parche introducido en cada confirmación.
+	--word-diff	Muestra el parche en formato de una palabra.
 	--stat	Muestra estadísticas sobre los archivos modificados en cada confirmación.
 	--shortstat	Muestra solamente la línea de resumen de la opción `--stat`.
 	--name-only	Muestra la lista de archivos afectados.

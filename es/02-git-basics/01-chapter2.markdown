@@ -738,7 +738,8 @@ Para ver qué repositorios remotos tienes configurados, puedes ejecutar el coman
 También puedes añadir la opción `-v`, que muestra la URL asociada a cada repositorio remoto:
 
 	$ git remote -v
-	origin	git://github.com/schacon/ticgit.git
+	origin  git://github.com/schacon/ticgit.git (fetch)
+	origin  git://github.com/schacon/ticgit.git (push)
 
 Si tienes más de un remoto, este comando los lista todos. Por ejemplo, mi repositorio Grit tiene esta pinta:
 

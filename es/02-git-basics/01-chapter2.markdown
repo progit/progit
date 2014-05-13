@@ -380,7 +380,7 @@ El comando `git rm` acepta archivos, directorios, y patrones glob. Es decir, que
 
 	$ git rm log/\*.log
 
-Fíjate en la barra hacia atrás (`\`) antes del `*`. Es necesaria debido a que Git hace su propia expansión de rutas, además de la expansión que hace tu shell. Este comando elimina todos los archivos con la extensión `.log` en el directorio `log/`. También puedes hacer algo así:
+Fíjate en la barra hacia atrás (`\`) antes del `*`. Es necesaria debido a que Git hace su propia expansión de rutas, además de la expansión que hace tu shell. En la consola del sistema de Windows, esta barra debe de ser omitida. Este comando elimina todos los archivos con la extensión `.log` en el directorio `log/`. También puedes hacer algo así:
 
 	$ git rm \*~
 

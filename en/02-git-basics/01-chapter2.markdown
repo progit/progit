@@ -750,7 +750,7 @@ even though `2008-06-01T09:00:00+0100` would actually be 10:00 in June in Berlin
 
  `2008-06-01T10:00:00+0200`.
 
-As a final example:, if you want to see which commits modifying test files in the Git source code history were committed by Junio Hamano and committed with CommitDate being in the month of October 2008 (relative to the timezone of New York) and were not merges, you can run something like this:
+As a final example:, if you want to see which commits modifying test files in the Git source code history were committed by Junio Hamano with CommitDate being in the month of October 2008 (relative to the timezone of New York) and were not merges, you can run something like this:
 
         $ git log --pretty="%h - %s" --author=gitster \
            --after="2008-10-01T00:00:00-0400"         \

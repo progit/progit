@@ -660,12 +660,12 @@ The lines must be formatted as follows
 
 ### Limiting Log Output according to Date/Time ###
 
-To determine which commits in the Git source code repository (git://git.kernel.org/pub/scm/git/git.git) have CommitDate on 2014-04-29 relative to your local timezone, use
+To determine which commits in the Git source code repository (git://git.kernel.org/pub/scm/git/git.git) have CommitDate on 2014-04-29 relative to your local timezone (as set on your computer), use
 
     $ git log --after="2014-04-29 00:00:00" --before="2014-04-29 23:59:59" \
       --pretty=fuller
 
-However this command will not yield identical results, when run by collegues, who may be situated in other timezones around the world. Therefore it is recommended to always use an absolute time such as ISO 8601 format (which includes timezone information) as argument to `--after` and `--before`, so that everone running the command will get the same repeatable results. If your timezone is that of France (e.g. you are in Paris) you can change the above example, to use absolute-time arguments, so that all your collegues around the world would get the same results as you. First determine the absolute-times using e.g. the `date` program:
+However this command will not yield identical results when run by collegues, who may be situated in other timezones around the world. Therefore it is recommended to always use an absolute time such as ISO 8601 format (which includes timezone information) as argument to `--after` and `--before`, so that everone running the command will get the same repeatable results. If your timezone is that of France (e.g. you are in Paris) you can change the above example, to use absolute-time arguments. First determine the absolute-times using e.g. the `date` program:
 
     $ TZ="CET-1CEST,M3.5.0,M10.5.0/3" date --date="2014-04-29 00:00:00" -Is
     2014-04-29T00:00:00+0200
@@ -695,7 +695,7 @@ For example: for `2014-04-29T23:59:59+0200` the corresponding
 UTC is `2014-04-29 21:59:59`.
 
 
-To obtain commits made at a specific instant in time, we can use e.g.
+To obtain commits made at a specific instant in time (e.g. `2013-04-29T17:07:22+0200`), we can use
 
     $ git log  --after="2013-04-29T17:07:22+0200"      \
               --before="2013-04-29T17:07:22+0200" --pretty=fuller
@@ -724,9 +724,9 @@ We can change the way that these are displayed in the resulting log list. `--dat
     $ git log  --after="2013-04-29T17:07:22+0200" \
               --before="2013-04-29T17:07:22+0200" --pretty=fuller --date=local
 
-To show all times according to e.g. French timezone, we can prefix an appropriate `TZ=..."` value to the above command (under GNU/Linux simply `TZ="Europe/Paris"`):
+To show all times according to the timezone of New Zealand, we can prefix an appropriate `TZ=..."` value to the above command (under GNU/Linux simply `TZ="Pacific/Auckland"`):
 
-    $ TZ="CET-1CEST,M3.5.0,M10.5.0/3"             \
+    $ TZ="NZST-12NZDT,M9.5.0,M4.1.0/3"            \
       git log  --after="2013-04-29T17:07:22+0200" \
               --before="2013-04-29T17:07:22+0200" --pretty=fuller --date=local
 
@@ -736,17 +736,17 @@ When using `git log` without specifying time,
 
     $ git log --after=2008-06-01 --before=2008-07-01
 
-the time defaults to the time at which the command is run. For example when the above command is executed at 09:00, then the result is usually equivalent to doing:
+the time defaults to the time at which the command is run on your computer. For example when the above command is executed at 09:00, then the result is usually equivalent to doing:
 
     $ git log --after="2008-06-01 09:00:00" \
       --before="2008-07-01 09:00:00"
 
-More precisely: Actually in this case Git considers the time-offset from UTC to stay the same for the whole year. Offset-changes from UTC will not be considered. The time that will be considered, is the same time as when the command is run, including the identical timezone offset from UTC. Therefore when the above (date-only) command is run in December in Paris at local time `2009-12-14T09:00:00+0100`, then the result is equivalent to doing:
+More precisely: Actually in this case Git considers the time-offset from UTC to stay the same for the whole year. Offset-changes from UTC will not be considered: The time that will be considered is the same time as when the command is run, including the identical timezone offset from UTC. Therefore when the above (date-only) command is run in December in Berlin at local time `2009-12-14T09:00:00+0100`, then the result is equivalent to doing:
 
     $ git log --after="2008-06-01T09:00:00+0100" \
       --before="2008-07-01T09:00:00+0100"
 
-even though `2008-06-01T09:00:00+0100` would actually be 10:00 in June in Paris:
+even though `2008-06-01T09:00:00+0100` would actually be 10:00 in June in Berlin (because of Daylight Saving Time):
 
  `2008-06-01T10:00:00+0200`.
 

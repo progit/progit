@@ -736,19 +736,10 @@ When using `git log` without specifying time,
 
     $ git log --after=2008-06-01 --before=2008-07-01
 
-the time defaults to the time at which the command is run on your computer. For example when the above command is executed at 09:00, then the result is usually equivalent to doing:
+the time defaults to the time at which the command is run on your computer (keeping the identical offset from UTC; effectively disregarding Daylight Saving Time). For example when the above command is executed at 09:00 on your computer with your timezone currently 3 hours ahead of UTC, then the result is equivalent to doing:
 
-    $ git log --after="2008-06-01 09:00:00" \
-      --before="2008-07-01 09:00:00"
-
-More precisely: Actually in this case Git considers the time-offset from UTC to stay the same for the whole year. Offset-changes from UTC will not be considered: The time that will be considered is the same time as when the command is run, including the identical timezone offset from UTC. Therefore when the above (date-only) command is run in December in Berlin at local time `2009-12-14T09:00:00+0100`, then the result is equivalent to doing:
-
-    $ git log --after="2008-06-01T09:00:00+0100" \
-      --before="2008-07-01T09:00:00+0100"
-
-even though `2008-06-01T09:00:00+0100` would actually be 10:00 in June in Berlin (because of Daylight Saving Time):
-
- `2008-06-01T10:00:00+0200`.
+    $ git log --after="2008-06-01T09:00:00+0300" \
+      --before="2008-07-01T09:00:00+0300"
 
 As a final example:, if you want to see which commits modifying test files in the Git source code history were committed by Junio Hamano with CommitDate being in the month of October 2008 (relative to the timezone of New York) and were not merges, you can run something like this:
 

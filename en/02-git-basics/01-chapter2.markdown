@@ -736,7 +736,7 @@ When using `git log` without specifying time,
 
     $ git log --after=2008-06-01 --before=2008-07-01
 
-the time defaults to the time at which the command is run on your computer (keeping the identical offset from UTC; effectively disregarding Daylight Saving Time). For example when the above command is executed at 09:00 on your computer with your timezone currently 3 hours ahead of UTC, then the result is equivalent to doing:
+the time defaults to the time at which the command is run on your computer (keeping the identical offset from UTC). For example when the above command is executed at 09:00 on your computer with your timezone currently 3 hours ahead of UTC, then the result is equivalent to doing:
 
     $ git log --after="2008-06-01T09:00:00+0300" \
       --before="2008-07-01T09:00:00+0300"

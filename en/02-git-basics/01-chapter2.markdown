@@ -324,7 +324,7 @@ You can see that the default commit message contains the latest output of the `g
 Alternatively, you can type your commit message inline with the `commit` command by specifying it after a `-m` flag, like this:
 
 	$ git commit -m "Story 182: Fix benchmarks for speed"
-	[master 463dc4f] Fix benchmarks for speed
+	[master 463dc4f] Story 182: Fix benchmarks for speed
 	 2 files changed, 3 insertions(+)
 	 create mode 100644 README
 

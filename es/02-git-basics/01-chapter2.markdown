@@ -180,6 +180,10 @@ He aquí otro ejemplo de archivo .gitignore:
 	build/
 	# ignore doc/notes.txt, but not doc/server/arch.txt
 	doc/*.txt
+	# ignore all .txt files in the doc/ directory
+	doc/**/*.txt
+
+El patrón `**/` está disponible en Git desde la versión 1.8.2.
 
 ### Viendo tus cambios preparados y no preparados ###
 
@@ -380,7 +384,7 @@ El comando `git rm` acepta archivos, directorios, y patrones glob. Es decir, que
 
 	$ git rm log/\*.log
 
-Fíjate en la barra hacia atrás (`\`) antes del `*`. Es necesaria debido a que Git hace su propia expansión de rutas, además de la expansión que hace tu shell. Este comando elimina todos los archivos con la extensión `.log` en el directorio `log/`. También puedes hacer algo así:
+Fíjate en la barra hacia atrás (`\`) antes del `*`. Es necesaria debido a que Git hace su propia expansión de rutas, además de la expansión que hace tu shell. En la consola del sistema de Windows, esta barra debe de ser omitida. Este comando elimina todos los archivos con la extensión `.log` en el directorio `log/`. También puedes hacer algo así:
 
 	$ git rm \*~
 
@@ -490,6 +494,26 @@ Una de las opciones más útiles es `-p`, que muestra las diferencias introducid
 
 Esta opción muestra la misma información, pero añadiendo tras cada entrada las diferencias que le corresponden. Esto resulta muy útil para revisiones de código, o para visualizar rápidamente lo que ha pasado en las confirmaciones enviadas por un colaborador.
 
+A veces es más fácil revisar cambios a nivel de palabra que a nivel de línea. Git dispone de la opción `--word-diff`, que se puede añadir al comando `git log -p` para obtener las diferencias por palabras en lugar de las diferencias línea por línea. Formatear las diferencias a nivel de palabra es bastante inusual cuando se aplica a código fuente, pero resulta muy práctico cuando se aplica a grandes archivos de texto, como libros o tu propia tesis. He aquí un ejemplo:
+
+	$ git log -U1 --word-diff
+	commit ca82a6dff817ec66f44342007202690a93763949
+	Author: Scott Chacon <schacon@gee-mail.com>
+	Date:   Mon Mar 17 21:52:11 2008 -0700
+
+	    changed the version number
+
+	diff --git a/Rakefile b/Rakefile
+	index a874b73..8f94139 100644
+	--- a/Rakefile
+	+++ b/Rakefile
+	@@ -7,3 +7,3 @@ spec = Gem::Specification.new do |s|
+	    s.name      =   "simplegit"
+	    s.version   =   [-"0.1.0"-]{+"0.1.1"+}
+	    s.author    =   "Scott Chacon"
+
+Como se puede ver, no aparecen líneas añadidas o eliminadas en la salida como en las diferencias normales. Se puede ver la palabra añadida encerrada en `{+ +}` y la eliminada en `[- -]`. Puede que se quiera reducir las usuales tres líneas de contexto en las diferencias a sólo una línea puesto que el contexto es ahora de palabras, no de líneas. Se puede hacer esto con `-U1`, como hicimos en el ejemplo de arriba.
+
 También puedes usar con `git log` una serie de opciones de resumen. Por ejemplo, si quieres ver algunas estadísticas de cada confirmación, puedes usar la opción `--stat`:
 
 	$ git log --stat
@@ -577,6 +601,7 @@ Las opciones `oneline` y `format` son especialmente útiles combinadas con otra 
 
 	Opción	Descripción
 	-p	Muestra el parche introducido en cada confirmación.
+	--word-diff	Muestra el parche en formato de una palabra.
 	--stat	Muestra estadísticas sobre los archivos modificados en cada confirmación.
 	--shortstat	Muestra solamente la línea de resumen de la opción `--stat`.
 	--name-only	Muestra la lista de archivos afectados.
@@ -585,6 +610,7 @@ Las opciones `oneline` y `format` son especialmente útiles combinadas con otra 
 	--relative-date	Muestra la fecha en formato relativo (por ejemplo, “2 weeks ago” (“hace 2 semanas”)) en lugar del formato completo.
 	--graph	Muestra un gráfico ASCII con la historia de ramificaciones y uniones.
 	--pretty	Muestra las confirmaciones usando un formato alternativo. Posibles opciones son oneline, short, full, fuller y format (mediante el cual puedes especificar tu propio formato).
+	--oneline	Un cómodo acortamiento de la opción `--pretty=oneline --abbrev-commit`.
 
 ### Limitando la salida del histórico ###
 
@@ -597,6 +623,13 @@ Sin embargo, las opciones temporales como `--since` (desde) y `--until` (hasta) 
 Este comando acepta muchos formatos. Puedes indicar una fecha concreta (“2008-01-15”), o relativa, como “2 years 1 day 3 minutes ago” (“hace 2 años, 1 día y 3 minutos”).
 
 También puedes filtrar la lista para que muestre sólo aquellas confirmaciones que cumplen ciertos criterios. La opción `--author` te permite filtrar por autor, y `--grep` te permite buscar palabras clave entre los mensajes de confirmación. (Ten en cuenta que si quieres aplicar ambas opciones simultáneamente, tienes que añadir `--all-match`, o el comando mostrará las confirmaciones que cumplan cualquiera de las dos, no necesariamente las dos a la vez.)
+
+<!-- The prior paragraph was changed in English version for the following two in commit 60e261895a77951a6541470c9438f32a1e5b7fd0. It has not been trasnlated yet:
+
+You can also filter the list to commits that match some search criteria. The `--author` option allows you to filter on a specific author, and the `--grep` option lets you search for keywords in the commit messages. (Note that if you specify both author and grep options, the command will match commits with both.)
+
+If you want to specify multiple grep options, you have to add `--all-match` or the command will match commits with either.
+-->
 
 La última opción verdaderamente útil para filtrar la salida de `git log` es especificar una ruta. Si especificas la ruta de un directorio o archivo, puedes limitar la salida a aquellas confirmaciones que introdujeron un cambio en dichos archivos. Ésta debe ser siempre la última opción, y suele ir precedida de dos guiones (`--`) para separar la ruta del resto de opciones.
 
@@ -738,7 +771,8 @@ Para ver qué repositorios remotos tienes configurados, puedes ejecutar el coman
 También puedes añadir la opción `-v`, que muestra la URL asociada a cada repositorio remoto:
 
 	$ git remote -v
-	origin	git://github.com/schacon/ticgit.git
+	origin  git://github.com/schacon/ticgit.git (fetch)
+	origin  git://github.com/schacon/ticgit.git (push)
 
 Si tienes más de un remoto, este comando los lista todos. Por ejemplo, mi repositorio Grit tiene esta pinta:
 
@@ -1006,7 +1040,7 @@ Puedes incluso etiquetar confirmaciones después de avanzar sobre ellas. Supón 
 
 Ahora, supón que olvidaste etiquetar el proyecto en v1.2, que estaba en la confirmación "updated rakefile". Puedes hacerlo ahora. Para etiquetar esa confirmación especifica la suma de comprobación de la confirmación (o una parte de la misma) al final del comando:
 
-	$ git tag -a v1.2 9fceb02
+	$ git tag -a v1.2 -m 'version 1.2' 9fceb02
 
 Puedes ver que has etiquetado la confirmación:
 
@@ -1065,9 +1099,9 @@ Antes de que terminemos este capitulo de Git básico, unos pocos trucos y consej
 
 ### Autocompletado ###
 
-Si usas el shell Bash, Git viene con un buen script de autocompletado que puedes activar. Descarga el código fuente de Git y busca en el directorio `contrib/completion`; ahí debe haber un archivo llamado `git-completion.bash`. Copia este fichero en tu directorio `home` y añade esto a tu archivo `.bashrc`: 
+Si usas el shell Bash, Git viene con un buen script de autocompletado que puedes activar. Descárgalo directamente desde el código fuente de Git en `https://github.com/git/git/blob/master/contrib/completion/git-completion.bash`, copia este fichero en tu directorio `home` y añade esto a tu archivo `.bashrc`: 
 
-	source ~/.git-completion.bash
+	source ~/git-completion.bash
 
 Si quieres que Git tenga automáticamente autocompletado para todos los usuarios, copia este script en el directorio `/opt/local/etc/bash_completion.d` en sistemas Mac, o en el directorio `/etc/bash_completion.d/` en sistemas Linux. Este es un directorio de scripts que Bash cargará automáticamente para proveer de autocompletado.
 

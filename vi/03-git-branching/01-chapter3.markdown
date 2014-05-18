@@ -506,7 +506,7 @@ Hình 3-29. Quá trình rebase thay đổi ở C3 vào C4.
 Insert 18333fig0330.png
 Hình 3-30. Di chuyển nhánh master lên phía trước.
 
-Bây giờ snapshot mà C3 trỏ tới cũng giống như snapshot được trở tới bởi C5 trong ví dụ sử dụng merge. Không có sự khác biệt nào khi so sánh kết quả của hai phương pháp này, nhưng sử dụng rebase sẽ cho chúng ta lịch sử rõ ràng hơn. Nếu bạn xem xét lịch sử của nhánh mà chúng ta rebase vào, nó giống như một đường thẳng: mọi thứ dường như xảy ra theo trình tự, thậm chí ban đầu nó diễn ra song song.
+Bây giờ snapshot mà C3' trỏ tới cũng giống như snapshot được trở tới bởi C5 trong ví dụ sử dụng merge. Không có sự khác biệt nào khi so sánh kết quả của hai phương pháp này, nhưng sử dụng rebase sẽ cho chúng ta lịch sử rõ ràng hơn. Nếu bạn xem xét lịch sử của nhánh mà chúng ta rebase vào, nó giống như một đường thẳng: mọi thứ dường như xảy ra theo trình tự, thậm chí ban đầu nó diễn ra song song.
 
 
 Bình thường, bạn sử dụng cách này để đảm bảo rằng các commit được áp dụng một cách rõ ràng, rành mạch trên nhánh remote - có lẽ là một dự án mà bạn đang đóng góp chứ không phải duy trì nó. Trong trường hợp này, bạn thực hiện công việc trên một nhánh và sau đó rebase trở lại nhánh `origin/master` khi đã sẵn sàng. Theo cách này thì người duy trì dự án đó không phải thực hiện việc tích hợp - mà chỉ chi chuyển tiến lên phía trước (fast-forwar) hoặc đơn giản là áp dụng chúng vào.

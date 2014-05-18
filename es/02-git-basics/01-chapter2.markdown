@@ -12,7 +12,7 @@ Si estás empezando el seguimiento en Git de un proyecto existente, necesitas ir
 
 	$ git init
 
-Esto crea un nuevo subdirectorio llamado .git que contiene todos los archivos necesarios del repositorio — un esqueleto de un repositorio Git. Todavía no hay nada en tu proyecto que esté bajo seguimiento. (Véase el Capítulo 9 para obtener más información sobre qué archivos están contenidos en el directorio `.git` que acabas de crear.)
+Esto crea un nuevo subdirectorio llamado .git que contiene todos los archivos necesarios del repositorio —un esqueleto de un repositorio Git. Todavía no hay nada en tu proyecto que esté bajo seguimiento. (Véase el Capítulo 9 para obtener más información sobre qué archivos están contenidos en el directorio `.git` que acabas de crear.)
 
 Si deseas empezar a controlar versiones de archivos existentes (a diferencia de un directorio vacío), probablemente deberías comenzar el seguimiento de esos archivos y hacer una confirmación inicial. Puedes conseguirlo con unos pocos comandos `git add` para especificar qué archivos quieres controlar, seguidos de un `commit` para confirmar los cambios:
 
@@ -165,7 +165,7 @@ Las reglas para los patrones que pueden ser incluidos en el archivo .gitignore s
 *	Puedes indicar un directorio añadiendo una barra hacia delante (`/`) al final.
 *	Puedes negar un patrón añadiendo una exclamación (`!`) al principio.
 
-Los patrones glob son expresiones regulares simplificadas que pueden ser usadas por las shells. Un asterisco (`*`) reconoce cero o más caracteres; `[abc]` reconoce cualquier carácter de los especificados entre corchetes (en este caso, a, b, o c); una interrogación (`?`) reconoce un único carácter; y caracteres entre corchetes separados por un guión (`[0-9]`) reconoce cualquier carácter entre ellos (en este caso, de 0 a 9).
+Los patrones glob son expresiones regulares simplificadas que pueden ser usadas por las shells. Un asterisco (`*`) reconoce cero o más caracteres; `[abc]` reconoce cualquier carácter de los especificados entre corchetes (en este caso, a, b o c); una interrogación (`?`) reconoce un único carácter; y caracteres entre corchetes separados por un guión (`[0-9]`) reconoce cualquier carácter entre ellos (en este caso, de 0 a 9).
 
 He aquí otro ejemplo de archivo .gitignore:
 
@@ -180,10 +180,14 @@ He aquí otro ejemplo de archivo .gitignore:
 	build/
 	# ignore doc/notes.txt, but not doc/server/arch.txt
 	doc/*.txt
+	# ignore all .txt files in the doc/ directory
+	doc/**/*.txt
+
+El patrón `**/` está disponible en Git desde la versión 1.8.2.
 
 ### Viendo tus cambios preparados y no preparados ###
 
-Si el comando `git status` es demasiado impreciso para ti —quieres saber exactamente lo que ha cambiado, no sólo qué archivos fueron modificados— puedes usar el comando `git diff`. Veremos `git diff` en más detalle después; pero probablemente lo usarás para responder estas dos preguntas: ¿qué has cambiado pero aún no has preparado?, y ¿qué has preparado y estás a punto de confirmar? Aunque `git status` responde esas preguntas de  manera general, `git diff` te muestra exactamente las líneas añadidas y eliminadas —el parche, como si dijésemos—.
+Si el comando `git status` es demasiado impreciso para ti —quieres saber exactamente lo que ha cambiado, no sólo qué archivos fueron modificados— puedes usar el comando `git diff`. Veremos `git diff` en más detalle después; pero probablemente lo usarás para responder estas dos preguntas: ¿qué has cambiado pero aún no has preparado?, y ¿qué has preparado y estás a punto de confirmar? Aunque `git status` responde esas preguntas de  manera general, `git diff` te muestra exactamente las líneas añadidas y eliminadas —el parche, como si dijésemos.
 
 Supongamos que quieres editar y preparar el archivo README otra vez, y luego editar el archivo benchmarks.rb sin prepararlo. Si ejecutas el comando `status`, de nuevo verás algo así:
 
@@ -380,7 +384,7 @@ El comando `git rm` acepta archivos, directorios, y patrones glob. Es decir, que
 
 	$ git rm log/\*.log
 
-Fíjate en la barra hacia atrás (`\`) antes del `*`. Es necesaria debido a que Git hace su propia expansión de rutas, además de la expansión que hace tu shell. Este comando elimina todos los archivos con la extensión `.log` en el directorio `log/`. También puedes hacer algo así:
+Fíjate en la barra hacia atrás (`\`) antes del `*`. Es necesaria debido a que Git hace su propia expansión de rutas, además de la expansión que hace tu shell. En la consola del sistema de Windows, esta barra debe de ser omitida. Este comando elimina todos los archivos con la extensión `.log` en el directorio `log/`. También puedes hacer algo así:
 
 	$ git rm \*~
 
@@ -388,7 +392,7 @@ Este comando elimina todos los archivos que terminan en `~`.
 
 ### Moviendo archivos ###
 
-A diferencia de muchos otros VCSs, Git no hace un seguimiento explicito del movimiento de archivos. Si renombras un archivo, en Git no se almacena ningún metadato que indique que lo has renombrado. Sin embargo, Git es suficientemente inteligente como para darse cuenta —trataremos el tema de la detección de movimiento de archivos un poco más adelante—.
+A diferencia de muchos otros VCSs, Git no hace un seguimiento explicito del movimiento de archivos. Si renombras un archivo, en Git no se almacena ningún metadato que indique que lo has renombrado. Sin embargo, Git es suficientemente inteligente como para darse cuenta —trataremos el tema de la detección de movimiento de archivos un poco más adelante.
 
 Por tanto, es un poco desconcertante que Git tenga un comando `mv`. Si quieres renombrar un archivo en Git, puedes ejecutar algo así:
 
@@ -490,6 +494,26 @@ Una de las opciones más útiles es `-p`, que muestra las diferencias introducid
 
 Esta opción muestra la misma información, pero añadiendo tras cada entrada las diferencias que le corresponden. Esto resulta muy útil para revisiones de código, o para visualizar rápidamente lo que ha pasado en las confirmaciones enviadas por un colaborador.
 
+A veces es más fácil revisar cambios a nivel de palabra que a nivel de línea. Git dispone de la opción `--word-diff`, que se puede añadir al comando `git log -p` para obtener las diferencias por palabras en lugar de las diferencias línea por línea. Formatear las diferencias a nivel de palabra es bastante inusual cuando se aplica a código fuente, pero resulta muy práctico cuando se aplica a grandes archivos de texto, como libros o tu propia tesis. He aquí un ejemplo:
+
+	$ git log -U1 --word-diff
+	commit ca82a6dff817ec66f44342007202690a93763949
+	Author: Scott Chacon <schacon@gee-mail.com>
+	Date:   Mon Mar 17 21:52:11 2008 -0700
+
+	    changed the version number
+
+	diff --git a/Rakefile b/Rakefile
+	index a874b73..8f94139 100644
+	--- a/Rakefile
+	+++ b/Rakefile
+	@@ -7,3 +7,3 @@ spec = Gem::Specification.new do |s|
+	    s.name      =   "simplegit"
+	    s.version   =   [-"0.1.0"-]{+"0.1.1"+}
+	    s.author    =   "Scott Chacon"
+
+Como se puede ver, no aparecen líneas añadidas o eliminadas en la salida como en las diferencias normales. Se puede ver la palabra añadida encerrada en `{+ +}` y la eliminada en `[- -]`. Puede que se quiera reducir las usuales tres líneas de contexto en las diferencias a sólo una línea puesto que el contexto es ahora de palabras, no de líneas. Se puede hacer esto con `-U1`, como hicimos en el ejemplo de arriba.
+
 También puedes usar con `git log` una serie de opciones de resumen. Por ejemplo, si quieres ver algunas estadísticas de cada confirmación, puedes usar la opción `--stat`:
 
 	$ git log --stat
@@ -573,10 +597,11 @@ Las opciones `oneline` y `format` son especialmente útiles combinadas con otra 
 	* d6016bc require time for xmlschema
 	*  11d191e Merge branch 'defunkt' into local
 
-Éstas son sólo algunas de las opciones para formatear la salida de `git log` —existen muchas más. La Tabla 2-2 lista las opcines vistas hasta ahora, y algunas otras opciones de formateo que pueden resultarte útiles, así como su efecto sobre la salida—.
+Éstas son sólo algunas de las opciones para formatear la salida de `git log` —existen muchas más. La Tabla 2-2 lista las opciones vistas hasta ahora, y algunas otras opciones de formateo que pueden resultarte útiles, así como su efecto sobre la salida.
 
 	Opción	Descripción
 	-p	Muestra el parche introducido en cada confirmación.
+	--word-diff	Muestra el parche en formato de una palabra.
 	--stat	Muestra estadísticas sobre los archivos modificados en cada confirmación.
 	--shortstat	Muestra solamente la línea de resumen de la opción `--stat`.
 	--name-only	Muestra la lista de archivos afectados.
@@ -584,7 +609,8 @@ Las opciones `oneline` y `format` son especialmente útiles combinadas con otra 
 	--abbrev-commit	Muestra solamente los primeros caracteres de la suma SHA-1, en vez de los 40 caracteres de que se compone.
 	--relative-date	Muestra la fecha en formato relativo (por ejemplo, “2 weeks ago” (“hace 2 semanas”)) en lugar del formato completo.
 	--graph	Muestra un gráfico ASCII con la historia de ramificaciones y uniones.
-	--pretty	Muestra las confirmaciones usando un formato alternativo. Posibles opciones son oneline, short, full, fuller, y format (mediante el cual puedes especificar tu propio formato).
+	--pretty	Muestra las confirmaciones usando un formato alternativo. Posibles opciones son oneline, short, full, fuller y format (mediante el cual puedes especificar tu propio formato).
+	--oneline	Un cómodo acortamiento de la opción `--pretty=oneline --abbrev-commit`.
 
 ### Limitando la salida del histórico ###
 
@@ -597,6 +623,13 @@ Sin embargo, las opciones temporales como `--since` (desde) y `--until` (hasta) 
 Este comando acepta muchos formatos. Puedes indicar una fecha concreta (“2008-01-15”), o relativa, como “2 years 1 day 3 minutes ago” (“hace 2 años, 1 día y 3 minutos”).
 
 También puedes filtrar la lista para que muestre sólo aquellas confirmaciones que cumplen ciertos criterios. La opción `--author` te permite filtrar por autor, y `--grep` te permite buscar palabras clave entre los mensajes de confirmación. (Ten en cuenta que si quieres aplicar ambas opciones simultáneamente, tienes que añadir `--all-match`, o el comando mostrará las confirmaciones que cumplan cualquiera de las dos, no necesariamente las dos a la vez.)
+
+<!-- The prior paragraph was changed in English version for the following two in commit 60e261895a77951a6541470c9438f32a1e5b7fd0. It has not been trasnlated yet:
+
+You can also filter the list to commits that match some search criteria. The `--author` option allows you to filter on a specific author, and the `--grep` option lets you search for keywords in the commit messages. (Note that if you specify both author and grep options, the command will match commits with both.)
+
+If you want to specify multiple grep options, you have to add `--all-match` or the command will match commits with either.
+-->
 
 La última opción verdaderamente útil para filtrar la salida de `git log` es especificar una ruta. Si especificas la ruta de un directorio o archivo, puedes limitar la salida a aquellas confirmaciones que introdujeron un cambio en dichos archivos. Ésta debe ser siempre la última opción, y suele ir precedida de dos guiones (`--`) para separar la ruta del resto de opciones.
 
@@ -652,7 +685,7 @@ Por ejemplo, si confirmas y luego te das cuenta de que se te olvidó preparar lo
 	$ git add forgotten_file
 	$ git commit --amend
 
-Estos tres comandos acabarán convirtiéndose en una única confirmación —la segunda confirmación reemplazará los resultados de la primera—.
+Estos tres comandos acabarán convirtiéndose en una única confirmación —la segunda confirmación reemplazará los resultados de la primera.
 
 ### Deshaciendo la preparación de un archivo ###
 
@@ -690,7 +723,7 @@ El comando es un poco extraño, pero funciona. El archivo benchmarks.rb ahora es
 
 ### Deshaciendo la modificación de un archivo ###
 
-¿Qué pasa si te das cuenta de que no quieres mantener las modificaciones que has hecho sobre el archivo benchmarks.rb? ¿Cómo puedes deshacerlas fácilmente —revertir el archivo al mismo estado en el que estaba cuando hiciste tu última confirmación— (o cuando clonaste el repositorio, o como quiera que metieses el archivo en tu directorio de trabajo)? Afortunadamente, `git status` también te dice como hacer esto. En la salida del último ejemplo, la cosa estaba así:
+¿Qué pasa si te das cuenta de que no quieres mantener las modificaciones que has hecho sobre el archivo benchmarks.rb? ¿Cómo puedes deshacerlas fácilmente —revertir el archivo al mismo estado en el que estaba cuando hiciste tu última confirmación (o cuando clonaste el repositorio, o como quiera que metieses el archivo en tu directorio de trabajo)? Afortunadamente, `git status` también te dice como hacer esto. En la salida del último ejemplo, la cosa estaba así:
 
 	# Changes not staged for commit:
 	#   (use "git add <file>..." to update what will be committed)
@@ -699,7 +732,7 @@ El comando es un poco extraño, pero funciona. El archivo benchmarks.rb ahora es
 	#       modified:   benchmarks.rb
 	#
 
-Te dice de forma bastante explícita cómo descartar las modificaciones que hayas hecho (al menos las versiones de Git a partir de la 1.6.1 lo hacen —si tienes una versión más antigua, te recomendamos encarecidamente que la actualices para obtener algunas de estas mejoras de usabilidad—). Vamos a hacer lo que dice:
+Te dice de forma bastante explícita cómo descartar las modificaciones que hayas hecho (al menos las versiones de Git a partir de la 1.6.1 lo hacen —si tienes una versión más antigua, te recomendamos encarecidamente que la actualices para obtener algunas de estas mejoras de usabilidad). Vamos a hacer lo que dice:
 
 	$ git checkout -- benchmarks.rb
 	$ git status
@@ -738,7 +771,8 @@ Para ver qué repositorios remotos tienes configurados, puedes ejecutar el coman
 También puedes añadir la opción `-v`, que muestra la URL asociada a cada repositorio remoto:
 
 	$ git remote -v
-	origin	git://github.com/schacon/ticgit.git
+	origin  git://github.com/schacon/ticgit.git (fetch)
+	origin  git://github.com/schacon/ticgit.git (push)
 
 Si tienes más de un remoto, este comando los lista todos. Por ejemplo, mi repositorio Grit tiene esta pinta:
 
@@ -774,7 +808,7 @@ Ahora puedes usar la cadena "pb" en la línea de comandos, en lugar de toda la U
 	 * [new branch]      master     -> pb/master
 	 * [new branch]      ticgit     -> pb/ticgit
 
-La rama maestra de Paul es accesible localmente como `pb/master` —puedes unirla a una de tus ramas, o copiarla localmente para inspeccionarla—.
+La rama maestra de Paul es accesible localmente como `pb/master` —puedes unirla a una de tus ramas, o copiarla localmente para inspeccionarla.
 
 ### Recibiendo de tus repositorios remotos ###
 
@@ -784,7 +818,7 @@ Como acabas de ver, para recuperar datos de tus repositorios remotos puedes ejec
 
 Este comando recupera todos los datos del proyecto remoto que no tengas todavía. Después de hacer esto, deberías tener referencias a todas las ramas del repositorio remoto, que puedes unir o inspeccionar en cualquier momento. (Veremos qué son las ramas y cómo utilizarlas en más detalle en el Capítulo 3.)
 
-Si clonas un repositorio, el comando añade automáticamente ese repositorio remoto con el nombre de "origin". Por tanto, `git fetch origin` recupera toda la información enviada a ese servidor desde que lo clonaste (o desde la última vez que ejecutaste `fetch`). Es importante tener en cuenta que el comando `fetch` sólo recupera la información y la pone en tu repositorio local —no la une automáticamente con tu trabajo ni modifica aquello en lo que estás trabajando. Tendrás que unir ambos manualmente a posteriori—.
+Si clonas un repositorio, el comando añade automáticamente ese repositorio remoto con el nombre de "origin". Por tanto, `git fetch origin` recupera toda la información enviada a ese servidor desde que lo clonaste (o desde la última vez que ejecutaste `fetch`). Es importante tener en cuenta que el comando `fetch` sólo recupera la información y la pone en tu repositorio local —no la une automáticamente con tu trabajo ni modifica aquello en lo que estás trabajando. Tendrás que unir ambos manualmente a posteriori.
 
 Si has configurado una rama para seguir otra rama remota (véase la siguiente sección y el Capítulo 3 para más información), puedes usar el comando `git pull` para recuperar y unir automáticamente la rama remota con tu rama actual. Éste puede resultarte un flujo de trabajo más sencillo y más cómodo; y por defecto, el comando `git clone` automáticamente configura tu rama local maestra para que siga la rama remota maestra del servidor del cual clonaste (asumiendo que el repositorio remoto tiene una rama maestra). Al ejecutar `git pull`, por lo general se recupera la información del servidor del que clonaste, y automáticamente se intenta unir con el código con el que estás trabajando actualmente.
 
@@ -856,7 +890,7 @@ Si por algún motivo quieres eliminar una referencia —has movido el servidor o
 
 ## Creando etiquetas ##
 
-Como muchos VCSs, Git tiene la habilidad de etiquetar (tag) puntos específicos en la historia como importantes. Generalmente la gente usa esta funcionalidad para marcar puntos donde se ha lanzado alguna versión (v1.0, y así sucesivamente). En esta sección aprenderás cómo listar las etiquetas disponibles, crear nuevas etiquetas y qué tipos diferentes de etiquetas hay-
+Como muchos VCSs, Git tiene la habilidad de etiquetar (tag) puntos específicos en la historia como importantes. Generalmente la gente usa esta funcionalidad para marcar puntos donde se ha lanzado alguna versión (v1.0, y así sucesivamente). En esta sección aprenderás cómo listar las etiquetas disponibles, crear nuevas etiquetas y qué tipos diferentes de etiquetas hay.
 
 ### Listando tus etiquetas ###
 
@@ -868,7 +902,7 @@ Listar las etiquetas disponibles en Git es sencillo, Simplemente escribe `git ta
 
 Este comando lista las etiquetas en orden alfabético; el orden en el que aparecen no es realmente importante.
 
-También puedes buscar etiquetas de acuerdo a un patrón en particular. El repositorio fuente de Git, por ejemplo, contiene mas de 240 etiquetas. Si solo estas interesado en la serie 1.4.2, puedes ejecutar esto:
+También puedes buscar etiquetas de acuerdo a un patrón en particular. El repositorio fuente de Git, por ejemplo, contiene mas de 240 etiquetas. Si solo estás interesado en la serie 1.4.2, puedes ejecutar esto:
 
 	$ git tag -l 'v1.4.2.*'
 	v1.4.2.1
@@ -990,7 +1024,7 @@ Si no tienes la clave pública del autor de la firma, se obtiene algo parecido a
 
 ### Etiquetando más tarde ###
 
-Puedes incluso etiquetar confirmaciones después de avanzar sobre ellos. Supón que tu historico de confirmaciones se parece a esto:
+Puedes incluso etiquetar confirmaciones después de avanzar sobre ellas. Supón que tu historico de confirmaciones se parece a esto:
 
 	$ git log --pretty=oneline
 	15027957951b64cf874c3557a0f3547bd83b3ff6 Merge branch 'experiment'
@@ -1006,7 +1040,7 @@ Puedes incluso etiquetar confirmaciones después de avanzar sobre ellos. Supón 
 
 Ahora, supón que olvidaste etiquetar el proyecto en v1.2, que estaba en la confirmación "updated rakefile". Puedes hacerlo ahora. Para etiquetar esa confirmación especifica la suma de comprobación de la confirmación (o una parte de la misma) al final del comando:
 
-	$ git tag -a v1.2 9fceb02
+	$ git tag -a v1.2 -m 'version 1.2' 9fceb02
 
 Puedes ver que has etiquetado la confirmación:
 
@@ -1033,7 +1067,7 @@ Puedes ver que has etiquetado la confirmación:
 
 ### Compartiendo etiquetas ###
 
-Por defecto, el comando `git push` no transfiere etiquetas a servidores remotos. Tienes que enviarlas explicitamente a un servidor compartido después de haberlas creado. Este proceso es igual a compartir ramas remotas —puedes ejecutar `git push origin [tagname]`—.
+Por defecto, el comando `git push` no transfiere etiquetas a servidores remotos. Tienes que enviarlas explicitamente a un servidor compartido después de haberlas creado. Este proceso es igual a compartir ramas remotas —puedes ejecutar `git push origin [tagname]`.
 
 	$ git push origin v1.5
 	Counting objects: 50, done.
@@ -1043,7 +1077,7 @@ Por defecto, el comando `git push` no transfiere etiquetas a servidores remotos.
 	To git@github.com:schacon/simplegit.git
 	* [new tag]         v1.5 -> v1.5
 
-Si tienes un montón de etiquetas que quieres enviar a la vez, también puedes usar la opción `--tags` en el comando `git push`. Esto transifere todas tus etiquetas que no estén ya en el servidor remoto.
+Si tienes un montón de etiquetas que quieres enviar a la vez, también puedes usar la opción `--tags` en el comando `git push`. Esto transfiere todas tus etiquetas que no estén ya en el servidor remoto.
 
 	$ git push origin --tags
 	Counting objects: 50, done.
@@ -1061,17 +1095,17 @@ Ahora, cuando alguien clone o reciba de tu repositorio, obtendrá también todas
 
 ## Consejos y trucos ##
 
-Antes de que terminemos este capitulo de Git básico, unos pocos trucos y consejos que harán de tu experiencia con Git más sencilla, fácil, o más familiar. Mucha gente usa Git sin usar ninguno de estos consejos, y no nos referiremos a ellos o asumiremos que los has usado más tarde en el libro, pero probablemente debas saber como hacerlos.
+Antes de que terminemos este capitulo de Git básico, unos pocos trucos y consejos que harán de tu experiencia con Git más sencilla, fácil, o más familiar. Mucha gente usa Git sin usar ninguno de estos consejos, y no nos referiremos a ellos o asumiremos que los has usado más tarde en el libro, pero probablemente debas saber cómo hacerlos.
 
 ### Autocompletado ###
 
-Si usas el shell Bash, Git viene con un buen script de autocompletado que puedes activar. Descarga el código fuente de Git y busca en el directorio `contrib/completion`; ahí debe haber un archivo llamado `git-completion.bash`. Copia este fichero en tu directorio `home` y añade esto a tu archivo `.bashrc`: 
+Si usas el shell Bash, Git viene con un buen script de autocompletado que puedes activar. Descárgalo directamente desde el código fuente de Git en `https://github.com/git/git/blob/master/contrib/completion/git-completion.bash`, copia este fichero en tu directorio `home` y añade esto a tu archivo `.bashrc`: 
 
-	source ~/.git-completion.bash
+	source ~/git-completion.bash
 
-Si quieres que Git tenga automáticamente autocompletado para todos los usuarios, copia este script en el  directorio `/opt/local/etc/bash_completion.d` en sistemas Mac, o en el directorio `/etc/bash_completion.d/` en sistemas Linux. Este es un directorio de scripts que Bash cargará automáticamente para proveer de autocompletado.
+Si quieres que Git tenga automáticamente autocompletado para todos los usuarios, copia este script en el directorio `/opt/local/etc/bash_completion.d` en sistemas Mac, o en el directorio `/etc/bash_completion.d/` en sistemas Linux. Este es un directorio de scripts que Bash cargará automáticamente para proveer de autocompletado.
 
-Si estas usando Windows con el Bash de Git, el cual es el predeterminado cuando instalas Git en Windows con msysGit, el autocompletado debería estar preconfigurado.
+Si estás usando Windows con el Bash de Git, el cual es el predeterminado cuando instalas Git en Windows con msysGit, el autocompletado debería estar preconfigurado.
 
 Presiona el tabulador cuando estés escribiendo un comando de Git, y deberían aparecer un conjunto de sugerencias para que escojas:
 
@@ -1080,7 +1114,7 @@ Presiona el tabulador cuando estés escribiendo un comando de Git, y deberían a
 
 En este caso, escribiendo `git co` y presionando el tabulador dos veces sugiere `commit` y `config`. Añadiendo `m` y pulsando el tabulador completa `git commit` automáticamente.
 
-Esto también funciona con optiones, que probablemente es más útil. Por ejemplo, si quieres ejecutar `git log` y no recuerdas una de las opciones, puedes empezar a escribirla y presionar el tabulador para ver que coincide:
+Esto también funciona con opciones, que probablemente es más útil. Por ejemplo, si quieres ejecutar `git log` y no recuerdas una de las opciones, puedes empezar a escribirla y presionar el tabulador para ver qué coincide:
 
 	$ git log --s<tab>
 	--shortstat  --since=  --src-prefix=  --stat   --summary
@@ -1128,4 +1162,4 @@ Como puedes ver, Git simplemente reemplaza el nuevo comando con lo que le pongas
 
 ## Resumen ##
 
-En este punto puedes hacer todas las operaciones básicas de Git a nivel local —crear o clonar un repositorio, hacer cambios, preparar y confirmar esos cambios y ver la historioa de los cambios en el repositorio—. A continuación cubriremos la mejor característica de Git: su modelo de ramas.
+En este punto puedes hacer todas las operaciones básicas de Git a nivel local —crear o clonar un repositorio, hacer cambios, preparar y confirmar esos cambios y ver la historia de los cambios en el repositorio—. A continuación cubriremos la mejor característica de Git: su modelo de ramas.

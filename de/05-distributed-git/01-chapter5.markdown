@@ -32,8 +32,8 @@ Bild 5-1. Zentralisierter Workflow
 
 Das heißt: wenn zwei Entwickler Code aus dem zentralen Repository abholen und beide Änderungen vornehmen, dann kann der erste Entwickler seine Änderungen ohne Probleme im zentralen Repository abliefern. Der zweite Entwickler muss sie zunächst mit den Änderungen des ersten Entwicklers zusammenführen, damit er dessen Arbeit nicht überschreibt. Dieses Konzept trifft sowohl auf Git als auch auf Subversion (und jedes andere CVCS) zu, und es funktioniert in Git perfekt.
 
-<!--If you have a small team or are already comfortable with a centralized workflow in your company or team, you can easily continue using that workflow with Git. Simply set up a single repository, and give everyone on your team push access; Git won’t let users overwrite each other. If one developer clones, makes changes, and then tries to push their changes while another developer has pushed in the meantime, the server will reject that developer’s changes. They will be told that they’re trying to push non-fast-forward changes and that they won’t be able to do so until they fetch and merge.
-This workflow is attractive to a lot of people because it’s a paradigm that many are familiar and comfortable with.-->
+<!--If you have a small team or are already comfortable with a centralized workflow in your company or team, you can easily continue using that workflow with Git. Simply set up a single repository, and give everyone on your team push access; Git won’t let users overwrite each other. If one developer clones, makes changes, and then tries to push their changes while another developer has pushed in the meantime, the server will reject that developer’s changes. They will be told that they’re trying to push non-fast-forward changes and that they won’t be able to do so until they fetch and merge.-->
+<!--This workflow is attractive to a lot of people because it’s a paradigm that many are familiar and comfortable with.-->
 
 In einem kleinen Team oder einem Team, das mit einem zentralisierten Workflow zufrieden ist, kann man diesen Workflow ohne weiteres mit Git realisieren. Man setzt einfach ein einziges Repository auf und gibt jedem im Team Schreibzugriff („push access“). Git sorgt dann dafür, dass niemand die Arbeit von anderen überschreiben kann. Wenn ein Entwickler das Repository klont, Änderungen vornimmt und dann versucht ins zentrale Repository zu pushen, obwohl jemand anders in der Zwischenzeit Änderungen gepusht hat, dann wird der Server das zurückweisen. Dem Entwickler wird dann mitgeteilt, dass er versucht hat, sogeannte „non-fast-forward“ Änderungen hochzuladen und dass er zuvor die Änderungen des anderen Entwicklers herunterladen und mit seinen zusammenführen muss. Viele Leute mögen diesen Arbeitsablauf, weil sie mit dem Paradigma bereits vertraut sind und sich damit wohl fühlen.
 
@@ -45,12 +45,12 @@ In einem kleinen Team oder einem Team, das mit einem zentralisierten Workflow zu
 
 Weil Git ermöglicht, eine Vielzahl von externen Repositories zu betreiben, ist es außerdem möglich, einen Arbeitsprozess zu gestalten, in dem jeder Entwickler Schreibzugriff auf sein eigenes öffentliches Repository hat, aber nur Lesezugriff auf die Repositories von allen anderen Beteiligten. In diesem Szenario stellt jedes Repository ein eigenes „offizielles“ Projekt dar. Um zu einem solchen distribuierten Projekt Änderungen beizusteuern, kannst Du einen eigenen, öffentlichen Klon des Projektes anlegen und Deine Änderungen dort publizieren. Anschließend kannst Du den Betreiber des Haupt-Repositories bitten, Deine Änderungen in sein Repository zu übernehmen. Er kann dann Dein Repository als ein externes Repository auf seinem Rechner einrichten, Deine Änderungen lokal testen, sie in einen seiner Branches (z.B. master) mergen und dann in sein öffentliches Repository pushen. Dieser Prozess läuft wie folgt ab (siehe Bild 5-2):
 
-<!--1. The project maintainer pushes to their public repository.
-2. A contributor clones that repository and makes changes.
-3. The contributor pushes to their own public copy.
-4. The contributor sends the maintainer an e-mail asking them to pull changes.
-5. The maintainer adds the contributor’s repo as a remote and merges locally.
-6. The maintainer pushes merged changes to the main repository.-->
+<!--1. The project maintainer pushes to their public repository.-->
+<!--2. A contributor clones that repository and makes changes.-->
+<!--3. The contributor pushes to their own public copy.-->
+<!--4. The contributor sends the maintainer an e-mail asking them to pull changes.-->
+<!--5. The maintainer adds the contributor’s repo as a remote and merges locally.-->
+<!--6. The maintainer pushes merged changes to the main repository.-->
 
 1.  Der Projekt Betreiber pusht in ein öffentliches Repository.
 2.  Ein Mitarbeiter klont das Repository und nimmt Änderungen daran vor.
@@ -75,10 +75,10 @@ Dies ist ein weit verbreiteter Arbeitsablauf wie ihn z.B. auch GitHub ermöglich
 
 Dies ist Variante eines Workflows mit zahlreichen Repositories, die normalerweise von sehr großen Projekten mit hunderten von Mitarbeitern verwendet wird. Das bekannteste Beispiel ist wahrscheinlich der Linux Kernel. In diesem Projekt sind zahlreiche Integration Manager, die „Leutnants“, für verschiedene Bereiche des Repositories zuständig. Für sämtliche Leutnants gibt es wiederum einen Integration Manager, der als der „wohlwollende Diktator“ („benevolent dictator“) bezeichnet wird. Das Repository des wohlwollenden Diktators fungiert als das Referenz-Repository aus dem alle Beteiligten ihre eigenen Repositories aktualisieren müssen. Dieser Prozess funktioniert also wie folgt (siehe Bild 5-3)
 
-<!--1. Regular developers work on their topic branch and rebase their work on top of master. The master branch is that of the dictator.
-2. Lieutenants merge the developers’ topic branches into their master branch.
-3. The dictator merges the lieutenants’ master branches into the dictator’s master branch.
-4. The dictator pushes their master to the reference repository so the other developers can rebase on it.-->
+<!--1. Regular developers work on their topic branch and rebase their work on top of master. The master branch is that of the dictator.-->
+<!--2. Lieutenants merge the developers’ topic branches into their master branch.-->
+<!--3. The dictator merges the lieutenants’ master branches into the dictator’s master branch.-->
+<!--4. The dictator pushes their master to the reference repository so the other developers can rebase on it.-->
 
 1.  Normale Entwickler arbeiten in ihren Arbeitsbranches (xxx) und rebasen (xxx) ihre Änderungen auf der Basis des Master Branches. Der Master Branch ist derjenige des Diktators.
 2.  Die Leutnants mergen die Arbeitsbranches der Entwickler in ihre Master Branches.
@@ -152,8 +152,8 @@ Wenn Du diesen Befehl ausführst, bevor Du einen Commit anlegst, warnt er dich, 
 
 Versuche außerdem, Deine Änderungen in logisch zusammenhängende Einheiten zu gruppieren. Wenn möglich, versuche Commits möglichst leichtverständlich (xxx) zu gestalten: arbeite nicht ein ganzes Wochenende lang an fünf verschiedenen Problemen und committe sie dann am Montag als einen einzigen, riesigen Commit. Selbst wenn Du am Wochenende keine Commits angelegt hast, verwende die Staging Area, um Deine Änderungen auf mehrere Commits aufzuteilen, jeweils mit einer verständlichen Meldung. Wenn einige Änderungen dieselbe Datei betreffen, probiere sie mit `git add --patch` nur teilweise zur Staging Area hinzuzufügen (das werden wir in Kapitel 6 noch im Detail besprechen). Der Projekt Snapshot wird am Ende derselbe sein, ob Du nun einen einzigen großen oder mehrere kleine Commits anlegst, daher versuche, es anderen Entwickler zu erleichtern machen, Deine Änderungen zu verstehen. Auf diese Weise machst Du es auch einfacher, einzelne Änderungen später herauszunehmen oder rückgängig zu machen. Kapitel 6 beschreibt eine Reihe nützlicher Git Tricks, die hilfreich sind, um die Historie umzuschreiben oder interaktiv Dateien zur Staging Area hinzuzufügen. Verwende diese Hilfsmittel, um eine sauber und leicht verständliche Historie von Änderungen aufzubauen.
 
-<!--The last thing to keep in mind is the commit message. Getting in the habit of creating quality commit messages makes using and collaborating with Git a lot easier. As a general rule, your messages should start with a single line that’s no more than about 50 characters and that describes the changeset concisely, followed by a blank line, followed by a more detailed explanation. The Git project requires that the more detailed explanation include your motivation for the change and contrast its implementation with previous behavior — this is a good guideline to follow. It’s also a good idea to use the imperative present tense in these messages. In other words, use commands. Instead of "I added tests for" or "Adding tests for," use "Add tests for."
-Here is a template originally written by Tim Pope at tpope.net:-->
+<!--The last thing to keep in mind is the commit message. Getting in the habit of creating quality commit messages makes using and collaborating with Git a lot easier. As a general rule, your messages should start with a single line that’s no more than about 50 characters and that describes the changeset concisely, followed by a blank line, followed by a more detailed explanation. The Git project requires that the more detailed explanation include your motivation for the change and contrast its implementation with previous behavior — this is a good guideline to follow. It’s also a good idea to use the imperative present tense in these messages. In other words, use commands. Instead of "I added tests for" or "Adding tests for," use "Add tests for."-->
+<!--Here is a template originally written by Tim Pope at tpope.net:-->
 
 Ein weitere Sache, der Du ein bisschen Aufmerksamkeit schenken solltest, ist die Commit Meldung selbst. Wenn man sich angewöhnt, aussagekräftige und hochwertige Commit Meldungen zu schreiben, macht man sich selbst und anderen das Leben erheblich einfacher. Im allgemeinen sollte eine Commit Meldung mit einer einzelnen Zeile anfangen, die nicht länger als 50 Zeichen sein sollte. Dann sollte eine leere Zeile folgen und schließlich eine ausführlichere Beschreibung der Änderungen.
 
@@ -188,8 +188,8 @@ In den folgenden Beispielen hier und fast überall in diesem Buch verwende ich k
 
 Das einfachste Setup, mit dem Du zu tun haben wirst, ist ein privates Projekt mit ein oder zwei Entwicklern. Mit „privat“ meine ich, dass es „closed source“, d.h. nicht lesbar für Dritte ist. Alle beteiligten Entwickler haben Schreibzugriff auf das Repository.
 
-<!--In this environment, you can follow a workflow similar to what you might do when using Subversion or another centralized system. You still get the advantages of things like offline committing and vastly simpler branching and merging, but the workflow can be very similar; the main difference is that merges happen client-side rather than on the server at commit time.
-Let’s see what it might look like when two developers start to work together with a shared repository. The first developer, John, clones the repository, makes a change, and commits locally. (I’m replacing the protocol messages with `...` in these examples to shorten them somewhat.)-->
+<!--In this environment, you can follow a workflow similar to what you might do when using Subversion or another centralized system. You still get the advantages of things like offline committing and vastly simpler branching and merging, but the workflow can be very similar; the main difference is that merges happen client-side rather than on the server at commit time.-->
+<!--Let’s see what it might look like when two developers start to work together with a shared repository. The first developer, John, clones the repository, makes a change, and commits locally. (I’m replacing the protocol messages with `...` in these examples to shorten them somewhat.)-->
 
 In einer solchen Umgebung kann man einen ähnlichen Workflow verwenden, wie für Subversion oder ein anderes zentralisiertes System. Du hast dann immer noch Vorteile wie, dass Du offline committen kannst und dass Branching und Merging so unglaublich einfach ist. Der Hauptunterschied ist, dass Merges auf der Client Seite stattfinden und nicht, wenn man committet, auf dem Server. Schauen wir uns an, wie die Arbeit von zwei Entwicklern in einem gemeinsamen Repository abläuft. Der erste Entwickler, John, klont das Repository, nimmt eine Änderung vor und comittet auf seinem Rechner. (Wir kürzen die Beispiele etwas ab und ersetzen die hierfür irrelevanten Protokoll Meldungen mit `xxx`.)
 
@@ -330,7 +330,7 @@ Jessica hat die Arbeit in ihrem Topic Branch abgeschlossen, aber sie will wissen
 
 	    removed invalid default value
 
-<!--Now, Jessica can merge her topic work into her master branch, merge John’s work (`origin/master`) into her `master` branch, and then push back to the server again. First, she switches back to her master branch to integrate all this work:-->
+<!--Now, Jessica can merge her topic work into her `master` branch, merge John’s work (`origin/master`) into her `master` branch, and then push back to the server again. First, she switches back to her `master` branch to integrate all this work:-->
 
 Jetzt kann Jessica zunächst ihren Topic Branch `issue54` in ihren `master` Branch mergen, dann Johns Änderungen aus `origin/master` in ihren `master` Branch mergen und schließlich das Resultat auf den `origin` Server pushen. Als erstes wechselt sie zurück auf ihren `master` Branch:
 
@@ -386,7 +386,7 @@ Beide Entwickler haben jetzt einige Male committed und die Arbeit des jeweils an
 Insert 18333fig0510.png
 Bild 5-10. Jessicas Historie nachdem sie sämtliche Änderungen auf den Server gepusht hat
 
-<!--That is one of the simplest workflows. You work for a while, generally in a topic branch, and merge into your master branch when it’s ready to be integrated. When you want to share that work, you merge it into your own master branch, then fetch and merge `origin/master` if it has changed, and finally push to the `master` branch on the server. The general sequence is something like that shown in Figure 5-11.-->
+<!--That is one of the simplest workflows. You work for a while, generally in a topic branch, and merge into your `master` branch when it’s ready to be integrated. When you want to share that work, you merge it into your own `master` branch, then fetch and merge `origin/master` if it has changed, and finally push to the `master` branch on the server. The general sequence is something like that shown in Figure 5-11.-->
 
 Dies ist eine der simpelsten Workflow Varianten. Du arbeitest eine Weile, normalerweise in einem Topic Branch, und mergst in Deinen `master` Branch, wenn Du fertig bist. Wenn Du Deine Änderungen anderen zur Verfügung stellen willst, holst Du den aktuellen `origin/master` Branch, mergst Deinen `master` Branch damit und pushst das ganze zurück auf den `origin` Server. Der Ablauf sieht in etwa wie folgt aus (Bild 5-11).
 
@@ -765,10 +765,35 @@ Zunächst musst Du die IMAP Sektion in Deiner `~/.gitconfig` Datei ausfüllen. D
 	  port = 993
 	  sslverify = false
 
-<!--If your IMAP server doesn’t use SSL, the last two lines probably aren’t necessary, and the host value will be `imap://` instead of `imaps://`.
-When that is set up, you can use `git send-email` to place the patch series in the Drafts folder of the specified IMAP server:-->
+<!--If your IMAP server doesn’t use SSL, the last two lines probably aren’t necessary, and the host value will be `imap://` instead of `imaps://`.-->
+<!--When that is set up, you can use `git imap-send` to place the patch series in the Drafts folder of the specified IMAP server:-->
 
-Wenn Dein IMAP Server kein SSL verwendet, kannst Du die letzten beiden Zeilen wahrscheinlich weglassen und der `host` dürfte mit `imap://` und nicht `imaps://` beginnen. Wenn Du diese Einstellungen konfiguriert hast, kannst Du `git send-email` verwenden, um Deine Patches in den Entwurfsordner des angegebenen IMAP Servers zu kopieren:
+Wenn Dein IMAP Server kein SSL verwendet, kannst Du die letzten beiden Zeilen wahrscheinlich weglassen und der `host` dürfte mit `imap://` und nicht `imaps://` beginnen. Wenn Du diese Einstellungen konfiguriert hast, kannst Du `git imap-send` verwenden, um Deine Patches in den Entwurfsordner des angegebenen IMAP Servers zu kopieren:
+
+	$ cat *.patch |git imap-send
+	Resolving imap.gmail.com... ok
+	Connecting to [74.125.142.109]:993... ok
+	Logging in...
+	sending 2 messages
+	100% (2/2) done
+
+<!--At this point, you should be able to go to your Drafts folder, change the To field to the mailing list you’re sending the patch to, possibly CC the maintainer or person responsible for that section, and send it off.-->
+
+Jetzt kannst Du in Deinen Entwürfe-Ordner wechseln, die Mailingliste an die Du den Patch senden möchtest im An-Feld setzen, vielleicht noch den Maintainer oder die verantwortliche Person in das CC-Feld einfügen und dann das Ganze losschicken.
+
+<!--You can also send the patches through an SMTP server. As before, you can set each value separately with a series of `git config` commands, or you can add them manually in the sendemail section in your `~/.gitconfig` file:-->
+
+Man kann Patches auch über einen SMTP-Server schicken. Wie im letzen Beispiel, kann man auch hier jeden einzelnen Wert mit einer Reihe von `git config` Kommandos setzen. Oder aber Du änderst die Sektion sendemail in Deiner `~/.gitconfig` Datei manuell:
+
+	[sendemail]
+	  smtpencryption = tls
+	  smtpserver = smtp.gmail.com
+	  smtpuser = user@gmail.com
+	  smtpserverport = 587
+
+<!--After this is done, you can use `git send-email` to send your patches:-->
+
+Nach der Änderungen kannst Du mit `git send-email` die Patches abschicken:
 
 	$ git send-email *.patch
 	0001-added-limit-to-log-function.patch
@@ -818,8 +843,8 @@ Neben dem Wissen, das Du brauchst, um zu einem bestehenden Projekt Änderungen b
 <!--### Working in Topic Branches ###-->
 ### In Topic Branches arbeiten ###
 
-<!--When you’re thinking of integrating new work, it’s generally a good idea to try it out in a topic branch — a temporary branch specifically made to try out that new work. This way, it’s easy to tweak a patch individually and leave it if it’s not working until you have time to come back to it. If you create a simple branch name based on the theme of the work you’re going to try, such as `ruby_client` or something similarly descriptive, you can easily remember it if you have to abandon it for a while and come back later. The maintainer of the Git project tends to namespace these branches as well — such as `sc/ruby_client`, where `sc` is short for the person who contributed the work.
-As you’ll remember, you can create the branch based off your master branch like this:-->
+<!--When you’re thinking of integrating new work, it’s generally a good idea to try it out in a topic branch — a temporary branch specifically made to try out that new work. This way, it’s easy to tweak a patch individually and leave it if it’s not working until you have time to come back to it. If you create a simple branch name based on the theme of the work you’re going to try, such as `ruby_client` or something similarly descriptive, you can easily remember it if you have to abandon it for a while and come back later. The maintainer of the Git project tends to namespace these branches as well — such as `sc/ruby_client`, where `sc` is short for the person who contributed the work.-->
+<!--As you’ll remember, you can create the branch based off your master branch like this:-->
 
 Wenn Du Änderungen von anderen übernehmen willst, ist normalerweise eine gute Idee, sie in einem Topic Branch auszuprobieren – d.h., einem temporären Branch, dessen Zweck nur darin besteht, die jeweiligen Änderungen auszuprobieren. Auf diese Weise ist es einfach, Patches ggf. anzupassen oder sie im Zweifelsfall im Topic Branch liegen zu lassen, wenn sie nicht funktionieren und Du im Moment nicht die Zeit hast, Dich weiter damit zu befassen. Es ist empfehlenswert, Topic Branches Namen zu geben, die gut kommunizieren, worum es sich bei den jeweiligen Änderungen dreht, wie z.B. `ruby_client` oder etwas ähnlich aussagekräftiges, das Dir hilft, Dich daran zu erinnern. Der Projekt Betreiber des Git Projektes selbst vergibt Namensräume für solche Branches – wie z.B. `sc/ruby_client`, wobei `sc` ein Kürzel für den jeweiligen Autor des Patches ist. Wie Du inzwischen weißt, kannst Du einen neuen Branch, der auf dem gegenwärtigen `master` Branch basiert, wie folgt erzeugen (xxx falsch, das stimmt nur, wenn `master` der aktuelle Branch ist xxx):
 
@@ -1117,8 +1142,8 @@ Bild 5-22. Nach dem Topic Branch Merge
 Insert 18333fig0523.png
 Bild 5-23. Nach dem Topic Branch Release
 
-<!--This way, when people clone your project’s repository, they can either check out master to build the latest stable version and keep up to date on that easily, or they can check out develop, which is the more cutting-edge stuff.
-You can also continue this concept, having an integrate branch where all the work is merged together. Then, when the codebase on that branch is stable and passes tests, you merge it into a develop branch; and when that has proven itself stable for a while, you fast-forward your master branch.-->
+<!--This way, when people clone your project’s repository, they can either check out master to build the latest stable version and keep up to date on that easily, or they can check out develop, which is the more cutting-edge stuff.-->
+<!--You can also continue this concept, having an integrate branch where all the work is merged together. Then, when the codebase on that branch is stable and passes tests, you merge it into a develop branch; and when that has proven itself stable for a while, you fast-forward your master branch.-->
 
 Auf diese Weise kann jeder, der Dein Repository klont, auf einfache Weise Deinen aktuellen `master` Branch verwenden und ihn auf neue Releases aktualisieren. Oder er kann den `develop` Branch ausprobieren, in dem sich die jeweils letzten, brandneuen Änderungen befinden. Du kannst dieses Konzept noch weiterführen, indem Du einen `integrate` Branch pflegst, in den neue Änderungen jeweils integriert werden. Sobald der Code in diesem Branch stabil zu sein scheint und alle Tests durchlaufen (xxx), übernimmst Du die Änderungen in den `develop` Branch. Und wenn sie sich für eine Weile in der Praxis als stabil erwiesen haben, fast-forwardest (xxx) Du den `master` Branch.
 

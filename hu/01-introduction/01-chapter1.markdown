@@ -8,7 +8,7 @@ Mi az a verziókövetés, és miért kellene vele törődnünk? A verziókövet�
 
 Ha grafikus vagy webdizájner vagy és meg akarod tartani az összes verzióját egy képnek vagy egy weboldal tervezetnek (amit mindenképp szeretnél), egy Verziókövető Rendszer (VR) legalkalmasabb dolog a feladatra. Lehetővé teszi fájlok visszaálítást egy előző verzióra, a teljes projekt visszaállítását egy előző verzióra, változatok összehasonlítását bármely idő intervalimra, rájöhetsz miért okoz az utolsó módsításod problémát, hogyan keletkezik egy esemény és miért és így tovább. A VR használata az is jelenti ha elrontasz valamit vagy elveszne egy fájl könnyedén visszavonhatod minimális erőforrás ráfordítással.
 
-### Egyéni verziókövető rendszerk  ###
+### Egyéni verziókövető rendszerek  ###
 
 Sok ember választja verziókövető megoldásnak a fájlok különböző mappákba másolását (mappák neve egy időbélyeg ha értelmesen csinálják). Ez a legkönnyebben befogadható megoldás mert egyszerű, de hihetetlenül könnyű hibázni. Elfelejtik hogy melyik mappában vannak rossz fájlt írnak vagy írnakfelül olyat amit nem kellett volna.
 
@@ -32,7 +32,7 @@ Ugyanakkor ez az összeállításnak van néhány komoly hátránya. A legnyílv
 
 ### Elosztott verziókövető rendszerek ###
 
-Ekkor jöttek az Elosztott Verziókövető Rendszerek (EVR). Az EVR-ekben, mint a Git, a Mercurical, a Bazaar vagy a Dracs, a kliensek nem csak a legutolsó állapotot kérik le, hanem a teljes repositorit. Ekéépen ha a szerver megáll, amin eddig folyt az együttműködés, bármelyik kliens repositoriból vissza állítható a teljes adatbázis. Minden adat lekrés tényleg teljes mentésnek felel meg (Lásd 1-3 ábra).
+Ekkor jöttek az Elosztott Verziókövető Rendszerek (EVR). Az EVR-ekben, mint a Git, a Mercurical, a Bazaar vagy a Dracs, a kliensek nem csak a legutolsó állapotot kérik le, hanem a teljes repositorit. Ekéépen ha a szerver megáll, amin eddig folyt az együttműködés, bármelyik kliens repositoriból vissza állítható a teljes adatbázis. Minden adat lekérés tényleg teljes mentésnek felel meg (Lásd 1-3 ábra).
 
 Insert 18333fig0103.png
 1-3 ábra. Elosztott verziókövetés sematikus ábrája.
@@ -161,9 +161,9 @@ Or if you’re on a Debian-based distribution like Ubuntu, try apt-get:
 
 ### Installing on Mac ###
 
-There are two easy ways to install Git on a Mac. The easiest is to use the graphical Git installer, which you can download from the Google Code page (see Figure 1-7):
+There are two easy ways to install Git on a Mac. The easiest is to use the graphical Git installer, which you can download from the SourceForge page (see Figure 1-7):
 
-	http://code.google.com/p/git-osx-installer
+	http://sourceforge.net/projects/git-osx-installer/
 
 Insert 18333fig0107.png 
 Figure 1-7. Git OS X installer.

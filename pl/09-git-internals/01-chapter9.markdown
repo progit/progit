@@ -416,7 +416,7 @@ W Gitcie nazywane są one "referencjami" lub krócej "refs"; możesz znaleźć p
     $ find .git/refs -type f
     $
 
-Aby stworzyć nową referencję, która pomocna będzie przy zapamiętywaniu który commit jest ostatni, możesz wykonać tą prostą komendę: 
+Aby stworzyć nową referencję, która pomocna będzie przy zapamiętywaniu który commit jest ostatni, możesz wykonać tę prostą komendę: 
 
 <!-- To create a new reference that will help you remember where your latest commit is, you can technically do something as simple as this: -->
 

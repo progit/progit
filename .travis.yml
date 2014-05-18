@@ -1,6 +1,9 @@
 language: ruby
 rvm:
   - 1.9.3
-script: rake ci:check
+script: rake ci:parallel_check
 notifications:
-  email: false
+  email:
+    recipients:
+      - jn.avila@free.fr
+

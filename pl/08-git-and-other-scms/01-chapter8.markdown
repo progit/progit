@@ -264,7 +264,7 @@ Warto to zapamiętać, że wynikiem będzie projekt w stanie, w którym nie istn
 
 <!-- This is important to remember, because the outcome is a project state that didn’t exist on either of your computers when you pushed. If the changes are incompatible but don’t conflict, you may get issues that are difficult to diagnose. This is different than using a Git server — in Git, you can fully test the state on your client system before publishing it, whereas in SVN, you can’t ever be certain that the states immediately before commit and after commit are identical. -->
 
-Powinieneś również uruchamiać tą komendę, aby pobierać zmiany z serwera Subversion, nawet jeżeli nie jesteś jeszcze gotowy do zapisania swoich. Możesz uruchomić `git svn fetch`, aby pobrać nowe dane, `git svn rebase` zrobi to samo, jednak również nałoży Twoje lokalne modyfikacje.
+Powinieneś również uruchamiać tę komendę, aby pobierać zmiany z serwera Subversion, nawet jeżeli nie jesteś jeszcze gotowy do zapisania swoich. Możesz uruchomić `git svn fetch`, aby pobrać nowe dane, `git svn rebase` zrobi to samo, jednak również nałoży Twoje lokalne modyfikacje.
 
 <!-- You should also run this command to pull in changes from the Subversion server, even if you’re not ready to commit yourself. You can run `git svn fetch` to grab the new data, but `git svn rebase` does the fetch and then updates your local commits. -->
 
@@ -477,7 +477,7 @@ W ten sposób, nie zaśmiecasz swojego projektu plikami `.gitignore`. Jest to do
 
 <!-- ### Git-Svn Summary ### -->
 
-Narzędzia dostarczane przez `git svn` są przydatne, jeżeli musisz używać serwera Subversion, lub jeżeli są inne przesłanki, które zmuszają Cię do tego. Powinieneś patrzeć na tą komendę jak na ograniczonego Gita, lub inaczej będziesz natrafiał na kłopotliwe dla innych programistów problemy. Aby napotykać ich jak najmniej, trzymaj się tych zasad:
+Narzędzia dostarczane przez `git svn` są przydatne, jeżeli musisz używać serwera Subversion, lub jeżeli są inne przesłanki, które zmuszają Cię do tego. Powinieneś patrzeć na tę komendę jak na ograniczonego Gita, lub inaczej będziesz natrafiał na kłopotliwe dla innych programistów problemy. Aby napotykać ich jak najmniej, trzymaj się tych zasad:
 
 <!-- The `git svn` tools are useful if you’re stuck with a Subversion server for now or are otherwise in a development environment that necessitates running a Subversion server. You should consider it crippled Git, however, or you’ll hit issues in translation that may confuse you and your collaborators. To stay out of trouble, try to follow these guidelines: -->
 

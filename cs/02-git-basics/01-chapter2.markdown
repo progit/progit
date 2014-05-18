@@ -221,7 +221,7 @@ Chcete-li vidět, co jste změnili, avšak ještě nepřipravili k zapsání, za
 
 Tento příkaz srovná obsah vašeho pracovního adresáře a oblasti připravených změn. Výsledek vám ukáže provedené změny, které jste dosud nepřipravili k zapsání.
 
-Chcete-li vidět, co jste připravili a co bude součástí příští revize, použijte a co bude součástí příští revize, použijte příkaz `git diff --cached`. (Ve verzích Git 1.6.1 a novějších můžete použít také příkaz `git diff --staged`, který se možná snáze pamatuje.) Tento příkaz srovná připravené změny s poslední revizí:
+Chcete-li vidět, co jste připravili a co bude součástí příští revize, použijte příkaz `git diff --cached`. (Ve verzích Git 1.6.1 a novějších můžete použít také příkaz `git diff --staged`, který se možná snáze pamatuje.) Tento příkaz srovná připravené změny s poslední revizí:
 
 	$ git diff --cached
 	diff --git a/README b/README

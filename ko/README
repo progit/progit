@@ -1,7 +1,7 @@
 Pro Git 책의 내용
 =====================
 
-이 저장소는 Pro Git의 source code이고 라이센스는 Creative Commons Attribution-Non Commercial-Share Alike 3.0를 따름니다. 필자는 여러분이 즐겁게 git을 배웠으면 좋겠습니다. 만약 Amazon에서 책을 구입해주신다면 저와 Apress는 깊은 감사를 드릴 것입니다:
+이 저장소는 Pro Git의 source code이고 라이센스는 Creative Commons Attribution-Non Commercial-Share Alike 3.0를 따릅니다. 필자는 여러분이 즐겁게 git을 배웠으면 좋겠습니다. 만약 Amazon에서 책을 구입해주신다면 저와 Apress는 깊은 감사를 드릴 것입니다:
 
 http://tinyurl.com/amazonprogit
 
@@ -48,3 +48,9 @@ Mac에서는 먼저 Pandoc과 MacTex 패키지를 설치합니다. pdf를 빌드
 
 번역, 박창우(Changwoo Park), pismute at gmail dot com, https://github.com/pismute
 번역, 이성환(Sean Lee), lethee at gmail dot comt, https://github.com/lethee
+번역, 최용재(Yongjae choi), lnyarl at gmail dot comt, https://github.com/lnyarl
+
+종이책
+=====================
+
+[인사이트](http://www.insightbook.co.kr/)를 통해서 Pro Git 한글 번역판이 종이로도 출간됐습니다. 인사이트와 역자에게 도움을 주시기 바람니다.

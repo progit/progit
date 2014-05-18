@@ -174,7 +174,7 @@ John has a reference to the changes Jessica pushed up, but he has to merge them 
 The merge goes smoothly — John’s commit history now looks like Figure 5-5.
 
 Insert 18333fig0505.png
-Figure 5-5. John’s repository after merging origin/master.
+Figure 5-5. John’s repository after merging `origin/master`.
 
 Now, John can test his code to make sure it still works properly, and then he can push his new merged work up to the server:
 
@@ -215,7 +215,7 @@ Jessica thinks her topic branch is ready, but she wants to know what she has to 
 
 	    removed invalid default value
 
-Now, Jessica can merge her topic work into her master branch, merge John’s work (`origin/master`) into her `master` branch, and then push back to the server again. First, she switches back to her master branch to integrate all this work:
+Now, Jessica can merge her topic work into her `master` branch, merge John’s work (`origin/master`) into her `master` branch, and then push back to the server again. First, she switches back to her `master` branch to integrate all this work:
 
 	$ git checkout master
 	Switched to branch "master"
@@ -255,7 +255,7 @@ Each developer has committed a few times and merged each other’s work successf
 Insert 18333fig0510.png
 Figure 5-10. Jessica’s history after pushing all changes back to the server.
 
-That is one of the simplest workflows. You work for a while, generally in a topic branch, and merge into your master branch when it’s ready to be integrated. When you want to share that work, you merge it into your own master branch, then fetch and merge `origin/master` if it has changed, and finally push to the `master` branch on the server. The general sequence is something like that shown in Figure 5-11.
+That is one of the simplest workflows. You work for a while, generally in a topic branch, and merge into your `master` branch when it’s ready to be integrated. When you want to share that work, you merge it into your own `master` branch, then fetch and merge `origin/master` if it has changed, and finally push to the `master` branch on the server. The general sequence is something like that shown in Figure 5-11.
 
 Insert 18333fig0511.png
 Figure 5-11. General sequence of events for a simple multiple-developer Git workflow.
@@ -532,7 +532,26 @@ First, you need to set up the imap section in your `~/.gitconfig` file. You can 
 	  sslverify = false
 
 If your IMAP server doesn’t use SSL, the last two lines probably aren’t necessary, and the host value will be `imap://` instead of `imaps://`.
-When that is set up, you can use `git send-email` to place the patch series in the Drafts folder of the specified IMAP server:
+When that is set up, you can use `git imap-send` to place the patch series in the Drafts folder of the specified IMAP server:
+
+	$ cat *.patch |git imap-send
+	Resolving imap.gmail.com... ok
+	Connecting to [74.125.142.109]:993... ok
+	Logging in...
+	sending 2 messages
+	100% (2/2) done
+
+At this point, you should be able to go to your Drafts folder, change the To field to the mailing list you’re sending the patch to, possibly CC the maintainer or person responsible for that section, and send it off.
+
+You can also send the patches through an SMTP server. As before, you can set each value separately with a series of `git config` commands, or you can add them manually in the sendemail section in your `~/.gitconfig` file:
+
+	[sendemail]
+	  smtpencryption = tls
+	  smtpserver = smtp.gmail.com
+	  smtpuser = user@gmail.com
+	  smtpserverport = 587
+
+After this is done, you can use `git send-email` to send your patches:
 
 	$ git send-email *.patch
 	0001-added-limit-to-log-function.patch
@@ -558,8 +577,6 @@ Then, Git spits out a bunch of log information looking something like this for e
 	References: <y>
 
 	Result: OK
-
-At this point, you should be able to go to your Drafts folder, change the To field to the mailing list you’re sending the patch to, possibly CC the maintainer or person responsible for that section, and send it off.
 
 ### Summary ###
 

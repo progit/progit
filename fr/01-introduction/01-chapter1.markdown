@@ -118,7 +118,7 @@ Nous explorerons les bénéfices qu'il y a à penser les données de cette mani�
 
 ### Presque toutes les opérations sont locales ###
 
-La plupart des opérations de Git ne nécessite que des fichiers et ressources locaux — généralement aucune information venant d'un autre ordinateur du réseau n'est nécessaire.
+La plupart des opérations de Git ne nécessitent que des fichiers et ressources locaux — généralement aucune information venant d'un autre ordinateur du réseau n'est nécessaire.
 Si vous êtes habitué à un CVCS où toutes les opérations sont ralenties par la latence des échanges réseau, cet aspect de Git vous fera penser que les dieux de la vitesse ont octroyé leurs pouvoirs à Git.
 Comme vous disposez de l'historique complet du projet localement sur votre disque dur, la plupart des opérations semblent instantanées.
 
@@ -248,9 +248,9 @@ Si vous êtes sur un système basé sur Debian, tel qu'Ubuntu, essayez apt-get 
 ### Installation sur Mac ###
 
 Il y a deux moyens simples d'installer Git sur Mac.
-Le plus simple et d'utiliser l'installateur graphique de Git que vous pouvez télécharger depuis les pages Google Code (voir figure 1-7) :
+Le plus simple et d'utiliser l'installateur graphique de Git que vous pouvez télécharger depuis les pages SourceForge (voir figure 1-7) :
 
-	http://code.google.com/p/git-osx-installer
+	http://sourceforge.net/projects/git-osx-installer/
 
 Insert 18333fig0107.png
 Figure 1-7. Installateur OS X de Git.

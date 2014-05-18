@@ -507,7 +507,7 @@ Nyní můžete přejít zpět na hlavní větev a provést sloučení „rychle 
 Insert 18333fig0330.png
 Obrázek 3-30. „Rychle vpřed“ po hlavní větvi
 
-Snímek, na který nyní ukazuje revize C3, je zcela totožný se snímkem, na který v příkladu v části o slučování ukazovala C5. V koncových produktech integrace není žádný rozdíl, výsledkem přeskládání je však čistší historie. Pokud si prohlížíte log přeskládané větve, vypadá jako lineární historie – zdá se, jako by veškerá práce probíhala v jedné linii, ačkoli původně byla paralelní.
+Snímek, na který nyní ukazuje revize C3', je zcela totožný se snímkem, na který v příkladu v části o slučování ukazovala C5. V koncových produktech integrace není žádný rozdíl, výsledkem přeskládání je však čistší historie. Pokud si prohlížíte log přeskládané větve, vypadá jako lineární historie – zdá se, jako by veškerá práce probíhala v jedné linii, ačkoli původně byla paralelní.
 
 Tuto metodu budete často používat v situaci, kdy chcete mít jistotu, že byly vaše revize čistě aplikovány na vzdálenou větev – např. v projektu, do nějž chcete přidat příspěvek, který ale nespravujete. V takovém případě budete pracovat ve své větvi, a až budete mít připraveny záplaty k odeslání do hlavního projektu, přeskládáte svou práci na větev `origin/master`. Správce v tomto případě nemusí provádět žádnou integraci, provede pouze posun „rychle vpřed“ nebo čistou aplikaci.
 

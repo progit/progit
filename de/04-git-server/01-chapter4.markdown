@@ -47,9 +47,9 @@ Oder Du kannst das machen:
 
 	$ git clone file:///opt/git/project.git
 
-<!--Git operates slightly differently if you explicitly specify `file://` at the beginning of the URL. If you just specify the path, Git tries to use hardlinks or directly copy the files it needs. If you specify `file://`, Git fires up the processes that it normally uses to transfer data over a network which is generally a lot less efficient method of transferring the data. The main reason to specify the `file://` prefix is if you want a clean copy of the repository with extraneous references or objects left out — generally after an import from another version-control system or something similar (see Chapter 9 for maintenance tasks). We’ll use the normal path here because doing so is almost always faster.-->
+<!--Git operates slightly differently if you explicitly specify `file://` at the beginning of the URL. If you just specify the path, and the source and the destination are on the same filesystem, Git tries to hardlink the objects it needs. If they are not on the same filesystem, it will copy the objects it needs using the system's standard copying functionality. If you specify `file://`, Git fires up the processes that it normally uses to transfer data over a network which is generally a lot less efficient method of transferring the data. The main reason to specify the `file://` prefix is if you want a clean copy of the repository with extraneous references or objects left out — generally after an import from another version-control system or something similar (see Chapter 9 for maintenance tasks). We’ll use the normal path here because doing so is almost always faster.-->
 
-Git arbeitet etwas anders, wenn Du am Anfang der URL ausdrücklich `file://` angibst. Wenn Du nur den Pfad angibst, versucht Git harte Links zu benutzen oder Git kopiert direkt die benötigten Dateien. Wenn Du `file://` angibst, startet Git den Prozess, den es normalerweise zum Übertragen von Daten über ein Netzwerk verwendet, dass ist gewöhnlich eine wesentlich ineffizientere Methode zum Übertragen der Daten. Der Hauptgrund das `file://`-Präfix anzugeben ist eine saubere Kopie von dem Repository mit fremden Referenzen oder fehlenden Objekten – generell nach einem Import von einem anderen Versionskontrollsystem oder etwas ähnliches (siehe Kapitel 9 für Wartungsarbeiten). Wir benutzen hier den normalen Pfad, weil das fast immer schneller ist.
+Git arbeitet etwas anders, wenn Du am Anfang der URL ausdrücklich `file://` angibst. Wenn Du nur den Pfad angibst, und sowohl die Quelle, als auch das Ziel sich auf dem selben Dateisystem befinden, versucht Git harte Links zu benutzen. Wenn sie sich nicht auf dem selben Dateisystem befinden, kopiert Git die benötigten Objekte mit Hilfe der Standardkopierfunktion des jeweiligen Betriebssystems. Wenn Du `file://` angibst, startet Git den Prozess, den es normalerweise zum Übertragen von Daten über ein Netzwerk verwendet, dass ist gewöhnlich eine wesentlich ineffizientere Methode zum Übertragen der Daten. Der Hauptgrund das `file://`-Präfix anzugeben ist eine saubere Kopie von dem Repository mit fremden Referenzen oder fehlenden Objekten – generell nach einem Import von einem anderen Versionskontrollsystem oder etwas ähnliches (siehe Kapitel 9 für Wartungsarbeiten). Wir benutzen hier den normalen Pfad, weil das fast immer schneller ist.
 
 <!--To add a local repository to an existing Git project, you can run something like this:-->
 
@@ -123,9 +123,9 @@ Die negative Seite von SSH ist, dass Du Deine Repositories nicht anonym darüber
 <!--### The Git Protocol ###-->
 ### Das Git Protokoll ###
 
-<!--Next is the Git protocol. This is a special daemon that comes packaged with Git; it listens on a dedicated port (9418) that provides a service similar to the SSH protocol, but with absolutely no authentication. In order for a repository to be served over the Git protocol, you must create the `git-export-daemon-ok` file — the daemon won’t serve a repository without that file in it — but other than that there is no security. Either the Git repository is available for everyone to clone or it isn’t. This means that there is generally no pushing over this protocol. You can enable push access; but given the lack of authentication, if you turn on push access, anyone on the internet who finds your project’s URL could push to your project. Suffice it to say that this is rare.-->
+<!--Next is the Git protocol. This is a special daemon that comes packaged with Git; it listens on a dedicated port (9418) that provides a service similar to the SSH protocol, but with absolutely no authentication. In order for a repository to be served over the Git protocol, you must create the `git-daemon-export-ok` file — the daemon won’t serve a repository without that file in it — but other than that there is no security. Either the Git repository is available for everyone to clone or it isn’t. This means that there is generally no pushing over this protocol. You can enable push access; but given the lack of authentication, if you turn on push access, anyone on the internet who finds your project’s URL could push to your project. Suffice it to say that this is rare.-->
 
-Als nächstes kommt das Git Protokoll. Das ist ein spezieller Dämon, der zusammen mit Git kommt. Er horcht auf einem bestimmten Port (9418), dieser Service ist vergleichbar mit dem SSH-Protokoll, aber ohne jegliche Authentifizierung. Um ein Repository über das Git Protokoll, musst Du die `gitk-export-daemon-ok` Datei erstellen – der Dämon bietet kein Repository ohne die Datei darin an – außer dieser Datei gibt es keine Sicherheit. Entweder das Git Repository ist für jeden zum Clonen verfügbar oder halt nicht. Das bedeutet, dass dieses Protokoll generell kein push anbietet. Du kannst push-Zugriff aktivieren; aber ohne Authentifizierung, wenn Du den push-Zugriff aktivierst, kann jeder im Internet, der Deine Projekt-URL findet, zu Deinem Projekt pushen. Ausreichend zu sagen, dass das selten ist.
+Als nächstes kommt das Git Protokoll. Das ist ein spezieller Dämon, der zusammen mit Git kommt. Er horcht auf einem bestimmten Port (9418), dieser Service ist vergleichbar mit dem SSH-Protokoll, aber ohne jegliche Authentifizierung. Um ein Repository über das Git Protokoll, musst Du die `git-daemon-export-ok` Datei erstellen – der Dämon bietet kein Repository ohne die Datei darin an – außer dieser Datei gibt es keine Sicherheit. Entweder das Git Repository ist für jeden zum Clonen verfügbar oder halt nicht. Das bedeutet, dass dieses Protokoll generell kein push anbietet. Du kannst push-Zugriff aktivieren; aber ohne Authentifizierung, wenn Du den push-Zugriff aktivierst, kann jeder im Internet, der Deine Projekt-URL findet, zu Deinem Projekt pushen. Ausreichend zu sagen, dass das selten ist.
 
 <!--#### The Pros ####-->
 #### Die Vorteile ####
@@ -137,7 +137,8 @@ Das Git Protokoll ist das schnellste verfügbare Transfer Protokoll. Wenn Du vie
 <!--#### The Cons ####-->
 #### Die Nachteile ####
 
-<!-- The downside of the Git protocol is the lack of authentication. It’s generally undesirable for the Git protocol to be the only access to your project. Generally, you’ll pair it with SSH access for the few developers who have push (write) access and have everyone else use `git://` for read-only access. It’s also probably the most difficult protocol to set up. It must run its own daemon, which is custom — we’ll look at setting one up in the “Gitosis” section of this chapter — it requires `xinetd` configuration or the like, which isn’t always a walk in the park. It also requires firewall access to port 9418, which isn’t a standard port that corporate firewalls always allow. Behind big corporate firewalls, this obscure port is commonly blocked. -->
+<!--The downside of the Git protocol is the lack of authentication. It’s generally undesirable for the Git protocol to be the only access to your project. Generally, you’ll pair it with SSH access for the few developers who have push (write) access and have everyone else use `git://` for read-only access.-->
+<!--It’s also probably the most difficult protocol to set up. It must run its own daemon, which is custom — we’ll look at setting one up in the “Gitosis” section of this chapter — it requires `xinetd` configuration or the like, which isn’t always a walk in the park. It also requires firewall access to port 9418, which isn’t a standard port that corporate firewalls always allow. Behind big corporate firewalls, this obscure port is commonly blocked.-->
 
 Die Negativseite des Git Protokoll ist das Fehlen der Authentifizierung. Es ist generell unerwünscht, dass das Git Protokoll der einzige Zugang zu dem Projekt ist. Im Allgemeinen willst Du es mit SSH-Zugriff für die Entwickler paaren, die push (Schreib) Zugriff haben und jeder andere benutzt `git://` für Nur-Lese-Zugriff.
 Es ist vielleicht auch das das schwierigste Protokoll beim Einrichten. Es muss ein eigener Dämon laufen, welcher Git-spezifisch ist – wir wollen im „Gitosis“-Abschnitt in diesem Kapitel schauen, wie man einen einrichtet – es setzt eine `xinetd`-Konfiguration oder ähnliches voraus, das ist nicht immer ein Spaziergang. Es setzt auch einen Firewall-Zugriff auf den Port 9418 voraus, das ist kein Standard-Port, den Firmen-Firewalls immer erlauben. Hinter einer großen Firmen-Firewall ist dieser unklare Port häufig gesperrt.
@@ -194,14 +195,15 @@ Die Unterseite vom Servieren von Deinem Repository über HTTP ist, dass es recht
 <!--## Getting Git on a Server ##-->
 ## Git auf einen Server bekommen ##
 
-<!--In order to initially set up any Git server, you have to export an existing repository into a new bare repository — a repository that doesn’t contain a working directory. This is generally straightforward to do.
-In order to clone your repository to create a new bare repository, you run the clone command with the `-\-bare` option. By convention, bare repository directories end in `.git`, like so:-->
+<!--In order to initially set up any Git server, you have to export an existing repository into a new bare repository — a repository that doesn’t contain a working directory. This is generally straightforward to do.-->
+<!--In order to clone your repository to create a new bare repository, you run the clone command with the `-\-bare` option. By convention, bare repository directories end in `.git`, like so:-->
 
 Um zunächst einen beliebigen Git Server einzurichten, musst Du ein existierendes Repository in ein neues einfaches Repository exportieren – ein Repository, dass kein Arbeitsverzeichnis enthält. Das ist im Allgemeinen einfach zu erledigen.
 Um zunächst Dein Repository zu klonen, um ein neues einfaches Repository anzulegen, führst Du den Klonen-Befehl mit der `--bare` Option aus. Per Konvention haben einfache Repository Verzeichnisse die Endung `.git`, wie hier:
 
 	$ git clone --bare my_project my_project.git
-	Initialized empty Git repository in /opt/projects/my_project.git/
+	Cloning into bare repository 'my_project.git'...
+	done.
 
 <!--The output for this command is a little confusing. Since `clone` is basically a `git init` then a `git fetch`, we see some output from the `git init` part, which creates an empty directory. The actual object transfer gives no output, but it does happen. You should now have a copy of the Git directory data in your `my_project.git` directory.-->
 
@@ -285,8 +287,8 @@ Ein anderer Weg ist, einen LDAP-Server zur Authentifizierung zu benutzen oder ei
 <!--## Generating Your SSH Public Key ##-->
 ## Generiere Deinen öffentlichen SSH-Schlüssel ##
 
-<!--That being said, many Git servers authenticate using SSH public keys. In order to provide a public key, each user in your system must generate one if they don’t already have one. This process is similar across all operating systems.
-First, you should check to make sure you don’t already have a key. By default, a user’s SSH keys are stored in that user’s `~/.ssh` directory. You can easily check to see if you have a key already by going to that directory and listing the contents:-->
+<!--That being said, many Git servers authenticate using SSH public keys. In order to provide a public key, each user in your system must generate one if they don’t already have one. This process is similar across all operating systems.-->
+<!--First, you should check to make sure you don’t already have a key. By default, a user’s SSH keys are stored in that user’s `~/.ssh` directory. You can easily check to see if you have a key already by going to that directory and listing the contents:-->
 
 Darüber hinaus benutzen viele Git-Server öffentliche SSH-Schlüssel zur Authentifizierung. Um einen öffentlichen Schlüssel bereitzustellen muss jeder Benutzer Deines Systems einen solchen Schlüssel generieren, falls sie noch keinen haben. Dieser Prozess ist bei allen Betriebssystemen ähnlich.
 Als erstes solltest Du überprüfen, ob Du nicht schon einen Schlüssel hast. Standardmäßig werden die SSH-Schlüssel der Benutzer in ihrem `~/.ssh`-Verzeichnis gespeichert. Du kannst einfach überprüfen, ob Du einen Schlüssel hast, indem Du in das Verzeichnis gehst und den Inhalt auflistest:
@@ -452,6 +454,13 @@ Welche Aufgabe hat der `post-update` Hook? Er enthält in etwa folgendes:
 
 	$ cat .git/hooks/post-update
 	#!/bin/sh
+	#
+	# An example hook script to prepare a packed repository for use over
+	# dumb transports.
+	#
+	# To enable this hook, rename this file to "post-update".
+	#
+	
 	exec git-update-server-info
 
 <!--This means that when you push to the server via SSH, Git will run this command to update the files needed for HTTP fetching.-->
@@ -569,7 +578,7 @@ Gitosis setzt einige Python Werkzeuge voraus. Deshalb solltest Du zuerst das Pyt
 
 Danach klonst Du Gitosis von der offiziellen Projektseite und installierst es:
 
-	$ git clone git://eagain.net/gitosis.git
+	$ git clone https://github.com/tv42/gitosis.git
 	$ cd gitosis
 	$ sudo python setup.py install
 
@@ -617,7 +626,7 @@ Jetzt kann es losgehen. Wenn Du alles richtig eingerichtet hast, kannst Du jetzt
 
 	$ ssh git@gitserver
 	PTY allocation request failed on channel 0
-	fatal: unrecognized command 'gitosis-serve schacon@quaternion'
+	ERROR:gitosis.serve.main:Need SSH_ORIGINAL_COMMAND in environment.
 	  Connection to gitserver closed.
 
 <!--That means Gitosis recognized you but shut you out because you’re not trying to do any Git commands. So, let’s do an actual Git command — you’ll clone the Gitosis control repository:-->
@@ -649,8 +658,8 @@ Wenn Du Dir die Datei `gitosis.conf` anschaust, sollten lediglich Daten für das
 	[gitosis]
 
 	[group gitosis-admin]
-	writable = gitosis-admin
 	members = scott
+	writable = gitosis-admin
 
 <!--It shows you that the 'scott' user — the user with whose public key you initialized Gitosis — is the only one who has access to the `gitosis-admin` project.-->
 
@@ -661,22 +670,22 @@ In dieser Datei wird Dir angezeigt, dass nur der Benutzer ‚scott‘ — das is
 Lass uns jetzt für Dich ein neues Projekt hinzufügen. Dazu fügen wir eine neue Sektion mit dem Namen `mobile` hinzu, in der wir alle Teammitglieder aus dem „Mobile“-Team und alle Repositorys, die von Ihnen benötigt werden, auflisten. Da ‚scott‘ bisher der einzige Benutzer im System ist, werden wir ihn als einziges Teammitglied hinzufügen. Das erste von uns erzeugte Projekt mit dem wir anfangen, nennt sich `iphone_project`:
 
 	[group mobile]
-	writable = iphone_project
 	members = scott
+	writable = iphone_project
 
 <!--Whenever you make changes to the `gitosis-admin` project, you have to commit the changes and push them back up to the server in order for them to take effect:-->
 
 Immer wenn Du Änderungen im Projekt `gitosis-admin` durchführst, musst Du diese Änderungen auch einchecken und auf den Server pushen, damit diese auch eine Wirkung zeigen:
 
 	$ git commit -am 'add iphone_project and mobile group'
-	[master]: created 8962da8: "changed name"
-	 1 files changed, 4 insertions(+), 0 deletions(-)
-	$ git push
+	[master 8962da8] add iphone_project and mobile group
+	 1 file changed, 4 insertions(+)
+	$ git push origin master
 	Counting objects: 5, done.
-	Compressing objects: 100% (2/2), done.
-	Writing objects: 100% (3/3), 272 bytes, done.
-	Total 3 (delta 1), reused 0 (delta 0)
-	To git@gitserver:/opt/git/gitosis-admin.git
+	Compressing objects: 100% (3/3), done.
+	Writing objects: 100% (3/3), 272 bytes | 0 bytes/s, done.
+	Total 3 (delta 0), reused 0 (delta 0)
+	To git@gitserver:gitosis-admin.git
 	   fb27aec..8962da8  master -> master
 
 <!--You can make your first push to the new `iphone_project` project by adding your server as a remote to your local version of the project and pushing. You no longer have to manually create a bare repository for new projects on the server — Gitosis creates them automatically when it sees the first push:-->
@@ -687,7 +696,7 @@ Du kannst Deinen ersten Push für das neue Projekt `iphone_project` ausführen, 
 	$ git push origin master
 	Initialized empty Git repository in /opt/git/iphone_project.git/
 	Counting objects: 3, done.
-	Writing objects: 100% (3/3), 230 bytes, done.
+	Writing objects: 100% (3/3), 230 bytes | 0 bytes/s, done.
 	Total 3 (delta 0), reused 0 (delta 0)
 	To git@gitserver:iphone_project.git
 	 * [new branch]      master -> master
@@ -709,8 +718,8 @@ Da Du an diesem Projekt nicht alleine, sondern mit Deinen Freunden, arbeiten wil
 Damit diese Personen Lese- und Schreibzugriff auf das Projekt `iphone_project` haben, musst Du sie dem ‚mobile‘-Team hinzufügen:
 
 	[group mobile]
-	writable = iphone_project
 	members = scott john josie jessica
+	writable = iphone_project
 
 <!--After you commit and push that change, all four users will be able to read from and write to that project.-->
 
@@ -721,12 +730,12 @@ Nachdem Du diese Änderung commitet und gepusht hast, können alle vier Benutzer
 Mit Gitosis kann man auch einfache Zugriffsberechtigungen setzen. Wenn John nur Lesezugriff zum Projekt haben soll, dann kannst Du stattdessen folgendes angeben:
 
 	[group mobile]
-	writable = iphone_project
 	members = scott josie jessica
+	writable = iphone_project
 
 	[group mobile_ro]
-	readonly = iphone_project
 	members = john
+	readonly = iphone_project
 
 <!--Now John can clone the project and get updates, but Gitosis won’t allow him to push back up to the project. You can create as many of these groups as you want, each containing different users and projects. You can also specify another group as one of the members (using `@` as prefix), to inherit all of its members automatically:-->
 
@@ -736,12 +745,12 @@ Mit dieser Konfiguration kann John das Projekt klonen und kann neue Stände heru
 	members = scott josie jessica
 
 	[group mobile]
-	writable  = iphone_project
 	members   = @mobile_committers
+	writable  = iphone_project
 
 	[group mobile_2]
-	writable  = another_iphone_project
 	members   = @mobile_committers john
+	writable  = another_iphone_project
 
 <!--If you have any issues, it may be useful to add `loglevel=DEBUG` under the `[gitosis]` section. If you’ve lost push access by pushing a messed-up configuration, you can manually fix the file on the server under `/home/git/.gitosis.conf` — the file from which Gitosis reads its info. A push to the project takes the `gitosis.conf` file you just pushed up and sticks it there. If you edit that file manually, it remains like that until the next successful push to the `gitosis-admin` project.-->
 
@@ -1130,8 +1139,8 @@ Auf dieser Seite musst Du einen Nutzernamen auswählen, der bisher im System nic
 Insert 18333fig0403.png
 Abbildung 4-3. Das Formular für die GitHub Benutzerregistrierung.
 
-<!--If you have it available, this is a good time to add your public SSH key as well. We covered how to generate a new key earlier, in the "Simple Setups" section. Take the contents of the public key of that pair, and paste it into the SSH Public Key text box. Clicking the "explain ssh keys" link takes you to detailed instructions on how to do so on all major operating systems.
-Clicking the "I agree, sign me up" button takes you to your new user dashboard (see Figure 4-4).-->
+<!--If you have it available, this is a good time to add your public SSH key as well. We covered how to generate a new key earlier, in the "Simple Setups" section. Take the contents of the public key of that pair, and paste it into the SSH Public Key text box. Clicking the "explain ssh keys" link takes you to detailed instructions on how to do so on all major operating systems.-->
+<!--Clicking the "I agree, sign me up" button takes you to your new user dashboard (see Figure 4-4).-->
 
 Wenn Du Deinen öffentlichen SSH Schlüssel zur Hand hast, kannst Du diesen auch gleich bei der Registrierung angeben. Die Vorgehensweise zum Generieren eines Schlüssels haben wir bereits im Kapitel 4.3 besprochen. Du musst den Inhalt der öffentlichen Schlüsseldatei kopieren und in das „SSH Public Key“ Formularfeld einfügen. Wenn Du auf den „explain ssh keys“ Link klickst, erhälst Du detailierte Anweisungen zum Ausführen dieses Vorgangs auf verschiedenen Betriebssystemen. Wenn Du auf den „I agree, sign me up“ Button drückst, landest Du in Deinem neuen Benutzer-Dashboard (siehe Abbildung 4-4).
 

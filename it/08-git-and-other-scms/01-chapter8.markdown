@@ -336,7 +336,7 @@ Il secondo, `git svn show-ignore`, mostra nella console le righe che devi includ
 
 	$ git svn show-ignore > .git/info/exclude
 
-That way, you don’t litter the project with `.gitignore` files. This is a good option if you’re the only Git user on a Subversion team, and your teammates don’t want `.gitignore` files in the project.
+In questo modo non riempirai il progetto con i file `.gitignore`. Questa è una buona opzione se sei l'unico utente Git in un gruppo Subversion e i tuoi compagni non vogliono i file `.gitignore` nel progetto.
 
 ### Sommario Git-Svn ###
 

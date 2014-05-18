@@ -171,7 +171,7 @@ John の手元に Jessica がプッシュした内容が届きましたが、さ
 マージがうまくいきました。John のコミット履歴は図 5-5 のようになります。
 
 Insert 18333fig0505.png
-図 5-5. origin/master をマージした後の John のリポジトリ
+図 5-5. `origin/master` をマージした後の John のリポジトリ
 
 自分のコードが正しく動作することを確認した John は、変更内容をサーバーにプッシュします。
 
@@ -212,7 +212,7 @@ Jessica のトピックブランチ上での作業が完了しました。プッ
 
 	    removed invalid default value
 
-Jessica はトピックブランチの内容を自分の master ブランチにマージし、同じく John の作業 (`origin/master`) も自分の `master` ブランチにマージして再び変更をサーバーにプッシュすることになります。まずは master ブランチに戻り、これまでの作業を統合できるようにします。
+Jessica はトピックブランチの内容を自分の `master` ブランチにマージし、同じく John の作業 (`origin/master`) も自分の `master` ブランチにマージして再び変更をサーバーにプッシュすることになります。まずは `master` ブランチに戻り、これまでの作業を統合できるようにします。
 
 	$ git checkout master
 	Switched to branch "master"
@@ -252,7 +252,7 @@ Insert 18333fig0509.png
 Insert 18333fig0510.png
 図 5-10. すべての変更をサーバーに書き戻した後の Jessica の履歴
 
-これがもっとも単純なワークフローです。トピックブランチでしばらく作業を進め、統合できる状態になれば自分の master ブランチにマージする。他の開発者の作業を取り込む場合は、`origin/master` を取得してもし変更があればマージする。そして最終的にそれをサーバーの `master` ブランチにプッシュする。全体的な流れは図 5-11 のようになります。
+これがもっとも単純なワークフローです。トピックブランチでしばらく作業を進め、統合できる状態になれば自分の `master` ブランチにマージする。他の開発者の作業を取り込む場合は、`origin/master` を取得してもし変更があればマージする。そして最終的にそれをサーバーの `master` ブランチにプッシュする。全体的な流れは図 5-11 のようになります。
 
 Insert 18333fig0511.png
 図 5-11. 複数開発者での Git を使ったシンプルな開発作業のイベントシーケンス
@@ -528,7 +528,26 @@ Insert 18333fig0518.png
 	  port = 993
 	  sslverify = false
 
-IMAP サーバーで SSL を使っていない場合は、最後の二行はおそらく不要でしょう。そして host のところが `imaps://` ではなく `imap://` となります。ここまでの設定が終われば、`git send-email` を実行して IMAP サーバーの Drafts フォルダにパッチを置くことができるようになります。
+IMAP サーバーで SSL を使っていない場合は、最後の二行はおそらく不要でしょう。そして host のところが `imaps://` ではなく `imap://` となります。ここまでの設定が終われば、`git imap-send` を実行して IMAP サーバーの Drafts フォルダにパッチを置くことができるようになります。
+
+    $ cat *.patch |git imap-send
+    Resolving imap.gmail.com... ok
+    Connecting to [74.125.142.109]:993... ok
+    Logging in...
+    sending 2 messages
+    100% (2/2) done
+
+あとは、Drafts フォルダに移動して To フィールドをメーリングリストのアドレスに変更し (おそらく CC には担当メンテなのアドレスを入れ)、送信できるようになりました。
+
+SMTP サーバーを使ってパッチを送ることもできます。IMAP サーバー同様、設定は `git config` コマンドで順に設定してもいいですし、`~/.gitconfig` ファイルの sendmail セクションに直接入力してもかまいません。
+
+    [sendemail]
+      smtpencryption = tls
+      smtpserver = smtp.gmail.com
+      smtpuser = user@gmail.com
+      smtpserverport = 587
+
+設定が追加できたら、`git send-email` を実行してパッチを送信します。
 
 	$ git send-email *.patch
 	0001-added-limit-to-log-function.patch
@@ -554,8 +573,6 @@ Git はその後、各パッチについてこのようなログ情報をはき�
 	References: <y>
 
 	Result: OK
-
-あとは、Drafts フォルダに移動して To フィールドをメーリングリストのアドレスに変更し (おそらく CC には担当メンテなのアドレスを入れ)、送信できるようになりました。
 
 ### まとめ ###
 

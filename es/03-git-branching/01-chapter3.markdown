@@ -257,7 +257,7 @@ Donde nos dice que la versión en HEAD (la rama 'master', la que habias activado
 	</div>
 
 Esta corrección contiene un poco de ambas partes. Y se han eliminado completamente las líneas `<<<<<<<` , `=======` y `>>>>>>>` Tras resolver todos los bloques conflictivos, has de lanzar comandos 'git add' para marcar cada archivo modificado. Marcar archivos como preparados (staging), indica a Git que sus conflictos han sido resueltos.
-Si, en lugar de resolver directamente, prefieres utilizar una herramienta gráfica. Puedes usar el comando 'git mergetool'. Esto arrancará la correspondiente herramienta de visualización y te permirá ir resolviendo conflictos con ella.
+Si en lugar de resolver directamente, prefieres utilizar una herramienta gráfica, puedes usar el comando 'git mergetool'. Esto arrancará la correspondiente herramienta de visualización y te permirá ir resolviendo conflictos con ella.
 
 	$ git mergetool
 	merge tool candidates: kdiff3 tkdiff xxdiff meld gvimdiff opendiff emerge vimdiff
@@ -388,7 +388,7 @@ Esto puede ser un tanto confuso, pero intentemos aclararlo con un ejemplo.  Supo
 Insert 18333fig0322.png 
 Figura 3-22. Un clón Git te proporciona tu propia rama 'master' y otra rama 'origin/master' apuntando a la rama 'master' original.
 
-Si haces algún trabajo en tu rama 'master' local. Y, al mismo tiempo, alguna otra persona lleva (push) su trabajo al servidor 'git.ourcompany.com', actualizando la rama 'master' de allí. Te encontrarás con que ambos registros avanzan de forma diferente. Además, mientras no tengas contacto con el servidor, tu apuntador a tu rama 'origin/master' no se moverá (ver Figura 3/23).
+Si haces algún trabajo en tu rama 'master' local, y al mismo tiempo, alguna otra persona lleva (push) su trabajo al servidor 'git.ourcompany.com', actualizando la rama 'master' de allí, te encontrarás con que ambos registros avanzan de forma diferente. Además, mientras no tengas contacto con el servidor, tu apuntador a tu rama 'origin/master' no se moverá (ver Figura 3/23).
 
 Insert 18333fig0323.png 
 Figura 3-23. Trabajando localmente y que otra persona esté llevando (push) algo al servidor remoto, hace que cada registro avance de forma distinta.
@@ -507,7 +507,7 @@ En este momento, puedes volver a la rama 'master' y hacer una fusión con avance
 Insert 18333fig0330.png 
 Figura 3-30. Avance rápido de la rama 'master'.
 
-Así, la instantánea apuntada por C3 aquí es exactamente la misma apuntada por C5 en el ejemplo de la fusión. No hay ninguna diferencia en el resultado final de la integración, pero el haberla hecho reorganizando nos deja un registro más claro. Si examinas el registro de una rama reorganizada, este aparece siempre como un registro lineal: como si todo el trabajo se hubiera realizado en series, aunque realmente se haya hecho en paralelo.
+Así, la instantánea apuntada por C3' aquí es exactamente la misma apuntada por C5 en el ejemplo de la fusión. No hay ninguna diferencia en el resultado final de la integración, pero el haberla hecho reorganizando nos deja un registro más claro. Si examinas el registro de una rama reorganizada, este aparece siempre como un registro lineal: como si todo el trabajo se hubiera realizado en series, aunque realmente se haya hecho en paralelo.
 
 Habitualmente, optarás por esta vía cuando quieras estar seguro de que tus confirmaciones de cambio (commits) se pueden aplicar limpiamente sobre una rama remota; posiblemente, en un proyecto donde estés intentando colaborar, pero lleves tu el mantenimiento. En casos como esos, puedes trabajar sobre una rama y luego reorgainzar lo realizado en la rama 'origin/master' cuando lo tengas todo listo para enviarlo al proyecto principal. De esta forma, la persona que mantiene el proyecto no necesitará hacer ninguna integración con tu trabajo; le bastará con un avance rápido o una incorporación limpia.
 

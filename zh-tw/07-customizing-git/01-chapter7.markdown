@@ -1,6 +1,5 @@
 ﻿# Git 客製化 #
 
-So far, I’ve covered the basics of how Git works and how to use it, and I’ve introduced a number of tools that Git provides to help you use it easily and efficiently. In this chapter, I’ll go through some operations that you can use to make Git operate in a more customized fashion by introducing several important configuration settings and the hooks system. With these tools, it’s easy to get Git to work exactly the way you, your company, or your group needs it to.
 到目前為止，我闡述了 Git 基本的運作機制和使用方式，介紹了 Git 提供的許多工具來幫助你簡單且有效地使用它。在本章，我將會介紹 Git 的一些重要的組態設定(configuration)和鉤子(hooks)機制以滿足自訂的要求。通過這些工具，它能夠更容易地使 Git 按照你、你的公司或團隊所需要的方式去運作。 
 
 ## Git 配置 ##
@@ -129,7 +128,7 @@ Git 會按照你的需要，自動為大部分的輸出加上顏色。你能明�
 
 除此之外，以上每個選項都有子選項，可以被用來覆蓋其父設置，以達到為輸出的各個部分著色的目的。例如，要讓 diff 輸出的改變資訊 (meta information) 以粗體、藍色前景和黑色背景的形式顯示，你可以執行： 
 
-	$ git config --global color.diff.meta “blue black bold”
+	$ git config --global color.diff.meta "blue black bold"
 
 你能設置的顏色值如下：normal、black、red、green、yellow、blue、magenta、cyan、white。正如以上例子設置的粗體屬性，想要設置字體屬性的話，你的選擇有：bold、dim、ul、blink、reverse。 
 
@@ -157,13 +156,13 @@ diff 包裝腳本首先確定傳遞過來7個參數，隨後把其中2個傳遞�
 
 由於你僅僅需要 `old-file` 和 `new-file` 參數，用 diff 包裝腳本來傳遞它們吧。 
 
-	$ cat /usr/local/bin/extDiff 
+	$ cat /usr/local/bin/extDiff
 	#!/bin/sh
 	[ $# -eq 7 ] && /usr/local/bin/extMerge "$2" "$5"
 
 你還需要確認一下這兩個腳本是可執行的： 
 
-	$ sudo chmod +x /usr/local/bin/extMerge 
+	$ sudo chmod +x /usr/local/bin/extMerge
 	$ sudo chmod +x /usr/local/bin/extDiff
 
 現在來設定使用你自訂的比較和合併工具吧。這需要許多自訂設置：`merge.tool` 通知 Git 使用哪個合併工具；`mergetool.*.cmd` 規定命令如何執行；`mergetool.trustExitCode` 會通知 Git 該程式的退出碼(exit code)是否指示合併操作成功；`diff.external` 通知 Git 用什麼命令做比較。因此，你可以執行以下4條配置命令： 
@@ -185,12 +184,12 @@ diff 包裝腳本首先確定傳遞過來7個參數，隨後把其中2個傳遞�
 	  external = extDiff
 
 設置完畢後，如果你像這樣執行 diff 命令： 
-	
+
 	$ git diff 32d1776b1^ 32d1776b1
 
 不同於在命令列得到 diff 命令的輸出，Git 觸發了剛剛設置的 P4Merge，它看起來像圖7-1這樣： 
 
-Insert 18333fig0701.png 
+Insert 18333fig0701.png
 Figure 7-1. P4Merge.
 
 當你設法合併兩個分支，結果卻有衝突時，執行 `git mergetool`，Git 會啟用 P4Merge 讓你通過圖形介面來解決衝突。 
@@ -198,7 +197,7 @@ Figure 7-1. P4Merge.
 設置包裝腳本的好處是你能簡單地改變 diff 和 merge 工具，例如把 `extDiff` 和 `extMerge` 改成 KDiff3，要做的僅僅是編輯 `extMerge` 指令檔： 
 
 	$ cat /usr/local/bin/extMerge
-	#!/bin/sh	
+	#!/bin/sh
 	/Applications/kdiff3.app/Contents/MacOS/kdiff3 $*
 
 現在 Git 會使用 KDiff3 來做比較、合併和解決衝突。 
@@ -260,8 +259,7 @@ Git 伺服器端的配置選項並不多，但仍有一些有趣的選項值得�
 
 #### receive.fsckObjects ####
 
-Git 預設情況下不會在推送期間檢查所有物件的一致性。Git 雖然會檢查確認每個物件仍然符合它的 SHA-1 checksum，
-所指向的物件也都是有效的，但是預設 Git 不會在每次推送時都做這種檢查。對於 Git 來說，倉庫或推送的檔越大，這個操作代價就相對越高，每次推送會消耗更多時間。如果想讓 Git 在每次推送時都檢查物件一致性，可以設定 `receive.fsckObjects` 為 true 來強迫它這麼做： 
+Git 預設情況下不會在推送期間檢查所有物件的一致性。Git 雖然會檢查確認每個物件仍然符合它的 SHA-1 checksum，所指向的物件也都是有效的，但是預設 Git 不會在每次推送時都做這種檢查。對於 Git 來說，倉庫或推送的檔越大，這個操作代價就相對越高，每次推送會消耗更多時間。如果想讓 Git 在每次推送時都檢查物件一致性，可以設定 `receive.fsckObjects` 為 true 來強迫它這麼做： 
 
 	$ git config --system receive.fsckObjects true
 
@@ -299,7 +297,6 @@ Git 預設情況下不會在推送期間檢查所有物件的一致性。Git 雖
 
 某些檔案看起來像是文字檔，但其實是看做為二進位資料。例如，在 Mac 上的 Xcode 專案含有一個以 `.pbxproj` 結尾的檔，它是由記錄設置項的 IDE 寫到磁碟的 JSON 資料集（純文字 javascript 資料類型）。雖然技術上看它是由 ASCII 字元組成的文字檔，但是你並不想這麼看它，因為它確實是一個輕量級資料庫 — 如果有兩個人改變了它，你沒辦法合併它們，diff 通常也幫不上忙，只有機器才能進行識別和操作，於是，你想把它當成二進位檔案。 
 
-To tell Git to treat all `pbxproj` files as binary data, add the following line to your `.gitattributes` file:
 讓 Git 把所有 `pbxproj` 檔當成二進位檔案，在 `.gitattributes` 文件中加上下面這行： 
 
 	*.pbxproj -crlf -diff
@@ -312,9 +309,11 @@ To tell Git to treat all `pbxproj` files as binary data, add the following line 
 
 在 Git 1.6 及以上版本中，你能利用 Git 屬性來有效地比較二進位檔案。可以設置 Git 把二進位資料轉換成文本格式，然後用一般 diff 來做比較。 
 
+##### MS Word files #####
+
 這個特性很酷，而且鮮為人知，因此我會結合實例來講解。首先，你將使用這項技術來解決最令人頭疼的問題之一：對 Word 文檔進行版本控制。每個人都知道 Word 是最可怕的編輯器，奇怪的是，每個人都在使用它。如果想對 Word 文件進行版本控制，你可以把檔案加入到 Git 倉庫中，每次修改後提交即可。但這樣做有什麼好處？如果你像平常一樣執行 `git diff` 命令，你只能得到如下的結果： 
 
-	$ git diff 
+	$ git diff
 	diff --git a/chapter1.doc b/chapter1.doc
 	index 88839c4..4afcb7c 100644
 	Binary files a/chapter1.doc and b/chapter1.doc differ
@@ -325,7 +324,12 @@ To tell Git to treat all `pbxproj` files as binary data, add the following line 
 
 當你要看比較結果時，如果檔副檔名是 ”doc”，Git 會使用 ”word” 篩檢程式(filter)。什麼是 ”word” 篩檢程式呢？你必須設置它。下面你將設定 Git 使用 `strings` 程式，把 Word 文檔轉換成可讀的文字檔，之後再進行比較： 
 
-	$ git config diff.word.textconv strings
+	$ git config diff.word.textconv catdoc
+
+This command adds a section to your `.git/config` that looks like this:
+
+	[diff "word"]
+		textconv = catdoc
 
 現在 Git 知道了，如果它要在在兩個快照之間做比較，而其中任何一個檔檔名是以 `.doc` 結尾，它應該要對這些檔執行 ”word” 篩檢程式，也就是定義為執行 `strings` 程式。這樣就可以在比較前把 Word 檔轉換成文字檔。 
 
@@ -336,15 +340,67 @@ To tell Git to treat all `pbxproj` files as binary data, add the following line 
 	index c1c8a0a..b93c9e4 100644
 	--- a/chapter1.doc
 	+++ b/chapter1.doc
-	@@ -8,7 +8,8 @@ re going to cover Version Control Systems (VCS) and Git basics
-	 re going to cover how to get it and set it up for the first time if you don
-	 t already have it on your system.
-	 In Chapter Two we will go over basic Git usage - how to use Git for the 80% 
-	-s going on, modify stuff and contribute changes. If the book spontaneously 
-	+s going on, modify stuff and contribute changes. If the book spontaneously 
-	+Let's see if this works.
+	@@ -128,7 +128,7 @@ and data size)
+	 Since its birth in 2005, Git has evolved and matured to be easy to use
+	 and yet retain these initial qualities. It’s incredibly fast, it’s
+	 very efficient with large projects, and it has an incredible branching
+	-system for non-linear development.
+	+system for non-linear development (See Chapter 3).
 
-Git 成功且簡潔地顯示出我增加的文字 ”Let’s see if this works”。雖然有些瑕疵 -- 在末尾顯示了一些隨機的內容 -- 但確實可以比較了。如果你能找到或自己寫個 Word 到純文字的轉換器的話，效果可能會更好。不過因為 `strings` 可以在大部分 Mac 和 Linux 系統上運行，所以在初次嘗試對各種二進位格式檔進行類似的處理，它是個不錯的選擇。 
+Git 成功且簡潔地顯示出我增加的文字 ”(See Chapter 3)”。雖然有些瑕疵 -- 在末尾顯示了一些隨機的內容 -- 但確實可以比較了。如果你能找到或自己寫個 Word 到純文字的轉換器的話，效果可能會更好。不過因為 `strings` 可以在大部分 Mac 和 Linux 系統上運行，所以在初次嘗試對各種二進位格式檔進行類似的處理，它是個不錯的選擇。 
+
+##### OpenDocument Text files #####
+
+The same approach that we used for MS Word files (`*.doc`) can be used for OpenDocument Text files (`*.odt`) created by OpenOffice.org.
+
+Add the following line to your `.gitattributes` file:
+
+	*.odt diff=odt
+
+Now set up the `odt` diff filter in `.git/config`:
+
+	[diff "odt"]
+		binary = true
+		textconv = /usr/local/bin/odt-to-txt
+
+OpenDocument files are actually zip’ped directories containing multiple files (the content in an XML format, stylesheets, images, etc.). We’ll need to write a script to extract the content and return it as plain text. Create a file `/usr/local/bin/odt-to-txt` (you are free to put it into a different directory) with the following content:
+
+	#! /usr/bin/env perl
+	# Simplistic OpenDocument Text (.odt) to plain text converter.
+	# Author: Philipp Kempgen
+
+	if (! defined($ARGV[0])) {
+		print STDERR "No filename given!\n";
+		print STDERR "Usage: $0 filename\n";
+		exit 1;
+	}
+
+	my $content = '';
+	open my $fh, '-|', 'unzip', '-qq', '-p', $ARGV[0], 'content.xml' or die $!;
+	{
+		local $/ = undef;  # slurp mode
+		$content = <$fh>;
+	}
+	close $fh;
+	$_ = $content;
+	s/<text:span\b[^>]*>//g;           # remove spans
+	s/<text:h\b[^>]*>/\n\n*****  /g;   # headers
+	s/<text:list-item\b[^>]*>\s*<text:p\b[^>]*>/\n    --  /g;  # list items
+	s/<text:list\b[^>]*>/\n\n/g;       # lists
+	s/<text:p\b[^>]*>/\n  /g;          # paragraphs
+	s/<[^>]+>//g;                      # remove all XML tags
+	s/\n{2,}/\n\n/g;                   # remove multiple blank lines
+	s/\A\n+//;                         # remove leading blank lines
+	print "\n", $_, "\n\n";
+
+And make it executable
+
+	chmod +x /usr/local/bin/odt-to-txt
+
+Now `git diff` will be able to tell you what changed in `.odt` files.
+
+
+##### Image files #####
 
 你還能用這個方法解決另一個有趣的問題：比較影像檔。方法之一是對 JPEG 檔執行一個篩檢程式，把 EXIF 資訊捉取出來 — EXIF 資訊是記錄在大部分圖像格式裏面的 metadata。如果你下載並安裝了 `exiftool` 程式，可以用它把圖檔的 metadata 轉換成文本，於是至少 diff 可以用文字呈現的方式向你展示發生了哪些修改： 
 
@@ -360,7 +416,7 @@ Git 成功且簡潔地顯示出我增加的文字 ”Let’s see if this works�
 	@@ -1,12 +1,12 @@
 	 ExifTool Version Number         : 7.74
 	-File Size                       : 70 kB
-	-File Modification Date/Time     : 2009:04:21 07:02:45-07:00
+	-File Modification Date/Time     : 2009:04:17 10:12:35-07:00
 	+File Size                       : 94 kB
 	+File Modification Date/Time     : 2009:04:21 07:02:43-07:00
 	 File Type                       : PNG
@@ -385,19 +441,19 @@ Git 成功且簡潔地顯示出我增加的文字 ”Let’s see if this works�
 
 下次 check out 這個檔案的時候，Git 注入了 blob 的 SHA 值： 
 
-	$ rm text.txt
-	$ git checkout -- text.txt
-	$ cat test.txt 
+	$ rm test.txt
+	$ git checkout -- test.txt
+	$ cat test.txt
 	$Id: 42812b7653c7b88933f8a9d6cad0ca16714b9bb3 $
 
 然而，這個結果的用處有限。如果你在 CVS 或 Subversion 中用過關鍵字替換，你可以包含一個日期值 -- 而這個 SHA 值沒什麼幫助，因為它相當地隨機，也無法區分某個 SHA 跟另一個 SHA 比起來是比較新或是比較舊。
 
 因此，你可以撰寫自己的篩檢程式，在提交或 checkout 文件時替換關鍵字。有兩種篩檢程式，”clean” 和 ”smudge”。在 `.gitattributes` 檔中，你能對特定的路徑設置一個篩檢程式，然後設置處理檔案的腳本，這些腳本會在檔案 check out 前（”smudge”，見圖 7-2）和提交前（”clean”，見圖7-3）被執行。這些篩檢程式能夠做各種有趣的事。 
 
-Insert 18333fig0702.png 
+Insert 18333fig0702.png
 Figure 7-2. “smudge” filter 在 checkout 時執行
 
-Insert 18333fig0703.png 
+Insert 18333fig0703.png
 Figure 7-3. “clean” filter 在檔案被 staged 的時候執行
 
 這裡舉一個簡單的例子：在提交前，用 indent（縮進）程式過濾所有C原始程式碼。在 `.gitattributes` 檔中設置 ”indent” 篩檢程式過濾 `*.c` 文件： 
@@ -469,7 +525,6 @@ Git 屬性在將專案匯出歸檔(archive)時也能發揮作用。
 
 ### 合併策略 ###
 
-You can also use Git attributes to tell Git to use different merge strategies for specific files in your project. One very useful option is to tell Git to not try to merge specific files when they have conflicts, but rather to use your side of the merge over someone else’s.
 通過 Git 屬性，還能對專案中的特定檔案使用不同的合併策略。一個非常有用的選項就是，當一些特定檔案發生衝突，Git 不會嘗試合併他們，而使用你這邊的來覆蓋別人的。 
 
 如果專案的一個分支有歧義或比較特別，但你想從該分支合併，而且需要忽略其中某些檔，這樣的合併策略是有用的。例如，你有一個資料庫設置檔 database.xml，在兩個分支中他們是不同的，你想合併一個分支到另一個，而不弄亂該資料庫檔，可以設置屬性如下： 
@@ -588,7 +643,6 @@ update 腳本和 `pre-receive` 腳本十分類似，除了它會為推送者更�
 
 	changed the version number
 
-A simple way to get the commit message from a commit when you have the SHA-1 value is to go to the first blank line and take everything after that. You can do so with the `sed` command on Unix systems:
 通過 SHA-1 值獲得提交內容中的提交資訊的一個簡單辦法是找到提交的第一個空白行，然後取出它之後的所有內容。可以使用 Unix 系統的 `sed` 命令來實現這個效果： 
 
 	$ git cat-file commit ca82a6 | sed '1,/^$/d'
@@ -679,7 +733,7 @@ A simple way to get the commit message from a commit when you have the SHA-1 val
 	      access[$user].each do |access_path|
 	        if !access_path || # user has access to everything
 	          (path.index(access_path) == 0) # access to this path
-	          has_file_access = true 
+	          has_file_access = true
 	        end
 	      end
 	      if !has_file_access
@@ -687,7 +741,7 @@ A simple way to get the commit message from a commit when you have the SHA-1 val
 	        exit 1
 	      end
 	    end
-	  end  
+	  end
 	end
 
 	check_directory_perms
@@ -702,7 +756,7 @@ A simple way to get the commit message from a commit when you have the SHA-1 val
 
 檢查的邏輯是看看是否有任何的提交在舊版本(revision)裡能找到、但在新版本裡卻找不到。如果沒有，那這是一次純 fast-forward 的推送；如果有，那我們拒絕此次推送： 
 
-	# enforces fast-forward only pushes 
+	# enforces fast-forward only pushes
 	def check_fast_forward
 	  missed_refs = `git rev-list #{$newrev}..#{$oldrev}`
 	  missed_ref_count = missed_refs.split("\n").size
@@ -722,9 +776,9 @@ A simple way to get the commit message from a commit when you have the SHA-1 val
 	Writing objects: 100% (3/3), 323 bytes, done.
 	Total 3 (delta 1), reused 0 (delta 0)
 	Unpacking objects: 100% (3/3), done.
-	Enforcing Policies... 
+	Enforcing Policies...
 	(refs/heads/master) (8338c5) (c5b616)
-	[POLICY] Cannot push a non-fast-forward reference
+	[POLICY] Cannot push a non fast-forward reference
 	error: hooks/update exited with error code 1
 	error: hook declined to update refs/heads/master
 	To git@gitserver:project.git
@@ -733,8 +787,8 @@ A simple way to get the commit message from a commit when you have the SHA-1 val
 
 這裡有幾個有趣的資訊。首先，我們可以看到掛鉤執行的起點： 
 
-	Enforcing Policies... 
-	(refs/heads/master) (fb8c72) (c56860)
+	Enforcing Policies...
+	(refs/heads/master) (8338c5) (c5b616)
 
 注意這是你在 update 腳本一開頭的地方印出到標準輸出的東西。所有從腳本印出到 stdout 的東西都會發送到用戶端，這點很重要。 
 
@@ -860,7 +914,7 @@ A simple way to get the commit message from a commit when you have the SHA-1 val
 	target_shas.each do |sha|
 	  remote_refs.each do |remote_ref|
 	    shas_pushed = `git rev-list ^#{sha}^@ refs/remotes/#{remote_ref}`
-	    if shas_pushed.split(“\n”).include?(sha)
+	    if shas_pushed.split("\n").include?(sha)
 	      puts "[POLICY] Commit #{sha} has already been pushed to #{remote_ref}"
 	      exit 1
 	    end
@@ -871,7 +925,6 @@ A simple way to get the commit message from a commit when you have the SHA-1 val
 
 	git rev-list ^#{sha}^@ refs/remotes/#{remote_ref}
 
-The `SHA^@` syntax resolves to all the parents of that commit. You’re looking for any commit that is reachable from the last commit on the remote and that isn’t reachable from any parent of any of the SHAs you’re trying to push up — meaning it’s a fast-forward.
 `SHA^@` 語法解析該次提交的所有祖先。我們尋找任何一個提交，這個提交可以從遠端最後一次提交衍變獲得(reachable)，但從我們嘗試推送的任何一個提交的 SHA 值的任何一個祖先都無法衍變獲得——也就是 fast-forward 的內容。
 
 這個解決方案的缺點在於它可能會很慢而且通常是沒有必要的——只要不用 -f 來強制推送，伺服器會自動給出警告並且拒絕推送內容。然而，這是個不錯的練習，而且理論上能幫助用戶避免一個將來不得不回頭修改的衍合操作。

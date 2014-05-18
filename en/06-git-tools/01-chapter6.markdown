@@ -59,7 +59,7 @@ A lot of people become concerned at some point that they will, by random happens
 
 If you do happen to commit an object that hashes to the same SHA-1 value as a previous object in your repository, Git will see the previous object already in your Git database and assume it was already written. If you try to check out that object again at some point, you’ll always get the data of the first object.
 
-However, you should be aware of how ridiculously unlikely this scenario is. The SHA-1 digest is 20 bytes or 160 bits. The number of randomly hashed objects needed to ensure a 50% probability of a single collision is about 2^80 (the formula for determining collision probability is `p = (n(n-1)/2) * (1/2^160))`. 2^80 is 1.2 x 10^24 or 1 million billion billion. That’s 1,200 times the number of grains of sand on the earth.
+However, you should be aware of how ridiculously unlikely this scenario is. The SHA-1 digest is 20 bytes or 160 bits. The number of randomly hashed objects needed to ensure a 50% probability of a single collision is about 2^80 (the formula for determining collision probability is `p = (n(n-1)/2) * (1/2^160)`). 2^80 is 1.2 x 10^24 or 1 million billion billion. That’s 1,200 times the number of grains of sand on the earth.
 
 Here’s an example to give you an idea of what it would take to get a SHA-1 collision. If all 6.5 billion humans on Earth were programming, and every second, each one was producing code that was the equivalent of the entire Linux kernel history (1 million Git objects) and pushing it into one enormous Git repository, it would take 5 years until that repository contained enough objects to have a 50% probability of a single SHA-1 object collision. A higher probability exists that every member of your programming team will be attacked and killed by wolves in unrelated incidents on the same night.
 
@@ -82,13 +82,13 @@ One of the things Git does in the background while you’re working away is keep
 You can see your reflog by using `git reflog`:
 
 	$ git reflog
-	734713b... HEAD@{0}: commit: fixed refs handling, added gc auto, updated
-	d921970... HEAD@{1}: merge phedders/rdocs: Merge made by recursive.
-	1c002dd... HEAD@{2}: commit: added some blame and merge stuff
-	1c36188... HEAD@{3}: rebase -i (squash): updating HEAD
-	95df984... HEAD@{4}: commit: # This is a combination of two commits.
-	1c36188... HEAD@{5}: rebase -i (squash): updating HEAD
-	7e05da5... HEAD@{6}: rebase -i (pick): updating HEAD
+	734713b HEAD@{0}: commit: fixed refs handling, added gc auto, updated
+	d921970 HEAD@{1}: merge phedders/rdocs: Merge made by recursive.
+	1c002dd HEAD@{2}: commit: added some blame and merge stuff
+	1c36188 HEAD@{3}: rebase -i (squash): updating HEAD
+	95df984 HEAD@{4}: commit: # This is a combination of two commits.
+	1c36188 HEAD@{5}: rebase -i (squash): updating HEAD
+	7e05da5 HEAD@{6}: rebase -i (pick): updating HEAD
 
 Every time your branch tip is updated for any reason, Git stores that information for you in this temporary history. And you can specify older commits with this data, as well. If you want to see the fifth prior value of the HEAD of your repository, you can use the `@{n}` reference that you see in the reflog output:
 
@@ -446,8 +446,8 @@ At this point, you can easily switch branches and do work elsewhere; your change
 
 	$ git stash list
 	stash@{0}: WIP on master: 049d078 added the index file
-	stash@{1}: WIP on master: c264051... Revert "added file_size"
-	stash@{2}: WIP on master: 21d80a5... added number to log
+	stash@{1}: WIP on master: c264051 Revert "added file_size"
+	stash@{2}: WIP on master: 21d80a5 added number to log
 
 In this case, two stashes were done previously, so you have access to three different stashed works. You can reapply the one you just stashed by using the command shown in the help output of the original stash command: `git stash apply`. If you want to apply one of the older stashes, you can specify it by naming it, like this: `git stash apply stash@{2}`. If you don’t specify a stash, Git assumes the most recent stash and tries to apply it:
 
@@ -481,8 +481,8 @@ The apply option only tries to apply the stashed work — you continue to have i
 
 	$ git stash list
 	stash@{0}: WIP on master: 049d078 added the index file
-	stash@{1}: WIP on master: c264051... Revert "added file_size"
-	stash@{2}: WIP on master: 21d80a5... added number to log
+	stash@{1}: WIP on master: c264051 Revert "added file_size"
+	stash@{2}: WIP on master: 21d80a5 added number to log
 	$ git stash drop stash@{0}
 	Dropped stash@{0} (364e91f3f268f0900bc3ee613f9f733e82aaed43)
 
@@ -498,7 +498,7 @@ Again, if you don’t specify a stash, Git assumes the most recent stash:
 
     $ git stash show -p | git apply -R
 
-You may want to create an alias and effectively add a `stash-unapply` command to your git. For example:
+You may want to create an alias and effectively add a `stash-unapply` command to your Git. For example:
 
     $ git config --global alias.stash-unapply '!git stash show -p | git apply -R'
     $ git stash
@@ -566,12 +566,19 @@ Running this command gives you a list of commits in your text editor that looks 
 	#
 	# Commands:
 	#  p, pick = use commit
+	#  r, reword = use commit, but edit the commit message
 	#  e, edit = use commit, but stop for amending
 	#  s, squash = use commit, but meld into previous commit
+	#  f, fixup = like "squash", but discard this commit's log message
+	#  x, exec = run command (the rest of the line) using shell
+	#
+	# These lines can be re-ordered; they are executed from top to bottom.
 	#
 	# If you remove a line here THAT COMMIT WILL BE LOST.
+	#
 	# However, if you remove everything, the rebase will be aborted.
 	#
+	# Note that empty commits are commented out
 
 It’s important to note that these commits are listed in the opposite order than you normally see them using the `log` command. If you run a `log`, you see something like this:
 
@@ -589,6 +596,10 @@ You need to edit the script so that it stops at the commit you want to edit. To 
 	pick a5f4a0d added cat-file
 
 When you save and exit the editor, Git rewinds you back to the last commit in that list and drops you on the command line with the following message:
+
+<!-- This is actually weird, as the SHA-1 of 7482e0d is not present in the list, 
+nor is the commit message. Please review 
+-->
 
 	$ git rebase -i HEAD~3
 	Stopped at 7482e0d... updated the gemspec to hopefully work better
@@ -632,12 +643,19 @@ It’s also possible to take a series of commits and squash them down into a sin
 	#
 	# Commands:
 	#  p, pick = use commit
+	#  r, reword = use commit, but edit the commit message
 	#  e, edit = use commit, but stop for amending
 	#  s, squash = use commit, but meld into previous commit
+	#  f, fixup = like "squash", but discard this commit's log message
+	#  x, exec = run command (the rest of the line) using shell
+	#
+	# These lines can be re-ordered; they are executed from top to bottom.
 	#
 	# If you remove a line here THAT COMMIT WILL BE LOST.
+	#
 	# However, if you remove everything, the rebase will be aborted.
 	#
+	# Note that empty commits are commented out
 
 If, instead of "pick" or "edit", you specify "squash", Git applies both that change and the change directly before it and makes you merge the commit messages together. So, if you want to make a single commit from these three commits, you make the script look like this:
 

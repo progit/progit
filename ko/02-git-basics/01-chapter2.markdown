@@ -47,7 +47,7 @@ Git은 다양한 프로토콜을 지원한다. 이제까지는 `git://` 프로�
 마지막 커밋 이후 아직 아무것도 수정하지 않은 상태에서 어떤 파일이 수정되면 Git은 그 즉시 파일을 *Modified* 상태로 인식한다. 그리고 이 수정한 파일을 Stage하고 *Staged* 상태인 파일을 커밋한다. 이 라이프사이클을 그림 2-1처럼 계속 반복한다.
 
 Insert 18333fig0201.png
-그림 2-1 파일의 라이프사이클
+그림 2-1. 파일의 라이프사이클
 
 ### 파일의 상태 확인하기 ###
 
@@ -669,7 +669,7 @@ The lines must be formatted as follows
 GUI 도구로 커밋 히스토리를 시각화하고 싶다면 gitk를 사용할 수 있다. gitk는 Tcl/Tk 프로그램이고 `git log` 명령을 시각화해주는 도구다. gitk는 `git log` 명령이 지원하는 필터링 옵션을 거의 모두 지원한다. 프로젝트 디렉토리에서 gitk를 실행하면 그림 2-2처럼 보일 것이다.
 
 Insert 18333fig0202.png
-그림 2-2 gitk의 히스토리
+그림 2-2. gitk의 히스토리
 
 위쪽 반을 차지하는 윈도에서는 히스토리를 그래프로 예쁘게 보여준다. 아래쪽 반을 차지하는 윈도는 diff 결과를 보여주는데 위쪽 윈도에서 선택한 커밋에 대한 diff 결과를 보여준다.
 
@@ -1107,9 +1107,9 @@ Git의 기초를 마치기 전에 Git을 좀 더 쉽고 편안하게 쓸 수 있
 
 ### 자동완성 ###
 
-Bash 쉘을 쓰고 있다면 멋진 자동완성(Auto-completion) 기능을 사용할 수 있다. Git의 소스코드를 다운받아 `contrib/completion` 디렉토리를 살펴보면 `git-completion.bash`라는 파일이 있다. 그 파일을 홈 디렉토리에 카피하고 `.bashrc` 파일에 아래와 같은 내용을 추가하자:
+Bash 쉘을 쓰고 있다면 멋진 자동완성(Auto-completion) 기능을 사용할 수 있다. https://github.com/git/git/blob/master/contrib/completion/git-completion.bash 에서 바로 다운받는다. 그 파일을 홈 디렉토리에 카피하고 `.bashrc` 파일에 아래와 같은 내용을 추가하자:
 
-	source ~/.git-completion.bash
+	source ~/git-completion.bash
 
 또 모든 사용자가 사용할 수 있게 설정할 수 있다. Mac 시스템이라면 이 스크립트를 `/opt/local/etc/bash_completion.d` 디렉토리에 복사하고 리눅스라면 `/etc/bash_completion.d/`에 복사한다. 이 디렉토리는 Bash가 자동완성을 지원하기 위해 사용하는 디렉토리다.
 

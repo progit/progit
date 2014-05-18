@@ -15,9 +15,9 @@ default:
   thanks: "This is the PDF file for the Pro Git book contents. It is licensed under the Creative Commons Attribution-Non Commercial-Share Alike 3.0 license. I hope you enjoy it, I hope it helps you learn Git, and I hope you'll support Apress and me by purchasing a print copy of the book at Amazon: \\url{http://tinyurl.com/amazonprogit}"
 zh:
   langrule: "\\XeTeXlinebreakskip=0em plus 0.1em minus 0.01em\n\\XeTeXlinebreakpenalty=0"
-  font: AR PL UMing CN
-  bold: AR PL UKai CN
-  mono: AR PL UKai CN
+  font: WenQuanYi Micro Hei
+  bold: WenQuanYi Micro Hei Mono
+  mono: WenQuanYi Micro Hei Mono
   prechap: "第"
   postchap: "章"
   presect: ""
@@ -116,9 +116,9 @@ de:
   thanks: "Dies ist die PDF-Datei des Buches „Pro Git“. Es ist lizenziert unter der „Creative Commons Attribution-Non Commercial-Share Alike“-Lizenz. Ich hoffe, es gefällt dir, ich hoffe, es hilft dir, Git zu lernen, und ich hoffe, dass du Apress und mich unterstützt, indem du ein gedrucktes Exemplar des Buches über Amazon bestellst: \\url{http://tinyurl.com/amazonprogit}"
 ko:
   langrule: "\\XeTeXlinebreakskip=0em plus 0.1em minus 0.01em\n\\XeTeXlinebreakpenalty=0"
-  font: NanumMyeongjo
+  font: NanumBarunGothic
   bold: "{* Bold}"
-  mono: NanumGothicCoding 
+  mono: NanumGothicCoding
   prechap: ""
   postchap: "장"
   presect: ""
@@ -127,7 +127,7 @@ ko:
   con: "목차"
   fig: "그림"
   tab: "표"
-  thanks: "지금 보시는 문서는 Pro Git 책에 대한 PDF 파일입니다. 본 문서는 Creative Commons 저작자표시-비영리조건-동일조건변경허락 3.0(Creative Commons Attribution-Non Commercial-Share Alike 3.0) 라이센스를 따릅니다. 여러분이 Git을 이해하는데 도움이 되기를 희망합니다. 종이로 출판된 책을 Amazon 웹사이트 \\url{http://tinyurl.com/amazonprogit} 에서 구입하여 저를 비롯한 Apress에도 도움을 주시기를 기대하겠습니다.\\newline한국어 번역은 박창우(pismute@gmail.com), 이성환(lethee@gmail.com)이 하였습니다. 오역 등의 개선 사항은 역자의 메일로 보내주시거나 한국어 번역 게시판에 \\url{https://github.com/dogfeet/progit/issues} 남겨주시기 바랍니다. 직접 개선해서 패치나 Pull Request를 보내주셔도 됩니다."
+  thanks: "지금 보시는 문서는 Pro Git 책에 대한 PDF 파일입니다. 본 문서는 Creative Commons 저작자표시-비영리조건-동일조건변경허락 3.0(Creative Commons Attribution-Non Commercial-Share Alike 3.0) 라이센스를 따릅니다. 여러분이 Git을 이해하는데 도움이 되기를 희망합니다. 종이로 출판된 책을 Amazon 웹사이트 \\url{http://tinyurl.com/amazonprogit} 에서 구입하여 저를 비롯한 Apress에도 도움을 주시기를 기대하겠습니다.\\newline한국어 번역판도 인사이트를 통해 종이로 출판됐습니다. 한국어 번역에 대한 자세한 정보는 \\url{https://github.com/progit/progit/tree/master/ko}에서 확인 바람니다."
 be:
   prechap: "Глава "
   presect: "Раздзел "

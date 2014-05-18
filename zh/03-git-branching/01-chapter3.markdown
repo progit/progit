@@ -19,17 +19,17 @@
 
 现在，Git 仓库中有五个对象：三个表示文件快照内容的 blob 对象；一个记录着目录树内容及其中各个文件对应 blob 对象索引的 tree 对象；以及一个包含指向 tree 对象（根目录）的索引和其他提交信息元数据的 commit 对象。概念上来说，仓库中的各个对象保存的数据和相互关系看起来如图 3-1 所示：
 
-Insert 18333fig0301.png 
+Insert 18333fig0301.png
 图 3-1. 单个提交对象在仓库中的数据结构
 
 作些修改后再次提交，那么这次的提交对象会包含一个指向上次提交对象的指针（译注：即下图中的 parent 对象）。两次提交后，仓库历史会变成图 3-2 的样子：
 
-Insert 18333fig0302.png 
+Insert 18333fig0302.png
 图 3-2. 多个提交对象之间的链接关系
 
 现在来谈分支。Git 中的分支，其实本质上仅仅是个指向 commit 对象的可变指针。Git 会使用 master 作为分支的默认名字。在若干次提交后，你其实已经有了一个指向最后一次提交对象的 master 分支，它在每次提交的时候都会自动向前移动。
 
-Insert 18333fig0303.png 
+Insert 18333fig0303.png
 图 3-3. 分支其实就是从某个提交对象往回看的历史
 
 那么，Git 又是如何创建一个新的分支的呢？答案很简单，创建一个新的分支指针。比如新建一个 testing 分支，可以使用 `git branch` 命令：
@@ -38,12 +38,12 @@ Insert 18333fig0303.png
 
 这会在当前 commit 对象上新建一个分支指针（见图 3-4）。
 
-Insert 18333fig0304.png 
+Insert 18333fig0304.png
 图 3-4. 多个分支指向提交数据的历史
 
 那么，Git 是如何知道你当前在哪个分支上工作的呢？其实答案也很简单，它保存着一个名为 HEAD 的特别指针。请注意它和你熟知的许多其他版本控制系统（比如 Subversion 或 CVS）里的 HEAD 概念大不相同。在 Git 中，它是一个指向你正在工作中的本地分支的指针（译注：将 HEAD 想象为当前分支的别名。）。运行 `git branch` 命令，仅仅是建立了一个新的分支，但不会自动切换到这个分支中去，所以在这个例子中，我们依然还在 master 分支里工作（参考图 3-5）。
 
-Insert 18333fig0305.png 
+Insert 18333fig0305.png
 图 3-5. HEAD 指向当前所在的分支
 
 要切换到其他分支，可以执行 `git checkout` 命令。我们现在转换到新建的 testing 分支：
@@ -52,7 +52,7 @@ Insert 18333fig0305.png
 
 这样 HEAD 就指向了 testing 分支（见图3-6）。
 
-Insert 18333fig0306.png 
+Insert 18333fig0306.png
 图 3-6. HEAD 在你转换分支时指向新的分支
 
 这样的实现方式会给我们带来什么好处呢？好吧，现在不妨再提交一次：
@@ -62,7 +62,7 @@ Insert 18333fig0306.png
 
 图 3-7 展示了提交后的结果。
 
-Insert 18333fig0307.png 
+Insert 18333fig0307.png
 图 3-7. 每次提交后 HEAD 随着分支一起向前移动
 
 非常有趣，现在 testing 分支向前移动了一格，而 master 分支仍然指向原先 `git checkout` 时所在的 commit 对象。现在我们回到 master 分支看看：
@@ -71,7 +71,7 @@ Insert 18333fig0307.png
 
 图 3-8 显示了结果。
 
-Insert 18333fig0308.png 
+Insert 18333fig0308.png
 图 3-8. HEAD 在一次 checkout 之后移动到了另一个分支
 
 这条命令做了两件事。它把 HEAD 指针移回到 master 分支，并把工作目录中的文件换成了 master 分支所指向的快照内容。也就是说，现在开始所做的改动，将始于本项目中一个较老的版本。它的主要作用是将 testing 分支里作出的修改暂时取消，这样你就可以向另一个方向进行开发。
@@ -83,7 +83,7 @@ Insert 18333fig0308.png
 
 现在我们的项目提交历史产生了分叉（如图 3-9 所示），因为刚才我们创建了一个分支，转换到其中进行了一些工作，然后又回到原来的主分支进行了另外一些工作。这些改变分别孤立在不同的分支里：我们可以在不同分支里反复切换，并在时机成熟时把它们合并到一起。而所有这些工作，仅仅需要 `branch` 和 `checkout` 这两条命令就可以完成。
 
-Insert 18333fig0309.png 
+Insert 18333fig0309.png
 图 3-9. 不同流向的分支历史
 
 由于 Git 中的分支实际上仅是一个包含所指对象校验和（40 个字符长度 SHA-1 字串）的文件，所以创建和销毁一个分支就变得非常廉价。说白了，新建一个分支就是向一个文件写入 41 个字节（外加一个换行符）那么简单，当然也就很快了。
@@ -111,13 +111,13 @@ Insert 18333fig0309.png
 
 首先，我们假设你正在项目中愉快地工作，并且已经提交了几次更新（见图 3-10）。
 
-Insert 18333fig0310.png 
+Insert 18333fig0310.png
 图 3-10. 一个简短的提交历史
 
 现在，你决定要修补问题追踪系统上的 #53 问题。顺带说明下，Git 并不同任何特定的问题追踪系统打交道。这里为了说明要解决的问题，才把新建的分支取名为 iss53。要新建并切换到该分支，运行 `git checkout` 并加上 `-b` 参数：
 
 	$ git checkout -b iss53
-	Switched to a new branch "iss53"
+	Switched to a new branch 'iss53'
 
 这相当于执行下面这两条命令：
 
@@ -126,7 +126,7 @@ Insert 18333fig0310.png
 
 图 3-11 示意该命令的执行结果。
 
-Insert 18333fig0311.png 
+Insert 18333fig0311.png
 图 3-11. 创建了一个新分支的指针
 
 接着你开始尝试修复问题，在提交了若干次更新后，`iss53` 分支的指针也会随着向前推进，因为它就是当前分支（换句话说，当前的 `HEAD` 指针正指向 `iss53`，见图 3-12）：
@@ -134,7 +134,7 @@ Insert 18333fig0311.png
 	$ vim index.html
 	$ git commit -a -m 'added a new footer [issue 53]'
 
-Insert 18333fig0312.png 
+Insert 18333fig0312.png
 图 3-12. iss53 分支随工作进展向前推进
 
 现在你就接到了那个网站问题的紧急电话，需要马上修补。有了 Git ，我们就不需要同时发布这个补丁和 `iss53` 里作出的修改，也不需要在创建和发布该补丁到服务器之前花费大力气来复原这些修改。唯一需要的仅仅是切换回 `master` 分支。
@@ -142,20 +142,20 @@ Insert 18333fig0312.png
 不过在此之前，留心你的暂存区或者工作目录里，那些还没有提交的修改，它会和你即将检出的分支产生冲突从而阻止 Git 为你切换分支。切换分支的时候最好保持一个清洁的工作区域。稍后会介绍几个绕过这种问题的办法（分别叫做 stashing 和 commit amending）。目前已经提交了所有的修改，所以接下来可以正常转换到 `master` 分支：
 
 	$ git checkout master
-	Switched to branch "master"
+	Switched to branch 'master'
 
 此时工作目录中的内容和你在解决问题 #53 之前一模一样，你可以集中精力进行紧急修补。这一点值得牢记：Git 会把工作目录的内容恢复为检出某分支时它所指向的那个提交对象的快照。它会自动添加、删除和修改文件以确保目录的内容和你当时提交时完全一样。
 
 接下来，你得进行紧急修补。我们创建一个紧急修补分支 `hotfix` 来开展工作，直到搞定（见图 3-13）：
 
-	$ git checkout -b 'hotfix'
-	Switched to a new branch "hotfix"
+	$ git checkout -b hotfix
+	Switched to a new branch 'hotfix'
 	$ vim index.html
 	$ git commit -a -m 'fixed the broken email address'
-	[hotfix]: created 3a0874c: "fixed the broken email address"
-	 1 files changed, 0 insertions(+), 1 deletions(-)
+	[hotfix 3a0874c] fixed the broken email address
+	 1 files changed, 1 deletion(-)
 
-Insert 18333fig0313.png 
+Insert 18333fig0313.png
 图 3-13. hotfix 分支是从 master 分支所在点分化出来的
 
 有必要作些测试，确保修补是成功的，然后回到 `master` 分支并把它合并进来，然后发布到生产服务器。用 `git merge` 命令来进行合并：
@@ -163,32 +163,32 @@ Insert 18333fig0313.png
 	$ git checkout master
 	$ git merge hotfix
 	Updating f42c576..3a0874c
-	Fast forward
-	 README |    1 -
-	 1 files changed, 0 insertions(+), 1 deletions(-)
+	Fast-forward
+	 README | 1 -
+	 1 file changed, 1 deletion(-)
 
 请注意，合并时出现了“Fast forward”的提示。由于当前 `master` 分支所在的提交对象是要并入的 `hotfix` 分支的直接上游，Git 只需把 `master` 分支指针直接右移。换句话说，如果顺着一个分支走下去可以到达另一个分支的话，那么 Git 在合并两者时，只会简单地把指针右移，因为这种单线的历史分支不存在任何需要解决的分歧，所以这种合并过程可以称为快进（Fast forward）。
 
 现在最新的修改已经在当前 `master` 分支所指向的提交对象中了，可以部署到生产服务器上去了（见图 3-14）。
 
-Insert 18333fig0314.png 
+Insert 18333fig0314.png
 图 3-14. 合并之后，master 分支和 hotfix 分支指向同一位置。
 
 在那个超级重要的修补发布以后，你想要回到被打扰之前的工作。由于当前 `hotfix` 分支和 `master` 都指向相同的提交对象，所以 `hotfix` 已经完成了历史使命，可以删掉了。使用 `git branch` 的 `-d` 选项执行删除操作：
 
 	$ git branch -d hotfix
-	Deleted branch hotfix (3a0874c).
+	Deleted branch hotfix (was 3a0874c).
 
 现在回到之前未完成的 #53 问题修复分支上继续工作（图 3-15）：
 
 	$ git checkout iss53
-	Switched to branch "iss53"
+	Switched to branch 'iss53'
 	$ vim index.html
 	$ git commit -a -m 'finished the new footer [issue 53]'
-	[iss53]: created ad82d7a: "finished the new footer [issue 53]"
-	 1 files changed, 1 insertions(+), 0 deletions(-)
+	[iss53 ad82d7a] finished the new footer [issue 53]
+	 1 file changed, 1 insertion(+)
 
-Insert 18333fig0315.png 
+Insert 18333fig0315.png
 图 3-15. iss53 分支可以不受影响继续推进。
 
 值得注意的是之前 `hotfix` 分支的修改内容尚未包含到 `iss53` 中来。如果需要纳入此次修补，可以用 `git merge master` 把 master 分支合并到 `iss53`；或者等 `iss53` 完成之后，再将 `iss53` 分支中的更新并入 `master`。
@@ -199,20 +199,21 @@ Insert 18333fig0315.png
 
 	$ git checkout master
 	$ git merge iss53
-	Merge made by recursive.
-	 README |    1 +
-	 1 files changed, 1 insertions(+), 0 deletions(-)
+	Auto-merging README
+	Merge made by the 'recursive' strategy.
+	 README | 1 +
+	 1 file changed, 1 insertion(+)
 
 请注意，这次合并操作的底层实现，并不同于之前 `hotfix` 的并入方式。因为这次你的开发历史是从更早的地方开始分叉的。由于当前 `master` 分支所指向的提交对象（C4）并不是 `iss53` 分支的直接祖先，Git 不得不进行一些额外处理。就此例而言，Git 会用两个分支的末端（C4 和 C5）以及它们的共同祖先（C2）进行一次简单的三方合并计算。图 3-16 用红框标出了 Git 用于合并的三个提交对象：
 
-Insert 18333fig0316.png 
+Insert 18333fig0316.png
 图 3-16. Git 为分支合并自动识别出最佳的同源合并点。
 
 这次，Git 没有简单地把分支指针右移，而是对三方合并后的结果重新做一个新的快照，并自动创建一个指向它的提交对象（C6）（见图 3-17）。这个提交对象比较特殊，它有两个祖先（C4 和 C5）。
 
 值得一提的是 Git 可以自己裁决哪个共同祖先才是最佳合并基础；这和 CVS 或 Subversion（1.5 以后的版本）不同，它们需要开发者手工指定合并基础。所以此特性让 Git 的合并操作比其他系统都要简单不少。
 
-Insert 18333fig0317.png 
+Insert 18333fig0317.png
 图 3-17. Git 自动创建了一个包含了合并结果的提交对象。
 
 既然之前的工作成果已经合并到 `master` 了，那么 `iss53` 也就没用了。你可以就此删除它，并在问题追踪系统里关闭该问题。
@@ -230,25 +231,27 @@ Insert 18333fig0317.png
 
 Git 作了合并，但没有提交，它会停下来等你解决冲突。要看看哪些文件在合并时发生冲突，可以用 `git status` 查阅：
 
-	[master*]$ git status
-	index.html: needs merge
-	# On branch master
-	# Changes not staged for commit:
-	#   (use "git add <file>..." to update what will be committed)
-	#   (use "git checkout -- <file>..." to discard changes in working directory)
-	#
-	#	unmerged:   index.html
-	#
+	$ git status
+	On branch master
+	You have unmerged paths.
+	  (fix conflicts and run "git commit")
+	
+	Unmerged paths:
+	  (use "git add <file>..." to mark resolution)
+	
+	        both modified:      index.html
+	
+	no changes added to commit (use "git add" and/or "git commit -a")
 
 任何包含未解决冲突的文件都会以未合并（unmerged）的状态列出。Git 会在有冲突的文件里加入标准的冲突解决标记，可以通过它们来手工定位并解决这些冲突。可以看到此文件包含类似下面这样的部分：
 
-	<<<<<<< HEAD:index.html
+	<<<<<<< HEAD
 	<div id="footer">contact : email.support@github.com</div>
 	=======
 	<div id="footer">
 	  please contact us at support@github.com
 	</div>
-	>>>>>>> iss53:index.html
+	>>>>>>> iss53
 
 可以看到 `=======` 隔开的上半部分，是 `HEAD`（即 `master` 分支，在运行 `merge` 命令时所切换到的分支）中的内容，下半部分是在 `iss53` 分支中的内容。解决冲突的办法无非是二者选其一或者由你亲自整合到一起。比如你可以通过把这段内容替换为下面这样来解决：
 
@@ -259,12 +262,17 @@ Git 作了合并，但没有提交，它会停下来等你解决冲突。要看�
 这个解决方案各采纳了两个分支中的一部分内容，而且我还删除了 `<<<<<<<`，`=======` 和 `>>>>>>>` 这些行。在解决了所有文件里的所有冲突后，运行 `git add` 将把它们标记为已解决状态（译注：实际上就是来一次快照保存到暂存区域。）。因为一旦暂存，就表示冲突已经解决。如果你想用一个有图形界面的工具来解决这些问题，不妨运行 `git mergetool`，它会调用一个可视化的合并工具并引导你解决所有冲突：
 
 	$ git mergetool
-	merge tool candidates: kdiff3 tkdiff xxdiff meld gvimdiff opendiff emerge vimdiff
-	Merging the files: index.html
+
+	This message is displayed because 'merge.tool' is not configured.
+	See 'git mergetool --tool-help' or 'git help config' for more details.
+	'git mergetool' will now attempt to use one of the following tools:
+	opendiff kdiff3 tkdiff xxdiff meld tortoisemerge gvimdiff diffuse diffmerge ecmerge p4merge araxis bc3 codecompare vimdiff emerge
+	Merging:
+	index.html
 
 	Normal merge conflict for 'index.html':
-	  {local}: modified
-	  {remote}: modified
+	  {local}: modified file
+	  {remote}: modified file
 	Hit return to start merge resolution tool (opendiff):
 
 如果不想用默认的合并工具（Git 为我默认选择了 `opendiff`，因为我在 Mac 上运行了该命令），你可以在上方"merge tool candidates"里找到可用的合并工具列表，输入你想用的工具名。我们将在第七章讨论怎样改变环境中的默认值。
@@ -274,12 +282,12 @@ Git 作了合并，但没有提交，它会停下来等你解决冲突。要看�
 再运行一次 `git status` 来确认所有冲突都已解决：
 
 	$ git status
-	# On branch master
-	# Changes to be committed:
-	#   (use "git reset HEAD <file>..." to unstage)
-	#
-	#	modified:   index.html
-	#
+	On branch master
+	Changes to be committed:
+	  (use "git reset HEAD <file>..." to unstage)
+	
+	        modified:   index.html
+	
 
 如果觉得满意了，并且确认所有冲突都已解决，也就是进入了暂存区，就可以用 `git commit` 来完成这次合并提交。提交的记录差不多是这样：
 
@@ -288,9 +296,9 @@ Git 作了合并，但没有提交，它会停下来等你解决冲突。要看�
 	Conflicts:
 	  index.html
 	#
-	# It looks like you may be committing a MERGE.
+	# It looks like you may be committing a merge.
 	# If this is not correct, please remove the file
-	# .git/MERGE_HEAD
+	#       .git/MERGE_HEAD
 	# and try again.
 	#
 
@@ -330,7 +338,7 @@ Git 作了合并，但没有提交，它会停下来等你解决冲突。要看�
 它会显示还未合并进来的分支。由于这些分支中还包含着尚未合并进来的工作成果，所以简单地用 `git branch -d` 删除该分支会提示错误，因为那样做会丢失数据：
 
 	$ git branch -d testing
-	error: The branch 'testing' is not an ancestor of your current HEAD.
+	error: The branch 'testing' is not fully merged.
 	If you are sure you want to delete it, run 'git branch -D testing'.
 
 不过，如果你确实想要删除该分支上的改动，可以用大写的删除选项 `-D` 强制执行，就像上面提示信息中给出的那样。
@@ -347,12 +355,12 @@ Git 作了合并，但没有提交，它会停下来等你解决冲突。要看�
 
 本质上我们刚才谈论的，是随着提交对象不断右移的指针。稳定分支的指针总是在提交历史中落后一大截，而前沿分支总是比较靠前（见图 3-18）。
 
-Insert 18333fig0318.png 
+Insert 18333fig0318.png
 图 3-18. 稳定分支总是比较老旧。
 
 或者把它们想象成工作流水线，或许更好理解一些，经过测试的提交对象集合被遴选到更稳定的流水线（见图 3-19）。
 
-Insert 18333fig0319.png 
+Insert 18333fig0319.png
 图 3-19. 想象成流水线可能会容易点。
 
 你可以用这招维护不同层次的稳定性。某些大项目还会有个 `proposed`（建议）或 `pu`（proposed updates，建议更新）分支，它包含着那些可能还没有成熟到进入 `next` 或 `master` 的内容。这么做的目的是拥有不同层次的稳定性：当这些分支进入到更稳定的水平时，再把它们合并到更高层分支中去。再次说明下，使用多个长期分支的做法并非必需，不过一般来说，对于特大型项目或特复杂的项目，这么做确实更容易管理。
@@ -365,12 +373,12 @@ Insert 18333fig0319.png
 
 现在我们来看一个实际的例子。请看图 3-20，由下往上，起先我们在 `master` 工作到 C1，然后开始一个新分支 `iss91` 尝试修复 91 号缺陷，提交到 C6 的时候，又冒出一个解决该问题的新办法，于是从之前 C4 的地方又分出一个分支 `iss91v2`，干到 C8 的时候，又回到主干 `master` 中提交了 C9 和 C10，再回到 `iss91v2` 继续工作，提交 C11，接着，又冒出个不太确定的想法，从 `master` 的最新提交 C10 处开了个新的分支 `dumbidea` 做些试验。
 
-Insert 18333fig0320.png 
+Insert 18333fig0320.png
 图 3-20. 拥有多个特性分支的提交历史。
 
 现在，假定两件事情：我们最终决定使用第二个解决方案，即 `iss91v2` 中的办法；另外，我们把 `dumbidea` 分支拿给同事们看了以后，发现它竟然是个天才之作。所以接下来，我们准备抛弃原来的 `iss91` 分支（实际上会丢弃 C5 和 C6），直接在主干中并入另外两个分支。最终的提交历史将变成图 3-21 这样：
 
-Insert 18333fig0321.png 
+Insert 18333fig0321.png
 图 3-21. 合并了 dumbidea 和 iss91v2 后的分支历史。
 
 请务必牢记这些分支全部都是本地分支，这一点很重要。当你在使用分支及合并的时候，一切都是在你自己的 Git 仓库中进行的 — 完全不涉及与服务器的交互。
@@ -383,27 +391,27 @@ Insert 18333fig0321.png
 
 可能有点乱，我们不妨举例说明。假设你们团队有个地址为 `git.ourcompany.com` 的 Git 服务器。如果你从这里克隆，Git 会自动为你将此远程仓库命名为 `origin`，并下载其中所有的数据，建立一个指向它的 `master` 分支的指针，在本地命名为 `origin/master`，但你无法在本地更改其数据。接着，Git 建立一个属于你自己的本地 `master` 分支，始于 `origin` 上 `master` 分支相同的位置，你可以就此开始工作（见图 3-22）：
 
-Insert 18333fig0322.png 
+Insert 18333fig0322.png
 图 3-22. 一次 Git 克隆会建立你自己的本地分支 master 和远程分支 origin/master，并且将它们都指向 `origin` 上的 `master` 分支。
 
 如果你在本地 `master` 分支做了些改动，与此同时，其他人向 `git.ourcompany.com` 推送了他们的更新，那么服务器上的 `master` 分支就会向前推进，而于此同时，你在本地的提交历史正朝向不同方向发展。不过只要你不和服务器通讯，你的 `origin/master` 指针仍然保持原位不会移动（见图 3-23）。
 
-Insert 18333fig0323.png 
+Insert 18333fig0323.png
 图 3-23. 在本地工作的同时有人向远程仓库推送内容会让提交历史开始分流。
 
 可以运行 `git fetch origin` 来同步远程服务器上的数据到本地。该命令首先找到 `origin` 是哪个服务器（本例为 `git.ourcompany.com`），从上面获取你尚未拥有的数据，更新你本地的数据库，然后把 `origin/master` 的指针移到它最新的位置上（见图 3-24）。
 
-Insert 18333fig0324.png 
+Insert 18333fig0324.png
 图 3-24. git fetch 命令会更新 remote 索引。
 
 为了演示拥有多个远程分支（在不同的远程服务器上）的项目是如何工作的，我们假设你还有另一个仅供你的敏捷开发小组使用的内部服务器 `git.team1.ourcompany.com`。可以用第二章中提到的 `git remote add` 命令把它加为当前项目的远程分支之一。我们把它命名为 `teamone`，以便代替完整的 Git URL 以方便使用（见图 3-25）。
 
-Insert 18333fig0325.png 
+Insert 18333fig0325.png
 图 3-25. 把另一个服务器加为远程仓库
 
 现在你可以用 `git fetch teamone` 来获取小组服务器上你还没有的数据了。由于当前该服务器上的内容是你 `origin` 服务器上的子集，Git 不会下载任何数据，而只是简单地创建一个名为 `teamone/master` 的远程分支，指向 `teamone` 服务器上 `master` 分支所在的提交对象 `31b8e`（见图 3-26）。
 
-Insert 18333fig0326.png 
+Insert 18333fig0326.png
 图 3-26. 你在本地有了一个指向 teamone 服务器上 master 分支的索引。
 
 ### 推送本地分支 ###
@@ -437,8 +445,8 @@ Insert 18333fig0326.png
 如果要把该远程分支的内容合并到当前分支，可以运行 `git merge origin/serverfix`。如果想要一份自己的 `serverfix` 来开发，可以在远程分支的基础上分化出一个新的分支来：
 
 	$ git checkout -b serverfix origin/serverfix
-	Branch serverfix set up to track remote branch refs/remotes/origin/serverfix.
-	Switched to a new branch "serverfix"
+	Branch serverfix set up to track remote branch serverfix from origin.
+	Switched to a new branch 'serverfix'
 
 这会切换到新建的 `serverfix` 本地分支，其内容同远程分支 `origin/serverfix` 一致，这样你就可以在里面继续开发了。
 
@@ -449,14 +457,14 @@ Insert 18333fig0326.png
 在克隆仓库时，Git 通常会自动创建一个名为 `master` 的分支来跟踪 `origin/master`。这正是 `git push` 和 `git pull` 一开始就能正常工作的原因。当然，你可以随心所欲地设定为其它跟踪分支，比如 `origin` 上除了 `master` 之外的其它分支。刚才我们已经看到了这样的一个例子：`git checkout -b [分支名] [远程名]/[分支名]`。如果你有 1.6.2 以上版本的 Git，还可以用 `--track` 选项简化：
 
 	$ git checkout --track origin/serverfix
-	Branch serverfix set up to track remote branch refs/remotes/origin/serverfix.
-	Switched to a new branch "serverfix"
+	Branch serverfix set up to track remote branch serverfix from origin.
+	Switched to a new branch 'serverfix'
 
 要为本地分支设定不同于远程分支的名字，只需在第一个版本的命令里换个名字：
 
 	$ git checkout -b sf origin/serverfix
-	Branch sf set up to track remote branch refs/remotes/origin/serverfix.
-	Switched to a new branch "sf"
+	Branch sf set up to track remote branch serverfix from origin.
+	Switched to a new branch 'sf'
 
 现在你的本地分支 `sf` 会自动将推送和抓取数据的位置定位到 `origin/serverfix` 了。
 
@@ -478,12 +486,12 @@ Insert 18333fig0326.png
 
 请回顾之前有关合并的一节（见图 3-27），你会看到开发进程分叉到两个不同分支，又各自提交了更新。
 
-Insert 18333fig0327.png 
+Insert 18333fig0327.png
 图 3-27. 最初分叉的提交历史。
 
 之前介绍过，最容易的整合分支的方法是 `merge` 命令，它会把两个分支最新的快照（C3 和 C4）以及二者最新的共同祖先（C2）进行三方合并，合并的结果是产生一个新的提交对象（C5）。如图 3-28 所示：
 
-Insert 18333fig0328.png 
+Insert 18333fig0328.png
 图 3-28. 通过合并一个分支来整合分叉了的历史。
 
 其实，还有另外一个选择：你可以把在 C3 里产生的变化补丁在 C4 的基础上重新打一遍。在 Git 里，这种操作叫做_衍合（rebase）_。有了 `rebase` 命令，就可以把在一个分支里提交的改变移到另一个分支里重放一遍。
@@ -497,12 +505,12 @@ Insert 18333fig0328.png
 
 它的原理是回到两个分支最近的共同祖先，根据当前分支（也就是要进行衍合的分支 `experiment`）后续的历次提交对象（这里只有一个 C3），生成一系列文件补丁，然后以基底分支（也就是主干分支 `master`）最后一个提交对象（C4）为新的出发点，逐个应用之前准备好的补丁文件，最后会生成一个新的合并提交对象（C3'），从而改写 `experiment` 的提交历史，使它成为 `master` 分支的直接下游，如图 3-29 所示：
 
-Insert 18333fig0329.png 
+Insert 18333fig0329.png
 图 3-29. 把 C3 里产生的改变到 C4 上重演一遍。
 
 现在回到 `master` 分支，进行一次快进合并（见图 3-30）：
 
-Insert 18333fig0330.png 
+Insert 18333fig0330.png
 图 3-30. master 分支的快进。
 
 现在的 C3' 对应的快照，其实和普通的三方合并，即上个例子中的 C5 对应的快照内容一模一样了。虽然最后整合得到的结果没有任何区别，但衍合能产生一个更为整洁的提交历史。如果视察一个衍合过的分支的历史记录，看起来会更清楚：仿佛所有修改都是在一根线上先后进行的，尽管实际上它们原本是同时并行发生的。
@@ -515,16 +523,16 @@ Insert 18333fig0330.png
 
 衍合也可以放到其他分支进行，并不一定非得根据分化之前的分支。以图 3-31 的历史为例，我们为了给服务器端代码添加一些功能而创建了特性分支 `server`，然后提交 C3 和 C4。然后又从 C3 的地方再增加一个 `client` 分支来对客户端代码进行一些相应修改，所以提交了 C8 和 C9。最后，又回到 `server` 分支提交了 C10。
 
-Insert 18333fig0331.png 
+Insert 18333fig0331.png
 图 3-31. 从一个特性分支里再分出一个特性分支的历史。
 
-假设在接下来的一次软件发布中，我们决定先把客户端的修改并到主线中，而暂缓并入服务端软件的修改（因为还需要进一步测试）。这个时候，我们就可以把基于 `server` 分支而非 `master` 分支的改变（即 C8 和 C9），跳过 `server` 直接放到 `master` 分支中重演一遍，但这需要用 `git rebase` 的 `--onto` 选项指定新的基底分支 `master`：
+假设在接下来的一次软件发布中，我们决定先把客户端的修改并到主线中，而暂缓并入服务端软件的修改（因为还需要进一步测试）。这个时候，我们就可以把基于 `client` 分支而非 `server` 分支的改变（即 C8 和 C9），跳过 `server` 直接放到 `master` 分支中重演一遍，但这需要用 `git rebase` 的 `--onto` 选项指定新的基底分支 `master`：
 
 	$ git rebase --onto master server client
 
 这好比在说：“取出 `client` 分支，找出 `client` 分支和 `server` 分支的共同祖先之后的变化，然后把它们在 `master` 上重演一遍”。是不是有点复杂？不过它的结果如图 3-32 所示，非常酷（译注：虽然 `client` 里的 C8, C9 在 C3 之后，但这仅表明时间上的先后，而非在 C3 修改的基础上进一步改动，因为 `server` 和 `client` 这两个分支对应的代码应该是两套文件，虽然这么说不是很严格，但应理解为在 C3 时间点之后，对另外的文件所做的 C8，C9 修改，放到主干重演。）：
 
-Insert 18333fig0332.png 
+Insert 18333fig0332.png
 图 3-32. 将特性分支上的另一个特性分支衍合到其他分支。
 
 现在可以快进 `master` 分支了（见图 3-33）：
@@ -532,7 +540,7 @@ Insert 18333fig0332.png
 	$ git checkout master
 	$ git merge client
 
-Insert 18333fig0333.png 
+Insert 18333fig0333.png
 图 3-33. 快进 master 分支，使之包含 client 分支的变化。
 
 现在我们决定把 `server` 分支的变化也包含进来。我们可以直接把 `server` 分支衍合到 `master`，而不用手工切换到 `server` 分支后再执行衍合操作 — `git rebase [主分支] [特性分支]` 命令会先取出特性分支 `server`，然后在主分支 `master` 上重演：
@@ -541,7 +549,7 @@ Insert 18333fig0333.png
 
 于是，`server` 的进度应用到 `master` 的基础上，如图 3-34 所示：
 
-Insert 18333fig0334.png 
+Insert 18333fig0334.png
 图 3-34. 在 master 分支上衍合 server 分支。
 
 然后就可以快进主干分支 `master` 了：
@@ -554,7 +562,7 @@ Insert 18333fig0334.png
 	$ git branch -d client
 	$ git branch -d server
 
-Insert 18333fig0335.png 
+Insert 18333fig0335.png
 图 3-35. 最终的提交历史
 
 ### 衍合的风险 ###
@@ -569,22 +577,22 @@ Insert 18333fig0335.png
 
 下面我们用一个实际例子来说明为什么公开的衍合会带来问题。假设你从一个中央服务器克隆然后在它的基础上搞了一些开发，提交历史类似图 3-36 所示：
 
-Insert 18333fig0336.png 
+Insert 18333fig0336.png
 图 3-36. 克隆一个仓库，在其基础上工作一番。
 
 现在，某人在 C1 的基础上做了些改变，并合并他自己的分支得到结果 C6，推送到中央服务器。当你抓取并合并这些数据到你本地的开发分支中后，会得到合并结果 C7，历史提交会变成图 3-37 这样：
 
-Insert 18333fig0337.png 
+Insert 18333fig0337.png
 图 3-37. 抓取他人提交，并入自己主干。
 
 接下来，那个推送 C6 上来的人决定用衍合取代之前的合并操作；继而又用 `git push --force` 覆盖了服务器上的历史，得到 C4'。而之后当你再从服务器上下载最新提交后，会得到：
 
-Insert 18333fig0338.png 
+Insert 18333fig0338.png
 图 3-38. 有人推送了衍合后得到的 C4'，丢弃了你作为开发基础的 C4 和 C6。
 
 下载更新后需要合并，但此时衍合产生的提交对象 C4' 的 SHA-1 校验值和之前 C4 完全不同，所以 Git 会把它们当作新的提交对象处理，而实际上此刻你的提交历史 C7 中早已经包含了 C4 的修改内容，于是合并操作会把 C7 和 C4' 合并为 C8（见图 3-39）:
 
-Insert 18333fig0339.png 
+Insert 18333fig0339.png
 图 3-39. 你把相同的内容又合并了一遍，生成一个新的提交 C8。
 
 C8 这一步的合并是迟早会发生的，因为只有这样你才能和其他协作者提交的内容保持同步。而在 C8 之后，你的提交历史里就会同时包含 C4 和 C4'，两者有着不同的 SHA-1 校验值，如果用 `git log` 查看历史，会看到两个提交拥有相同的作者日期与说明，令人费解。而更糟的是，当你把这样的历史推送到服务器后，会再次把这些衍合后的提交引入到中央服务器，进一步困扰其他人（译注：这个例子中，出问题的责任方是那个发布了 C6 后又用衍合发布 C4' 的人，其他人会因此反馈双重历史到共享主干，从而混淆大家的视听。）。

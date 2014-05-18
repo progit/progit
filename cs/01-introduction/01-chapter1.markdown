@@ -161,9 +161,9 @@ V distribuci založené na Debianu (např. Ubuntu) zkuste použít program apt-g
 
 ### Instalace v systému Mac ###
 
-Existují dva jednoduché způsoby, jak nainstalovat Git v systému Mac. Tím nejjednodušším je použít grafický instalátor Git, který si můžete stáhnout ze stránky Google Code (viz obrázek 1-7):
+Existují dva jednoduché způsoby, jak nainstalovat Git v systému Mac. Tím nejjednodušším je použít grafický instalátor Git, který si můžete stáhnout ze stránky SourceForge (viz obrázek 1-7):
 
-	http://code.google.com/p/git-osx-installer
+	http://sourceforge.net/projects/git-osx-installer/
 
 Insert 18333fig0107.png
 Obrázek 1-7. Instalátor Git pro OS X

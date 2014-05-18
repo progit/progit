@@ -1,6 +1,6 @@
 # Git en entornos distribuidos #
 
-Ahora que ya tienes un repositorio Git, configurado como punto de trabajo para compartir código entre desarrolladores. Y ahora que ya conoces los comandos básicos de Git para flujos de trabajo locales. Puedes hechar un vistazo a algunos de los flujos de trabajo distribuidos que Git permite.
+Ahora que ya tienes un repositorio Git, configurado como punto de trabajo para compartir código entre desarrolladores. Y ahora que ya conoces los comandos básicos de Git para flujos de trabajo locales. Puedes echar un vistazo a algunos de los flujos de trabajo distribuidos que Git permite.
 
 En este capítulo, verás cómo trabajar con Git en un entorno distribuido, bien como colaborador o bien como integrador. Es decir, aprenderás cómo contribuir adecuadamente a un proyecto; de la forma más efectiva posible, tanto para tí, como para quien gestione el proyecto. Y aprenderás también a gestionar proyectos en los que colaboren multiples desarrolladores.
 
@@ -27,7 +27,7 @@ Al permitir multiples repositorios remotos, en Git es posible tener un flujo de 
 1. La persona gestora del proyecto envia (push) a su repositorio público (repositorio principal).
 2. Una persona que desea contribuir, clona dicho repositorio y hace algunos cambios.
 3. La persona colaboradora envia (push) a su propia copia pública.
-4. Esta persona colaboradora envia a la gestora un correo-e solicitándole recupere e integre los cambios.
+4. Esta persona colaboradora envia a la gestora un correo electronico solicitándole recupere e integre los cambios.
 5. La gestora añade como remoto el repositorio de la colaboradora y fusiona (merge) los cambios localmente.
 6. La gestora envia (push) los cambios fusionados al repositorio principal.
 
@@ -299,7 +299,7 @@ Quedando su repositorio como se muestra en la Figura 5-12
 Insert 18333fig0512.png
 Figura 5-12. Historial inicial de Jessica.
 
-Cuando está preparada para enviar (push) su trabajo, recibe un correo-e de Josie de que ha puesto en el servidor una rama denominada 'featureBee', con algo de trabajo. Jessica necesita fusionar (merge) dichos cambios con los suyos antes de poder enviarlos al servidor. Por tanto, recupera (fetch) los cambios de Josie:
+Cuando está preparada para enviar (push) su trabajo, recibe un correo electronico de Josie de que ha puesto en el servidor una rama denominada 'featureBee', con algo de trabajo. Jessica necesita fusionar (merge) dichos cambios con los suyos antes de poder enviarlos al servidor. Por tanto, recupera (fetch) los cambios de Josie:
 
 	$ git fetch origin
 	...
@@ -323,7 +323,7 @@ Pero hay un pequeño problema, necesita enviar el trabajo fusionado en su rama '
 
 Esto es lo que se denomina un _refspec_. Puedes ver el Capítulo 9 para una discusión más detallada acerca de los _refspecs_ de Git y los distintos usos que puedes darles.
 
-A continuación, John envia un correo-e a jessica comentandole que ha enviado algunos cambios a la rama 'featureA' y pidiendole que los verifique. Ella lanza un 'git fetch' para recuperar dichos cambios:
+A continuación, John envia un correo electronico a jessica comentandole que ha enviado algunos cambios a la rama 'featureA' y pidiendole que los verifique. Ella lanza un 'git fetch' para recuperar dichos cambios:
 
 	$ git fetch origin
 	...
@@ -560,7 +560,7 @@ En esta sección hemos visto unos cuantos de los flujos de trabajo más habitual
 
 ## Gestionando un proyecto ##
 
-Además de conocer cómo contribuir de forma efectiva a un proyecto, es posible que desees saber tambien cómo mantener uno. Lo cual implicará saber aceptar y aplicar parches generados vía `format-patch`, enviados a tí a través de correo-e; o saber integrar cambios realizados en ramas de repositorios que añadirás como remotos a tu proyecto. Tanto si gestionas un repositorio canónico, como si deseas colaborar verificando o aprobando parches, necesitas saber cómo aceptar trabajo de otros de la forma más clara para tus contribuyentes y más sostenible para tí a largo plazo.
+Además de conocer cómo contribuir de forma efectiva a un proyecto, es posible que desees saber tambien cómo mantener uno. Lo cual implicará saber aceptar y aplicar parches generados vía `format-patch`, enviados a tí a través de correo electronico; o saber integrar cambios realizados en ramas de repositorios que añadirás como remotos a tu proyecto. Tanto si gestionas un repositorio canónico, como si deseas colaborar verificando o aprobando parches, necesitas saber cómo aceptar trabajo de otros de la forma más clara para tus contribuyentes y más sostenible para tí a largo plazo.
 
 ### Trabajando con Ramas Puntuales ###
 
@@ -575,9 +575,9 @@ O, si deseas crearla y saltar inmediatamente a ella, puedes también utilizar la
 
 Tras esto, estarás listo para añadir tu trabajo a esa rama puntual y ver si deseas o no fusionarla luego con alguna otra de tus ramas de más largo recorrido.
 
-### Aplicar parches recibidos por correo-e ###
+### Aplicar parches recibidos por correo electronico ###
 
-Si vas a integrar en tu proyecto un parche recibido a través de un correo electrónico. Antes de poder evaluarlo, tendrás que incorporarlo a una de tus ramas puntuales. Tienes dos caminos para incorporar un parche recibido por correo-e: usando el comando 'git apply' o usando el comando 'git am'.
+Si vas a integrar en tu proyecto un parche recibido a través de un correo electrónico. Antes de poder evaluarlo, tendrás que incorporarlo a una de tus ramas puntuales. Tienes dos caminos para incorporar un parche recibido por correo electronico: usando el comando 'git apply' o usando el comando 'git am'.
 
 #### Incorporando un parche con apply ####
 
@@ -683,9 +683,9 @@ Por ejemplo, si Jessica te envia un correo electrónico comentandote que tiene u
 	$ git fetch jessica
 	$ git checkout -b rubyclient jessica/ruby-client
 
-Si más tarde vuelva a enviarte otro correo-e avisandote de otra gran funcionalidad que ha incorporado, puedes recuperarla (fetch y checkout) directamente, porque tienes el remoto ya definido.
+Si más tarde vuelva a enviarte otro correo electronico avisandote de otra gran funcionalidad que ha incorporado, puedes recuperarla (fetch y checkout) directamente, porque tienes el remoto ya definido.
 
-Es muy util cuando trabajas regularmente con una persona. En cambio, si alguien tiene un solo parche para enviarte, una sola vez, puede ser más efectivo aceptarlo directamente por correo-e; en lugar de pedir a todo el mundo que tenga cada uno su propio servidor y tener nosotros que estar continuamente añadiendo y quitando remotos para cada parche. También es muy posible que no quieras tener cientos de remotos, cada uno contribuyendo tan solo con un parche o dos. De todas formas, los scripts y los servicios albergados pueden hacerte la vida más facil en esto, --todo depende de cómo desarrolles tú y de como desarrollan las personas que colaboran contigo--.
+Es muy util cuando trabajas regularmente con una persona. En cambio, si alguien tiene un solo parche para enviarte, una sola vez, puede ser más efectivo aceptarlo directamente por correo electronico; en lugar de pedir a todo el mundo que tenga cada uno su propio servidor y tener nosotros que estar continuamente añadiendo y quitando remotos para cada parche. También es muy posible que no quieras tener cientos de remotos, cada uno contribuyendo tan solo con un parche o dos. De todas formas, los scripts y los servicios albergados pueden hacerte la vida más facil en esto, --todo depende de cómo desarrolles tú y de como desarrollan las personas que colaboran contigo--.
 
 Otra ventaja de esta forma de trabajar es que recibes también el histórico de confirmaciones de cambio (commits). A pesar de poder seguir teniendo los habituales problemas con la fusión, por lo menos conoces en qué punto de tu historial han basado su trabajo. Por defecto, se aplicará una genuina fusión a tres bandas, en lugar de tener que poner un '-3' y esperar que el parche haya sido generado a partir de una confirmación de cambios (commit) pública a la que tengas tú también acceso.
 

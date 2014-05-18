@@ -54,8 +54,8 @@ Insert 18333fig0201.png
 どのファイルがどの状態にあるのかを知るために主に使うツールが `git status` コマンドです。このコマンドをクローン直後に実行すると、このような結果となるでしょう。
 
 	$ git status
-	# On branch master
-	nothing to commit (working directory clean)
+	On branch master
+	nothing to commit, working directory clean
 
 これは、クリーンな作業コピーである (つまり、追跡されているファイルの中に変更されているものがない) ことを意味します。また、追跡されていないファイルも存在しません (もし追跡されていないファイルがあれば、Git はそれを表示します)。最後に、このコマンドを実行するとあなたが今どのブランチにいるのかを知ることができます。現時点では常に `master` となります。これはデフォルトであり、ここでは特に気にする必要はありません。ブランチについては次の章で詳しく説明します。
 
@@ -63,11 +63,12 @@ Insert 18333fig0201.png
 
 	$ vim README
 	$ git status
-	# On branch master
-	# Untracked files:
-	#   (use "git add <file>..." to include in what will be committed)
-	#
-	#	README
+	On branch master
+	Untracked files:
+	  (use "git add <file>..." to include in what will be committed)
+	
+	        README
+
 	nothing added to commit but untracked files present (use "git add" to track)
 
 出力結果の “Untracked files” 欄に `README` ファイルがあることから、このファイルが追跡されていないということがわかります。これは、Git が「前回のスナップショット (コミット) にはこのファイルが存在しなかった」とみなしたということです。明示的に指示しない限り、Git はコミット時にこのファイルを含めることはありません。自動生成されたバイナリファイルなど、コミットしたくないファイルを間違えてコミットしてしまう心配はないということです。今回は README をコミットに含めたいわけですから、まずファイルを追跡対象に含めるようにしましょう。
@@ -81,12 +82,12 @@ Insert 18333fig0201.png
 再び status コマンドを実行すると、`README` ファイルが追跡対象となり、ステージされていることがわかるでしょう。
 
 	$ git status
-	# On branch master
-	# Changes to be committed:
-	#   (use "git reset HEAD <file>..." to unstage)
-	#
-	#	new file:   README
-	#
+	On branch master
+	Changes to be committed:
+	  (use "git reset HEAD <file>..." to unstage)
+	
+	        new file:   README
+	
 
 ステージされていると判断できるのは、“Changes to be committed” 欄に表示されているからです。ここでコミットを行うと、`git add` した時点の状態のファイルがスナップショットとして歴史に書き込まれます。先ほど `git init` をしたときに、ディレクトリ内のファイルを追跡するためにその後 `git add (ファイル)` としたことを思い出すことでしょう。`git add` コマンドには、ファイルあるいはディレクトリのパスを指定します。ディレクトリを指定した場合は、そのディレクトリ以下にあるすべてのファイルを再帰的に追加します。
 
@@ -95,58 +96,60 @@ Insert 18333fig0201.png
 すでに追跡対象となっているファイルを変更してみましょう。たとえば、すでに追跡対象となっているファイル `benchmarks.rb` を変更して `status` コマンドを実行すると、結果はこのようになります。
 
 	$ git status
-	# On branch master
-	# Changes to be committed:
-	#   (use "git reset HEAD <file>..." to unstage)
-	#
-	#	new file:   README
-	#
-	# Changes not staged for commit:
-	#   (use "git add <file>..." to update what will be committed)
-	#
-	#	modified:   benchmarks.rb
-	#
+	On branch master
+	Changes to be committed:
+	  (use "git reset HEAD <file>..." to unstage)
+	
+	        new file:   README
+
+	Changes not staged for commit:
+	  (use "git add <file>..." to update what will be committed)
+	  (use "git checkout -- <file>..." to discard changes in working directory)
+	
+	        modified:   benchmarks.rb
+	
 
 `benchmarks.rb` ファイルは “Changes not staged for commit” という欄に表示されます。これは、追跡対象のファイルが作業ディレクトリ内で変更されたけれどもまだステージされていないという意味です。ステージするには `git add` コマンドを実行します (このコマンドにはいろんな意味合いがあり、新しいファイルの追跡開始・ファイルのステージング・マージ時に衝突が発生したファイルに対する「解決済み」マーク付けなどで使用します)。では、`git add` で `benchmarks.rb` をステージしてもういちど `git status` を実行してみましょう。
 
 	$ git add benchmarks.rb
 	$ git status
-	# On branch master
-	# Changes to be committed:
-	#   (use "git reset HEAD <file>..." to unstage)
-	#
-	#	new file:   README
-	#	modified:   benchmarks.rb
-	#
+	On branch master
+	Changes to be committed:
+	  (use "git reset HEAD <file>..." to unstage)
+	
+	        new file:   README
+	        modified:   benchmarks.rb
+	
 
 両方のファイルがステージされました。これで、次回のコミットに両方のファイルが含まれるようになります。ここで、さらに `benchmarks.rb` にちょっとした変更を加えてからコミットしたくなったとしましょう。ファイルを開いて変更を終え、コミットの準備が整いました。しかし、`git status` を実行してみると何か変です。
 
 	$ vim benchmarks.rb
 	$ git status
-	# On branch master
-	# Changes to be committed:
-	#   (use "git reset HEAD <file>..." to unstage)
-	#
-	#	new file:   README
-	#	modified:   benchmarks.rb
-	#
-	# Changes not staged for commit:
-	#   (use "git add <file>..." to update what will be committed)
-	#
-	#	modified:   benchmarks.rb
-	#
+	On branch master
+	Changes to be committed:
+	  (use "git reset HEAD <file>..." to unstage)
+	
+	        new file:   README
+	        modified:   benchmarks.rb
+	
+	Changes not staged for commit:
+	  (use "git add <file>..." to update what will be committed)
+	  (use "git checkout -- <file>..." to discard changes in working directory)
+	
+	        modified:   benchmarks.rb
+	
 
 これはどういうことでしょう? `benchmarks.rb` が、ステージされているほうにもステージされていないほうにも登場しています。こんなことってありえるんでしょうか? 要するに、Git は「`git add` コマンドを実行した時点の状態のファイル」をステージするということです。ここでコミットをすると、実際にコミットされるのは `git add` を実行した時点の `benchmarks.rb` であり、`git commit` した時点の作業ディレクトリにある内容とは違うものになります。`git add` した後にファイルを変更した場合に、最新版のファイルをステージしなおすにはもう一度 `git add` を実行します。
 
 	$ git add benchmarks.rb
 	$ git status
-	# On branch master
-	# Changes to be committed:
-	#   (use "git reset HEAD <file>..." to unstage)
-	#
-	#	new file:   README
-	#	modified:   benchmarks.rb
-	#
+	On branch master
+	Changes to be committed:
+	  (use "git reset HEAD <file>..." to unstage)
+	
+	        new file:   README
+	        modified:   benchmarks.rb
+	
 
 ### ファイルの無視 ###
 
@@ -192,17 +195,18 @@ glob パターンとは、シェルで用いる簡易正規表現のようなも
 先ほどの続きで、ふたたび `README` ファイルを編集してステージし、一方 `benchmarks.rb` ファイルは編集だけしてステージしない状態にあると仮定しましょう。ここで `status` コマンドを実行すると、次のような結果となります。
 
 	$ git status
-	# On branch master
-	# Changes to be committed:
-	#   (use "git reset HEAD <file>..." to unstage)
-	#
-	#	new file:   README
-	#
-	# Changes not staged for commit:
-	#   (use "git add <file>..." to update what will be committed)
-	#
-	#	modified:   benchmarks.rb
-	#
+	On branch master
+	Changes to be committed:
+	  (use "git reset HEAD <file>..." to unstage)
+	
+	        new file:   README
+	
+	Changes not staged for commit:
+	  (use "git add <file>..." to update what will be committed)
+	  (use "git checkout -- <file>..." to discard changes in working directory)
+	
+	        modified:   benchmarks.rb
+	
 
 変更したけれどもまだステージしていない内容を見るには、引数なしで `git diff` を実行します。
 
@@ -247,16 +251,18 @@ glob パターンとは、シェルで用いる簡易正規表現のようなも
 	$ git add benchmarks.rb
 	$ echo '# test line' >> benchmarks.rb
 	$ git status
-	# On branch master
-	#
-	# Changes to be committed:
-	#
-	#	modified:   benchmarks.rb
-	#
-	# Changes not staged for commit:
-	#
-	#	modified:   benchmarks.rb
-	#
+	On branch master
+	Changes to be committed:
+	  (use "git reset HEAD <file>..." to unstage)
+	
+	        modified:   benchmarks.rb
+	
+	Changes not staged for commit:
+	  (use "git add <file>..." to update what will be committed)
+	  (use "git checkout -- <file>..." to discard changes in working directory)
+	
+	        modified:   benchmarks.rb
+	
 
 ここで `git diff` を使うと、まだステージされていない内容を知ることができます。
 
@@ -304,10 +310,9 @@ glob パターンとは、シェルで用いる簡易正規表現のようなも
 	# with '#' will be ignored, and an empty message aborts the commit.
 	# On branch master
 	# Changes to be committed:
-	#   (use "git reset HEAD <file>..." to unstage)
-	#
 	#       new file:   README
 	#       modified:   benchmarks.rb
+	#
 	~
 	~
 	~
@@ -318,8 +323,8 @@ glob パターンとは、シェルで用いる簡易正規表現のようなも
 あるいは、コミットメッセージをインラインで記述することもできます。その場合は、`commit` コマンドの後で `-m` フラグに続けて次のように記述します。
 
 	$ git commit -m "Story 182: Fix benchmarks for speed"
-	[master]: created 463dc4f: "Fix benchmarks for speed"
-	 2 files changed, 3 insertions(+), 0 deletions(-)
+	[master 463dc4f] Fix benchmarks for speed
+	 2 files changed, 3 insertions(+)
 	 create mode 100644 README
 
 これではじめてのコミットができました! 今回のコミットについて、「どのブランチにコミットしたのか (`master`)」「そのコミットの SHA-1 チェックサム (`463dc4f`)」「変更されたファイルの数」「そのコミットで追加されたり削除されたりした行数」といった情報が表示されているのがわかるでしょう。
@@ -331,15 +336,17 @@ glob パターンとは、シェルで用いる簡易正規表現のようなも
 コミットの内容を思い通りに作り上げることができるという点でステージングエリアは非常に便利なのですが、普段の作業においては必要以上に複雑に感じられることもあるでしょう。ステージングエリアを省略したい場合のために、Git ではシンプルなショートカットを用意しています。`git commit` コマンドに `-a` オプションを指定すると、追跡対象となっているファイルを自動的にステージしてからコミットを行います。つまり `git add` を省略できるというわけです。
 
 	$ git status
-	# On branch master
-	#
-	# Changes not staged for commit:
-	#
-	#	modified:   benchmarks.rb
-	#
+	On branch master
+	Changes not staged for commit:
+	  (use "git add <file>..." to update what will be committed)
+	  (use "git checkout -- <file>..." to discard changes in working directory)
+	
+	        modified:   benchmarks.rb
+	
+	no changes added to commit (use "git add" and/or "git commit -a")
 	$ git commit -a -m 'added new benchmarks'
 	[master 83e38c7] added new benchmarks
-	 1 files changed, 5 insertions(+), 0 deletions(-)
+	 1 files changed, 5 insertions(+)
 
 この場合、コミットする前に `benchmarks.rb` を `git add` する必要がないことに注意しましょう。
 
@@ -351,26 +358,26 @@ glob パターンとは、シェルで用いる簡易正規表現のようなも
 
 	$ rm grit.gemspec
 	$ git status
-	# On branch master
-	#
-	# Changes not staged for commit:
-	#   (use "git add/rm <file>..." to update what will be committed)
-	#
-	#       deleted:    grit.gemspec
-	#
+	On branch master
+	Changes not staged for commit:
+	  (use "git add/rm <file>..." to update what will be committed)
+	  (use "git checkout -- <file>..." to discard changes in working directory)
+	
+	        deleted:    grit.gemspec
+	
+	no changes added to commit (use "git add" and/or "git commit -a")
 
 `git rm` を実行すると、ファイルの削除がステージされます。
 
 	$ git rm grit.gemspec
 	rm 'grit.gemspec'
 	$ git status
-	# On branch master
-	#
-	# Changes to be committed:
-	#   (use "git reset HEAD <file>..." to unstage)
-	#
-	#       deleted:    grit.gemspec
-	#
+	On branch master
+	Changes to be committed:
+	  (use "git reset HEAD <file>..." to unstage)
+	
+	        deleted:    grit.gemspec
+	
 
 次にコミットするときにファイルが削除され、追跡対象外となります。変更したファイルをすでにステージしている場合は、`-f` オプションで強制的に削除しなければなりません。まだスナップショットに記録されていないファイルを誤って削除してしまうと Git で復旧することができなくなってしまうので、それを防ぐための安全装置です。
 
@@ -400,14 +407,12 @@ glob パターンとは、シェルで用いる簡易正規表現のようなも
 
 	$ git mv README.txt README
 	$ git status
-	# On branch master
-	# Your branch is ahead of 'origin/master' by 1 commit.
-	#
-	# Changes to be committed:
-	#   (use "git reset HEAD <file>..." to unstage)
-	#
-	#       renamed:    README.txt -> README
-	#
+	On branch master
+	Changes to be committed:
+	  (use "git reset HEAD <file>..." to unstage)
+	
+	        renamed:    README.txt -> README
+	
 
 しかし、実際のところこれは、次のようなコマンドを実行するのと同じ意味となります。
 
@@ -524,7 +529,7 @@ Git はこれが暗黙的なファイル名の変更であると理解するの�
 	    changed the version number
 
 	 Rakefile |    2 +-
-	 1 files changed, 1 insertions(+), 1 deletions(-)
+	 1 file changed, 1 insertion(+), 1 deletion(-)
 
 	commit 085bb3bcb608e1e8451d4b2432f8ecbe6306e7e7
 	Author: Scott Chacon <schacon@gee-mail.com>
@@ -533,7 +538,7 @@ Git はこれが暗黙的なファイル名の変更であると理解するの�
 	    removed unnecessary test code
 
 	 lib/simplegit.rb |    5 -----
-	 1 files changed, 0 insertions(+), 5 deletions(-)
+	 1 file changed, 5 deletions(-)
 
 	commit a11bef06a3f659402fe7563abf99ad00de2209e6
 	Author: Scott Chacon <schacon@gee-mail.com>
@@ -544,7 +549,7 @@ Git はこれが暗黙的なファイル名の変更であると理解するの�
 	 README           |    6 ++++++
 	 Rakefile         |   23 +++++++++++++++++++++++
 	 lib/simplegit.rb |   25 +++++++++++++++++++++++++
-	 3 files changed, 54 insertions(+), 0 deletions(-)
+	 3 files changed, 54 insertions(+)
 
 ごらんの通り `--stat` オプションは、各コミットエントリに続けて変更されたファイルの一覧と変更されたファイルの数、追加・削除された行数が表示されます。また、それらの情報のまとめを最後に出力します。もうひとつの便利なオプションが `--pretty` です。これは、ログをデフォルトの書式以外で出力します。あらかじめ用意されているいくつかのオプションを指定することができます。`oneline` オプションは、各コミットを一行で出力します。これは、大量のコミットを見る場合に便利です。さらに `short` や `full` そして `fuller` といったオプションもあり、これは標準とほぼ同じ書式だけれども情報量がそれぞれ少なめあるいは多めになります。
 
@@ -630,7 +635,9 @@ The lines must be formatted as follows
 
 このコマンドはさまざまな書式で動作します。特定の日を指定する (“2008-01-15”) こともできますし、相対日付を“2 years 1 day 3 minutes ago”のように指定することも可能です。
 
-コミット一覧から検索条件にマッチするものだけを取り出すこともできます。`--author` オプションは特定の author のみを抜き出し、`--grep` オプションはコミットメッセージの中のキーワードを検索します (author と grep を両方指定したい場合は `--all-match` を追加しないといけません。そうしないと、どちらか一方にだけマッチするものも対象になってしまいます)。
+コミット一覧から検索条件にマッチするものだけを取り出すこともできます。`--author` オプションは特定の author のみを抜き出し、`--grep` オプションはコミットメッセージの中のキーワードを検索します (author と grep を両方指定すると、両方にマッチするものだけが対象になります)。
+
+grep を複数指定したい場合は、`--all-match` を追加しないといけません。そうしないと、どちらか一方にだけマッチするものも対象になってしまいます。
 
 最後に紹介する `git log` のフィルタリング用オプションは、パスです。ディレクトリ名あるいはファイル名を指定すると、それを変更したコミットのみが対象となります。このオプションは常に最後に指定し、一般にダブルダッシュ (`--`) の後に記述します。このダブルダッシュが他のオプションとパスの区切りとなります。
 
@@ -698,31 +705,32 @@ Insert 18333fig0202.png
 
 	$ git add .
 	$ git status
-	# On branch master
-	# Changes to be committed:
-	#   (use "git reset HEAD <file>..." to unstage)
-	#
-	#       modified:   README.txt
-	#       modified:   benchmarks.rb
-	#
+	On branch master
+	Changes to be committed:
+	  (use "git reset HEAD <file>..." to unstage)
+	
+	        modified:   README.txt
+	        modified:   benchmarks.rb
+	
 
 “Changes to be committed” の直後に、"use `git reset HEAD <file>...` to unstage" と書かれています。では、アドバイスに従って `benchmarks.rb` ファイルのステージを解除してみましょう。
 
 	$ git reset HEAD benchmarks.rb
-	benchmarks.rb: locally modified
+	Unstaged changes after reset:
+	M       benchmarks.rb
 	$ git status
-	# On branch master
-	# Changes to be committed:
-	#   (use "git reset HEAD <file>..." to unstage)
-	#
-	#       modified:   README.txt
-	#
-	# Changes not staged for commit:
-	#   (use "git add <file>..." to update what will be committed)
-	#   (use "git checkout -- <file>..." to discard changes in working directory)
-	#
-	#       modified:   benchmarks.rb
-	#
+	On branch master
+	Changes to be committed:
+	  (use "git reset HEAD <file>..." to unstage)
+	
+	        modified:   README.txt
+	
+	Changes not staged for commit:
+	  (use "git add <file>..." to update what will be committed)
+	  (use "git checkout -- <file>..." to discard changes in working directory)
+	
+	        modified:   benchmarks.rb
+	
 
 ちょっと奇妙に見えるコマンドですが、きちんと動作します。`benchmarks.rb` ファイルは、変更されたもののステージされていない状態に戻りました。
 
@@ -730,23 +738,23 @@ Insert 18333fig0202.png
 
 `benchmarks.rb` に加えた変更が、実は不要なものだったとしたらどうしますか? 変更を取り消す (直近のコミット時点の状態、あるいは最初にクローンしたり最初に作業ディレクトリに取得したときの状態に戻す) 最も簡単な方法は? 幸いなことに、またもや `git status` がその方法を教えてくれます。先ほどの例の出力結果で、ステージされていないファイル一覧の部分を見てみましょう。
 
-	# Changes not staged for commit:
-	#   (use "git add <file>..." to update what will be committed)
-	#   (use "git checkout -- <file>..." to discard changes in working directory)
-	#
-	#       modified:   benchmarks.rb
-	#
+	Changes not staged for commit:
+	  (use "git add <file>..." to update what will be committed)
+	  (use "git checkout -- <file>..." to discard changes in working directory)
+	
+	        modified:   benchmarks.rb
+	
 
 とても明確に、変更を取り消す方法が書かれています (少なくとも、バージョン 1.6.1 以降の新しい Git ではこのようになります。もし古いバージョンを使用しているのなら、アップグレードしてこのすばらしい機能を活用することをおすすめします)。ではそのとおりにしてみましょう。
 
 	$ git checkout -- benchmarks.rb
 	$ git status
-	# On branch master
-	# Changes to be committed:
-	#   (use "git reset HEAD <file>..." to unstage)
-	#
-	#       modified:   README.txt
-	#
+	On branch master
+	Changes to be committed:
+	  (use "git reset HEAD <file>..." to unstage)
+	
+	        modified:   README.txt
+	
 
 変更が取り消されたことがわかります。また、これが危険なコマンドであることも知っておかねばなりません。あなたがファイルに加えた変更はすべて消えてしまいます。変更した内容を、別のファイルで上書きしたのと同じことになります。そのファイルが不要であることが確実にわかっているとき以外は、このコマンドを使わないようにしましょう。単にファイルを片付けたいだけなら、次の章で説明する stash やブランチを調べてみましょう。一般にこちらのほうがおすすめの方法です。
 
@@ -761,12 +769,12 @@ Git を使ったプロジェクトで共同作業を進めていくには、リ�
 今までにどのリモートサーバーを設定したのかを知るには `git remote` コマンドを実行します。これは、今までに設定したリモートハンドルの名前を一覧表示します。リポジトリをクローンしたのなら、少なくとも *origin* という名前が見えるはずです。これは、クローン元のサーバーに対して Git がデフォルトでつける名前です。
 
 	$ git clone git://github.com/schacon/ticgit.git
-	Initialized empty Git repository in /private/tmp/ticgit/.git/
-	remote: Counting objects: 595, done.
-	remote: Compressing objects: 100% (269/269), done.
-	remote: Total 595 (delta 255), reused 589 (delta 253)
-	Receiving objects: 100% (595/595), 73.31 KiB | 1 KiB/s, done.
-	Resolving deltas: 100% (255/255), done.
+	Cloning into 'ticgit'...
+	remote: Reusing existing pack: 1857, done.
+	remote: Total 1857 (delta 0), reused 0 (delta 0)
+	Receiving objects: 100% (1857/1857), 374.35 KiB | 193.00 KiB/s, done.
+	Resolving deltas: 100% (772/772), done.
+	Checking connectivity... done.
 	$ cd ticgit
 	$ git remote
 	origin
@@ -937,6 +945,7 @@ Git では、注釈付きのタグをシンプルな方法で作成できます�
 	Date:   Mon Feb 9 14:45:11 2009 -0800
 
 	my version 1.4
+
 	commit 15027957951b64cf874c3557a0f3547bd83b3ff6
 	Merge: 4a447f7... a6b4c97...
 	Author: Scott Chacon <schacon@gee-mail.com>

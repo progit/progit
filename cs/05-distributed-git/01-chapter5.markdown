@@ -740,11 +740,11 @@ Můžete tedy explicitně najít společného předka obou větví a spustit na 
 	36c7dba2c95e6bbb78dfa822519ecfec6e1ca649
 	$ git diff 36c7db
 
-To však není příliš pohodlný způsob, a proto Git nabízí jinou možnost, jak lze provést stejnou věc: trojtečkovou syntax. V kontextu příkazu `diff` můžete vložit tři tečky za druhou větev – získáte výpis `diff` mezi poslední revizí větve, na níž se nacházíte, a společným předkem s druhou větví:
+To však není příliš pohodlný způsob, a proto Git nabízí jinou možnost, jak lze provést stejnou věc: trojtečkovou syntaxi. V kontextu příkazu `diff` můžete vložit tři tečky za druhou větev – získáte výpis `diff` mezi poslední revizí větve, na níž se nacházíte, a společným předkem s druhou větví:
 
 	$ git diff master...contrib
 
-Tento příkaz zobrazí pouze práci, která byla ve vaší aktuální tematické větvi provedena od chvíle, kdy se oddělila od hlavní větve. Určitě uděláte dobře, pokud si tuto syntax zapamatujete.
+Tento příkaz zobrazí pouze práci, která byla ve vaší aktuální tematické větvi provedena od chvíle, kdy se oddělila od hlavní větve. Určitě uděláte dobře, pokud si tuto syntaxi zapamatujete.
 
 ### Integrace příspěvků ###
 

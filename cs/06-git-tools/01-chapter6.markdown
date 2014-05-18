@@ -59,7 +59,7 @@ Někteří uživatelé bývají zmateni, že mohou mít v repozitáři – shodo
 
 Pokud náhodou zapíšete objekt, který má stejnou hodnotu SHA-1 otisku jako předchozí objekt ve vašem repozitáři, Git už uvidí předchozí objekt v databázi Git a bude předpokládat, že už byl zapsán. Pokud se někdy v budoucnosti pokusíte znovu provést checkout tohoto objektu, vždy dostanete data prvního objektu.
 
-Měli bychom však také říci, jak moc je nepravděpodobné, že taková situace nastane. Otisk SHA-1 má 20 bytů, neboli 160 bitů. Počet objektů s náhodným otiskem, které bychom potřebovali k 50% pravděpodobnosti, že nastane jediná kolize, je asi 280 (vzorec k určení pravděpodobnosti kolize je `p = (n(n-1)/2) * (1/2^160))`. 2^80 je 1,2 * 10^24, neboli 1 milion miliard miliard. To je 1200násobek počtu všech zrnek písku na celé Zemi.
+Měli bychom však také říci, jak moc je nepravděpodobné, že taková situace nastane. Otisk SHA-1 má 20 bytů, neboli 160 bitů. Počet objektů s náhodným otiskem, které bychom potřebovali k 50% pravděpodobnosti, že nastane jediná kolize, je asi 2^80 (vzorec k určení pravděpodobnosti kolize je `p = (n(n-1)/2) * (1/2^160)`). 2^80 je 1,2 * 10^24, neboli 1 milion miliard miliard. To je 1200násobek počtu všech zrnek písku na celé Zemi.
 
 Abyste si udělali představu, jak je nepravděpodobné, že dojde ke kolizi hodnot SHA-1, připojujeme jeden malý příklad. Kdyby 6,5 miliardy lidí na zemi programovalo a každý by každou sekundu vytvořil kód odpovídající celé historii linuxového jádra (1 milion objektů Git) a odesílal ho do jednoho obřího repozitáře Git, trvalo by 5 let, než by repozitář obsahoval dost objektů na to, aby existovala 50% pravděpodobnost, že dojde ke kolizi jediného objektu SHA-1. To už je pravděpodobnější, že všichni členové vašeho programovacího týmu budou během jedné noci v navzájem nesouvisejících incidentech napadeni a zabiti smečkou vlků.
 
@@ -94,7 +94,7 @@ Pokaždé, když je z nějakého důvodu aktualizován vrchol větve, Git tuto i
 
 	$ git show HEAD@{5}
 
-Tuto syntax můžete použít také k zobrazení pozice, na níž se větev nacházela před určitou dobou. Chcete-li například zjistit, kde byla vaše větev `master` včera (yesterday), můžete zadat příkaz:
+Tuto syntaxi můžete použít také k zobrazení pozice, na níž se větev nacházela před určitou dobou. Chcete-li například zjistit, kde byla vaše větev `master` včera (yesterday), můžete zadat příkaz:
 
 	$ git show master@{yesterday}
 
@@ -146,7 +146,7 @@ Zobrazit předchozí revizi pak můžete pomocí `HEAD^`, což doslova znamená 
 
 	    Merge commit 'phedders/rdocs'
 
-Za znakem `^` můžete zadat také číslo, např. `d921970^2` označuje „druhého rodiče revize d921970“. Tato syntax má význam pouze u revizí vzniklých sloučením, které mají více než jednoho rodiče. První rodič je větev, na níž jste se během začlenění nacházeli, druhým rodičem je větev, kterou jste začleňovali:
+Za znakem `^` můžete zadat také číslo, např. `d921970^2` označuje „druhého rodiče revize d921970“. Tato syntaxe má význam pouze u revizí vzniklých sloučením, které mají více než jednoho rodiče. První rodič je větev, na níž jste se během začlenění nacházeli, druhým rodičem je větev, kterou jste začleňovali:
 
 	$ git show d921970^
 	commit 1c002dd4b536e7479fe34593e72e6c6c1819e53b
@@ -188,7 +188,7 @@ Nyní, když umíte určit jednotlivé revize, podíváme se, jak lze určovat c
 
 #### Dvě tečky ####
 
-Nejčastěji se při označení intervalu používá dvojtečková syntax. Pomocí ní systému Git v podstatě říkáte, aby uvažoval celý interval revizí, které jsou dostupné z jedné revize, ale nejsou dostupné z jiné. Předpokládejme tedy, že máte historii revizí jako na obrázku 6-1.
+Nejčastěji se při označení intervalu používá dvojtečková syntaxe. Pomocí ní systému Git v podstatě říkáte, aby uvažoval celý interval revizí, které jsou dostupné z jedné revize, ale nejsou dostupné z jiné. Předpokládejme tedy, že máte historii revizí jako na obrázku 6-1.
 
 Insert 18333fig0601.png
 Obrázek 6-1. Příklad historie revizí pro výběr intervalu
@@ -205,7 +205,7 @@ A samozřejmě si můžete nechat zobrazit i pravý opak, všechny revize ve vě
 	F
 	E
 
-Tento log využijete, pokud chcete udržovat větev `experiment` stále aktuální a zjistit, co hodláte začlenit. Tato syntax se velmi často používá také ke zjištění, co hodláte odeslat do vzdálené větve:
+Tento log využijete, pokud chcete udržovat větev `experiment` stále aktuální a zjistit, co hodláte začlenit. Tato syntaxe se velmi často používá také ke zjištění, co hodláte odeslat do vzdálené větve:
 
 	$ git log origin/master..HEAD
 
@@ -214,13 +214,13 @@ Jednu stranu intervalu můžete zcela vynechat, Git na její místo automaticky 
 
 #### Několik bodů ####
 
-Dvojtečková syntax je užitečná jako zkrácený výraz. Možná ale budete chtít k označení revize určit více než dvě větve, např. až budete chtít zjistit, které revize jsou obsaženy ve všech ostatních větvích a zároveň nejsou obsaženy ve větvi, na níž se právě nacházíte. V systému Git to můžete provést buď zadáním znaku `^` nebo parametru `--not` před referencí, jejíž dostupné revize si nepřejete zobrazit. Tyto tři příkazy jsou tedy ekvivalentní:
+Dvojtečková syntaxe je užitečná jako zkrácený výraz. Možná ale budete chtít k označení revize určit více než dvě větve, např. až budete chtít zjistit, které revize jsou obsaženy ve všech ostatních větvích a zároveň nejsou obsaženy ve větvi, na níž se právě nacházíte. V systému Git to můžete provést buď zadáním znaku `^` nebo parametru `--not` před referencí, jejíž dostupné revize si nepřejete zobrazit. Tyto tři příkazy jsou tedy ekvivalentní:
 
 	$ git log refA..refB
 	$ git log ^refA refB
 	$ git log refB --not refA
 
-Tato syntax je užitečná zejména proto, že pomocí ní můžete zadat více než dvě reference, což není pomocí dvojtečkové syntaxe možné. Pokud chcete zobrazit například všechny revize, které jsou dostupné ve větvi `refA` nebo `refB`, ale nikoli ve větvi `refC`, zadejte jeden z následujících příkazů:
+Tato syntaxe je užitečná zejména proto, že pomocí ní můžete zadat více než dvě reference, což není pomocí dvojtečkové syntaxe možné. Pokud chcete zobrazit například všechny revize, které jsou dostupné ve větvi `refA` nebo `refB`, ale nikoli ve větvi `refC`, zadejte jeden z následujících příkazů:
 
 	$ git log refA refB ^refC
 	$ git log refA refB --not refC
@@ -229,7 +229,7 @@ Tím máte v rukou velmi efektivní systém vyhledávání revizí, který vám 
 
 #### Tři tečky ####
 
-Poslední významnou syntaxí k určení intervalu je trojtečková syntax, která vybere všechny revize dostupné ve dvou referencích, ale ne v obou zároveň. Podívejme se ještě jednou na příklad historie revizí na obrázku 6-1.
+Poslední významnou syntaxí k určení intervalu je trojtečková syntaxe, která vybere všechny revize dostupné ve dvou referencích, ale ne v obou zároveň. Podívejme se ještě jednou na příklad historie revizí na obrázku 6-1.
 Chcete-li zjistit, co je ve větvi `master` nebo `experiment`, ale nechcete vidět jejich společné reference, zadejte příkaz:
 
 	$ git log master...experiment
@@ -1014,7 +1014,7 @@ Dobrým způsobem, jak to v systému Git provést, je učinit ze všech podslož
 
 ### Problémy se submoduly ###
 
-Používání submodulů se však vždy neobejde bez zádrhelů. Zaprvé je třeba, abyste si v adresáři submodulu počínali opatrně. Spustíte-li příkaz `git submodule update`, provedete tím checkout konkrétní verze projektu, avšak nikoli v rámci větve. Říká se tomu oddělená hlava (detached head) – znamená to, že soubor HEAD ukazuje přímo na revizi, ne na symbolickou referenci. Problém je, že většinou nechcete pracovat v prostředí oddělené hlavy, protože tu velmi snadno přijdete o provedené změny. Jestliže nejprve spustíte příkaz `submodule update`, zapíšete v adresáři tohoto submodulu revizi, aniž byste na tuto práci vytvořili novou větev, a poté ze superprojektu znovu spustíte příkaz `git submodule update`, aniž byste mezitím zapisovali revize, Git vaše revize bez varování přepíše. Technicky vzato práci neztratíte, ale nebude žádná větev, která by na ni ukazovala, a tak bude poněkud obtížené získat práci zpět.
+Používání submodulů se však vždy neobejde bez zádrhelů. Zaprvé je třeba, abyste si v adresáři submodulu počínali opatrně. Spustíte-li příkaz `git submodule update`, provedete tím checkout konkrétní verze projektu, avšak nikoli v rámci větve. Říká se tomu oddělená hlava (detached head) – znamená to, že soubor HEAD ukazuje přímo na revizi, ne na symbolickou referenci. Problém je, že většinou nechcete pracovat v prostředí oddělené hlavy, protože byste tak velmi snadno mohli přijít o provedené změny. Jestliže nejprve spustíte příkaz `submodule update`, zapíšete v adresáři tohoto submodulu revizi, aniž byste na tuto práci vytvořili novou větev, a poté ze superprojektu znovu spustíte příkaz `git submodule update`, aniž byste mezitím zapisovali revize, Git vaše revize bez varování přepíše. Technicky vzato práci neztratíte, ale nebude žádná větev, která by na ni ukazovala, a tak bude poněkud obtížené získat práci zpět.
 
 Aby ve vašem projektu k tomuto problému nedošlo, vytvořte během práce v adresáři submodulu příkazem `git checkout -b work` nebo podobným novou větev. Až budete podruhé provádět příkaz submodule update, i tentokrát sice vrátí vaši práci, ale přinejmenším budete mít ukazatel, k němuž se budete moci vrátit.
 

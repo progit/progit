@@ -70,7 +70,7 @@ L'aspetto negativo di SSH è che non puoi dare accesso anonimo al tuo repository
 
 ### Il Protocollo Git ###
 
-Poi c'è il protocollo Git. Questo è un demone speciale che è incluso nel pacchetto Git; è in ascolto su una porta dedicata (9418) e fornisce un servizio simile al protocollo SSH, ma assolutamente senza autenticazione. Per permettere ad un repository di essere servito tramite il protocollo Git, devi creare un file `git-export-daemon-ok` — il demone non serve il repository senza l'inserimento di questo file — altrimenti non ci sarebbe sicurezza. O il repository Git è disponibile per chiunque voglia copiarlo o altrimenti niente. Questo significa che generalmente non si invia tramite questo protocollo. Puoi abilitare l'accesso all'invio; ma data la mancanza di autenticazione, se abiliti l'accesso di scrittura, chiunque trovi su internet l'URL al progetto può inviare dati. Basti dire che questo è raro.
+Poi c'è il protocollo Git. Questo è un demone speciale che è incluso nel pacchetto Git; è in ascolto su una porta dedicata (9418) e fornisce un servizio simile al protocollo SSH, ma assolutamente senza autenticazione. Per permettere ad un repository di essere servito tramite il protocollo Git, devi creare un file `git-daemon-export-ok` — il demone non serve il repository senza l'inserimento di questo file — altrimenti non ci sarebbe sicurezza. O il repository Git è disponibile per chiunque voglia copiarlo o altrimenti niente. Questo significa che generalmente non si invia tramite questo protocollo. Puoi abilitare l'accesso all'invio; ma data la mancanza di autenticazione, se abiliti l'accesso di scrittura, chiunque trovi su internet l'URL al progetto può inviare dati. Basti dire che questo è raro.
 
 #### I Pro ####
 
@@ -368,7 +368,7 @@ Gitosis richiede alcuni strumenti Python, così prima devi installare il pacchet
 
 Poi, puoi clonare ed installare Gitosis dal progetto principale:
 
-	$ git clone git://eagain.net/gitosis.git
+	$ git clone https://github.com/tv42/gitosis.git
 	$ cd gitosis
 	$ sudo python setup.py install
 
@@ -716,7 +716,7 @@ Puoi controllare quali progetti GitWeb lascia sfogliare agli utenti via browser 
 
 Ora, se fai il commit ed il push del progetto, GitWeb automaticamente inizierà a mostrare il progetto iphone.
 
-## Hosted Git ##
+## Hosting Git ##
 
 Se non vuoi svolgere tutto il lavoro di configurazione di un tuo server Git, hai varie opzioni per ospitare i tuoi progetti Git su un sito esterno e dedicato. Fare questo offre un numero di vantaggi: un sito di hosting è generalmente veloce da configurare ed è facile avviare un progetto su questo, e non sono necessari spese di mantenimento o controllo del server. Se imposti e avvi il tuo server interno, puoi comunque voler utilizzare un hosting pubblico per i progetti a codice aperto — è generalmente più facile per una comunità open source trovarti ed aiutarti.
 

@@ -32,7 +32,7 @@ Una rama Git es simplemente un apuntador móvil apuntando a una de esas confirma
 Insert 18333fig0303.png 
 Figura 3-3. Apuntadores en el registro de confirmaciones de una rama.
 
-¿Qué sucede cuando creas una nueva rama? Bueno....., simplemente se crea un nuevo apuntador para que lo puedas mover libremente. Por ejemplo, si quieres crear una nueva rama denominada "testing". Usarás el comando `git branch`:
+¿Qué sucede cuando creas una nueva rama? Bueno..., simplemente se crea un nuevo apuntador para que lo puedas mover libremente. Por ejemplo, si quieres crear una nueva rama denominada "testing". Usarás el comando `git branch`:
 
 	$ git branch testing
 
@@ -41,7 +41,7 @@ Esto creará un nuevo apuntador apuntando a la misma confirmación donde estés 
 Insert 18333fig0304.png 
 Figura 3-4. Apuntadores de varias ramas en el registro de confirmaciones de cambio.
 
-Y, ¿cómo sabe Git en qué rama estás en este momento? Pues...., mediante un apuntador especial denominado HEAD. Aunque es preciso comentar que este HEAD es totalmente distinto al concepto de HEAD en otros sistemas de control de cambios como Subversion o CVS. En Git, es simplemente el apuntador a la rama local en la que tú estés en ese momento. En este caso, en la rama `master`. Puesto que el comando git branch solamente crea una nueva rama, y no salta a dicha rama.
+Y, ¿cómo sabe Git en qué rama estás en este momento? Pues..., mediante un apuntador especial denominado HEAD. Aunque es preciso comentar que este HEAD es totalmente distinto al concepto de HEAD en otros sistemas de control de cambios como Subversion o CVS. En Git, es simplemente el apuntador a la rama local en la que tú estés en ese momento. En este caso, en la rama `master`. Puesto que el comando git branch solamente crea una nueva rama, y no salta a dicha rama.
 
 Insert 18333fig0305.png 
 Figura 3-5. Apuntador HEAD a la rama donde estás actualmente.
@@ -55,7 +55,7 @@ Esto mueve el apuntador HEAD a la rama `testing` (ver Figura 3-6).
 Insert 18333fig0306.png
 Figura 3-6. Apuntador HEAD apuntando a otra rama cuando saltamos de rama.
 
-¿Cuál es el significado de todo esto?. Bueno.... lo veremos tras realizar otra confirmación de cambios:
+¿Cuál es el significado de todo esto?. Bueno... lo veremos tras realizar otra confirmación de cambios:
 
 	$ vim test.rb
 	$ git commit -a -m 'made a change'
@@ -470,7 +470,7 @@ Imagina que ya has terminado con una rama remota. Es decir, tanto tu como tus co
 	To git@github.com:schacon/simplegit.git
 	 - [deleted]         serverfix
 
-Y....Boom!. La rama en el servidor ha desaparecido. Puedes grabarte a fuego esta página, porque necesitarás ese comando y, lo más probable es que hayas olvidado su sintaxis. Una manera de recordar este comando es dándonos cuenta de que proviene de la sintaxis `git push [nombreremoto] [ramalocal]:[ramaremota]`. Si omites la parte `[ramalocal]`, lo que estás diciendo es: "no cojas nada de mi lado y haz con ello [ramaremota]".
+Y... ¡Boom!. La rama en el servidor ha desaparecido. Puedes grabarte a fuego esta página, porque necesitarás ese comando y, lo más probable es que hayas olvidado su sintaxis. Una manera de recordar este comando es dándonos cuenta de que proviene de la sintaxis `git push [nombreremoto] [ramalocal]:[ramaremota]`. Si omites la parte `[ramalocal]`, lo que estás diciendo es: "no cojas nada de mi lado y haz con ello [ramaremota]".
 
 ## Reorganizando el trabajo realizado ##
 
@@ -561,7 +561,7 @@ Figura 3-35. Registro final de confirmaciones de cambio.
 
 ### Los peligros de la reorganización ###
 
-Ahh...., pero la dicha de la reorganización no la alcanzamos sin sus contrapartidas: 
+Ahh..., pero la dicha de la reorganización no la alcanzamos sin sus contrapartidas: 
 
 **Nunca reorganices confirmaciones de cambio (commits) que hayas enviado (push) a un repositorio público.**
 

@@ -33,7 +33,7 @@ On MacOS you can do like this::
 
 ## Notes on pandoc
 
-Please use Pandoc version 1.11.1 or later as older versions(confirmed on 1.9.1.1) has a [bug](https://github.com/jgm/pandoc/issues/964) which hides a word after tilde `~`.  You can do `pandoc -v` to see which version you have installed.
+Please use Pandoc version 1.11.1 or later as older versions (confirmed on 1.9.1.1) has a [bug](https://github.com/jgm/pandoc/issues/964) which hides a word after tilde `~`.  You can do `pandoc -v` to see which version you have installed.
 
 # Errata
 
@@ -46,13 +46,13 @@ correction, please [open an issue](https://github.com/progit/progit/issues/new) 
 If you wish to translate the book, your work will be put up on the 
 git-scm.com site.  Please put your translation into the appropriate
 subdirectory of this project, using the 
-[ISO 639](http://en.wikipedia.org/wiki/List_of_ISO_639-1_codes) 
+[ISO 639](http://en.wikipedia.org/wiki/List_of_ISO_639-1_codes) code 
 and send a pull request.
 
 # Sending a pull request
 
 * Be careful to use UTF-8 encoding in your files.
-* Do not mix changes to the original english with translations in a single pull request.
-* If your pull request changes a translation, prefix your pull request and commits'messages with the ISO 639 code, e.g. `[de] Update chapter 2`. Please only push files where there is already some translation done.
+* Do not mix changes to the original English with translations in a single pull request.
+* If your pull request changes a translation, prefix your pull request and commits' messages with the ISO 639 code, e.g. `[de] Update chapter 2`. Please only push files where there is already some translation done.
 * Make sure the translation changes can be automatically merged. The maintainers can not make the merge manually if there are some conflicts.
-* Make as sure as possible that the changes work correctly for publishing to pdf, ebooks and the git-scm.com website
+* Make as sure as possible that the changes work correctly for publishing to PDF, ebooks and the git-scm.com website.

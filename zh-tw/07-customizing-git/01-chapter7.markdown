@@ -609,14 +609,12 @@ update 腳本和 `pre-receive` 腳本十分類似，除了它會為推送者更�
 
 	#!/usr/bin/env ruby
 
-	$refname = ARGV[0]
-	$oldrev  = ARGV[1]
-	$newrev  = ARGV[2]
-	$user    = ENV['USER']
+	refname = ARGV[0]
+	oldrev  = ARGV[1]
+	newrev  = ARGV[2]
+	user    = ENV['USER']
 
-	puts "Enforcing Policies... \n(#{$refname}) (#{$oldrev[0,6]}) (#{$newrev[0,6]})"
-
-沒錯，我在用全域變數。別鄙視我——這樣比較利於演示過程。 
+	puts "Enforcing Policies... \n(#{refname}) (#{oldrev[0,6]}) (#{newrev[0,6]})"
 
 #### 強制特定的提交資訊格式 ####
 

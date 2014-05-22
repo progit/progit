@@ -82,13 +82,13 @@ Git 可以為你的 SHA-1 值生成出簡短且唯一的縮寫。如果你傳遞
 你可以使用 `git reflog` 來查看引用日誌：
 
 	$ git reflog
-	734713b... HEAD@{0}: commit: fixed refs handling, added gc auto, updated
-	d921970... HEAD@{1}: merge phedders/rdocs: Merge made by recursive.
-	1c002dd... HEAD@{2}: commit: added some blame and merge stuff
-	1c36188... HEAD@{3}: rebase -i (squash): updating HEAD
-	95df984... HEAD@{4}: commit: # This is a combination of two commits.
-	1c36188... HEAD@{5}: rebase -i (squash): updating HEAD
-	7e05da5... HEAD@{6}: rebase -i (pick): updating HEAD
+	734713b HEAD@{0}: commit: fixed refs handling, added gc auto, updated
+	d921970 HEAD@{1}: merge phedders/rdocs: Merge made by recursive.
+	1c002dd HEAD@{2}: commit: added some blame and merge stuff
+	1c36188 HEAD@{3}: rebase -i (squash): updating HEAD
+	95df984 HEAD@{4}: commit: # This is a combination of two commits.
+	1c36188 HEAD@{5}: rebase -i (squash): updating HEAD
+	7e05da5 HEAD@{6}: rebase -i (pick): updating HEAD
 
 每次你的分支頂端因為某些原因被修改時，Git 就會為你將資訊保存在這個臨時歷史記錄裡面。你也可以使用這份資料來指明更早的分支。如果你想查看倉庫中 HEAD 在五次前的值，你可以使用引用日誌的輸出中的 @{n} 引用： 
 
@@ -445,8 +445,8 @@ simplegit.rb 的狀態非常有意思。它顯示有幾行被暫存了，有幾�
 
 	$ git stash list
 	stash@{0}: WIP on master: 049d078 added the index file
-	stash@{1}: WIP on master: c264051... Revert "added file_size"
-	stash@{2}: WIP on master: 21d80a5... added number to log
+	stash@{1}: WIP on master: c264051 Revert "added file_size"
+	stash@{2}: WIP on master: 21d80a5 added number to log
 
 在這個案例中，之前已經進行了兩次儲藏，所以你可以取得三個不同的儲藏。你可以重新應用你剛剛的儲藏，所採用的命令就是原本 stash 命令輸出的輔助訊息裡提示的：`git stash apply`。如果你想應用較舊的儲藏，你可以通過名字指定它，像這樣：`git stash apply stash@{2}`。如果你不指明，Git 預設使用最近的儲藏並嘗試應用它： 
 
@@ -480,8 +480,8 @@ apply 選項只嘗試應用儲藏的工作——儲藏的內容仍然在堆疊�
 
 	$ git stash list
 	stash@{0}: WIP on master: 049d078 added the index file
-	stash@{1}: WIP on master: c264051... Revert "added file_size"
-	stash@{2}: WIP on master: 21d80a5... added number to log
+	stash@{1}: WIP on master: c264051 Revert "added file_size"
+	stash@{2}: WIP on master: 21d80a5 added number to log
 	$ git stash drop stash@{0}
 	Dropped stash@{0} (364e91f3f268f0900bc3ee613f9f733e82aaed43)
 
@@ -565,12 +565,19 @@ apply 選項只嘗試應用儲藏的工作——儲藏的內容仍然在堆疊�
 	#
 	# Commands:
 	#  p, pick = use commit
+	#  r, reword = use commit, but edit the commit message
 	#  e, edit = use commit, but stop for amending
 	#  s, squash = use commit, but meld into previous commit
+	#  f, fixup = like "squash", but discard this commit's log message
+	#  x, exec = run command (the rest of the line) using shell
+	#
+	# These lines can be re-ordered; they are executed from top to bottom.
 	#
 	# If you remove a line here THAT COMMIT WILL BE LOST.
+	#
 	# However, if you remove everything, the rebase will be aborted.
 	#
+	# Note that empty commits are commented out
 
 很重要的一點是你得注意這些提交的順序與你通常通過 `log` 命令看到的是相反的。如果你執行 `log`，你會看到下面這樣的結果： 
 
@@ -631,12 +638,19 @@ apply 選項只嘗試應用儲藏的工作——儲藏的內容仍然在堆疊�
 	#
 	# Commands:
 	#  p, pick = use commit
+	#  r, reword = use commit, but edit the commit message
 	#  e, edit = use commit, but stop for amending
 	#  s, squash = use commit, but meld into previous commit
+	#  f, fixup = like "squash", but discard this commit's log message
+	#  x, exec = run command (the rest of the line) using shell
+	#
+	# These lines can be re-ordered; they are executed from top to bottom.
 	#
 	# If you remove a line here THAT COMMIT WILL BE LOST.
+	#
 	# However, if you remove everything, the rebase will be aborted.
 	#
+	# Note that empty commits are commented out
 
 如果不用 ”pick” 或者 ”edit”，而是指定 ”squash”，Git 會同時應用那個變更和它之前的變更並將提交說明歸併。因此，如果你想將這三個提交合併為單一提交，你可以將腳本修改成這樣： 
 

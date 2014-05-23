@@ -325,7 +325,7 @@ A `**/` pattern is available in Git since version 1.8.2.
 另一種方式則是在commit命令後方以`-m`參數指定提交訊息，如下：
 
 	$ git commit -m "Story 182: Fix benchmarks for speed"
-	[master 463dc4f] Fix benchmarks for speed
+	[master 463dc4f] Story 182: Fix benchmarks for speed
 	 2 files changed, 3 insertions(+)
 	 create mode 100644 README
 
@@ -638,7 +638,9 @@ The lines must be formatted as follows
 
 此命令支援多種格式。 可指定特定日期（如：“2008-01-15”）或相對的日期，如：“2 years 1 day 3 minutes ago”。
 
-使用者也可以過濾出符合某些搜尋條件的更新。 `--author` 選項允許使用者過濾出特定作者，而 `--grep` 選項允許以關鍵字搜尋提交的訊息。（注意：若希望同時符合作者名字及字串比對，需要再加上 `--all-match`；否則預設為列出符合任一條件的更新）
+使用者也可以過濾出符合某些搜尋條件的更新。 `--author` 選項允許使用者過濾出特定作者，而 `--grep` 選項允許以關鍵字搜尋提交的訊息。（注意：若同時使用作者名字及字串比對，該命令會列出同時符合二個條件的更新。）
+
+若希望比對多個字串，需要再加上 `--all-match`；否則只會列出符合任一條件的更新。
 
 最後一個有用的選項是過濾路徑。 若指定目錄或檔案名稱，可僅印出更動到這些檔案的更新。 這選項永遠放在最後，而且一般來說會在前方加上 -- 以資區別。
 
@@ -797,7 +799,7 @@ Insert 18333fig0202.png
 	koke      git://github.com/koke/grit.git
 	origin    git@github.com:mojombo/grit.git
 
-這意謂著我們可很容易從這些伙伴的儲存庫取得最新的更新。 要留意的是只有 origin 遠端的 URL 是 SSH。 因此它是唯一我們能上傳的遠端的儲存庫。（關於這部份將在第四章介紹） 
+這意謂著我可以很容易從這些伙伴的儲存庫取得最新的更新。 要留意的是只有 origin 遠端的 URL 是 SSH。 因此它是唯一我能上傳的遠端的儲存庫。（關於這部份將在第四章介紹） 
 
 ### 新增遠端儲存庫 ###
 

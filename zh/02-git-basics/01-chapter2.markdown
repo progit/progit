@@ -323,7 +323,7 @@ A `**/` pattern is available in Git since version 1.8.2.
 另外也可以用 -m 参数后跟提交说明的方式，在一行命令中提交更新：
 
 	$ git commit -m "Story 182: Fix benchmarks for speed"
-	[master 463dc4f] Fix benchmarks for speed
+	[master 463dc4f] Story 182: Fix benchmarks for speed
 	 2 files changed, 3 insertions(+)
 	 create mode 100644 README
 

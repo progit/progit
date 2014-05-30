@@ -26,7 +26,7 @@ HTTP 프로토콜을 제외한 나머지들은 모두 Git이 서버에 설치돼
 
 	$ git clone file:///opt/git/project.git
 
-Git은 파일 경로를 직접 쓸 때와 `file://`로 시작하는 URL을 사용할 때에 약간 다르게 처리한다. 디렉토리 경로를 그대로 사용하면 Git은 필요한 파일을 직접 복사하거나 하드 링크를 사용한다. 하지만 `file://`로 시작하면 Git은 네트워크를 통해서 데이터를 전송할 때처럼 프로세스를 별도로 생성하여 처리한다. 이 프로세스로 데이터를 전송하는 것은 효율이 좀 떨어지지만 그래도 `file://`를 사용하는 이유가 있다. 보통은 다른 버전 관리 시스템들에서 임포트한 후에 이렇게 사용하는데, 외부 레퍼런스나 개체들이 포함된 저장소의 복사본을 깨끗한 상태로 남겨두고자 할때 사용한다(*9장*에서 자세히 다룬다). 여기서는 속도가 빠른 디렉토리 경로를 사용한다.
+Git은 파일 경로를 직접 쓸 때와 `file://`로 시작하는 URL을 사용할 때에 약간 다르게 처리한다. 디렉토리 경로를 사용해서 같은 파일시스템에 있는 저장소를 Clone할 때 Git은 하드링크를 만든다. 같은 파일시스템에 있는게 아니면 그냥 복사한다. 하지만 `file://`로 시작하면 Git은 네트워크를 통해서 데이터를 전송할 때처럼 프로세스를 별도로 생성하여 처리한다. 이 프로세스로 데이터를 전송하는 것은 효율이 좀 떨어지지만 그래도 `file://`를 사용하는 이유가 있다. 보통은 다른 버전 관리 시스템들에서 임포트한 후에 이렇게 사용하는데, 외부 레퍼런스나 개체들이 포함된 저장소의 복사본을 깨끗한 상태로 남겨두고자 할때 사용한다(*9장*에서 자세히 다룬다). 여기서는 속도가 빠른 디렉토리 경로를 사용한다.
 
 이미 있는 Git 프로젝트에서 아래와 같이 로컬 저장소를 추가한다:
 
@@ -70,7 +70,7 @@ SSH의 단점은 익명으로 접근할 수 없다는 것이다. 심지어 읽�
 
 ### Git 프로토콜 ###
 
-Git 프로토콜은 Git에 포함된 데몬을 사용하는 방법이다. 포트는 9418이며 SSH 프로토콜과 비슷한 서비스를 제공하지만, 인증 메커니즘이 없다. 저장소에 git-daemon-export-ok 파일을 만들면 Git 프로토콜로 서비스할 수 있지만, 보안은 없다. 이 파일이 없는 저장소는 Git 프로토콜로 서비스할 수 없다. 이 저장소는 누구나 Clone할 수 있거나 아무도 Clone할 수 없거나 둘 중의 하나만 선택할 수 있다. 그래서 이 프로토콜로는 Push 가능하게 설정할 수 없다. 엄밀히 말해서 Push할 수 있도록 설정할 수 있지만, 인증하도록 할 수 없다. 그러니까 당신이 Push할 수 있으면 이 프로젝트의 URL을 아는 사람은 누구나 Push할 수 있다. 그냥 이런 것도 있지만 잘 안 쓴다고 알고 있으면 된다.
+Git 프로토콜은 Git에 포함된 데몬을 사용하는 방법이다. 포트는 9418이며 SSH 프로토콜과 비슷한 서비스를 제공하지만, 인증 메커니즘이 없다. 저장소에 git-export-daemon-ok 파일을 만들면 Git 프로토콜로 서비스할 수 있지만, 보안은 없다. 이 파일이 없는 저장소는 Git 프로토콜로 서비스할 수 없다. 이 저장소는 누구나 Clone할 수 있거나 아무도 Clone할 수 없거나 둘 중의 하나만 선택할 수 있다. 그래서 이 프로토콜로는 Push 가능하게 설정할 수 없다. 엄밀히 말해서 Push할 수 있도록 설정할 수 있지만, 인증하도록 할 수 없다. 그러니까 당신이 Push할 수 있으면 이 프로젝트의 URL을 아는 사람은 누구나 Push할 수 있다. 그냥 이런 것도 있지만 잘 안 쓴다고 알고 있으면 된다.
 
 #### 장점 ####
 
@@ -115,7 +115,13 @@ HTTP는 매우 보편적인 프로토콜이라서 거의 모든 회사가 트래
 어떤 서버를 설치하더라도 일단 저장소를 Bare 저장소로 만들어야 한다. 다시 말하지만, Bare 저장소는 워킹 디렉토리가 없는 저장소이다. `--bare` 옵션을 주고 Clone하면 새로운 Bare 저장소가 만들어진다. Bare 저장소 디렉토리는 관례에 따라. git 확장자로 끝난다:
 
 	$ git clone --bare my_project my_project.git
-	Initialized empty Git repository in /opt/projects/my_project.git/
+	Cloning into bare repository 'my_project.git'...
+	done.
+
+<!-- This next part doesn't fit the actual output as shown, the confusing part
+     of the output is no longer shown in the command output. I would like to asks
+     the original author to modify the text.
+-->
 
 이 명령이 출력하는 메시지가 조금 이상해보일 수도 있다.  사실 `git clone` 명령은 `git init`을 하고 나서 `git fetch`를 실행한다. 그런데 빈 디렉토리밖에 만들지 않는 `git init` 명령의 메시지만 보여준다. 개체 전송에 관련된 메시지는 아무것도 보여주지 않는다. 전송 메시지를 보여주지 않지만 `my_project.git` 디렉토리를 보면 Git 데이터가 들어 있다.
 
@@ -282,6 +288,13 @@ something, something.pub이라는 형식으로 된 파일을 볼 수 있다. som
 
 	$ cat .git/hooks/post-update
 	#!/bin/sh
+	#
+	# An example hook script to prepare a packed repository for use over
+	# dumb transports.
+	#
+	# To enable this hook, rename this file to "post-update".
+	#
+	
 	exec git-update-server-info
 
 SSH를 통해서 서버에 Push하면 Git은 이 명령어를 실행하여 HTTP를 통해서도 Fetch할 수 있도록 파일를 갱신한다.
@@ -363,7 +376,7 @@ Gitosis는 Python이 필요하기 때문에 먼저 Python setuptools 패키지�
 
 그리고 Gitosis 프로젝트 사이트에서 Gitosis를 Clone한 후 설치한다:
 
-	$ git clone git://eagain.net/gitosis.git
+	$ git clone https://github.com/tv42/gitosis.git
 	$ cd gitosis
 	$ sudo python setup.py install
 
@@ -397,6 +410,7 @@ Gitosis가 키들을 관리할 것이기 때문에 현재 파일은 삭제하고
 
 	$ ssh git@gitserver
 	PTY allocation request failed on channel 0
+	ERROR:gitosis.serve.main:Need SSH_ORIGINAL_COMMAND in environment.
 	fatal: unrecognized command 'gitosis-serve schacon@quaternion'
 	  Connection to gitserver closed.
 
@@ -421,8 +435,8 @@ Gitosis가 키들을 관리할 것이기 때문에 현재 파일은 삭제하고
 	[gitosis]
 
 	[group gitosis-admin]
-	writable = gitosis-admin
 	members = scott
+	writable = gitosis-admin
 
 scott이라는 사용자는 Gitosis를 초기화할 때 사용한 공개키의 사용자이다. 이 사용자만 `gitosis-admin` 프로젝트에 접근할 수 있다.
 
@@ -435,14 +449,14 @@ scott이라는 사용자는 Gitosis를 초기화할 때 사용한 공개키의 �
 `gitosis-admin` 프로젝트를 수정하면 커밋하고 서버에 Push해야 수정한 설정이 적용된다:
 
 	$ git commit -am 'add iphone_project and mobile group'
-	[master]: created 8962da8: "changed name"
-	 1 files changed, 4 insertions(+), 0 deletions(-)
-	$ git push
+	[master 8962da8] add iphone_project and mobile group
+	 1 file changed, 4 insertions(+)
+	$ git push origin master
 	Counting objects: 5, done.
-	Compressing objects: 100% (2/2), done.
-	Writing objects: 100% (3/3), 272 bytes, done.
-	Total 3 (delta 1), reused 0 (delta 0)
-	To git@gitserver:/opt/git/gitosis-admin.git
+	Compressing objects: 100% (3/3), done.
+	Writing objects: 100% (3/3), 272 bytes | 0 bytes/s, done.
+	Total 3 (delta 0), reused 0 (delta 0)
+	To git@gitserver:gitosis-admin.git
 	   fb27aec..8962da8  master -> master
 
 로컬에 있는 `iphone_project` 프로젝트에 이 서버를 리모트 저장소로 추가하고 Push하면 서버에 새로운 저장소가 추가된다. 서버에 프로젝트를 새로 만들 때 이제는 수동으로 Bare 저장소를 만들 필요가 없다. 처음 Push할 때 Gitosis가 알아서 생성해 준다:
@@ -451,7 +465,7 @@ scott이라는 사용자는 Gitosis를 초기화할 때 사용한 공개키의 �
 	$ git push origin master
 	Initialized empty Git repository in /opt/git/iphone_project.git/
 	Counting objects: 3, done.
-	Writing objects: 100% (3/3), 230 bytes, done.
+> Writing objects: 100% (3/3), 230 bytes | 0 bytes/s, done.
 	Total 3 (delta 0), reused 0 (delta 0)
 	To git@gitserver:iphone_project.git
 	 * [new branch]      master -> master
@@ -467,20 +481,20 @@ Gitosis를 이용할 때에는 저장소 경로를 명시할 필요도 없고 �
 이 세 사람을 모두 mobile 팀으로 추가하여 `iphone_project` 에 대한 읽기, 쓰기를 허용한다:
 
 	[group mobile]
-	writable = iphone_project
 	members = scott john josie jessica
+	writable = iphone_project
 
 이 파일을 커밋하고 Push하고 나면 네 명 모두 `iphone_project`를 읽고 쓸 수 있게 된다.
 
 Gitosis의 접근제어 방법은 매우 단순하다. 만약 이 프로젝트에 대해서 John은 읽기만 가능하도록 설정하려면 아래와 같이 한다:
 
 	[group mobile]
-	writable = iphone_project
 	members = scott josie jessica
+	writable = iphone_project
 
 	[group mobile_ro]
-	readonly = iphone_project
 	members = john
+	readonly = iphone_project
 
 이제 John은 프로젝트를 Clone하거나 Fetch할 수는 있지만, 프로젝트에 Push할 수는 없다. 다양한 사용자와 프로젝트가 있어도 필요한 만큼 그룹을 만들어 사용하면 된다. 그리고 members 항목에 사용자 대신 그룹명을 사용할 수도 있다. 그룹명 앞에 `@`를 붙이면 그 그룹의 사용자를 그대로 상속한다:
 
@@ -488,12 +502,12 @@ Gitosis의 접근제어 방법은 매우 단순하다. 만약 이 프로젝트�
 	members = scott josie jessica
 
 	[group mobile]
-	writable  = iphone_project
 	members   = @mobile_committers
+	writable  = iphone_project
 
 	[group mobile_2]
-	writable  = another_iphone_project
 	members   = @mobile_committers john
+	writable  = another_iphone_project
 
 `[gitosis]` 절에 `loglevel=DEBUG`라고 적으면 문제가 생겼을 때 해결하는데 도움이 된다. 그리고 설정이 꼬여버려서 Push할 수 없게 되면 서버에 있는 파일을 수동으로 고쳐도 된다. Gitosis는 `/home/git/.gitosis.conf` 파일의 정보를 읽기 때문에 이 파일을 고친다. `gitosis.conf`는 Push할 때 그 위치로 복사되기 때문에 수동으로 고친 파일은 `gitosis-admin` 프로젝트가 다음에 Push될 때까지 유지된다.
 

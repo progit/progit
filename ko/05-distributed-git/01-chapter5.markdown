@@ -169,7 +169,7 @@ John씨는 Jessica씨가 저장소로 Push했던 커밋과 를 로컬 저장소�
 Merge가 잘 이루어지면 John씨의 브랜치는 그림 5-5와 같은 상태가 된다.
 
 Insert 18333fig0505.png
-그림 5-5. origin/master 브랜치를 Merge하고 난 후, John씨의 저장소
+그림 5-5. `origin/master` 브랜치를 Merge하고 난 후, John씨의 저장소
 
 John씨는 Merge하고 나서 자신이 작업한 코드가 제대로 동작하는지 확인한다. 그 후에 공유하는 저장소에 Push한다:
 
@@ -210,13 +210,13 @@ Insert 18333fig0508.png
 
 	    removed invalid default value
 
-Merge할 내용을 확인한 Jessica씨는 자신이 작업한 내용과 John씨가 Push한 작업(origin/master)을 master 브랜치에 Merge하고 Push한다. 모든 내용을 합치기 전에 우선 master 브랜치를 Checkout한다:
+Merge할 내용을 확인한 Jessica씨는 자신이 작업한 내용과 John씨가 Push한 작업(`origin/master`)을 `master` 브랜치에 Merge하고 Push한다. 모든 내용을 합치기 전에 우선 `master` 브랜치를 Checkout한다:
 
 	$ git checkout master
 	Switched to branch "master"
 	Your branch is behind 'origin/master' by 2 commits, and can be fast-forwarded.
 
-origin/master, issue54 모두 master보다 Fast-forward된 브랜치이기 때문에 둘 중에 무엇을 먼저 Merge하든 상관이 없다. 물론 어떤 것을 먼저 Merge하느냐에 따라 히스토리 순서는 달라지지만, 최종 결과는 똑같다. Jessica씨는 먼저 issue54 브랜치를 Merge한다:
+`origin/master`, `issue54` 모두 `master`보다 Fast-forward된 브랜치이기 때문에 둘 중에 무엇을 먼저 Merge하든 상관이 없다. 물론 어떤 것을 먼저 Merge하느냐에 따라 히스토리 순서는 달라지지만, 최종 결과는 똑같다. Jessica씨는 먼저 `issue54` 브랜치를 Merge한다:
 
 	$ git merge issue54
 	Updating fbff5bc..4af4298
@@ -225,7 +225,7 @@ origin/master, issue54 모두 master보다 Fast-forward된 브랜치이기 때�
 	 lib/simplegit.rb |    6 +++++-
 	 2 files changed, 6 insertions(+), 1 deletions(-)
 
-보다시피 Fast-forward Merge이기 때문에 별 문제 없이 실행된다. 다음은 John씨의 커밋(origin/master)을 Merge한다:
+보다시피 Fast-forward Merge이기 때문에 별 문제 없이 실행된다. 다음은 John씨의 커밋(`origin/master`)을 Merge한다:
 
 	$ git merge origin/master
 	Auto-merging lib/simplegit.rb
@@ -238,7 +238,7 @@ origin/master, issue54 모두 master보다 Fast-forward된 브랜치이기 때�
 Insert 18333fig0509.png
 그림 5-9. Merge 이후 Jessica씨의 저장소
 
-origin/master 브랜치가 Jessica씨의 master 브랜치로 나아갈(reachable) 수 있기 때문에 Push는 성공한다(물론 John씨가 그 사이에 Push를 하지 않았다면):
+`origin/master` 브랜치가 Jessica씨의 `master` 브랜치로 나아갈(reachable) 수 있기 때문에 Push는 성공한다(물론 John씨가 그 사이에 Push를 하지 않았다면):
 
 	$ git push origin master
 	...
@@ -250,7 +250,7 @@ origin/master 브랜치가 Jessica씨의 master 브랜치로 나아갈(reachable
 Insert 18333fig0510.png
 그림 5-10. Jessica씨가 서버로 Push하고 난 후의 저장소
 
-여기서 살펴본 예제가 가장 간단한 상황이다. 토픽 브랜치에서 수정하고 로컬의 master 브랜치에 Merge한다. 작업한 내용을 프로젝트의 공유 저장소에 Push하고자 할 때에는 우선 origin/master 브랜치를 Fetch하고 Merge한다. 그리고 나서 Merge한 결과를 다시 서버로 Push한다. 이런 Workflow가 일반적이고 그림 5-11로 나타낼 수 있다.
+여기서 살펴본 예제가 가장 간단한 상황이다. 토픽 브랜치에서 수정하고 로컬의 `master` 브랜치에 Merge한다. 작업한 내용을 프로젝트의 공유 저장소에 Push하고자 할 때에는 우선 `origin/master` 브랜치를 Fetch하고 Merge한다. 그리고 나서 Merge한 결과를 다시 서버로 Push한다. 이런 Workflow가 일반적이고 그림 5-11로 나타낼 수 있다.
 
 Insert 18333fig0511.png
 그림 5-11. 여러 개발자가 Git을 사용하는 Workflow
@@ -518,7 +518,7 @@ format-patch 명령을 실행하면 생성한 파일 이름을 보여준다. -M 
 
 다행히 Git에는 Patch 메일을 그대로 보낼 수 있는 도구가 있다. IMAP 프로토콜로 보낸다. 저자가 사용하는 방법으로 Gmail을 사용하여 Patch 메일을 전송하는 방법을 살펴보자. 추가로 Git 프로젝트의 `Documentation/SubmittingPatches` 문서의 마지막 부분을 살펴보면 다양한 메일 프로그램으로 메일을 보내는 방법을 설명한다.
 
-메일을 보내려면 먼저 ~/.gitconfig 파일에서 이메일 부분 설정한다. `git config` 명령으로 추가할 수도 있고 직접 파일을 열어서 추가할 수도 있다. 아무튼, 아래와 같이 설정을 한다:
+메일을 보내려면 먼저 `~/.gitconfig` 파일에서 이메일 부분 설정한다. `git config` 명령으로 추가할 수도 있고 직접 파일을 열어서 추가할 수도 있다. 아무튼, 아래와 같이 설정을 한다:
 
 	[imap]
 	  folder = "[Gmail]/Drafts"
@@ -528,7 +528,26 @@ format-patch 명령을 실행하면 생성한 파일 이름을 보여준다. -M 
 	  port = 993
 	  sslverify = false
 
-IMAP 서버가 SSL을 사용하지 않으면 마지막 두 줄은 필요 없고 host에서 `imaps://` 대신 `imap://`로 한다. 이렇게 설정하면 `git send-email` 명령으로 메일을 전송할 수 있다:
+IMAP 서버가 SSL을 사용하지 않으면 마지막 두 줄은 필요 없고 host에서 `imaps://` 대신 `imap://`로 한다. 이렇게 설정하면 `git imap-send` 명령으로 메일을 전송할 수 있다:
+
+	$ cat *.patch |git imap-send
+	Resolving imap.gmail.com... ok
+	Connecting to [74.125.142.109]:993... ok
+	Logging in...
+	sending 2 messages
+	100% (2/2) done
+
+이후 Gmail의 Draft 폴더로 가서 To 부분을 메일링리스트의 주소로 변경하고 CC 부분에 해당 메일을 참고해야 하는 관리자나 개발자의 메일 주소를 적고 실제로 전송한다.
+
+SMTP 서버로도 패치를 보낼 수 있다. `git config` 명령으로 설정을 하나씩 입력하거나 `~/.gitconfig` 파일의 sendmail 부분을 손으로 직접 수정한다:
+
+	[sendemail]
+	  smtpencryption = tls
+	  smtpserver = smtp.gmail.com
+	  smtpuser = user@gmail.com
+	  smtpserverport = 587
+
+이렇게 했으면 `git send-mail`로 패치를 보낸다:
 
 	$ git send-email *.patch
 	0001-added-limit-to-log-function.patch
@@ -554,8 +573,6 @@ Git으로 메일을 보내면 아래와 같은 로그 메시지가 출력된다:
 	References: <y>
 
 	Result: OK
-
-이후 Gmail의 Draft 폴더로 가서 To 부분을 메일링리스트의 주소로 변경하고 CC 부분에 해당 메일을 참고해야 하는 관리자나 개발자의 메일 주소를 적고 실제로 전송한다.
 
 ### 요약 ###
 

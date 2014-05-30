@@ -612,14 +612,12 @@ update 스크립트는 각 브랜치마다 한 번씩 실행된다는 것을 제
 
 	#!/usr/bin/env ruby
 
-	$refname = ARGV[0]
-	$oldrev  = ARGV[1]
-	$newrev  = ARGV[2]
-	$user    = ENV['USER']
+	refname = ARGV[0]
+	oldrev  = ARGV[1]
+	newrev  = ARGV[2]
+	user    = ENV['USER']
 
-	puts "Enforcing Policies... \n(#{$refname}) (#{$oldrev[0,6]}) (#{$newrev[0,6]})"
-
-쉽게 설명하기 위해 전역 변수를 사용했다. 비판하지 말기 바란다.
+	puts "Enforcing Policies... \n(#{refname}) (#{oldrev[0,6]}) (#{newrev[0,6]})"
 
 #### 커밋 메시지 규칙 만들기 ####
 

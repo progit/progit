@@ -104,7 +104,7 @@ Insert 18333fig0309.png
 
 이때 중요한 문제가 생겨서 그것을 해결하는 Hotfix를 먼저 만들어야 한다. 그러면 다음과 같이 할 수 있다:
 
-1. 새로운 이슈를 처리하기 이전의 운영(Production) 브랜치로 복원.
+1. 새로운 이슈를 처리하기 이전의 운영(Production) 브랜치로 이동.
 2. Hotfix 브랜치를 새로 하나 생성.
 3. 수정한 Hotfix 테스트를 마치고 운영 브랜치로 Merge.
 4. 다시 작업하던 브랜치로 옮겨가서 하던 일 진행.
@@ -154,8 +154,8 @@ hotfix라는 브랜치를 만들고 새로운 이슈를 해결할 때까지 사�
 	Switched to a new branch 'hotfix'
 	$ vim index.html
 	$ git commit -a -m 'fixed the broken email address'
-	[hotfix]: created 3a0874c: 'fixed the broken email address'
-	 1 files changed, 0 insertions(+), 1 deletions(-)
+	[hotfix 3a0874c] fixed the broken email address
+	 1 files changed, 1 deletion(-)
 
 Insert 18333fig0313.png
 그림 3-13. master 브랜치에서 갈라져 나온 hotfix 브랜치
@@ -165,11 +165,11 @@ Insert 18333fig0313.png
 	$ git checkout master
 	$ git merge hotfix
 	Updating f42c576..3a0874c
-	Fast forward
-	 README |    1 -
-	 1 files changed, 0 insertions(+), 1 deletions(-)
+	Fast-forward
+	 README | 1 -
+	 1 file changed, 1 deletion(-)
 
-Merge 메시지에서 'Fast forward'가 보이는가? Merge할 브랜치가 가리키고 있던 커밋이 현 브랜치가 가리키는 것보다 '앞으로 진행한' 커밋이기 때문에 master 브랜치 포인터는 최신 커밋으로 이동한다. 이런 Merge 방식을 'Fast forward'라고 부른다. 다시 말해서 A 브랜치에서 다른 B 브랜치를 Merge할 때 B가 A 이후의 커밋을 가리키고 있으면 그저 A가 B의 커밋을 가리키게 할 뿐이다.
+Merge 메시지에서 'Fast-forward'가 보이는가? Merge할 브랜치가 가리키고 있던 커밋이 현 브랜치가 가리키는 것보다 '앞으로 진행한' 커밋이기 때문에 master 브랜치 포인터는 최신 커밋으로 이동한다. 이런 Merge 방식을 'Fast forward'라고 부른다. 다시 말해서 A 브랜치에서 다른 B 브랜치를 Merge할 때 B가 A 이후의 커밋을 가리키고 있으면 그저 A가 B의 커밋을 가리키게 할 뿐이다.
 
 이제 hotfix는 master 브랜치에 포함됐고 운영환경에 적용할 수 있다(그림 3-14).
 
@@ -179,7 +179,7 @@ Insert 18333fig0314.png
 문제를 급히 해결하고 master 브랜치에 적용하고 나면 다시 일하던 브랜치로 돌아가야 한다. 하지만, 그전에 필요없는 hotfix 브랜치를 삭제한다. `git branch` 명령에 `-d` 옵션을 주고 브랜치를 삭제한다.
 
 	$ git branch -d hotfix
-	Deleted branch hotfix (3a0874c).
+	Deleted branch hotfix (was 3a0874c).
 
 자 이제 이슈 53번을 처리하던 환경으로 되돌아가서 하던 일을 계속 하자(그림 3-15):
 
@@ -187,8 +187,8 @@ Insert 18333fig0314.png
 	Switched to branch 'iss53'
 	$ vim index.html
 	$ git commit -a -m 'finished the new footer [issue 53]'
-	[iss53]: created ad82d7a: 'finished the new footer [issue 53]'
-	 1 files changed, 1 insertions(+), 0 deletions(-)
+	[iss53 ad82d7a] finished the new footer [issue 53]
+	 1 file changed, 1 insertion(+)
 
 Insert 18333fig0315.png
 그림 3-15. master와 별개로 진행하는 iss53 브랜치
@@ -201,9 +201,10 @@ Insert 18333fig0315.png
 
 	$ git checkout master
 	$ git merge iss53
-	Merge made by recursive.
-	 README |    1 +
-	 1 files changed, 1 insertions(+), 0 deletions(-)
+	Auto-merging README
+	Merge made by the 'recursive' strategy.
+	 README | 1 +
+	 1 file changed, 1 insertion(+)
 
 hotfix를 Merge했을 때와 메시지가 다르다. 현 브랜치가 가리키는 커밋이 Merge할 브랜치의 조상이 아니므로 Git은 'Fast-forward'로 Merge하지 않는다. 이러면 Git은 각 브랜치가 가리키는 커밋 두 개와 공통 조상 하나를 사용하여 3-way Merge를 한다. 그림 3-16에 이 Merge에서 사용하는 커밋 세 개가 표시된다.
 
@@ -232,25 +233,27 @@ iss53 브랜치를 master에 Merge하고 나면 더는 iss53 브랜치가 필요
 
 Git은 자동으로 Merge하지 못해서 새 커밋이 생기지 않는다. 변경사항의 충돌을 개발자가 해결하지 않는 한 Merge 과정을 진행할 수 없다. Merge 충돌이 일어났을 때 Git이 어떤 파일을 Merge할 수 없었는지 살펴보려면 `git status` 명령을 이용한다:
 
-	[master*]$ git status
-	index.html: needs merge
-	# On branch master
-	# Changes not staged for commit:
-	#   (use 'git add <file>...' to update what will be committed)
-	#   (use 'git checkout -- <file>...' to discard changes in working directory)
-	#
-	#	unmerged:   index.html
-	#
+	$ git status
+	On branch master
+	You have unmerged paths.
+	  (fix conflicts and run "git commit")
+	
+	Unmerged paths:
+	  (use "git add <file>..." to mark resolution)
+	
+	        both modified:      index.html
+	
+	no changes added to commit (use "git add" and/or "git commit -a")
 
 충돌이 일어난 파일은 unmerged 상태로 표시된다. Git은 충돌이 난 부분을 표준 형식에 따라 표시해준다. 그러면 개발자는 해당 부분을 수동으로 해결한다. 충돌 난 부분은 다음과 같이 표시된다.
 
-	<<<<<<< HEAD:index.html
+	<<<<<<< HEAD
 	<div id='footer'>contact : email.support@github.com</div>
 	=======
 	<div id='footer'>
 	  please contact us at support@github.com
 	</div>
-	>>>>>>> iss53:index.html
+	>>>>>>> iss53
 
 `=======` 위쪽의 내용은 HEAD 버전(merge 명령을 실행할 때 작업하던 master 브랜치)의 내용이고 아래쪽은 iss53 브랜치의 내용이다. 충돌을 해결하려면 위쪽이나 아래쪽 내용 중에서 고르거나 새로 작성하여 Merge한다. 다음은 아예 새로 작성하여 충돌을 해결하는 예제다:
 
@@ -261,27 +264,32 @@ Git은 자동으로 Merge하지 못해서 새 커밋이 생기지 않는다. 변
 충돌한 양쪽에서 조금씩 가져와서 새로 수정했다. 그리고 `<<<<<<<`, `=======`, `>>>>>>>` 가 포함된 행을 삭제하였다. 이렇게 충돌한 부분을 해결하고 `git add` 명령으로 다시 Git에 저장한다. 충돌을 쉽게 해결하기 위해 다른 Merge 도구도 이용할 수 있다. `git mergetool` 명령으로 실행한다:
 
 	$ git mergetool
-	merge tool candidates: kdiff3 tkdiff xxdiff meld gvimdiff opendiff emerge vimdiff
-	Merging the files: index.html
+
+	This message is displayed because 'merge.tool' is not configured.
+	See 'git mergetool --tool-help' or 'git help config' for more details.
+	'git mergetool' will now attempt to use one of the following tools:
+	opendiff kdiff3 tkdiff xxdiff meld tortoisemerge gvimdiff diffuse diffmerge ecmerge p4merge araxis bc3 codecompare vimdiff emerge
+	Merging:
+	index.html
 
 	Normal merge conflict for 'index.html':
-	  {local}: modified
-	  {remote}: modified
+	  {local}: modified file
+	  {remote}: modified file
 	Hit return to start merge resolution tool (opendiff):
 
-Mac에서는 `opendiff`가 실행된다. 기본 도구 말고 사용할 수 있는 다른 Merge 도구도 있는데, 'merge tool candidates' 부분에 보여준다. 여기에 표시된 도구 중 하나를 고를 수 있다. Merge 도구를 변경하는 방법은 *7장*에서 다룬다.
+Mac에서는 `opendiff`가 실행된다. 기본 도구 말고 사용할 수 있는 다른 Merge 도구도 있는데, "... one of the following tools:" 부분에 보여준다. 여기에 표시된 도구 중 하나를 고를 수 있다. Merge 도구를 변경하는 방법은 *7장*에서 다룬다.
 
 Merge 도구를 종료하면 Git은 잘 Merge했는지 물어본다. 잘 마쳤다고 입력하면 자동으로 `git add`가 수행되고 해당 파일이 Staging Area에 저장된다.
 
 `git status` 명령으로 충돌이 해결된 상태인지 다시 한번 확인해볼 수 있다.
 
 	$ git status
-	# On branch master
-	# Changes to be committed:
-	#   (use 'git reset HEAD <file>...' to unstage)
-	#
-	#	modified:   index.html
-	#
+	On branch master
+	Changes to be committed:
+	  (use 'git reset HEAD <file>...' to unstage)
+	
+	        modified:   index.html
+	
 
 충돌을 해결하고 나서 해당 파일이 Staging Area에 저장됐는지 확인했으면 `git commit` 명령으로 Merge 한 것을 커밋한다. 충돌을 해결하고 Merge할 때에는 커밋 메시지가 아래와 같다.
 
@@ -290,9 +298,9 @@ Merge 도구를 종료하면 Git은 잘 Merge했는지 물어본다. 잘 마쳤�
 	Conflicts:
 	  index.html
 	#
-	# It looks like you may be committing a MERGE.
+	# It looks like you may be committing a merge.
 	# If this is not correct, please remove the file
-	# .git/MERGE_HEAD
+	#       .git/MERGE_HEAD
 	# and try again.
 	#
 
@@ -332,7 +340,7 @@ iss53 브랜치는 앞에서 이미 Merge했기 때문에 목록에 나타난다
 위에는 없었던 다른 브랜치가 보인다. 아직 Merge하지 않은 커밋을 담고 있기 때문에 `git branch -d` 명령으로 삭제되지 않는다:
 
 	$ git branch -d testing
-	error: The branch 'testing' is not an ancestor of your current HEAD.
+	error: The branch 'testing' is not fully merged.
 	If you are sure you want to delete it, run 'git branch -D testing'.
 
 Merge하지 않은 브랜치를 강제로 삭제하려면 `-D` 옵션으로 삭제한다.
@@ -445,7 +453,7 @@ Git은 serverfix라는 브랜치 이름을 `refs/heads/serverfix:refs/heads/serv
 새로 받은 브랜치의 내용을 Merge하려면 `git merge origin/serverfix` 명령을 사용한다. Merge하지 않고 리모트 브랜치에서 시작하는 새 브랜치를 만들려면 아래와 같은 명령을 사용한다.
 
 	$ git checkout -b serverfix origin/serverfix
-	Branch serverfix set up to track remote branch refs/remotes/origin/serverfix.
+	Branch serverfix set up to track remote branch serverfix from origin.
 	Switched to a new branch 'serverfix'
 
 그러면 origin/serverfix에서 시작하고 수정할 수 있는 serverfix라는 로컬 브랜치가 만들어진다.
@@ -457,16 +465,16 @@ Git은 serverfix라는 브랜치 이름을 `refs/heads/serverfix:refs/heads/serv
 서버로부터 저장소를 Clone해올 때도 Git은 자동으로 master 브랜치를 origin/master 브랜치의 트래킹 브랜치로 만든다. 그래서 `git push`, `git pull` 명령이 추가적인 아규먼트 없이도 동작한다. 트래킹 브랜치를 직접 만들 수 있는데 origin/master뿐만 아니라 다른 저장소의 다른 브랜치도 추적하게(Tracking) 할 수 있다. `git checkout -b [branch] [remotename]/[branch]` 명령으로 간단히 트래킹 브랜치를 만들 수 있다. Git 1.6.2 버전 이상을 사용하는 경우에는  --track 옵션도 사용할 수 있다.
 
 	$ git checkout --track origin/serverfix
-	Branch serverfix set up to track remote branch refs/remotes/origin/serverfix.
+	Branch serverfix set up to track remote branch serverfix from origin.
 	Switched to a new branch 'serverfix'
 
 리모트 브랜치와 다른 이름으로 브랜치를 만들려면 로컬 브랜치의 이름을 아래와 같이 다르게 지정한다:
 
 	$ git checkout -b sf origin/serverfix
-	Branch sf set up to track remote branch refs/remotes/origin/serverfix.
+	Branch sf set up to track remote branch serverfix from origin.
 	Switched to a new branch 'sf'
 
-이제 sf 브랜치에서 Push나 Pull하면 자동으로 origin/serverfix에 데이터를 보내거나 가져온다.
+이제 `sf` 브랜치에서 Push나 Pull하면 자동으로 `origin/serverfix`에 데이터를 보내거나 가져온다.
 
 ### 리모트 브랜치 삭제 ###
 

@@ -54,8 +54,8 @@ Insert 18333fig0201.png
 파일의 상태를 확인하려면 보통 `git status` 명령을 사용한다. Clone한 후에 바로 이 명령을 실행하면 아래과 같은 메시지를 볼 수 있다:
 
 	$ git status
-	# On branch master
-	nothing to commit (working directory clean)
+	On branch master
+	nothing to commit, working directory clean
 
 위의 내용은 파일을 하나도 수정하지 않았다는 것을 말해준다. Tracked나 Modified 상태인 파일이 없다는 의미다. Untracked 파일은 아직 없어서 목록에 나타나지 않는다. 그리고 현재 작업 중인 브랜치를 알려준다. 기본 브랜치가 master이기 때문에 현재 master로 나오는 것이다. 브랜치 관련 내용은 차차 알아가자. 다음 장에서 브랜치와 레퍼런스에 대해 자세히 다룬다.
 
@@ -63,11 +63,12 @@ Insert 18333fig0201.png
 
 	$ vim README
 	$ git status
-	# On branch master
-	# Untracked files:
-	#   (use "git add <file>..." to include in what will be committed)
-	#
-	#	README
+	On branch master
+	Untracked files:
+	  (use "git add <file>..." to include in what will be committed)
+	
+		README
+	
 	nothing added to commit but untracked files present (use "git add" to track)
 
 `README` 파일은 `Untracked files` 부분에 속해 있는데 이것은 `README` 파일이 Untracked 상태라는 것을 말한다. Git은 Untracked 파일을 아직 스냅샷(커밋)에 넣어지지 않은 파일이라고 본다. 파일이 Tracked 상태가 되기 전까지는 Git은 절대 그 파일을 커밋하지 않는다. 그래서 일하면서 생성하는 바이너리 파일 같은 것을 커밋하는 실수는 하지 않게 된다. README 파일을 추가해서 직접 Tracked 상태로 만들어 보자.
@@ -81,12 +82,12 @@ Insert 18333fig0201.png
 `git status` 명령을 다시 실행하면 README 파일이 Tracked 상태이면서 Staged 상태라는 것을 확인할 수 있다:
 
 	$ git status
-	# On branch master
-	# Changes to be committed:
-	#   (use "git reset HEAD <file>..." to unstage)
-	#
-	#	new file:   README
-	#
+	On branch master
+	Changes to be committed:
+	  (use "git reset HEAD <file>..." to unstage)
+	
+	        new file:   README
+	
 
 'Changes to be committed' 에 들어 있는 파일은 Staged 상태라는 것을 의미한다. 커밋하면 `git add`를 실행한 시점의 파일이 커밋되어 저장소 히스토리에 남는다. 앞에서 `git init` 명령을 실행했을 때, 그 다음 `git add (files)` 명령을 실행했던 걸 기억할 것이다. 이것은 작업 디렉토리에 있는 파일들을 추적하기 시작하게 하였다. `git add` 명령은 파일 또는 디렉토리의 경로명을 아규먼트로 받는다; 만일 디렉토리를 아규먼트로 줄 경우, 그 디렉토리 아래에 있는 모든 파일들을 재귀적으로 추가한다.
 
@@ -95,58 +96,59 @@ Insert 18333fig0201.png
 이미 Tracked 상태인 파일을 수정하는 법을 알아보자. `benchmarks.rb`라는 파일을 수정하고 나서 `git status` 명령을 다시 실행하면 결과는 아래와 같다:
 
 	$ git status
-	# On branch master
-	# Changes to be committed:
-	#   (use "git reset HEAD <file>..." to unstage)
-	#
-	#	new file:   README
-	#
-	# Changes not staged for commit:
-	#   (use "git add <file>..." to update what will be committed)
-	#
-	#	modified:   benchmarks.rb
-	#
+	On branch master
+	Changes to be committed:
+	  (use "git reset HEAD <file>..." to unstage)
+	
+	        new file:   README
+	
+	Changes not staged for commit:
+	  (use "git add <file>..." to update what will be committed)
+	  (use "git checkout -- <file>..." to discard changes in working directory)
+	
+	        modified:   benchmarks.rb
+	
 
 이 `benchmarks.rb` 파일은 `Changes not staged for commit`에 있다. 이것은 수정한 파일이 Tracked 상태이지만 아직 Staged 상태는 아니라는 것이다. Staged 상태로 만들려면 `git add` 명령을 실행해야 한다. `git add`는 파일을 새로 추적할 때도 사용하고 수정한 파일을 Staged 상태로 만들 때도 사용한다. `git add`를 실행하여 benchmarks.rb 파일을 Staged 상태로 만들고 `git status` 명령으로 결과를 확인해보자:
 
 	$ git add benchmarks.rb
 	$ git status
-	# On branch master
-	# Changes to be committed:
-	#   (use "git reset HEAD <file>..." to unstage)
-	#
-	#	new file:   README
-	#	modified:   benchmarks.rb
-	#
+	On branch master
+	Changes to be committed:
+	  (use "git reset HEAD <file>..." to unstage)
+	
+	        new file:   README
+	        modified:   benchmarks.rb
+	
 
 두 파일 모두 Staged 상태이므로 다음 커밋에 포함된다. 하지만, 아직 더 수정해야 한다는 것을 알게 되어 바로 커밋하지 못하는 상황이 되었다고 하자. 이 상황에서 benchmark.rb 파일을 열고 수정한다. 아마 당신은 커밋할 준비가 다 됐다고 생각할 테지만, Git은 그렇지 않다. `git status` 명령으로 파일의 상태를 다시 확인해보자:
 
 	$ vim benchmarks.rb
 	$ git status
-	# On branch master
-	# Changes to be committed:
-	#   (use "git reset HEAD <file>..." to unstage)
-	#
-	#	new file:   README
-	#	modified:   benchmarks.rb
-	#
-	# Changes not staged for commit:
-	#   (use "git add <file>..." to update what will be committed)
-	#
-	#	modified:   benchmarks.rb
-	#
+	On branch master
+	Changes to be committed:
+	  (use "git reset HEAD <file>..." to unstage)
+	
+	        new file:   README
+	        modified:   benchmarks.rb
+	
+	Changes not staged for commit:
+	  (use "git add <file>..." to update what will be committed)
+	
+	        modified:   benchmarks.rb
+	
 
 헉! benchmarks.rb가 Staged 상태이면서 동시에 Unstaged 상태로 나온다. 어떻게 이런 일이 가능할까? `git add` 명령을 실행하면 Git은 파일을 바로 Staged 상태로 만든다. 지금 이 시점에서 커밋을 하면 `git commit` 명령을 실행하는 시점의 버전이 커밋되는 것이 아니라 마지막으로 `git add` 명령을 실행했을 때의 버전이 커밋된다. 그러니까 `git add` 명령을 실행한 후에 또 파일을 수정하면 `git add` 명령을 다시 실행해서 최신 버전을 Staged 상태로 만들어야 한다:
 
 	$ git add benchmarks.rb
 	$ git status
-	# On branch master
-	# Changes to be committed:
-	#   (use "git reset HEAD <file>..." to unstage)
-	#
-	#	new file:   README
-	#	modified:   benchmarks.rb
-	#
+	On branch master
+	Changes to be committed:
+	  (use "git reset HEAD <file>..." to unstage)
+	
+	        new file:   README
+	        modified:   benchmarks.rb
+	
 
 ### 파일 무시하기 ###
 
@@ -192,17 +194,18 @@ Glob 패턴은 정규표현식을 단순하게 만든 것으로 생각하면 되
 README 파일을 수정해서 Staged 상태로 만들고 benchmarks.rb 파일은 그냥 수정만 해둔다. 이 상태에서 `git status` 명령을 실행하면 아래와 같은 메시지를 볼 수 있다:
 
 	$ git status
-	# On branch master
-	# Changes to be committed:
-	#   (use "git reset HEAD <file>..." to unstage)
-	#
-	#	new file:   README
-	#
-	# Changes not staged for commit:
-	#   (use "git add <file>..." to update what will be committed)
-	#
-	#	modified:   benchmarks.rb
-	#
+	On branch master
+	Changes to be committed:
+	  (use "git reset HEAD <file>..." to unstage)
+	
+	        new file:   README
+	
+	Changes not staged for commit:
+	  (use "git add <file>..." to update what will be committed)
+	  (use "git checkout -- <file>..." to discard changes in working directory)
+	
+	        modified:   benchmarks.rb
+	
 
 `git diff` 명령을 실행하면 수정했지만 아직 staged 상태가 아닌 파일을 비교해 볼 수 있다:
 
@@ -247,16 +250,18 @@ benchmarks.rb 파일을 Stage한 후에 다시 수정해도 `git diff` 명령을
 	$ git add benchmarks.rb
 	$ echo '# test line' >> benchmarks.rb
 	$ git status
-	# On branch master
-	#
-	# Changes to be committed:
-	#
-	#	modified:   benchmarks.rb
-	#
-	# Changes not staged for commit:
-	#
-	#	modified:   benchmarks.rb
-	#
+	On branch master
+	Changes to be committed:
+	  (use "git reset HEAD <file>..." to unstage)
+	
+	        modified:   benchmarks.rb
+	
+	Changes not staged for commit:
+	  (use "git add <file>..." to update what will be committed)
+	  (use "git checkout -- <file>..." to discard changes in working directory)
+	
+	        modified:   benchmarks.rb
+	
 
 `git diff` 명령으로 Unstaged 상태인 변경 부분을 확인해 볼 수 있다:
 
@@ -305,10 +310,9 @@ Git 설정에 지정된 편집기가 실행되고, 아래와 같은 텍스트가
 	# with '#' will be ignored, and an empty message aborts the commit.
 	# On branch master
 	# Changes to be committed:
-	#   (use "git reset HEAD <file>..." to unstage)
-	#
 	#       new file:   README
 	#       modified:   benchmarks.rb
+	#
 	~
 	~
 	~
@@ -319,8 +323,8 @@ Git 설정에 지정된 편집기가 실행되고, 아래와 같은 텍스트가
 메시지를 인라인으로 첨부할 수도 있다. `commit` 명령을 실행할 때 아래와 같이 `-m` 옵션을 사용한다:
 
 	$ git commit -m "Story 182: Fix benchmarks for speed"
-	[master]: created 463dc4f: "Fix benchmarks for speed"
-	 2 files changed, 3 insertions(+), 0 deletions(-)
+	[master 463dc4f] Story 182: Fix benchmarks for speed
+	 2 files changed, 3 insertions(+)
 	 create mode 100644 README
 
 `commit` 명령은 몇 가지 정보를 출력하는데 위 예제는 master 브랜치에 커밋했고 체크섬은 `463dc4f`이라고 알려준다. 그리고 수정한 파일이 몇 개이고 삭제됐거나 추가된 줄이 몇 줄인지 알려준다.
@@ -332,15 +336,17 @@ Git은 Staging Area에 속한 스냅샷을 커밋한다는 것을 기억해야 �
 Staging Area는 커밋할 파일을 정리한다는 점에서 매우 유용하지만 복잡하기만 하고 필요하지 않은 때도 있다. 아주 쉽게 Staging Area를 생략할 수 있다. `git commit` 명령을 실행할 때 `-a` 옵션을 추가하면 Git은 Tracked 상태의 파일을 자동으로 Staging Area에 넣는다. 그래서 `git add` 명령을 실행하는 수고를 덜 수 있다:
 
 	$ git status
-	# On branch master
-	#
-	# Changes not staged for commit:
-	#
-	#	modified:   benchmarks.rb
-	#
+	On branch master
+	Changes not staged for commit:
+	  (use "git add <file>..." to update what will be committed)
+	  (use "git checkout -- <file>..." to discard changes in working directory)
+	
+	        modified:   benchmarks.rb
+	
+	no changes added to commit (use "git add" and/or "git commit -a")
 	$ git commit -a -m 'added new benchmarks'
 	[master 83e38c7] added new benchmarks
-	 1 files changed, 5 insertions(+), 0 deletions(-)
+	 1 files changed, 5 insertions(+)
 
 이 예제에서는 커밋하기 전에 `git add` 명령으로 benchmarks.rb 파일을 추가하지 않았다는 점을 눈여겨보자.
 
@@ -352,26 +358,26 @@ Git에서 파일을 제거하려면 `git rm` 명령으로 Tracked 상태의 파�
 
 	$ rm grit.gemspec
 	$ git status
-	# On branch master
-	#
-	# Changes not staged for commit:
-	#   (use "git add/rm <file>..." to update what will be committed)
-	#
-	#       deleted:    grit.gemspec
-	#
+	On branch master
+	Changes not staged for commit:
+	  (use "git add/rm <file>..." to update what will be committed)
+	  (use "git checkout -- <file>..." to discard changes in working directory)
+	
+	        deleted:    grit.gemspec
+	
+	no changes added to commit (use "git add" and/or "git commit -a")
 
 그리고 `git rm` 명령을 실행하면 삭제한 파일은 staged 상태가 된다:
 
 	$ git rm grit.gemspec
 	rm 'grit.gemspec'
 	$ git status
-	# On branch master
-	#
-	# Changes to be committed:
-	#   (use "git reset HEAD <file>..." to unstage)
-	#
-	#       deleted:    grit.gemspec
-	#
+	On branch master
+	Changes to be committed:
+	  (use "git reset HEAD <file>..." to unstage)
+	
+	        deleted:    grit.gemspec
+	
 
 커밋하면 파일은 삭제되고 Git은 이 파일을 더는 추적하지 않는다. 이미 파일을 수정했거나 Index에(역주, Staging Area을 Git Index라고도 부른다) 추가했다면 `-f`옵션을 주어 강제로 삭제해야 한다. 이 점은 실수로 데이터를 삭제하지 못하도록 하는 안전장치다. 한 번도 커밋한적 없는 데이터는 Git으로 복구할 수 없다.
 
@@ -401,14 +407,12 @@ Git은 다른 VCS 시스템과는 달리 파일 이름의 변경이나 파일의
 
 	$ git mv README.txt README
 	$ git status
-	# On branch master
-	# Your branch is ahead of 'origin/master' by 1 commit.
-	#
-	# Changes to be committed:
-	#   (use "git reset HEAD <file>..." to unstage)
-	#
-	#       renamed:    README.txt -> README
-	#
+	On branch master
+	Changes to be committed:
+	  (use "git reset HEAD <file>..." to unstage)
+	
+	        renamed:    README.txt -> README
+	
 
 사실 `git mv` 명령은 아래 명령어들을 수행한 것과 완전히 똑같다:
 
@@ -525,7 +529,7 @@ Git은 다른 VCS 시스템과는 달리 파일 이름의 변경이나 파일의
 	    changed the version number
 
 	 Rakefile |    2 +-
-	 1 files changed, 1 insertions(+), 1 deletions(-)
+	 1 file changed, 1 insertion(+), 1 deletion(-)
 
 	commit 085bb3bcb608e1e8451d4b2432f8ecbe6306e7e7
 	Author: Scott Chacon <schacon@gee-mail.com>
@@ -534,7 +538,7 @@ Git은 다른 VCS 시스템과는 달리 파일 이름의 변경이나 파일의
 	    removed unnecessary test code
 
 	 lib/simplegit.rb |    5 -----
-	 1 files changed, 0 insertions(+), 5 deletions(-)
+	 1 file changed, 5 deletions(-)
 
 	commit a11bef06a3f659402fe7563abf99ad00de2209e6
 	Author: Scott Chacon <schacon@gee-mail.com>
@@ -545,7 +549,7 @@ Git은 다른 VCS 시스템과는 달리 파일 이름의 변경이나 파일의
 	 README           |    6 ++++++
 	 Rakefile         |   23 +++++++++++++++++++++++
 	 lib/simplegit.rb |   25 +++++++++++++++++++++++++
-	 3 files changed, 54 insertions(+), 0 deletions(-)
+	 3 files changed, 54 insertions(+)
 
 이 결과에서 `--stat` 옵션은 어떤 파일이 수정됐는지, 얼마나 많은 파일이 변경됐는지, 또 얼마나 많은 줄을 추가하거나 삭제했는지 보여준다. 요약정보는 가장 뒤쪽에 보여준다.
 
@@ -633,7 +637,9 @@ The lines must be formatted as follows
 
 이 옵션은 다양한 형식을 지원한다. `2008-01-15`같이 정확한 날짜도 사용할 수 있고 `2 years 1 day 3 minutes ago`같이 상대적인 기간을 사용할 수도 있다.
 
-또 다른 기준도 있다. `--author` 옵션으로 저자를 지정하여 검색할 수도 있고 `--grep` 옵션으로 커밋 메시지에서 키워드를 검색할 수도 있다(author와 grep 옵션을 나눠서 지정하고 싶지 않으면 `--all-match` 옵션으로 한 번에 검색할 수 있다).  
+또 다른 기준도 있다. `--author` 옵션으로 저자를 지정하여 검색할 수도 있고 `--grep` 옵션으로 커밋 메시지에서 키워드를 검색할 수도 있다(author와 grep 옵션을 함께 사용하면 모두 만족하는 커밋을 찾는다).
+
+grep 옵션을 여러개 사용하면 그중 하나이상 만족하는 커밋을 찾는다. 모두 만족하는 커밋을 찾으려면 `--all-match` 옵션을 추가해야 한다.
 
 마지막으로 파일 경로로 검색하는 옵션이 있는데 이것도 정말 유용하다. 디렉토리나 파일 이름을 사용하여 그 파일이 변경된 log의 결과를 검색할 수 있다. 이 옵션은 `--`와 함께 경로 이름을 사용하는데 명령어 끝 부분에 쓴다(역주, `git log -- path1 path2`).
 
@@ -701,31 +707,32 @@ Insert 18333fig0202.png
 
 	$ git add .
 	$ git status
-	# On branch master
-	# Changes to be committed:
-	#   (use "git reset HEAD <file>..." to unstage)
-	#
-	#       modified:   README.txt
-	#       modified:   benchmarks.rb
-	#
+	On branch master
+	Changes to be committed:
+	  (use "git reset HEAD <file>..." to unstage)
+	
+	        modified:   README.txt
+	        modified:   benchmarks.rb
+	
 
 `Changes to be commited` 밑에 `git reset HEAD <file>...`이라는 문장을 볼 수 있다. 이 명령으로 Unstage 상태로 변경할 수 있다. benchmarks.rb 파일을 Unstage 상태로 변경해보자:
 
 	$ git reset HEAD benchmarks.rb
-	benchmarks.rb: locally modified
+	Unstaged changes after reset:
+	M       benchmarks.rb
 	$ git status
-	# On branch master
-	# Changes to be committed:
-	#   (use "git reset HEAD <file>..." to unstage)
-	#
-	#       modified:   README.txt
-	#
-	# Changes not staged for commit:
-	#   (use "git add <file>..." to update what will be committed)
-	#   (use "git checkout -- <file>..." to discard changes in working directory)
-	#
-	#       modified:   benchmarks.rb
-	#
+	On branch master
+	Changes to be committed:
+	  (use "git reset HEAD <file>..." to unstage)
+	
+	        modified:   README.txt
+	
+	Changes not staged for commit:
+	  (use "git add <file>..." to update what will be committed)
+	  (use "git checkout -- <file>..." to discard changes in working directory)
+	
+	        modified:   benchmarks.rb
+	
 
 명령어가 낮설게 느껴질 수도 있지만 잘 동작한다. benchmarks.rb 파일은 Unstage 상태가 됐다.
 
@@ -733,23 +740,23 @@ Insert 18333fig0202.png
 
 어떻게 해야 benchmarks.rb 파일을 수정하고 나서 다시 되돌릴 수 있을까? 그러니까 최근 커밋된 버전으로(아니면 처음 Clone했을 때처럼 워킹 디렉토리에 처음 Checkout 한 그 내용으로) 되돌리는 방법이 무얼까? `git status` 명령이 친절하게 알려준다. 바로 위에 있는 예제에서 Unstaged 부분을 보자:
 
-	# Changes not staged for commit:
-	#   (use "git add <file>..." to update what will be committed)
-	#   (use "git checkout -- <file>..." to discard changes in working directory)
-	#
-	#       modified:   benchmarks.rb
-	#
+	Changes not staged for commit:
+	  (use "git add <file>..." to update what will be committed)
+	  (use "git checkout -- <file>..." to discard changes in working directory)
+	
+	        modified:   benchmarks.rb
+	
 
 위의 메시지는 수정한 파일을 되돌리는 방법을 꽤 정확하게 알려준다(적어도 Git 1.6.1이후 버전부터는 그렇다. 만약 예전 것을 아직 사용하고 있으면 업그레드하는 것이 좋다. 편의성이 많이 개선됐다). 알려주는 대로 한 번 해보자:
 
 	$ git checkout -- benchmarks.rb
 	$ git status
-	# On branch master
-	# Changes to be committed:
-	#   (use "git reset HEAD <file>..." to unstage)
-	#
-	#       modified:   README.txt
-	#
+	On branch master
+	Changes to be committed:
+	  (use "git reset HEAD <file>..." to unstage)
+	
+	        modified:   README.txt
+	
 
 정상적으로 복원된 것을 알 수 있다. 하지만 이 명령은 꽤 위험한 명령이라는 것을 알아야 한다. 수정 이전의 파일로 덮어썼기 때문에 수정했던 내용은 전부 사라진다. 수정한 내용이 진짜 마음에 들지 않을 때에만 사용하자. 정말 이렇게 삭제해야 한다면 Stash와 Branch를 사용하자. 다음 장에서 다루는 이 방법들이 훨씬 낫다.
 
@@ -764,12 +771,12 @@ Git으로 커밋한 모든 것은 언제나 복구할 수 있다. 삭제한 브�
 `git remote` 명령으로 현재 프로젝트에 등록된 리모트 저장소를 확인할 수 있다. 이 명령은 리모트 저장소의 단축 이름을 보여준다. 저장소를 Clone하면 origin이라는 리모트 저장소가 자동으로 등록되기 때문에 origin이라는 이름을 볼 수 있다:
 
 	$ git clone git://github.com/schacon/ticgit.git
-	Initialized empty Git repository in /private/tmp/ticgit/.git/
-	remote: Counting objects: 595, done.
-	remote: Compressing objects: 100% (269/269), done.
-	remote: Total 595 (delta 255), reused 589 (delta 253)
-	Receiving objects: 100% (595/595), 73.31 KiB | 1 KiB/s, done.
-	Resolving deltas: 100% (255/255), done.
+	Cloning into 'ticgit'...
+	remote: Reusing existing pack: 1857, done.
+	remote: Total 1857 (delta 0), reused 0 (delta 0)
+	Receiving objects: 100% (1857/1857), 374.35 KiB | 193.00 KiB/s, done.
+	Resolving deltas: 100% (772/772), done.
+	Checking connectivity... done.
 	$ cd ticgit
 	$ git remote
 	origin
@@ -908,7 +915,7 @@ Git으로 커밋한 모든 것은 언제나 복구할 수 있다. 삭제한 브�
 	v0.1
 	v1.3
 
-이 명령은 알파벳 순서로 태그을 보여준다. 사실 순서는 별로 중요한 게 아니다.
+이 명령은 알파벳 순서로 태그를 보여준다. 사실 순서는 별로 중요한 게 아니다.
 
 검색 패턴을 사용하여 태그를 검색할 수 있다. Git 소스 저장소는 240여 개의 태그가 있다. 만약 1.4.2 버전의 태그들만 검색하고 싶으면 아래와 같이 실행한다:
 
@@ -942,6 +949,7 @@ Annotated 태그를 만드는 방법은 간단하다. `tag` 명령을 실행할 
 	Date:   Mon Feb 9 14:45:11 2009 -0800
 
 	my version 1.4
+	
 	commit 15027957951b64cf874c3557a0f3547bd83b3ff6
 	Merge: 4a447f7... a6b4c97...
 	Author: Scott Chacon <schacon@gee-mail.com>

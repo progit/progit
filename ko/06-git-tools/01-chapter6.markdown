@@ -82,13 +82,13 @@ Git은 자동으로 브랜치와 HEAD가 지난 몇 달 동안에 가리켰었�
 `git reflog`를 실행하면 Reflog를 볼 수 있다:
 
 	$ git reflog
-	734713b... HEAD@{0}: commit: fixed refs handling, added gc auto, updated
-	d921970... HEAD@{1}: merge phedders/rdocs: Merge made by recursive.
-	1c002dd... HEAD@{2}: commit: added some blame and merge stuff
-	1c36188... HEAD@{3}: rebase -i (squash): updating HEAD
-	95df984... HEAD@{4}: commit: # This is a combination of two commits.
-	1c36188... HEAD@{5}: rebase -i (squash): updating HEAD
-	7e05da5... HEAD@{6}: rebase -i (pick): updating HEAD
+	734713b HEAD@{0}: commit: fixed refs handling, added gc auto, updated
+	d921970 HEAD@{1}: merge phedders/rdocs: Merge made by recursive.
+	1c002dd HEAD@{2}: commit: added some blame and merge stuff
+	1c36188 HEAD@{3}: rebase -i (squash): updating HEAD
+	95df984 HEAD@{4}: commit: # This is a combination of two commits.
+	1c36188 HEAD@{5}: rebase -i (squash): updating HEAD
+	7e05da5 HEAD@{6}: rebase -i (pick): updating HEAD
 
 Git은 브랜치가 가리키는 것이 변경될 때마다 그 정보를 임시 영역에 저장한다. 그래서 예전에 뭘 가리켰었는지 확인할 수 있다. `@{n}` 규칙을 사용하면 아래와 같이 HEAD가 5번 전에 가리켰던 것을 알 수 있다:
 
@@ -223,7 +223,7 @@ Double Dot으로는 세 개 이상의 레퍼런스에 사용할 수 없지만 �
 	$ git log refA refB ^refC
 	$ git log refA refB --not refC
 
-이 조건을 잘 응용하면 작업 중인 브랜치와 다른 브랜치을 매우 상세하게 비교할 수 있다.
+이 조건을 잘 응용하면 작업 중인 브랜치와 다른 브랜치를 매우 상세하게 비교할 수 있다.
 
 #### Triple Dot ####
 
@@ -442,8 +442,8 @@ Stash 명령을 사용하면 워킹 디렉토리에서 수정한 파일만 저�
 
 	$ git stash list
 	stash@{0}: WIP on master: 049d078 added the index file
-	stash@{1}: WIP on master: c264051... Revert "added file_size"
-	stash@{2}: WIP on master: 21d80a5... added number to log
+	stash@{1}: WIP on master: c264051 Revert "added file_size"
+	stash@{2}: WIP on master: 21d80a5 added number to log
 
 Stash 두 개는 원래 있었던 것이다. 그래서 현재 총 세 개의 Stash를 사용할 수 있다. 이제 `git stash apply`를 사용하여 Stash를 적용할 수 있다. `git stash` 명령을 실행하면 이 명령에 대한 도움말을 보여주기 때문에 편리하다. 다른 Stash를 고르고 싶으면 Stash 이름을 입력해야 한다. 이름이 없으면 Git은 가장 최근의 Stash를 적용한다:
 
@@ -477,8 +477,8 @@ Git은 Stash를 적용할 때 Staged 상태였던 파일을 자동으로 다시 
 
 	$ git stash list
 	stash@{0}: WIP on master: 049d078 added the index file
-	stash@{1}: WIP on master: c264051... Revert "added file_size"
-	stash@{2}: WIP on master: 21d80a5... added number to log
+	stash@{1}: WIP on master: c264051 Revert "added file_size"
+	stash@{2}: WIP on master: 21d80a5 added number to log
 	$ git stash drop stash@{0}
 	Dropped stash@{0} (364e91f3f268f0900bc3ee613f9f733e82aaed43)
 
@@ -562,12 +562,19 @@ Git으로 일하다 보면 어떤 이유로든 커밋 히스토리를 수정해�
 	#
 	# Commands:
 	#  p, pick = use commit
+	#  r, reword = use commit, but edit the commit message
 	#  e, edit = use commit, but stop for amending
 	#  s, squash = use commit, but meld into previous commit
+	#  f, fixup = like "squash", but discard this commit's log message
+	#  x, exec = run command (the rest of the line) using shell
+	#
+	# These lines can be re-ordered; they are executed from top to bottom.
 	#
 	# If you remove a line here THAT COMMIT WILL BE LOST.
+	#
 	# However, if you remove everything, the rebase will be aborted.
 	#
+	# Note that empty commits are commented out
 
 이 커밋은 모두 `log` 명령과는 정반대의 순서로 나열된다. `log` 명령을 실행하면 아래와 같은 결과를 볼 수 있다:
 
@@ -585,6 +592,10 @@ Git으로 일하다 보면 어떤 이유로든 커밋 히스토리를 수정해�
 	pick a5f4a0d added cat-file
 
 저장하고 편집기를 종료하면 Git은 목록에 있는 커밋 중에서 가장 오래된 커밋으로 이동하고, 아래와 같은 메시지를 보여주고, 명령 프롬프트를 보여준다:
+
+<!-- This is actually weird, as the SHA-1 of 7482e0d is not present in the list, 
+nor is the commit message. Please review 
+-->
 
 	$ git rebase -i HEAD~3
 	Stopped at 7482e0d... updated the gemspec to hopefully work better
@@ -628,12 +639,19 @@ Git으로 일하다 보면 어떤 이유로든 커밋 히스토리를 수정해�
 	#
 	# Commands:
 	#  p, pick = use commit
+	#  r, reword = use commit, but edit the commit message
 	#  e, edit = use commit, but stop for amending
 	#  s, squash = use commit, but meld into previous commit
+	#  f, fixup = like "squash", but discard this commit's log message
+	#  x, exec = run command (the rest of the line) using shell
+	#
+	# These lines can be re-ordered; they are executed from top to bottom.
 	#
 	# If you remove a line here THAT COMMIT WILL BE LOST.
+	#
 	# However, if you remove everything, the rebase will be aborted.
 	#
+	# Note that empty commits are commented out
 
 "pick"이나 "edit"말고 "squash"를 입력하면 Git은 해당 커밋과 바로 이전 커밋을 합칠 것이고 커밋 메시지도 Merge한다. 그래서 3개의 커밋을 모두 합치려면 스크립트를 아래와 같이 수정한다:
 
@@ -987,9 +1005,9 @@ Merge해서 서브모듈의 HEAD 값이 변경됐다. 슈퍼프로젝트가 아�
 
 ### 슈퍼프로젝트 ###
 
-프로젝트 규모가 크면 CVS나 Subversion에서는 모듈 프로젝트을 간단히 하위 디렉토리로 만들었다. 가끔 Git에서도 이런 Workflow을 사용하려는 개발자들이 있다.
+프로젝트 규모가 크면 CVS나 Subversion에서는 모듈 프로젝트를 간단히 하위 디렉토리로 만들었다. 가끔 Git에서도 이런 Workflow을 사용하려는 개발자들이 있다.
 
-Git에서는 각 하위 디렉토리를 별도의 Git 저장소로 만들어야 한다. 그리고 그 저장소을 포함하는 상위 저장소를 만든다. 슈퍼프로젝트의 태그와 브랜치를 이용해서 각 프로젝트의 관계를 구체적으로 정의할 수 있다는 것은 Git만의 장점이다.
+Git에서는 각 하위 디렉토리를 별도의 Git 저장소로 만들어야 한다. 그리고 그 저장소를 포함하는 상위 저장소를 만든다. 슈퍼프로젝트의 태그와 브랜치를 이용해서 각 프로젝트의 관계를 구체적으로 정의할 수 있다는 것은 Git만의 장점이다.
 
 ### 서브모듈 사용할 때 주의할 점들 ###
 

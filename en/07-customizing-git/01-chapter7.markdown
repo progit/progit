@@ -511,7 +511,7 @@ For example, say you have some test files in a `test/` subdirectory, and it does
 
 	test/ export-ignore
 
-Now, when you run git archive to create a tarball of your project, that directory won’t be included in the archive.
+Now, when you run `git archive` to create a tarball of your project, that directory won’t be included in the archive.
 
 #### export-subst ####
 

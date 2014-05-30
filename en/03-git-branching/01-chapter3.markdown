@@ -41,7 +41,7 @@ This creates a new pointer at the same commit you’re currently on (see Figure 
 Insert 18333fig0304.png
 Figure 3-4. Multiple branches pointing into the commit’s data history.
 
-How does Git know what branch you’re currently on? It keeps a special pointer called HEAD. Note that this is a lot different than the concept of HEAD in other VCSs you may be used to, such as Subversion or CVS. In Git, this is a pointer to the local branch you’re currently on. In this case, you’re still on master. The git branch command only created a new branch — it didn’t switch to that branch (see Figure 3-5).
+How does Git know what branch you’re currently on? It keeps a special pointer called HEAD. Note that this is a lot different than the concept of HEAD in other VCSs you may be used to, such as Subversion or CVS. In Git, this is a pointer to the local branch you’re currently on. In this case, you’re still on master. The `git branch` command only created a new branch — it didn’t switch to that branch (see Figure 3-5).
 
 Insert 18333fig0305.png
 Figure 3-5. HEAD file pointing to the branch you’re on.
@@ -404,7 +404,7 @@ Figure 3-23. Working locally and having someone push to your remote server makes
 To synchronize your work, you run a `git fetch origin` command. This command looks up which server origin is (in this case, it’s `git.ourcompany.com`), fetches any data from it that you don’t yet have, and updates your local database, moving your `origin/master` pointer to its new, more up-to-date position (see Figure 3-24).
 
 Insert 18333fig0324.png
-Figure 3-24. The git fetch command updates your remote references.
+Figure 3-24. The `git fetch` command updates your remote references.
 
 To demonstrate having multiple remote servers and what remote branches for those remote projects look like, let’s assume you have another internal Git server that is used only for development by one of your sprint teams. This server is at `git.team1.ourcompany.com`. You can add it as a new remote reference to the project you’re currently working on by running the `git remote add` command as we covered in Chapter 2. Name this remote `teamone`, which will be your shortname for that whole URL (see Figure 3-25).
 

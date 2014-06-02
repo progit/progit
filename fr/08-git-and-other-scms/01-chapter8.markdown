@@ -456,7 +456,7 @@ Vous pouvez alors fournir ce fichier à `git svn` pour l'aider à convertir les 
 Vous pouvez aussi indiquer à `git svn` de ne pas inclure les méta-données que Subversion importe habituellement en passant l'option `--no-metadata` à la commande `clone` ou `init`.
 Au final, votre commande d'import ressemble à ceci :
 
-	$ git-svn clone http://mon-projet.googlecode.com/svn/ \
+	$ git svn clone http://mon-projet.googlecode.com/svn/ \
 	      --authors-file=users.txt --no-metadata -s my_project
 
 Maintenant, l'import depuis Subversion dans le répertoire `my_project` est plus présentable.

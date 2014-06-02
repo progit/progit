@@ -597,7 +597,7 @@ Pour créer une branche locale avec un nom différent de celui de la branche dis
 	Branch sf set up to track remote branch refs/remotes/origin/correctionserveur.
 	Switched to a new branch "sf"
 
-À présent, votre branche locale sf poussera vers et tirera automatiquement depuis origin/correctionserveur.
+À présent, votre branche locale `sf` poussera vers et tirera automatiquement depuis `origin/correctionserveur`.
 
 ### Effacer des branches distantes ###
 

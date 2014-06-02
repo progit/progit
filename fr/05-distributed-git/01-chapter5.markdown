@@ -255,7 +255,7 @@ John a une référence aux modifications que Jessica a poussées, mais il doit l
 Cette fusion se passe sans problème — l'historique de *commits* de John ressemble à présent à la figure 5-5.
 
 Insert 18333fig0505.png
-Figure 5-5. Le dépôt local de John après la fusion d'origin/master.
+Figure 5-5. Le dépôt local de John après la fusion d'`origin/master`.
 
 Maintenant, John peut tester son code pour s'assurer qu'il fonctionne encore correctement et peut pousser son travail nouvellement fusionné sur le serveur :
 

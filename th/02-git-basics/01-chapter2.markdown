@@ -55,7 +55,7 @@ Insert 18333fig0201.png
 
 	$ git status
 	# On branch master
-	nothing to commit (working directory clean)
+	nothing to commit, working directory clean
 
 ผลลัพธ์ด้านบนหมายความว่าไดเรกทอรีของคุณยังสะอาดอยู่ นั่นก็คือไม่มีการแก้ไขแฟ้มที่ถูก track และ ไม่มีแฟ้มที่อยู่ในสถานะ untracked ในไดเรกทอรี นอกจากนั้นคำสั่งนี้ยังบอกว่าคุณอยู่ใน branch ชื่อ master ซึ่งเป็น branch เริ่มต้นอยู่แล้ว เราจะลงรายละเอียดเกี่ยวกับ branch และ reference ในบทถัดไป
 

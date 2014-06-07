@@ -91,7 +91,7 @@ Het commando dat je voornamelijk zult gebruiken om te bepalen welk bestand zich 
 
 	$ git status
 	# On branch master
-	nothing to commit (working directory clean)
+	nothing to commit, working directory clean
 
 Dit betekent dat je een schone werkdirectory hebt, met andere woorden er zijn geen tracked bestanden die gewijzigd zijn. Git ziet ook geen untracked bestanden, anders zouden ze hier getoond worden. Als laatste vertelt het commando op welke tak (branch) je nu zit. Voor nu is dit altijd `master`, dat is de standaard; besteed daar voor nu nog geen aandacht aan. In het volgende hoofdstuk wordt gedetaileerd ingegaan op branches en referenties.
 

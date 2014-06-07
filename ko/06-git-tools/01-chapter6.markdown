@@ -436,7 +436,7 @@ Stash 명령을 사용하면 워킹 디렉토리에서 수정한 파일만 저�
 
 	$ git status
 	# On branch master
-	nothing to commit (working directory clean)
+	nothing to commit, working directory clean
 
 이제 아무 브랜치나 골라서 바꿀 수 있다. 수정하던 것은 스택에 저장했다. 아래와 같이 `git stash list`를 사용하여 저장한 Stash를 확인한다:
 

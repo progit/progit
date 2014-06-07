@@ -457,7 +457,7 @@ Váš pracovní adresář se vyčistil:
 
 	$ git status
 	# On branch master
-	nothing to commit (working directory clean)
+	nothing to commit, working directory clean
 
 Nyní můžete bez obav přepnout větve a pracovat na jiném úkolu, vaše změny byly uloženy do zásobníku. Chcete-li se podívat, které soubory jste odložili, spusťte příkaz `git stash list`:
 

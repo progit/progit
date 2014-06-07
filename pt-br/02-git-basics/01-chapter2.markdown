@@ -55,7 +55,7 @@ A principal ferramenta utilizada para determinar quais arquivos estão em quais 
 
     $ git status
     # On branch master
-    nothing to commit (working directory clean)
+    nothing to commit, working directory clean
 
 Isso significa que você tem um diretório de trabalho limpo — em outras palavras, não existem arquivos monitorados e modificados. Git também não encontrou qualquer arquivo não monitorado, caso contrário eles seriam listados aqui. Por fim, o comando lhe mostra em qual branch você se encontra. Por enquanto, esse sempre é o `master`, que é o padrão; você não deve se preocupar com isso. No próximo capítulo nós vamos falar sobre branches e referências em detalhes.
 

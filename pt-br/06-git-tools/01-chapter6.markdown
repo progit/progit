@@ -436,7 +436,7 @@ Seu diretório de trabalho está limpo:
 
     $ git status
     # On branch master
-    nothing to commit (working directory clean)
+    nothing to commit, working directory clean
 
 Neste momento, você pode facilmente mudar de branch e trabalhar em outra coisa; suas alterações estão armazenadas na sua pilha. Para ver as stashes que você guardou, você pode usar `git stash list`:
 

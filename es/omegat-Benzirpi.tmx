@@ -28305,12 +28305,12 @@ Figura 5-21.</seg>
       <tuv lang="EN">
         <seg>$ git status
 	# On branch master
-	nothing to commit (working directory clean)</seg>
+	nothing to commit, working directory clean</seg>
       </tuv>
       <tuv lang="ES" changedate="20120702T085314Z" changeid="juan">
         <seg>$ git status
 	# On branch master
-	nothing to commit (working directory clean)</seg>
+	nothing to commit, working directory clean</seg>
       </tuv>
     </tu>
     <tu>

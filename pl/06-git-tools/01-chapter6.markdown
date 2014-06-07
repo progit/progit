@@ -602,7 +602,7 @@ Twój katalog roboczy jest teraz w stanie niezmienionym:
 
 	$ git status
 	# On branch master
-	nothing to commit (working directory clean)
+	nothing to commit, working directory clean
 
 W tej chwili, możesz bez problemu przejść na inną gałąź i rozpocząć pracę nad innymi zmianami; Twoje poprzednie modyfikacje zapisane są w przechowalni. Aby zobaczyć listę zapisanych zmian w przechowalni, użyj komendy `git stash list`: 
 

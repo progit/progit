@@ -55,7 +55,7 @@ Päätyökalu tiedostojesi eri tilojen selvittämiseen on `git status` -komento.
 
 	$ git status
 	# On branch master
-	nothing to commit (working directory clean)
+	nothing to commit, working directory clean
 
 Tämä tarkoittaa, että sinulla on puhdas työhakemisto - toisin sanoen, jäljitettyjä tiedostoja ei ole muutettu. Git ei myöskään näe yhtään jäljittämätöntä tiedostoa, muuten ne olisi listattu näkymään. Lopuksi komento kertoo sinulle missä haarassa olet. Tällä hetkellä se on aina `master`-haara, joka on oletusarvo; sinun ei tarvitse huolehtia siitä nyt. Seuraava luku käy läpi haarautumiset ja viittaukset yksityiskohtaisesti.
 

@@ -504,7 +504,7 @@ Votre répertoire de travail est propre :
 
 	$ git status
 	# On branch master
-	nothing to commit (working directory clean)
+	nothing to commit, working directory clean
 
 À ce moment, vous pouvez facilement changer de branche et travailler autre part ; vos modifications sont conservées dans votre pile.
 Pour voir quelles remises vous avez sauvegardées, vous pouvez utiliser la commande `git stash list` :

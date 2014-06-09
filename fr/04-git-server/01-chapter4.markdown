@@ -43,7 +43,7 @@ Ou bien cela :
 	$ git clone file:///opt/git/projet.git
 
 Git opère légèrement différemment si vous spécifiez explicitement le protocole `file://` au début de l'URL.
-Si vous spécifiez simplement le chemin et si la destination se trouve sur le même système de fichiers, Git tente d'utiliser des liens durs pour le fichiers communs.
+Si vous spécifiez simplement le chemin et si la destination se trouve sur le même système de fichiers, Git tente d'utiliser des liens physiques pour le fichiers communs.
 Si la destination se trouve sur un autre système de fichiers, Git fait une copie des fichiers nécessaires.
 Si vous spécifiez le protocole `file://`, Git lance un processus d'accès au travers du réseau, ce qui est généralement moins efficace.
 La raison d'utiliser spécifiquement le préfixe `file://` est la volonté d'obtenir une copie propre du dépôt, sans aucune référence ou aucun objet supplémentaire qui pourraient résulter d'un import depuis un autre système de gestion de version ou d'une action similaire (voir chapitre 9 pour les tâches de maintenance).

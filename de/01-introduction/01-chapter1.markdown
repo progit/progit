@@ -340,7 +340,7 @@ Git umfasst das Werkzeug `git config`, das Dir erlaubt, Konfigurationswerte zu v
 
 <!--On Windows systems, Git looks for the `.gitconfig` file in the `$HOME` directory (`%USERPROFILE%` in Windows’ environment), which is `C:\Documents and Settings\$USER` or `C:\Users\$USER` for most people, depending on version (`$USER` is `%USERNAME%` in Windows’ environment). It also still looks for /etc/gitconfig, although it’s relative to the MSys root, which is wherever you decide to install Git on your Windows system when you run the installer.-->
 
-Auf Windows Systemen sucht Git nach der `.gitconfig` Datei im `$HOME` Verzeichnis (für die meisten Leute ist das das Verzeichnis `C:\Dokumente und Einstellungen\$USER`). Git sucht außerdem auch nach dem Verzeichnis /etc/gitconfig, aber es sucht relativ demjenigen Verzeichnis, in dem Du Git mit Hilfe des Installers installiert hast.
+Auf Windows Systemen sucht Git nach der `.gitconfig` Datei im `$HOME` Verzeichnis (für die meisten Leute ist das das Verzeichnis `C:\Dokumente und Einstellungen\$USER`). Es schaut auch immer nach `/etc/gitconfig`, auch wenn dieses relativ zu dem MSys Wurzelverzeichnis ist, welches das ist, wohin Du Git bei der Installation in Windows installiert hast.
 
 <!--### Your Identity ###-->
 ### Deine Identität ###

@@ -117,9 +117,10 @@ Per inizializzare un qualsiasi server Git, devi esportare un repository esistent
 Per clonare il tuo repository per creare un nuovo repository di soli dati, devi avviare il comando clone con l'opzione `--bare`. Convenzionalmente, un repository di soli dati in finisce in `.git`, ad esempio:
 
 	$ git clone --bare my_project my_project.git
-	Initialized empty Git repository in /opt/projects/my_project.git/
+	Cloning into bare repository 'my_project.git'...
+  	done.
 
-L'output di questo comando confonde un pochino. Dato che `clone` è un `git init` quindi un `git fetch`, vediamo parte dell'output dalla parte `git init`, il quale crea una directory vuota. L'effecttivo trasferimento dell'oggetto non fornisce output, ma avviene. Ora dovresti avere una copia della directory dei dati di Git nella directory `my_project.git`.
+Ora dovresti avere una copia della directory dei dati di Git nella directory `my_project.git`.
 
 La stessa cosa la si può ottenere con
 
@@ -226,7 +227,12 @@ Devi solo aggiungerle al tuo file `authorized_keys`:
 	$ cat /tmp/id_rsa.josie.pub >> ~/.ssh/authorized_keys
 	$ cat /tmp/id_rsa.jessica.pub >> ~/.ssh/authorized_keys
 
-Ora, puoi impostare un repository vuoto avviando `git init` con l'opzione `--bare`, che inizializza il repository senza la directory di lavoro:
+L'autenticazione tramite chiavi SSH generalmente richiede una restrizione dei diritti di accesso ai file coinvolti. Per prevenire qualsiasi problema è necessario eseguire:
+ 
+ 	$ chmod -R go= ~/.ssh
+ 
+
+ Ora, puoi impostare un repository vuoto avviando `git init` con l'opzione `--bare`, che inizializza il repository senza la directory di lavoro:
 
 	$ cd /opt/git
 	$ mkdir project.git

@@ -120,12 +120,7 @@ In order to clone your repository to create a new bare repository, you run the c
 	Cloning into bare repository 'my_project.git'...
 	done.
 
-<!-- This next part doesn't fit the actual output as shown, the confusing part
-     of the output is no longer shown in the command output. I would like to asks
-     the original author to modify the text.
--->
-
-The output for this command is a little confusing. Since `clone` is basically a `git init` then a `git fetch`, we see some output from the `git init` part, which creates an empty directory. The actual object transfer gives no output, but it does happen. You should now have a copy of the Git directory data in your `my_project.git` directory.
+You should now have a copy of the Git directory data in your `my_project.git` directory.
 
 This is roughly equivalent to something like
 

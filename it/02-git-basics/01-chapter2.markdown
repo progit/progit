@@ -323,8 +323,8 @@ Come vedi, il messaggio predefinito della commit contiene l'ultimo output del co
 
 In alternativa, puoi inserire il messaggio per la tua commit alla riga di comando della `commit` specificando l'opzione -m, come segue:
 
-	$ git commit -m "Story 182: Fix benchmarks for speed"
-	[master 463dc4f] Fix benchmarks for speed
+	$ git commit -m "Storia 182: Corretti benchmarks per la velocità"
+	[master 463dc4f] Storia 182: Corretti benchmarks per la velocità
 	 2 files changed, 3 insertions(+)
 	 create mode 100644 README
 

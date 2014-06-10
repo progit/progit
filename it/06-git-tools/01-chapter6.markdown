@@ -440,7 +440,7 @@ La tua cartella di lavoro ora è pulita:
 
 	$ git status
 	# On branch master
-	nothing to commit (working directory clean)
+	nothing to commit, working directory clean
 
 A questo punto puoi passare facilmente a un'altra diramazione e lavorare ad altro; le tue modifiche sono salvate nella tua pila di accantonamento. Per vedere cosa c'è nella tua pila usa `git stash list`:
 

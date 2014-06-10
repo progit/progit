@@ -439,7 +439,7 @@ simplegit.rb 的狀態非常有意思。它顯示有幾行被暫存了，有幾�
 
 	$ git status
 	# On branch master
-	nothing to commit (working directory clean)
+	nothing to commit, working directory clean
 
 這時，你可以方便地切換到其他分支工作；你的變更都保存在堆疊上。要查看現有的儲藏，你可以使用 `git stash list`： 
 

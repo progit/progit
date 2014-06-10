@@ -55,7 +55,7 @@ Insert 18333fig0201.png
 
 	$ git status
 	# On branch master
-	nothing to commit (working directory clean)
+	nothing to commit, working directory clean
 
 Гэта значыць, што ў вас чысты працоўны каталог, іншымі словамі - адсутнічаюць мадыфікаваныя адсочваемыя файлы. Git таксама не знайшоў якія-небудзь неадсочваемыя файлы, у зваротным выпадку яны былі б пералічаны тут. У канцы каманда паказвае вам на якой ветцы вы знаходзіцеся.   This means you have a clean working directory — in other words, there are no tracked and modified files. Git also doesn’t see any untracked files, or they would be listed here. Finally, the command tells you which branch you’re on. For now, that is always `master`, which is the default; you won’t worry about it here. The next chapter will go over branches and references in detail.
 

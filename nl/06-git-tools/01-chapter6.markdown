@@ -477,7 +477,7 @@ Je werkdirectory is schoon:
 
 	$ git status
 	# On branch master
-	nothing to commit (working directory clean)
+	nothing to commit, working directory clean
 
 Nu kan je eenvoudig van branch wisselen en ergens anders aan werken, je wijzigingen zijn opgeslagen op de stapel. Om te zien welke stashes je opgeslagen hebt, kun je `git stash list` gebruiken:
 

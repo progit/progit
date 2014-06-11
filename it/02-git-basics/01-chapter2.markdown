@@ -657,10 +657,55 @@ The lines must be formatted as follows
 	--author	Mostra solo le commit dell'autore specificato.
 	--committer	Mostra solo le commit del committer specificato.
 
-Se vuoi, per esempio, vedere quale commit della cronologia di Git modificano i test e che siano state eseguite da Junio Hamano a ottobre 2008, ma che non siano ancora stati uniti, puoi eseguire questo comando:
 
-	$ git log --pretty="%h - %s" --author=gitster --since="2008-10-01" \
-	   --before="2008-11-01" --no-merges -- t/
+### Filtrare i risultati in base a data e ora ###
+ 
+ Per sapere cosa è stato committato nel repository di Git (git://git.kernel.org/pub/scm/git/git.git) il 29/04/2014 (usando come riferimento il fuso orario impostato sul tuo computer)
+ 
+    $ git log --after="2014-04-29 00:00:00" --before="2014-04-29 23:59:59" \
+         --pretty=fuller
+ 
+ Il risultato che si ottiene eseguendo questo comando cambia in base al fuso orario dove viene eseguito. È quindi consigliato usare un orario assoluto quando si usano le opzioni `--after` e `--before`, come per esempio l'ISO 8601 (che include anche informazioni sul furo orario), così da ottenere gli stessi risultati indipendentemente dal fuso orario. 
+
+Per ottenere le commit eseguite in un determinato istante (per esempio il 29 Aprile 2013 alle 17:07:22 CET), possiamo eseguire:
+
+    $ git log  --after="2013-04-29T17:07:22+0200"      \
+              --before="2013-04-29T17:07:22+0200" --pretty=fuller
+    
+    commit de7c201a10857e5d424dbd8db880a6f24ba250f9
+    Author:     Ramkumar Ramachandra <artagnon@gmail.com>
+    AuthorDate: Mon Apr 29 18:19:37 2013 +0530
+    Commit:     Junio C Hamano <gitster@pobox.com>
+    CommitDate: Mon Apr 29 08:07:22 2013 -0700
+    
+        git-completion.bash: lexical sorting for diff.statGraphWidth
+        
+        df44483a (diff --stat: add config option to limit graph width,
+        2012-03-01) added the option diff.startGraphWidth to the list of
+        configuration variables in git-completion.bash, but failed to notice
+        that the list is sorted alphabetically.  Move it to its rightful place
+        in the list.
+        
+        Signed-off-by: Ramkumar Ramachandra <artagnon@gmail.com>
+        Signed-off-by: Junio C Hamano <gitster@pobox.com>
+
+Data e ora di `AuthorDate` e `CommitDate` hanno un formato standard (`--date=default`) che mostra le informazioni sul fuso orario, rispettivamente, dell'autore e di chi ha eseguito la commit.
+
+Altri formati utili sono `--date=iso` (ISO 8601), `--date=rfc` (RFC 2822), `--date=raw` (i secondi passati dall'1/1/1970 UTC) `--date=local` (l'orario del tuo attuale fuso) e `--date=relative` (per esempio: "2 ore fa").
+
+Usando `git log` senza specificare un orario equivale a specificare l'orario attuale del tuo computer (mantenendo la differenza con l'UTC).
+
+Per esempio, eseguendo `git log` alle 09:00 su un computer che sia 3 ore avanti rispetto all'UTC, rende equivalenti questi comandi:
+
+    $ git log --after=2008-06-01 --before=2008-07-01
+    $ git log --after="2008-06-01T09:00:00+0300" \
+        --before="2008-07-01T09:00:00+0300"
+
+Per fare un ultimo esempio, se vuoi vedere quale commit di Junio Hamano dell'ottobre del 2008 (relative al fuso di New York) che modificano i file di test nella cronologia dei sorgenti di Git che non sono ancora state unite con merge, puoi eseguire questo:
+ 
+    $ git log --pretty="%h - %s" --author=gitster \
+        --after="2008-10-01T00:00:00-0400"         \
+        --before="2008-10-31T23:59:59-0400" --no-merges -- t/
 	5610e3b - Fix testcase failure when extended attribute
 	acd3b9e - Enhance hold_lock_file_for_{update,append}()
 	f563754 - demonstrate breakage of detached checkout wi

@@ -652,8 +652,8 @@ The lines must be formatted as follows
 
 	Opzioni	Descrizione
 	-(n)	Vedi solo le ultime n commit
-	--since, --after	Mostra solo le commit fatte dopo la data specificata.
-	--until, --before	Mostra solo le commit fatte prima della data specificata.
+	--since, --after	Mostra solo le commit fatte dalla data specificata.
+	--until, --before	Mostra solo le commit fatte entro la data specificata.
 	--author	Mostra solo le commit dell'autore specificato.
 	--committer	Mostra solo le commit del committer specificato.
 

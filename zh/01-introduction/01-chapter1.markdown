@@ -252,7 +252,7 @@ Git 可以理解 kdiff3，tkdiff，meld，xxdiff，emerge，vimdiff，gvimdiff�
 	$ git help config
 
 我们随时都可以浏览这些帮助信息而无需连网。
-不过，要是你觉得还不够，可以到 Freenode IRC 服务器（irc.freenode.net）上的 `#git` 或 `#github` 频道寻求他人帮助。这两个频道上总有着上百号人，大多都有着丰富的 git 知识，并且乐于助人。
+不过，要是你觉得还不够，可以到 Freenode IRC 服务器（irc.freenode.net）上的 `#git` 或 `#github` 频道寻求他人帮助。这两个频道上总有着上百号人，大多都有着丰富的 Git 知识，并且乐于助人。
 
 ## 小结 ##
 

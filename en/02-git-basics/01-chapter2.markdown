@@ -666,6 +666,7 @@ To determine which commits in the Git source code repository (git://git.kernel.o
       --pretty=fuller
 
 As the output will be different according to the timezone where it will be run, it's recommended to always use an absolute time such as ISO 8601 format (which includes timezone information) as argument to `--after` and `--before`, so that everone running the command will get the same repeatable results. 
+
 To obtain commits made at a specific instant in time (e.g. 29 April 2013 at 17:07:22 CET), we can use
 
     $ git log  --after="2013-04-29T17:07:22+0200"      \
@@ -691,6 +692,13 @@ To obtain commits made at a specific instant in time (e.g. 29 April 2013 at 17:0
 The above times (`AuthorDate`, `CommitDate`) are displayed in default format (`--date=default`), which shows timezone information of respective author and commiter.
 
 Other useful formats include `--date=iso` (ISO 8601), `--date=rfc` (RFC 2822), `--date=raw` (seconds since the epoch (1970-01-01 UTC)) `--date=local` (times according to your local timezone) as well as `--date=relative` (e.g. "2 hours ago").
+
+When using `git log` without specifying time, the time defaults to the time at which the command is run on your computer (keeping the identical offset from UTC).
+
+For example, running a `git log` at 09:00 on your computer with your timezone currently 3 hours ahead of UTC, makes the following two commands equivalent:
+    $ git log --after=2008-06-01 --before=2008-07-01
+    $ git log --after="2008-06-01T09:00:00+0300" \
+        --before="2008-07-01T09:00:00+0300"
 
 As a final example, if you want to see which commits modifying test files in the Git source code history were committed by Junio Hamano with CommitDate being in the month of October 2008 (relative to the timezone of New York) and were not merges, you can run something like this:
 

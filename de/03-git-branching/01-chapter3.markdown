@@ -867,7 +867,7 @@ Lass uns annehmen, Du entscheidest Dich Deinen Server-Branch ebenfalls einzupfle
 
 <!--This replays your `server` work on top of your `master` work, as shown in Figure 3-34.-->
 
-Das wiederholt Deine `server`-Arbeit auf der Basis der `server`-Arbeit, wie in Abbildung 3-34 ersichtlich.
+Das wiederholt Deine `server`-Arbeit auf der Basis der `master`-Arbeit, wie in Abbildung 3-34 ersichtlich.
 
 <!--Figure 3-34. Rebasing your server branch on top of your master branch.-->
 

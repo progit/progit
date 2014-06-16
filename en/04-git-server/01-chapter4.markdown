@@ -622,7 +622,7 @@ In addition to restricting what branches a user can push changes to, you can als
 
         -   VREF/NAME/Makefile  =   @junior_devs
 
-User who are migrating from the older Gitolite should note that there is a significant change in behaviour with regard to this feature; please see the migration guide for details.
+Users who are migrating from the older Gitolite should note that there is a significant change in behaviour with regard to this feature; please see the migration guide for details.
 
 ### Personal Branches ###
 

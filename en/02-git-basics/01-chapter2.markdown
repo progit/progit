@@ -665,37 +665,9 @@ To determine which commits in the Git source code repository (git://git.kernel.o
     $ git log --after="2014-04-29 00:00:00" --before="2014-04-29 23:59:59" \
       --pretty=fuller
 
-However this command will not yield identical results when run by collegues, who may be situated in other timezones around the world. Therefore it is recommended to always use an absolute time such as ISO 8601 format (which includes timezone information) as argument to `--after` and `--before`, so that everone running the command will get the same repeatable results. If your timezone is that of France (e.g. you are in Paris) you can change the above example, to use absolute-time arguments. First determine the absolute-times using e.g. the `date` program:
+As the output will be different according to the timezone where it will be run, it's recommended to always use an absolute time such as ISO 8601 format (which includes timezone information) as argument to `--after` and `--before`, so that everone running the command will get the same repeatable results. 
 
-    $ TZ="CET-1CEST,M3.5.0,M10.5.0/3" date --date="2014-04-29 00:00:00" -Is
-    2014-04-29T00:00:00+0200
-    
-    $ TZ="CET-1CEST,M3.5.0,M10.5.0/3" date --date="2014-04-29 23:59:59" -Is
-    2014-04-29T23:59:59+0200
-
-    $ # for TZ values of various countries/cities
-    $ # see http://wiki.openwrt.org/doc/uci/system#time.zones 
-
-    $ # Alternative (simplification) under GNU/Linux -- see /usr/share/zoneinfo/
-    $ TZ="Europe/Paris" date --date="2014-04-29 00:00:00" -Is
-    2014-04-29T00:00:00+0200
-    
-    $ TZ="Europe/Paris" date --date="2014-04-29 23:59:59" -Is
-    2014-04-29T23:59:59+0200
-
-Using the resulting absolute-times, we can now modify the above example and construct a git log command, that gives repeatable ("Paris"-based) results for everyone, irrespective of location:
-
-    $ git log --after="2014-04-29T00:00:00+0200" \
-    --before="2014-04-29T23:59:59+0200" --pretty=fuller
-
-`+0200` means that here Paris is 2 hours ahead of UTC: 
-
-For example: for `2014-04-29T23:59:59+0200` the corresponding 
-
-UTC is `2014-04-29 21:59:59`.
-
-
-To obtain commits made at a specific instant in time (e.g. `2013-04-29T17:07:22+0200`), we can use
+To obtain commits made at a specific instant in time (e.g. 29 April 2013 at 17:07:22 CET), we can use
 
     $ git log  --after="2013-04-29T17:07:22+0200"      \
               --before="2013-04-29T17:07:22+0200" --pretty=fuller
@@ -719,29 +691,16 @@ To obtain commits made at a specific instant in time (e.g. `2013-04-29T17:07:22+
 
 The above times (`AuthorDate`, `CommitDate`) are displayed in default format (`--date=default`), which shows timezone information of respective author and commiter.
 
-We can change the way that these are displayed in the resulting log list. `--date=local` displays times according to your local timezone:
+Other useful formats include `--date=iso` (ISO 8601), `--date=rfc` (RFC 2822), `--date=raw` (seconds since the epoch (1970-01-01 UTC)) `--date=local` (times according to your local timezone) as well as `--date=relative` (e.g. "2 hours ago").
 
-    $ git log  --after="2013-04-29T17:07:22+0200" \
-              --before="2013-04-29T17:07:22+0200" --pretty=fuller --date=local
+When using `git log` without specifying time, the time defaults to the time at which the command is run on your computer (keeping the identical offset from UTC).
 
-To show all times according to the timezone of New Zealand, we can prefix an appropriate `TZ=..."` value to the above command (under GNU/Linux simply `TZ="Pacific/Auckland"`):
-
-    $ TZ="NZST-12NZDT,M9.5.0,M4.1.0/3"            \
-      git log  --after="2013-04-29T17:07:22+0200" \
-              --before="2013-04-29T17:07:22+0200" --pretty=fuller --date=local
-
-Other useful formats include `--date=iso` (ISO 8601), `--date=rfc` (RFC 2822), `--date=raw` (seconds since the epoch (1970-01-01 UTC)) as well as `--date=relative` (e.g. "2 hours ago").
-
-When using `git log` without specifying time,
-
+For example, running a `git log` at 09:00 on your computer with your timezone currently 3 hours ahead of UTC, makes the following two commands equivalent:
     $ git log --after=2008-06-01 --before=2008-07-01
-
-the time defaults to the time at which the command is run on your computer (keeping the identical offset from UTC). For example when the above command is executed at 09:00 on your computer with your timezone currently 3 hours ahead of UTC, then the result is equivalent to doing:
-
     $ git log --after="2008-06-01T09:00:00+0300" \
-      --before="2008-07-01T09:00:00+0300"
+        --before="2008-07-01T09:00:00+0300"
 
-As a final example:, if you want to see which commits modifying test files in the Git source code history were committed by Junio Hamano with CommitDate being in the month of October 2008 (relative to the timezone of New York) and were not merges, you can run something like this:
+As a final example, if you want to see which commits modifying test files in the Git source code history were committed by Junio Hamano with CommitDate being in the month of October 2008 (relative to the timezone of New York) and were not merges, you can run something like this:
 
         $ git log --pretty="%h - %s" --author=gitster \
            --after="2008-10-01T00:00:00-0400"         \

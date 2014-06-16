@@ -248,7 +248,7 @@ Un'opzione comunemente usata in questi casi con il comando `log` è il parametro
 	> D
 	> C
 
-Con questi strumenti puoi dire facilmente a Git quali commit vuoi ispezionare.
+Con questi strumenti puoi dire facilmente a Git quale o quali commit vuoi ispezionare.
 
 ## Assemblaggio interattivo ##
 

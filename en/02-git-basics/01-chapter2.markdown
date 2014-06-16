@@ -696,6 +696,7 @@ Other useful formats include `--date=iso` (ISO 8601), `--date=rfc` (RFC 2822), `
 When using `git log` without specifying time, the time defaults to the time at which the command is run on your computer (keeping the identical offset from UTC).
 
 For example, running a `git log` at 09:00 on your computer with your timezone currently 3 hours ahead of UTC, makes the following two commands equivalent:
+
     $ git log --after=2008-06-01 --before=2008-07-01
     $ git log --after="2008-06-01T09:00:00+0300" \
         --before="2008-07-01T09:00:00+0300"

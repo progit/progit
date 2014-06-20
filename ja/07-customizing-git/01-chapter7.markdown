@@ -613,14 +613,12 @@ update スクリプトは `pre-receive` スクリプトと似ていますが、�
 
 	#!/usr/bin/env ruby
 
-	$refname = ARGV[0]
-	$oldrev  = ARGV[1]
-	$newrev  = ARGV[2]
-	$user    = ENV['USER']
+	refname = ARGV[0]
+	oldrev  = ARGV[1]
+	newrev  = ARGV[2]
+	user    = ENV['USER']
 
-	puts "Enforcing Policies... \n(#{$refname}) (#{$oldrev[0,6]}) (#{$newrev[0,6]})"
-
-ああ、グローバル変数を使ってるとかいうツッコミは勘弁してください。このほうが説明が楽なので。
+	puts "Enforcing Policies... \n(#{refname}) (#{oldrev[0,6]}) (#{newrev[0,6]})"
 
 #### 特定のコミットメッセージ書式の強制 ####
 

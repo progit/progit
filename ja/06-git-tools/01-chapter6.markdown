@@ -81,13 +81,13 @@ SHA-1 の衝突を見るにはどうしたらいいのか、ひとつの例を�
 参照ログを見るには `git reflog` を使います。
 
 	$ git reflog
-	734713b... HEAD@{0}: commit: fixed refs handling, added gc auto, updated
-	d921970... HEAD@{1}: merge phedders/rdocs: Merge made by recursive.
-	1c002dd... HEAD@{2}: commit: added some blame and merge stuff
-	1c36188... HEAD@{3}: rebase -i (squash): updating HEAD
-	95df984... HEAD@{4}: commit: # This is a combination of two commits.
-	1c36188... HEAD@{5}: rebase -i (squash): updating HEAD
-	7e05da5... HEAD@{6}: rebase -i (pick): updating HEAD
+	734713b HEAD@{0}: commit: fixed refs handling, added gc auto, updated
+	d921970 HEAD@{1}: merge phedders/rdocs: Merge made by recursive.
+	1c002dd HEAD@{2}: commit: added some blame and merge stuff
+	1c36188 HEAD@{3}: rebase -i (squash): updating HEAD
+	95df984 HEAD@{4}: commit: # This is a combination of two commits.
+	1c36188 HEAD@{5}: rebase -i (squash): updating HEAD
+	7e05da5 HEAD@{6}: rebase -i (pick): updating HEAD
 
 何らかの理由でブランチの先端が更新されるたびに、Git はその情報をこの一時履歴に格納します。そして、このデータを使って過去のコミットを指定することもできます。リポジトリの HEAD の五つ前の状態を知りたい場合は、先ほど見た reflog の出力のように `@{n}` 形式で参照することができます。
 

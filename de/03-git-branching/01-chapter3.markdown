@@ -739,7 +739,7 @@ Nun wird Dein lokaler Branch `sf` automatisch push und pull auf `origin/serverfi
 
 <!--Suppose you’re done with a remote branch — say, you and your collaborators are finished with a feature and have merged it into your remote’s `master` branch (or whatever branch your stable codeline is in). You can delete a remote branch using the rather obtuse syntax `git push [remotename] :[branch]`. If you want to delete your `serverfix` branch from the server, you run the following:-->
 
-Stellen wir uns Du bist fertig mit Deinem Remote-Branch – sagen wir Deine Mitarbeiter und Du, Ihr seid fertig mit einer neuen Funktion und habt sie in den entfernten `master`-Branch (oder in welchem Zweig Ihr sonst den stabilen Code ablegt) gemerged. Du kannst einen Remote-Branch mit der unlogischen Syntax `git push [remotename] :[branch]` löschen. Wenn Du Deinen `serverfix`-Branch vom Server löschen möchtest, führe folgendes aus:
+Stellen wir uns vor, Du bist fertig mit Deinem Remote-Branch – sagen wir Deine Mitarbeiter und Du, Ihr seid fertig mit einer neuen Funktion und habt sie in den entfernten `master`-Branch (oder in welchem Zweig Ihr sonst den stabilen Code ablegt) gemerged. Du kannst einen Remote-Branch mit der unlogischen Syntax `git push [remotename] :[branch]` löschen. Wenn Du Deinen `serverfix`-Branch vom Server löschen möchtest, führe folgendes aus:
 
 	$ git push origin :serverfix
 	To git@github.com:schacon/simplegit.git

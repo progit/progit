@@ -4,11 +4,11 @@ Aquest capítol tracta com iniciar-se amb Git. Començarem explicant alguns conc
 
 ## Control de Versions ##
 
-What is version control, and why should you care? Version control is a system that records changes to a file or set of files over time so that you can recall specific versions later. For the examples in this book you will use software source code as the files being version controlled, though in reality you can do this with nearly any type of file on a computer.
+Que es el control de version i per què t'hauria d'importar? El control de versions es un sitema que registra els canvis a un arxiu o conjunt d'arxius de manera que despres pot recuperar cualsevol de les versions. Tot i que els exemples de control de versions del llibre son codi font, potfer servir gairebe quansevol mena de arxiu per del teu ordinador.
 
-If you are a graphic or web designer and want to keep every version of an image or layout (which you would most certainly want to), a Version Control System (VCS) is a very wise thing to use. It allows you to revert files back to a previous state, revert the entire project back to a previous state, compare changes over time, see who last modified something that might be causing a problem, who introduced an issue and when, and more. Using a VCS also generally means that if you screw things up or lose files, you can easily recover. In addition, you get all this for very little overhead.
+Si ets un disenyador gràfic o de pagines web i vols guardar cada escuna de les versions d'una imatge o disenys (que segur que vols) un sitema de control de versions (Version Control System -VCS-) sera una eina acurada. Et permetrà torna al estat anterior dels fitxers, tornar a un punt anterior de tot el projecte, comparà canvis en el proces, saber qui es el darrer a modificat coses que potser estant donant problemes, qui a introduit un tema i quant, i encara més coses. Fer servir VCS vol dir que si la pífias o pot arreglar, generalment. i tot aixo amb pocs costos.
 
-### Local Version Control Systems ###
+### Sitemas de control de versions locals ###
 
 Many people’s version-control method of choice is to copy files into another directory (perhaps a time-stamped directory, if they’re clever). This approach is very common because it is so simple, but it is also incredibly error prone. It is easy to forget which directory you’re in and accidentally write to the wrong file or copy over files you don’t mean to.
 

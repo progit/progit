@@ -650,15 +650,59 @@ The lines must be formatted as follows
 
 	オプション	説明
 	-(n)	直近の n 件のコミットのみを表示する
-	--since, --after	指定した日付以降のコミットのみに制限する
-	--until, --before	指定した日付以前のコミットのみに制限する
+	--since, --after    指定した日付/時刻以降のCommitDateのコミットのみに制限する
+	--until, --before    指定した日付/時刻以前のCommitDateのコミットのみに制限する
 	--author	エントリが指定した文字列にマッチするコミットのみを表示する
 	--committer	エントリが指定した文字列にマッチするコミットのみを表示する
 
-たとえば、Git ソースツリーのテストファイルに対する変更があったコミットのうち、Junio Hamano がコミットしたもの (マージは除く) で 2008 年 10 月に行われたものを知りたければ次のように指定します。
+### 日時にもとづくログ出力の制限 ###
 
-	$ git log --pretty="%h - %s" --author=gitster --since="2008-10-01" \
-	   --before="2008-11-01" --no-merges -- t/
+Git のリポジトリ(git://git.kernel.org/pub/scm/git/git.git)からCommitDateを使ってコミットを検索してみましょう。パソコンに設定されたタイムゾーンにおける2014/04/29のコミットを検索するには、以下のコマンドを実行します。
+
+    $ git log --after="2014-04-29 00:00:00" --before="2014-04-29 23:59:59" \
+      --pretty=fuller
+
+この場合、コマンドの結果はパソコンのタイムゾーン設定ごとに異なってしまいます。それを避けるには、タイムゾーンを含むISO 8601フォーマットのような日時を `--after` や `--before` の引数に指定するといいでしょう。そうすれば、上述のケースのようにコマンド実行結果が異なる可能性がなくなります。
+
+特定日時(例として、中央ヨーロッパ時間で2013/04/29 17:07:22)を指定してコミットを検索するには、以下のコマンドを使います。
+
+    $ git log  --after="2013-04-29T17:07:22+0200"      \
+              --before="2013-04-29T17:07:22+0200" --pretty=fuller
+    
+    commit de7c201a10857e5d424dbd8db880a6f24ba250f9
+    Author:     Ramkumar Ramachandra <artagnon@gmail.com>
+    AuthorDate: Mon Apr 29 18:19:37 2013 +0530
+    Commit:     Junio C Hamano <gitster@pobox.com>
+    CommitDate: Mon Apr 29 08:07:22 2013 -0700
+    
+        git-completion.bash: lexical sorting for diff.statGraphWidth
+        
+        df44483a (diff --stat: add config option to limit graph width,
+        2012-03-01) added the option diff.startGraphWidth to the list of
+        configuration variables in git-completion.bash, but failed to notice
+        that the list is sorted alphabetically.  Move it to its rightful place
+        in the list.
+        
+        Signed-off-by: Ramkumar Ramachandra <artagnon@gmail.com>
+        Signed-off-by: Junio C Hamano <gitster@pobox.com>
+
+これらの日時(`AuthorDate` と `CommitDate`)はGitのデフォルトフォーマット(`--date=default` オプション相当)です。作者とコミッター、それぞれのタイムゾーン情報を表示します。
+
+日時フォーマットの指定は他にも `--date=iso` (ISO 8601)、`--date=rfc` (RFC 2822)、`--date=raw` (Unix時間)、`--date=local` (端末のタイムゾーン)、`--date=relative`("2 hours ago"のように相対的な指定)などがあります。
+
+また、 `git log` 実行時に日時指定を省略すると、パソコンの時計をもとにコマンド実行日時を指定日時として使用します(協定標準時からの時差も同一になります)。
+
+具体的には、仮にパソコンの時計が09:00を指していて、かつタイムゾーン設定が協定標準時プラス3時間の場合、以下の `git log` コマンドの日時指定は同一として扱われます。
+
+    $ git log --after=2008-06-01 --before=2008-07-01
+    $ git log --after="2008-06-01T09:00:00+0300" \
+        --before="2008-07-01T09:00:00+0300"
+
+もう一つ例を挙げておきましょう。Git ソースツリーのテストファイルに対する変更があったコミットのうち、Junio Hamano がコミットしたもの (マージは除く) で 2008 年 10 月(ニューヨークのタイムゾーン)に行われたものを知りたければ次のように指定します。
+
+	$ git log --pretty="%h - %s" --author=gitster \
+	   --after="2008-10-01T00:00:00-0400"         \
+	  --before="2008-10-31T23:59:59-0400" --no-merges -- t/
 	5610e3b - Fix testcase failure when extended attribute
 	acd3b9e - Enhance hold_lock_file_for_{update,append}()
 	f563754 - demonstrate breakage of detached checkout wi
@@ -666,7 +710,7 @@ The lines must be formatted as follows
 	51a94af - Fix "checkout --track -b newbranch" on detac
 	b0ad11e - pull: allow "git pull origin $something:$cur
 
-約 20,000 件におよぶ Git ソースコードのコミットの歴史の中で、このコマンドの条件にマッチするのは 6 件となります。
+約 36,000 件におよぶ Git ソースコードのコミットの歴史の中で、このコマンドの条件にマッチするのは 6 件となります。
 
 ### GUI による歴史の可視化 ###
 

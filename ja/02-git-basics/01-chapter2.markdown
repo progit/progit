@@ -323,7 +323,7 @@ glob パターンとは、シェルで用いる簡易正規表現のようなも
 あるいは、コミットメッセージをインラインで記述することもできます。その場合は、`commit` コマンドの後で `-m` フラグに続けて次のように記述します。
 
 	$ git commit -m "Story 182: Fix benchmarks for speed"
-	[master 463dc4f] Fix benchmarks for speed
+	[master 463dc4f] Story 182: Fix benchmarks for speed
 	 2 files changed, 3 insertions(+)
 	 create mode 100644 README
 

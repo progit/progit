@@ -406,20 +406,20 @@ Può perciò creare un po' di confusione il fatto che Git abbia un comando `mv`.
 
 e funziona. Se, infatti, lanci un comando del genere e controlli lo stato, vedrai che Git considera il file rinominato:
 
-	$ git mv README.txt README
+	$ git mv README README.txt
 	$ git status
 	On branch master
 	Changes to be committed:
 	  (use "git reset HEAD <file>..." to unstage)
 	
-	        renamed:    README.txt -> README
+	        renamed:    README -> README.txt
 	
 
 Ovviamente, questo è equivalente a eseguire:
 
-	$ mv README.txt README
-	$ git rm README.txt
-	$ git add README
+	$ mv README README.txt
+	$ git rm README
+	$ git add README.txt
 
 Git capisce che, implicitamente stai rinominando il file, così che non c'è differenza se rinominare un file in questo modo o con il comando `mv`. L'unica differenza reale è che `mv` è un solo comando invece di tre: è un questione di convenienza. La cosa più importante è che puoi usare qualsiasi strumento per rinominare un file, e gestire l'aggiunta/rimozione più tardi, prima della commit.
 

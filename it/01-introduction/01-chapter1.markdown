@@ -178,7 +178,7 @@ Non ti occorre aggiungere tutti i pacchetti extra, ma probabilmente vorrai inclu
 
 Installare Git su Windows è davvero facile. Il progetto msysGit ha una delle procedure di installazione più facili. Semplicemente scarica l'eseguibile dalla pagina di GitHub e lancialo:
 
-	http://msysgit.github.com/
+	http://msysgit.github.io/
 
 Una volta installato avrai a disposizione sia la versione da riga di comando (incluso un client SSH ti servirà in seguito) sia l'interfaccia grafica (_GUI_) standard.
 

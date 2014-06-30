@@ -1,4 +1,4 @@
-# Customizing Git #
+	# Customizing Git #
 
 Finora abbiamo quindi coperto le basi di come Git funzioni e come usarlo, abbiamo introdotto un numero di strumenti che Git fornisce per aiutarti ad utilizzarlo al meglio ed in modo efficiente. In questo capitolo spiegherò alcune delle operazioni che possono essere utilizzate per personalizzare il comportamento di Git introducendo molti settaggi ed il Hooks System. Tramite questi strumenti, è semplice fare in modo che Git lavori nel modo che tu, la tua azienda, o il tuo gruppo desiderate.
 
@@ -130,7 +130,7 @@ In aggiunta, ognuna di queste ha sottoimpostazioni che possono essere utilizzate
 
 	$ git config --global color.diff.meta "blue black bold"
 
-Il colore può essere impostato di ognuno dei seguenti valori: normal, black, red, green, yellow, blue, magenta, cyan, oppure white. Per quanto riguarda gli attributi, come bold nell'esempio precedente, puoi scegliere tra from bold, dim, ul, blink, e reverse.
+Il colore può essere impostato di ognuno dei seguenti valori: `normal` (normale), `black` (nero), `red` (rosso), `green` (verde), `yellow` (giallo), `blue` (blu), `magenta`, `cyan` (ciano), `white` (bianco) oppure, se il tuo terminale supporta più di sedici colori, un valore numerico per il colore che vada da 0 a 255 (in un terminale a 256 colori). Per quanto riguarda gli attributi, come `bold` nell'esempio precedente, puoi scegliere tra from `bold` (grassetto), `dim` (ridotto), `ul` (sottolineato), `blink` (lampeggiante), e `revers` (a colori invertiti).
 
 Per queste sotto-configurazioni puoi guardare la pagina di manuale di `git config`.
 

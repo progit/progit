@@ -650,8 +650,8 @@ The lines must be formatted as follows
 
 	オプション	説明
 	-(n)	直近の n 件のコミットのみを表示する
-	--since, --after    指定した日付/時刻以降のCommitDateのコミットのみに制限する
-	--until, --before    指定した日付/時刻以前のCommitDateのコミットのみに制限する
+	--since, --after	指定した日付/時刻以降のCommitDateのコミットのみに制限する
+	--until, --before	指定した日付/時刻以前のCommitDateのコミットのみに制限する
 	--author	エントリが指定した文字列にマッチするコミットのみを表示する
 	--committer	エントリが指定した文字列にマッチするコミットのみを表示する
 

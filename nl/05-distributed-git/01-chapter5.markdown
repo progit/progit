@@ -33,7 +33,7 @@ vertaling moeten proberen te maken.
 
 Veel succes en plezier bij het vertalen...
 -->
-<!-- SHA-1 of last checked en-version: fbf24105 -->
+<!-- SHA-1 of last checked en-version: 4cefec -->
 # Gedistribueerd Git #
 
 Nu je een remote Git repository hebt ingesteld als een plaats waar alle ontwikkelaars hun code kunnen delen, en je bekend bent met fundamentele Git commando's in een lokale workflow, zul je hier zien hoe je een paar gedistribueerde workflows kunt gebruiken die je met Git kunt bereiken.
@@ -650,7 +650,7 @@ Als je de patch ontvangen hebt van iemand die het gegenereerd heeft met de `git 
 
 Dit wijzigt de bestanden in je werk directory. Het is vrijwel gelijk aan het uitvoeren van een `patch -p1` commando om de patch toe te passen, alhoewel het meer paranoïde is en minder "fuzzy matches" accepteert dan patch. Het handelt ook het toevoegen, verwijderen, en hernoemen van bestanden af als ze beschreven staan in het `git diff` formaat, wat `patch` niet doet. Als laatste volgt `git apply` een "pas alles toe of laat alles weg" model waarbij alles of niets wordt toegepast. Dit in tegenstelling tot `patch` die gedeeltelijke patches kan toepassen, waardoor je werkdirectory in een vreemde status achterblijft. Over het algemeen is `git apply` meer paranoïde dan `patch`. Het zal geen commit voor je aanmaken: na het uitvoeren moet je de geïntroduceerde wijzigingen handmatig stagen en committen.
 
-Je kunt ook git apply gebruiken om te zien of een patch netjes kan worden toepast voordat je het echt doet; je kunt `git apply --check` uitvoeren met de patch:
+Je kunt ook `git apply` gebruiken om te zien of een patch netjes kan worden toepast voordat je het echt doet; je kunt `git apply --check` uitvoeren met de patch:
 
 	$ git apply --check 0001-seeing-if-this-helps-the-gem.patch
 	error: patch failed: ticgit.gemspec:1
@@ -671,7 +671,7 @@ Om een patch gegenereerd met `format-patch` toe te passen, gebruik je `git am`. 
 
 	Limit log functionality to the first 20
 
-Dit is het begin van de uitvoer van het format-patch commando dat je gezien hebt in de vorige paragraaf. Dit is ook een geldig mbox e-mail formaat. Als iemand jou de patch correct gemaild heeft door gebruik te maken van git send-email en je downloadt dat in een mbox formaat, dan kan je het git am naar dat mbox bestand verwijzen, en het zal beginnen met alle patches die het tegenkomt toe te passen. Als je een mail client gebruikt die meerdere e-mails kan opslaan in mbox formaat, dan kun je hele reeksen patches in een bestand opslaan en dan git am gebruiken om ze één voor één toe te passen.
+Dit is het begin van de uitvoer van het format-patch commando dat je gezien hebt in de vorige paragraaf. Dit is ook een geldig mbox e-mail formaat. Als iemand jou de patch correct gemaild heeft door gebruik te maken van `git send-email` en je downloadt dat in een mbox formaat, dan kan je het `git am` naar dat mbox bestand verwijzen, en het zal beginnen met alle patches die het tegenkomt toe te passen. Als je een mail client gebruikt die meerdere e-mails kan opslaan in mbox formaat, dan kun je hele reeksen patches in een bestand opslaan en dan `git am` gebruiken om ze één voor één toe te passen.
 
 Maar, als iemand een patch bestand heeft geüpload die gegenereerd is met `format-patch` naar een ticket systeem of zoiets, kun je het bestand lokaal opslaan en dan dat opgeslagen bestand aan `git am` doorgeven om het te applyen:
 

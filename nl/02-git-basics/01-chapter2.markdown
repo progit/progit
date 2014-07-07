@@ -33,7 +33,7 @@ vertaling moeten proberen te maken.
 
 Veel succes en plezier bij het vertalen...
 -->
-<!-- SHA-1 of last checked en-version: 3c18779  -->
+<!-- SHA-1 of last checked en-version: 4cefec  -->
 # De basis van Git #
 
 Als je slechts één hoofdstuk kunt lezen om met Git aan de slag te gaan, dan is dit het. In dit hoofdstuk worden alle basiscommando's behandeld, die je nodig hebben om het leeuwendeel van de dingen te doen waarmee je uiteindelijk je tijd met Git zult doorbrengen. Als je dit hoofdstuk doorgenomen hebt, zul je een repository kunnen configureren en initialiseren, bestanden beginnen en stoppen te volgen en veranderingen te ‘stagen’ en ‘committen’. We laten ook zien hoe je Git kunt instellen zodat het bepaalde bestanden en bestandspatronen negeert, hoe je vergissingen snel en gemakkelijk ongedaan kunt maken, hoe je de geschiedenis van je project kan doorlopen en wijzigingen tussen commits kunt zien, en hoe je kunt pushen naar en pullen van repositories.
@@ -358,7 +358,7 @@ Je kunt zien dat de standaard commit boodschap de laatste output van het `git st
 Als alternatief kun je de commit boodschap met het `commit` commando meegeven door hem achter de `-m` optie te specificeren, zoals hier:
 
 	$ git commit -m "Story 182: Fix benchmarks for speed"
-	[master 463dc4f] Fix benchmarks for speed
+	[master 463dc4f] Story 182: Fix benchmarks for speed
 	 2 files changed, 3 insertions(+)
 	 create mode 100644 README
 
@@ -440,20 +440,20 @@ Het is daarom een beetje verwarrend dat Git een `mv` commando heeft. Als je een 
 
 en dat werkt prima. Sterker nog, als je zoiets als dit uitvoert en naar de status kijkt, zul je zien dat Git het als een hernoemd bestand beschouwt:
 
-	$ git mv README.txt README
+	$ git mv README README.txt
 	$ git status
 	On branch master
 	Changes to be committed:
 	  (use "git reset HEAD <file>..." to unstage)
 	
-	        renamed:    README.txt -> README
+	        renamed:    README -> README.txt
 	
 
 Maar dat is gelijk aan het uitvoeren van het volgende:
 
-	$ mv README.txt README
-	$ git rm README.txt
-	$ git add README
+	$ mv README README.txt
+	$ git rm README
+	$ git add README.txt
 
 Git komt er impliciet achter dat het om een hernoemd bestand gaat, dus het maakt niet uit of je een bestand op deze manier hernoemt of met het `mv` commando. Het enige echte verschil is dat het `mv` commando slechts één commando is in plaats van drie. En belangrijker nog is dat je iedere applicatie kunt gebruiken om een bestand te hernoemen, en de add/rm later kunt afhandelen voordat je commit.
 
@@ -682,15 +682,59 @@ The lines must be formatted as follows
 
 	Optie	Omschrijving
 	-(n)	Laat alleen de laatste n commits zien
-	--since, --after	Limiteer de commits tot degenen na de gegeven datum.
-	--until, --before	Limiteer de commits tot degenen voor de gegeven datum.
+	--since, --after	Limiteer de commits tot degenen waarvan de CommitDate op of na de gegeven datum/tijd ligt.
+	--until, --before	Limiteer de commits tot degenen waarvan de CommitDate op of voor de gegeven datum/tijd ligt.
 	--author	Laat alleen de commits zien waarvan de auteur bij de gegeven tekst past.
 	--committer	Laat alleen de commits zien waarvan de committer bij de gegeven tekst past.
 
-Bijvoorbeeld, als je wilt zien welke commits test bestanden in de Git broncode geschiedenis aanpasten waarvan de committer Junio Hamano is en die in de maand oktober van 2008 gemerged zijn, kun je zoiets als dit uitvoeren:
+### Log uitvoer beperken volgens datum/tijd ###
 
-	$ git log --pretty="%h - %s" --author=gitster --since="2008-10-01" \
-	   --before="2008-11-01" --no-merges -- t/
+Om te bepalen welke commits in de Git broncode repository aanwezig zijn  (git://git.kernel.org/pub/scm/git/git.git) met een CommitDate van 2014-04-29 relatief aan je lokale tijdzone (zoals ingesteld op jouw computer), gebruik je
+
+    $ git log --after="2014-04-29 00:00:00" --before="2014-04-29 23:59:59" \
+      --pretty=fuller
+
+Omdat de uitvoer zal verschillen met de tijdzone waar dit commando wordt gegeven, wordt het aangeraden om altijd een absolute tijd zoals volgens het ISO 8601 formaat (welke tijdzone informatie bevat) als argument bij `--after` and `--before` te gebruiken, zodat iedereen die het commando geeft dezelfde herhaalbare resultaten krijgt. 
+
+Om de commits gemaakt op een specifiek moment in de tijd te krijgen (bijv. 29 April 2013 om 17:07:22 CET), kunnen we dit gebruiken
+
+    $ git log  --after="2013-04-29T17:07:22+0200"      \
+              --before="2013-04-29T17:07:22+0200" --pretty=fuller
+    
+    commit de7c201a10857e5d424dbd8db880a6f24ba250f9
+    Author:     Ramkumar Ramachandra <artagnon@gmail.com>
+    AuthorDate: Mon Apr 29 18:19:37 2013 +0530
+    Commit:     Junio C Hamano <gitster@pobox.com>
+    CommitDate: Mon Apr 29 08:07:22 2013 -0700
+    
+        git-completion.bash: lexical sorting for diff.statGraphWidth
+        
+        df44483a (diff --stat: add config option to limit graph width,
+        2012-03-01) added the option diff.startGraphWidth to the list of
+        configuration variables in git-completion.bash, but failed to notice
+        that the list is sorted alphabetically.  Move it to its rightful place
+        in the list.
+        
+        Signed-off-by: Ramkumar Ramachandra <artagnon@gmail.com>
+        Signed-off-by: Junio C Hamano <gitster@pobox.com>
+
+De bovenstaande tijden (`AuthorDate`, `CommitDate`) worden getoond in het standaard formaat (`--date=default`), welke de tijdzone informatie van respectievelijk de auteur en committer weergeeft.
+
+Andere nuttige formaten zijn onder andere `--date=iso` (ISO 8601), `--date=rfc` (RFC 2822), `--date=raw` (seconden sinds de "epoch" (1970-01-01 UTC)) `--date=local` (tijden volgens jouw locale tijdzone) alsmede `--date=relative` (bijv. "2 hours ago").
+
+Als het commando `git log` zonder tijdsaanduiding gebruikt wordt, wordt de tijd van je computer aangehouden op het moment dat het commando wordt uitgevoerd (met behoud van het relatieve verschil met UTC).
+
+Bijvoorbeeld, het uitvoeren van een `git log` commando om 09:00 op jouw computer waarbij je tijdzone op dat moment 3 uur voorloopt op UTC, maakt de uitvoer van de volgende twee commando's gelijk:
+
+    $ git log --after=2008-06-01 --before=2008-07-01
+    $ git log --after="2008-06-01T09:00:00+0300" \
+        --before="2008-07-01T09:00:00+0300"
+
+Als laatste voorbeeld, als je commits wilt zien die de testbestanden wijzigen in de Git sourcecode geschiedenis die door Junio Hamano gecommit waren met de CommitDate in de maand  oktober 2008 (relatief tot de tijdzone van New York) en die geen merges waren, kan je bijvoorbeeld het volgende commando typen:
+
+        $ git log --pretty="%h - %s" --author=gitster \
+           --after="2008-10-01T00:00:00-0400"         \
+          --before="2008-10-31T23:59:59-0400" --no-merges -- t/
 	5610e3b - Fix testcase failure when extended attribute
 	acd3b9e - Enhance hold_lock_file_for_{update,append}()
 	f563754 - demonstrate breakage of detached checkout wi
@@ -698,7 +742,7 @@ Bijvoorbeeld, als je wilt zien welke commits test bestanden in de Git broncode g
 	51a94af - Fix "checkout --track -b newbranch" on detac
 	b0ad11e - pull: allow "git pull origin $something:$cur
 
-Van de bijna 20.000 commits in de Git broncode historie, laat dit commando de 6 zien die bij die criteria passen.
+Van de bijna 36.000 commits in de Git broncode historie, laat dit commando de 6 zien die bij die criteria passen.
 
 ### Een grafische interface gebruiken om de historie te visualiseren ###
 

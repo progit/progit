@@ -33,7 +33,7 @@ vertaling moeten proberen te maken.
 
 Veel succes en plezier bij het vertalen...
 -->
-<!-- SHA-1 of last checked en-version: fbf24105 -->
+<!-- SHA-1 of last checked en-version: 4cefec -->
 # Git en andere systemen #
 
 Het is geen perfecte wereld. Meestal kan je niet meteen elk project waar je mee in aanraking komt omzetten naar Git. Soms zit je vast op een project dat een ander VCS gebruikt, en vaak is dat systeem Subversion. In het eerste gedeelte van dit hoofdstuk zal je leren over `git svn`, het bidirectionele Subversion uitwissel tool van Git.
@@ -238,7 +238,7 @@ Regelmatig `git svn rebase` uitvoeren zorgt er voor dat je code altijd up to dat
 
 ### Git branch problemen ###
 
-Als je gewend geraakt bent aan een Git workflow, zal je waarschijnlijk topic branches gaan maken, er werk op doen en ze dan terug mergen. Als je naar een Subversion server pusht via git svn, zou je kunnen overwegen je werk iedere keer op een enkele branch rebasen in plaats van de branches samen te mergen. De reden om rebasen te prefereren is dat Subversion een lineaire geschiedenis heeft, en niet met merges omgaat op de manier zoals Git dat doet, dus git svn volgt alleen de eerste ouder op het moment dat de snapshots naar Subversion commits omgezet worden.
+Als je gewend geraakt bent aan een Git workflow, zal je waarschijnlijk topic branches gaan maken, er werk op doen en ze dan terug mergen. Als je naar een Subversion server pusht via `git svn`, zou je kunnen overwegen je werk iedere keer op een enkele branch rebasen in plaats van de branches samen te mergen. De reden om rebasen te prefereren is dat Subversion een lineaire geschiedenis heeft, en niet met merges omgaat op de manier zoals Git dat doet, dus `git svn` volgt alleen de eerste ouder op het moment dat de snapshots naar Subversion commits omgezet worden.
 
 Stel dat je geschiedenis er zoals volgt uitziet: je hebt een `experiment` branch gemaakt, twee commits gedaan en ze dan terug in `master` gemerged. Als je dan `dcommit` zie je output zoals dit:
 
@@ -267,7 +267,7 @@ Als iemand anders dat werk cloned, is alles wat ze zien de merge commit met al h
 
 ### Subversion branchen ###
 
-Branchen in Subversion is niet hetzelfde als branchen in Git; het is waarschijnlijk het beste om het zoveel mogelijk te vermijden. Maar, je kunt Subversion branches maken en daarnaar committen met git svn.
+Branchen in Subversion is niet hetzelfde als branchen in Git; het is waarschijnlijk het beste om het zoveel mogelijk te vermijden. Maar, je kunt Subversion branches maken en daarnaar committen met `git svn`.
 
 #### Een nieuwe SVN branch maken ####
 
@@ -535,7 +535,7 @@ Voor een korte demonstratie ga je een eenvoudige importeerder schrijven. Stel da
 
 Om naar een Git directory te importeren, moet je nalezen hoe Git zijn data opslaat. Je kunt je misschien herinneren dat Git eigenlijk een gelinkte lijst is met commit objecten die naar een snapshot van de inhoud wijzen. Het enige dat je hoeft te doen, is `fast-import` vertellen wat de inhoud snapshots zijn, welke commit data er naar wijst en de volgorde waarin ze moeten staan. Je strategie zal bestaan uit het doorlopen van de snapshots en commits te creëren met de inhoud van iedere directory, waarbij je iedere commit terug linkt met de vorige.
 
-Zoals je dat ook gedaan hebt in de "Een Voorbeeld van Git-Afgedwongen Beleid" paragraaf van Hoofdstuk 7 gaan we dit in Ruby schrijven, omdat ik daar over normaalgesproken mee werk en het relatief eenvoudig is te lezen. Je kunt dit voorbeeld vrij eenvoudig schrijven in hetgeen waar je bekend mee bent, het hoeft alleen de juiste informatie naar stdout te schrijven. En dat betekent dat als je op Windows werkt je erg voorzichtig moet zijn om geen carriage returns te introduceren aan het einde van je regels. Want git fast-import is erg kieskeurig wat dat betreft: hij wil slechts line feeds (LF) hebben en niet de cariage return line feeds (CRLF) die Windows gebruikt.
+Zoals je dat ook gedaan hebt in de "Een Voorbeeld van Git-Afgedwongen Beleid" paragraaf van Hoofdstuk 7 gaan we dit in Ruby schrijven, omdat ik daar over normaalgesproken mee werk en het relatief eenvoudig is te lezen. Je kunt dit voorbeeld vrij eenvoudig schrijven in hetgeen waar je bekend mee bent, het hoeft alleen de juiste informatie naar stdout te schrijven. En dat betekent dat als je op Windows werkt je erg voorzichtig moet zijn om geen carriage returns te introduceren aan het einde van je regels. Want `git fast-import` is erg kieskeurig wat dat betreft: hij wil slechts line feeds (LF) hebben en niet de carriage return line feeds (CRLF) die Windows gebruikt.
 
 Om te beginnen ga je naar de doeldirectory en identificeert iedere subdirectory, waarvan elk een snapshot is dat je als commit wil importeren. Dan ga je in iedere subdirectory en print de noodzakelijke commando's om ze te exporteren. Je basis hoofdlus ziet er zo uit:
 
@@ -637,7 +637,7 @@ Het laatste wat je moet doen is het huidige kenmerk teruggeven, zodat het meegeg
 
 	return mark
 
-LET OP: Als je op Windows werkt moet je er zeker van zijn dat je nog één extra stap toevoegt. Zoals eerder gemeld is, gebruikt Windows CRLF als new line karakters, terwijl git fast-import alleen LF verwacht. Om dit probleem te omzeilen en git fast-import blij te maken, moet je ruby vertellen om LF in plaats van CRLF te gebruiken:
+LET OP: Als je op Windows werkt moet je er zeker van zijn dat je nog één extra stap toevoegt. Zoals eerder gemeld is, gebruikt Windows CRLF als new line karakters, terwijl git fast-import alleen LF verwacht. Om dit probleem te omzeilen en `git fast-import` blij te maken, moet je ruby vertellen om LF in plaats van CRLF te gebruiken:
 
 	$stdout.binmode
 

@@ -33,7 +33,7 @@ vertaling moeten proberen te maken.
 
 Veel succes en plezier bij het vertalen...
 -->
-<!-- SHA-1 of last checked en-version: fbf24105 -->
+<!-- SHA-1 of last checked en-version: 4cefec -->
 # Git op de server #
 
 Je zou nu de alledaagse taken waarvoor je Git zult gebruiken moeten kunnen uitvoeren. Echter, om enige vorm van samenwerking te hebben in Git is een remote Git repository nodig. Technisch gezien kun je wijzigingen pushen en pullen van individuele repositories, maar dat wordt afgeraden omdat je vrij gemakkelijk het werk waar anderen mee bezig zijn in de war kunt schoppen als je niet oppast. Daarnaast wil je dat je medewerkers de repository kunnen bereiken, zelfs als jouw computer van het netwerk is; het hebben van een betrouwbare gezamenlijke repository is vaak handig. De voorkeursmethode om met iemand samen te werken is om een tussenliggende repository in te richten waar beide partijen toegang tot hebben en om daar naartoe te pushen en vandaan te pullen. We zullen deze repository de "Git server" noemen, maar je zult zien dat het over het algemeen maar weinig systeembronnen kost om een Git repository te verzorgen, dus je zult er zelden een complete server voor nodig hebben.
@@ -156,7 +156,7 @@ Om je repository te clonen met als doel het maken van een kale repository, voer 
 	Cloning into bare repository 'my_project.git'...
 	done.
 
-De output van dit commando is een beetje verwarrend. Het commando `clone` is eigenlijk een `git init` en dan een `git fetch`, wat we hier zien is de output van het `git init` gedeelte wat een lege directory aanmaakt. De eigenlijke object overdracht geeft geen output, maar het gebeurt wel. Nu zou je een kopie van de Git directory data in je `my_project.git` directory moeten hebben.
+Nu zou je een kopie van de Git directory data in je `my_project.git` directory moeten hebben.
 
 Dit is grofweg gelijk aan dit
 

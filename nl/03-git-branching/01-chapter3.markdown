@@ -33,7 +33,7 @@ vertaling moeten proberen te maken.
 
 Veel succes en plezier bij het vertalen...
 -->
-<!-- SHA-1 of last checked en-version: fbf24105 -->
+<!-- SHA-1 of last checked en-version: 4cefec -->
 # Branchen in Git #
 
 Bijna elk versiebeheersysteem ondersteunt een bepaalde vorm van branchen. Branchen komt erop neer dat je een tak afsplitst van de hoofd-ontwikkellijn en daar verder mee gaat werken zonder aan de hoofdlijn te komen. Bij veel VCS'en is dat nogal een duur proces, vaak wordt er een nieuwe kopie gemaakt van de directory waar je broncode in staat, wat lang kan duren voor grote projecten.
@@ -440,7 +440,7 @@ Figuur 3-23. Lokaal werken terwijl iemand anders naar je remote server pusht laa
 Om je werk te synchroniseren, voer je een `git fetch origin` commando uit. Dit commando bekijkt welke server origin is (in dit geval is het `git.ourcompany.com`), haalt gegevens er vanaf die je nog niet hebt en vernieuwt je lokale database, waarbij je `origin/master`-verwijzing naar zijn nieuwe positie verplaatst wordt die meer up-to-date is (zie Figuur 3-24).
 
 Insert 18333fig0324.png
-Figuur 3-24. Het git fetch commando vernieuwt je remote referenties.
+Figuur 3-24. Het `git fetch` commando vernieuwt je remote referenties.
 
 Om het hebben van meerdere remote servers te tonen en hoe remote branches voor die remote projecten eruitzien, zullen we aannemen dat je nog een interne Git-server hebt die alleen wordt gebruikt voor ontwikkeling gedaan door een van je sprint teams. Deze server bevindt zich op `git.team1.ourcompany.com`. Je kunt het als een nieuwe remote referentie toevoegen aan het project waar je nu aan werkt door het `git remote add` commando uit te voeren, zoals we behandeld hebben in Hoofdstuk 2. Noem deze remote `teamone`, wat jouw afkorting voor die hele URL wordt (zie Figuur 3-25).
 

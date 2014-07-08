@@ -33,7 +33,7 @@ vertaling moeten proberen te maken.
 
 Veel succes en plezier bij het vertalen...
 -->
-<!-- SHA-1 of last checked en-version: fbf24105 -->
+<!-- SHA-1 of last checked en-version: 4cefec -->
 # Git op maat maken #
 
 Tot zover heb ik de fundamentele werking van Git behandeld en hoe het te gebruiken, en ik heb een aantal tools geïntroduceerd die Git tot je beschikking stelt om je het makkelijk en efficiënt te laten gebruiken. In dit hoofdstuk zal ik wat operaties doorlopen die je kunt gebruiken om Git op een maat gemaakte manier te laten werken middels het introduceren van een aantal belangrijke configuratie-instellingen en het inhaak-systeem (hooks). Met deze tools is het makkelijk om Git precies te laten werken op de manier zoals jij, je bedrijf, of je groep het nodig hebben.
@@ -548,7 +548,7 @@ Bijvoorbeeld, stel dat je wat testbestanden in een `test/` subdirectory hebt, en
 
 	test/ export-ignore
 
-Als je nu git archive uitvoert om een tarball van je project te maken, zal die map niet meegenomen worden in het archief.
+Als je nu `git archive` uitvoert om een tarball van je project te maken, zal die map niet meegenomen worden in het archief.
 
 #### export-subst ####
 
@@ -650,14 +650,12 @@ Al het werk aan de server kant zal in het update bestand in je hooks directory g
 
 	#!/usr/bin/env ruby
 
-	$refname = ARGV[0]
-	$oldrev  = ARGV[1]
-	$newrev  = ARGV[2]
-	$user    = ENV['USER']
+	refname = ARGV[0]
+	oldrev  = ARGV[1]
+	newrev  = ARGV[2]
+	user    = ENV['USER']
 
-	puts "Enforcing Policies... \n(#{$refname}) (#{$oldrev[0,6]}) (#{$newrev[0,6]})"
-
-Ja, ik gebruik globale variabelen. Schiet me niet af – het is makkelijker om het op deze manier te laten zien.
+	puts "Enforcing Policies... \n(#{refname}) (#{oldrev[0,6]}) (#{newrev[0,6]})"
 
 #### Een specifiek commit-bericht formaat afdwingen ####
 

@@ -1110,7 +1110,7 @@ Git 通过子模块处理这个问题。子模块允许你将一个 Git 仓库�
 	Squash commit -- not updating HEAD
 	Automatic merge went well; stopped before committing as requested
 
-所有 Rack 项目的变更都被归并可以进行本地提交。你也可以做相反的事情——在你主分支的`rack`目录里进行变更然后归并回`rack_branch`分支，然后将它们提交给维护者或者推送到上游。
+所有 Rack 项目的变更都被归并并且可以进行本地提交。你也可以做相反的事情——在你主分支的`rack`目录里进行变更然后归并回`rack_branch`分支，然后将它们提交给维护者或者推送到上游。
 
 为了得到`rack`子目录和你`rack_branch`分支的区别——以决定你是否需要归并它们——你不能使用一般的`diff`命令。而是对你想比较的分支运行`git diff-tree`：
 

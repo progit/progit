@@ -596,7 +596,7 @@ Kommen wir noch einmal auf die Objekt-Datenbank zurück, die Du für Dein Test-R
 
 Git komprimiert die Inhalte dieser Dateien mit zlib und Du hast nicht sonderlich viele davon, sodass die Gesamtgröße der Dateien gerade mal 925 Bytes beträgt. Wir wollen ein anderes interessantes Feature von Git demonstrieren, und dazu müssen wir eine größere Datei hinzufügen, z.B. die `repo.rb` Datei aus der Grit-Bibliothek, die Du schon verwendet hast. Diese Datei ist eine etwa 12K große Quelltext-Datei:
 
-	$ curl https://raw.github.com/mojombo/grit/master/lib/grit/repo.rb > repo.rb
+	$ curl -L https://raw.github.com/mojombo/grit/master/lib/grit/repo.rb > repo.rb
 	$ git add repo.rb
 	$ git commit -m 'added repo.rb'
 	[master 484a592] added repo.rb

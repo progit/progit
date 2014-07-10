@@ -433,7 +433,7 @@ Remote references 和分支(`refs/heads` references)的主要區別在於他們�
 
 Git 用 zlib 壓縮檔案內容，因此這些檔並沒有佔用太多空間，所有檔加起來總共僅用了 925 位元組。接下去你將添加一些大檔以演示 Git 的一個很有意思的功能。將你之前用到過的 Grit 庫中的 repo.rb 檔加進去 ── 這個原始程式碼檔大小約為 12K： 
 
-	$ curl https://raw.github.com/mojombo/grit/master/lib/grit/repo.rb > repo.rb
+	$ curl -L https://raw.github.com/mojombo/grit/master/lib/grit/repo.rb > repo.rb
 	$ git add repo.rb
 	$ git commit -m 'added repo.rb'
 	[master 484a592] added repo.rb

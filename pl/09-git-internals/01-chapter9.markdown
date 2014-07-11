@@ -612,7 +612,7 @@ Git kompresuje zawartość tych plików za pomocą biblioteki zlib, a Ty nie mas
 
 <!-- Git compresses the contents of these files with zlib, and you’re not storing much, so all these files collectively take up only 925 bytes. You’ll add some larger content to the repository to demonstrate an interesting feature of Git. Add the repo.rb file from the Grit library you worked with earlier — this is about a 12K source code file: -->
 
-    $ curl https://raw.github.com/mojombo/grit/master/lib/grit/repo.rb > repo.rb
+    $ curl -L https://raw.github.com/mojombo/grit/master/lib/grit/repo.rb > repo.rb
     $ git add repo.rb
     $ git commit -m 'added repo.rb'
     [master 484a592] added repo.rb

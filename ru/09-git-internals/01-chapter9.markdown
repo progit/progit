@@ -433,7 +433,7 @@ Insert 18333fig0904.png
 
 Git сжал содержимое этих файлов при помощи zlib, к тому же мы не записывали много данных, поэтому все эти файлы вместе занимают всего 925 байт. Для того чтобы продемонстрировать одну интересную возможность Git'а, добавим файл побольше. Добавим файл repo.rb из библиотеки Grit, с которой мы работали ранее, он занимает примерно 12 Кбайт:
 
-	$ curl https://raw.github.com/mojombo/grit/master/lib/grit/repo.rb > repo.rb
+	$ curl -L https://raw.github.com/mojombo/grit/master/lib/grit/repo.rb > repo.rb
 	$ git add repo.rb 
 	$ git commit -m 'added repo.rb'
 	[master 484a592] added repo.rb

@@ -544,7 +544,7 @@ Ajoutons de plus gros contenu au dépôt pour montrer une fonctionnalité intér
 Ajoutez le fichier `repo.rb` de la bibliothèque Grit que vous avez manipulé plus tôt.
 Il représente environ 12 Kio de code source :
 
-	$ curl https://raw.github.com/mojombo/grit/master/lib/grit/repo.rb > repo.rb
+	$ curl -L https://raw.github.com/mojombo/grit/master/lib/grit/repo.rb > repo.rb
 	$ git add repo.rb
 	$ git commit -m 'added repo.rb'
 	[master 484a592] added repo.rb

@@ -351,7 +351,7 @@ Git默认情况下不会在推送期间检查所有对象的一致性。虽然�
 	-system for non-linear development.
 	+system for non-linear development (See Chapter 3).
 
-Git 成功且简洁地显示出我增加的文本"Let’s see if this works"。虽然有些瑕疵，在末尾显示了一些随机的内容，但确实可以比较了。如果你能找到或自己写个Word到纯文本的转换器的话，效果可能会更好。 `strings`可以在大部分Mac和Linux系统上运行，所以它是处理二进制格式的第一选择。
+Git 成功且简洁地显示出我增加的文本"(See Chapter 3)"。工作的很完美！
 
 ##### OpenDocument Text files #####
 

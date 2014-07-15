@@ -924,7 +924,7 @@ Par exemple, mon dépôt Grit ressemble à ceci.
 	koke      git://github.com/koke/grit.git
 	origin    git@github.com:mojombo/grit.git
 
-Cela signifie que nous pouvons tirer très facilement des contributions depuis certains utilisateurs.
+Cela signifie que je peux tirer très facilement des contributions depuis certains utilisateurs.
 Mais il est à noter que seul le dépôt distant `origin` utilise une URL SSH, ce qui signifie que c'est le seul sur lequel je peux pousser (nous traiterons de ceci au chapitre 4).
 
 ### Ajouter des dépôts distants ###

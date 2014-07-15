@@ -1290,7 +1290,7 @@ De nombreuses personnes utilisent parfaitement Git sans connaître aucun de ces 
 
 Si vous utilisez le shell Bash, Git est livré avec un script d'auto-complétion utile.
 Téléchargez le directement depuis le code source de Git à https://github.com/git/git/blob/master/contrib/git-completion.bash .
-Copiez ce fichier dans votre répertoire personnel et ajoutez cette ligne à votre fichier `.bashrc` :
+Copiez ce fichier dans votre répertoire personnel sous le nom `.git-completion.bash` et ajoutez cette ligne à votre fichier `.bashrc` :
 
 	source ~/.git-completion.bash
 

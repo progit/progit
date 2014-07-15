@@ -738,7 +738,9 @@ Cette commande fonctionne avec de nombreux formats — vous pouvez indiquer une
 
 Vous pouvez aussi restreindre la liste aux *commits* vérifiant certains critères de recherche.
 L'option `--author` permet de filtrer sur un auteur spécifique, et l'option `--grep` permet de chercher des mots clés dans les messages de validation.
-Notez que si vous cherchez seulement des *commits* correspondant simultanément aux deux critères, vous devez ajouter l'option `--all-match`, car par défaut ces commandes retournent les *commits* vérifiant au moins un critère lors de recherche.
+Notez que si vous spécifiez à la fois `--author` et `--grep`, la commande retournera seulement des *commits* correspondant simultanément aux deux critères.
+
+Si vous souhaitez spécifier plusieurs options `--grep`,  vous devez ajouter l'option `--all-match`, car par défaut ces commandes retournent les *commits* vérifiant au moins un critère de recherche.
 
 La dernière option vraiment utile à `git log` est la spécification d'un chemin.
 Si un répertoire ou un nom de fichier est spécifié, le journal est limité aux *commits* qui ont introduit des modifications aux fichiers concernés.

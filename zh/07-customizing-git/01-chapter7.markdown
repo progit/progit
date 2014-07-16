@@ -355,19 +355,19 @@ Git 成功且简洁地显示出我增加的文本"(See Chapter 3)"。工作的�
 
 ##### OpenDocument文本文档 #####
 
-The same approach that we used for MS Word files (`*.doc`) can be used for OpenDocument Text files (`*.odt`) created by OpenOffice.org.
+我们用于处理Word文档（`*.doc`）的方法同样适用于处理OpenOffice.org创建的OpenDocument文本文档（`*.odt`）。
 
-Add the following line to your `.gitattributes` file:
+把下面这行添加到`.gitattributes`文件：
 
 	*.odt diff=odt
 
-Now set up the `odt` diff filter in `.git/config`:
+然后在`.git/config` 文件中设置`odt`过滤器：
 
 	[diff "odt"]
 		binary = true
 		textconv = /usr/local/bin/odt-to-txt
 
-OpenDocument files are actually zip’ped directories containing multiple files (the content in an XML format, stylesheets, images, etc.). We’ll need to write a script to extract the content and return it as plain text. Create a file `/usr/local/bin/odt-to-txt` (you are free to put it into a different directory) with the following content:
+OpenDocument文档实际上是多个文件（包括一个XML文件和表格、图片等文件）的压缩包。我们需要写一个脚本来提取其中纯文本格式的内容。创建一个文件`/usr/local/bin/odt-to-txt`（你也可以放到其他目录下），写入下面内容：
 
 	#! /usr/bin/env perl
 	# Simplistic OpenDocument Text (.odt) to plain text converter.
@@ -397,11 +397,11 @@ OpenDocument files are actually zip’ped directories containing multiple files 
 	s/\A\n+//;                         # remove leading blank lines
 	print "\n", $_, "\n\n";
 
-And make it executable
+然后把它设为可执行文件
 
 	chmod +x /usr/local/bin/odt-to-txt
 
-Now `git diff` will be able to tell you what changed in `.odt` files.
+现在`git diff`命令就可以显示`.odt`文件的变更了。
 
 ##### 图像文件 #####
 

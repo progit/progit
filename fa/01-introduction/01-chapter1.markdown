@@ -7,9 +7,12 @@
 ## درباره کنترل نسخه ##
 
 کنترل نسخه چیست، و چرا باید برای شما اهمیتی داشته باشد؟ کنترل نسخه سیستمی ست که تغییرات ایجاد شده در یک فایل یا مجموعه ای از فایلها را در طول زمان ثبت میکند تا شما بتوانید نسخه مشخصی از آنها را بعدا بازخوانی کنید. 
- Even though the examples in this book show software source code as the files under version control, in reality any type of file on a computer can be placed under version control.
+ هر چند مثالهای این کتاب کدهای نرم افزاری را به عنوان فایلهای تحت کنترل نسخه نشان میدهند, در واقع هر نوع فایلی بر روی رایانه میتواند تحت کنترل نسخه قرار بگیرد.
 
-If you are a graphic or web designer and want to keep every version of an image or layout (which you certainly would), it is very wise to use a Version Control System (VCS). A VCS allows you to: revert files back to a previous state, revert the entire project back to a previous state, review changes made over time, see who last modified something that might be causing a problem, who introduced an issue and when, and more. Using a VCS also means that if you screw things up or lose files, you can generally recover easily. In addition, you get all this for very little overhead.
+
+اگر شما طراح  گرافیکی یا طراح  وب هستید و میخواهید که تمام نسخه های یک تصویر یا طرح را نگاه دارد (که معمولا هم همینطور است), استفاده از یک سیستم کنترل نسخه کار معقولی خواهد بود.
+
+A VCS allows you to: revert files back to a previous state, revert the entire project back to a previous state, review changes made over time, see who last modified something that might be causing a problem, who introduced an issue and when, and more. Using a VCS also means that if you screw things up or lose files, you can generally recover easily. In addition, you get all this for very little overhead.
 
 ### Local Version Control Systems ###
 

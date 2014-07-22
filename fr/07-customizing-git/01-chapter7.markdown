@@ -177,7 +177,7 @@ Pour Windows, vous devrez changer `/usr/local/bin` en un chemin d'exécution d'u
 
 Vous pouvez télécharger P4Merge ici :
 
-	http://www.perforce.com/perforce/downloads/component.html
+	http://www.perforce.com/product/components/perforce-visual-merge-and-diff-tools
 
 Pour commencer, créez un script d'appel externe pour lancer vos commandes.
 Je vais utiliser le chemin Mac pour l'exécutable ; dans d'autres systèmes, il résidera où votre binaire `p4merge` a été installé.

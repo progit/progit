@@ -313,7 +313,7 @@ Git默认情况下不会在推送期间检查所有对象的一致性。虽然�
 
 边注：有一些二进制文件虽然包含文字，但是却难以转换。（译注：例如 Word 文档。）在这些情况，你可以尝试使用 `strings` 工具来获取其中的文字。但如果当这些文档包含 UTF-16 编码，或者其他代码页（codepages），`strings` 也可能无补于事。`strings` 在大部分的 Mac 和 Linux 下都有安装。当遇到有二进制文件需要转换的时候，你可以试试这个工具。
 
-##### MS Word files #####
+##### Word文档 #####
 
 这个特性很酷，而且鲜为人知，因此我会结合实例来讲解。首先，要解决的是最令人头疼的问题：对Word文档进行版本控制。很多人对Word文档又恨又爱，如果想对其进行版本控制，你可以把文件加入到 Git 库中，每次修改后提交即可。但这样做没有一点实际意义，因为运行`git diff`命令后，你只能得到如下的结果：
 
@@ -353,21 +353,21 @@ Git默认情况下不会在推送期间检查所有对象的一致性。虽然�
 
 Git 成功且简洁地显示出我增加的文本"(See Chapter 3)"。工作的很完美！
 
-##### OpenDocument Text files #####
+##### OpenDocument文本文档 #####
 
-The same approach that we used for MS Word files (`*.doc`) can be used for OpenDocument Text files (`*.odt`) created by OpenOffice.org.
+我们用于处理Word文档（`*.doc`）的方法同样适用于处理OpenOffice.org创建的OpenDocument文本文档（`*.odt`）。
 
-Add the following line to your `.gitattributes` file:
+把下面这行添加到`.gitattributes`文件：
 
 	*.odt diff=odt
 
-Now set up the `odt` diff filter in `.git/config`:
+然后在`.git/config` 文件中设置`odt`过滤器：
 
 	[diff "odt"]
 		binary = true
 		textconv = /usr/local/bin/odt-to-txt
 
-OpenDocument files are actually zip’ped directories containing multiple files (the content in an XML format, stylesheets, images, etc.). We’ll need to write a script to extract the content and return it as plain text. Create a file `/usr/local/bin/odt-to-txt` (you are free to put it into a different directory) with the following content:
+OpenDocument文档实际上是多个文件（包括一个XML文件和表格、图片等文件）的压缩包。我们需要写一个脚本来提取其中纯文本格式的内容。创建一个文件`/usr/local/bin/odt-to-txt`（你也可以放到其他目录下），写入下面内容：
 
 	#! /usr/bin/env perl
 	# Simplistic OpenDocument Text (.odt) to plain text converter.
@@ -397,13 +397,13 @@ OpenDocument files are actually zip’ped directories containing multiple files 
 	s/\A\n+//;                         # remove leading blank lines
 	print "\n", $_, "\n\n";
 
-And make it executable
+然后把它设为可执行文件
 
 	chmod +x /usr/local/bin/odt-to-txt
 
-Now `git diff` will be able to tell you what changed in `.odt` files.
+现在`git diff`命令就可以显示`.odt`文件的变更了。
 
-##### Image files #####
+##### 图像文件 #####
 
 你还能用这个方法比较图像文件。当比较时，对JPEG文件运用一个过滤器，它能提炼出EXIF信息 — 大部分图像格式使用的元数据。如果你下载并安装了`exiftool`程序，可以用它参照元数据把图像转换成文本。比较的不同结果将会用文本向你展示：
 

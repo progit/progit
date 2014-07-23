@@ -219,7 +219,7 @@ Da P4Merge für die üblichen Plattformen verfügbar ist, sollte es kein Problem
 
 Du kannst P4Merge hier herunterladen:
 
-	http://www.perforce.com/perforce/downloads/component.html
+	http://www.perforce.com/product/components/perforce-visual-merge-and-diff-tools
 
 <!--To begin, you’ll set up external wrapper scripts to run your commands. I’ll use the Mac path for the executable; in other systems, it will be where your `p4merge` binary is installed. Set up a merge wrapper script named `extMerge` that calls your binary with all the arguments provided:-->
 

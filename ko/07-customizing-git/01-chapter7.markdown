@@ -142,7 +142,7 @@ P4Merge는 중요 플랫폼을 모두 지원하기 때문에 웬만한 환경이
 
 다음 페이지에서 P4Merge를 내려받는다:
 
-	http://www.perforce.com/perforce/downloads/component.html
+	http://www.perforce.com/product/components/perforce-visual-merge-and-diff-tools
 
 먼저 P4Merge에 쓸 Wrapper 스크립트를 만든다. 필자는 Mac 사용자라서 Mac 경로를 사용한다. 어떤 시스템이든 `p4merge`가 설치된 경로를 사용하면 된다. extMerge라는 Merge용 Wrapper 스크립트를 만들고 이 스크립트로 넘어오는 모든 아규먼트를 p4merge 프로그램으로 넘긴다:
 

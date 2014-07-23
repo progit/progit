@@ -142,7 +142,7 @@ Git 會按照你的需要，自動為大部分的輸出加上顏色。你能明�
 
 你可以在這裏下載 P4Merge： 
 
-	http://www.perforce.com/perforce/downloads/component.html
+	http://www.perforce.com/product/components/perforce-visual-merge-and-diff-tools
 
 首先，你要設定一個外部包裝腳本(external wrapper scripts)來執行你要的命令，我會使用 Mac 系統上的路徑來指定該腳本的位置；在其他系統上，它應該被放置在二進位檔案 `p4merge` 所在的目錄中。創建一個 merge 包裝腳本，名字叫作 `extMerge`，讓它附帶所有參數呼叫 p4merge 二進位檔案： 
 

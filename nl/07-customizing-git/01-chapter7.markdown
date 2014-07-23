@@ -178,7 +178,7 @@ Als je dit wilt proberen, P4Merge werkt op alle grote platformen, dus je zou het
 
 Je kunt P4Merge hier downloaden:
 
-	http://www.perforce.com/perforce/downloads/component.html
+	http://www.perforce.com/product/components/perforce-visual-merge-and-diff-tools
 
 Om te beginnen ga je externe wrapper scripts instellen om de commando's uit te voeren. Ik zal het Mac pad gebruiken voor de applicatie; in andere systemen zal het moeten wijzen naar de plaats waar de `p4merge` binary geïnstalleerd is. Maak merge wrapper script, genaamd `extMerge`, die jouw applicatie met alle meegegeven argumenten aanroept:
 

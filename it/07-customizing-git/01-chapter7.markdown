@@ -142,7 +142,7 @@ Se vuoi provarlo, P4Merge funziona su tutte le maggiori piattaforme, quindi dovr
 
 Puoi scarucare P4Merge qua:
 
-	http://www.perforce.com/perforce/downloads/component.html
+	http://www.perforce.com/product/components/perforce-visual-merge-and-diff-tools
 
 Per iniziare dovrai impostare scripts esterni di wrapping per eseguire i tuoi comandi. Utilizzerò il percorso relativo a Mac per l'eseguibile; in altri sistemi, sarà dove è posizionato il binario `p4merge`. Imposta uno script per il wrapping del merge chiamato `extMerge` che chiami il binario con tutti gli argomenti necessari:
 

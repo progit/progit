@@ -142,7 +142,7 @@ Pokud ho chcete vyzkoušet, nemělo by vám v tom nic bránit, P4Merge funguje n
 
 P4Merge můžete stáhnout na této adrese:
 
-	http://www.perforce.com/perforce/downloads/component.html
+	http://www.perforce.com/product/components/perforce-visual-merge-and-diff-tools
 
 Pro začátek je třeba nastavit kvůli spouštění příkazů externí skripty wrapperu. Jako cestu ke spustitelnému souboru používám cestu v systému Mac. V ostatních systémech použijte cestu k umístění, kde máte nainstalován binární soubor `p4merge`. Nastavte wrapperový skript pro slučování `extMerge`, který bude volat binární soubor všemi dostupnými parametry:
 

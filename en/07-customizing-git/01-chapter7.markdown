@@ -4,7 +4,7 @@ So far, I’ve covered the basics of how Git works and how to use it, and I’ve
 
 ## Git Configuration ##
 
-As you briefly saw in the Chapter 1, you can specify Git configuration settings with the `git config` command. One of the first things you did was set up your name and e-mail address:
+As you briefly saw in Chapter 1, you can specify Git configuration settings with the `git config` command. One of the first things you did was set up your name and e-mail address:
 
 	$ git config --global user.name "John Doe"
 	$ git config --global user.email johndoe@example.com
@@ -142,7 +142,7 @@ If you want to try this out, P4Merge works on all major platforms, so you should
 
 You can download P4Merge here:
 
-	http://www.perforce.com/perforce/downloads/component.html
+	http://www.perforce.com/product/components/perforce-visual-merge-and-diff-tools
 
 To begin, you’ll set up external wrapper scripts to run your commands. I’ll use the Mac path for the executable; in other systems, it will be where your `p4merge` binary is installed. Set up a merge wrapper script named `extMerge` that calls your binary with all the arguments provided:
 

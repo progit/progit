@@ -385,12 +385,23 @@ Dans la branche 1.6 de Git, vous pouvez aussi utiliser une macro fournie qui sig
 
 #### Comparaison de fichiers binaires ####
 
-Dans la branche 1.6 de Git, vous pouvez utiliser la fonctionnalité des attributs Git pour effectivement comparer les fichiers binaires.
+Dans Git, vous pouvez utiliser la fonctionnalité des attributs pour comparer efficacement les fichiers binaires.
 Pour ce faire, indiquez à Git comment convertir vos données binaires en format texte qui peut être comparé via un diff normal.
+Mais le question revient alors à savoir comment convertir les données binaires en texte.
+La meilleure solution consiste à trouver un outil qui réalise pour vous la conversion des données binaires en représentation textuelle (imaginez par exemple comment convertir un fichier audio en texte).
+Si c'est impossible et qur vous ne parvenez pas à obtenir une réprésentation du contenu sous forme de texte, il reste relativement facile d'obtenir une description dans un format humainement lisible de ce contenu.
+Les métadonnées ne vous donneront pas une représentation complète du contenu du fichier, mais c'est en tout cas mieux que rien.
+
+Nous allons utiliser les deux méthodes précédentes pour obtenir des comparaisons de formats binaires largement utilisés.
+
+Note : il existe de nombreux types de formats binaires avec du contenu textuel pour lesquels il est difficile de trouver une convertisseur vers du texte.
+Dans ces cas, il reste toujours possible d'extraire le texte au moyen du programme `strings`.
+Certains de ces fichiers peuvent aussi utiliser une encodage spécifique du texte, comme UTF-16, et `strings` ne trouvera alors rien de probant.
+Les résultats sont très variables.
+Dans tous les cas, `strings` est disponible sur la plupart des systèmes Mac et Linux, et constitue une bonne option pour un premier essai. 
 
 ##### Fichiers MS Word #####
 
-Comme c'est une fonctionnalité plutôt cool et peu connue, nous allons en voir quelques exemples.
 Premièrement, nous utiliserons cette technique pour résoudre un des problèmes les plus ennuyeux de l'humanité : gérer en contrôle de version les documents Word.
 Tout le monde convient que Word est l'éditeur de texte le plus horrible qui existe, mais bizarrement, tout le monde persiste à l'utiliser.
 Si vous voulez gérer en version des documents Word, vous pouvez les coller dans un dépôt Git et les valider de temps à autre.
@@ -411,20 +422,17 @@ Ajoutez la ligne suivante dans votre fichier `.gitattributes` :
 Cette ligne indique à Git que tout fichier correspondant au patron (.doc) doit utiliser le filtre `word` pour visualiser le diff des modifications.
 Qu'est-ce que le filtre « word » ?
 Nous devons le définir.
-Vous allez configurer Git à utiliser le programme `strings` pour convertir les documents Word en fichiers texte lisibles qu'il pourra alors comparer correctement :
+Vous allez indiquer à Git d'utiliser le programme `catdoc` qui a été écrit spécifiquement pour extraire le texte d'un document MS Word.
+Vous pouvez l'obtenir depuis `http://www.wagner.pp.ru/~vitus/software/catdoc`.
 
-	$ git config diff.word.textconv strings
+	$ git config diff.word.textconv catdoc
 
 Cette commande ajoute à votre fichier `.git/config` une section qui ressemble à ceci :
 
 	[diff "word"]
-	  textconv = strings
+	  textconv = catdoc
 
-Note : il existe différents types de fichiers `.doc`.
-Certains utilisent un codage UTF-16 ou d'autres pages de codes plus exotiques dans lesquels `strings` ne trouvera aucune chaîne utile.
-Le résultat de ce filtre pour vos fichiers dépendra de ces conditions.
-
-À présent, Git sait que s'il essaie de faire un diff entre deux instantanés et qu'un des fichiers finit en `.doc`, il devrait faire passer ces fichiers par le filtre `word` défini comme le programme `strings`.
+À présent, Git sait que s'il essaie de faire un diff entre deux instantanés et qu'un des fichiers finit en `.doc`, il devrait faire passer ces fichiers par le filtre `word` défini comme le programme `catdoc`.
 Cette méthode fait effectivement des jolies versions texte de vos fichiers Word avant d'essayer de les comparer.
 
 Voici un exemple.
@@ -436,18 +444,14 @@ Puis, j'ai lancé `git diff` pour visualiser ce qui a changé :
 	index c1c8a0a..b93c9e4 100644
 	--- a/chapter1.doc
 	+++ b/chapter1.doc
-	@@ -8,7 +8,8 @@ re going to cover Version Control Systems (VCS) and Git basics
-	 re going to cover how to get it and set it up for the first time if you don
-	 t already have it on your system.
-	 In Chapter Two we will go over basic Git usage - how to use Git for the 80%
-	-s going on, modify stuff and contribute changes. If the book spontaneously
-	+s going on, modify stuff and contribute changes. If the book spontaneously
-	+Let's see if this works.
+	@@ -128,7 +128,7 @@ and data size)
+	 Since its birth in 2005, Git has evolved and matured to be easy to use
+	 and yet retain these initial qualities. It’s incredibly fast, it’s
+	 very efficient with large projects, and it has an incredible branching
+	-system for non-linear development.
+	+system for non-linear development (See Chapter 3).
 
-Git réussit à m'indiquer succinctement que j'ai ajouté la chaîne « *Let's see if this works* », ce qui est correct.
-Ce n'est pas parfait car il y a toujours un tas de données aléatoires à la fin, mais c'est suffisant.
-Si vous êtes capable d'écrire un convertisseur Word vers texte qui fonctionne suffisamment bien, cette solution peut s'avérer très efficace.
-Cependant, `strings` est disponible sur la plupart des systèmes Mac et Linux et peut donc constituer un bon début pour de nombreux formats binaires.
+Git m'indique succinctement que j'ai ajouté la chaîne « (see Chapter 3) », ce qui est correct.
 
 ##### Fichiers OpenDocument texte #####
 

@@ -255,7 +255,7 @@ John a une référence aux modifications que Jessica a poussées, mais il doit l
 Cette fusion se passe sans problème — l'historique de *commits* de John ressemble à présent à la figure 5-5.
 
 Insert 18333fig0505.png
-Figure 5-5. Le dépôt local de John après la fusion d'origin/master.
+Figure 5-5. Le dépôt local de John après la fusion d'`origin/master`.
 
 Maintenant, John peut tester son code pour s'assurer qu'il fonctionne encore correctement et peut pousser son travail nouvellement fusionné sur le serveur :
 
@@ -678,11 +678,31 @@ Vous pouvez positionner ces valeurs séparément avec une série de commandes `g
 	  sslverify = false
 
 Si votre serveur IMAP n'utilise pas SSL, les deux dernières lignes ne sont probablement pas nécessaires et le paramètre `host` commencera par `imap://` au lieu de `imaps://`.
-Quand c'est fait, vous pouvez utiliser la commande `git send-email` pour placer la série de patchs dans le répertoire *Drafts* du serveur IMAP spécifié :
+Quand c'est fait, vous pouvez utiliser la commande `git imap-send` pour placer la série de patchs dans le répertoire *Drafts* du serveur IMAP spécifié :
+
+	$ cat *.patch |git imap-send
+	Resolving imap.gmail.com... ok
+	Connecting to [74.125.142.109]:993... ok
+	Logging in...
+	sending 2 messages
+	100% (2/2) done
+
+À présent, vous devriez pouvoir vous rendre dans le répertoire *Drafts*, changer le champ destinataire pour celui de la liste de diffusion, y ajouter optionnellement en copie le mainteneur du projet ou le responsable et l'envoyer.
+
+Une autre méthode consiste à envoyer vos patchs par un serveur SMTP.
+Comme précédemment, vous pouvez régler chaque paramètre séparément avec une série de commandes `git config` ou vous pouvez les ajouter directement dans la section `sendemail` de votre fichier `~/.gitconfig` :
+
+	[sendemail]
+	  smtpencryption = tls
+	  smtpserver = smtp.gmail.com
+	  smtpuser = user@gmail.com
+	  smtpserverport = 587
+
+Après ceci, vous pouvez utiliser la commande `git send-email` pour envoyer vos patchs :
 
 	$ git send-email *.patch
-	0001-Ajout-d-une-limite-la-fonction-de-log.patch
-	0002-change-la-largeur-du-log-de-25-a-30.patch
+	0001-added-limit-to-log-function.patch
+	0002-changed-log-output-to-30-from-25.patch
 	Who should the emails appear to be from? [Jessica Smith <jessica@example.com>]
 	Emails will be sent from: Jessica Smith <jessica@example.com>
 	Who should the emails be sent to? jessica@example.com
@@ -706,8 +726,6 @@ Ensuite, Git crache un certain nombre d'informations qui ressemblent à ceci pou
 	References: <y>
 
 	Result: OK
-
-À présent, vous devriez pouvoir vous rendre dans le répertoire Drafts, changer le champ destinataire pour celui de la liste de diffusion, y ajouter optionnellement en copie le mainteneur du projet ou le responsable et l'envoyer.
 
 ### Résumé ###
 

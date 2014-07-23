@@ -336,15 +336,20 @@ Placer le fichier dans l'index marque le conflit comme résolu pour Git.
 Si vous souhaitez utiliser un outil graphique pour résoudre ces problèmes, vous pouvez lancer `git mergetool` qui démarre l'outil graphique de fusion approprié et vous permet de naviguer dans les conflits :
 
 	$ git mergetool
-	merge tool candidates: kdiff3 tkdiff xxdiff meld gvimdiff opendiff emerge vimdiff
-	Merging the files: index.html
+
+	This message is displayed because 'merge.tool' is not configured.
+	See 'git mergetool --tool-help' or 'git help config' for more details.
+	'git mergetool' will now attempt to use one of the following tools:
+	opendiff kdiff3 tkdiff xxdiff meld tortoisemerge gvimdiff diffuse diffmerge ecmerge p4merge araxis bc3 codecompare vimdiff emerge
+	Merging:
+	index.html
 
 	Normal merge conflict for 'index.html':
-	  {local}: modified
-	  {remote}: modified
+	  {local}: modified file
+	  {remote}: modified file
 	Hit return to start merge resolution tool (opendiff):
 
-Si vous souhaitez utiliser un outil de fusion autre que celui par défaut (Git a choisi `opendiff` pour moi dans ce cas car j'utilise la commande sous Mac), vous pouvez voir tous les outils supportés après l'indication « merge tool candidates ».
+Si vous souhaitez utiliser un outil de fusion autre que celui par défaut (Git a choisi `opendiff` pour moi dans ce cas car j'utilise la commande sous Mac), vous pouvez voir tous les outils supportés après l'indication « *of the following tools:* ».
 Tapez le nom de l'outil que vous préfèreriez utiliser.
 Au chapitre 7, nous expliquerons comment changer cette valeur par défaut dans votre environnement.
 
@@ -597,7 +602,7 @@ Pour créer une branche locale avec un nom différent de celui de la branche dis
 	Branch sf set up to track remote branch refs/remotes/origin/correctionserveur.
 	Switched to a new branch "sf"
 
-À présent, votre branche locale sf poussera vers et tirera automatiquement depuis origin/correctionserveur.
+À présent, votre branche locale `sf` poussera vers et tirera automatiquement depuis `origin/correctionserveur`.
 
 ### Effacer des branches distantes ###
 

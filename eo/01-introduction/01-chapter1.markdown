@@ -39,19 +39,19 @@ Figure 1-3. Distributed version control diagram.
 
 Furthermore, many of these systems deal pretty well with having several remote repositories they can work with, so you can collaborate with different groups of people in different ways simultaneously within the same project. This allows you to set up several types of workflows that aren’t possible in centralized systems, such as hierarchical models.
 
-## A Short History of Git ##
+## Mallonga historio de Git ##
 
-As with many great things in life, Git began with a bit of creative destruction and fiery controversy. The Linux kernel is an open source software project of fairly large scope. For most of the lifetime of the Linux kernel maintenance (1991–2002), changes to the software were passed around as patches and archived files. In 2002, the Linux kernel project began using a proprietary DVCS system called BitKeeper.
+Kiel pluraj el la bonaĵoj en la vivo, Git komenciĝis per iom da kreiga detruo kaj granda disputego. La Linux-kerno estas malfermitkoda programaro-projekto kun sufiĉe granda amplekso. Dum la plejparto de la tempo en kiu la Linux-kerno estis prizorgata (1991–2002), oni disdonis ŝanĝojn al la programaro kiel flikaĵoj kaj enarkivigitaj dosieroj. En 2002, la Linux-kerna projekto komencis uzi proprietan DVCS-sistemon nomita BitKeeper.
 
-In 2005, the relationship between the community that developed the Linux kernel and the commercial company that developed BitKeeper broke down, and the tool’s free-of-charge status was revoked. This prompted the Linux development community (and in particular Linus Torvalds, the creator of Linux) to develop their own tool based on some of the lessons they learned while using BitKeeper. Some of the goals of the new system were as follows:
+En 2005 rompiĝis la rilato inter la komunumo, en kiu la Linux-kerno evoluis, kaj la komerco firmao, kiu produktis BitKeeper; oni senvalidigis la senkostan statuson de la ilo. Tio instigis la komunumo, kiu sin prizorgis pri la evoluo de Linux—kaj precipe Linus Torvalds, la kreinto de Linux—krei sian propran ilon, tenante en la menso la lecionojn, kiujn ili lernis, dum ili uzis BitKeeper. Jen kelkaj el la celoj de la nova sistemo:
 
-*	Speed
-*	Simple design
-*	Strong support for non-linear development (thousands of parallel branches)
-*	Fully distributed
-*	Able to handle large projects like the Linux kernel efficiently (speed and data size)
+*	Rapideco
+*	Simpla desegno
+*	Bona subteno por nelinea konstruado (miloj da paralelaj branĉoj)
+*	Tute disa sistemo
+*	La ebleco rendimente trakti grandajn projektojn (kiel la Linux-kerno) koncerne al rapideco kaj datuma grandeco
 
-Since its birth in 2005, Git has evolved and matured to be easy to use and yet retain these initial qualities. It’s incredibly fast, it’s very efficient with large projects, and it has an incredible branching system for non-linear development (See Chapter 3).
+Ekde ĝia naskiĝo en 2005, Git evoluis kaj prenkreskiĝis por esti facile uzebla kaj tamen reteni tiujn dekomencaj ecoj. Ĝi estas nekredeble rapida; ĝi estas tre rendimenta kun grandaj projektoj; kaj ĝi havas bonegan branĉigan sistemon por nelinea konstruado (vidu Ĉapitro 3).
 
 ## Git Basics ##
 

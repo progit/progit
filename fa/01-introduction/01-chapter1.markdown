@@ -192,26 +192,26 @@ Insert 18333fig0107.png
 
 ## تنظیمات شروع به کار Git ##
 
-## First-Time Git Setup ##
+حال که Git روی سیستم نصب شده است، نیاز به شخصی سازی بعضی از منابع Git است. انجام این تنظیمات فقط برای یک مرتبه انجام می‌پذیرد؛ و بعد از آن با هر بار ارتقاء بدون تغییر باقی می‌مانند. همچنین امکان تغییر آن‌ها در هر زمانی که نیاز باشد به کمک خط فرمان قابل انجام است.
 
-Now that you have Git on your system, you’ll want to do a few things to customize your Git environment. You should have to do these things only once; they’ll stick around between upgrades. You can also change them at any time by running through the commands again.
+به همراه Git ابزاری ارائه شده است با نام git config که امکان خواندن و اعمال متغیرهای تنظیماتی که تمامی ابعاد ظاهری و عملیاتی Git را کنترل می‌کند فراهم می‌سازد.
 
-Git comes with a tool called git config that lets you get and set configuration variables that control all aspects of how Git looks and operates. These variables can be stored in three different places:
+*  فایل `/etc/gitconfig`: حاوی مقادیر تمامی کاربران سیستم  و مخازن آن‌ها است. اگر به همراه `git config` از آپشن `--system` استفاده شود، خواندن و نوشتن به صورت اختصاصی از این فایل انجام می‌پذیرد.
+*  فایل `~/.gitconfig`: مختص کاربر مشخصی است. با استفاده از آپشن `--global` خواندن و نوشتن Git به صورت اختصاصی از این فایل انجام می‌پذیرد.
+*  فایل config موجود در پوشه git (`.git/config`) یا هر مخزنی که در حال استفاده از آن می‌باشید: مختص یک مخزن خاص است. مقادیر هر سطح باعث لغو مقادیر سطح قبلی خود می‌شود. بنابراین مقادیر `.git/config` موجب لغو مقادیر `/etc/gitconfig` خواهد شد.
 
-*	`/etc/gitconfig` file: Contains values for every user on the system and all their repositories. If you pass the option` --system` to `git config`, it reads and writes from this file specifically.
-*	`~/.gitconfig` file: Specific to your user. You can make Git read and write to this file specifically by passing the `--global` option.
-*	config file in the git directory (that is, `.git/config`) of whatever repository you’re currently using: Specific to that single repository. Each level overrides values in the previous level, so values in `.git/config` trump those in `/etc/gitconfig`.
+در سیستم‌های ویندوزی، Git در پوشه `$HOME` (متغیر محیطی `%USERPROFILE%` در ویندوز) که برای اکثر کاربران با توجه به ورژن سیستم در مسیرهای `C:\Documents and Settings\$USER‍ یا `C:\Users\$USER` (`$USER‍ در ویندوز متغیر محیطی `%USERNAME%`) قرار دارد، فایل `.gitconfig` را جستجو می‌کند. همچنین نسبت به مسیر ریشه MSys که همان مسیر نصب انتخاب شده در هنگام اجرای نصاب Git در ویندوز می‌باشد، به دنبال فایلی با نام /etc/gitconfig می‌گردد.
 
-On Windows systems, Git looks for the `.gitconfig` file in the `$HOME` directory (`%USERPROFILE%` in Windows’ environment), which is `C:\Documents and Settings\$USER` or `C:\Users\$USER` for most people, depending on version (`$USER` is `%USERNAME%` in Windows’ environment). It also still looks for /etc/gitconfig, although it’s relative to the MSys root, which is wherever you decide to install Git on your Windows system when you run the installer.
+### شناسه کاربر ###
 
-### Your Identity ###
-
-The first thing you should do when you install Git is to set your user name and e-mail address. This is important because every Git commit uses this information, and it’s immutably baked into the commits you pass around:
+اولین عملی که بعد از نصب Git باید انجام شود، مقداردهی کردن دو متغیر نام کاربری (user name) و آدرس پست الکترونیکی (e-mail address) است. این عمل از آن جهت اهمیت دارد که در هر commit این اطلاعات به‌صورتی تغییر ناپذیر روی commit انجام شده حک می‌شوند.
 
 	$ git config --global user.name "John Doe"
 	$ git config --global user.email johndoe@example.com
 
-Again, you need to do this only once if you pass the `--global` option, because then Git will always use that information for anything you do on that system. If you want to override this with a different name or e-mail address for specific projects, you can run the command without the `--global` option when you’re in that project.
+مجدداْ یادآوری می‌شود که انجام این عمل در صورت استفاده از آپشن `--global` فقط یک مرتبه انجام می‌پذیرد، زیرا Git برای هر عملی که در سیستم انجام می‌پذیرد از این اطلاعات استفاده می‌کند. حال اگر فرد نیاز به استفاده از نام و آدرس پست الکترونیکی متفاوتی برای پروژه‌های خاصی داردُ، می‌تواند با اجرای همان دستورات البته بدون استفاده از آپشن `--global` هنگامی که در مسیر پروژه مذکور قرار دارد به مقصود خود دست یابد.
+
+### ویرایشگر کاربر ###
 
 ### Your Editor ###
 

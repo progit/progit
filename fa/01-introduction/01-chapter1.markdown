@@ -1,138 +1,138 @@
-# آغاز #
+# سرآغاز #
 
-این فصل در موردشروع استفاده از گیت خواهد بود.  
-ما ابتدا کمی پیشزمینه ابزارهای کنترل نسخه را مرور میکنیم، سپس میرسیم به قسمتی که چگونه گیت را  در سیستم خود راه اندازی کنید و در نهایت چگونه آن را نصب کنید تا بتوانید با آن شروع به کار نمایید. 
-در انتهای این فصل شما باید فهمیده باشید که چرا گیت لازم است، چرا باید از آن استفاده کرد و آماده باشید تا شروع به استفاده از آن کنید.  
+در این فصل در رابطه با شروع کار با Git صحبت خواهد شد. این فصل با توضیحاتی در رابطه با تاریخچه ابزارهای کنترل ورژن شروع می شود، سپس چگونگی راه اندازی Git برروی یک سیستم خاص آموزش داده می شود و در انتها انجام تنظیمات موردنیاز برروی این نرم افزار جهت شروع به کار با آن مورد بررسی قرار می گیرد. در انتهای این فصل خواننده باید دلیل وجود و استفاده از Git را بداند و همچنین باید محیط کار را برای استفاده از آن فراهم کرده باشد.
 
-## درباره کنترل نسخه ##
+## کنترل ورژن ##
 
-کنترل نسخه چیست، و چرا باید برای شما اهمیتی داشته باشد؟ کنترل نسخه سیستمی ست که تغییرات ایجاد شده در یک فایل یا مجموعه ای از فایلها را در طول زمان ثبت میکند تا شما بتوانید نسخه مشخصی از آنها را بعدا بازخوانی کنید. 
- هر چند مثالهای این کتاب کدهای نرم افزاری را به عنوان فایلهای تحت کنترل نسخه نشان میدهند, در واقع هر نوع فایلی بر روی رایانه میتواند تحت کنترل نسخه قرار بگیرد.
+کنترل ورژن چیست و چه اهمیتی دارد؟ کنترل ورژن سیستمی است که تغییرات مربوط به یک یا چندین فایل را در طول زمان ذخیره می کند، تا کاربر بتواند به ورژن های قبلی مراجعت داشته باشد. در مثالهای استفاده شده در این کتاب از فایل های سورس نرم افزار جهت نمایش کنترل ورژن استفاده میشود، ولی با این وجود میتوان هر نوع فایلی را تحت کنترل ورژن قرار داد.
 
+اگر شما یک گرافیست یا طراح وب باشید و تصمیم به نگهداری تمامی ورژنهای یک عکس یا ساختار باشید (که قطعا به همین منوال است)، استفاده از یک سیستم کنترل ورژن (VCS) راهبردی عاقلانه است. یک VCS این امکان را به شما میدهد که: فایلها را به یک وضعیت قبل برگردانید، یک پروژه را به یک وضعیت قبل برگردانید، تغییرات انجام گرفته در مرور زمان را مشاهده کنید، باعث و بانی تغییری را بیابید که منجر به ایجاد خطا یا مشکلی در سیستم شده است، چه کسی و چه زمانی مسئلهای خاص مطرح شده است و بسیاری موارد دیگر. استفاده از یک VCS حتی این امکان را به شما میدهد که اگر احیاناً خطایی مرتکب شدید یا فایلی را اشتباهاً حذف یا از دست دادید، به راحتی آن را اصلاح و بازیابی کنید.
 
-اگر شما طراح  گرافیکی یا طراح  وب هستید و میخواهید که تمام نسخه های یک تصویر یا طرح را نگاه دارد (که معمولا هم همینطور است), استفاده از یک سیستم کنترل نسخه کار معقولی خواهد بود.
+### سیستمهای کنترل ورژن محلی ###
 
-A VCS allows you to: revert files back to a previous state, revert the entire project back to a previous state, review changes made over time, see who last modified something that might be causing a problem, who introduced an issue and when, and more. Using a VCS also means that if you screw things up or lose files, you can generally recover easily. In addition, you get all this for very little overhead.
+روشی که اکثر کاربران جهت کنترل ورژن انتخاب میکنند شامل کپی کردن فایلها در پوشهای دیگر است (البته اگر هوشمند باشد، پوشه موردنظر را با تاریخ و زمانی مشخص نامگذاری میکنند). چنین روشی به جهت سادگی بین کاربران بسیار رایج میباشد، ولی خطاپذیری بالایی نیز دارد. در این روش امکان دارد فرد به آسانی پوشهای که در آن قرار دارد را فراموش کند و به اشتباه شروع به تغییر برروی فایلهایی کند که مدنظر او نیست.
 
-### Local Version Control Systems ###
-
-Many people’s version-control method of choice is to copy files into another directory (perhaps a time-stamped directory, if they’re clever). This approach is very common because it is so simple, but it is also incredibly error prone. It is easy to forget which directory you’re in and accidentally write to the wrong file or copy over files you don’t mean to.
-
-To deal with this issue, programmers long ago developed local VCSs that had a simple database that kept all the changes to files under revision control (see Figure 1-1).
+برای مقابله با این موذل، برنامه نویسان از زمانهای بسیار قبل اقدام به توسعه VCSها زده اند که در بردارنده پایگاه داده ساده ای هستند به گونه ای که تمامی تغییرات انجام شده برروی فایلهای هدف را در قالب کنترل رویژن نگهداری می کنند (تصویر 1-1)
 
 Insert 18333fig0101.png
-Figure 1-1. Local version control diagram.
+تصویر 1-1. دیاگرام کنترل ورژن محلی.
 
-One of the more popular VCS tools was a system called rcs, which is still distributed with many computers today. Even the popular Mac OS X operating system includes the rcs command when you install the Developer Tools. This tool basically works by keeping patch sets (that is, the differences between files) from one revision to another in a special format on disk; it can then recreate what any file looked like at any point in time by adding up all the patches.
+یکی از رایجترین ابزارهای VCS سیستمی با نام rcs بوده است، که هم اکنون نیز به همراه تعداد زیادی از کامپیوترهای امروزی نیز توزیع می شود. حتی سیستم عامل رایج Mac OS X نیز با نصب ابزارهای توسعه توسط کاربر برروی آن، دستور خط فرمان rcs را در اختیار فرد قرار میدهد. این ابزار به زبانی ساده با حفظ مجموعه ای از پچها (که تغییرات بین فایلها میباشند) از یک رویژن به رویژنی دیگر در قالب فرمتی خاص برروی دیسک عمل میکند؛ با چنین سیستمی این ابزار قادر است با متصل کردن پچها به یکدیگر توانایی بازسازی هر فایلی را در هر نقطه ای از زمان داشته باشد.
 
-### Centralized Version Control Systems ###
+### سیستمهای کنترل ورژن مرکزی ###
 
-The next major issue that people encounter is that they need to collaborate with developers on other systems. To deal with this problem, Centralized Version Control Systems (CVCSs) were developed. These systems, such as CVS, Subversion, and Perforce, have a single server that contains all the versioned files, and a number of clients that check out files from that central place. For many years, this has been the standard for version control (see Figure 1-2).
+مسئله مهم دیگری که کاربران با آن مواجه میشوند، نیاز آنها به همکاری با دیگر توسعه دهندگان برروی سیستمهای دیگر است. برای حل این مسئله، سیستمهای کنترل ورژن مرکزی (CVCSs) توسعه یافتند. چنین سیستمهایی مانند CVS، Subversion و Perforce در بردارنده سروری مرکزی هستند که تمامی ورژنهای فایلها و حتی کاربرانی که این فایلها را از این مکان مرکزی check out کرده اند در خود نگهداری میکند. برای سالهای زیادی، چنین روشی، روشی استاندارد برای کنترل ورژن بوده است (تصویر 1-2).
 
 Insert 18333fig0102.png
-Figure 1-2. Centralized version control diagram.
+تصویر 1-2. دیاگرام کنترل ورژن مرکزی.
 
-This setup offers many advantages, especially over local VCSs. For example, everyone knows to a certain degree what everyone else on the project is doing. Administrators have fine-grained control over who can do what; and it’s far easier to administer a CVCS than it is to deal with local databases on every client.
+این ساختار مزایای بسیاری مخصوصاً نسبت به سیستمهای کنترل ورژن محلی دارد. به عنوان مثال، هر فرد در حد و اندازه مشخصی  خواهد توانست بداند که دیگر افراد تا چه اندازه در پروژه شریک هستند. مدیران از این نظر که هرکس از نظر سطح دسترسی قادر به انجام چه کاری است، کنترل مناسبی دارند؛ همچنین مدیریت یک CVCS به مراتب آسانتر از تعامل با پایگاههای داده محلی موجود برروی سیستمهای کاربران است.
 
-However, this setup also has some serious downsides. The most obvious is the single point of failure that the centralized server represents. If that server goes down for an hour, then during that hour nobody can collaborate at all or save versioned changes to anything they’re working on. If the hard disk the central database is on becomes corrupted, and proper backups haven’t been kept, you lose absolutely everything—the entire history of the project except whatever single snapshots people happen to have on their local machines. Local VCS systems suffer from this same problem—whenever you have the entire history of the project in a single place, you risk losing everything.
+با این وجود، چنین ساختاری معایبی نیز دارد. واضحترین موضوع بروز کوچکترین ایراد در سرورهای مرکزی میباشد. اگر برای مدت یک ساعت این سرور متوقف و از کار بیافتد، در طی این بازه یک ساعته هیچکس نخواهد توانست تعاملی داشته باشد یا حتی تغییرات ورژن را برروی چیزی که در حال کارکردن با آن است ذخیره کند. اگر هارد دیسکی که  پایگاه داده مرکزی برروی آن قرار دارد خراب شود، و پشتیبان مناسبی از آن گرفته نشده باشد، کاربر به طور کامل تاریخچه پروژه را از دست خواهد داد به جز snapshotهایی که هر کاربر احتمالاً برروی ماشین محلی خود خواهد داشت. سیستمهای VCS محلی نیز این عیب را به ارث میبرند-اگر کاربر تمامی تاریخچه پروژه را در یک مکان ذخیره کند، ریسک از دادن همه چیز به قوت خود باقی خواهد ماند.
 
-### Distributed Version Control Systems ###
+### سیستمهای کنترل ورژن پخشی ###
 
-This is where Distributed Version Control Systems (DVCSs) step in. In a DVCS (such as Git, Mercurial, Bazaar or Darcs), clients don’t just check out the latest snapshot of the files: they fully mirror the repository. Thus if any server dies, and these systems were collaborating via it, any of the client repositories can be copied back up to the server to restore it. Every checkout is really a full backup of all the data (see Figure 1-3).
+اینجا است که سیستمهای کنترل ورژن پخشی (DVCSs) نمود پیدا میکنند. در یک DVCS (مانند Git، Mercurial، Bazaar یا Darcs) کابران به check out کردن آخرین snapshot فایلها اکتفا نمیکنند: آنها repository را نیز به صورت کامل کپی میکنند. بنابراین اگر هر سروری که سیستمها به واسطه آن در حال تعامل با یکدیگر هستند متوقف و از کار بیافتد، با کپی repository هر کدام از کاربران برروی سرور، عمل بازیابی انجام میگیرد. در واقع هر checkoutای، پشتیبان کاملی از تمامی داده ها است.
 
 Insert 18333fig0103.png
-Figure 1-3. Distributed version control diagram.
+تصویر 1-3. دیاگرام کنترل ورژن پخشی.
 
-Furthermore, many of these systems deal pretty well with having several remote repositories they can work with, so you can collaborate with different groups of people in different ways simultaneously within the same project. This allows you to set up several types of workflows that aren’t possible in centralized systems, such as hierarchical models.
+علاوه بر آن اکثر این سیستمها تعامل خوبی با داشتن remote repositoryهای متعدد جهت کار کردن با آنها دارند، در نتیجه شخص خواهد توانست با گروههای مختلفی در قالب پروژه ای یکسان به صورت همزمان تعامل داشته باشد. این قابلیت این امکان را به کاربر خواهد داد که workflowهای متنوعی همانند مدلهای سلسه مراتبی را پیاده سازی کند که انجام آن در سیستمهای متمرکز امکان پذیر نیست.
 
-## A Short History of Git ##
+## تاریخچه کوتاهی از Git ##
 
-As with many great things in life, Git began with a bit of creative destruction and fiery controversy. The Linux kernel is an open source software project of fairly large scope. For most of the lifetime of the Linux kernel maintenance (1991–2002), changes to the software were passed around as patches and archived files. In 2002, the Linux kernel project began using a proprietary DVCS system called BitKeeper.
+همانند اکثر حوادث بزرگ در در زندگی، Git نیز با خلاقیتی مخرب و جنجالی آتشین شروع شد. هسته لینوکس پروژه نرم افزاری متن باز با وسعت نسبتاً زیادی است. برای مدت زمان زیادی از عمر نگهداری هسته لینوکس (1991 - 2002) تغییرات نرم افزاری به واسطه پچ ها و فایلهای آرشیو شده انتقال پیدا میکرد. در سال 2002، پروژه هسته لینوکس اقدام به استفاده از سیستم DVCS خصوصی با نام BitKeeper کرد.
 
-In 2005, the relationship between the community that developed the Linux kernel and the commercial company that developed BitKeeper broke down, and the tool’s free-of-charge status was revoked. This prompted the Linux development community (and in particular Linus Torvalds, the creator of Linux) to develop their own tool based on some of the lessons they learned while using BitKeeper. Some of the goals of the new system were as follows:
+در سال 2005، ارتباط بین مجموعه تیم توسعه دهنده هسته لینوکس و شرکت تجاری توسعه دهنده BitKeeper گسسته شد و وضعیت ابزاری که قبل از آن  به صورت رایگان عرضه میشد تغییر پیدا کرد. این اتفاق اخطاری را متوجه مجموعه تیم توسعه دهنده لینوکس (به خصوص مؤسس لینوکس، لینوس تورلوادز) کرد که بر اساس تجربه های کسب شده در استفاده از BitKeeper، خود اقدام به تولید نرم افزاری در زمینه بزنند. مواردی از اهداف سیستم جدید عبارتند از:
 
-*	Speed
-*	Simple design
-*	Strong support for non-linear development (thousands of parallel branches)
-*	Fully distributed
-*	Able to handle large projects like the Linux kernel efficiently (speed and data size)
+*  	سرعت
+*	طراحی ساده
+*	پشتیبانی قوی از توسعه غیر خطی (هزاران branch موازی)
+*	کاملاً پخشی
+* 	قابلیت کنترل بهینه پروژه های بزرگ همانند هسته لینوکس (از نظر سرعت و اندازه داده)
 
-Since its birth in 2005, Git has evolved and matured to be easy to use and yet retain these initial qualities. It’s incredibly fast, it’s very efficient with large projects, and it has an incredible branching system for non-linear development (See Chapter 3).
+از زمان تولد Git در سال 2005، این نرم افزار از نظر استفاده آسان و حفظ اهداف اولیه ذکر شده به تکامل و بلوغ رسیده است. Git نرم افزاری سریع، بسیار بهینه در مواجه با پروژه های بزرگ و حاوی سیستم شاخه ای (branching) باورنکردنی برای توسعه غیر خطی است (فصل 3).
 
-## Git Basics ##
+## مقدمات Git ##
 
-So, what is Git in a nutshell? This is an important section to absorb, because if you understand what Git is and the fundamentals of how it works, then using Git effectively will probably be much easier for you. As you learn Git, try to clear your mind of the things you may know about other VCSs, such as Subversion and Perforce; doing so will help you avoid subtle confusion when using the tool. Git stores and thinks about information much differently than these other systems, even though the user interface is fairly similar; understanding those differences will help prevent you from becoming confused while using it.
+خوب، Git چیست؟ این بخش از نظر یادگیری، بخشی مهم قلمداد می شود، زیرا اگر فرد از پایه و اساس عملکرد Git  اطلاع پیدا کند، آنگاه خواهد توانست آسانتر در استفاده مؤثر از آن بهره جوید. در حین یادگیری Git، بهتر است فرد ذهن خود را از مواردی که احیاناً در رابطه با دیگر VCSها همانند Subversion و Perforce میداند تخلیه کند؛ بدین وسیله از بروز اشتباهات موردی در استفاده از این ابزار پیشگیری می شود. با وجود آن که رابط کاربری Git نسبتاً مشابه با دیگر سیستم ها است، ولی در ذخیره سازی و نگاه به اطلاعات، دید بسیار متفاوتی در مقایسه با دیگر سیستم ها دارد؛ دانستن این تفاوت ها میتواند به فرد در جلوگیری از  بروز اشتباهات بعدی در استفاده از این ابزار یاری دهد.
 
-### Snapshots, Not Differences ###
+### Snapshotها، نه تفاوتها ###
 
-The major difference between Git and any other VCS (Subversion and friends included) is the way Git thinks about its data. Conceptually, most other systems store information as a list of file-based changes. These systems (CVS, Subversion, Perforce, Bazaar, and so on) think of the information they keep as a set of files and the changes made to each file over time, as illustrated in Figure 1-4.
+اصلی ترین تفاوت بین Git و دیگر VCSها (که شامل Subversion و هم خانواده های آن نیز می شود) دیدگاهی است که Git نسبت به داده های خود دارد. از نظر مفهومی، اکثریت دیگر سیستم ها اطلاعات را به مثابه لیستی از تغییرات بر مبنای فایل، ذخیره می کنند. این سیستم ها (CVS، Subversion، Perfoce، Bazaar و غیره) همانطور که در تصویر 1-4 نشان داده شده است،  به اطلاعاتی که نگهداری میکنند به شکل مجموعه ای از فایلها و تغییراتی که برروی هر فایل در مرور زمان انجام گرفته است، مینگرند.
+
 
 Insert 18333fig0104.png
-Figure 1-4. Other systems tend to store data as changes to a base version of each file.
+تصویر 1-4. دیگر سیستم ها داده ها به شکل  تغییرات در ورژن پایه هر فایل ذخیره می کنند.
 
-Git doesn’t think of or store its data this way. Instead, Git thinks of its data more like a set of snapshots of a mini filesystem. Every time you commit, or save the state of your project in Git, it basically takes a picture of what all your files look like at that moment and stores a reference to that snapshot. To be efficient, if files have not changed, Git doesn’t store the file again—just a link to the previous identical file it has already stored. Git thinks about its data more like Figure 1-5.
+Git از چنین تفکر یا روش ذخیره سازی داده ای پیروی نمی کند. در عوض دیدگاه Git نسبت به داده های خود به شکل  snapshotهایی از یک سیستم فایلی کوجک است. هر زمانی که شخص commitای انجام میدهد یا وضعیت پروژه خود را در Git ذخیره می کند، در اصل تصویری از وضعیت تمامی فایل ها در لحظه موردنظر تهیه و ارجاعی به snapshot ایجاد شده ذخیره می شود. برای آنکه این عمل به صورت بهینه انجام پذیرد، اگر در فایلی تغییری ایجاد نشده باشد، Git اقدام به ذخیره سازی مجدد فایل نمی کند - تنها ارتباطی (link) به نسخه مشابه آن فایل که قبلاً ذخیره شده است را ذخیره می کند. طریقه نگرش Git به داده در تصویر 1-5 نمایش داده شده است.
 
 Insert 18333fig0105.png
-Figure 1-5. Git stores data as snapshots of the project over time.
+تصویر 1-5. Git داده ها را به شکل snapshotهایی از پروژه در مرور زمان نگهداری میکند.
 
-This is an important distinction between Git and nearly all other VCSs. It makes Git reconsider almost every aspect of version control that most other systems copied from the previous generation. This makes Git more like a mini filesystem with some incredibly powerful tools built on top of it, rather than simply a VCS. We’ll explore some of the benefits you gain by thinking of your data this way when we cover Git branching in Chapter 3.
+این شکل نگرش مهمترین اصل تمایز Git با دیگر VCSها است. این امر موجب می شود تا Git تجدیدنظری نسبت به تمامی ابعاد کنترل ورژن داشته باشد، که اکثریت دیگر سیستم ها از نسل های قبل از خود به ارث برده اند. این موضوع باعث شده است تا Git از یک VCS ساده، به سیستم فایلی کوچکی بدل شود که در بالادست آن ابزار قدرتمند باورنکردنی بنا شده است. در فصل 3 بعضی از مزایای چنین دیدگاهی نسبت به داده پوشش داده می شود.
 
-### Nearly Every Operation Is Local ###
+### تقریباً تمام عملیات به صورت محلی انجام می پذیرد ###
 
-Most operations in Git only need local files and resources to operate — generally no information is needed from another computer on your network.  If you’re used to a CVCS where most operations have that network latency overhead, this aspect of Git will make you think that the gods of speed have blessed Git with unworldly powers. Because you have the entire history of the project right there on your local disk, most operations seem almost instantaneous.
+اکثر عملیاتی که در Git انجام میپذیرد جهت اجرا تنها نیازمند فایلها و منابع محلی هستند - به طور کلی نیازمند هیچگونه اطلاعاتی از کامپیوتری دیگر در شبکه نیست. اگر شما فردی هستید که به CVCSای عادت کرده اید که در آن اکثر فعالیت ها دارای افزونگی رکود شبکه ای داشته اند، شاید این مزیت Git این فکر را برای شما تداعی کند که خدایان سرعت Git را با قدرتی وصف ناشدنی مورد لطف و رحمت قرار داده اند. از آن جهت که تمامی تاریخچه پروژه برروی دیسک محلی قرار دارد، به نظر می رسد که اکثر عملیات به صورت لحظه ای و بلادرنگ انجام می پذیرند.
 
-For example, to browse the history of the project, Git doesn’t need to go out to the server to get the history and display it for you—it simply reads it directly from your local database. This means you see the project history almost instantly. If you want to see the changes introduced between the current version of a file and the file a month ago, Git can look up the file a month ago and do a local difference calculation, instead of having to either ask a remote server to do it or pull an older version of the file from the remote server to do it locally.
+به عنوان مثال، Git برای نمایش تاریخچه پروژه نیازی جهت مراجعه به سرور برای اخذ تاریخچه و نمایش آن ندارد - Git این عمل را با خواندن مستقیم  پایگاه داده محلی انجام میدهد. این بدان معناست که شخص میتوان تاریخچه پروژه را تقریباً بلادرنگ مشاهده کند. اگر نیاز به مشاهده تغییرات بین ورژن فعلی یک فایل با ورژن یک ماه قبل از آن باشد، Git میتواند بجای آنکه از سرور درخواست این عمل را داشته باشد و یا آنکه نسخه قبلی را از سرور خارجی فراخوانی و سپس مقایسه محلی را انجام دهد، این عمل  را با نگاهی به نسخه یک ماه قبل فایل و انجام محاسبات محلی تغییرات رخ داده، انجام میدهد.
 
-This also means that there is very little you can’t do if you’re offline or off VPN. If you get on an airplane or a train and want to do a little work, you can commit happily until you get to a network connection to upload. If you go home and can’t get your VPN client working properly, you can still work. In many other systems, doing so is either impossible or painful. In Perforce, for example, you can’t do much when you aren’t connected to the server; and in Subversion and CVS, you can edit files, but you can’t commit changes to your database (because your database is offline). This may not seem like a huge deal, but you may be surprised what a big difference it can make.
+همچنین بدین معناست که در صورت آفلاین بودن و یا وصل نبودن به VPN دامنه عملکرد شخص زیاد محدود نمی شود. اگر سوار بر هواپیما یا قطار شده باشید و تصمیم به انجام کاری داشته باشید، میتوانید به راحتی commit را انجام داده و زمانی که دسترسی به شبکه پیدا کردید آپلود را انجام دهید. اگر به خانه رفته باشید و قادر به فعال سازی VPN خود نشده باشید، باز هم وقفه ای در کار شما حاصل نمی شود. در اکثریت دیگر سیستم ها انجام این موارد غیرممکن یا به سختی انجام می پذیرد. به عنوان مثال در Perforce، در صورتی که به شبکه متصل نباشید در واقع توانایی انجام کاری نخواهید داشت؛ در Subversion و CVS، امکان دستکاری فایل ها برای شما وجود دارد، ولی برای commit تغییرات روی پایگاه داده محدودیت دارید (زیرا اتصال شما به پایگاه داده بر قرار نیست). شاید این موضوع مسئله مهمی به نظر نیاید، ولی شاید با مشاهده تغییرات بزرگی که میتواند به موجب آن ایجاد شود، شگفت زده شوید.
 
-### Git Has Integrity ###
+### Git صداقت دارد ###
 
-Everything in Git is check-summed before it is stored and is then referred to by that checksum. This means it’s impossible to change the contents of any file or directory without Git knowing about it. This functionality is built into Git at the lowest levels and is integral to its philosophy. You can’t lose information in transit or get file corruption without Git being able to detect it.
+هرچیزی که بخواهد در Git ذخیره شود، ابتدا checksum آن محاسبه میشود و سپس بوسیله همین checksum ارجاع داده میشود. چنین عملی موجب میشود که در صورت ایجاد کوچکترین تغییری در مححتویات فایل یا پوشه ای، Git از آن آگاهی پیدا کند. این دستورالعمل در Git در پایینترین سطح پیاده سازی شده است و تاییدی بر صحت فلسفه Git دارد. بدین دلیل است که اگر داده ای در حین انتقال از دست برود و یا فایلی مخدوش شود، Git به سرعت از آن اطلاع پیدا میکند.
 
-The mechanism that Git uses for this checksumming is called a SHA-1 hash. This is a 40-character string composed of hexadecimal characters (0–9 and a–f) and calculated based on the contents of a file or directory structure in Git. A SHA-1 hash looks something like this:
+مکانیزمی که Git برای تولید checksum استفاده میکند، هش SHA-1 است. این هش یک رشته 40 کاراکتری از کاراکترهای مبنای شانزده است (0 - 9 و a - f) که از روی محتویات فایل و یا ساختار پوشه موردنظر در Git محاسبه میگردد. در ادامه یک نمونه از هش SHA-1 آورده شده است:
+
 
 	24b9da6552252987aa493b52f8696cd6d3b00373
 
-You will see these hash values all over the place in Git because it uses them so much. In fact, Git stores everything not by file name but in the Git database addressable by the hash value of its contents.
+به علت استفاده زیاد Git از این هش، به کرات در جای جای Git مشاهده گر این هش ها خواهید بود. در واقع، Git از نام فایل برای ذخیره سازی آن استفاده نمیکند بلکه Git از هش تولید شده از محتویات فایل مربوطه برای آدرس دهی آن در پایگاه داده خود بهره میگیرد.
+
+### عموماً Git فقط داده اضافه میکند ###
 
 ### Git Generally Only Adds Data ###
 
-When you do actions in Git, nearly all of them only add data to the Git database. It is very difficult to get the system to do anything that is not undoable or to make it erase data in any way. As in any VCS, you can lose or mess up changes you haven’t committed yet; but after you commit a snapshot into Git, it is very difficult to lose, especially if you regularly push your database to another repository.
+هرگاه عملی در Git انجام میپذیرد، تقریباً در تمامی موارد Git داده ای به داده های خود در پایگاه داده اضافه می کند. انجام دادن عملی در این سیستم که برگشت پذیر نباشد یا باعث حذف داده ای از سیستم شود، بسیار سخت است. مشابه اکثر VCSها، فرد میتواند تا قبل از commit هرگونه تغییراتی را انجام دهد؛ ولی به محض commit یک snapshot در Git، امکان حذف آن بسیار سخت است، مخصوصاً اگر فرد عادتاً  پایگاه داده خود را به repository دیگری push کند.
 
-This makes using Git a joy because we know we can experiment without the danger of severely screwing things up. For a more in-depth look at how Git stores its data and how you can recover data that seems lost, see Chapter 9.
+این قابلیت باعث می شود که استفاده از Git، به عملی فرح بخش تبدیل شود زیرا فرد خواهد توانست بدون در خطر انداختن چیزی دست به هرگونه آزمایشی بزند. برای آشنایی بیشتر با چگونگی عملکرد Git در ذخیره سازی و بازیابی داده هایی که به نظر از دست رفته می باشند، میتوانید به فصل 9 مراجعه کنید.
+
+### سه وضعیت ###
 
 ### The Three States ###
 
-Now, pay attention. This is the main thing to remember about Git if you want the rest of your learning process to go smoothly. Git has three main states that your files can reside in: committed, modified, and staged. Committed means that the data is safely stored in your local database. Modified means that you have changed the file but have not committed it to your database yet. Staged means that you have marked a modified file in its current version to go into your next commit snapshot.
+توجه، توجه. اگر میخواهید پروسه یادگیری Git را بدون دردسر ادامه دهید، این مطلب را به خاطر بسپارید. فایلها در Git میتوانند در سه وضعیت اصلی قرار داشته باشند: committed، modified و staged. committed بدین معناست که فایل موردنظر در پایگاه داده محلی ذخیره شده است. modified یعنی تغییری در فایل ایجاد شده است ولی هنوز commitای به موجب این فایل روی پایگاه داده انجام نگرفته است. فایلی که در وضعیت staged قرار گرفته است، فایلی تغییر یافته میباشد که ورژن فعلی آن جهت snapshot بعدی جهت commit نشانه گذاری شده است.
 
-This leads us to the three main sections of a Git project: the Git directory, the working directory, and the staging area.
+حال میتوان سه بخش اصلی پروژه Git را معرفی کرد: پوشه Git، پوشه در حال کار (working directory) و staging area.
 
 Insert 18333fig0106.png
-Figure 1-6. Working directory, staging area, and Git directory.
+تصویر 1-6. پوشه در حال کار، staging area و پوشه Git
 
-The Git directory is where Git stores the metadata and object database for your project. This is the most important part of Git, and it is what is copied when you clone a repository from another computer.
+در Git، metadata و پایگاه داده پروژه در پوشه Git ذخیره میشوند. این قسمت مهمترین بخش Git است، در واقع هنگامی که از repository کامپیوتری cloneای گرفته می شود، کپی از این پوشه ایجاد میگردد.
 
-The working directory is a single checkout of one version of the project. These files are pulled out of the compressed database in the Git directory and placed on disk for you to use or modify.
+پوشه در حال کار، checkout منفردی از ورژنی از پروژه است. فایلهای این بخش، فایلهایی می باشند که از پایگاه داده فشرده واقع در پوشه Git بیرون کشیده شده و جهت استفاده و ایجاد تغییر بر روی دیسک قرار داده شده اند.
 
-The staging area is a simple file, generally contained in your Git directory, that stores information about what will go into your next commit. It’s sometimes referred to as the index, but it’s becoming standard to refer to it as the staging area.
+staging area عموماً از یک فایل ساده تشکیل شده است که محتوی اطلاعاتی است که مشخص میکند که چه چیزهایی در commit بعدی قرار میگیرند. معمولاً از این فایل را index مینامند ولی staging area نیز در حال تبدیل شدن به نامی استاندارد برای چنین فایلی است.
 
-The basic Git workflow goes something like this:
+روند کاری Git عموماً به صورت ذیل است:
 
-1. You modify files in your working directory.
-2. You stage the files, adding snapshots of them to your staging area.
-3. You do a commit, which takes the files as they are in the staging area and stores that snapshot permanently to your Git directory.
+1. ایجاد تغییرات روی فایلهای واقع در پوشه در حال کار.
+2. stage کردن فایلها و اضافه کردن snapshotهای فایلها به staging area.
+3. commit کردن، که به موجب آن وضعیت فعلی فایلها در staging area تحت یک snapshot به صورت دائمی در پوشه Git ذخیره میگردد.
 
-If a particular version of a file is in the Git directory, it’s considered committed. If it’s modified but has been added to the staging area, it is staged. And if it was changed since it was checked out but has not been staged, it is modified. In Chapter 2, you’ll learn more about these states and how you can either take advantage of them or skip the staged part entirely.
+اگر ورژنی از یک فایل در پوشه git قرار داشته باشد، commit شده فرض میشود. اگر تغییری در فایل ایجاد شده باشد و به staging area اضافه شده باشد، گوییم staged شده است. و اگر در فایل از آخرین مرتبه ای که check out شده است تغییری ایجاد شده باشد ولی staged نشده باشد، گوییم modified شده است. در فصل 2، با این وضعیت ها بیشتر آشنا خواهید شد و یاد خواهید گرفت که چگونه میتوان از آنها به نحو احسنت استفاده کرد و یا حتی به صورت کامل از روی مرحله stage پرش کرد.
 
-## Installing Git ##
+## نصب Git ##
 
-Let’s get into using some Git. First things first—you have to install it. You can get it a number of ways; the two major ones are to install it from source or to install an existing package for your platform.
+حال وقت آن است که کار با Git را شروع کنیم. اول از هر چیز میبایست Git را نصب کرد. روشهای مختلفی برای این کار وجود دارد؛ دو مورد از رایجترین این روشها نصب از طریق سورس یا نصب به واسطه پکیج های موجودی است که برای پلتفرم مورد نظر شما تهیه شده است.
 
-### Installing from Source ###
+### نصب از طریق سورس ###
 
-If you can, it’s generally useful to install Git from source, because you’ll get the most recent version. Each version of Git tends to include useful UI enhancements, so getting the latest version is often the best route if you feel comfortable compiling software from source. It is also the case that many Linux distributions contain very old packages; so unless you’re on a very up-to-date distro or are using backports, installing from source may be the best bet.
+اگر امکان نصب از طریق سورس برای شما وجود دارد، این روش مناسبترین روش جهت نصب میباشد، زیرا شما بعد از نصب آخرین ورژن نرم افزار را در اختیار خواهید داشت. در هر نسخه از Git سعی شده است که تا در رابط کاربری بهبودهایی حاصل شود، بنابراین در اختیار داشتن آخرین ورژن بهترین گزینه است البته اگر با کامپایل سورس نرم افزار مشکلی نداشته باشید. همچنین معمولاً مخازن نرم افزاری اکثر توزیعهای لینوکس در بر دارنده پکیجهایی با ورژنهای قدیمی هستند؛ بنابراین در صورتی که شما توسعه دهنده ای به روز هستید یا از backportها استفاده میکنید، نصب از طریق سورس بهترین انتخاب برای شما می باشد.
 
-To install Git, you need to have the following libraries that Git depends on: curl, zlib, openssl, expat, and libiconv. For example, if you’re on a system that has yum (such as Fedora) or apt-get (such as a Debian based system), you can use one of these commands to install all of the dependencies:
+برای نصب Git نیاز به کتابخانه های curl، zlib، openssl، expat و libiconv است که Git نیازمند آنهاست. به عنوان مثال، اگر روی سیستمی کار میکنید که yum (مانند Fedora) یا apt-get (مانند سیستم های مبتنی بر Debian) دارد، میتوانید برای نصب این بسته های  نیازمندی از دستورهای ذیل استفاده کنید:
 
 	$ yum install curl-devel expat-devel gettext-devel \
 	  openssl-devel zlib-devel
@@ -140,65 +140,67 @@ To install Git, you need to have the following libraries that Git depends on: cu
 	$ apt-get install libcurl4-gnutls-dev libexpat1-dev gettext \
 	  libz-dev libssl-dev
 
-When you have all the necessary dependencies, you can go ahead and grab the latest snapshot from the Git web site:
+حال که تمامی نیازمندیها نصب گردید، میتوان آخرین نسخه Git را از وب سایت آن دانلود کرد:
 
 	http://git-scm.com/download
 
-Then, compile and install:
+و آن را کامپایل و نصب کرد:
 
 	$ tar -zxf git-1.7.2.2.tar.gz
 	$ cd git-1.7.2.2
 	$ make prefix=/usr/local all
 	$ sudo make prefix=/usr/local install
 
-After this is done, you can also get Git via Git itself for updates:
+بعد از کامل شدن این مراحل میتوان از خود Git برای دریافت آپدیت های Git استفاده کرد:
 
 	$ git clone git://git.kernel.org/pub/scm/git/git.git
 
-### Installing on Linux ###
+### نصب بر روی لینوکس ###
 
-If you want to install Git on Linux via a binary installer, you can generally do so through the basic package-management tool that comes with your distribution. If you’re on Fedora, you can use yum:
+اگر قصد نصب Git بر روی لینوکس به واسطه یک نصاب باینری را دارید، میتوانید این کار را از طریق ابزار مدیریت بسته های نرم افزاری که همراه توزیع موردنظر شما ارائه می شود انجام دهید. اگر توزیع شما Fedora است، میتوانید از yum استفاده کنید:
 
 	$ yum install git-core
 
-Or if you’re on a Debian-based distribution like Ubuntu, try apt-get:
+یا اگر توزیعی مبتنی بر Debian مانند Ubuntu دارید، میتوانید از apt-get استفاده کنید:
 
 	$ apt-get install git
 
-### Installing on Mac ###
+### نصب بر روی Mac ###
 
-There are two easy ways to install Git on a Mac. The easiest is to use the graphical Git installer, which you can download from the SourceForge page (see Figure 1-7):
+برای نصب بر روی Mac دو روش آسان وجود دارد. آسانترین روش استفاده از نصاب گرافیکی Git است، که امکان دانلود آن از صفحه Google Code وجود دارد (تصویر 1-7):
 
-	http://sourceforge.net/projects/git-osx-installer/
+	http://code.google.com/p/git-osx-installer
 
 Insert 18333fig0107.png
-Figure 1-7. Git OS X installer.
+تصویر 1-7. نصاب Git OS X
 
-The other major way is to install Git via MacPorts (`http://www.macports.org`). If you have MacPorts installed, install Git via
+روش دیگر نصب از طریق MacPortها (`http://www.macports.org`) است. اگر MacPorts را نصب شده روی سیستم خود دارید، میتوانید Git را با دستور ذیل نصب کنید
 
 	$ sudo port install git-core +svn +doc +bash_completion +gitweb
 
-You don’t have to add all the extras, but you’ll probably want to include +svn in case you ever have to use Git with Subversion repositories (see Chapter 8).
+نیازی به افزودن تمامی اضافات نیست، ولی شاید برای استفاده از Git به همراه مخازن Subversion، احتمالاً افزودن +svn  گزینه مناسبی است.
 
-### Installing on Windows ###
+### نصب بر روی ویندوز ###
 
-Installing Git on Windows is very easy. The msysGit project has one of the easier installation procedures. Simply download the installer exe file from the GitHub page, and run it:
+نصب Git روی ویندوز بسیار آسان است. پروژه msysGit یکی از آسانترین مراحل نصب را دارد. تنها نیاز است که فایل نصاب exe را از صفحه GitHub دانلود، و آن را اجرا کرد:
 
-	http://msysgit.github.io
+	http://msysgit.github.com/
 
-After it’s installed, you have both a command-line version (including an SSH client that will come in handy later) and the standard GUI.
+بعد از اتمام نصب، هم نسخه خط فرمان (شامل SSH client که در ادامه مشاهده خواهد شد که ابزاری کارآمد است) و هم رابط گرافیکی استاندارد را در اختیار خواهید داشت.
 
-Note on Windows usage: you should use Git with the provided msysGit shell (Unix style), it allows to use the complex lines of command given in this book. If you need, for some reason, to use the native Windows shell / command line console, you have to use double quotes instead of single quotes (for parameters with spaces in them) and you must quote the parameters ending with the circumflex accent (^) if they are last on the line, as it is a continuation symbol in Windows.
+نکته برای کابران ویندوز: کاربر باید جهت کار با Git از پوسته ارائه شده به همراه msysGit (به سبک Unix)، تا بتواند دستورات چند خطی پیچیده ای که در این کتاب آورده شده را اجرا کند. اگر به هر دلیلی، نیاز به استفاده از پوسته خود ویندوز / کنسول خط فرمان، شدید باید در عوض تک کوت (simple quote) از دابل کوت  (برای پارامترهایی که در بر دارنده فاصله هستند) استفاده کنید و باید پارامترهای موجود در آخرین خط که با circumflex accent (^) به پایان میرسند را داخل کوت قرار دهید، زیرا این علامت، نشانگر ادامه دار بودن خط در ویندوز است.
+
+## تنظیمات شروع به کار Git ##
 
 ## First-Time Git Setup ##
 
 Now that you have Git on your system, you’ll want to do a few things to customize your Git environment. You should have to do these things only once; they’ll stick around between upgrades. You can also change them at any time by running through the commands again.
 
-Git comes with a tool called `git config` that lets you get and set configuration variables that control all aspects of how Git looks and operates. These variables can be stored in three different places:
+Git comes with a tool called git config that lets you get and set configuration variables that control all aspects of how Git looks and operates. These variables can be stored in three different places:
 
 *	`/etc/gitconfig` file: Contains values for every user on the system and all their repositories. If you pass the option` --system` to `git config`, it reads and writes from this file specifically.
 *	`~/.gitconfig` file: Specific to your user. You can make Git read and write to this file specifically by passing the `--global` option.
-*	config file in the Git directory (that is, `.git/config`) of whatever repository you’re currently using: Specific to that single repository. Each level overrides values in the previous level, so values in `.git/config` trump those in `/etc/gitconfig`.
+*	config file in the git directory (that is, `.git/config`) of whatever repository you’re currently using: Specific to that single repository. Each level overrides values in the previous level, so values in `.git/config` trump those in `/etc/gitconfig`.
 
 On Windows systems, Git looks for the `.gitconfig` file in the `$HOME` directory (`%USERPROFILE%` in Windows’ environment), which is `C:\Documents and Settings\$USER` or `C:\Users\$USER` for most people, depending on version (`$USER` is `%USERNAME%` in Windows’ environment). It also still looks for /etc/gitconfig, although it’s relative to the MSys root, which is wherever you decide to install Git on your Windows system when you run the installer.
 

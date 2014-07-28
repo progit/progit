@@ -202,7 +202,7 @@ Insert 18333fig0107.png
 
 در سیستم‌های ویندوزی، Git در پوشه `$HOME` (متغیر محیطی `%USERPROFILE%` در ویندوز) که برای اکثر کاربران با توجه به ورژن سیستم در مسیرهای `C:\Documents and Settings\$USER‍ یا `C:\Users\$USER` (`$USER‍ در ویندوز متغیر محیطی `%USERNAME%`) قرار دارد، فایل `.gitconfig` را جستجو می‌کند. همچنین نسبت به مسیر ریشه MSys که همان مسیر نصب انتخاب شده در هنگام اجرای نصاب Git در ویندوز می‌باشد، به دنبال فایلی با نام /etc/gitconfig می‌گردد.
 
-### شناسه کاربر ###
+### شناسه ###
 
 اولین عملی که بعد از نصب Git باید انجام شود، مقداردهی کردن دو متغیر نام کاربری (user name) و آدرس پست الکترونیکی (e-mail address) است. این عمل از آن جهت اهمیت دارد که در هر commit این اطلاعات به‌صورتی تغییر ناپذیر روی commit انجام شده حک می‌شوند.
 
@@ -211,25 +211,23 @@ Insert 18333fig0107.png
 
 مجدداْ یادآوری می‌شود که انجام این عمل در صورت استفاده از آپشن `--global` فقط یک مرتبه انجام می‌پذیرد، زیرا Git برای هر عملی که در سیستم انجام می‌پذیرد از این اطلاعات استفاده می‌کند. حال اگر فرد نیاز به استفاده از نام و آدرس پست الکترونیکی متفاوتی برای پروژه‌های خاصی داردُ، می‌تواند با اجرای همان دستورات البته بدون استفاده از آپشن `--global` هنگامی که در مسیر پروژه مذکور قرار دارد به مقصود خود دست یابد.
 
-### ویرایشگر کاربر ###
+### ویرایشگر ###
 
-### Your Editor ###
-
-Now that your identity is set up, you can configure the default text editor that will be used when Git needs you to type in a message. By default, Git uses your system’s default editor, which is generally Vi or Vim. If you want to use a different text editor, such as Emacs, you can do the following:
+حال که شناسه تنظیم شد، میتوان ویرایشگر متنی پیش فرضی را معرفی کرد تا هنگامی که نیاز به نوشتن پیغامی در Git وجود دارد فراخوانی شود. به صورت پیش فرض Git از ویرایشگر پیش فرض سیستم برای این امر استفاده می کند، که معمولاً Vi یا Vim است. اگر نظر شخص به استفاده از ویرایشگر متنی متفاوتی مانند Emacs باشد، میتوان به صورت ذیل عمل کرد:
 
 	$ git config --global core.editor emacs
 
-### Your Diff Tool ###
+### ابزار Diff ###
 
-Another useful option you may want to configure is the default diff tool to use to resolve merge conflicts. Say you want to use vimdiff:
+ابزار مفید دیگری که شاید نیاز به تنظیم داشته باشد، ابزار diff پیش فرضی است که برای رفع مغایرت ایجاد شده در استفاده از دستور merge استفاده میگردد. به عنوان مثال اگر هدف استفاده از vimdiff باشد خواهیم داشت:
 
 	$ git config --global merge.tool vimdiff
 
-Git accepts kdiff3, tkdiff, meld, xxdiff, emerge, vimdiff, gvimdiff, ecmerge, and opendiff as valid merge tools. You can also set up a custom tool; see Chapter 7 for more information about doing that.
+Git ابزارهای kdiff3، tkdiff، meld، xxdiff، emerge، vimdiff، gvimdiff، ecmerge و opendiff را به عنوان ابزارهایی معتبر جهت merge می شناسد. با این وجود امکان تعریف ابزاری شخصی نیز وجود دارد؛ برای اطلاعات بیشتر جهت انجام این مورد میتوانید به فصل 7 مراجعه کنید.
 
-### Checking Your Settings ###
+### بررسی تنظیمات ###
 
-If you want to check your settings, you can use the `git config --list` command to list all the settings Git can find at that point:
+برای مشاهده و بررسی تنظیمات، میتوان از دستور `git config --list` استفاده کرد که در نتیجه آن Git تمامی تنظیمات موجود تا آن لحظه را در قالب لیستی نمایش می دهد:
 
 	$ git config --list
 	user.name=Scott Chacon
@@ -240,28 +238,29 @@ If you want to check your settings, you can use the `git config --list` command 
 	color.diff=auto
 	...
 
-You may see keys more than once, because Git reads the same key from different files (`/etc/gitconfig` and `~/.gitconfig`, for example). In this case, Git uses the last value for each unique key it sees.
+احتمال دارد در این لیست کلیدهایی بیش از یک بار مشاهده شود، دلیل این امر آن است که Git کلید مشابهی را از فایلهای مختلفی (مانند `/etc/giconfig` و `~/.gitconfig`) خوانده باشد. در اینگونه موارد، Git آخرین مقدار کلید منحصر به فردی که مشاهده می کند را مورد استفاده قرار میدهد.
 
-You can also check what Git thinks a specific key’s value is by typing `git config {key}`:
+همچنین برای مشاهده مقدار مورداستفاده یک کلید خاص توسط Git، میتوان از دستور `git config {key}` استفاده کرد:
 
 	$ git config user.name
 	Scott Chacon
 
-## Getting Help ##
+## دریافت راهنمایی ##
 
-If you ever need help while using Git, there are three ways to get the manual page (manpage) help for any of the Git commands:
+هرگاه در استفاده از Git نیازمند راهنمایی بودید، سه روش برای مشاهده صفحه راهنما (manpage) هرگونه دستوری در Git وجود دارد:
 
 	$ git help <verb>
 	$ git <verb> --help
 	$ man git-<verb>
 
-For example, you can get the manpage help for the config command by running
+برای مثال، برای مشاهده راهنما manpage دستور config داریم
 
 	$ git help config
 
-These commands are nice because you can access them anywhere, even offline.
-If the manpages and this book aren’t enough and you need in-person help, you can try the `#git` or `#github` channel on the Freenode IRC server (irc.freenode.net). These channels are regularly filled with hundreds of people who are all very knowledgeable about Git and are often willing to help.
+این دستورات از آن جهت که میتوان از هر مکانی، حتی در حالت آفلاین، به آنها دسترسی پیدا کرد ابزاری کاربردی میباشند.
+اگر manpageها و این کتاب جوابگوی نیاز شما نبودند و نیاز به راهنمایی فردی پیدا کردید، میتوانید به کانالهای `#git` یا `#github` در سرور Freenode IRC (irc.freenode.net) مراجعه کنید.
+معمولاً این کانالها مملؤ از افرادی با سطح دانش بالا در زمینه Git هستند که آماده راهنمایی رساندن به شما می باشند.
 
-## Summary ##
+## خلاصه ##
 
-You should have a basic understanding of what Git is and how it’s different from the CVCS you may have been using. You should also now have a working version of Git on your system that’s set up with your personal identity. It’s now time to learn some Git basics.
+با مطالعه این فصل شما باید درک اولیه ای از این که Git چیست و چه تفاوتی با دیگر CVCSهایی که احتمالاً از آن استفاده میکردید پیدا کرده باشد. همچنین شما باید نسخه آماده به کاری از Git را روی سیستم خود داشته باشید که با شناسه شخصی شما تنظیم شده است. حال زمان یادگیری اصول اولیه Git است.

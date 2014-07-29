@@ -451,7 +451,7 @@ Torniamo agli oggetti del database per il tuo repository Git di test. A questo p
 
 Git comprime il contenuto di questi file con zlib e, poiché non stai memorizzando molte cose, complessivamente tutti questi file occupano solo 925 bytes. Aggiungeremo al repository del contenuto più pesante per dimostrare un’interessante caratteristica di Git. Aggiungi il file repo.rb dalla libreria Grit che abbiamo visto prima: sono circa 12K di sorgenti:
 
-	$ curl http://github.com/mojombo/grit/raw/master/lib/grit/repo.rb > repo.rb
+	$ curl -L http://github.com/mojombo/grit/raw/master/lib/grit/repo.rb > repo.rb
 	$ git add repo.rb 
 	$ git commit -m ‘aggiunto repo.rb'
 	[master 484a592] aggiunto repo.rb

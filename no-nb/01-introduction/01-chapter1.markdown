@@ -54,31 +54,32 @@ I 2005 så falt forholdet mellom samholdet som utviklet Linux-kjernen og det kom
 
 Siden den ble skapt i 2005, har Git utviklet seg og modnet til å bli et enkelt å bruke men forsatt beholde disse opprinnelige kvalitetene. Den er er utrolig rask, og den er veldig effektiv med store prosjekter, og den har et utrolig avgreningsystem for ikke-lineær utvikling (See Chapter 3).
 
-## Git Basics ##
+## Grunnleggende Git ##
 
-So, what is Git in a nutshell? This is an important section to absorb, because if you understand what Git is and the fundamentals of how it works, then using Git effectively will probably be much easier for you. As you learn Git, try to clear your mind of the things you may know about other VCSs, such as Subversion and Perforce; doing so will help you avoid subtle confusion when using the tool. Git stores and thinks about information much differently than these other systems, even though the user interface is fairly similar; understanding those differences will help prevent you from becoming confused while using it.
+Så, hva er Git i et nøtteskall? Dette er en veldig viktig seksjon og ta innover seg, fordi om du forstår hva Git er og det fundamentelle rundt hvordan det virker, så vil det å bruke Git effektiv, sannsynligvis bli mye enklere for deg. Etter som du lærer Git, prøv å tøm tankene for de tingene du vet om andre VCSer, som Subversion og Perforce; å gjøre det vil hjelpe deg å unngå småforvirring når du bruker verktøyet. Git lagrer og tenker på informasjon veldig annerledes disse andre systemene, selv om bruker grensesnittet er ganske likt; å forstå de forskjellene vil hjelpe deg unngå å bli forvirret mens du bruker det.
 
-### Snapshots, Not Differences ###
 
-The major difference between Git and any other VCS (Subversion and friends included) is the way Git thinks about its data. Conceptually, most other systems store information as a list of file-based changes. These systems (CVS, Subversion, Perforce, Bazaar, and so on) think of the information they keep as a set of files and the changes made to each file over time, as illustrated in Figure 1-4.
+### Bilder, Ikke Forskjeller ###
+
+Hovedforskjellen mellom Git og andre VCS verktøy (inklusivt Subversion og dens venner) er hvordan den tenker på sin data. Konseptuelt, så lagrer de fleste andre systemer informasjon som en liste over filbaserte endringer. Disse systemene (CVS, Subversion, Perforce, Bazaar, og så vidre) tenker på informasjon som det tar vare på som et sett med filer og endringene gjort til hver fil over tid, som illustrert i Figur 1-4.
 
 Insert 18333fig0104.png
-Figure 1-4. Other systems tend to store data as changes to a base version of each file.
+Figure 1-4. Andre systemer pleier å lagre data som endringer til en grunnleggende versjon av hver fil.
 
-Git doesn’t think of or store its data this way. Instead, Git thinks of its data more like a set of snapshots of a mini filesystem. Every time you commit, or save the state of your project in Git, it basically takes a picture of what all your files look like at that moment and stores a reference to that snapshot. To be efficient, if files have not changed, Git doesn’t store the file again—just a link to the previous identical file it has already stored. Git thinks about its data more like Figure 1-5.
+Git verken tenker eller lagrere dataen på denne måten. Istedet så tenker Git på dataen mer som et sett med bilder av mini filsystemer. Hver gang du commit-er, eller lagrere tilstanden for prosjektet ditt i Git, så tar den i hovedask et bilde av hvordan alle filene dine ser ut i det øyeblikket of lagrer en referanse til det bildet. For å være effektiv, hvis filer ikke har blitt endre, så lagrer ikke Git filen igjen, den bare linker til forrige indentiske fil som den allerede har lagret. Git tenker på dataen mer som Figure 1-5.
 
 Insert 18333fig0105.png
-Figure 1-5. Git stores data as snapshots of the project over time.
+Figure 1-5.  Git lagrere data som et bilde av prosjektet over tid.
 
-This is an important distinction between Git and nearly all other VCSs. It makes Git reconsider almost every aspect of version control that most other systems copied from the previous generation. This makes Git more like a mini filesystem with some incredibly powerful tools built on top of it, rather than simply a VCS. We’ll explore some of the benefits you gain by thinking of your data this way when we cover Git branching in Chapter 3.
+Dette er et viktig skille mellom Git og nesten alle andre VCSer. Det gjør at Git revurderer nesten alle aspekter av versjonkontroll som de fleste andre systemer kopierte fra den forrige generasjonen. Dette gjør Git mer til et mini-filsystem som har utrolig kraftige verktøy bygd oppå seg, istedet for bare en VCS. Vi vil utforske noen av fordelene du vil få ved å tenke på dataen din på denne måten når vi dekker Git avgrening  i Kapitell 3.
 
-### Nearly Every Operation Is Local ###
+### Nærmest Alle Operasjoner Er Lokale  ###
 
-Most operations in Git only need local files and resources to operate — generally no information is needed from another computer on your network.  If you’re used to a CVCS where most operations have that network latency overhead, this aspect of Git will make you think that the gods of speed have blessed Git with unworldly powers. Because you have the entire history of the project right there on your local disk, most operations seem almost instantaneous.
+De fleste operasjonene i Git trenger bare lokale filer og resurser for å operer - generelt sett så er ikke informasjon fra noen annen maskin på nettverket ditt nødvendig. Hvis du har brukt en CVCS hvor de fleste operasjoner har den type nettverk forsinkelse, så vil dette aspektet av Git få deg til å tenke at gudene for fart har velsignet Git med uparallelle krefter. Fordi du har hele historien til prosjektet rett der på den lokale disk, så virker de fleste operasjoner som om de nesten skjer med en gang.
 
-For example, to browse the history of the project, Git doesn’t need to go out to the server to get the history and display it for you—it simply reads it directly from your local database. This means you see the project history almost instantly. If you want to see the changes introduced between the current version of a file and the file a month ago, Git can look up the file a month ago and do a local difference calculation, instead of having to either ask a remote server to do it or pull an older version of the file from the remote server to do it locally.
+For eksempel, for å se gjennom historien til prosjektet, så trenger ikke Git å gå til serveren for å få historien, og vise det til deg- den simpelthen leser den rett fra din likale database. Dette betyr at du ser prosjekt historien nesten med en gang. Hvis du ønsker å se endringene introdusert mellom den nåværende versjonen av filen og filen for en måned isden, så kan Git sjekke den filen fra en måned siden og gjøre en lokal forskjell kalkulasjon, istedet for å enten måtte spøre en server om å gjøre det, eller å måtte hente en eldre versjon av filen fra den serveren for å gjøre det lokalt.
 
-This also means that there is very little you can’t do if you’re offline or off VPN. If you get on an airplane or a train and want to do a little work, you can commit happily until you get to a network connection to upload. If you go home and can’t get your VPN client working properly, you can still work. In many other systems, doing so is either impossible or painful. In Perforce, for example, you can’t do much when you aren’t connected to the server; and in Subversion and CVS, you can edit files, but you can’t commit changes to your database (because your database is offline). This may not seem like a huge deal, but you may be surprised what a big difference it can make.
+Dette betyr også at det er veldig lite du ikke kan gære om du er offline eller ikke er på VPN. Du kan gå på et fly, eller et tog og så ønske å jobbe litt, og du kan gladelig comitte det fram til du kommer til en nettverkstilkobling for å laste det opp. Hvis du går hjem og ikke kan få VPN klienten til å virke skikkelig, så kan du fortsatt jobbe. I mange systemer, så er det enten umulig å gjøre, eller smertefult. I Perforce, for eksempel, så kan du ikke gjære stort når du ikke er koblet til serveren, og i Subversion og CVS, så kan du endre filer, men du kan ikke bruke commit på endringene dine til databasen (siden databasen din er offline). Dette virker kanskje ikke som noe stort, men du kan bli overrasket over hvor stor forskjell det kan utgjøre.
 
 ### Git Has Integrity ###
 

@@ -8,7 +8,7 @@ Hva er versjonskontroll, og hvorfor burde du bry deg? Versjonskontroll er et sys
 
 Er du en grafisk designer eller arbeider med webdesign og ønsker å beholde alle versjoner av et bilde eller en layout (som du sannsynligvis vil), så er det lurt å bruke et Version Control System (VCS). Et VCS gjør det mulig for deg å: tilbakestille filer til en tidligere utgave, tilbakestille hele prosjektet til en tidligere utgave, sjekke forandringer over tid, se hvem som sist forandret noe som muligens forårsaker et problem, hvem som introduserte en sak og når, osv. Å benytte seg av et VCS betyr også at dersom du roter det til eller mister filer, kan du vanligvis komme tilbake opp å kjøre raskt og enkelt. I tillegg, så får du alt dette uten at det krever noe videre av deg eller systemet ditt.
 
-### Lokalt versjonsstyringssystem ###
+### Lokalt versjonskontrollsystem ###
 
 Mange folks valgte versjonskontrollmetode innebærer å kopiere filer til en annen mappe (kanskje med datomerking hvis de er smarte). Denne tilnærmingen er vanlig, fordi den er enkel, men det kan også fort gå galt. Det er lett å glemme hvilken mappe man befinner seg i og så ved et uhell skrive til feil fil, eller kopiere over filer man ikke mente.
 
@@ -30,28 +30,29 @@ This setup offers many advantages, especially over local VCSs. For example, ever
 
 However, this setup also has some serious downsides. The most obvious is the single point of failure that the centralized server represents. If that server goes down for an hour, then during that hour nobody can collaborate at all or save versioned changes to anything they’re working on. If the hard disk the central database is on becomes corrupted, and proper backups haven’t been kept, you lose absolutely everything—the entire history of the project except whatever single snapshots people happen to have on their local machines. Local VCS systems suffer from this same problem—whenever you have the entire history of the project in a single place, you risk losing everything.
 
-### Distributed Version Control Systems ###
+### Distribuerte versjonkontrollsystemer ###
 
-This is where Distributed Version Control Systems (DVCSs) step in. In a DVCS (such as Git, Mercurial, Bazaar or Darcs), clients don’t just check out the latest snapshot of the files: they fully mirror the repository. Thus if any server dies, and these systems were collaborating via it, any of the client repositories can be copied back up to the server to restore it. Every checkout is really a full backup of all the data (see Figure 1-3).
+Her er det Distribuerte Versjonkontrollsystemer  (DVCSer) komme inn. I et DVCS (slik som Git, Mercurial, Bazaar eller Darcs), så henter ikke klientene bare ut det nyeste bildet av filene: de speilere hele repositoriet. Så derfor, om en server skulle dø, og disse systemene samarbeidet via den, så kan hvilken som helst av klient repositoriene bli kopiert opp til serveren for å fikse det. Hver utsjekking er en hel backup av alle dataene (see Figure 1-3).
 
 Insert 18333fig0103.png
 Figure 1-3. Distributed version control diagram.
 
-Furthermore, many of these systems deal pretty well with having several remote repositories they can work with, so you can collaborate with different groups of people in different ways simultaneously within the same project. This allows you to set up several types of workflows that aren’t possible in centralized systems, such as hierarchical models.
+Mange av disse systemene håndterer også veldig godt det å ha flere fjerne repositorier å jobbe mot, sq du kan sammarbeide med flere forskjellige grupper folk på forskjellige måter samtidig innen for det samme prosjektet. Dette lar deg sette opp flere arbeidsmåter som ikke er mulig i sentraliserte systemer, som hierarkiske modeller.
 
-## A Short History of Git ##
+## Kort Historie om Git ##
 
-As with many great things in life, Git began with a bit of creative destruction and fiery controversy. The Linux kernel is an open source software project of fairly large scope. For most of the lifetime of the Linux kernel maintenance (1991–2002), changes to the software were passed around as patches and archived files. In 2002, the Linux kernel project began using a proprietary DVCS system called BitKeeper.
+Som mange flotte ting i livet, så begynte Git med litt kreativ ødeleggelse og voldsom uenighet. Linux kjernen er et åpenkildekode prosjekt ved en ganske vidt skop. Mesteparten av livet til Linux kjerne vedlikeholdet (1991-2002), så var endringer i programvaren sendt rundt som patcher og arkiverte filer. I 2002 begynte Linux kjerne prosjektet å bruke et proprietært DVCS system med navn BitKeeper. 
 
-In 2005, the relationship between the community that developed the Linux kernel and the commercial company that developed BitKeeper broke down, and the tool’s free-of-charge status was revoked. This prompted the Linux development community (and in particular Linus Torvalds, the creator of Linux) to develop their own tool based on some of the lessons they learned while using BitKeeper. Some of the goals of the new system were as follows:
+I 2005 så falt forholdet mellom samholdet som utviklet Linux-kjernen og det komersielle firmaet som utviklet Bitkeeper sammen, og verktøyets gratis-bruk status ble fjernet. Dette fikk Linux utviklingssamholdet (og spesielt Linux Torvals, skaperen av Linux) til å utvikle deres eget verktøy med grunnlag i noen av tingene de lærte mens de brukte BitKeeper. Noen av målene for det nye systemet ble som følger:
 
-*	Speed
-*	Simple design
-*	Strong support for non-linear development (thousands of parallel branches)
-*	Fully distributed
+*	Fart
+*	Enkelt design
+*	Sterk støtter for ikke-lineær utvikling (tusenvis av parallelle grener)
+*	Helt distribuert
 *	Able to handle large projects like the Linux kernel efficiently (speed and data size)
+*	I stand til å håndtere store prosjekter som Linux-kjernern effektivt (fart og datastørrelse)
 
-Since its birth in 2005, Git has evolved and matured to be easy to use and yet retain these initial qualities. It’s incredibly fast, it’s very efficient with large projects, and it has an incredible branching system for non-linear development (See Chapter 3).
+Siden den ble skapt i 2005, har Git utviklet seg og modnet til å bli et enkelt å bruke men forsatt beholde disse opprinnelige kvalitetene. Den er er utrolig rask, og den er veldig effektiv med store prosjekter, og den har et utrolig avgreningsystem for ikke-lineær utvikling (See Chapter 3).
 
 ## Git Basics ##
 

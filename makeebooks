@@ -83,6 +83,11 @@ ARGV.each do |lang|
       figure_title = 'Obrázek'
       book_title = 'Pro Git — profesionální správa verzí'
       comments = 'Licence: Creative Commons Attribution-Non Commercial-Share Alike 3.0 license'
+    elsif lang == "no-nb"
+        figure_title = 'Figur'
+        book_title = 'Pro Git - profesjonell versjonkontroll'
+        comments = 'Lisens: Creative Commons Attribution-Non Commercial-Share Alike 3.0 license'
+      
     end
 
     book_content = %(<html xmlns="http://www.w3.org/1999/xhtml"><head><title>#{book_title}</title></head><body>)

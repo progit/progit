@@ -81,21 +81,21 @@ For eksempel, for å se gjennom historien til prosjektet, så trenger ikke Git �
 
 Dette betyr også at det er veldig lite du ikke kan gære om du er offline eller ikke er på VPN. Du kan gå på et fly, eller et tog og så ønske å jobbe litt, og du kan gladelig comitte det fram til du kommer til en nettverkstilkobling for å laste det opp. Hvis du går hjem og ikke kan få VPN klienten til å virke skikkelig, så kan du fortsatt jobbe. I mange systemer, så er det enten umulig å gjøre, eller smertefult. I Perforce, for eksempel, så kan du ikke gjære stort når du ikke er koblet til serveren, og i Subversion og CVS, så kan du endre filer, men du kan ikke bruke commit på endringene dine til databasen (siden databasen din er offline). Dette virker kanskje ikke som noe stort, men du kan bli overrasket over hvor stor forskjell det kan utgjøre.
 
-### Git Has Integrity ###
+### Git Har Integritet ###
 
-Everything in Git is check-summed before it is stored and is then referred to by that checksum. This means it’s impossible to change the contents of any file or directory without Git knowing about it. This functionality is built into Git at the lowest levels and is integral to its philosophy. You can’t lose information in transit or get file corruption without Git being able to detect it.
+Alt i Git er sjekksummert før det er lagret, og så blir den referert til med den sjekksummen. Dette betyr at det umulig å endre innhodlet på en fil eller mappe uten at Git vet om det. Denne funksjonaliteten er bygd inn i Git på de laveste nivåene og er viktig del av dens filosofi. Du kan ikke miste informasjon når den prossesserer endringer eller ende opp med en korrupt fil uten at Git er i stand til å oppdage det.
 
-The mechanism that Git uses for this checksumming is called a SHA-1 hash. This is a 40-character string composed of hexadecimal characters (0–9 and a–f) and calculated based on the contents of a file or directory structure in Git. A SHA-1 hash looks something like this:
+Mekanismen Git bruker for denne sjekksummeringen er kalt en SHA-1 hash. Dette er en 40-tegn lang tekst satt sammen av hexadecimal-tegn (0-9 og a-f) og er kalkulert baser på innholdet av en fil og mappe structuren i Git. En SHA-1 hash ser ut noe sånt som dette:
 
 	24b9da6552252987aa493b52f8696cd6d3b00373
 
-You will see these hash values all over the place in Git because it uses them so much. In fact, Git stores everything not by file name but in the Git database addressable by the hash value of its contents.
+Du vil se disse hash verdiene overalt i Git fordi den bruker dem så mye. Git lagrer faktisk alt, ikke med navn, men i Git databasen adresserbart med hash verdien av innholdet dens.
 
-### Git Generally Only Adds Data ###
+### Git Legger Generelt Bare Til Data ###
 
-When you do actions in Git, nearly all of them only add data to the Git database. It is very difficult to get the system to do anything that is not undoable or to make it erase data in any way. As in any VCS, you can lose or mess up changes you haven’t committed yet; but after you commit a snapshot into Git, it is very difficult to lose, especially if you regularly push your database to another repository.
+Når du gjør ting i Git, så vil nesten alle bare legge til data til Git databasen. Det er veldig vanskelig å få systemet til å gjøre noe som ikke kan angres, eller få det til å slette data på en eller annen måte. Som i en hver VCS, så kan du miste eller rote til endringer du ikke har commitet enda; men etter du har commited et bilde inn i Git, så er det veldig vanskelig å miste det, spesielt om du jevnlig bruker push for å sende databasen til en annen repository.
 
-This makes using Git a joy because we know we can experiment without the danger of severely screwing things up. For a more in-depth look at how Git stores its data and how you can recover data that seems lost, see Chapter 9.
+Dette gjør det å bruke Git til en gledelig opplevelse fordi vi vet at vi kan eksperimentere uten fare for å virkelig rote til ting skikkelig. For en mer dypere innsyn i hvoradn Git lagerer data og hvordan du kan få tilbake data som virker tapt, se Kapitel 9.
 
 ### The Three States ###
 

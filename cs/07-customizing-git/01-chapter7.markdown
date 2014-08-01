@@ -130,7 +130,7 @@ Chcete-li sami nastavit jednotlivé barvy, mají všechny tyto parametry navíc 
 
 	$ git config --global color.diff.meta "blue black bold"
 
-U barev lze zadávat tyto hodnoty: normal (normální), black (černá), red (červená), green (zelená), yellow (žlutá), blue (modrá), magenta (purpurová), cyan (azurová) nebo white (bílá). Pokud chcete použít atribut, jakým bylo v předchozím příkladu například tučné písmo, můžete vybírat mezi bold (tučné), dim (tlumené), ul (podtržené), blink (blikající) a reverse (obrácené).
+U barev lze zadávat tyto hodnoty: `normal` (normální), `black` (černá), `red` (červená), `green` (zelená), `yellow` (žlutá), `blue` (modrá), `magenta` (purpurová), `cyan` (azurová) nebo `white` (bílá). Pokud chcete použít atribut, jakým bylo v předchozím příkladu například tučné písmo, můžete vybírat mezi `bold` (tučné), `dim` (tlumené), `ul` (podtržené), `blink` (blikající) a `reverse` (obrácené).
 
 Chcete-li použít dílčí nastavení, podrobnější informace naleznete na manuálové stránce `git config`.
 
@@ -301,17 +301,21 @@ Chcete-li systému Git zadat, aby nakládal se všemi soubory `pbxproj` jako s b
 
 	*.pbxproj -crlf -diff
 
-Až v projektu spustíte příkaz git show nebo git diff, Git se nebude pokoušet konvertovat nebo opravovat chyby CRLF ani vypočítat ani zobrazit rozdíly v tomto souboru pomocí nástroje diff. V systému Git verze 1.6 můžete také použít existující makro s významem `-crlf -diff`:
+Až v projektu spustíte příkaz `git show` nebo `git diff`, Git se nebude pokoušet konvertovat nebo opravovat chyby CRLF ani vypočítat ani zobrazit rozdíly v tomto souboru pomocí nástroje diff. Můžete také použít zabudované makro `binary` s významem `-crlf -diff`:
 
 	*.pbxproj binary
 
 #### Nástroj diff pro binární soubory ####
 
-Ve verzi 1.6 systému Git můžete použít funkci atributů Git k efektivnímu zpracování binárních souborů nástrojem diff. Systému Git přitom sdělíte, jak má konvertovat binární data do textového formátu, který lze zpracovávat běžným nástrojem diff.
+V systému Git můžete zadáním vhodných parametrů efektivně porovnávat binární soubory. Dosáhnete toho tím, že systému Git sdělíte, jak má konvertovat binární data do textového formátu, který lze zpracovávat běžným algoritmem pro zjišťování rozdílů (diff). Ale otázkou je, jak byste měli konverzi *binárních* dat na text provést? Nejlepší by bylo, kdybyste našli nějaký nástroj, který vám binární tvar na textový převede. Naneštěstí existuje jen velmi málo binárních formátů, které lze převést na lidsky čitelný text. (Představte si, jak byste na text převáděli zvuková data.) Pokud takový případ nastal a nejste schopni textovou reprezentaci obsahu souboru získat, lze často poměrně snadno získat lidsky čitelný popis obsahu, metadata. Metadata vám sice neposkytnou plnou reprezentaci obsahu souboru, ale v každém případě je to lepší než nic.
+
+Oba popsané přístupy k získání použitelných informací o rozdílech si ukážeme na některých běžně používaných binárních formátech.
+
+Poznámka: Existují různé druhy binárních formátů, které obsahují text, a pro které se dají obtížně najít použitelné konvertory. V takovém případě můžete zkusit získat z vašeho souboru texty programem `strings`. Některé z těchto souborů ale mohou používat kódování UTF-16 nebo jiné kódování a `strings` v nich nic rozumného nenajde. Je to případ od případu. Nicméně program `strings` je k dispozici na většině operačních systémů Mac a Linux, takže může jít o dobrou první volbu při pokusech s celou řadou binárních souborů.
 
 #### Soubory MS Word ####
 
-Protože se jedná o opravdu šikovnou a nepříliš známou funkci, uvedu několik příkladů. Tuto metodu budete využívat především k řešení jednoho z nejpalčivějších problémů, s nímž se lidstvo potýká: verzování dokumentů Word. Je všeobecně známo, že Word je nejpříšejnější editor na světě, přesto ho však – bůhví proč – všichni používají. Chcete-li verzovat dokumenty Word, můžete je uložit do repozitáře Git a všechny hned zapsat do revize. K čemu to však bude? Spustíte-li příkaz `git diff` normálně, zobrazí se zhruba toto:
+Tuto metodu budete využívat především k řešení jednoho z nejpalčivějších problémů, s nímž se lidstvo potýká: verzování dokumentů Word. Je všeobecně známo, že Word je nejpříšernější editor na světě, přesto ho však – bůhví proč – všichni používají. Chcete-li verzovat dokumenty Word, můžete je uložit do repozitáře Git a všechny hned zapsat do revize. K čemu to však bude? Spustíte-li příkaz `git diff` normálně, zobrazí se zhruba toto:
 
 	$ git diff
 	diff --git a/chapter1.doc b/chapter1.doc
@@ -322,16 +326,14 @@ Srovnávat dvě verze přímo nelze, můžete je tak nanejvýš otevřít a ruč
 
 	*.doc diff=word
 
-Systému Git tím sdělíte, že pro všechny soubory, které odpovídají této masce (.doc), by měl být při zobrazení rozdílů použít filter word. Co je to filtr „word“? To budete muset nastavit. V našem případě nastavíme Git tak, aby ke konverzi dokumentů Word do čitelných textových souborů, způsobilých ke zpracování nástrojem diff, používal program `strings`:
+Systému Git tím sdělíte, že pro všechny soubory, které odpovídají této masce (.doc), by měl být při zobrazení rozdílů použít filter „word“. Co je to filtr „word“? To budete muset nastavit. V našem případě nastavíme Git tak, aby ke konverzi dokumentů Word do čitelných textových souborů, způsobilých ke zpracování nástrojem diff, používal program `catdoc`, který byl napsán přímo pro extrakci textu z binární podoby dokumentů MS Word (můžete jej získat z `http://www.wagner.pp.ru/~vitus/software/catdoc/`). Tím wordovské dokumenty převedeme na čitelné textové soubory, na které lze úspěšně aplikovat algoritmus pro zjišťování rozdílů (diff):
 
-	$ git config diff.word.textconv strings
+	$ git config diff.word.textconv catdoc
 
 Tento příkaz do vašeho `.git/config` přidá sekci, která vypadá následovně:
 
 	[diff "word"]
-		textconv = strings
-
-Okrajová poznámka: Existují různé druhy `.doc` souborů. Některé používají kódování UTF-16 nebo jiné kódové stránky a `strings` v nich nic rozumného nenajde. Záleží na okolnostech.
+		textconv = catdoc
 
 Git nyní ví, že až se bude pokoušet vypočítat rozdíl mezi dvěma snímky a jeden ze souborů bude končit na `.doc`, má tyto soubory spustit přes filtr word, který je definován jako program `strings`. Než se Git pokusí porovnat soubory Word nástrojem diff, efektivně vytvoří hezké textové verze souborů.
 
@@ -342,15 +344,14 @@ Uveďme malý příklad. Kapitolu 1 této knihy jsem vložil do systému Git, do
 	index c1c8a0a..b93c9e4 100644
 	--- a/chapter1.doc
 	+++ b/chapter1.doc
-	@@ -8,7 +8,8 @@ re going to cover Version Control Systems (VCS) and Git basics
-	 re going to cover how to get it and set it up for the first time if you don
-	 t already have it on your system.
-	 In Chapter Two we will go over basic Git usage - how to use Git for the 80%
-	-s going on, modify stuff and contribute changes. If the book spontaneously
-	+s going on, modify stuff and contribute changes. If the book spontaneously
-	+Let's see if this works.
+	@@ -128,7 +128,7 @@ and data size)
+	 Since its birth in 2005, Git has evolved and matured to be easy to use
+	 and yet retain these initial qualities. It’s incredibly fast, it’s
+	 very efficient with large projects, and it has an incredible branching
+	-system for non-linear development.
+	+system for non-linear development (See Chapter 3).
 
-Git mi stroze, ale pravdivě sděluje, že jsem přidal řetězec „Let’s see if this works“. Není to sice dokonalé – na konci je přidáno několik náhodných znaků – ale evidentně to funguje. Pokud se vám podaří najít či vytvořit dobře fungující převaděč dokumentů Word na prostý text, bude toto řešení bezpochyby velmi účinné. Program `strings` je však k dispozici ve většině systémů Mac i Linux, a tak možná nejprve vyzkoušejte tento program s různými binárními formáty.
+Git mi stroze, ale pravdivě sděluje, že jsem přidal řetězec „(See Chapter 3)“, což je správné. Funguje to perfektně!
 
 ##### OpenDocument Text files #####
 
@@ -612,14 +613,12 @@ Veškerá práce na straně serveru bude uložena do souboru update v adresáři
 
 	#!/usr/bin/env ruby
 
-	$refname = ARGV[0]
-	$oldrev  = ARGV[1]
-	$newrev  = ARGV[2]
-	$user    = ENV['USER']
+	refname = ARGV[0]
+	oldrev  = ARGV[1]
+	newrev  = ARGV[2]
+	user    = ENV['USER']
 
-	puts "Enforcing Policies... \n(#{$refname}) (#{$oldrev[0,6]}) (#{$newrev[0,6]})"
-
-Ano, je to tak, používám globální proměnné. Ale neodsuzujte mne – náš příklad díky tomu bude názornější.
+	puts "Enforcing Policies... \n(#{refname}) (#{oldrev[0,6]}) (#{newrev[0,6]})"
 
 #### Standardizovaná zpráva k revizi ####
 

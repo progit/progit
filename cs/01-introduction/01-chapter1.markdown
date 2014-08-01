@@ -6,7 +6,7 @@ Tato kapitola vám ve stručnosti představí systém Git. Začneme od samého z
 
 Co je to správa verzí a proč by vás měla zajímat? Správa verzí je systém, který zaznamenává změny souboru nebo sady souborů v průběhu času, a uživatel tak může kdykoli obnovit jeho/jejich konkrétní verzi (tzv. verzování). Příklady verzovaných souborů jsou v této knize ilustrovány na zdrojovém kódu softwaru, avšak ve skutečnosti lze verzování provádět téměř se všemi typy souborů v počítači.
 
-Pokud jste grafik nebo webdesigner a chcete uchovávat všechny verze obrázku nebo všechna rozložení stránky (což jistě není k zahození), je pro vás systém správy verzí (zkráceně VCS z angl. Version Control System) ideálním nástrojem. VCS umožňuje vrátit jednotlivé soubory nebo celý projekt do předchozího stavu, porovnávat změny provedené v průběhu času, zjistit, kdo naposledy upravil něco, co nyní možná způsobuje problémy, kdo vložil jakou verzi a kdy a mnoho dalšího. Používáte-li verzovací systém, většinou to také znamená, že snadno obnovíte soubory, které jste ztratili nebo v nichž byly provedeny nežádoucí změny. Všechny funkcionality verzovacího systému můžete navíc používat velice jednoduchým způsobem.
+Pokud jste grafik nebo webdesigner a chcete uchovávat všechny verze obrázku nebo všechna rozložení stránky (což jistě není k zahození), je pro vás systém správy verzí (zkráceně VCS z anglického Version Control System) ideálním nástrojem. VCS umožňuje vrátit jednotlivé soubory nebo celý projekt do předchozího stavu, porovnávat změny provedené v průběhu času, zjistit, kdo naposledy upravil něco, co nyní možná způsobuje problémy, kdo vložil jakou verzi a kdy a mnoho dalšího. Používáte-li verzovací systém, většinou to také znamená, že snadno obnovíte soubory, které jste ztratili nebo v nichž byly provedeny nežádoucí změny. Všechny funkcionality verzovacího systému můžete navíc používat velice jednoduchým způsobem.
 
 ### Lokální systémy správy verzí ###
 
@@ -178,7 +178,7 @@ Není nutné přidávat všechny doplňky, ale pokud budete někdy používat Gi
 
 Instalace systému Git v OS Windows je velice nenáročná. Postup instalace projektu msysGit patří k těm nejjednodušším. Ze stránky GitHub stáhněte instalační soubor exe a spusťte ho:
 
-	http://msysgit.github.com/
+	http://msysgit.github.io
 
 Po dokončení instalace budete mít k dispozici jak verzi pro příkazový řádek (včetně SSH klienta, který se vám bude hodit později), tak standardní grafické uživatelské rozhraní.
 
@@ -188,7 +188,7 @@ Poznámka k používání pod Windows: Git byste měli používat z dodaného sh
 
 Nyní, když máte Git nainstalovaný, můžete provést některá uživatelská nastavení systému. Nastavení stačí provést pouze jednou — zůstanou zachována i po případných aktualizacích.
 
-Nastavení konfiguračních proměnných systému, které ovlivňují jak vzhled systému Git, tak ostatní aspekty jeho práce, umožňuje příkaz git config. Tyto proměnné mohou být uloženy na třech různých místech:
+Nastavení konfiguračních proměnných systému, které ovlivňují jak vzhled systému Git, tak ostatní aspekty jeho práce, umožňuje příkaz `git config`. Tyto proměnné mohou být uloženy na třech různých místech:
 
 *	Soubor `/etc/gitconfig` obsahuje údaje o všech uživatelích systému a jejich repozitářích. Pokud příkazu `git config` zadáme parametr `--system` bude číst a zapisovat jen do tohoto souboru.
 *	Soubor `~/.gitconfig` je vázán na uživatelský účet. Čtení a zápis do tohoto souboru zajistíte zadáním parametru `--global`.

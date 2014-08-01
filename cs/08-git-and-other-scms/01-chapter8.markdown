@@ -369,7 +369,7 @@ Vytvoříte tím log ve formátu XML. Můžete v něm vyhledávat autory, vytvo�
 
 Tento soubor můžete dát k dispozici nástroji `git svn`, aby mohl přesněji zmapovat informace o autorech. Nástroji `git svn` můžete také zadat, aby ignoroval metadata, která systém Subversion normálně importuje: zadejte parametr `--no-metadata` k příkazu `clone` nebo `init`. Váš příkaz `import` pak bude mít tuto podobu:
 
-	$ git-svn clone http://my-project.googlecode.com/svn/ \
+	$ git svn clone http://my-project.googlecode.com/svn/ \
 	      --authors-file=users.txt --no-metadata -s my_project
 
 Import ze systému Subversion v adresáři `my_project` by měl nyní vypadat o něco lépe. Revize už nebudou mít tuto podobu:

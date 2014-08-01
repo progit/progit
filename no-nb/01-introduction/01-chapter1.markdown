@@ -120,15 +120,15 @@ Den grunnleggende Git arbeidsmåten er litt som dette:
 
 Hvis en bestemt versjon av en fil er i git mappen, så er den ansett som comitted. Hvis den er modifisert men har blitt lagt til i staging området, så der den staged. Og hvis den var endret siden den var sjekket ut men ikke blitt staged, så er den modifisert. I Kapitel 2 så vil du lære om disse tilstande og hvordan du kan utnytte deg av dem eller hoppe over staged-delen helt.
 
-## Installing Git ##
+## Installer Git ##
 
-Let’s get into using some Git. First things first—you have to install it. You can get it a number of ways; the two major ones are to install it from source or to install an existing package for your platform.
+La oss gå inn for å bruke litt Git. Det første du trenger gjøre er å installere det. Du kan gjøre det på flere måter; de to vanlige er å installere det fra kildekode eller å installere en allerede eksisterende pakke for din platform.
 
-### Installing from Source ###
+### Installere fra Kildekode ###
 
-If you can, it’s generally useful to install Git from source, because you’ll get the most recent version. Each version of Git tends to include useful UI enhancements, so getting the latest version is often the best route if you feel comfortable compiling software from source. It is also the case that many Linux distributions contain very old packages; so unless you’re on a very up-to-date distro or are using backports, installing from source may be the best bet.
+Hvis du kan, så er det generelt sett nyttig å installere Git fra kildekode, ettersom du vil få nyeste versjon. Hver versjon av Git pleier å inkludere nyttige grensensitt forbedringer, så å skaffe seg den nyeste versjonen er ofte den beste måten, dersom du føler deg komfortable med å kompilere programvare fra kildekode. Det er er også tilfellet at mange Linux distrobusjoner har veldig gamle pakker; så med mindre du er på en veldig up-to-date distro eller bruker backports, så er det å installere fra kildekode den beste løsningen.
 
-To install Git, you need to have the following libraries that Git depends on: curl, zlib, openssl, expat, and libiconv. For example, if you’re on a system that has yum (such as Fedora) or apt-get (such as a Debian based system), you can use one of these commands to install all of the dependencies:
+For å installere git så trenger du følgene biblioteker som Git er avhengige av: curl, zlib, openssl, expat, and libiconv. For eksempel, om du er på et system som har yum (som Fedora) eller apt-get (som Debian baserte systemer), så kan du bruke en av disse kommandoene for å installere alle avhengighetene:
 
 	$ yum install curl-devel expat-devel gettext-devel \
 	  openssl-devel zlib-devel
@@ -136,18 +136,18 @@ To install Git, you need to have the following libraries that Git depends on: cu
 	$ apt-get install libcurl4-gnutls-dev libexpat1-dev gettext \
 	  libz-dev libssl-dev
 
-When you have all the necessary dependencies, you can go ahead and grab the latest snapshot from the Git web site:
+Når du har alle de nødvendige avhengighetene, så kan du gå å laste det nyeste bildet fra Git nettsiden:
 
 	http://git-scm.com/download
 
-Then, compile and install:
+Og så, kompiler og installer:
 
 	$ tar -zxf git-1.7.2.2.tar.gz
 	$ cd git-1.7.2.2
 	$ make prefix=/usr/local all
 	$ sudo make prefix=/usr/local install
 
-After this is done, you can also get Git via Git itself for updates:
+Etter alt dette er gjort, så kan du også få Git gjennom Git for oppdateringer.
 
 	$ git clone git://git.kernel.org/pub/scm/git/git.git
 

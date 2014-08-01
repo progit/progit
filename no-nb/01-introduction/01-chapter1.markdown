@@ -97,28 +97,28 @@ Når du gjør ting i Git, så vil nesten alle bare legge til data til Git databa
 
 Dette gjør det å bruke Git til en gledelig opplevelse fordi vi vet at vi kan eksperimentere uten fare for å virkelig rote til ting skikkelig. For en mer dypere innsyn i hvoradn Git lagerer data og hvordan du kan få tilbake data som virker tapt, se Kapitel 9.
 
-### The Three States ###
+### De Tre Tilstandene ###
 
-Now, pay attention. This is the main thing to remember about Git if you want the rest of your learning process to go smoothly. Git has three main states that your files can reside in: committed, modified, and staged. Committed means that the data is safely stored in your local database. Modified means that you have changed the file but have not committed it to your database yet. Staged means that you have marked a modified file in its current version to go into your next commit snapshot.
+Følg med. Detter er viktigeste å huske om Git om du ønsker at resten av læringsprossessen din skal gå flytende. Git har tre hoved tilstandet som filene dine kan være i: committed, modified, og staged. Commited betyr at dataen er laget trygt i din lokale database. Mofigied betyr at du har endret på filen men ikke har committed den til databasen enda. Staged betyr at du har markert en modified fil i dens nåværende versjon til å gå inn i ditt neste commit bilde.
 
 This leads us to the three main sections of a Git project: the Git directory, the working directory, and the staging area.
 
 Insert 18333fig0106.png
-Figure 1-6. Working directory, staging area, and git directory.
+Figure 1-6. Arbeidsmappe, staging området, og git mappe.
 
-The Git directory is where Git stores the metadata and object database for your project. This is the most important part of Git, and it is what is copied when you clone a repository from another computer.
+Git mappen er der Git  lagere metadata og objekt databasen for prosjektet ditt. Dette er den mest viktige delen av Git, og det er det som er kopier når du kloner et repository fra en annen maskin.
 
-The working directory is a single checkout of one version of the project. These files are pulled out of the compressed database in the Git directory and placed on disk for you to use or modify.
+Arbeidsmappen er en enkel checkout av en versjon av prosjektet. Disse filene er dratt ut av den komprimerte databasen i Git mappen og plassert på disken slik at du kan bruke eller modifisere det.
 
-The staging area is a simple file, generally contained in your Git directory, that stores information about what will go into your next commit. It’s sometimes referred to as the index, but it’s becoming standard to refer to it as the staging area.
+Staging området er en enkelt fil, generelt holdt i Git mappen din, som lagrer informasjon om hva som vil gå inn i din neste commit. Det er noen ganger referert til som indeksen, men det begynner å bli det vanlige å kalle det staging området.
 
-The basic Git workflow goes something like this:
+Den grunnleggende Git arbeidsmåten er litt som dette:
 
-1. You modify files in your working directory.
-2. You stage the files, adding snapshots of them to your staging area.
-3. You do a commit, which takes the files as they are in the staging area and stores that snapshot permanently to your Git directory.
+1. Du modifiserer filer i arbeidmappa.
+2. Du stage-er filene, og lager bilder av den til staging området.
+3. Du gjør en commit, som tar filene som de er i staging området og lagrer det bildet permanent i Git mappen din.
 
-If a particular version of a file is in the git directory, it’s considered committed. If it’s modified but has been added to the staging area, it is staged. And if it was changed since it was checked out but has not been staged, it is modified. In Chapter 2, you’ll learn more about these states and how you can either take advantage of them or skip the staged part entirely.
+Hvis en bestemt versjon av en fil er i git mappen, så er den ansett som comitted. Hvis den er modifisert men har blitt lagt til i staging området, så der den staged. Og hvis den var endret siden den var sjekket ut men ikke blitt staged, så er den modifisert. I Kapitel 2 så vil du lære om disse tilstande og hvordan du kan utnytte deg av dem eller hoppe over staged-delen helt.
 
 ## Installing Git ##
 

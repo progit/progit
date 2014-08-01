@@ -117,9 +117,10 @@ Pro úvodní nastavení serveru Git je třeba exportovat existující repozitá�
 Chcete-li naklonovat stávající repozitář, a vytvořit tak nový a holý, zadejte příkaz clone s parametrem `--bare`. Je zvykem, že adresáře s holým repozitářem končí na `.git`, například:
 
 	$ git clone --bare my_project my_project.git
-	Initialized empty Git repository in /opt/projects/my_project.git/
+	Cloning into bare repository 'my_project.git'...
+	done.
 
-Výstup tohoto příkazu je trochu nejasný. Protože příkaz `clone` znamená v podstatě `git init` a následně `git fetch`, vidíme z části `git init`, která vytvoří prázdný adresář, nějaký výstup. Následný přenos objektu neposkytuje žádný výstup, přesto však proběhl. V adresáři `my_project.git` byste nyní měli mít kopii dat z adresáře Git.
+V adresáři `my_project.git` byste nyní měli mít kopii dat z adresáře Git.
 
 Je to přibližně stejné, jako byste zadali například:
 
@@ -283,12 +284,17 @@ Nejprve ze všeho budete muset zapnout zásuvný modul:
 	$ mv hooks/post-update.sample hooks/post-update
 	$ chmod a+x hooks/post-update
 
-Jestliže používáte verzi systému Git starší než 1.6, nebude příkaz `mv` nutný. Git začal pojmenovávat příklady zásuvných modulů příponou „.sample“ teprve nedávno.
-
 Jaká je funkce zásuvného modulu `post-update`? V principu vypadá asi takto:
 
 	$ cat .git/hooks/post-update
 	#!/bin/sh
+	#
+	# An example hook script to prepare a packed repository for use over
+	# dumb transports.
+	#
+	# To enable this hook, rename this file to "post-update".
+	#
+
 	exec git-update-server-info
 
 Znamená to, že až budete odesílat data na server prostřednictvím SSH, Git spustí tento příkaz a aktualizuje soubory vyžadované pro přístup přes HTTP.
@@ -404,7 +410,7 @@ Nyní máte vše hotovo. Pokud jste nastavení provedli správně, můžete vyzk
 
 	$ ssh git@gitserver
 	PTY allocation request failed on channel 0
-	fatal: unrecognized command 'gitosis-serve schacon@quaternion'
+	ERROR:gitosis.serve.main:Need SSH_ORIGINAL_COMMAND in environment.
 	  Connection to gitserver closed.
 
 To znamená, že vás Gitosis sice rozpoznal, ale nedovolí vám přístup, protože se nepokoušíte zadat žádný příkaz Git. Provedeme tedy skutečný příkaz systému Git a naklonujeme řídicí repozitář Gitosis:
@@ -428,28 +434,28 @@ Pokud se podíváte na soubor `gitosis.conf`, měl by udávat pouze informace o 
 	[gitosis]
 
 	[group gitosis-admin]
-	writable = gitosis-admin
 	members = scott
+	writable = gitosis-admin
 
 Tato informace znamená, že uživatel 'scott' – ten, jehož veřejným klíčem jste inicializovali Gitosis – je jediným uživatelem, který má přístup k projektu `gitosis-admin`.
 
 Nyní přidáme nový projekt. Přidáte novou část s názvem `mobile`, která bude obsahovat seznam vývojářů vašeho mobilního týmu a projektů, k nimž tito vývojáři potřebují přístup. Protože je v tuto chvíli jediným uživatelem v systému 'scott', přidáte ho jako jediného člena a vytvoříte pro něj nový projekt s názvem `iphone_project`:
 
 	[group mobile]
-	writable = iphone_project
 	members = scott
+	writable = iphone_project
 
 Pokaždé, když provedete změny v projektu `gitosis-admin`, musíte tyto změny zapsat a odeslat je zpět na server, aby nabyly účinnosti:
 
 	$ git commit -am 'add iphone_project and mobile group'
-	[master]: created 8962da8: "changed name"
-	 1 files changed, 4 insertions(+), 0 deletions(-)
-	$ git push
+	[master 8962da8] add iphone_project and mobile group
+	 1 file changed, 4 insertions(+)
+	$ git push origin master
 	Counting objects: 5, done.
-	Compressing objects: 100% (2/2), done.
-	Writing objects: 100% (3/3), 272 bytes, done.
-	Total 3 (delta 1), reused 0 (delta 0)
-	To git@gitserver:/opt/git/gitosis-admin.git
+	Compressing objects: 100% (3/3), done.
+	Writing objects: 100% (3/3), 272 bytes | 0 bytes/s, done.
+	Total 3 (delta 0), reused 0 (delta 0)
+	To git@gitserver:gitosis-admin.git
 	   fb27aec..8962da8  master -> master
 
 Do nového projektu `iphone_project` teď můžete odeslat svá první data: přidejte do lokální verze projektu svůj server jako vzdálený repozitář a odešlete změny. Od této chvíle už nebudete muset ručně vytvářet holé repozitáře pro nové projekty na serveru. Gitosis je vytvoří automaticky, jakmile zjistí první odeslání dat:
@@ -458,7 +464,7 @@ Do nového projektu `iphone_project` teď můžete odeslat svá první data: př
 	$ git push origin master
 	Initialized empty Git repository in /opt/git/iphone_project.git/
 	Counting objects: 3, done.
-	Writing objects: 100% (3/3), 230 bytes, done.
+	Writing objects: 100% (3/3), 230 bytes | 0 bytes/s, done.
 	Total 3 (delta 0), reused 0 (delta 0)
 	To git@gitserver:iphone_project.git
 	 * [new branch]      master -> master
@@ -474,20 +480,20 @@ Na tomto projektu chcete spolupracovat s přáteli, a proto budete muset znovu p
 Nyní je můžete všechny přidat do týmu 'mobile', čímž získají oprávnění pro čtení i pro zápis k `iphone_project`:
 
 	[group mobile]
-	writable = iphone_project
 	members = scott john josie jessica
+	writable = iphone_project
 
 Až tuto změnu zapíšete a odešlete, všichni čtyři uživatelé budou moci z tohoto projektu číst a zapisovat do něj.
 
 Gitosis nabízí také jednoduchou správu přístupu. Pokud chcete, aby měl John u projektu pouze oprávnění pro čtení, můžete provést následující:
 
 	[group mobile]
-	writable = iphone_project
 	members = scott josie jessica
+	writable = iphone_project
 
 	[group mobile_ro]
-	readonly = iphone_project
 	members = john
+	readonly = iphone_project
 
 John nyní může naklonovat projekt a stahovat jeho aktualizace, ale Gitosis mu neumožní, aby odesílal data zpět do projektu. Takových skupin můžete vytvořit libovolně mnoho. Každá může obsahovat různé uživatele a projekty. Jako jednoho ze členů skupiny můžete zadat také celou jinou skupinu (použijete pro ni předponu `@`). Všichni její členové se tím automaticky zdědí.
 
@@ -495,12 +501,12 @@ John nyní může naklonovat projekt a stahovat jeho aktualizace, ale Gitosis mu
 	members = scott josie jessica
 
 	[group mobile]
-	writable  = iphone_project
 	members   = @mobile_committers
+	writable  = iphone_project
 
 	[group mobile_2]
-	writable  = another_iphone_project
 	members   = @mobile_committers john
+	writable  = another_iphone_project
 
 Máte-li jakékoli problémy, může vám pomoci zadání `loglevel=DEBUG` do části `[gitosis]`. Pokud jste odesláním nesprávné konfigurace ztratili oprávnění k odesílání dat, můžete ručně opravit soubor na serveru v adresáři `/home/git/.gitosis.conf` – jedná se o soubor, z nějž Gitosis načítá data. Po odeslání dat do projektu bude soubor `gitosis.conf`, který jste právě odeslali, umístěn do tohoto adresáře. Pokud soubor ručně upravíte, zůstane v této podobě až do dalšího úspěšného odeslání do projektu `gitosis-admin`.
 
@@ -521,11 +527,11 @@ Instalace Gitolite je velmi jednoduchá a to i když nebudete číst obsáhlou d
 
 Nástroj Gitolite je ve smyslu „serverového“ softwaru poněkud neobvyklý. Přístup se realizuje přes ssh, takže každá serverová userid je potenciálně „hostitelem gitolite“ (gitolite host). Teď si popíšeme nejjednodušší způsob instalace. V dokumentaci naleznete další metody.
 
-Začněte tím, že na serveru vytvoříte uživatele nazvaného `git` a přihlásíte se na něj. Z vaší pracovní stanice nakopírujte svůj veřejný ssh klíč (pokud jste spustili `ssh-keygen` s implicitními hodnotami, jde o soubor `~/.ssh/id_rsa.pub`) a přejmenujte jej na `VaseJmeno.pub`. Potom proveďte následující příkazy:
+Začněte tím, že na serveru vytvoříte uživatele nazvaného `git` a přihlásíte se na něj. Z vaší pracovní stanice nakopírujte svůj veřejný SSH klíč (pokud jste spustili `ssh-keygen` s implicitními hodnotami, jde o soubor `~/.ssh/id_rsa.pub`) a přejmenujte jej na `<vasejmeno>.pub` (v příkladech budeme používat `scott.pub`). Potom proveďte následující příkazy:
 
 	$ git clone git://github.com/sitaramc/gitolite
 	$ gitolite/install -ln
-	    # předpokládá existenci $HOME/bin a uvedení tohoto adresáře v $PATH
+	    # assumes $HOME/bin exists and is in your $PATH
 	$ gitolite setup -pk $HOME/scott.pub
 
 Poslední příkaz vytvoří na serveru nový gitovský repozitář nazvaný `gitolite-admin`.

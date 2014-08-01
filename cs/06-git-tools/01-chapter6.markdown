@@ -82,13 +82,13 @@ Jednou z věcí, které probíhají na pozadí systému Git, zatímco vy pracuje
 Svůj reflog si můžete nechat zobrazit příkazem `git reflog`:
 
 	$ git reflog
-	734713b... HEAD@{0}: commit: fixed refs handling, added gc auto, updated
-	d921970... HEAD@{1}: merge phedders/rdocs: Merge made by recursive.
-	1c002dd... HEAD@{2}: commit: added some blame and merge stuff
-	1c36188... HEAD@{3}: rebase -i (squash): updating HEAD
-	95df984... HEAD@{4}: commit: # This is a combination of two commits.
-	1c36188... HEAD@{5}: rebase -i (squash): updating HEAD
-	7e05da5... HEAD@{6}: rebase -i (pick): updating HEAD
+	734713b HEAD@{0}: commit: fixed refs handling, added gc auto, updated
+	d921970 HEAD@{1}: merge phedders/rdocs: Merge made by recursive.
+	1c002dd HEAD@{2}: commit: added some blame and merge stuff
+	1c36188 HEAD@{3}: rebase -i (squash): updating HEAD
+	95df984 HEAD@{4}: commit: # This is a combination of two commits.
+	1c36188 HEAD@{5}: rebase -i (squash): updating HEAD
+	7e05da5 HEAD@{6}: rebase -i (pick): updating HEAD
 
 Pokaždé, když je z nějakého důvodu aktualizován vrchol větve, Git tuto informaci uloží v dočasné historii reflog. Pomocí těchto dat lze rovněž specifikovat starší revize. Chcete-li zobrazit pátou poslední hodnotu ukazatele HEAD svého repozitáře, použijte referenci `@{n}` z výstupu reflog:
 
@@ -463,8 +463,8 @@ Nyní můžete bez obav přepnout větve a pracovat na jiném úkolu, vaše změ
 
 	$ git stash list
 	stash@{0}: WIP on master: 049d078 added the index file
-	stash@{1}: WIP on master: c264051... Revert "added file_size"
-	stash@{2}: WIP on master: 21d80a5... added number to log
+	stash@{1}: WIP on master: c264051 Revert "added file_size"
+	stash@{2}: WIP on master: 21d80a5 added number to log
 
 V tomto případě byly už dříve provedeny dva další odklady, a máte tak k dispozici tři různé odklady. Naposledy odložené soubory můžete znovu aplikovat příkazem, který byl uveden už v nápovědě ve výstupu původního příkazu stash: `git stash apply`. Chcete-li aplikovat některý ze starších odkladů, můžete ho určit na základě jeho označení, např. `git stash apply stash@{2}`. Pokud u příkazu neoznačíte konkrétní odklad, Git se automaticky pokusí aplikovat ten nejnovější:
 
@@ -498,8 +498,8 @@ Parametr apply se pouze pokusí aplikovat odloženou práci, ta zůstává ulož
 
 	$ git stash list
 	stash@{0}: WIP on master: 049d078 added the index file
-	stash@{1}: WIP on master: c264051... Revert "added file_size"
-	stash@{2}: WIP on master: 21d80a5... added number to log
+	stash@{1}: WIP on master: c264051 Revert "added file_size"
+	stash@{2}: WIP on master: 21d80a5 added number to log
 	$ git stash drop stash@{0}
 	Dropped stash@{0} (364e91f3f268f0900bc3ee613f9f733e82aaed43)
 
@@ -583,12 +583,19 @@ Spuštěním tohoto příkazu otevřete textový editor se seznamem revizí zhru
 	#
 	# Commands:
 	#  p, pick = use commit
+	#  r, reword = use commit, but edit the commit message
 	#  e, edit = use commit, but stop for amending
 	#  s, squash = use commit, but meld into previous commit
+	#  f, fixup = like "squash", but discard this commit's log message
+	#  x, exec = run command (the rest of the line) using shell
+	#
+	# These lines can be re-ordered; they are executed from top to bottom.
 	#
 	# If you remove a line here THAT COMMIT WILL BE LOST.
+	#
 	# However, if you remove everything, the rebase will be aborted.
 	#
+	# Note that empty commits are commented out
 
 Tady bychom chtěli upozornit, že revize jsou uvedeny v opačném pořadí, než jste zvyklí v případě příkazu `log`. Po spuštění příkazu `log` by se zobrazilo následující:
 
@@ -606,6 +613,10 @@ Skript je třeba upravit tak, aby zastavil na revizi, v níž chcete provést zm
 	pick a5f4a0d added cat-file
 
 Po uložení změn a zavření editoru vás Git vrátí zpět na poslední revizi v seznamu a zobrazí vám příkazový řádek s touto zprávou:
+
+<!-- This is actually weird, as the SHA-1 of 7482e0d is not present in the list,
+nor is the commit message. Please review
+-->
 
 	$ git rebase -i HEAD~3
 	Stopped at 7482e0d... updated the gemspec to hopefully work better
@@ -649,12 +660,19 @@ Další možností, jak lze využít interaktivního nástroje přeskládání, 
 	#
 	# Commands:
 	#  p, pick = use commit
+	#  r, reword = use commit, but edit the commit message
 	#  e, edit = use commit, but stop for amending
 	#  s, squash = use commit, but meld into previous commit
+	#  f, fixup = like "squash", but discard this commit's log message
+	#  x, exec = run command (the rest of the line) using shell
+	#
+	# These lines can be re-ordered; they are executed from top to bottom.
 	#
 	# If you remove a line here THAT COMMIT WILL BE LOST.
+	#
 	# However, if you remove everything, the rebase will be aborted.
 	#
+	# Note that empty commits are commented out
 
 Zadáte-li místo pick nebo edit instrukci pro komprimaci squash, Git aplikuje změnu na tomto řádku a změnu těsně před ní a zároveň sloučí dohromady obě zprávy k revizím. Chcete-li tedy vytvořit jedinou revizi z těchto tří revizí, bude skript vypadat takto:
 

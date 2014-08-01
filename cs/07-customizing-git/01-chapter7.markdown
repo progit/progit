@@ -335,7 +335,7 @@ Tento příkaz do vašeho `.git/config` přidá sekci, která vypadá následovn
 	[diff "word"]
 		textconv = catdoc
 
-Git nyní ví, že až se bude pokoušet vypočítat rozdíl mezi dvěma snímky a jeden ze souborů bude končit na `.doc`, má tyto soubory spustit přes filtr word, který je definován jako program `strings`. Než se Git pokusí porovnat soubory Word nástrojem diff, efektivně vytvoří hezké textové verze souborů.
+Git nyní ví, že až se bude pokoušet vypočítat rozdíl mezi dvěma snímky a každý ze souborů končící na `.doc` se má prohnat přes filtr „word“, který je definován jako program `catdoc`. Než se Git pokusí zjistit ve wordovských souborech rozdíly, dojde k jejich převedení na hezké textové verze.
 
 Uveďme malý příklad. Kapitolu 1 této knihy jsem vložil do systému Git, do jednoho odstavce jsem přidal kousek textu a dokument jsem uložil. Poté jsem spustil příkaz `git diff`, abych se podíval, co se změnilo:
 
@@ -355,7 +355,7 @@ Git mi stroze, ale pravdivě sděluje, že jsem přidal řetězec „(See Chapte
 
 ##### OpenDocument Text files #####
 
-Stejný postup, který jsme použili pro soubory MS Word (`*.doc`), můžeme použít i pro soubory ve formátu OpenDocument Text (`*.odt`), kter vytváří OpenOffice.org.
+Stejný postup, který jsme použili pro soubory MS Word (`*.doc`), můžeme použít i pro soubory ve formátu OpenDocument Text (`*.odt`), které vytváří OpenOffice.org.
 
 Do souboru `.gitattributes` přidejte následující řádek:
 
@@ -460,7 +460,7 @@ Obrázek 7-2. Filtr smudge spuštěný při checkoutu – git checkout
 Insert 18333fig0703.png
 Obrázek 7-3. Filtr clean spuštěný při přípravě souborů k zapsání – git add
 
-Původní zpráva k revizi s touto funkcí uvádí jednoduchý příklad, jak můžete před zapsáním prohnat veškeré vaše céčkové zdrojové texty programem `indent`. Tuto možnost lze aplikovat nastavením atributu `filter` v souboru `.gitattributes` tak, aby přefiltroval soubory `*.c` filtrem pro úpravu odsazování:
+Původní zpráva k revizi s touto funkcí uvádí jednoduchý příklad, jak můžete před zapsáním prohnat veškeré vaše céčkové zdrojové texty programem `indent`. V souboru `.gitattributes` můžeme nastavit atribut `filter` tak, aby se soubory `*.c` zpracovaly filtrem `indent`:
 
 	*.c     filter=indent
 
@@ -511,7 +511,7 @@ Systému Git můžete zadat, aby při generování archivu neexportoval určité
 
 	test/ export-ignore
 
-Až nyní spustíte příkaz git archive k vytvoření tarballu projektu, nebude tento adresář součástí archivu.
+Až nyní spustíte příkaz `git archive` k vytvoření tarballu projektu, nebude tento adresář součástí archivu.
 
 #### export-subst ####
 
@@ -601,7 +601,7 @@ Zásuvný modul `post-receive` se spouští až poté, co je celý proces dokon�
 
 Skript update je velice podobný skriptu `pre-receive`, avšak s tím rozdílem, že se spouští zvlášť pro každou větev, kterou chce odesílatel aktualizovat. Pokud se uživatel pokouší odeslat revize do více větví, skript `pre-receive` se spustí pouze jednou, zatímco update se spustí jednou pro každou větev, již se odesílatel pokouší aktualizovat. Tento skript nenačítá data ze standardního vstupu, místo nich používá tři jiné parametry: název reference (větve), hodnotu SHA-1, na niž reference ukazovala před odesláním, a hodnotu SHA-1, kterou se uživatel pokouší odeslat. Je-li výstup skriptu update nenulový, je zamítnuta pouze tato reference, ostatní mohou být aktualizovány.
 
-## Příklad standardů kontrolovaných systémem Git ##
+## Příklad vynucení chování systémem Git ##
 
 V této části použijeme to, co jsme se naučili o vytváření pracovního postupu v systému Git. Systém může kontrolovat formát uživatelovy zprávy k revizi, dovolit pouze aktualizace „rychle vpřed“ a umožňovat změnu obsahu konkrétních podadresářů projektu pouze vybraným uživatelům. V této části vytvoříte skripty pro klienta, které vývojářům pomohou zjistit, zda budou jejich revize odmítnuty, a skripty na server, které si specifikované požadavky přímo vynutí.
 

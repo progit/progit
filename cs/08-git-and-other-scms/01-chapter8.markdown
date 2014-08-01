@@ -87,7 +87,7 @@ V tomto okamžiku byste tedy měli mít platný repozitář Git s importovanými
 	  tags/release-2.0.2rc1
 	  trunk
 
-Doplňme také, že tento nástroj odlišně přiřazuje jmenný prostor vzdálených referencí. Jestliže klonujete normální repozitář Git, získáte ze vzdáleného serveru všechny větve, lokálně dostupné pod označením `origin/[větev]` – jmenný prostor se přiřazuje na základě vzdáleného serveru. `git svn` však předpokládá, že nebudete mít více vzdálených repozitářů a všechny reference uloží na místa na vzdáleném serveru bez jmenného prostoru. Pokud si přejete zobrazit všechny své reference s úplným názvem, můžete použít nízkoúrovňový příkaz `show-ref`:
+Doplňme také, že tento nástroj odlišně přiřazuje jmenný prostor vzdálených referencí. Jestliže klonujete normální repozitář Git, získáte ze vzdáleného serveru všechny větve, lokálně dostupné pod označením `origin/[větev]` – jmenný prostor je dán jménem vzdáleného serveru. Příkaz `git svn` však předpokládá, že nebudete mít více vzdálených repozitářů a všechny odkazy na místa na vzdáleném serveru uloží bez použití jmenného prostoru. Pokud si přejete zobrazit všechny své reference s úplným názvem, můžete použít nízkoúrovňový příkaz `show-ref`:
 
 	$ git show-ref
 	1cbd4904d9982f386d87f88fce1c24ad7c0f0471 refs/heads/master
@@ -202,7 +202,7 @@ Spustíte-li čas od času příkaz `git svn rebase`, budete mít jistotu, že p
 
 ### Problémy s větvemi systému Git ###
 
-Pokud vám vyhovuje způsob práce v systému Git, začnete pravděpodobně vytvářet tematické větve, budete v nich vytvářet svou práci a začleňovat je. Odesíláte-li revize na server Subversion nástrojem git svn, budete možná chtít pokaždé raději přeskládat svou práci na jedinou větev, místo abyste je slučovali. Důvod, proč raději využít možnosti přeskládání, spočívá v tom, že Subversion má lineární historii a neprovádí začleňování stejně jako Git. Nástroj git svn tak při konverzi snímků na revize Subversion sleduje pouze prvního rodiče.
+Jakmile pracovní postupy v systému Git zvládnete, začnete pravděpodobně vytvářet tematické větve, budete v nich pracovat a potom je budete začleňovat (merge). Pokud odesíláte revizi na server Subversion nástrojem `git svn`, budete možná místo slučování chtít svou práci pokaždé přeskládat (rebase) na jedinou větev. Důvod, proč raději využít možnosti přeskládání, spočívá v tom, že Subversion uchovává lineární historii a neprovádí začleňování stejně jako Git. Takže `git svn` při konverzi snímků na revize Subversion sleduje pouze prvního rodiče.
 
 Předpokládejme, že vaše historie vypadá následovně: vytvořili jste větev `experiment`, zapsali jste dvě revize a začlenili jste je zpět do větve `master`. Výstup příkazu `dcommit` bude nyní vypadat následovně:
 
@@ -231,7 +231,7 @@ Pokud tuto práci naklonuje jiný uživatel, uvidí jen jednu revizi vzniklou sl
 
 ### Větve v systému Subversion ###
 
-Princip větvení v systému Subversion se odlišuje od větvení v systému Git. Pokud se mu můžete úplně vyhnout, mohu vám to vřele doporučit. Pokud se mu vyhnout nelze, můžete i tady použít nástroj git svn, pomocí nějž lze vytvářet nové větve a zapisovat do nich revize.
+Princip větvení v systému Subversion se odlišuje od větvení v systému Git. Pravděpodobně nejlepší bude, když se mu pokusíte co nejvíc vyhýbat. Nicméně příkaz `git svn` vytváření větví a zapisování revizí do systému Subversion umožňuje.
 
 #### Vytvoření nové větve SVN ####
 
@@ -288,7 +288,7 @@ O příkazu `git svn log` byste měli vědět dvě důležité věci. Zaprvé to
 
 #### Anotace SVN ####
 
-Tak jako příkaz `git svn log` simuluje offline příkaz `svn log`, ekvivalentem příkazu `svn annotate` je `git svn blame [SOUBOR]`. Jeho výstup vypadá takto:
+Tak jako příkaz `git svn log` simuluje příkaz `svn log` (bez nutnosti připojení), ekvivalentem příkazu `svn annotate` je provedení `git svn blame [SOUBOR]`. Jeho výstup vypadá takto:
 
 	$ git svn blame README.txt
 	 2   temporal Protocol Buffers - Google's data interchange format
@@ -392,7 +392,7 @@ they look like this:
 
 Nejenže teď pole Author vypadá podstatně lépe, ale navíc jste se zbavili i záznamu `git-svn-id`.
 
-Po importu bude nutné data trochu vyčistit. Zaprvé je nutné vyčistit nejasné reference, které vytvořil příkaz `git svn`. Nejprve přesunete značky tak, aby se z nich staly skutečné značky, a ne podivné vzdálené větve. V dalším kroku přesunete zbytek větví a uděláte z nich větve lokální.
+Po importu bude nutné data trochu vyčistit. Zaprvé je nutné vyčistit podivné reference, které vytvořil příkaz `git svn`. Nejprve přesuňte značky tak, aby se z nich staly skutečné značky, a ne podivné vzdálené větve. V dalším kroku přesunete zbytek větví a uděláte z nich větve lokální.
 
 Abyste značky upravili na korektní gitové značky, spusťte
 
@@ -499,7 +499,7 @@ Jako rychlou ukázku napíšeme jednoduchý importér. Řekněme, že pracujete 
 
 Chcete-li importovat adresář Git, budeme se muset podívat na to, jak Git ukládá svá data. Jak si možná vzpomínáte, říkali jsme, že Git je v podstatě seznam odkazů na objekty revizí, které ukazují na určitý snímek obsahu. Jediné, co tedy musíte udělat, je sdělit příkazu `fast-import`, co je obsahem snímků, jaká data revizí na ně ukazují a pořadí, v němž budou převzaty. Vaše strategie tedy bude spočívat v tom, že postupně projdete jednotlivé snímky a vytvoříte revize s obsahem každého adresáře, přičemž každá revize bude odkazovat na revizi předchozí.
 
-Stejně jako v části „Příklad systémem Git kontrolovaných standardů“ v kapitole 7 použijeme i tentokrát Ruby, s nímž většinou pracuji a který je srozumitelný. Tento příklad můžete ale beze všeho napsat v čemkoli, co vám vyhovuje. Jedinou podmínkou je, aby byly potřebné informace zapsány do výstupu stdout.
+Stejně jako v podkapitole „Příklad vynucení chování systémem Git“ v kapitole 7 použijeme i tentokrát Ruby, s nímž většinou pracuji a který je srozumitelný. Tento příklad můžete ale beze všeho napsat v čemkoli, co vám vyhovuje. Jedinou podmínkou je, aby byly potřebné informace zapsány na standardní výstup (stdout). A to v případě používání Windows znamená, že budete muset věnovat zvláštní pozornost tomu, abyste na koncích řádků nevkládali znaky CR (carriage return). Příkaz `git fast-import` je v tomto směru velmi vybíravý a chce jen znaky LF (line feed) a nikoliv kombinaci CRLF, kterou používají Windows.
 
 Na začátku přejdete do cílového adresáře a identifikujete všechny podadresáře, z nichž bude každý představovat jeden snímek, který chcete importovat jako revizi. Přejdete do každého podadresáře a zadáte příkazy potřebné k jeho exportu. Základní smyčka bude mít tuto podobu:
 
@@ -601,7 +601,7 @@ Poslední věcí, kterou musíte udělat, je vrátit aktuální označovač, aby
 
 	return mark
 
-Poznámka: Pokud používáte Windows, budete muset provést jeden krok navíc. Jak už jsem se zmínil, Windows používají nahrazují znak konce řádku posloupností CRLF, zatímco git fast-import očekává pouze LF. Abychom tento problém obešli a aby si git fast-import nestěžoval, musíte ruby říct, aby místo LF používal CRLF:
+Poznámka: Pokud používáte Windows, budete muset provést jeden krok navíc. Jak už jsem se zmínil, Windows nahrazují znak konce řádku posloupností CRLF, zatímco `git fast-import` očekává pouze LF. Abychom tento problém obešli a přitom učinili příkaz `git fast-import` šťastným, musíte ruby říct, aby místo LF používal CRLF:
 
 	$stdout.binmode
 

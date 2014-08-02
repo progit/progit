@@ -190,38 +190,38 @@ Nyní, když máte Git nainstalovaný, můžete provést některá uživatelská
 
 Nastavení konfiguračních proměnných systému, které ovlivňují jak vzhled systému Git, tak ostatní aspekty jeho práce, umožňuje příkaz `git config`. Tyto proměnné mohou být uloženy na třech různých místech:
 
-*	Soubor `/etc/gitconfig` obsahuje údaje o všech uživatelích systému a jejich repozitářích. Pokud příkazu `git config` zadáme parametr `--system` bude číst a zapisovat jen do tohoto souboru.
+*	Soubor `/etc/gitconfig` obsahuje údaje pro všechny uživatele systému a pro všechny jejich repozitáře. Pokud příkazu `git config` zadáme parametr `--system` bude číst a zapisovat jen do tohoto souboru.
 *	Soubor `~/.gitconfig` je vázán na uživatelský účet. Čtení a zápis do tohoto souboru zajistíte zadáním parametru `--global`.
-*	Konfigurační soubor v adresáři Git (tedy `.git/config`) jakéhokoliv užívaného repozitáře přísluší tomuto konkrétnímu repozitáři. Každá úroveň je nadřazená hodnotám úrovně předchozí, takže hodnoty  v `.git/config` přebíjejí hodnotami v `/etc/gitconfig`.
+*	Konfigurační soubor v adresáři Git (tedy `.git/config`) jakéhokoliv užívaného repozitáře přísluší tomuto konkrétnímu repozitáři. Každá úroveň je nadřazená hodnotám úrovně předchozí, takže hodnoty v `.git/config` převládnou nad hodnotami v `/etc/gitconfig`.
 
-Ve Windows používá Git soubor `.gitconfig`, který je umístěný v adresáři `$HOME` (v prostředí Windows je to `%USERPROFILE%`), což je u většiny uživatelů `C:\Documents and Settings\$USER` nebo `C:\Users\$USER` (kde `$USER` se v prostředí Windows označuje `%USERNAME%`). I ve Windows se hledá soubor `/etc/gitconfig`, který je ale umístěn relativně v kořeni Msys, tedy vůči místu, do kterého jste se po spuštění instalačního programu rozhodli Git nainstalovat.
+Ve Windows Git hledá soubor `.gitconfig` v adresáři `$HOME` (v proměnných prostředí Windows je to `%USERPROFILE%`), což je u většiny uživatelů `C:\Documents and Settings\$USER` nebo `C:\Users\$USER` (`$USER` se ve Windows zapisuje odkazem na proměnnou prostředí `%USERNAME%`). I ve Windows se hledá soubor `/etc/gitconfig`, který je ale umístěn relativně v kořeni MSys, tedy vůči místu, do kterého jste se po spuštění instalačního programu rozhodli Git nainstalovat.
 
-### Totožnost uživatele ###
+### Vaše totožnost ###
 
-První věcí, kterou byste měli po nainstalování systému Git udělat, je nastavení uživatelského jména (user name) a e-mailové adresy. Tyto údaje se totiž později využívají při všech revizích v systému Git a jsou nezměnitelnou složkou každé revize, kterou zapíšete:
+První věcí, kterou byste měli po nainstalování systému Git udělat, je nastavení vašeho uživatelského jména (user name) a e-mailové adresy. Je to důležité, protože tuto informaci Git používá pro každý zápis revize a uvedené údaje stanou trvalou složkou záznamů o revizi, které budou putovat po okolí:
 
 	$ git config --global user.name "John Doe"
 	$ git config --global user.email johndoe@example.com
 
-Použijete-li parametr `--global`, pak také toto nastavení stačí provést pouze jednou. Git bude používat tyto údaje pro všechny operace, které v systému uděláte. Pokud chcete pro konkrétní projekty změnit uživatelské jméno nebo e-mailovou adresu, můžete příkaz spustit bez parametru `--global`. V takovém případě je nutné, abyste se nacházeli v adresáři daného projektu.
+Použijete-li parametr `--global`, pak také toto nastavení stačí provést pouze jednou. Git bude používat tyto údaje pro všechny operace, které v systému uděláte. Pokud chcete pro konkrétní projekt uživatelské jméno nebo e-mailovou adresu změnit (přebít), můžete příkaz spustit bez parametru `--global`. V takovém případě je nutné, abyste se nacházeli v adresáři daného projektu.
 
-### Nastavení editoru ###
+### Váš editor ###
 
-Nyní, když jste zadali své osobní údaje, můžete nastavit výchozí textový editor, který bude Git využívat pro psaní zpráv. Pokud toto nastavení nezměníte, bude Git používat výchozí editor vašeho systému, jímž je většinou Vi nebo Vim. Chcete-li používat jiný textový editor (např. Emacs), můžete použít následující příkaz:
+Nyní, když jste zadali své osobní údaje, můžete nastavit výchozí textový editor, který se použije, když po vás Git bude chtít napsat nějakou zprávu. Pokud toto nastavení nezměníte, bude Git používat výchozí editor vašeho systému, jímž je většinou Vi nebo Vim. Chcete-li používat jiný textový editor, například Emacs, můžete použít následující příkaz:
 
 	$ git config --global core.editor emacs
 
-### Nastavení nástroje diff ###
+### Váš nástroj diff ###
 
-Další proměnnou, jejíž nastavení můžete považovat za užitečné, je výchozí nástroj diff, jenž bude Git používat k řešení konfliktů při slučování. Řekněme, že jste se rozhodli používat vimdiff:
+Další užitečnou volbou, jejíž nastavení můžete chtít upravit, je výchozí nástroj pro zjišťování rozdílů (diff), který Git používá k řešení konfliktů při slučování (merge). Řekněme, že jste se rozhodli používat vimdiff:
 
 	$ git config --global merge.tool vimdiff
 
 Jako platné nástroje slučování Git akceptuje: kdiff3, tkdiff, meld, xxdiff, emerge, vimdiff, gvimdiff, ecmerge a opendiff. Nastavit můžete ale i jiné uživatelské nástroje — více informací o této možnosti naleznete v kapitole 7.
 
-### Kontrola provedeného nastavení ###
+### Kontrola va3eho nastavení ###
 
-Chcete-li zkontrolovat provedené nastavení, použijte příkaz `git config --list`. Git vypíše všechna aktuálně dostupná nastavení:
+Chcete-li zkontrolovat vaše nastavení, použijte příkaz `git config --list`. Git vypíše všechna aktuálně dostupná nastavení:
 
 	$ git config --list
 	user.name=Scott Chacon
@@ -232,14 +232,14 @@ Chcete-li zkontrolovat provedené nastavení, použijte příkaz `git config --l
 	color.diff=auto
 	...
 
-Některé klíče se mohou objevit vícekrát, protože Git načítá stejný klíč z různých souborů (např. `/etc/gitconfig` a `~/.gitconfig`). V takovém případě použije Git poslední hodnotu pro každý unikátní klíč, který vidí.
+Některé klíče se mohou objevit vícekrát, protože Git načítá stejný klíč z různých souborů (například `/etc/gitconfig` a `~/.gitconfig`). V takovém případě použije Git poslední hodnotu pro každý unikátní klíč, který vidí.
 
-Můžete také zkontrolovat, jakou hodnotu Git uchovává pro konkrétní položku. Zadejte příkaz `git config {key}`:
+Můžete také zkontrolovat, jakou hodnotu Git uchovává pro konkrétní klíč zadáním `git config {klíč}`:
 
 	$ git config user.name
 	Scott Chacon
 
-## Kde hledat pomoc ##
+## Získání nápovědy ##
 
 Budete-li někdy při používání systému Git potřebovat pomoc, existují tři způsoby, jak vyvolat nápovědu z manuálové stránky (manpage) pro jakýkoli z příkazů systému Git:
 
@@ -247,12 +247,12 @@ Budete-li někdy při používání systému Git potřebovat pomoc, existují t�
 	$ git <příkaz> --help
 	$ man git-<příkaz>
 
-Například manpage nápovědu pro příkaz config vyvoláte zadáním:
+Například manpage nápovědu pro příkaz `config` vyvoláte zadáním:
 
 	$ git help config
 
 Tyto příkazy jsou užitečné, neboť je můžete spustit kdykoli, dokonce i offline.
-Pokud nenajdete pomoc na manuálové stránce ani v této knize a uvítali byste osobní pomoc, můžete zkusit kanál `#git` nebo `#github` na serveru Freenode IRC (irc.freenode.net). Na těchto kanálech se většinou pohybují stovky lidí, kteří mají se systémem Git bohaté zkušenosti a často ochotně pomohou.
+Pokud nestačí ani manuálová stránka ani tato kniha a uvítali byste osobní pomoc, můžete zkusit kanál `#git` nebo `#github` na serveru Freenode IRC (irc.freenode.net). Na těchto kanálech se většinou pohybují stovky lidí, kteří mají se systémem Git bohaté zkušenosti a často ochotně pomohou.
 
 ## Shrnutí ##
 

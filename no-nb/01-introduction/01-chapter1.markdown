@@ -151,40 +151,40 @@ Etter alt dette er gjort, så kan du også få Git gjennom Git for oppdateringer
 
 	$ git clone git://git.kernel.org/pub/scm/git/git.git
 
-### Installing on Linux ###
+### Installer på Linux ###
 
-If you want to install Git on Linux via a binary installer, you can generally do so through the basic package-management tool that comes with your distribution. If you’re on Fedora, you can use yum:
+Hvis du vil installere Git på Linux via en binær installasjonspakke, så kan du generelt få gjort det gjennom det vanlige pakkebehandlerverktøyet som kommer med distroen din. Hiv du er på Fedora, så kan du bruke yum:
 
 	$ yum install git-core
 
-Or if you’re on a Debian-based distribution like Ubuntu, try apt-get:
+Eller om du bruker en Debian-basert distro som Ubuntu, prøv apt-get:
 
 	$ apt-get install git
 
-### Installing on Mac ###
+### Installer på Mac ###
 
-There are two easy ways to install Git on a Mac. The easiest is to use the graphical Git installer, which you can download from the SourceForge page (see Figure 1-7):
+Det er to enkle måter å installere Git på en Mac. Den enkleste er å bruke den grafiske Git installasjonspakken, som du kan laste ned fra SourceForge siden (se Figur 1-7):
 
 	http://sourceforge.net/projects/git-osx-installer/
 
 Insert 18333fig0107.png
-Figure 1-7. Git OS X installer.
+Figure 1-7. Git OS X innstallasjon.
 
-The other major way is to install Git via MacPorts (`http://www.macports.org`). If you have MacPorts installed, install Git via
+Den andre vanlige måten å gjære det på er å installere Git via MacPorts ('http://macports.org'). Hvis du har MacPorts installert, installer Git med
 
 	$ sudo port install git-core +svn +doc +bash_completion +gitweb
 
-You don’t have to add all the extras, but you’ll probably want to include +svn in case you ever have to use Git with Subversion repositories (see Chapter 8).
+Du trenger ikke alt det ekstra, men du vil sannynligvis ønske å inkludere +svn sånn i fall du trenger å bruke git med Subversion repositorier (se Kapitel 8).
 
-### Installing on Windows ###
+### Installer på Windows ###
 
-Installing Git on Windows is very easy. The msysGit project has one of the easier installation procedures. Simply download the installer exe file from the GitHub page, and run it:
+Å installere Git på Windows er veldig enkelt. msysGit prosjektet har en av de enkleste installasjonprossedyrene. Bare last ned installasjons exe filen fra GitHub siden, og kjær den:
 
 	http://msysgit.github.com/
 
-After it’s installed, you have both a command-line version (including an SSH client that will come in handy later) and the standard GUI.
+Etter den er installert, så har du både en kommandolinje versjon (inkludert en SSH klient som vil bli nyttig senere) og det standard grafiske brukgergrensesnittet.
 
-Note on Windows usage: you should use Git with the provided msysGit shell (Unix style), it allows to use the complex lines of command given in this book. If you need, for some reason, to use the native Windows shell / command line console, you have to use double quotes instead of simple quotes (for parameters with spaces in them) and you must quote the parameters ending with the circumflex accent (^) if they are last on the line, as it is a continuation symbol in Windows.
+Merknad om Windows bruk: du burde bruke Git med msysGit shellet (Unix stil) som kommer med, det lar deg bruke de komplekse linjene med kommandoer gitt i denne boken. Om du av en eller annen grunn skulle trenge å bruke Windows sitt eget shell/kommandolinje konsoll, så må du bruker dobbelt annførsel tegn istedet for enkelt annførselstegn (for parametere med mellomrom i seg) og du må bruke annførseltegn på parametere som slutter med ^ om de er på slutten av linjen, siden det er et forsettelsesymbol i Windows.
 
 ## First-Time Git Setup ##
 

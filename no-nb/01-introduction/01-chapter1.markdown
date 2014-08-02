@@ -186,17 +186,17 @@ Etter den er installert, så har du både en kommandolinje versjon (inkludert en
 
 Merknad om Windows bruk: du burde bruke Git med msysGit shellet (Unix stil) som kommer med, det lar deg bruke de komplekse linjene med kommandoer gitt i denne boken. Om du av en eller annen grunn skulle trenge å bruke Windows sitt eget shell/kommandolinje konsoll, så må du bruker dobbelt annførsel tegn istedet for enkelt annførselstegn (for parametere med mellomrom i seg) og du må bruke annførseltegn på parametere som slutter med ^ om de er på slutten av linjen, siden det er et forsettelsesymbol i Windows.
 
-## First-Time Git Setup ##
+## Git Oppsett For Førstegangsbruk ##
 
-Now that you have Git on your system, you’ll want to do a few things to customize your Git environment. You should have to do these things only once; they’ll stick around between upgrades. You can also change them at any time by running through the commands again.
+Nå som du har Git på systemet ditt, så vil du ønske å gjøre noen få endringer for Git miljøet ditt. Du burder bare trenge å gjøre disse tingene en gang; for de blir værende med deg mellom oppgraderinger. Du kan også endre dem når som helst ved å gå gjennom kommandoene igjen.
 
-Git comes with a tool called git config that lets you get and set configuration variables that control all aspects of how Git looks and operates. These variables can be stored in three different places:
+Git kommer med et verktøy kalt git config som lar deg hente og sette instillingvariabler som kontrollerer alle aspektene av hvoran Git ser ut og virker. Disse varaiblene kan bli lagret i tre forskjellige steder:
 
-*	`/etc/gitconfig` file: Contains values for every user on the system and all their repositories. If you pass the option` --system` to `git config`, it reads and writes from this file specifically.
-*	`~/.gitconfig` file: Specific to your user. You can make Git read and write to this file specifically by passing the `--global` option.
-*	config file in the git directory (that is, `.git/config`) of whatever repository you’re currently using: Specific to that single repository. Each level overrides values in the previous level, so values in `.git/config` trump those in `/etc/gitconfig`.
+*	`/etc/gitconfig` filen: Inneholder verdier for alle brukerene på systemet og alle repositoriene deres. Hvis du sender valget `--system` til `git config`, så vil det lese og skrives i denne filen.
+*	`~/.gitconfig` filen: Spesifikk for brukeren. Du kan får Git til å lese og skrive til denne filen ved å sende `--global` valget.
+*	config filen i git mappen (altså `.git/config`) av hvilken som helst repository du bruker for øyeblikket: Brukes for det enkelte repositoriet. Hver nivå overstyrer verdiene fra forrige nivå, så verdiene i `.git/config` trumfer de som er i `/etc/gitconfig`.
 
-On Windows systems, Git looks for the `.gitconfig` file in the `$HOME` directory (`%USERPROFILE%` in Windows’ environment), which is `C:\Documents and Settings\$USER` or `C:\Users\$USER` for most people, depending on version (`$USER` is `%USERNAME%` in Windows’ environment). It also still looks for /etc/gitconfig, although it’s relative to the MSys root, which is wherever you decide to install Git on your Windows system when you run the installer.
+På Windows systemer så ser Git etter `.gitconfig`filen i `$HOME` mappen (`%USERPROFILE%` for Windows), som er `C:\Documents and Settings\$USER` eller `C:\Users\$User` for de fleste, avhengig av versjon (`$USER` er `%USERNAME%` i Windows). Det ser forsatt etter /etc/gitconfig/, selv om det er relativt til MSys root, som er hvor du la inn Git for Windows systemet når du installerte det.
 
 ### Your Identity ###
 

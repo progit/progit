@@ -1,6 +1,6 @@
-# Git Basics #
+# Grunnleggende Git #
 
-If you can read only one chapter to get going with Git, this is it. This chapter covers every basic command you need to do the vast majority of the things you’ll eventually spend your time doing with Git. By the end of the chapter, you should be able to configure and initialize a repository, begin and stop tracking files, and stage and commit changes. We’ll also show you how to set up Git to ignore certain files and file patterns, how to undo mistakes quickly and easily, how to browse the history of your project and view changes between commits, and how to push and pull from remote repositories.
+Om du bare kan lese et kapitel for å komme i gang med Git, så er dette det kapitelet. Dette kapitellet dekker hver grunnlegende kommando du trenger for å gjøre største delen av ting du etterhvert vil bruke tiden din på å gjøre i Git. Ved slutten av dette kapitelet, så burde du være istand til å konfigurere og initiere et repository, begynne og stoppe overvåking av filer, og stage og commite endringer. Vi vil også vise deg hvordan sette opp Git til å ignorere visse filer og filmønstre, hvordan angre på feil fort og enkelt, hvordan se gjennom historien for prosjektet ditt og se på endringer mellom commiter, og hvordan pushe(dytte) endringer til eller pulle(dra) endringer fra en fjern repository.
 
 ## Getting a Git Repository ##
 

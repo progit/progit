@@ -198,32 +198,32 @@ Git kommer med et verktøy kalt git config som lar deg hente og sette instilling
 
 På Windows systemer så ser Git etter `.gitconfig`filen i `$HOME` mappen (`%USERPROFILE%` for Windows), som er `C:\Documents and Settings\$USER` eller `C:\Users\$User` for de fleste, avhengig av versjon (`$USER` er `%USERNAME%` i Windows). Det ser forsatt etter /etc/gitconfig/, selv om det er relativt til MSys root, som er hvor du la inn Git for Windows systemet når du installerte det.
 
-### Your Identity ###
+### Din Identitet ###
 
-The first thing you should do when you install Git is to set your user name and e-mail address. This is important because every Git commit uses this information, and it’s immutably baked into the commits you pass around:
+Det første du burde gjøre når du installerer Git er å sette brukernavnet og email-addressen din. Dette er viktig fordig alle Git commiter bruker denne informasjonen, og det er uforanderlig integrert inn i commitene du sender rundt.
 
 	$ git config --global user.name "John Doe"
 	$ git config --global user.email johndoe@example.com
 
-Again, you need to do this only once if you pass the `--global` option, because then Git will always use that information for anything you do on that system. If you want to override this with a different name or e-mail address for specific projects, you can run the command without the `--global` option when you’re in that project.
+Igjen, så trenger du bare å gjøre dette en gang om du bruker `--global` valget, siden Git alltid bruker den informasjonen for alt du gjør på det systemet. Hvis du ønsker å overstyre dette med ett annet navn eller email-adresse for bestemte prosjekter, så kan du kjøre kommandoen uten `--global` valget når du er i det prosjektet.
 
-### Your Editor ###
+### Din Editor ###
 
-Now that your identity is set up, you can configure the default text editor that will be used when Git needs you to type in a message. By default, Git uses your system’s default editor, which is generally Vi or Vim. If you want to use a different text editor, such as Emacs, you can do the following:
+Nå som din identiter er satt opp, så kan du konfigurere den forhåndsvalgte tekst editoren som vil bli brukt når Git trenger at du skriver en beskjed. Forhåndsvalget satt i Git bruker systemets forhåndsvalgte editor, som generelt sett er Vi eller Vim. Hvis du ønsker å bruke en annen tekst editor, som Emacs, så kan du gjøre følgende:
 
 	$ git config --global core.editor emacs
 
-### Your Diff Tool ###
+### Ditt Diff Verktøy ###
 
-Another useful option you may want to configure is the default diff tool to use to resolve merge conflicts. Say you want to use vimdiff:
+Et annet nyttig valg du kanskje vil endre på er forhåndsvalgt diff verktøy for å bruke til å håndtere merge konflikter. Så si du ønsker å bruke vimdiff:
 
 	$ git config --global merge.tool vimdiff
 
-Git accepts kdiff3, tkdiff, meld, xxdiff, emerge, vimdiff, gvimdiff, ecmerge, and opendiff as valid merge tools. You can also set up a custom tool; see Chapter 7 for more information about doing that.
+Git godtar kdiff3, tkdiff, meld, xxdif, emerge, vimdiff, gvimdiff, ecmerge, and opendiff som godkjente merge verktøy. Du kan også sette opp et eget verktøy; se Kapitel 7 for mer informasjon om hvordan gjøre det.
 
-### Checking Your Settings ###
+### Sjekke Innstillingene Dine ###
 
-If you want to check your settings, you can use the `git config --list` command to list all the settings Git can find at that point:
+Hvis du ænsker å sjekke innstillingene dine, så kan du bruke `git config --list` kommandoen for å liste alle innstillingene Git kan finne akkurat da:
 
 	$ git config --list
 	user.name=Scott Chacon
@@ -234,28 +234,28 @@ If you want to check your settings, you can use the `git config --list` command 
 	color.diff=auto
 	...
 
-You may see keys more than once, because Git reads the same key from different files (`/etc/gitconfig` and `~/.gitconfig`, for example). In this case, Git uses the last value for each unique key it sees.
+Du kan se nøkler mer enn en gang, siden Git leser den samme nøkkelen fra forskjellige filer (`/etc/gitconfig` og `~/.gitconfig`, for eksempel). I såfall, så bruker Git den siste verdien for hver unike nøkkel den ser.
 
-You can also check what Git thinks a specific key’s value is by typing `git config {key}`:
+Du kan også sjekke hva Git tror en spesifikk nøkkels verdi er ved å skrive `git config {nøkkel}`:
 
 	$ git config user.name
 	Scott Chacon
 
-## Getting Help ##
+## Skaffe Seg Hjelp ##
 
-If you ever need help while using Git, there are three ways to get the manual page (manpage) help for any of the Git commands:
+Hvis du noen gang trenger hjelp mens du bruker Git, så er det tre måter å få manual sidens (manpage) hjelp for en hvilken som helst Git kommando:
 
 	$ git help <verb>
 	$ git <verb> --help
 	$ man git-<verb>
 
-For example, you can get the manpage help for the config command by running
+For eksempel, du kan få manpage hjelp ved for config kommandoen ved å bruke
 
 	$ git help config
 
-These commands are nice because you can access them anywhere, even offline.
-If the manpages and this book aren’t enough and you need in-person help, you can try the `#git` or `#github` channel on the Freenode IRC server (irc.freenode.net). These channels are regularly filled with hundreds of people who are all very knowledgeable about Git and are often willing to help.
+Disse kommandoene er fine fordi du kan få tilgang til dem over alt, tilogmed offline.
+Hvis manpagene og denne boken ikke er nok, og du trenger hjelp fra folk, så kan du prøve `#git` eller `#github` kanalene på Freenode IRC Server (irc.freenode.net). Disse kanalene er til vanlig fylt med hundrevis av folk som alle kan veldig mye om Git og er ofte villige til å hjelpe.
 
-## Summary ##
+## Sammendrag ##
 
-You should have a basic understanding of what Git is and how it’s different from the CVCS you may have been using. You should also now have a working version of Git on your system that’s set up with your personal identity. It’s now time to learn some Git basics.
+Du burde ha grunnleggende forståelse for hva Git er og hvordan det skiller seg fra CVCSene du kan ha brukt. Du burde også nå ha en funksjonell versjon av Git på ditt system som er satt opp med din personlige identitet. Det er nå på tide å lære litt grunnleggende Git.

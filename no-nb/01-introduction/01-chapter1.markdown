@@ -19,16 +19,16 @@ Figure 1-1. Lokalt versjonskontrolldiagram.
 
 Et av de mer populære VCS-verktøyene var et system kalt rcs, som fremdeles distribueres med mange datamaskiner i dag. Selv det populære Mac OS X-operativsystemet inkluderer rcs-kommandoen når en installerer utviklerverktøyene. Dette verktøyet virker, enkelt fortalt, ved å beholde et sett av patcher (dvs, forskjellen mellom filene) fra en revisjon til en annen, i et spesielt format på disken; det kan så gjenskape hvordan enhver fil så ut på et hvilket som helst tidspunkt, ved å legge sammen alle patchene.
 
-### Centralized Version Control Systems ###
+### Sentraliserte Versjonkontrol Systemer ###
 
-The next major issue that people encounter is that they need to collaborate with developers on other systems. To deal with this problem, Centralized Version Control Systems (CVCSs) were developed. These systems, such as CVS, Subversion, and Perforce, have a single server that contains all the versioned files, and a number of clients that check out files from that central place. For many years, this has been the standard for version control (see Figure 1-2).
+Det neste store problemet folk møter er at de trenger å sammarbeide med utviklere på andre systemer. For å håndere det problemet så var Sentraliserte Versjonkontrol Systmer (CVCSer) utviklet. Disse systemene, som CVS, Subversion, og Perforce, har en ekelt server som inneholder alle versjonerte filer, og tallvis med klienter som sjekker ut filene fra det sentrale stedet. I mange år så har det vært standard for versjonkontrol (Se Figur 1-2).
 
 Insert 18333fig0102.png
-Figure 1-2. Centralized version control diagram.
+Figure 1-2. Sentralisert versjonkontroll diagram.
 
-This setup offers many advantages, especially over local VCSs. For example, everyone knows to a certain degree what everyone else on the project is doing. Administrators have fine-grained control over who can do what; and it’s far easier to administer a CVCS than it is to deal with local databases on every client.
+Dette oppsettet tilbyr mange fordeler, spesielt over lokal VCS. For eksempel, alle vet til en viss grad hva alle andre i prosjektet gjør. Administratorer har god kontroll over hvem som kan gjøre hva; og det er langt enklere å administrere en CVCS enn det er å jobbe med lokale databaser på alle klienter.
 
-However, this setup also has some serious downsides. The most obvious is the single point of failure that the centralized server represents. If that server goes down for an hour, then during that hour nobody can collaborate at all or save versioned changes to anything they’re working on. If the hard disk the central database is on becomes corrupted, and proper backups haven’t been kept, you lose absolutely everything—the entire history of the project except whatever single snapshots people happen to have on their local machines. Local VCS systems suffer from this same problem—whenever you have the entire history of the project in a single place, you risk losing everything.
+Dette oppsettet har også noen seriøse ulemper. Det mest opplagte er det enkelte punktet for feiling som den sentraliserte serven representere. Hvis den serveren er nede i en time, så kan ingen samarbeide i det hele tatt, eller lagre versjon endringer for noe som helst de jobber på i løpet av den timen. Hvis harddisken den sentraliserte databasen er på blir korrupt, og skikkelige backuper ikke har blir lagt, så vil du miste alt- hele historien til prosjektet med untak i hvilket nå enn enkle bildet folk har akkurat da på deres lokale maskiner. Lokale VCS systmer lider fra det samme problemet, når du har hele historien til prosjeket på ett sted, så risikerer du å miste alt.
 
 ### Distribuerte versjonkontrollsystemer ###
 

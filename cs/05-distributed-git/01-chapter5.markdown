@@ -174,7 +174,7 @@ John má referenci ke změnám, které odeslala Jessica, ale než bude moci sám
 Sloučení probíhá hladce, Johnova historie revizí teď vypadá jako na obrázku 5-5.
 
 Insert 18333fig0505.png
-Obrázek 5-5. Johnův repozitář po začlenění větve origin/master
+Obrázek 5-5. Johnův repozitář po začlenění větve `origin/master`
 
 John nyní může otestovat svůj kód, aby se ujistil, že stále pracuje správně, a pak může odeslat svou novou sloučenou práci na server:
 
@@ -215,7 +215,7 @@ Jessica považuje svou tematickou větev za dokončenou, ale chce vědět, do č
 
 	    removed invalid default value
 
-Jessica nyní může začlenit tematickou větev do své hlavní větve, tamtéž začlenit i Johnovu práci (`origin/master`) do své větve `master` a vše odeslat zpět na server. Nejprve se přepne zpět na svou hlavní větev, aby do ní mohla vše integrovat:
+Jessica nyní může začlenit tematickou větev do své větve `master`, začlenit (merge) i Johnovu práci (`origin/master`) do své větve `master` a vše odeslat zpět na server. Nejprve se přepne zpět na svou větev `master`, aby do ní mohla vše integrovat:
 
 	$ git checkout master
 	Switched to branch "master"
@@ -255,7 +255,7 @@ Všichni vývojáři zapsali několik revizí a úspěšně začlenili práci os
 Insert 18333fig0510.png
 Obrázek 5-10. Historie Jessicy po odeslání všech změn zpět na server
 
-Toto je jeden z nejjednodušších pracovních postupů. Po určitou dobu pracujete, obvykle na nějaké tematické větvi, a když je připravena k integraci, začleníte ji do hlavní větve. Chcete-li tuto práci sdílet, začleníte ji do své hlavní větve. Poté vyzvednete a začleníte větev `origin/master`, jestliže se změnila. Nakonec odešlete všechna data do větve `master` na serveru. Obecná posloupnost kroků je naznačena na obrázku 5-11.
+Toto je jeden z nejjednodušších pracovních postupů. Po určitou dobu pracujete, obvykle na nějaké tematické větvi, a když je připravena k integraci, začleníte ji do své větve `master`. Chcete-li tuto práci sdílet, začleníte ji do své větve `master`. Poté vyzvednete (fetch) a začleníte (merge) větev `origin/master`, jestliže se změnila. Nakonec odešlete všechna data do větve `master` na serveru. Obecná posloupnost kroků je naznačena na obrázku 5-11.
 
 Insert 18333fig0511.png
 Obrázek 5-11. Obecná posloupnost kroků u jednoduchého pracovního postupu s více vývojáři v systému Git
@@ -532,7 +532,26 @@ Nejprve je třeba nastavit sekci „imap“ v souboru `~/.gitconfig`. Každou ho
 	  sslverify = false
 
 Pokud váš server IMAP nepoužívá SSL, dva poslední řádky zřejmě nebudou vůbec třeba a hodnota hostitele bude `imap://`, a nikoli `imaps://`.
-Až toto nastavení dokončíte, můžete použít příkaz `git send-email`, jímž umístíte sérii patchů do složky Koncepty (Drafts) zadaného serveru IMAP:
+Až toto nastavení dokončíte, můžete použít příkaz `git imap-send`, jímž umístíte sérii záplat (patch) do složky Koncepty (Drafts) zadaného serveru IMAP:
+
+	$ cat *.patch |git imap-send
+	Resolving imap.gmail.com... ok
+	Connecting to [74.125.142.109]:993... ok
+	Logging in...
+	sending 2 messages
+	100% (2/2) done
+
+V tomto okamžiku byste měli být schopni přejít do složky Drafts, změnit pole To na mailing list, do kterého záplatu posíláte, případně pole CC na správce nebo na osobu zodpovědnou za tuto část, a odeslat.
+
+Záplaty můžete odesílat i přes SMTP server. Stejně jako v předchozím případu můžete nastavit sérií příkazů `git config` každou hodnotu zvlášť, nebo je můžete vložit ručně do sekce sendemail souboru `~/.gitconfig`:
+
+	[sendemail]
+	  smtpencryption = tls
+	  smtpserver = smtp.gmail.com
+	  smtpuser = user@gmail.com
+	  smtpserverport = 587
+
+Jakmile je to hotové, můžete záplaty odeslat příkazem `git send-email`:
 
 	$ git send-email *.patch
 	0001-added-limit-to-log-function.patch
@@ -558,8 +577,6 @@ Git poté vytvoří log s určitými informacemi, který bude pro každou zápla
 	References: <y>
 
 	Result: OK
-
-V tomto okamžiku můžete přejít do své složky Koncepty, změnit pole Komu na adresáty z poštovní konference, jimž chcete záplatu odeslat, případně přidat kopii na správce nebo osobu odpovědnou za tuto část a e-mail odeslat.
 
 ### Shrnutí ###
 
@@ -594,7 +611,7 @@ Pokud dostanete záplatu od někoho, kdo ji vygeneroval příkazem `git diff` ne
 
 Tím změníte soubory ve svém pracovním adresáři. Je to téměř stejné, jako byste k aplikaci záplaty použili příkaz `patch -p1`. Tento postup je však přísnější a nepřijímá tolik přibližných shod jako příkaz patch. Poradí si také s přidanými, odstraněnými a přejmenovanými soubory, jsou-li popsány ve formátu `git diff`, což příkaz `patch` nedělá. A konečně příkaz `git apply` pracuje na principu „aplikuj vše, nebo zruš vše“. Buď jsou tedy aplikovány všechny soubory, nebo žádný. Naproti tomu příkaz `patch` může aplikovat soubory záplaty jen částečně a zanechat váš pracovní adresář v neurčitém stavu. Příkaz `git apply` je tedy celkově víc paranoidní než příkaz `patch`. Tímto příkazem ostatně ani nezapíšete revizi, po jeho spuštění budete muset připravit a zapsat provedené změny ručně.
 
-Příkaz git apply můžete použít také ke kontrole, zda bude záplata aplikována čistě. V takovém případě použijte na patch příkaz `git apply --check`:
+Příkaz `git apply` můžete použít také ke kontrole, zda bude záplata aplikována čistě. V takovém případě použijte na patch příkaz `git apply --check`:
 
 	$ git apply --check 0001-seeing-if-this-helps-the-gem.patch
 	error: patch failed: ticgit.gemspec:1
@@ -615,7 +632,7 @@ K aplikaci patche vygenerovaného příkazem `format-patch` použijte příkaz `
 
 	Limit log functionality to the first 20
 
-Toto je začátek výstupu příkazu format-patch, s nímž jsme se setkali v předchozí části. Zároveň je to také platný e-mailový formát mbox. Jestliže vám přispěvatel řádně poslal záplatu e-mailem pomocí příkazu git send-email a vy záplatu stáhnete do formátu mbox, můžete na soubor mbox použít příkaz git am, který začne aplikovat všechny záplaty, které najde. Jestliže spustíte poštovního klienta, který dokáže uložit několik e-mailů ve formátu mbox, můžete do jednoho souboru uložit celou sérii záplat a příkazem git am je pak aplikovat všechny najednou.
+Toto je začátek výstupu příkazu format-patch, s nímž jsme se setkali v předchozí části. Zároveň je to také platný e-mailový formát mbox. Jestliže vám přispěvatel řádně poslal záplatu e-mailem pomocí příkazu `git send-email` a vy záplatu stáhnete do formátu mbox, můžete na soubor mbox použít příkaz `git am`, který začne aplikovat všechny záplaty, které najde. Jestliže spustíte poštovního klienta, který dokáže uložit několik e-mailů ve formátu mbox, můžete do jednoho souboru uložit celou sérii záplat a příkazem `git am` je pak aplikovat všechny najednou.
 
 Pokud však někdo nahrál soubor záplaty vygenerovaný příkazem `format-patch` do tiketového nebo podobného systému, můžete soubor uložit lokálně a poté na tento uložený soubor použít příkaz `git am`. Tímto způsobem záplatu aplikujete:
 

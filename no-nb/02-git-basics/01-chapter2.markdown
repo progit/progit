@@ -2,25 +2,25 @@
 
 Om du bare kan lese et kapitel for å komme i gang med Git, så er dette det kapitelet. Dette kapitellet dekker hver grunnlegende kommando du trenger for å gjøre største delen av ting du etterhvert vil bruke tiden din på å gjøre i Git. Ved slutten av dette kapitelet, så burde du være istand til å konfigurere og initiere et repository, begynne og stoppe overvåking av filer, og stage og commite endringer. Vi vil også vise deg hvordan sette opp Git til å ignorere visse filer og filmønstre, hvordan angre på feil fort og enkelt, hvordan se gjennom historien for prosjektet ditt og se på endringer mellom commiter, og hvordan pushe(dytte) endringer til eller pulle(dra) endringer fra en fjern repository.
 
-## Getting a Git Repository ##
+## Skaffe seg et Git Repository ##
 
-You can get a Git project using two main approaches. The first takes an existing project or directory and imports it into Git. The second clones an existing Git repository from another server.
+Du kan skaffe deg et Git prosjekt ved å bruke to hovedframganger. Den første tar et eksisterende prosjekt eller mappe og importerer det inn i Git. Den andre kloner et eksisterende Git repository fra en annen server.
 
-### Initializing a Repository in an Existing Directory ###
+### Initere et Repository i en Eksisterende Mappe ###
 
-If you’re starting to track an existing project in Git, you need to go to the project’s directory and type
+Om du begynner å spore et eksisterende prosjekt i Git, så trenger du å gå inn i projektets mappe og skrive
 
 	$ git init
 
-This creates a new subdirectory named `.git` that contains all of your necessary repository files — a Git repository skeleton. At this point, nothing in your project is tracked yet. (See *Chapter 9* for more information about exactly what files are contained in the `.git` directory you just created.)
+Dette lager en ny undermappe kalt `.git` som inneholder alle dine nødvendige repository filer – et Git repository skjellet. På dette tidspunktet, så er ingenting i prosjektet ditt overvåket enda. (See *Kapitel 9* for mer informasjon om nøyaktig hvile filer som finnes i `.git`mappen du akkurat lagde.)
 
-If you want to start version-controlling existing files (as opposed to an empty directory), you should probably begin tracking those files and do an initial commit. You can accomplish that with a few `git add` commands that specify the files you want to track, followed by a commit:
+Om du ønsker å starte versjonkontroll på eksisterende filer (imotsetning til en tom mappe), så burde du sannsynligvis begynne å overvåke de filene og gjøre en første commit. Du kan gjøre det med noen få `git add` kommandoer som spesifiserer filene du ønsker å overvåke, fulgt med en commit:
 
 	$ git add *.c
 	$ git add README
 	$ git commit -m 'initial project version'
 
-We’ll go over what these commands do in just a minute. At this point, you have a Git repository with tracked files and an initial commit.
+Vi vil gæ over hva disse kommandoene gjør straks. Nå har du et Git repository med overvåkedne filer og en første kommit.
 
 ### Cloning an Existing Repository ###
 

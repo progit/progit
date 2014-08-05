@@ -50,7 +50,7 @@ Para mudar para um branch existente, você executa o comando `git checkout`. Vam
 
     $ git checkout testing
 
-Isto move o HEAD para apontar para o branch de testes (ver Figura 3-6).
+Isto move o HEAD para apontar para o branch testing (ver Figura 3-6).
 
 Insert 18333fig0306.png
 Figura 3-6. O HEAD aponta para outro branch quando você troca de branches.

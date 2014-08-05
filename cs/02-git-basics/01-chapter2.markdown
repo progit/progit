@@ -726,11 +726,11 @@ V horní polovině okna vidíte historii revizí, doplněnou názorným hierarch
 
 ## Rušení změn ##
 
-Kdykoli si můžete přát zrušit nějakou provedenou změnu. Podívejme se proto, jaké základní nástroje se nám tu nabízejí. Ale buďte opatrní! Ne všechny zrušené změny se dají vrátit. Je to jedna z mála oblastí v systému Git, kdy při neuváženém postupu riskujete, že přijdete o část své práce.
+Kdykoli se může stát, že byste nějakou úpravu chtěli vrátit do původního stavu.. Podívejme se proto, jaké základní nástroje se nám tu nabízejí. Ale buďte opatrní! Ne všechny zrušené změny se dají vrátit. Je to jedna z mála oblastí v systému Git, kdy při neuváženém postupu riskujete, že přijdete o část své práce.
 
 ### Změna poslední revize ###
 
-Jedním z nejčastějších rušení úprav je situace, kdy zapíšete revizi příliš brzy a ještě jste např. zapomněli přidat některé soubory nebo byste rádi změnili zprávu k revizi. Chcete-li opravit poslední revizi, můžete spustit příkaz commit s parametrem `--amend`:
+Jedním z nejčastějších důvodů pro rušení úprav je situace, kdy zapíšete revizi příliš brzy a ještě jste například zapomněli přidat některé soubory, nebo byste rádi změnili zprávu k revizi. Chcete-li opravit poslední revizi, můžete spustit příkaz commit s parametrem `--amend`:
 
 	$ git commit --amend
 
@@ -744,11 +744,11 @@ Pokud například zapíšete revizi a potom si uvědomíte, že jste zapomněli 
 	$ git add forgotten_file
 	$ git commit --amend
 
-Tyto tři příkazy vytvoří jedinou revizi – třetí příkaz nahradí výsledky prvního.
+Provedení uvedených tří příkazů zůstane jediná revize – druhý příkaz `commit` nahradí výsledky prvního.
 
-### Návrat souboru z oblasti připravených změn ###
+### Odstranění souboru z oblasti připravených změn ###
 
-Následující dvě části popisují, jak vrátit změny provedené v oblasti připravených změn a v pracovním adresáři. Je příjemné, že příkaz, jímž se zjišťuje stav těchto dvou oblastí, zároveň připomíná, jak v nich zrušit nežádoucí změny. Řekněme například, že jste změnili dva soubory a chcete je zapsat jako dvě oddělené změny, jenže omylem jste zadali příkaz `git add *` a oba soubory jste tím připravili k zapsání. Jak lze tyto dva soubory vrátit z oblasti připravených změn? Připomene vám to příkaz `git status`:
+Následující dvě části popisují, jak se poprat s oblastí připravených změn a se změnami v pracovním adresáři. Je příjemné, že příkaz, jímž se zjišťuje stav těchto dvou oblastí, zároveň připomíná, jak v nich nežádoucí změny zrušit. Řekněme například, že jste změnili dva soubory a chcete je zapsat jako dvě oddělené změny. Jenže omylem jste zadali příkaz `git add *` a oba soubory jste tím připravili k zapsání. Jak lze tyto dva soubory vrátit z oblasti připravených změn? Připomene vám to příkaz `git status`:
 
 	$ git add .
 	$ git status
@@ -803,18 +803,18 @@ Výpis vám sděluje, jak zahodit změny (discard changes), které jste provedli
 	        modified:   README.txt
 
 
-Jak vidíte, změny byly zahozeny. Všimněte si také, že se jedná o nebezpečný příkaz. Veškeré změny, které jste v souboru provedli, jsou ztraceny, soubor jste právě překopírovali jiným souborem. Nikdy tento příkaz nepoužívejte, pokud si nejste zcela jisti, že už daný soubor nebudete potřebovat. Pokud potřebujete pouze odstranit soubor z cesty, podívejte se na odkládání a větvení v následující kapitole. Tyto postupy většinou bývají vhodnější.
+Jak vidíte, změny byly zahozeny. Všimněte si také, že se jedná o nebezpečný příkaz. Veškeré změny, které jste v souboru provedli, jsou ztraceny, soubor jste právě překopírovali jiným souborem. Nikdy tento příkaz nepoužívejte, pokud si nejste zcela jisti, že už daný soubor nebudete potřebovat. Pokud potřebujete pouze odstranit soubor z cesty, podívejte se na odkládání (stashing) a větvení v následující kapitole. Tyto postupy většinou bývají vhodnější.
 
-Vše, co je zapsáno v systému Git, lze téměř vždy obnovit. Obnovit lze dokonce i revize na odstraněných větvích nebo revize, které byly přepsány revizí `--amend` (o obnovování dat viz kapitola 9). Pokud však dojde ke ztrátě dat, která dosud nebyla součástí žádné revize, bude tato ztráta patrně nevratná.
+Zapamatujte si, že vše, co je zapsáno v systému Git, lze téměř vždy obnovit. Obnovit lze dokonce i revize na odstraněných větvích nebo revize, které byly přepsány revizí `--amend` (o obnovování dat viz *kapitola 9*). Pokud však dojde ke ztrátě dat, která dosud nebyla součástí žádné revize, bude tato ztráta patrně nevratná.
 
 ## Práce se vzdálenými repozitáři ##
 
-Abyste mohli spolupracovat na projektech v systému Git, je třeba vědět, jak manipulovat se vzdálenými repozitáři (remote repositories). Vzdálené repozitáře jsou verze vašeho projektu umístěné na internetu nebo kdekoli v síti. Vzdálených repozitářů můžete mít hned několik, každý pro vás přitom bude buď pouze ke čtení (read-only) nebo ke čtení a zápisu (read write). Spolupráce s ostatními uživateli zahrnuje také manipulaci s těmito vzdálenými repozitáři. Chcete-li svou práci sdílet, je nutné ji posílat do repozitářů a také ji z nich stahovat.
-Při manipulaci se vzdálenými repozitáři je nutné vědět, jak lze přidat vzdálený repozitář, jak odstranit repozitář, který už není platný, jak spravovat různé vzdálené větve, jak je definovat jako sledované či nesledované apod. V této části se zaměříme právě na správu vzdálených repozitářů.
+Abyste mohli spolupracovat na projektech v systému Git, je třeba vědět, jak manipulovat se vzdálenými repozitáři (remote repositories). Vzdálené repozitáře jsou verze vašeho projektu umístěné na Internetu nebo kdekoli v síti. Vzdálených repozitářů můžete mít hned několik, každý pro vás přitom bude buď pouze ke čtení (read-only) nebo ke čtení a zápisu (read write). Spolupráce s ostatními uživateli zahrnuje také správu těchto vzdálených repozitářů. Při sdílení práce musíte do těchto repozitářů data odesílat (push) a zase je z nich stahovat (pull).
+Při správě vzdálených repozitářů musíte vědět, jak lze přidat vzdálený repozitář, jak odstranit vzdálený repozitář, který už není platný, jak spravovat různé vzdálené větve, jak je definovat jako sledované či nesledované a další věci. V této části se zaměříme právě na správu vzdálených repozitářů.
 
 ### Zobrazení vzdálených serverů ###
 
-Chcete-li zjistit, jaké vzdálené servery máte nakonfigurovány, můžete použít příkaz `git remote`. Systém vypíše zkrácené názvy všech identifikátorů vzdálených repozitářů, jež máte zadány. Pokud byl váš repozitář vytvořen klonováním, měli byste vidět přinejmenším server origin. Origin je výchozí název, který Git dává serveru, z nějž jste repozitář klonovali.
+Chcete-li zjistit, jaké vzdálené servery máte nakonfigurovány, můžete použít příkaz `git remote`. Systém vypíše krátké názvy, přes které se se vzdálenými repozitáři manipuluje, a které jste dříve určili. Pokud byl váš repozitář vytvořen klonováním, měli byste vidět přinejmenším server *origin*. Jde o výchozí název, který Git dává serveru, z nějž jste repozitář klonovali.
 
 	$ git clone git://github.com/schacon/ticgit.git
 	Cloning into 'ticgit'...
@@ -833,7 +833,7 @@ Můžete rovněž zadat parametr `-v`, jenž zobrazí adresu URL, kterou má Git
 	origin  git://github.com/schacon/ticgit.git (fetch)
 	origin  git://github.com/schacon/ticgit.git (push)
 
-Pokud máte více než jeden vzdálený repozitář, příkaz je vypíše všechny. Například můj repozitář Grit vypadá takto:
+Pokud používáte více než jeden vzdálený repozitář, příkaz je vypíše všechny. Například můj repozitář Grit vypadá takto:
 
 	$ cd grit
 	$ git remote -v
@@ -843,11 +843,11 @@ Pokud máte více než jeden vzdálený repozitář, příkaz je vypíše všech
 	koke      git://github.com/koke/grit.git
 	origin    git@github.com:mojombo/grit.git
 
-To znamená, že můžeme velmi snadno stáhnout příspěvky od kteréhokoli z těchto uživatelů. Nezapomeňte však, že pouze vzdálený server origin je SSH URL, a je tedy jediným repozitářem, kam lze posílat soubory (důvod objasníme v kapitole 4).
+To znamená, že mohu velmi snadno stáhnout příspěvky od kteréhokoli z těchto uživatelů. Ale všimněte si, že pouze vzdálený server origin je SSH URL, a je tedy jediným repozitářem, kam lze soubory odesílat (push; důvod objasníme v *kapitole 4*).
 
 ### Přidávání vzdálených repozitářů ###
 
-V předchozích částech už jsem se letmo dotkl přidávání vzdálených repozitářů. V této části se dostávám k tomu, jak přesně při přidávání postupovat. Chcete-li přidat nový vzdálený repozitář Git ve formě zkráceného názvu, na nějž lze snadno odkazovat, spusťte příkaz `git remote add [zkrácený název] [url]`:
+V předchozích částech už jsem se letmo dotkl přidávání vzdálených repozitářů. V této části se dostávám k tomu, jak přesně při přidávání postupovat. Chcete-li přidat nový vzdálený repozitář Git a zadat zkrácený název, přes který se můžete snadno odkazovat, spusťte příkaz `git remote add [zkrácený název] [url]`:
 
 	$ git remote
 	origin
@@ -867,7 +867,7 @@ V předchozích částech už jsem se letmo dotkl přidávání vzdálených rep
 	 * [new branch]      master     -> pb/master
 	 * [new branch]      ticgit     -> pb/ticgit
 
-Paulova hlavní větev (master branch) je lokálně dostupná jako `pb/master`. Můžete ji začlenit do některé ze svých větví nebo tu můžete provést checkout lokální větve, jestliže si ji chcete prohlédnout.
+Paulova hlavní větev (master branch) je teď lokálně dostupná jako `pb/master`. Můžete ji začlenit (merge) do některé ze svých větví, nebo ji můžete zpřístupnit jako lokální větev (check out), jestliže si ji chcete prohlédnout.
 
 ### Vyzvedávání a stahování ze vzdálených repozitářů ###
 
@@ -875,19 +875,19 @@ Jak jste právě viděli, data ze vzdálených projektů můžete získat pomoc�
 
 	$ git fetch [název vzdáleného repozitáře]
 
-Příkaz zamíří do vzdáleného projektu a stáhne z něj všechna data, která ještě nevlastníte. Poté byste měli mít reference na všechny větve tohoto vzdáleného projektu. Nyní je můžete kdykoli slučovat nebo prohlížet. (Podrobněji se budeme větvím a jejich použití věnovat v kapitole 3.)
+Příkaz zamíří do vzdáleného projektu a stáhne z něj všechna data, která ještě nemáte u sebe. Poté byste měli mít k dispozici odkazy na všechny větve tohoto vzdáleného projektu. Od toho okamžiku je můžete kdykoli slučovat nebo prohlížet. (Podrobněji se budeme větvím a jejich použití věnovat v *kapitole 3*.)
 
-Pokud jste naklonovali repozitář, příkaz automaticky přiřadí tento vzdálený repozitář pod název „origin“. Příkaz `git fetch origin` tak vyzvedne veškerou novou práci, která byla na server poslána (push) od okamžiku, kdy jste odsud klonovali (popř. odsud naposledy vyzvedávali práci). Měli bychom zmínit, že příkaz `fetch` stáhne data do vašeho lokálního repozitáře, v žádném případě ale data automaticky nesloučí s vaší prací ani jinak nezmění nic z toho, na čem právě pracujete. Data ručně sloučíte se svou prací, až to uznáte za vhodné.
+Pokud jste naklonovali repozitář, příkaz automaticky přidá tento vzdálený repozitář pod názvem *origin*. Takže příkaz `git fetch origin` vyzvedne veškerou novou práci, která byla na uvedený server poslána (push) od okamžiku, kdy jste odtud klonovali (nebo kdy jste odtud naposledy vyzvedávali práci). Měli bychom zmínit, že příkaz `fetch` stáhne data do vašeho lokálního repozitáře. V žádném případě ale data automaticky nesloučí s vaší prací ani jinak nezmění nic z toho, na čem právě pracujete. Sloučení s vaší prací musíte udělat ručně, až to uznáte za vhodné.
 
-Pokud máte větev nastavenou ke sledování vzdálené větve (více informací naleznete v následující části a v kapitole 3), můžete použít příkaz `git pull`, který automaticky vyzvedne a poté začlení vzdálenou větev do vaší aktuální větve. Tento postup pro vás může být snazší a pohodlnější. Standardně přitom příkaz `git clone` automaticky nastaví vaši lokální hlavní větev, aby sledovala vzdálenou hlavní větev na serveru, z nějž jste klonovali (za předpokladu, že má vzdálený server hlavní větev). Příkaz `git pull` většinou vyzvedne data ze serveru, z nějž jste původně klonovali, a automaticky se pokusí začlenit je do kódu, na němž právě pracujete.
+Pokud máte větev nastavenou ke sledování vzdálené větve (více informací naleznete v následující části a v *kapitole 3*), můžete použít příkaz `git pull`, který automaticky vyzvedne (fetch) a poté začlení (merge) vzdálenou větev do vaší aktuální větve. Tento postup pro vás může být snazší a pohodlnější. Standardně přitom příkaz `git clone` automaticky nastaví vaši lokální hlavní větev, aby sledovala vzdálenou hlavní větev na serveru, z kterého jste klonovali (za předpokladu, že má vzdálený server hlavní větev). Příkaz `git pull` většinou vyzvedne data ze serveru, z něhož jste původně klonovali, a automaticky se pokusí začlenit je do kódu, na němž právě pracujete.
 
-### Posílání do vzdálených repozitářů ###
+### Odesílání do vzdálených repozitářů ###
 
-Pokud se váš projekt nachází ve fázi, kdy ho chcete sdílet s ostatními, můžete ho odeslat (push) na vzdálený server. Příkaz pro tuto akci je jednoduchý: `git push [název vzdáleného repozitáře] [název větve]`. Pokud chcete poslat svou hlavní větev na server `origin` (i tady platí, že proces klonování vám nastaví názvy `master` i `origin` automaticky), můžete k odeslání své práce na server použít tento příkaz:
+Pokud se váš projekt nachází ve stavu, kdy ho chcete sdílet s ostatními, můžete ho odeslat (push) na vzdálený server. Příkaz pro tuto akci je jednoduchý: `git push [název vzdáleného repozitáře] [název větve]`. Pokud chcete poslat svou hlavní větev na server `origin` (i tady platí, že proces klonování vám nastaví názvy `master` i `origin` automaticky), můžete k odeslání své práce na server použít tento příkaz:
 
 	$ git push origin master
 
-Tento příkaz bude funkční, pouze pokud jste klonovali ze serveru, k němuž máte oprávnění pro zápis, a pokud sem od vašeho klonování nikdo neposílal svou práci. Pokud spolu s vámi provádí současně klonování ještě někdo další a ten poté svou práci odešle na server, vaše později odesílaná práce bude oprávněně odmítnuta. Nejprve musíte stáhnout práci ostatních a začlenit ji do své, teprve potom vám server umožní odeslání. Více informací o odesílání na vzdálené servery najdete v kapitole 3.
+Tento příkaz bude funkční, pouze pokud jste klonovali ze serveru, k němuž máte oprávnění pro zápis, a pokud sem od vašeho klonování nikdo neposílal svou práci. Pokud spolu s vámi provádí současně klonování ještě někdo další a ten poté svou práci odešle na server, vaše později odesílaná práce bude oprávněně odmítnuta. Nejprve musíte stáhnout práci ostatních a začlenit ji do své, teprve potom vám server umožní odeslání. Více informací o odesílání na vzdálené servery najdete v *kapitole 3*.
 
 ### Prohlížení vzdálených repozitářů ###
 
@@ -902,9 +902,9 @@ Jestliže chcete získat více informací o konkrétním vzdáleném repozitář
 	    master
 	    ticgit
 
-Bude obsahovat adresu URL vzdáleného repozitáře a informace ke sledování větví. Příkaz vám mimo jiné sděluje, že pokud se nacházíte na hlavní větvi (branch master) a spustíte příkaz `git pull`, automaticky začlení (merge) práci do hlavní větve na vzdáleném serveru, jakmile vyzvedne všechny vzdálené reference. Součástí výpisu jsou také všechny vzdálené reference, které příkaz stáhl.
+Bude obsahovat adresu URL vzdáleného repozitáře a informace ke sledování větví. Příkaz vám mimo jiné sděluje, že pokud se nacházíte na hlavní větvi (branch `master`) a spustíte příkaz `git pull`, pak se po vyzvednutí všech vzdálených referencí (fetch) práce z hlavní větve na vzdáleném serveru automaticky začlení (merge). Součástí výpisu jsou také všechny vzdálené reference, které příkaz stáhl.
 
-Toto je jednoduchý příklad, s nímž se můžete setkat. Pokud však Git používáte na pokročilé bázi, příkaz `git remote show` vám patrně zobrazí podstatně více informací:
+S uvedeným jednoduchým případem se pravděpodobně setkáte. Pokud však Git používáte na intenzivněji, může vám příkaz `git remote show` zobrazit mnohem více informací:
 
 	$ git remote show origin
 	* remote origin
@@ -928,11 +928,11 @@ Toto je jednoduchý příklad, s nímž se můžete setkat. Pokud však Git pou�
 	  Local branch pushed with 'git push'
 	    master:master
 
-Tento příkaz vám ukáže, která větev bude automaticky odeslána, pokud spustíte příkaz `git push` na určitých větvích. Příkaz vám také oznámí, které vzdálené větve na serveru ještě nemáte, které vzdálené větve máte, jež už byly ze serveru odstraněny, a několik větví, které budou automaticky sloučeny, jestliže spustíte příkaz `git pull`.
+Tento příkaz ukazuje, která větev bude automaticky odeslána, pokud spustíte příkaz `git push` na určitých větvích. Příkaz vám také oznámí, které vzdálené větve na serveru ještě nemáte, které vzdálené větve máte, ale ze serveru už byly odstraněny, a několik větví, které budou automaticky sloučeny, jestliže spustíte příkaz `git pull`.
 
-### Přesouvání a přejmenovávání vzdálených repozitářů ###
+### Odstraňování a přejmenovávání vzdálených repozitářů ###
 
-Chcete-li přejmenovat vzdálený repozitář, můžete v novějších verzích systému Git spustit příkaz `git remote rename`. Příkazem lze změnit zkrácený název vzdáleného repozitáře. Pokud například chcete přejmenovat repozitář z `pb` na `paul`, můžete tak učinit pomocí příkazu `git remote rename`:
+Chcete-li změnit zkrácené jméno vzdáleného repozitáře, můžete v novějších verzích systému Git spustit příkaz `git remote rename`. Pokud například chcete přejmenovat repozitář z `pb` na `paul`, můžete tak učinit příkazem `git remote rename`:
 
 	$ git remote rename pb paul
 	$ git remote
@@ -941,7 +941,7 @@ Chcete-li přejmenovat vzdálený repozitář, můžete v novějších verzích 
 
 Za zmínku stojí, že tímto příkazem změníte zároveň i názvy vzdálených větví. Z původní reference `pb/master` se tak nyní stává `paul/master`.
 
-Chcete-li, ať už z jakéhokoli důvodu, odstranit referenci (např. jste přesunuli server nebo už nepoužíváte dané zrcadlo, popř. přispěvatel přestal přispívat), můžete využít příkaz `git remote rm`:
+Chcete-li, ať už z jakéhokoli důvodu, odstranit referenci (přesunuli jste například server nebo už nepoužíváte dané zrcadlo, nebo třeba přispěvatel přestal přispívat), můžete využít příkaz `git remote rm`:
 
 	$ git remote rm paul
 	$ git remote
@@ -949,7 +949,7 @@ Chcete-li, ať už z jakéhokoli důvodu, odstranit referenci (např. jste přes
 
 ## Značky ##
 
-Stejně jako většina systémů VCS nabízí i Git možnost označovat v historii určitá místa, jež považujete za důležitá. Tato funkce se nejčastěji používá k označení jednotlivých vydání (např. `v1.0`). V této části vysvětlíme, jak pořídíte výpis všech dostupných značek, jak lze vytvářet značky nové a jaké typy značek se vám nabízejí.
+Stejně jako většina systémů VCS nabízí i Git možnost označovat v historii určitá místa, jež považujete za důležitá. Tato funkce se nejčastěji používá k označení jednotlivých vydání (například `v1.0`). V této části vysvětlíme, jak pořídíte výpis všech dostupných značek, jak lze vytvářet značky nové a jaké typy značek se vám nabízejí.
 
 ### Výpis značek ###
 
@@ -1127,7 +1127,7 @@ Můžete se podívat, že jste revizi označil:
 
 ### Sdílení značek ###
 
-Příkaz `git push` nepřenáší značky na vzdálené servery automaticky. Pokud jste vytvořili značku, budete ji muset na sdílený server poslat ručně. Tento proces je stejný jako sdílení vzdálených větví. Spusťte příkaz `git push origin [název značky]`.
+Příkaz `git push` nepřenáší značky na vzdálené servery automaticky. Pokud jste vytvořili značku, budete ji muset na sdílený server poslat explicitně. Tento proces je stejný jako sdílení vzdálených větví. Spusťte příkaz `git push origin [název značky]`.
 
 	$ git push origin v1.5
 	Counting objects: 50, done.
@@ -1155,17 +1155,17 @@ Pokud nyní někdo bude klonovat nebo stahovat z vašeho repozitáře, stáhne r
 
 ## Tipy a triky ##
 
-Než ukončíme tuto kapitolu o základech práce se systémem Git, přidáme ještě pár tipů a triků, které vám mohou usnadnit či zpříjemnit práci. Mnoho uživatelů pracuje se systémem Git, aniž by tyto triky znali a používali. V dalších částech knihy se už o nich nebudeme zmiňovat ani nebudeme předpokládat, že je používáte. Přesto pro vás mohou být užitečné.
+Než ukončíme tuto kapitolu věnovanou základům práce se systémem Git, přidáme ještě pár tipů a triků, které vám mohou usnadnit či zpříjemnit práci. Mnoho uživatelů pracuje se systémem Git, aniž by tyto triky znali a používali. V dalších částech knihy se už o nich nebudeme zmiňovat ani nebudeme předpokládat, že je používáte. Přesto pro vás mohou být užitečné.
 
 ### Automatické dokončování ###
 
-Jestliže používáte shell Bash, nabízí vám Git možnost zapnout si skript pro automatické dokončování. Stáhněte si zdrojový kód Git https://github.com/git/git/blob/master/contrib/completion/git-completion.bash. Nakopírujte tento soubor do vašeho domovského adresáře a do souboru `.bashrc` přidejte:
+Jestliže používáte shell Bash, nabízí vám Git možnost zapnout si skript pro automatické dokončování. Stáhněte si jej ze zdrojových textů systému Git z https://github.com/git/git/blob/master/contrib/completion/git-completion.bash. Soubor nakopírujte tento do vašeho domovského adresáře a do souboru `.bashrc` přidejte:
 
 	source ~/git-completion.bash
 
-Chcete-li nastavit Git tak, aby měl automaticky dokončování pro shell Bash pro všechny uživatele, zkopírujte tento skript do adresáře `/opt/local/etc/bash_completion.d` v systémech Mac nebo do adresáře `/etc/bash_completion.d/` v systémech Linux. Toto je adresář skriptů, z nějž Bash automaticky načítá pro shellové dokončování.
+Chcete-li nastavit Git tak, aby měl automaticky dokončování pro shell Bash pro všechny uživatele, zkopírujte u systému Mac tento skript do adresáře `/opt/local/etc/bash_completion.d`, nebo u systémů Linux do adresáře `/etc/bash_completion.d/`. Jde o adresář skriptů, ze kterého si Bash automaticky načítá podporu pro shellové dokončování.
 
-Pokud používáte Git Bash v systému Windows (Git Bash je výchozím programem při instalaci systému Git v OS Windows pomocí msysGit), mělo by být automatické dokončování přednastaveno.
+Pokud používáte Git Bash v systému Windows (Git Bash je pro instalaci msysGit pod Windows výchozím programem), mělo by být automatické dokončování přednastaveno.
 
 Při zadávání příkazu Git stiskněte klávesu Tab a měla by se objevit nabídka, z níž můžete zvolit příslušné dokončení:
 
@@ -1174,7 +1174,7 @@ Při zadávání příkazu Git stiskněte klávesu Tab a měla by se objevit nab
 
 Pokud zadáte – stejně jako v našem příkladu nahoře – `git co` a dvakrát stisknete klávesu Tab, systém vám navrhne „commit“ a „config“. Doplníte-li ještě `m<tab>`, skript automaticky dokončí příkaz na `git commit`.
 
-Automatické dokončování pravděpodobně více využijete v případě parametrů. Pokud například zadáváte příkaz `git log` a nemůžete si vzpomenout na některý z parametrů, můžete zadat jeho začátek a stisknout klávesu Tab, aby vám systém navrhl možná dokončení.
+Automatické dokončování pravděpodobně více využijete v případě parametrů. Pokud například zadáváte příkaz `git log` a nemůžete si vzpomenout na některý z parametrů, můžete zadat jeho začátek, stisknout klávesu Tab a podívat se, co by to mohlo přesně být:
 
 	$ git log --s<tab>
 	--shortstat  --since=  --src-prefix=  --stat   --summary

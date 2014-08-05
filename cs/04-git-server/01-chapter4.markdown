@@ -6,7 +6,7 @@ Spuštění serveru Git je jednoduché. Nejprve určíte, jakými protokoly má 
 
 Pokud víte, že nebudete chtít spravovat vlastní server, můžete přeskočit rovnou na poslední část této kapitoly a podívat se na možnosti nastavení hostovaného účtu. Pak přejděte na následující kapitolu, v níž se dočtete o různých vstupech a výstupech při práci v prostředí s distribuovanou správou zdrojového kódu.
 
-Vzdálený repozitář je obvykle holý repozitář, tj. repozitář Git bez pracovního adresáře. Protože se repozitář používá pouze jako místo pro spolupráci, není žádný důvod, aby byl na disku načten konkrétní snímek. Jsou tu pouze uložena data systému Git. Jednoduše bychom mohli také říct, že holý repozitář je obsah adresáře `.git` vašeho projektu a nic víc.
+Vzdálený repozitář je obvykle *holý repozitář* (bare repository), tj. repozitář Git bez pracovního adresáře. Protože se repozitář používá pouze jako místo pro spolupráci, není žádný důvod, aby byl na disku načten konkrétní snímek. Jsou tu pouze uložena data systému Git. Jednoduše bychom mohli také říct, že holý repozitář je obsah adresáře `.git` vašeho projektu a nic víc.
 
 ## Protokoly ##
 
@@ -16,7 +16,7 @@ Neměli bychom zamlčet ani to, že s výjimkou protokolu HTTP všechny vyžaduj
 
 ### Protokol Local ###
 
-Nejzákladnější variantou je protokol Local, v němž je vzdálený repozitář uložen v jiném adresáři na disku. Často se využívá v případech, kdy mají všichni z vašeho týmu přístup k vašim sdíleným souborům, např. přes připojení systému NFS, nebo – v méně pravděpodobném případě – se všichni přihlašují na jednom počítači. Tato druhá varianta není právě ideální, protože všechny instance repozitáře s kódem jsou v takovém případě umístěny v jednom počítači, čímž se zvyšuje riziko nevratné ztráty dat.
+Nejzákladnější variantou je *lokální protokol* (Local protocol), v němž je vzdálený repozitář uložen v jiném adresáři na disku. Často se využívá v případech, kdy mají všichni z vašeho týmu přístup k vašim sdíleným souborům, např. přes připojení systému NFS, nebo – v méně pravděpodobném případě – se všichni přihlašují na jednom počítači. Tato druhá varianta není právě ideální, protože všechny instance repozitáře s kódem jsou v takovém případě umístěny v jednom počítači, čímž se zvyšuje riziko nevratné ztráty dat.
 
 Máte-li připojený sdílený systém souborů, můžete klonovat, odesílat a stahovat z lokálního souborového repozitáře (local file-based repository). Chcete-li takový repozitář naklonovat nebo přidat jako vzdálený repozitář do existujícího projektu, použijte jako URL cestu k repozitáři. K naklonování lokálního repozitáře můžete použít příkaz například v tomto tvaru:
 
@@ -109,7 +109,7 @@ Z dalších výhod protokolu HTTP bychom mohli jmenovat i jeho značné rozší�
 
 #### Nevýhody ####
 
-Nevýhodou obsluhy repozitáře přes protokol HTTP je poměrně nízká výkonnost pro klienta. Klonovat nebo vyzvedávat data z repozitáře trvá v případě protokolu HTTP obecně mnohem déle a vyžádá si většinou podstatně větší režii síťových operací a objem přenášených dat, než je tomu u ostatních síťových protokolů. Protože protokol není natolik inteligentní, aby přenášel pouze data, která potřebujete – v těchto transakcích se na straně serveru nesetkáte s dynamickou činností – je protokol HTTP často nazýván „dumb protocol“ (hloupý protokol). Více informací o rozdílech ve výkonnosti mezi protokolem HTTP a ostatními protokoly najdete v kapitole 9.
+Nevýhodou obsluhy repozitáře přes protokol HTTP je poměrně nízká výkonnost pro klienta. Klonovat nebo vyzvedávat data z repozitáře trvá v případě protokolu HTTP obecně mnohem déle a vyžádá si většinou podstatně větší režii síťových operací a objem přenášených dat, než je tomu u ostatních síťových protokolů. Protože protokol není natolik inteligentní, aby přenášel pouze data, která potřebujete – v těchto transakcích se na straně serveru nesetkáte s dynamickou činností – je protokol HTTP často nazýván *dumb protocol* (hloupý protokol). Více informací o rozdílech ve výkonnosti mezi protokolem HTTP a ostatními protokoly najdete v kapitole 9.
 
 ## Jak umístit Git na server ##
 
@@ -148,7 +148,7 @@ Vidíte, jak je jednoduché vzít repozitář Git, vytvořit jeho holou verzi a 
 
 A to je skutečně vše, co je třeba ke spuštění serveru Git, k němuž bude mít přístup více lidí – na server stačí přidat SSH účty a umístit holý repozitář někam, kam budou mít všichni uživatelé oprávnění ke čtení i zápisu. Vše je připraveno, nic dalšího se od vás nevyžaduje.
 
-V dalších částech se podíváme na některé pokročilé možnosti nastavení. Dozvíte se v nich, jak se vyhnout nutnosti vytvářet uživatelské účty pro všechny uživatele, jak k repozitářům přiřadit veřejné oprávnění pro čtení, jak nastavit webová rozhraní nebo k čemu se používá nástroj Gitosis. To však nemění nic na tom, že ke spolupráci se skupinou lidí na soukromém projektu vystačíte s jedním SSH serverem a holým repozitářem.
+V dalších částech se podíváme na některé pokročilé možnosti nastavení. Dozvíte se v nich, jak se vyhnout nutnosti vytvářet uživatelské účty pro všechny uživatele, jak k repozitářům přiřadit veřejné oprávnění pro čtení, jak nastavit webová rozhraní nebo k čemu se používá nástroj Gitosis. To však nemění nic na tom, že ke spolupráci se skupinou lidí na soukromém projektu *vystačíte* s jedním SSH serverem a holým repozitářem.
 
 ### Nastavení pro malou skupinu ###
 
@@ -566,7 +566,7 @@ Přidávání dalších uživatelů je snadné. Pokud chceme přidat uživatele 
 
 Syntaxe konfiguračního souboru pro Gitolite je dobře dokumentovaná, takže zde uvedu jen pár zajímavých věcí.
 
-Pro usnadnění můžete dávat uživatele i repozitáře do skupin. Jména skupin jsou podobná jako makra; když je definujete, je úplně jedno jestli jde o projekty nebo uživatele; rozdíl to je až v momentu, kdy „makro“ použijete.
+Pro usnadnění můžete dávat uživatele i repozitáře do skupin. Jména skupin jsou podobná jako makra; když je definujete, je úplně jedno jestli jde o projekty nebo uživatele; rozdíl to je až v momentu, kdy „makro“ *použijete*.
 
 	@oss_repos      = linux perl rakudo git gitolite
 	@secret_repos   = fenestra pear
@@ -597,21 +597,21 @@ Toto pravidlo se pak přidá do skupiny pravidel `gitolite` repozitáře.
 
 Teď by vás mohlo zajímat, jak jsou vlastně pravidla pro přístup aplikována, pojďme se na to tedy krátce podívat.
 
-V gitolite jsou dvě úrovně kontroly přístupů. První je úroveň repozitářů; jestliže máte práva na čtení (nebo zápis) k jakékoliv referenci v repozitáři, máte tím práva na čtení (nebo zápis) k tomuto repozitáři. Tohle je jediná možnost jakou měl nástroj Gitosis.
+V gitolite jsou dvě úrovně kontroly přístupů. První je úroveň repozitářů; jestliže máte práva na čtení (nebo zápis) *k jakékoliv* referenci v repozitáři, máte tím práva na čtení (nebo zápis) k tomuto repozitáři. Tohle je jediná možnost jakou měl nástroj Gitosis.
 
 Druhá úroveň je pouze pro práva pro „zápis“ a je podle větve nebo značky v repozitáři. Uživatelské jméno uživatele snažícího se o přístup (`W` nebo `+`) a jméno reference, kterou uživatel chce aktualizovat, jsou dané. Pravidla pro přístup jsou procházena postupně v pořadí, tak jak jsou uvedena v konfiguračním souboru a hledají se záznamy odpovídající této kombinaci uživatelského jména a reference (nezapomeňte ale, že refname se porovnává jako regulární výraz nikoliv jako pouhý řetězec). Jestliže je nalezen odpovídající záznam, odesílání je povoleno. Pokud není nalezeno nic, je přístup zamítnut.
 
-### Rozšířená kontrola přístupu ve větvi „rebel“ ###
+### Rozšířené řízení přístupu pravidly typu „odmítnutí“ ###
 
-Jak můžete vidět výše, práva musí být jedno z nastavení `R`, `RW` nebo `RW+`. Dříve zmíněná větev „rebel“ přidává ještě jedno další právo: `-`, znamenající „odmítnutí“. To dává mnohem více možností za cenu zvýšení složitosti, protože nyní už není nenalezení odpovídajícího záznamu při procházení pravidel jedinou možností, jak může být přístup zamítnut. Takže nyní už na pořadí pravidel záleží!
+Prozatím jsme si ukázali jen oprávnění nastavená na jednu z hodnot `R`, `RW` nebo `RW+`. Ale Gitolite dovoluje nastavení dalšího oprávnění: `-` s významem „odmítnutí“. To vám dává mnohem více možností, ale za cenu zvýšení složitosti. Popadnutí sítem pravidel už totiž není *jedinou* možností vedoucí k zamítnutí přístupu. *Nyní už záleží na pořadí pravidel!*
 
-Řekněme, že ve výše uvedené situaci budeme chtít, aby skupina engineers mohla vracet změny v jakékoliv větvi s výjimkou větvě „hlavní“ a větve „integ“. To se nedá nastavit pomocí normální syntaxe, ale s pomocí větve „rebel“ podle následujícího postupu:
+Řekněme, že ve výše uvedené situaci budeme chtít, aby skupina engineers mohla vracet změny v jakékoliv větvi *s výjimkou* větví `master` a `integ`. Udělá se to následovně:
 
 	    RW  master integ    = @engineers
 	    -   master integ    = @engineers
 	    RW+                 = @engineers
 
-Pravidla se znovu budou procházet postupně až do momentu, kdy bude nalezeno odpovídají pravidlo nebo bude přístup zamítnut. Odeslání do hlavní větve nebo větve „integ“, která nevracejí zpět změny, jsou povolena prvním pravidlem. Odeslání, která vracejí změny do těchto větví, neodpovídají prvnímu pravidlu. Porovnají se tedy s druhým pravidlem a na jeho základě budou zamítnuty. Odeslání (bez ohledu na to zda se jedná o vracení změn nebo ne) do jiných referencí než hlavní a „integ“ nebudou odpovídat ani prvnímu ani druhému pravidlu a budou tedy díky třetímu pravidlu povolena.
+Pravidla se  budou opět procházet shora dolů až do momentu, kdy narazíte na shodu s vaším režimem přístupu nebo na pravidlo typu odmítnutí (deny). Odeslání do větve `master` nebo `integ`, která nevracejí zpět změny (non-rewind push), jsou povolena prvním pravidlem. Odeslání, která vracejí změny (rewind push) do těchto větví, neodpovídají prvnímu pravidlu. Porovnají se tedy s druhým pravidlem a na jeho základě budou zamítnuty. Jakékoliv odeslání (bez ohledu na to zda se jedná o vracení změn nebo ne) do jiných referencí než `master` nebo `integ` nebudou odpovídat ani prvnímu ani druhému pravidlu, a proto bude díky třetímu pravidlu povoleno.
 
 ### Omezení odesílání změn vázané na soubory ###
 

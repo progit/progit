@@ -454,7 +454,7 @@ Tímto způsobem získáte lokální větev, na níž můžete pracovat a která
 
 ### Sledující větve ###
 
-Checkoutem lokální větve ze vzdálené větve automaticky vytvoříte tzv. Sledující větev (angl. tracking branch). Sledující větve jsou lokální větve s přímým vztahem ke vzdálené větvi. Pokud se nacházíte na Sledující větvi a zadáte příkaz `git push`, Git automaticky ví, na který server a do které větve má data odeslat. Také příkazem `git pull` zadaným na sledovací větvi vyzvednete všechny vzdálené reference a Git poté odpovídající vzdálenou větev automaticky začlení.
+Checkoutem lokální větve ze vzdálené větve automaticky vytvoříte takzvanou *sledující větev* (angl. tracking branch). Sledující větve jsou lokální větve s přímým vztahem ke vzdálené větvi. Pokud se nacházíte na Sledující větvi a zadáte příkaz `git push`, Git automaticky ví, na který server a do které větve má data odeslat. Také příkazem `git pull` zadaným na sledovací větvi vyzvednete všechny vzdálené reference a Git poté odpovídající vzdálenou větev automaticky začlení.
 
 Pokud klonujete repozitář, většinou se vytvoří větev `master`, která bude sledovat větev `origin/master`. To je také důvod, proč příkazy `git push` a `git pull` fungují i bez dalších parametrů. Pokud chcete, můžete nastavit i jiné sledující větve – takové, které nebudou sledovat větve na serveru `origin` a nebudou sledovat hlavní větev `master`. Jednoduchým případem je příklad, který jste právě viděli: spuštění příkazu `git checkout -b [větev] [vzdálený server]/[větev]`. Máte-li Git ve verzi 1.6.2 nebo novější, můžete použít také zkrácenou variantu `--track`:
 
@@ -496,7 +496,7 @@ Víme, že nejjednodušším způsobem, jak integrovat větve, je příkaz `merg
 Insert 18333fig0328.png
 Obrázek 3-28. Integrace rozdělené historie sloučením větví
 
-Existuje však ještě jiný způsob. Můžete vzít záplatu se změnou, kterou jste provedli revizí C3, a aplikovat ji na vrcholu revize C4. V systému Git se tato metoda nazývá přeskládání (rebasing). Příkazem `rebase` vezmete všechny změny, které byly zapsány na jedné větvi, a necháte je znovu provést na jiné větvi.
+Existuje však ještě jiný způsob. Můžete vzít záplatu se změnou, kterou jste provedli revizí C3, a aplikovat ji na vrcholu revize C4. V systému Git se tato metoda nazývá *přeskládání* (rebasing). Příkazem `rebase` vezmete všechny změny, které byly zapsány na jedné větvi, a necháte je znovu provést na jiné větvi.
 
 V našem případě tedy provedete následující:
 
@@ -571,7 +571,7 @@ Obrázek 3-35. Konečná historie revizí
 
 Přeskládání sice nabízí určité výhody, má však také svá úskalí. Ta se dají shrnout do jedné věty:
 
-Neprovádějte přeskládání u revizí, které jste odeslali do veřejného repozitáře.
+**Neprovádějte přeskládání u revizí, které jste odeslali do veřejného repozitáře.**
 
 Budete-li se touto zásadou řídit, nemusíte se přeskládání obávat. V opačném případě vás čeká opovržení ostatních, rodina a přátelé vás zapřou.
 

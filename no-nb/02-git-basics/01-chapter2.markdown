@@ -20,23 +20,23 @@ Om du ønsker å starte versjonkontroll på eksisterende filer (imotsetning til 
 	$ git add README
 	$ git commit -m 'initial project version'
 
-Vi vil gæ over hva disse kommandoene gjør straks. Nå har du et Git repository med overvåkedne filer og en første kommit.
+Vi vil gå over hva disse kommandoene gjør straks. Nå har du et Git repository med overvåkedne filer og en første kommit.
 
-### Cloning an Existing Repository ###
+### Klone et Eksistrende Repository ###
 
-If you want to get a copy of an existing Git repository — for example, a project you’d like to contribute to — the command you need is `git clone`. If you’re familiar with other VCS systems such as Subversion, you’ll notice that the command is `clone` and not `checkout`. This is an important distinction — Git receives a copy of nearly all data that the server has. Every version of every file for the history of the project is pulled down when you run `git clone`. In fact, if your server disk gets corrupted, you can use any of the clones on any client to set the server back to the state it was in when it was cloned (you may lose some server-side hooks and such, but all the versioned data would be there — see *Chapter 4* for more details).
+Hvis du ænsker å hente en kopi av et eksisterende Git repository, for eksempel, et prosjekt du gjerne vil bidra til, så er kommandoen du trenger `git clone`. Hvis du er kjent med andre VCS systemer som Subversion, så vil du legge merke til at kommandoen er `clone`ikke `checkout`. Dette er en viktig forskjell. Git mottar en kopi av nesten all data som serveren har. Hver version av en hver fil i løpet av prosjektet historie vil bli dratt ned når du kjører `git clone`. Om server disken blir korrupt, så kan du bruke hvilken som helst av klonene på en hvilken som helst klient for å sette til tilstanden den var i når den var klonet (du mister kanskje noen hook-er og slikt på server siden , men all den versjonerte dataen ville vært der. Se *Kapitel 4* for mer detaljer).
 
-You clone a repository with `git clone [url]`. For example, if you want to clone the Ruby Git library called Grit, you can do so like this:
+Du kloner et repository med `git clone [url]`. For eksempel, hvis du ænsker å klone Ruby Git biblioteket kalt Grit, så kan du gjøre det slik:
 
 	$ git clone git://github.com/schacon/grit.git
 
-That creates a directory named `grit`, initializes a `.git` directory inside it, pulls down all the data for that repository, and checks out a working copy of the latest version. If you go into the new `grit` directory, you’ll see the project files in there, ready to be worked on or used. If you want to clone the repository into a directory named something other than grit, you can specify that as the next command-line option:
+Det lager en mappe kalt `grit`, initierer en `.git` mappe inni den, og drar ned all dataen fra det repositoriet, og sjekker ut en funksjonell kopi av den nyeste versjonen. Hvis du går inn i den nye `grit`mappen, så vil du se prosjekt filer inni den, klar til å bli bearbeidet eller brukt. Om du ønsker å klone repositoriet inn i en annen mappe kalt noe annet enn grit, så kan du spesifisere det som det neste kommandolinje valget.
 
 	$ git clone git://github.com/schacon/grit.git mygrit
 
-That command does the same thing as the previous one, but the target directory is called `mygrit`.
+Den kommandoen gjør det samme som den forrige, bare at målmappen blir kalt `mygrit`.
 
-Git has a number of different transfer protocols you can use. The previous example uses the `git://` protocol, but you may also see `http(s)://` or `user@server:/path.git`, which uses the SSH transfer protocol. *Chapter 4* will introduce all of the available options the server can set up to access your Git repository and the pros and cons of each.
+Git har tallvis av forskjellige overgangprotokoller du kan bruke. Det forrige eksemplet bruker `git://`-protokollen , men du ser kanskje også `http(s)://` eller `user@server:/path.gti`, som bruker SSH overganprotokollen. *Kapitel 4* vil introdusere alle de tilgjenglige valgene serveren kan sette opp for å gi tilgang til ditt Git repository og fordelen og ulempen med hver av dem.
 
 ## Recording Changes to the Repository ##
 

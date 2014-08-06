@@ -227,7 +227,11 @@ You just append them to your `authorized_keys` file:
 	$ cat /tmp/id_rsa.josie.pub >> ~/.ssh/authorized_keys
 	$ cat /tmp/id_rsa.jessica.pub >> ~/.ssh/authorized_keys
 
-Now, you can set up an empty repository for them by running `git init` with the `--bare` option, which initializes the repository without a working directory:
+Key-based SSH authentication usually enforces security by requiring restricted rights on the involved files. To prevent SSH from refusing to work, type this:
+
+	$ chmod -R go= ~/.ssh
+
+Now, you can set up an empty repository for your users by running `git init` with the `--bare` option, which initializes the repository without a working directory:
 
 	$ cd /opt/git
 	$ mkdir project.git

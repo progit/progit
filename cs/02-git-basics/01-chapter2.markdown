@@ -1,10 +1,10 @@
 # Základy práce se systémem Git #
 
-Pokud jste ochotni přečíst si o systému Git jen jednu kapitolu, měla by to být právě tahle. Tato kapitola popíše všechny základní příkazy, jejichž prováděním strávíte drtivou většinu času při práci se systémem Git. Po přečtení kapitoly byste měli být schopni nakonfigurovat a inicializovat repozitář, spustit a ukončit sledování souborů, připravovat soubory a zapisovat revize. Ukážeme také, jak nastavit Git, aby ignoroval určité soubory a masky souborů, jak rychle a jednoduše vrátit nežádoucí změny, jak procházet historii projektu a zobrazit změny mezi jednotlivými revizemi a jak posílat soubory do vzdálených repozitářů a stahovat z nich.
+Pokud jste ochotni přečíst si o systému Git jen jednu kapitolu, měla by to být právě tahle. Tato kapitola popíše všechny základní příkazy, jejichž prováděním strávíte při práci se systémem Git drtivou většinu času. Po přečtení kapitoly byste měli být schopni nakonfigurovat a inicializovat repozitář, spustit a ukončit sledování souborů, připravovat soubory a zapisovat revize. Ukážeme si také, jak nastavit Git, aby ignoroval určité soubory a masky souborů, jak rychle a jednoduše vrátit nežádoucí změny, jak procházet historii projektu a zobrazit změny mezi jednotlivými revizemi a jak posílat soubory do vzdálených repozitářů a naopak z nich soubory zase stahovat.
 
 ## Získání repozitáře Git ##
 
-Projekt v systému Git lze získat dvěma základními způsoby. První vezme existující projekt nebo adresář a importuje ho do systému Git. Druhý naklonuje existující repozitář Git z jiného serveru.
+Projekt v systému Git lze získat dvěma základními způsoby. První způsob spočívá v tom, že vezmeme existující projekt nebo adresář a importujeme ho do systému Git. Druhý způsob spočívá v naklonování již existujícího repozitáře Git z jiného serveru.
 
 ### Inicializace repozitáře v existujícím adresáři ###
 
@@ -12,9 +12,9 @@ Chcete-li zahájit sledování existujícího projektu v systému Git, přejdět
 
 	$ git init
 
-Příkaz vytvoří nový podadresář s názvem `.git`, který bude obsahovat všechny soubory nezbytné pro repozitář, tzv. kostru repozitáře Git. V tomto okamžiku ještě není nic z vašeho projektu sledováno. (Více informací o tom, jaké soubory obsahuje právě vytvořený adresář `.git`, naleznete v kapitole 9.)
+Příkaz vytvoří nový podadresář s názvem `.git`, který bude obsahovat všechny soubory nezbytné pro repozitář, tzv. kostru repozitáře Git. V tomto okamžiku se z vašeho projektu ještě nic nesleduje. (Více informací o tom, jaké soubory obsahuje právě vytvořený adresář `.git`, naleznete v *kapitole 9*.)
 
-Chcete-li spustit verzování existujících souborů (na rozdíl od prázdného adresáře), měli byste pravděpodobně zahájit sledování (tracking) těchto souborů a provést první revizi (commit). Můžete tak učinit pomocí několika příkazů `git add`, jimiž určíte soubory, které chcete sledovat, a provedete revizi:
+Chcete-li spustit verzování existujících souborů (a ne jen prázdného adresáře), měli byste pravděpodobně zahájit sledování (tracking) těchto souborů a provést první revizi (commit). Můžete tak učinit pomocí několika příkazů `git add`, jimiž určíte soubory, které chcete sledovat, a provedete revizi:
 
 	$ git add *.c
 	$ git add README
@@ -24,27 +24,27 @@ K tomu, co přesně tyto příkazy provedou, se dostaneme za okamžik. V této c
 
 ### Klonování existujícího repozitáře ###
 
-Chcete-li vytvořit kopii existujícího repozitáře Git (například u projektu, do nějž chcete začít přispívat), pak příkazem, který hledáte, je `git clone`. Pokud jste zvyklí pracovat s jinými systémy VCS, např. se systémem Subversion, jistě jste si všimli, že příkaz zní `clone`, a nikoli `checkout`. Souvisí to s jedním podstatným rozdílem: Git stáhne kopii téměř všech dat na serveru. Po spuštění příkazu `git clone` budou k historii projektu staženy všechny verze všech souborů. Pokud by někdy poté došlo k poruše disku serveru, lze použít libovolný z těchto klonů na kterémkoli klientovi a obnovit pomocí něj server zpět do stavu, v němž byl v okamžiku klonování (může dojít ke ztrátě některých zásuvných modulů na straně serveru apod., ale všechna verzovaná dat budou obnovena – další podrobnosti v kapitole 4).
+Chcete-li vytvořit kopii existujícího repozitáře Git (například u projektu, do nějž chcete začít přispívat), pak příkazem, který hledáte, je `git clone`. Pokud jste zvyklí pracovat s jinými systémy pro správu verzí, jako je například Subversion, jistě jste si všimli, že příkaz zní `clone`, a nikoli `checkout`. Souvisí to s jedním podstatným rozdílem: Git získá kopii téměř všech dat na serveru. Po spuštění příkazu `git clone` budou k historii projektu staženy všechny verze všech souborů. Pokud by někdy poté došlo k poruše disku serveru, lze použít libovolný z těchto klonů na kterémkoli klientovi a obnovit pomocí něj server zpět do stavu, v němž byl v okamžiku klonování (může dojít ke ztrátě některých zásuvných modulů na straně serveru a podobných věcí, ale všechna verzovaná data budou obnovena. Další podrobnosti naleznete v *kapitole 4*).
 
 Repozitář naklonujete příkazem `git clone [url]`. Pokud například chcete naklonovat knihovnu Ruby Git nazvanou Grit, můžete to provést následovně:
 
 	$ git clone git://github.com/schacon/grit.git
 
-Tímto příkazem vytvoříte adresář s názvem `grit`, inicializujete v něm adresář `.git`, stáhnete všechna data pro tento repozitář a systém rovněž stáhne pracovní kopii nejnovější verze. Přejdete-li do nového adresáře `grit`, uvidíte v něm soubory projektu připravené ke zpracování nebo jinému použití. Pokud chcete naklonovat repozitář do adresáře pojmenovaného jinak než grit, můžete název zadat jako další parametr na příkazovém řádku:
+Tímto příkazem se vytvoří adresář s názvem `grit`, inicializuje se v něm adresář `.git`, stáhnou se všechna data pro tento repozitář a vytvoří se pracovní kopie nejnovější verze. Přejdete-li do nového adresáře `grit`, uvidíte v něm soubory projektu připravené ke zpracování nebo jinému použití. Pokud chcete naklonovat repozitář do adresáře pojmenovaného jinak než grit, můžete název zadat jako další parametr na příkazovém řádku:
 
 	$ git clone git://github.com/schacon/grit.git mygrit
 
-Tento příkaz učiní totéž co příkaz předchozí, jen cílový adresář se bude jmenovat `mygrit`.
+Tento příkaz učiní totéž co příkaz předchozí, ale cílový adresář se bude jmenovat `mygrit`.
 
-Git nabízí celou řadu různých přenosových protokolů. Předchozí příklad využívá protokol `git://`, můžete se ale setkat také s protokolem `http(s)://` nebo `user@server:/path.git`, který používá přenosový protokol SSH. V kapitole 4 budou představeny všechny dostupné parametry pro nastavení serveru pro přístup do repozitáře Git, včetně jejich předností a nevýhod.
+Git nabízí celou řadu různých přenosových protokolů. Předchozí příklad využívá protokol `git://`, můžete se ale setkat také s protokolem `http(s)://` nebo `user@server:/path.git`, který používá přenosový protokol SSH. V *kapitole 4* budou představeny všechny dostupné možnosti, které mohou být pro přístup do repozitáře Git na serveru nastaveny, včetně jejich předností a nevýhod.
 
 ## Nahrávání změn do repozitáře ##
 
-Nyní máte vytvořen repozitář Git a checkout nebo pracovní kopii souborů k projektu. Řekněme, že potřebujete udělat pár změn a zapsat snímky těchto změn do svého repozitáře pokaždé, kdy se projekt dostane do stavu, v němž ho chcete nahrát.
+Nyní máte vytvořen opravdový gitový repozitář a pracovní kopii souborů k projektu (checkout). Řekněme, že potřebujete udělat pár změn a zapsat snímky těchto změn do svého repozitáře pokaždé, kdy se projekt dostane do stavu, který chcete zaznamenat.
 
-Nezapomeňte, že každý soubor ve vašem pracovním adresáři může být ve dvou různých stavech: sledován a nesledován. Za sledované jsou označovány soubory, které byly součástí posledního snímku. Mohou být ve stavu změněno (modified), nezměněno (unmodified) nebo připraveno k zapsání (staged). Nesledované soubory jsou všechny ostatní, tedy veškeré soubory ve vašem pracovním adresáři, které nebyly obsaženy ve vašem posledním snímku a nejsou v oblasti připravených změn. Po úvodním klonování repozitáře budou všechny vaše soubory sledované a nezměněné, protože jste právě provedli jejich checkout a dosud jste neudělali žádné změny.
+Nezapomeňte, že každý soubor ve vašem pracovním adresáři může být ve dvou různých stavech: *sledován* (tracked) a *nesledován* (untracked). Za *sledované* jsou označovány soubory, které byly součástí posledního snímku. Mohou být ve stavu *změněn* (modified), *nezměněn* (unmodified) nebo *připraven k zapsání* (staged). *Nesledované* soubory jsou všechny ostatní, tedy veškeré soubory ve vašem pracovním adresáři, které nebyly obsaženy ve vašem posledním snímku a nejsou v oblasti připravených změn. Po úvodním klonování repozitáře budou všechny vaše soubory sledované a nezměněné, protože jste právě provedli jejich checkout a dosud jste neudělali žádné změny.
 
-Jakmile začnete soubory upravovat, Git je bude považovat za „změněné“, protože jste v nich od poslední revize provedli změny. Poté všechny tyto změněné soubory připravíte k zapsání a následně všechny připravené změny zapíšete. Cyklus může začít od začátku. Pracovní cyklus je znázorněn na obrázku 2-1.
+Jakmile začnete soubory upravovat, Git je bude považovat za změněné, protože jste v nich od poslední revize provedli změny. Poté všechny tyto změněné soubory *připravíte k zapsání* (stage) a následně všechny připravené změny zapíšete (commit). A celý cyklus se opakuje. Pracovní cyklus je znázorněn na obrázku 2-1.
 
 Insert 18333fig0201.png
 Obrázek 2-1. Cyklus stavů vašich souborů
@@ -57,9 +57,9 @@ Hlavním nástrojem na zjišťování stavu jednotlivých souborů je příkaz `
 	On branch master
 	nothing to commit, working directory clean
 
-To znamená, že žádné soubory nejsou připraveny k zapsání a pracovní adresář je čistý. Jinými slovy žádné sledované soubory nebyly změněny. Git také neví o žádných nesledovaných souborech, jinak by byly ve výčtu uvedeny. Příkaz vám dále sděluje, na jaké větvi (branch) se nacházíte. Pro tuto chvíli nebudeme situaci komplikovat a výchozí bude vždy hlavní větev (`master` branch). Větve a reference budou podrobně popsány v následující kapitole.
+To znamená, že žádné soubory nejsou připraveny k zapsání a pracovní adresář je čistý. Jinými slovy, žádné sledované soubory nebyly změněny. Git také neví o žádných nesledovaných souborech, jinak by byly ve výčtu uvedeny. Příkaz vám dále sděluje, na jaké větvi (branch) se nacházíte. Pro tuto chvíli nebudeme situaci komplikovat a výchozí bude vždy hlavní větev (`master` branch). Větve a reference budou podrobně popsány v následující kapitole.
 
-Řekněme, že nyní přidáte do projektu nový soubor, například soubor `README`. Pokud soubor neexistoval dříve a vy spustíte příkaz `git status`, bude nesledovaný soubor uveden takto:
+Řekněme, že nyní přidáte do projektu nový soubor, například soubor `README`. Pokud soubor dříve neexistoval a vy spustíte příkaz `git status`, bude nesledovaný soubor uveden takto:
 
 	$ vim README
 	$ git status
@@ -91,9 +91,9 @@ Když nyní znovu provedete příkaz k výpisu stavů (git status), uvidíte, ž
 
 Můžeme říci, že je připraven k zapsání, protože je uveden v části „Changes to be committed“, tedy „Změny k zapsání“. Pokud v tomto okamžiku zapíšete revizi, v historickém snímku bude verze souboru z okamžiku, kdy jste spustili příkaz `git add`. Možná si vzpomínáte, že když jste před časem spustili příkaz `git init`, provedli jste potom příkaz `git add (soubory)`. Příkaz jste zadávali kvůli zahájení sledování souborů ve vašem adresáři. Příkaz `git add` je doplněn uvedením cesty buď k souboru, nebo k adresáři. Pokud se jedná o adresář, příkaz přidá rekurzivně všechny soubory v tomto adresáři.
 
-### Připravení změněných souborů ###
+### Příprava změněných souborů k zapsání ###
 
-Nyní provedeme změny v souboru, který už byl sledován. Pokud změníte už dříve sledovaný soubor s názvem `benchmarks.rb` a poté znovu spustíte příkaz `status`, zobrazí se výpis podobného obsahu:
+Nyní provedeme změny v souboru, který už byl sledován. Pokud změníte už dříve sledovaný soubor s názvem `benchmarks.rb` a poté znovu spustíte příkaz `status`, zobrazí se něco takového:
 
 	$ git status
 	On branch master
@@ -109,7 +109,7 @@ Nyní provedeme změny v souboru, který už byl sledován. Pokud změníte už 
 	        modified:   benchmarks.rb
 
 
-Soubor `benchmarks.rb` je uveden v části „Changes not staged for commit“ (Změněno, ale neaktualizováno). Znamená to, že soubor, který je sledován, byl v pracovním adresáři změněn, avšak ještě nebyl připraven k zapsání. Chcete-li ho připravit, spusťte příkaz `git add` (jedná se o univerzální příkaz – používá se k zahájení sledování nových souborů, k připravení souborů a k dalším operacím, jako např. k označení souborů, které kolidovaly při sloučení, za vyřešené). Spusťme nyní příkaz `git add` k připravení souboru `benchmarks.rb` k zapsání a následně znovu příkaz `git status`:
+Soubor `benchmarks.rb` je uveden v části „Changes not staged for commit“ (změněny nejsou připraveny k zapsání). Znamená to, že soubor, který je sledován, byl v pracovním adresáři změněn, avšak ještě nebyl připraven k zapsání (staged). Chcete-li ho připravit k zapsání, spusťte příkaz `git add` (jedná se o víceúčelový příkaz – používá se k zahájení sledování nových souborů i k dalším operacím, jako je například označení vyřešených případů kolize souborů při slučování). Spusťme nyní příkaz `git add`, abychom soubor `benchmarks.rb` připravili k zapsání, a potom znovu zadejme příkaz `git status`:
 
 	$ git add benchmarks.rb
 	$ git status
@@ -121,7 +121,7 @@ Soubor `benchmarks.rb` je uveden v části „Changes not staged for commit“ (
 	        modified:   benchmarks.rb
 
 
-Oba soubory jsou nyní připraveny k zapsání a budou zahrnuty do příští revize. Nyní předpokládejme, že jste si vzpomněli na jednu malou změnu, kterou chcete ještě před zapsáním revize provést v souboru `benchmarks.rb`. Soubor znovu otevřete a provedete změnu. Soubor je připraven k zapsání. Spusťme však ještě jednou příkaz `git status`:
+Oba soubory jsou nyní připraveny k zapsání a budou zahrnuty do příští revize. Nyní předpokládejme, že jste si vzpomněli na jednu malou změnu, kterou chcete ještě před zapsáním revize provést v souboru `benchmarks.rb`. Soubor znovu otevřete, provedete změnu a chcete jej zapsat. Spusťme však ještě jednou příkaz `git status`:
 
 	$ vim benchmarks.rb
 	$ git status
@@ -139,7 +139,7 @@ Oba soubory jsou nyní připraveny k zapsání a budou zahrnuty do příští re
 	        modified:   benchmarks.rb
 
 
-Co to má být? Soubor `benchmarks.rb` je nyní uveden jak v části připraveno k zapsání (Changes to be committed), tak v části nepřipraveno k zapsání (Changes not staged for commit). Jak je tohle možné? Věc se má tak, že Git po spuštění příkazu `git add` připraví soubor přesně tak, jak je. Pokud nyní revizi zapíšete, bude obsahovat soubor `benchmarks.rb` tak, jak vypadal když jste naposledy spustili příkaz `git add`, nikoli v té podobě, kterou měl v pracovním adresáři v okamžiku, když jste spustili příkaz `git commit`. Pokud upravíte soubor po provedení příkazu `git add`, je třeba spustit `git add` ještě jednou, aby byla připravena aktuální verze souboru:
+Co to má být? Soubor `benchmarks.rb` je nyní uveden jak v části připraveno k zapsání (Changes to be committed), tak v části nepřipraveno k zapsání (Changes not staged for commit). Jak je tohle možné? Věc se má tak, že Git po spuštění příkazu `git add` připraví soubor k zapsání přesně ve tvaru, v jakém se nachází v daném okamžiku. Pokud nyní revizi zapíšete, bude obsahovat soubor `benchmarks.rb` tak, jak vypadal, když jste naposledy spustili příkaz `git add`, nikoli v té podobě, kterou měl v pracovním adresáři v okamžiku, když jste spustili příkaz `git commit`. Pokud upravíte soubor po provedení příkazu `git add`, je třeba spustit `git add` ještě jednou, aby byla připravena aktuální verze souboru:
 
 	$ git add benchmarks.rb
 	$ git status
@@ -153,18 +153,18 @@ Co to má být? Soubor `benchmarks.rb` je nyní uveden jak v části připraveno
 
 ### Ignorované soubory ###
 
-Často se ve vašem adresáři vyskytne skupina souborů, u nichž nebudete chtít, aby je Git automaticky přidával nebo aby je vůbec uváděl jako nesledované. Jedná se většinou o automaticky vygenerované soubory, jako soubory log nebo soubory vytvořené sestavovacím systémem. V takovém případě můžete vytvořit soubor `.gitignore`, který specifikuje ignorované soubory. Tady je malý příklad souboru `.gitignore`:
+Ve vašem adresáři se často vyskytne skupina souborů, u nichž nebudete chtít, aby je Git automaticky přidával nebo aby je vůbec uváděl jako nesledované. Jedná se většinou o automaticky vygenerované soubory, jako soubory log nebo soubory vytvořené při překladu. V takových případech můžete vytvořit soubor `.gitignore` se seznamem masek pro ignorované soubory. Tady je malý příklad souboru `.gitignore`:
 
 	$ cat .gitignore
 	*.[oa]
 	*~
 
-První řádek říká systému Git, že má ignorovat všechny soubory končící na `.o` nebo `.a` – objektové a archivní soubory, které mohou být výsledkem vytváření kódu. Druhý řádek systému Git říká, aby ignoroval všechny soubory končící vlnovkou (`~`), již mnoho textových editorů (např. Emacs) používá k označení dočasných souborů. Můžete rovněž přidat adresář `log`, `tmp` nebo `pid`, automaticky vygenerovanou dokumentaci apod. Nastavit soubor `.gitignore`, ještě než se pustíte do práce, bývá většinou dobrý nápad. Alespoň se vám nestane, že byste nedopatřením zapsali také soubory, o které v repozitáři Git nestojíte.
+První řádek říká systému Git, že má ignorovat všechny soubory končící na `.o` nebo `.a` – *objekty* a *archivní* soubory, které mohou být výsledkem překladu. Druhý řádek systému Git říká, aby ignoroval všechny soubory končící vlnovkou (`~`), kterou mnoho textových editorů (např. Emacs) používá k označení dočasných souborů. Můžete rovněž přidat adresář `log`, `tmp` nebo `pid`, automaticky vygenerovanou dokumentaci a podobné. Vytvoření a naplnění souboru `.gitignore` ještě dříve než se pustíte do práce, bývá většinou dobrý nápad. Alespoň se vám nestane, že byste nedopatřením zapsali také soubory, o které v repozitáři Git nestojíte.
 
-Toto jsou pravidla pro masky, které můžete použít v souboru `.gitignore`:
+Pravidla pro masky, které můžete použít v souboru `.gitignore`, jsou následující:
 
 *	Prázdné řádky nebo řádky začínající znakem `#` budou ignorovány.
-*	Standardní masku souborů.
+*	Standardní masky souborů.
 *	Chcete-li označit adresář, můžete masku zakončit lomítkem (`/`).
 *	Pokud řádek začíná vykřičníkem (`!`), maska na něm je negována.
 
@@ -190,7 +190,7 @@ Tady je další příklad souboru `.gitignore`:
 
 ### Zobrazení připravených a nepřipravených změn ###
 
-Je-li pro vaše potřeby příkaz `git status` příliš neurčitý – chcete přesně vědět, co jste změnili, nejen které soubory – můžete použít příkaz `git diff`. Podrobněji se budeme příkazu `git diff` věnovat později. Vy ho však nejspíš budete nejčastěji využívat k zodpovězení těchto dvou otázek: Co jste změnili, ale ještě nepřipravili k zapsání? A co jste připravili a nyní může být zapsáno? Zatímco příkaz `git status` vám tyto otázky zodpoví velmi obecně, příkaz `git diff` přesně zobrazí přidané a odstraněné řádky – tedy samotná záplata.
+Je-li pro vaše potřeby příkaz `git status` příliš neurčitý – chcete přesně vědět, co jste změnili, nejen které soubory – můžete použít příkaz `git diff`. Podrobněji se budeme příkazu `git diff` věnovat později. Vy ho však nejspíš budete nejčastěji využívat k zodpovězení těchto dvou otázek: Co jste změnili, ale ještě nepřipravili k zapsání? A co jste připravili a nyní může být zapsáno? Zatímco příkaz `git status` vám tyto otázky zodpoví velmi obecně, příkaz `git diff` přesně zobrazí přidané a odstraněné řádky – tedy samotnou záplatu.
 
 Řekněme, že znovu upravíte a připravíte soubor `README` a poté bez připravení upravíte soubor `benchmarks.rb`. Po spuštění příkazu `status` se zobrazí zhruba toto:
 
@@ -229,7 +229,7 @@ Chcete-li vidět, co jste změnili, avšak ještě nepřipravili k zapsání, za
 
 Tento příkaz srovná obsah vašeho pracovního adresáře a oblasti připravených změn. Výsledek vám ukáže provedené změny, které jste dosud nepřipravili k zapsání.
 
-Chcete-li vidět, co jste připravili a co bude součástí příští revize, použijte příkaz `git diff --cached`. (Ve verzích Git 1.6.1 a novějších můžete použít také příkaz `git diff --staged`, který se možná snáze pamatuje.) Tento příkaz srovná připravené změny s poslední revizí:
+Chcete-li vidět, co jste připravili a co bude součástí příští revize, použijte příkaz `git diff --cached`. (Ve verzích Git 1.6.1 a novějších můžete použít také příkaz `git diff --staged`, který se možná snáze pamatuje.) Tento příkaz srovná připravené změny (staged changes) s poslední revizí:
 
 	$ git diff --cached
 	diff --git a/README b/README
@@ -244,7 +244,7 @@ Chcete-li vidět, co jste připravili a co bude součástí příští revize, p
 	+
 	+Grit is a Ruby library for extracting information from a Git repository
 
-K tomu je třeba poznamenat, že příkaz `git diff` sám o sobě nezobrazí všechny změny provedené od poslední revize, ale jen změny, které zatím nejsou připraveny. To může být občas matoucí, protože pokud jste připravili všechny provedené změny, výstup příkazu `git diff` bude prázdný.
+K tomu je třeba poznamenat, že příkaz `git diff` sám o sobě nezobrazí všechny změny provedené od poslední revize, ale jen změny, které zatím nejsou připraveny. To může být občas matoucí, protože pokud jste připravili všechny provedené změny, bude výstup příkazu `git diff` prázdný.
 
 V dalším příkladu ukážeme situaci, kdy jste připravili soubor `benchmarks.rb` a poté ho znovu upravili. Příkaz `git diff` můžete nyní použít k zobrazení změn v souboru, které byly připraveny, a změn, které nejsou připraveny:
 
@@ -298,12 +298,12 @@ A příkaz `git diff --cached` ukáže změny, které už připraveny jsou:
 
 ### Zapisování změn ###
 
-Nyní, když jste seznam připravených změn nastavili podle svých představ, můžete začít zapisovat změny. Nezapomeňte, že všechno, co dosud nebylo připraveno k zapsání – všechny soubory, které jste vytvořili nebo změnili a na které jste po úpravách nepoužili příkaz `git add` – nebudou do revize zahrnuty. Zůstanou na vašem disku ve stavu „změněno“.
-Když jsme v našem případě naposledy spustili příkaz `git status`, viděli jste, že všechny soubory byly připraveny k zapsání. Nyní může proběhnout samotné zapsání změn. Nejjednodušším způsobem zapsání je zadat příkaz `git commit`:
+Nyní, když jste seznam připravených změn nastavili podle svých představ, můžete začít zapisovat změny. Nezapomeňte, že všechno, co dosud nebylo připraveno k zapsání – všechny soubory, které jste vytvořili nebo změnili a na které jste po úpravách nepoužili příkaz `git add` –, nebudou do revize zahrnuty. Zůstanou na vašem disku jako změněné soubory.
+Když jste v našem případě naposledy spustili příkaz `git status`, viděli jste, že všechny soubory byly připraveny k zapsání. Takže jste připraveni k samotnému zapsání změn. Nejjednodušší způsob zapsání změn spočívá v použití příkazu `git commit`:
 
 	$ git commit
 
-Po zadání příkazu se otevře zvolený editor. (Ten je nastaven proměnnou prostředí `$EDITOR` vašeho shellu. Většinou se bude jednat o editor vim nebo emacs, ale pomocí příkazu `git config --global core.editor` můžete nastavit i jakýkoli jiný – viz kapitola 1.)
+Po zadání příkazu se otevře vámi zvolený editor. (Ten je nastaven proměnnou prostředí `$EDITOR` vašeho shellu. Většinou se bude jednat o editor vim nebo emacs, ale pomocí příkazu `git config --global core.editor` můžete nastavit i jakýkoli jiný – viz *kapitola 1*.)
 
 Editor zobrazí následující text (tento příklad je z editoru Vim):
 
@@ -319,7 +319,7 @@ Editor zobrazí následující text (tento příklad je z editoru Vim):
 	~
 	".git/COMMIT_EDITMSG" 10L, 283C
 
-Jak vidíte, výchozí zpráva k revizi (commit message) obsahuje zakomentovaný aktuální výstup příkazu `git status` a nahoře jeden prázdný řádek. Tyto komentáře můžete odstranit a napsat vlastní zprávu k revizi, nebo je můžete v souboru ponechat, abyste si lépe vzpomněli, co bylo obsahem dané revize. (Chcete-li zařadit ještě podrobnější informace o tom, co jste měnili, můžete k příkazu `git commit` přidat parametr `-v`. V editoru se pak zobrazí také výstup „diff“ ke konkrétním změnám a vy přesně uvidíte, co bylo změněno.) Jakmile editor zavřete, Git vytvoří revizi se zprávou, kterou jste napsali (s odstraněnými komentáři a rozdíly).
+Jak vidíte, výchozí zpráva k revizi (commit message) obsahuje zakomentovaný aktuální výstup příkazu `git status` a nahoře jeden prázdný řádek. Tyto komentáře můžete odstranit a napsat vlastní zprávu k revizi, nebo je můžete v souboru ponechat, abyste si lépe vzpomněli, co bylo obsahem dané revize. (Chcete-li zařadit ještě podrobnější informace o tom, co jste měnili, můžete k příkazu `git commit` přidat parametr `-v`. V editoru se pak zobrazí také výstup rozdílů (diff) ke konkrétním změnám a vy přesně uvidíte, co bylo změněno.) Jakmile editor zavřete, Git vytvoří revizi se zprávou, kterou jste napsali (s odstraněnými komentáři a rozdíly).
 
 Zprávu k revizi můžete rovněž napsat do řádku k příkazu `commit`. Jako zprávu ji označíte tak, že před ni vložíte příznak `-m`:
 
@@ -328,13 +328,13 @@ Zprávu k revizi můžete rovněž napsat do řádku k příkazu `commit`. Jako 
 	 2 files changed, 3 insertions(+)
 	 create mode 100644 README
 
-Nyní jste vytvořili svou první revizi! Vidíte, že se po zapsání revize zobrazil výpis s informacemi: do jaké větve jste revizi zapsali (hlavní, `master`), jaký kontrolní součet SHA-1 revize dostala (`463dc4f`), kolik souborů bylo změněno a statistiku přidaných a odstraněných řádků revize.
+Nyní jste vytvořili svou první revizi! Vidíte, že se po zapsání revize zobrazil výpis s informacemi: do jaké větve jste revizi zapsali (`master`), jaký je kontrolní součet SHA-1 revize (`463dc4f`), kolik souborů bylo změněno a statistiku přidaných a odstraněných řádků revize.
 
-Nezapomeňte, že revize zaznamená snímek projektu, jak je obsažen v oblasti připravených změn. Vše, co jste nepřipravili k zapsání, zůstane ve stavu „změněno“ na vašem disku. Chcete-li i tyto soubory přidat do své historie, zapište další revizi. Pokaždé, když zapíšete revizi, nahrajete snímek svého projektu, k němuž se můžete později vrátit nebo ho můžete použít k srovnání.
+Nezapomeňte, že revize zaznamená snímek projektu, jak je obsažen v oblasti připravených změn. Vše, co jste nepřipravili k zapsání, zůstane ve stavu změněno na vašem disku. Chcete-li i tyto soubory přidat do své historie, zapište další revizi. Pokaždé, když zapíšete revizi, nahrajete snímek svého projektu, k němuž se můžete později vrátit nebo ho můžete použít k srovnání.
 
 ### Přeskočení oblasti připravených změn ###
 
-Přestože může být oblast připravených změn opravdu užitečným nástrojem pro přesné vytváření revizí, je někdy při daném pracovním postupu zbytečným mezikrokem. Chcete-li oblast připravených změn úplně přeskočit, nabízí Git jednoduchou zkratku. Přidáte-li k příkazu `git commit` parametr `-a`, Git do revize automaticky zahrne každý soubor, který je sledován. Zcela tak odpadá potřeba zadávat příkaz `git add`:
+Přestože může být oblast připravených změn opravdu užitečným nástrojem pro přesné vytváření revizí, je někdy při daném pracovním postupu zbytečným mezikrokem. Chcete-li oblast připravených změn úplně přeskočit, nabízí Git jednoduchou zkratku. Přidáte-li k příkazu `git commit` parametr `-a`, Git do revize automaticky zahrne každý soubor, který je sledován. Odpadá potřeba zadávat příkaz `git add`:
 
 	$ git status
 	On branch master
@@ -349,13 +349,13 @@ Přestože může být oblast připravených změn opravdu užitečným nástroj
 	[master 83e38c7] added new benchmarks
 	 1 files changed, 5 insertions(+)
 
-Tímto způsobem není nutné provádět před zapsáním revize příkaz `git add` pro soubor `benchmarks.rb`.
+Povšimněte si, že kvůli souboru `benchmarks.rb` v tomto případě nemusíte před zapsáním revize provádět příkaz `git add`.
 
 ### Odstraňování souborů ###
 
 Chcete-li odstranit soubor ze systému Git, musíte ho odstranit ze sledovaných souborů (přesněji řečeno odstranit z oblasti připravených změn) a zapsat revizi. Odstranění provedete příkazem `git rm`, který odstraní soubor zároveň z vašeho pracovního adresáře, a proto ho už příště neuvidíte mezi nesledovanými soubory.
 
-Pokud soubor jednoduše odstraníte z pracovního adresáře, zobrazí se ve výpisu `git status` v části „Changes not staged for commit“ (tedy nepřipraveno):
+Pokud soubor jednoduše odstraníte z pracovního adresáře, zobrazí se ve výpisu `git status` v části „Changes not staged for commit“ (tedy *nepřipraveno*):
 
 	$ rm grit.gemspec
 	$ git status
@@ -380,7 +380,7 @@ Pokud nyní provedete příkaz `git rm`, bude k zapsání připraveno odstraněn
 	        deleted:    grit.gemspec
 
 
-Po příštím zapsání revize soubor zmizí a nebude sledován. Pokud už jste soubor upravili a přidali do indexu, musíte odstranění provést pomocí parametru `-f`. Jedná se o bezpečnostní funkci, jež má zabránit nechtěnému odstranění dat, která ještě nebyla nahrána do snímku, a nemohou proto být ze systému Git obnovena.
+Po příštím zapsání revize soubor zmizí a přestane být sledován. Pokud už jste soubor upravili a přidali do indexu, musíte odstranění provést pomocí parametru `-f`. Jedná se o bezpečnostní funkci, jež má zabránit nechtěnému odstranění dat, která ještě nebyla nahrána do snímku, a nemohou proto být ze systému Git obnovena.
 
 Další užitečnou možností, která se vám může hodit, je zachování souboru v pracovním stromě a odstranění z oblasti připravených změn. Soubor tak ponecháte na svém pevném disku, ale ukončíte jeho sledování systémem Git. To může být užitečné zejména v situaci, kdy něco zapomenete přidat do souboru `.gitignore`, a omylem to tak zahrnete do revize, např. velký log soubor nebo pár zkompilovaných souborů s příponou `.a`. V takovém případě použijte parametr `--cached`:
 
@@ -398,7 +398,7 @@ Tento příkaz odstraní všechny soubory, které končí vlnovkou (`~`).
 
 ### Přesouvání souborů ###
 
-Na rozdíl od ostatních systémů VCS nesleduje Git explicitně přesouvání souborů. Pokud přejmenujete v systému Git soubor, neuloží se žádná metadata s informací, že jste soubor přejmenovali. Git však používá jinou fintu, aby zjistil, že byl soubor přejmenován. Na ni se podíváme později.
+Na rozdíl od ostatních systémů pro správu verzí nesleduje Git explicitně přesouvání souborů. Pokud soubor v systému Git přejmenujete, neuloží se žádná metadata s informací, že jste soubor přejmenovali. Git však používá jinou fintu, aby zjistil, že byl soubor přejmenován. Na ni se podíváme později.
 
 Může se zdát zvláštní, že Git přesto používá příkaz `mv`. Chcete-li v systému Git přejmenovat soubor, můžete spustit třeba příkaz
 
@@ -431,7 +431,7 @@ Následující příklady ukazují velmi jednoduchý projekt pojmenovaný `simpl
 
 	git clone git://github.com/schacon/simplegit-progit.git
 
-Po zadání příkazu `git log` v tomto projektu byste měli dostat výstup, který vypadá zhruba následovně:
+Po zadání příkazu `git log` v tomto projektu byste měli dostat výstup, který vypadá zhruba takto:
 
 	$ git log
 	commit ca82a6dff817ec66f44342007202690a93763949
@@ -452,11 +452,11 @@ Po zadání příkazu `git log` v tomto projektu byste měli dostat výstup, kte
 
 	    first commit
 
-Ve výchozím nastavení a bez dalších parametrů vypíše příkaz `git log` revize provedené v daném repozitáři v obráceném chronologickém pořadí. Nejnovější revize tak budou uvedeny nahoře. Jak vidíte, tento příkaz vypíše všechny revize s jejich kontrolním součtem SHA-1, jménem a e-mailem autora, datem zápisu a zprávou k revizi.
+Ve výchozím nastavení a bez dalších parametrů vypíše příkaz `git log` revize provedené v daném repozitáři v obráceném chronologickém pořadí. Nejnovější revize tak budou uvedeny nahoře. Jak vidíte, tento příkaz vypíše všechny revize s jejich kontrolním součtem SHA-1, jménem a e-mailem autora, datem zápisu a zprávou o revizi.
 
-K příkazu `git log` je k dispozici velké množství nejrůznějších parametrů, díky nimž můžete najít přesně to, co hledáte. Vyjmenujme některé z nejčastěji používaných parametrů.
+K příkazu `git log` je k dispozici velké množství nejrůznějších parametrů, díky nimž můžete zobrazit přesně to, co potřebujete. Ukážeme si některé z nejpoužívanějších možností.
 
-Jedním z nejužitečnějších je parametr `-p`, který zobrazí rozdíly diff provedené v každé revizi. Můžete také použít parametr `-2`, který omezí výpis pouze na dva poslední záznamy:
+Jedním z nejužitečnějších je parametr `-p`, který zobrazí rozdíly (diff) provedené v každé revizi. Můžete také použít parametr `-2`, který omezí výpis pouze na dva poslední záznamy:
 
 	$ git log -p -2
 	commit ca82a6dff817ec66f44342007202690a93763949
@@ -591,7 +591,7 @@ Tabulka 2-1 uvádí některé užitečné parametry, které format akceptuje.
 	%cr	Datum autora revize, relativní
 	%s	Předmět
 
-Možná se ptáte, jaký je rozdíl mezi autorem a autorem revize. Autor je osoba, která práci původně napsala, zatímco autor revize je osoba, která práci zapsala do repozitáře. Pokud tedy pošlete záplatu k projektu a některý z ústředních členů (core members) ji použije, do výpisu se dostanete oba – vy jako autor a core member jako autor revize. K tomuto rozlišení se blíže dostaneme v kapitole 5.
+Možná se ptáte, jaký je rozdíl mezi *autorem* a *autorem revize*. *Autor* (author) je osoba, která práci původně napsala, zatímco *autor revize* (committer) je osoba, která práci zapsala do repozitáře. Pokud tedy pošlete záplatu k projektu a některý z ústředních členů (core members) ji použije, do výpisu se dostanete oba – vy jako autor a core member jako autor revize. K tomuto rozlišení se blíže dostaneme v *kapitole 5*.
 
 Parametry `oneline` a `format` jsou zvlášť užitečné ve spojení s další možností `log`u – parametrem `--graph`. Tento parametr vloží pěkný malý ASCII graf, znázorňující historii vaší větve a slučování, kterou si ukážeme na naší kopii repozitáře projektu Grit:
 
@@ -695,7 +695,7 @@ K dalším užitečným formátům patří `--date=iso` (ISO 8601), `--date=rfc`
 
 Pokud použijete příkaz `git log` bez určení času, uvažuje se čas odpovídající okamžiku spuštění na vašem počítači (používá stejný posun vůči UTC).
 
-Pokud například na vašem počítači spustíte `git log` v 09:00 a vaše časové pásmo je vůči greenwichskému času posunut o tři hodiny vpřed, pak se výsledek následujících dvou příkazů shoduje:
+Pokud například na vašem počítači spustíte `git log` v 09:00 a vaše časové pásmo je vůči greenwichskému času posunuto o tři hodiny vpřed, pak se výsledek následujících dvou příkazů shoduje:
 
     $ git log --after=2008-06-01 --before=2008-07-01
     $ git log --after="2008-06-01T09:00:00+0300" \
@@ -726,11 +726,11 @@ V horní polovině okna vidíte historii revizí, doplněnou názorným hierarch
 
 ## Rušení změn ##
 
-Kdykoli si můžete přát zrušit nějakou provedenou změnu. Podívejme se proto, jaké základní nástroje se nám tu nabízejí. Ale buďte opatrní! Ne všechny zrušené změny se dají vrátit. Je to jedna z mála oblastí v systému Git, kdy při neuváženém postupu riskujete, že přijdete o část své práce.
+Kdykoli se může stát, že byste nějakou úpravu chtěli vrátit do původního stavu.. Podívejme se proto, jaké základní nástroje se nám tu nabízejí. Ale buďte opatrní! Ne všechny zrušené změny se dají vrátit. Je to jedna z mála oblastí v systému Git, kdy při neuváženém postupu riskujete, že přijdete o část své práce.
 
 ### Změna poslední revize ###
 
-Jedním z nejčastějších rušení úprav je situace, kdy zapíšete revizi příliš brzy a ještě jste např. zapomněli přidat některé soubory nebo byste rádi změnili zprávu k revizi. Chcete-li opravit poslední revizi, můžete spustit příkaz commit s parametrem `--amend`:
+Jedním z nejčastějších důvodů pro rušení úprav je situace, kdy zapíšete revizi příliš brzy a ještě jste například zapomněli přidat některé soubory, nebo byste rádi změnili zprávu k revizi. Chcete-li opravit poslední revizi, můžete spustit příkaz commit s parametrem `--amend`:
 
 	$ git commit --amend
 
@@ -744,11 +744,11 @@ Pokud například zapíšete revizi a potom si uvědomíte, že jste zapomněli 
 	$ git add forgotten_file
 	$ git commit --amend
 
-Tyto tři příkazy vytvoří jedinou revizi – třetí příkaz nahradí výsledky prvního.
+Provedení uvedených tří příkazů zůstane jediná revize – druhý příkaz `commit` nahradí výsledky prvního.
 
-### Návrat souboru z oblasti připravených změn ###
+### Odstranění souboru z oblasti připravených změn ###
 
-Následující dvě části popisují, jak vrátit změny provedené v oblasti připravených změn a v pracovním adresáři. Je příjemné, že příkaz, jímž se zjišťuje stav těchto dvou oblastí, zároveň připomíná, jak v nich zrušit nežádoucí změny. Řekněme například, že jste změnili dva soubory a chcete je zapsat jako dvě oddělené změny, jenže omylem jste zadali příkaz `git add *` a oba soubory jste tím připravili k zapsání. Jak lze tyto dva soubory vrátit z oblasti připravených změn? Připomene vám to příkaz `git status`:
+Následující dvě části popisují, jak se poprat s oblastí připravených změn a se změnami v pracovním adresáři. Je příjemné, že příkaz, jímž se zjišťuje stav těchto dvou oblastí, zároveň připomíná, jak v nich nežádoucí změny zrušit. Řekněme například, že jste změnili dva soubory a chcete je zapsat jako dvě oddělené změny. Jenže omylem jste zadali příkaz `git add *` a oba soubory jste tím připravili k zapsání. Jak lze tyto dva soubory vrátit z oblasti připravených změn? Připomene vám to příkaz `git status`:
 
 	$ git add .
 	$ git status
@@ -803,18 +803,18 @@ Výpis vám sděluje, jak zahodit změny (discard changes), které jste provedli
 	        modified:   README.txt
 
 
-Jak vidíte, změny byly zahozeny. Všimněte si také, že se jedná o nebezpečný příkaz. Veškeré změny, které jste v souboru provedli, jsou ztraceny, soubor jste právě překopírovali jiným souborem. Nikdy tento příkaz nepoužívejte, pokud si nejste zcela jisti, že už daný soubor nebudete potřebovat. Pokud potřebujete pouze odstranit soubor z cesty, podívejte se na odkládání a větvení v následující kapitole. Tyto postupy většinou bývají vhodnější.
+Jak vidíte, změny byly zahozeny. Všimněte si také, že se jedná o nebezpečný příkaz. Veškeré změny, které jste v souboru provedli, jsou ztraceny, soubor jste právě překopírovali jiným souborem. Nikdy tento příkaz nepoužívejte, pokud si nejste zcela jisti, že už daný soubor nebudete potřebovat. Pokud potřebujete pouze odstranit soubor z cesty, podívejte se na odkládání (stashing) a větvení v následující kapitole. Tyto postupy většinou bývají vhodnější.
 
-Vše, co je zapsáno v systému Git, lze téměř vždy obnovit. Obnovit lze dokonce i revize na odstraněných větvích nebo revize, které byly přepsány revizí `--amend` (o obnovování dat viz kapitola 9). Pokud však dojde ke ztrátě dat, která dosud nebyla součástí žádné revize, bude tato ztráta patrně nevratná.
+Zapamatujte si, že vše, co je zapsáno v systému Git, lze téměř vždy obnovit. Obnovit lze dokonce i revize na odstraněných větvích nebo revize, které byly přepsány revizí `--amend` (o obnovování dat viz *kapitola 9*). Pokud však dojde ke ztrátě dat, která dosud nebyla součástí žádné revize, bude tato ztráta patrně nevratná.
 
 ## Práce se vzdálenými repozitáři ##
 
-Abyste mohli spolupracovat na projektech v systému Git, je třeba vědět, jak manipulovat se vzdálenými repozitáři (remote repositories). Vzdálené repozitáře jsou verze vašeho projektu umístěné na internetu nebo kdekoli v síti. Vzdálených repozitářů můžete mít hned několik, každý pro vás přitom bude buď pouze ke čtení (read-only) nebo ke čtení a zápisu (read write). Spolupráce s ostatními uživateli zahrnuje také manipulaci s těmito vzdálenými repozitáři. Chcete-li svou práci sdílet, je nutné ji posílat do repozitářů a také ji z nich stahovat.
-Při manipulaci se vzdálenými repozitáři je nutné vědět, jak lze přidat vzdálený repozitář, jak odstranit repozitář, který už není platný, jak spravovat různé vzdálené větve, jak je definovat jako sledované či nesledované apod. V této části se zaměříme právě na správu vzdálených repozitářů.
+Abyste mohli spolupracovat na projektech v systému Git, je třeba vědět, jak manipulovat se vzdálenými repozitáři (remote repositories). Vzdálené repozitáře jsou verze vašeho projektu umístěné na Internetu nebo kdekoli v síti. Vzdálených repozitářů můžete mít hned několik, každý pro vás přitom bude buď pouze ke čtení (read-only) nebo ke čtení a zápisu (read write). Spolupráce s ostatními uživateli zahrnuje také správu těchto vzdálených repozitářů. Při sdílení práce musíte do těchto repozitářů data odesílat (push) a zase je z nich stahovat (pull).
+Při správě vzdálených repozitářů musíte vědět, jak lze přidat vzdálený repozitář, jak odstranit vzdálený repozitář, který už není platný, jak spravovat různé vzdálené větve, jak je definovat jako sledované či nesledované a další věci. V této části se zaměříme právě na správu vzdálených repozitářů.
 
 ### Zobrazení vzdálených serverů ###
 
-Chcete-li zjistit, jaké vzdálené servery máte nakonfigurovány, můžete použít příkaz `git remote`. Systém vypíše zkrácené názvy všech identifikátorů vzdálených repozitářů, jež máte zadány. Pokud byl váš repozitář vytvořen klonováním, měli byste vidět přinejmenším server origin. Origin je výchozí název, který Git dává serveru, z nějž jste repozitář klonovali.
+Chcete-li zjistit, jaké vzdálené servery máte nakonfigurovány, můžete použít příkaz `git remote`. Systém vypíše krátké názvy, přes které se se vzdálenými repozitáři manipuluje, a které jste dříve určili. Pokud byl váš repozitář vytvořen klonováním, měli byste vidět přinejmenším server *origin*. Jde o výchozí název, který Git dává serveru, z nějž jste repozitář klonovali.
 
 	$ git clone git://github.com/schacon/ticgit.git
 	Cloning into 'ticgit'...
@@ -833,7 +833,7 @@ Můžete rovněž zadat parametr `-v`, jenž zobrazí adresu URL, kterou má Git
 	origin  git://github.com/schacon/ticgit.git (fetch)
 	origin  git://github.com/schacon/ticgit.git (push)
 
-Pokud máte více než jeden vzdálený repozitář, příkaz je vypíše všechny. Například můj repozitář Grit vypadá takto:
+Pokud používáte více než jeden vzdálený repozitář, příkaz je vypíše všechny. Například můj repozitář Grit vypadá takto:
 
 	$ cd grit
 	$ git remote -v
@@ -843,11 +843,11 @@ Pokud máte více než jeden vzdálený repozitář, příkaz je vypíše všech
 	koke      git://github.com/koke/grit.git
 	origin    git@github.com:mojombo/grit.git
 
-To znamená, že můžeme velmi snadno stáhnout příspěvky od kteréhokoli z těchto uživatelů. Nezapomeňte však, že pouze vzdálený server origin je SSH URL, a je tedy jediným repozitářem, kam lze posílat soubory (důvod objasníme v kapitole 4).
+To znamená, že mohu velmi snadno stáhnout příspěvky od kteréhokoli z těchto uživatelů. Ale všimněte si, že pouze vzdálený server origin je SSH URL, a je tedy jediným repozitářem, kam lze soubory odesílat (push; důvod objasníme v *kapitole 4*).
 
 ### Přidávání vzdálených repozitářů ###
 
-V předchozích částech už jsem se letmo dotkl přidávání vzdálených repozitářů. V této části se dostávám k tomu, jak přesně při přidávání postupovat. Chcete-li přidat nový vzdálený repozitář Git ve formě zkráceného názvu, na nějž lze snadno odkazovat, spusťte příkaz `git remote add [zkrácený název] [url]`:
+V předchozích částech už jsem se letmo dotkl přidávání vzdálených repozitářů. V této části se dostávám k tomu, jak přesně při přidávání postupovat. Chcete-li přidat nový vzdálený repozitář Git a zadat zkrácený název, přes který se můžete snadno odkazovat, spusťte příkaz `git remote add [zkrácený název] [url]`:
 
 	$ git remote
 	origin
@@ -867,7 +867,7 @@ V předchozích částech už jsem se letmo dotkl přidávání vzdálených rep
 	 * [new branch]      master     -> pb/master
 	 * [new branch]      ticgit     -> pb/ticgit
 
-Paulova hlavní větev (master branch) je lokálně dostupná jako `pb/master`. Můžete ji začlenit do některé ze svých větví nebo tu můžete provést checkout lokální větve, jestliže si ji chcete prohlédnout.
+Paulova hlavní větev (master branch) je teď lokálně dostupná jako `pb/master`. Můžete ji začlenit (merge) do některé ze svých větví, nebo ji můžete zpřístupnit jako lokální větev (check out), jestliže si ji chcete prohlédnout.
 
 ### Vyzvedávání a stahování ze vzdálených repozitářů ###
 
@@ -875,19 +875,19 @@ Jak jste právě viděli, data ze vzdálených projektů můžete získat pomoc�
 
 	$ git fetch [název vzdáleného repozitáře]
 
-Příkaz zamíří do vzdáleného projektu a stáhne z něj všechna data, která ještě nevlastníte. Poté byste měli mít reference na všechny větve tohoto vzdáleného projektu. Nyní je můžete kdykoli slučovat nebo prohlížet. (Podrobněji se budeme větvím a jejich použití věnovat v kapitole 3.)
+Příkaz zamíří do vzdáleného projektu a stáhne z něj všechna data, která ještě nemáte u sebe. Poté byste měli mít k dispozici odkazy na všechny větve tohoto vzdáleného projektu. Od toho okamžiku je můžete kdykoli slučovat nebo prohlížet. (Podrobněji se budeme větvím a jejich použití věnovat v *kapitole 3*.)
 
-Pokud jste naklonovali repozitář, příkaz automaticky přiřadí tento vzdálený repozitář pod název „origin“. Příkaz `git fetch origin` tak vyzvedne veškerou novou práci, která byla na server poslána (push) od okamžiku, kdy jste odsud klonovali (popř. odsud naposledy vyzvedávali práci). Měli bychom zmínit, že příkaz `fetch` stáhne data do vašeho lokálního repozitáře, v žádném případě ale data automaticky nesloučí s vaší prací ani jinak nezmění nic z toho, na čem právě pracujete. Data ručně sloučíte se svou prací, až to uznáte za vhodné.
+Pokud jste naklonovali repozitář, příkaz automaticky přidá tento vzdálený repozitář pod názvem *origin*. Takže příkaz `git fetch origin` vyzvedne veškerou novou práci, která byla na uvedený server poslána (push) od okamžiku, kdy jste odtud klonovali (nebo kdy jste odtud naposledy vyzvedávali práci). Měli bychom zmínit, že příkaz `fetch` stáhne data do vašeho lokálního repozitáře. V žádném případě ale data automaticky nesloučí s vaší prací ani jinak nezmění nic z toho, na čem právě pracujete. Sloučení s vaší prací musíte udělat ručně, až to uznáte za vhodné.
 
-Pokud máte větev nastavenou ke sledování vzdálené větve (více informací naleznete v následující části a v kapitole 3), můžete použít příkaz `git pull`, který automaticky vyzvedne a poté začlení vzdálenou větev do vaší aktuální větve. Tento postup pro vás může být snazší a pohodlnější. Standardně přitom příkaz `git clone` automaticky nastaví vaši lokální hlavní větev, aby sledovala vzdálenou hlavní větev na serveru, z nějž jste klonovali (za předpokladu, že má vzdálený server hlavní větev). Příkaz `git pull` většinou vyzvedne data ze serveru, z nějž jste původně klonovali, a automaticky se pokusí začlenit je do kódu, na němž právě pracujete.
+Pokud máte větev nastavenou ke sledování vzdálené větve (více informací naleznete v následující části a v *kapitole 3*), můžete použít příkaz `git pull`, který automaticky vyzvedne (fetch) a poté začlení (merge) vzdálenou větev do vaší aktuální větve. Tento postup pro vás může být snazší a pohodlnější. Standardně přitom příkaz `git clone` automaticky nastaví vaši lokální hlavní větev, aby sledovala vzdálenou hlavní větev na serveru, z kterého jste klonovali (za předpokladu, že má vzdálený server hlavní větev). Příkaz `git pull` většinou vyzvedne data ze serveru, z něhož jste původně klonovali, a automaticky se pokusí začlenit je do kódu, na němž právě pracujete.
 
-### Posílání do vzdálených repozitářů ###
+### Odesílání do vzdálených repozitářů ###
 
-Pokud se váš projekt nachází ve fázi, kdy ho chcete sdílet s ostatními, můžete ho odeslat (push) na vzdálený server. Příkaz pro tuto akci je jednoduchý: `git push [název vzdáleného repozitáře] [název větve]`. Pokud chcete poslat svou hlavní větev na server `origin` (i tady platí, že proces klonování vám nastaví názvy `master` i `origin` automaticky), můžete k odeslání své práce na server použít tento příkaz:
+Pokud se váš projekt nachází ve stavu, kdy ho chcete sdílet s ostatními, můžete ho odeslat (push) na vzdálený server. Příkaz pro tuto akci je jednoduchý: `git push [název vzdáleného repozitáře] [název větve]`. Pokud chcete poslat svou hlavní větev na server `origin` (i tady platí, že proces klonování vám nastaví názvy `master` i `origin` automaticky), můžete k odeslání své práce na server použít tento příkaz:
 
 	$ git push origin master
 
-Tento příkaz bude funkční, pouze pokud jste klonovali ze serveru, k němuž máte oprávnění pro zápis, a pokud sem od vašeho klonování nikdo neposílal svou práci. Pokud spolu s vámi provádí současně klonování ještě někdo další a ten poté svou práci odešle na server, vaše později odesílaná práce bude oprávněně odmítnuta. Nejprve musíte stáhnout práci ostatních a začlenit ji do své, teprve potom vám server umožní odeslání. Více informací o odesílání na vzdálené servery najdete v kapitole 3.
+Tento příkaz bude funkční, pouze pokud jste klonovali ze serveru, k němuž máte oprávnění pro zápis, a pokud sem od vašeho klonování nikdo neposílal svou práci. Pokud spolu s vámi provádí současně klonování ještě někdo další a ten poté svou práci odešle na server, vaše později odesílaná práce bude oprávněně odmítnuta. Nejprve musíte stáhnout práci ostatních a začlenit ji do své, teprve potom vám server umožní odeslání. Více informací o odesílání na vzdálené servery najdete v *kapitole 3*.
 
 ### Prohlížení vzdálených repozitářů ###
 
@@ -902,9 +902,9 @@ Jestliže chcete získat více informací o konkrétním vzdáleném repozitář
 	    master
 	    ticgit
 
-Bude obsahovat adresu URL vzdáleného repozitáře a informace ke sledování větví. Příkaz vám mimo jiné sděluje, že pokud se nacházíte na hlavní větvi (branch master) a spustíte příkaz `git pull`, automaticky začlení (merge) práci do hlavní větve na vzdáleném serveru, jakmile vyzvedne všechny vzdálené reference. Součástí výpisu jsou také všechny vzdálené reference, které příkaz stáhl.
+Bude obsahovat adresu URL vzdáleného repozitáře a informace ke sledování větví. Příkaz vám mimo jiné sděluje, že pokud se nacházíte na hlavní větvi (branch `master`) a spustíte příkaz `git pull`, pak se po vyzvednutí všech vzdálených referencí (fetch) práce z hlavní větve na vzdáleném serveru automaticky začlení (merge). Součástí výpisu jsou také všechny vzdálené reference, které příkaz stáhl.
 
-Toto je jednoduchý příklad, s nímž se můžete setkat. Pokud však Git používáte na pokročilé bázi, příkaz `git remote show` vám patrně zobrazí podstatně více informací:
+S uvedeným jednoduchým případem se pravděpodobně setkáte. Pokud však Git používáte na intenzivněji, může vám příkaz `git remote show` zobrazit mnohem více informací:
 
 	$ git remote show origin
 	* remote origin
@@ -928,11 +928,11 @@ Toto je jednoduchý příklad, s nímž se můžete setkat. Pokud však Git pou�
 	  Local branch pushed with 'git push'
 	    master:master
 
-Tento příkaz vám ukáže, která větev bude automaticky odeslána, pokud spustíte příkaz `git push` na určitých větvích. Příkaz vám také oznámí, které vzdálené větve na serveru ještě nemáte, které vzdálené větve máte, jež už byly ze serveru odstraněny, a několik větví, které budou automaticky sloučeny, jestliže spustíte příkaz `git pull`.
+Tento příkaz ukazuje, která větev bude automaticky odeslána, pokud spustíte příkaz `git push` na určitých větvích. Příkaz vám také oznámí, které vzdálené větve na serveru ještě nemáte, které vzdálené větve máte, ale ze serveru už byly odstraněny, a několik větví, které budou automaticky sloučeny, jestliže spustíte příkaz `git pull`.
 
-### Přesouvání a přejmenovávání vzdálených repozitářů ###
+### Odstraňování a přejmenovávání vzdálených repozitářů ###
 
-Chcete-li přejmenovat vzdálený repozitář, můžete v novějších verzích systému Git spustit příkaz `git remote rename`. Příkazem lze změnit zkrácený název vzdáleného repozitáře. Pokud například chcete přejmenovat repozitář z `pb` na `paul`, můžete tak učinit pomocí příkazu `git remote rename`:
+Chcete-li změnit zkrácené jméno vzdáleného repozitáře, můžete v novějších verzích systému Git spustit příkaz `git remote rename`. Pokud například chcete přejmenovat repozitář z `pb` na `paul`, můžete tak učinit příkazem `git remote rename`:
 
 	$ git remote rename pb paul
 	$ git remote
@@ -941,7 +941,7 @@ Chcete-li přejmenovat vzdálený repozitář, můžete v novějších verzích 
 
 Za zmínku stojí, že tímto příkazem změníte zároveň i názvy vzdálených větví. Z původní reference `pb/master` se tak nyní stává `paul/master`.
 
-Chcete-li, ať už z jakéhokoli důvodu, odstranit referenci (např. jste přesunuli server nebo už nepoužíváte dané zrcadlo, popř. přispěvatel přestal přispívat), můžete využít příkaz `git remote rm`:
+Chcete-li, ať už z jakéhokoli důvodu, odstranit referenci (přesunuli jste například server nebo už nepoužíváte dané zrcadlo, nebo třeba přispěvatel přestal přispívat), můžete využít příkaz `git remote rm`:
 
 	$ git remote rm paul
 	$ git remote
@@ -949,7 +949,7 @@ Chcete-li, ať už z jakéhokoli důvodu, odstranit referenci (např. jste přes
 
 ## Značky ##
 
-Stejně jako většina systémů VCS nabízí i Git možnost označovat v historii určitá místa, jež považujete za důležitá. Tato funkce se nejčastěji používá k označení jednotlivých vydání (např. `v1.0`). V této části vysvětlíme, jak pořídíte výpis všech dostupných značek, jak lze vytvářet značky nové a jaké typy značek se vám nabízejí.
+Stejně jako většina systémů VCS nabízí i Git možnost označovat v historii určitá místa, jež považujete za důležitá. Tato funkce se nejčastěji používá k označení jednotlivých vydání (například `v1.0`). V této části vysvětlíme, jak pořídíte výpis všech dostupných značek, jak lze vytvářet značky nové a jaké typy značek se vám nabízejí.
 
 ### Výpis značek ###
 
@@ -1127,7 +1127,7 @@ Můžete se podívat, že jste revizi označil:
 
 ### Sdílení značek ###
 
-Příkaz `git push` nepřenáší značky na vzdálené servery automaticky. Pokud jste vytvořili značku, budete ji muset na sdílený server poslat ručně. Tento proces je stejný jako sdílení vzdálených větví. Spusťte příkaz `git push origin [název značky]`.
+Příkaz `git push` nepřenáší značky na vzdálené servery automaticky. Pokud jste vytvořili značku, budete ji muset na sdílený server poslat explicitně. Tento proces je stejný jako sdílení vzdálených větví. Spusťte příkaz `git push origin [název značky]`.
 
 	$ git push origin v1.5
 	Counting objects: 50, done.
@@ -1155,17 +1155,17 @@ Pokud nyní někdo bude klonovat nebo stahovat z vašeho repozitáře, stáhne r
 
 ## Tipy a triky ##
 
-Než ukončíme tuto kapitolu o základech práce se systémem Git, přidáme ještě pár tipů a triků, které vám mohou usnadnit či zpříjemnit práci. Mnoho uživatelů pracuje se systémem Git, aniž by tyto triky znali a používali. V dalších částech knihy se už o nich nebudeme zmiňovat ani nebudeme předpokládat, že je používáte. Přesto pro vás mohou být užitečné.
+Než ukončíme tuto kapitolu věnovanou základům práce se systémem Git, přidáme ještě pár tipů a triků, které vám mohou usnadnit či zpříjemnit práci. Mnoho uživatelů pracuje se systémem Git, aniž by tyto triky znali a používali. V dalších částech knihy se už o nich nebudeme zmiňovat ani nebudeme předpokládat, že je používáte. Přesto pro vás mohou být užitečné.
 
 ### Automatické dokončování ###
 
-Jestliže používáte shell Bash, nabízí vám Git možnost zapnout si skript pro automatické dokončování. Stáhněte si zdrojový kód Git https://github.com/git/git/blob/master/contrib/completion/git-completion.bash. Nakopírujte tento soubor do vašeho domovského adresáře a do souboru `.bashrc` přidejte:
+Jestliže používáte shell Bash, nabízí vám Git možnost zapnout si skript pro automatické dokončování. Stáhněte si jej ze zdrojových textů systému Git z https://github.com/git/git/blob/master/contrib/completion/git-completion.bash. Soubor nakopírujte tento do vašeho domovského adresáře a do souboru `.bashrc` přidejte:
 
 	source ~/git-completion.bash
 
-Chcete-li nastavit Git tak, aby měl automaticky dokončování pro shell Bash pro všechny uživatele, zkopírujte tento skript do adresáře `/opt/local/etc/bash_completion.d` v systémech Mac nebo do adresáře `/etc/bash_completion.d/` v systémech Linux. Toto je adresář skriptů, z nějž Bash automaticky načítá pro shellové dokončování.
+Chcete-li nastavit Git tak, aby měl automaticky dokončování pro shell Bash pro všechny uživatele, zkopírujte u systému Mac tento skript do adresáře `/opt/local/etc/bash_completion.d`, nebo u systémů Linux do adresáře `/etc/bash_completion.d/`. Jde o adresář skriptů, ze kterého si Bash automaticky načítá podporu pro shellové dokončování.
 
-Pokud používáte Git Bash v systému Windows (Git Bash je výchozím programem při instalaci systému Git v OS Windows pomocí msysGit), mělo by být automatické dokončování přednastaveno.
+Pokud používáte Git Bash v systému Windows (Git Bash je pro instalaci msysGit pod Windows výchozím programem), mělo by být automatické dokončování přednastaveno.
 
 Při zadávání příkazu Git stiskněte klávesu Tab a měla by se objevit nabídka, z níž můžete zvolit příslušné dokončení:
 
@@ -1174,7 +1174,7 @@ Při zadávání příkazu Git stiskněte klávesu Tab a měla by se objevit nab
 
 Pokud zadáte – stejně jako v našem příkladu nahoře – `git co` a dvakrát stisknete klávesu Tab, systém vám navrhne „commit“ a „config“. Doplníte-li ještě `m<tab>`, skript automaticky dokončí příkaz na `git commit`.
 
-Automatické dokončování pravděpodobně více využijete v případě parametrů. Pokud například zadáváte příkaz `git log` a nemůžete si vzpomenout na některý z parametrů, můžete zadat jeho začátek a stisknout klávesu Tab, aby vám systém navrhl možná dokončení.
+Automatické dokončování pravděpodobně více využijete v případě parametrů. Pokud například zadáváte příkaz `git log` a nemůžete si vzpomenout na některý z parametrů, můžete zadat jeho začátek, stisknout klávesu Tab a podívat se, co by to mohlo přesně být:
 
 	$ git log --s<tab>
 	--shortstat  --since=  --src-prefix=  --stat   --summary

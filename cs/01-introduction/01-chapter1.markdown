@@ -219,7 +219,7 @@ Další užitečnou volbou, jejíž nastavení můžete chtít upravit, je vých
 
 Jako platné nástroje slučování Git akceptuje: kdiff3, tkdiff, meld, xxdiff, emerge, vimdiff, gvimdiff, ecmerge a opendiff. Nastavit můžete ale i jiné uživatelské nástroje — více informací o této možnosti naleznete v kapitole 7.
 
-### Kontrola va3eho nastavení ###
+### Kontrola vašeho nastavení ###
 
 Chcete-li zkontrolovat vaše nastavení, použijte příkaz `git config --list`. Git vypíše všechna aktuálně dostupná nastavení:
 

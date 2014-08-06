@@ -8,7 +8,7 @@ Hva er versjonskontroll, og hvorfor burde du bry deg? Versjonskontroll er et sys
 
 Er du en grafisk designer eller arbeider med webdesign og ønsker å beholde alle versjoner av et bilde eller en layout (som du sannsynligvis vil), så er det lurt å bruke et Version Control System (VCS). Et VCS gjør det mulig for deg å: tilbakestille filer til en tidligere utgave, tilbakestille hele prosjektet til en tidligere utgave, sjekke forandringer over tid, se hvem som sist forandret noe som muligens forårsaker et problem, hvem som introduserte en sak og når, osv. Å benytte seg av et VCS betyr også at dersom du roter det til eller mister filer, kan du vanligvis komme tilbake opp å kjøre raskt og enkelt. I tillegg, så får du alt dette uten at det krever noe videre av deg eller systemet ditt.
 
-### Lokalt versjonsstyringssystem ###
+### Lokalt versjonskontrollsystem ###
 
 Mange folks valgte versjonskontrollmetode innebærer å kopiere filer til en annen mappe (kanskje med datomerking hvis de er smarte). Denne tilnærmingen er vanlig, fordi den er enkel, men det kan også fort gå galt. Det er lett å glemme hvilken mappe man befinner seg i og så ved et uhell skrive til feil fil, eller kopiere over filer man ikke mente.
 
@@ -19,114 +19,116 @@ Figure 1-1. Lokalt versjonskontrolldiagram.
 
 Et av de mer populære VCS-verktøyene var et system kalt rcs, som fremdeles distribueres med mange datamaskiner i dag. Selv det populære Mac OS X-operativsystemet inkluderer rcs-kommandoen når en installerer utviklerverktøyene. Dette verktøyet virker, enkelt fortalt, ved å beholde et sett av patcher (dvs, forskjellen mellom filene) fra en revisjon til en annen, i et spesielt format på disken; det kan så gjenskape hvordan enhver fil så ut på et hvilket som helst tidspunkt, ved å legge sammen alle patchene.
 
-### Centralized Version Control Systems ###
+### Sentraliserte Versjonkontrol Systemer ###
 
-The next major issue that people encounter is that they need to collaborate with developers on other systems. To deal with this problem, Centralized Version Control Systems (CVCSs) were developed. These systems, such as CVS, Subversion, and Perforce, have a single server that contains all the versioned files, and a number of clients that check out files from that central place. For many years, this has been the standard for version control (see Figure 1-2).
+Det neste store problemet folk møter er at de trenger å sammarbeide med utviklere på andre systemer. For å håndere det problemet så var Sentraliserte Versjonkontrol Systmer (CVCSer) utviklet. Disse systemene, som CVS, Subversion, og Perforce, har en ekelt server som inneholder alle versjonerte filer, og tallvis med klienter som sjekker ut filene fra det sentrale stedet. I mange år så har det vært standard for versjonkontrol (Se Figur 1-2).
 
 Insert 18333fig0102.png
-Figure 1-2. Centralized version control diagram.
+Figure 1-2. Sentralisert versjonkontroll diagram.
 
-This setup offers many advantages, especially over local VCSs. For example, everyone knows to a certain degree what everyone else on the project is doing. Administrators have fine-grained control over who can do what; and it’s far easier to administer a CVCS than it is to deal with local databases on every client.
+Dette oppsettet tilbyr mange fordeler, spesielt over lokal VCS. For eksempel, alle vet til en viss grad hva alle andre i prosjektet gjør. Administratorer har god kontroll over hvem som kan gjøre hva; og det er langt enklere å administrere en CVCS enn det er å jobbe med lokale databaser på alle klienter.
 
-However, this setup also has some serious downsides. The most obvious is the single point of failure that the centralized server represents. If that server goes down for an hour, then during that hour nobody can collaborate at all or save versioned changes to anything they’re working on. If the hard disk the central database is on becomes corrupted, and proper backups haven’t been kept, you lose absolutely everything—the entire history of the project except whatever single snapshots people happen to have on their local machines. Local VCS systems suffer from this same problem—whenever you have the entire history of the project in a single place, you risk losing everything.
+Dette oppsettet har også noen seriøse ulemper. Det mest opplagte er det enkelte punktet for feiling som den sentraliserte serven representere. Hvis den serveren er nede i en time, så kan ingen samarbeide i det hele tatt, eller lagre versjon endringer for noe som helst de jobber på i løpet av den timen. Hvis harddisken den sentraliserte databasen er på blir korrupt, og skikkelige backuper ikke har blir lagt, så vil du miste alt- hele historien til prosjektet med untak i hvilket nå enn enkle bildet folk har akkurat da på deres lokale maskiner. Lokale VCS systmer lider fra det samme problemet, når du har hele historien til prosjeket på ett sted, så risikerer du å miste alt.
 
-### Distributed Version Control Systems ###
+### Distribuerte versjonkontrollsystemer ###
 
-This is where Distributed Version Control Systems (DVCSs) step in. In a DVCS (such as Git, Mercurial, Bazaar or Darcs), clients don’t just check out the latest snapshot of the files: they fully mirror the repository. Thus if any server dies, and these systems were collaborating via it, any of the client repositories can be copied back up to the server to restore it. Every checkout is really a full backup of all the data (see Figure 1-3).
+Her er det Distribuerte Versjonkontrollsystemer  (DVCSer) komme inn. I et DVCS (slik som Git, Mercurial, Bazaar eller Darcs), så henter ikke klientene bare ut det nyeste bildet av filene: de speilere hele repositoriet. Så derfor, om en server skulle dø, og disse systemene samarbeidet via den, så kan hvilken som helst av klient repositoriene bli kopiert opp til serveren for å fikse det. Hver utsjekking er en hel backup av alle dataene (see Figure 1-3).
 
 Insert 18333fig0103.png
 Figure 1-3. Distributed version control diagram.
 
-Furthermore, many of these systems deal pretty well with having several remote repositories they can work with, so you can collaborate with different groups of people in different ways simultaneously within the same project. This allows you to set up several types of workflows that aren’t possible in centralized systems, such as hierarchical models.
+Mange av disse systemene håndterer også veldig godt det å ha flere fjerne repositorier å jobbe mot, sq du kan sammarbeide med flere forskjellige grupper folk på forskjellige måter samtidig innen for det samme prosjektet. Dette lar deg sette opp flere arbeidsmåter som ikke er mulig i sentraliserte systemer, som hierarkiske modeller.
 
-## A Short History of Git ##
+## Kort Historie om Git ##
 
-As with many great things in life, Git began with a bit of creative destruction and fiery controversy. The Linux kernel is an open source software project of fairly large scope. For most of the lifetime of the Linux kernel maintenance (1991–2002), changes to the software were passed around as patches and archived files. In 2002, the Linux kernel project began using a proprietary DVCS system called BitKeeper.
+Som mange flotte ting i livet, så begynte Git med litt kreativ ødeleggelse og voldsom uenighet. Linux kjernen er et åpenkildekode prosjekt ved en ganske vidt skop. Mesteparten av livet til Linux kjerne vedlikeholdet (1991-2002), så var endringer i programvaren sendt rundt som patcher og arkiverte filer. I 2002 begynte Linux kjerne prosjektet å bruke et proprietært DVCS system med navn BitKeeper. 
 
-In 2005, the relationship between the community that developed the Linux kernel and the commercial company that developed BitKeeper broke down, and the tool’s free-of-charge status was revoked. This prompted the Linux development community (and in particular Linus Torvalds, the creator of Linux) to develop their own tool based on some of the lessons they learned while using BitKeeper. Some of the goals of the new system were as follows:
+I 2005 så falt forholdet mellom samholdet som utviklet Linux-kjernen og det komersielle firmaet som utviklet Bitkeeper sammen, og verktøyets gratis-bruk status ble fjernet. Dette fikk Linux utviklingssamholdet (og spesielt Linux Torvals, skaperen av Linux) til å utvikle deres eget verktøy med grunnlag i noen av tingene de lærte mens de brukte BitKeeper. Noen av målene for det nye systemet ble som følger:
 
-*	Speed
-*	Simple design
-*	Strong support for non-linear development (thousands of parallel branches)
-*	Fully distributed
+*	Fart
+*	Enkelt design
+*	Sterk støtter for ikke-lineær utvikling (tusenvis av parallelle grener)
+*	Helt distribuert
 *	Able to handle large projects like the Linux kernel efficiently (speed and data size)
+*	I stand til å håndtere store prosjekter som Linux-kjernern effektivt (fart og datastørrelse)
 
-Since its birth in 2005, Git has evolved and matured to be easy to use and yet retain these initial qualities. It’s incredibly fast, it’s very efficient with large projects, and it has an incredible branching system for non-linear development (See Chapter 3).
+Siden den ble skapt i 2005, har Git utviklet seg og modnet til å bli et enkelt å bruke men forsatt beholde disse opprinnelige kvalitetene. Den er er utrolig rask, og den er veldig effektiv med store prosjekter, og den har et utrolig avgreningsystem for ikke-lineær utvikling (See Chapter 3).
 
-## Git Basics ##
+## Grunnleggende Git ##
 
-So, what is Git in a nutshell? This is an important section to absorb, because if you understand what Git is and the fundamentals of how it works, then using Git effectively will probably be much easier for you. As you learn Git, try to clear your mind of the things you may know about other VCSs, such as Subversion and Perforce; doing so will help you avoid subtle confusion when using the tool. Git stores and thinks about information much differently than these other systems, even though the user interface is fairly similar; understanding those differences will help prevent you from becoming confused while using it.
+Så, hva er Git i et nøtteskall? Dette er en veldig viktig seksjon og ta innover seg, fordi om du forstår hva Git er og det fundamentelle rundt hvordan det virker, så vil det å bruke Git effektiv, sannsynligvis bli mye enklere for deg. Etter som du lærer Git, prøv å tøm tankene for de tingene du vet om andre VCSer, som Subversion og Perforce; å gjøre det vil hjelpe deg å unngå småforvirring når du bruker verktøyet. Git lagrer og tenker på informasjon veldig annerledes disse andre systemene, selv om bruker grensesnittet er ganske likt; å forstå de forskjellene vil hjelpe deg unngå å bli forvirret mens du bruker det.
 
-### Snapshots, Not Differences ###
 
-The major difference between Git and any other VCS (Subversion and friends included) is the way Git thinks about its data. Conceptually, most other systems store information as a list of file-based changes. These systems (CVS, Subversion, Perforce, Bazaar, and so on) think of the information they keep as a set of files and the changes made to each file over time, as illustrated in Figure 1-4.
+### Bilder, Ikke Forskjeller ###
+
+Hovedforskjellen mellom Git og andre VCS verktøy (inklusivt Subversion og dens venner) er hvordan den tenker på sin data. Konseptuelt, så lagrer de fleste andre systemer informasjon som en liste over filbaserte endringer. Disse systemene (CVS, Subversion, Perforce, Bazaar, og så vidre) tenker på informasjon som det tar vare på som et sett med filer og endringene gjort til hver fil over tid, som illustrert i Figur 1-4.
 
 Insert 18333fig0104.png
-Figure 1-4. Other systems tend to store data as changes to a base version of each file.
+Figure 1-4. Andre systemer pleier å lagre data som endringer til en grunnleggende versjon av hver fil.
 
-Git doesn’t think of or store its data this way. Instead, Git thinks of its data more like a set of snapshots of a mini filesystem. Every time you commit, or save the state of your project in Git, it basically takes a picture of what all your files look like at that moment and stores a reference to that snapshot. To be efficient, if files have not changed, Git doesn’t store the file again—just a link to the previous identical file it has already stored. Git thinks about its data more like Figure 1-5.
+Git verken tenker eller lagrere dataen på denne måten. Istedet så tenker Git på dataen mer som et sett med bilder av mini filsystemer. Hver gang du commit-er, eller lagrere tilstanden for prosjektet ditt i Git, så tar den i hovedask et bilde av hvordan alle filene dine ser ut i det øyeblikket of lagrer en referanse til det bildet. For å være effektiv, hvis filer ikke har blitt endre, så lagrer ikke Git filen igjen, den bare linker til forrige indentiske fil som den allerede har lagret. Git tenker på dataen mer som Figure 1-5.
 
 Insert 18333fig0105.png
-Figure 1-5. Git stores data as snapshots of the project over time.
+Figure 1-5.  Git lagrere data som et bilde av prosjektet over tid.
 
-This is an important distinction between Git and nearly all other VCSs. It makes Git reconsider almost every aspect of version control that most other systems copied from the previous generation. This makes Git more like a mini filesystem with some incredibly powerful tools built on top of it, rather than simply a VCS. We’ll explore some of the benefits you gain by thinking of your data this way when we cover Git branching in Chapter 3.
+Dette er et viktig skille mellom Git og nesten alle andre VCSer. Det gjør at Git revurderer nesten alle aspekter av versjonkontroll som de fleste andre systemer kopierte fra den forrige generasjonen. Dette gjør Git mer til et mini-filsystem som har utrolig kraftige verktøy bygd oppå seg, istedet for bare en VCS. Vi vil utforske noen av fordelene du vil få ved å tenke på dataen din på denne måten når vi dekker Git avgrening  i Kapitell 3.
 
-### Nearly Every Operation Is Local ###
+### Nærmest Alle Operasjoner Er Lokale  ###
 
-Most operations in Git only need local files and resources to operate — generally no information is needed from another computer on your network.  If you’re used to a CVCS where most operations have that network latency overhead, this aspect of Git will make you think that the gods of speed have blessed Git with unworldly powers. Because you have the entire history of the project right there on your local disk, most operations seem almost instantaneous.
+De fleste operasjonene i Git trenger bare lokale filer og resurser for å operer - generelt sett så er ikke informasjon fra noen annen maskin på nettverket ditt nødvendig. Hvis du har brukt en CVCS hvor de fleste operasjoner har den type nettverk forsinkelse, så vil dette aspektet av Git få deg til å tenke at gudene for fart har velsignet Git med uparallelle krefter. Fordi du har hele historien til prosjektet rett der på den lokale disk, så virker de fleste operasjoner som om de nesten skjer med en gang.
 
-For example, to browse the history of the project, Git doesn’t need to go out to the server to get the history and display it for you—it simply reads it directly from your local database. This means you see the project history almost instantly. If you want to see the changes introduced between the current version of a file and the file a month ago, Git can look up the file a month ago and do a local difference calculation, instead of having to either ask a remote server to do it or pull an older version of the file from the remote server to do it locally.
+For eksempel, for å se gjennom historien til prosjektet, så trenger ikke Git å gå til serveren for å få historien, og vise det til deg- den simpelthen leser den rett fra din likale database. Dette betyr at du ser prosjekt historien nesten med en gang. Hvis du ønsker å se endringene introdusert mellom den nåværende versjonen av filen og filen for en måned isden, så kan Git sjekke den filen fra en måned siden og gjøre en lokal forskjell kalkulasjon, istedet for å enten måtte spøre en server om å gjøre det, eller å måtte hente en eldre versjon av filen fra den serveren for å gjøre det lokalt.
 
-This also means that there is very little you can’t do if you’re offline or off VPN. If you get on an airplane or a train and want to do a little work, you can commit happily until you get to a network connection to upload. If you go home and can’t get your VPN client working properly, you can still work. In many other systems, doing so is either impossible or painful. In Perforce, for example, you can’t do much when you aren’t connected to the server; and in Subversion and CVS, you can edit files, but you can’t commit changes to your database (because your database is offline). This may not seem like a huge deal, but you may be surprised what a big difference it can make.
+Dette betyr også at det er veldig lite du ikke kan gære om du er offline eller ikke er på VPN. Du kan gå på et fly, eller et tog og så ønske å jobbe litt, og du kan gladelig comitte det fram til du kommer til en nettverkstilkobling for å laste det opp. Hvis du går hjem og ikke kan få VPN klienten til å virke skikkelig, så kan du fortsatt jobbe. I mange systemer, så er det enten umulig å gjøre, eller smertefult. I Perforce, for eksempel, så kan du ikke gjære stort når du ikke er koblet til serveren, og i Subversion og CVS, så kan du endre filer, men du kan ikke bruke commit på endringene dine til databasen (siden databasen din er offline). Dette virker kanskje ikke som noe stort, men du kan bli overrasket over hvor stor forskjell det kan utgjøre.
 
-### Git Has Integrity ###
+### Git Har Integritet ###
 
-Everything in Git is check-summed before it is stored and is then referred to by that checksum. This means it’s impossible to change the contents of any file or directory without Git knowing about it. This functionality is built into Git at the lowest levels and is integral to its philosophy. You can’t lose information in transit or get file corruption without Git being able to detect it.
+Alt i Git er sjekksummert før det er lagret, og så blir den referert til med den sjekksummen. Dette betyr at det umulig å endre innhodlet på en fil eller mappe uten at Git vet om det. Denne funksjonaliteten er bygd inn i Git på de laveste nivåene og er viktig del av dens filosofi. Du kan ikke miste informasjon når den prossesserer endringer eller ende opp med en korrupt fil uten at Git er i stand til å oppdage det.
 
-The mechanism that Git uses for this checksumming is called a SHA-1 hash. This is a 40-character string composed of hexadecimal characters (0–9 and a–f) and calculated based on the contents of a file or directory structure in Git. A SHA-1 hash looks something like this:
+Mekanismen Git bruker for denne sjekksummeringen er kalt en SHA-1 hash. Dette er en 40-tegn lang tekst satt sammen av hexadecimal-tegn (0-9 og a-f) og er kalkulert baser på innholdet av en fil og mappe structuren i Git. En SHA-1 hash ser ut noe sånt som dette:
 
 	24b9da6552252987aa493b52f8696cd6d3b00373
 
-You will see these hash values all over the place in Git because it uses them so much. In fact, Git stores everything not by file name but in the Git database addressable by the hash value of its contents.
+Du vil se disse hash verdiene overalt i Git fordi den bruker dem så mye. Git lagrer faktisk alt, ikke med navn, men i Git databasen adresserbart med hash verdien av innholdet dens.
 
-### Git Generally Only Adds Data ###
+### Git Legger Generelt Bare Til Data ###
 
-When you do actions in Git, nearly all of them only add data to the Git database. It is very difficult to get the system to do anything that is not undoable or to make it erase data in any way. As in any VCS, you can lose or mess up changes you haven’t committed yet; but after you commit a snapshot into Git, it is very difficult to lose, especially if you regularly push your database to another repository.
+Når du gjør ting i Git, så vil nesten alle bare legge til data til Git databasen. Det er veldig vanskelig å få systemet til å gjøre noe som ikke kan angres, eller få det til å slette data på en eller annen måte. Som i en hver VCS, så kan du miste eller rote til endringer du ikke har commitet enda; men etter du har commited et bilde inn i Git, så er det veldig vanskelig å miste det, spesielt om du jevnlig bruker push for å sende databasen til en annen repository.
 
-This makes using Git a joy because we know we can experiment without the danger of severely screwing things up. For a more in-depth look at how Git stores its data and how you can recover data that seems lost, see Chapter 9.
+Dette gjør det å bruke Git til en gledelig opplevelse fordi vi vet at vi kan eksperimentere uten fare for å virkelig rote til ting skikkelig. For en mer dypere innsyn i hvoradn Git lagerer data og hvordan du kan få tilbake data som virker tapt, se Kapitel 9.
 
-### The Three States ###
+### De Tre Tilstandene ###
 
-Now, pay attention. This is the main thing to remember about Git if you want the rest of your learning process to go smoothly. Git has three main states that your files can reside in: committed, modified, and staged. Committed means that the data is safely stored in your local database. Modified means that you have changed the file but have not committed it to your database yet. Staged means that you have marked a modified file in its current version to go into your next commit snapshot.
+Følg med. Detter er viktigeste å huske om Git om du ønsker at resten av læringsprossessen din skal gå flytende. Git har tre hoved tilstandet som filene dine kan være i: committed, modified, og staged. Commited betyr at dataen er laget trygt i din lokale database. Mofigied betyr at du har endret på filen men ikke har committed den til databasen enda. Staged betyr at du har markert en modified fil i dens nåværende versjon til å gå inn i ditt neste commit bilde.
 
 This leads us to the three main sections of a Git project: the Git directory, the working directory, and the staging area.
 
 Insert 18333fig0106.png
-Figure 1-6. Working directory, staging area, and git directory.
+Figure 1-6. Arbeidsmappe, staging området, og git mappe.
 
-The Git directory is where Git stores the metadata and object database for your project. This is the most important part of Git, and it is what is copied when you clone a repository from another computer.
+Git mappen er der Git  lagere metadata og objekt databasen for prosjektet ditt. Dette er den mest viktige delen av Git, og det er det som er kopier når du kloner et repository fra en annen maskin.
 
-The working directory is a single checkout of one version of the project. These files are pulled out of the compressed database in the Git directory and placed on disk for you to use or modify.
+Arbeidsmappen er en enkel checkout av en versjon av prosjektet. Disse filene er dratt ut av den komprimerte databasen i Git mappen og plassert på disken slik at du kan bruke eller modifisere det.
 
-The staging area is a simple file, generally contained in your Git directory, that stores information about what will go into your next commit. It’s sometimes referred to as the index, but it’s becoming standard to refer to it as the staging area.
+Staging området er en enkelt fil, generelt holdt i Git mappen din, som lagrer informasjon om hva som vil gå inn i din neste commit. Det er noen ganger referert til som indeksen, men det begynner å bli det vanlige å kalle det staging området.
 
-The basic Git workflow goes something like this:
+Den grunnleggende Git arbeidsmåten er litt som dette:
 
-1. You modify files in your working directory.
-2. You stage the files, adding snapshots of them to your staging area.
-3. You do a commit, which takes the files as they are in the staging area and stores that snapshot permanently to your Git directory.
+1. Du modifiserer filer i arbeidmappa.
+2. Du stage-er filene, og lager bilder av den til staging området.
+3. Du gjør en commit, som tar filene som de er i staging området og lagrer det bildet permanent i Git mappen din.
 
-If a particular version of a file is in the git directory, it’s considered committed. If it’s modified but has been added to the staging area, it is staged. And if it was changed since it was checked out but has not been staged, it is modified. In Chapter 2, you’ll learn more about these states and how you can either take advantage of them or skip the staged part entirely.
+Hvis en bestemt versjon av en fil er i git mappen, så er den ansett som comitted. Hvis den er modifisert men har blitt lagt til i staging området, så der den staged. Og hvis den var endret siden den var sjekket ut men ikke blitt staged, så er den modifisert. I Kapitel 2 så vil du lære om disse tilstande og hvordan du kan utnytte deg av dem eller hoppe over staged-delen helt.
 
-## Installing Git ##
+## Installer Git ##
 
-Let’s get into using some Git. First things first—you have to install it. You can get it a number of ways; the two major ones are to install it from source or to install an existing package for your platform.
+La oss gå inn for å bruke litt Git. Det første du trenger gjøre er å installere det. Du kan gjøre det på flere måter; de to vanlige er å installere det fra kildekode eller å installere en allerede eksisterende pakke for din platform.
 
-### Installing from Source ###
+### Installere fra Kildekode ###
 
-If you can, it’s generally useful to install Git from source, because you’ll get the most recent version. Each version of Git tends to include useful UI enhancements, so getting the latest version is often the best route if you feel comfortable compiling software from source. It is also the case that many Linux distributions contain very old packages; so unless you’re on a very up-to-date distro or are using backports, installing from source may be the best bet.
+Hvis du kan, så er det generelt sett nyttig å installere Git fra kildekode, ettersom du vil få nyeste versjon. Hver versjon av Git pleier å inkludere nyttige grensensitt forbedringer, så å skaffe seg den nyeste versjonen er ofte den beste måten, dersom du føler deg komfortable med å kompilere programvare fra kildekode. Det er er også tilfellet at mange Linux distrobusjoner har veldig gamle pakker; så med mindre du er på en veldig up-to-date distro eller bruker backports, så er det å installere fra kildekode den beste løsningen.
 
-To install Git, you need to have the following libraries that Git depends on: curl, zlib, openssl, expat, and libiconv. For example, if you’re on a system that has yum (such as Fedora) or apt-get (such as a Debian based system), you can use one of these commands to install all of the dependencies:
+For å installere git så trenger du følgene biblioteker som Git er avhengige av: curl, zlib, openssl, expat, and libiconv. For eksempel, om du er på et system som har yum (som Fedora) eller apt-get (som Debian baserte systemer), så kan du bruke en av disse kommandoene for å installere alle avhengighetene:
 
 	$ yum install curl-devel expat-devel gettext-devel \
 	  openssl-devel zlib-devel
@@ -134,94 +136,94 @@ To install Git, you need to have the following libraries that Git depends on: cu
 	$ apt-get install libcurl4-gnutls-dev libexpat1-dev gettext \
 	  libz-dev libssl-dev
 
-When you have all the necessary dependencies, you can go ahead and grab the latest snapshot from the Git web site:
+Når du har alle de nødvendige avhengighetene, så kan du gå å laste det nyeste bildet fra Git nettsiden:
 
 	http://git-scm.com/download
 
-Then, compile and install:
+Og så, kompiler og installer:
 
 	$ tar -zxf git-1.7.2.2.tar.gz
 	$ cd git-1.7.2.2
 	$ make prefix=/usr/local all
 	$ sudo make prefix=/usr/local install
 
-After this is done, you can also get Git via Git itself for updates:
+Etter alt dette er gjort, så kan du også få Git gjennom Git for oppdateringer.
 
 	$ git clone git://git.kernel.org/pub/scm/git/git.git
 
-### Installing on Linux ###
+### Installer på Linux ###
 
-If you want to install Git on Linux via a binary installer, you can generally do so through the basic package-management tool that comes with your distribution. If you’re on Fedora, you can use yum:
+Hvis du vil installere Git på Linux via en binær installasjonspakke, så kan du generelt få gjort det gjennom det vanlige pakkebehandlerverktøyet som kommer med distroen din. Hiv du er på Fedora, så kan du bruke yum:
 
 	$ yum install git-core
 
-Or if you’re on a Debian-based distribution like Ubuntu, try apt-get:
+Eller om du bruker en Debian-basert distro som Ubuntu, prøv apt-get:
 
 	$ apt-get install git
 
-### Installing on Mac ###
+### Installer på Mac ###
 
-There are two easy ways to install Git on a Mac. The easiest is to use the graphical Git installer, which you can download from the SourceForge page (see Figure 1-7):
+Det er to enkle måter å installere Git på en Mac. Den enkleste er å bruke den grafiske Git installasjonspakken, som du kan laste ned fra SourceForge siden (se Figur 1-7):
 
 	http://sourceforge.net/projects/git-osx-installer/
 
 Insert 18333fig0107.png
-Figure 1-7. Git OS X installer.
+Figure 1-7. Git OS X innstallasjon.
 
-The other major way is to install Git via MacPorts (`http://www.macports.org`). If you have MacPorts installed, install Git via
+Den andre vanlige måten å gjære det på er å installere Git via MacPorts ('http://macports.org'). Hvis du har MacPorts installert, installer Git med
 
 	$ sudo port install git-core +svn +doc +bash_completion +gitweb
 
-You don’t have to add all the extras, but you’ll probably want to include +svn in case you ever have to use Git with Subversion repositories (see Chapter 8).
+Du trenger ikke alt det ekstra, men du vil sannynligvis ønske å inkludere +svn sånn i fall du trenger å bruke git med Subversion repositorier (se Kapitel 8).
 
-### Installing on Windows ###
+### Installer på Windows ###
 
-Installing Git on Windows is very easy. The msysGit project has one of the easier installation procedures. Simply download the installer exe file from the GitHub page, and run it:
+Å installere Git på Windows er veldig enkelt. msysGit prosjektet har en av de enkleste installasjonprossedyrene. Bare last ned installasjons exe filen fra GitHub siden, og kjær den:
 
 	http://msysgit.github.com/
 
-After it’s installed, you have both a command-line version (including an SSH client that will come in handy later) and the standard GUI.
+Etter den er installert, så har du både en kommandolinje versjon (inkludert en SSH klient som vil bli nyttig senere) og det standard grafiske brukgergrensesnittet.
 
-Note on Windows usage: you should use Git with the provided msysGit shell (Unix style), it allows to use the complex lines of command given in this book. If you need, for some reason, to use the native Windows shell / command line console, you have to use double quotes instead of simple quotes (for parameters with spaces in them) and you must quote the parameters ending with the circumflex accent (^) if they are last on the line, as it is a continuation symbol in Windows.
+Merknad om Windows bruk: du burde bruke Git med msysGit shellet (Unix stil) som kommer med, det lar deg bruke de komplekse linjene med kommandoer gitt i denne boken. Om du av en eller annen grunn skulle trenge å bruke Windows sitt eget shell/kommandolinje konsoll, så må du bruker dobbelt annførsel tegn istedet for enkelt annførselstegn (for parametere med mellomrom i seg) og du må bruke annførseltegn på parametere som slutter med ^ om de er på slutten av linjen, siden det er et forsettelsesymbol i Windows.
 
-## First-Time Git Setup ##
+## Git Oppsett For Førstegangsbruk ##
 
-Now that you have Git on your system, you’ll want to do a few things to customize your Git environment. You should have to do these things only once; they’ll stick around between upgrades. You can also change them at any time by running through the commands again.
+Nå som du har Git på systemet ditt, så vil du ønske å gjøre noen få endringer for Git miljøet ditt. Du burder bare trenge å gjøre disse tingene en gang; for de blir værende med deg mellom oppgraderinger. Du kan også endre dem når som helst ved å gå gjennom kommandoene igjen.
 
-Git comes with a tool called git config that lets you get and set configuration variables that control all aspects of how Git looks and operates. These variables can be stored in three different places:
+Git kommer med et verktøy kalt git config som lar deg hente og sette instillingvariabler som kontrollerer alle aspektene av hvoran Git ser ut og virker. Disse varaiblene kan bli lagret i tre forskjellige steder:
 
-*	`/etc/gitconfig` file: Contains values for every user on the system and all their repositories. If you pass the option` --system` to `git config`, it reads and writes from this file specifically.
-*	`~/.gitconfig` file: Specific to your user. You can make Git read and write to this file specifically by passing the `--global` option.
-*	config file in the git directory (that is, `.git/config`) of whatever repository you’re currently using: Specific to that single repository. Each level overrides values in the previous level, so values in `.git/config` trump those in `/etc/gitconfig`.
+*	`/etc/gitconfig` filen: Inneholder verdier for alle brukerene på systemet og alle repositoriene deres. Hvis du sender valget `--system` til `git config`, så vil det lese og skrives i denne filen.
+*	`~/.gitconfig` filen: Spesifikk for brukeren. Du kan får Git til å lese og skrive til denne filen ved å sende `--global` valget.
+*	config filen i git mappen (altså `.git/config`) av hvilken som helst repository du bruker for øyeblikket: Brukes for det enkelte repositoriet. Hver nivå overstyrer verdiene fra forrige nivå, så verdiene i `.git/config` trumfer de som er i `/etc/gitconfig`.
 
-On Windows systems, Git looks for the `.gitconfig` file in the `$HOME` directory (`%USERPROFILE%` in Windows’ environment), which is `C:\Documents and Settings\$USER` or `C:\Users\$USER` for most people, depending on version (`$USER` is `%USERNAME%` in Windows’ environment). It also still looks for /etc/gitconfig, although it’s relative to the MSys root, which is wherever you decide to install Git on your Windows system when you run the installer.
+På Windows systemer så ser Git etter `.gitconfig`filen i `$HOME` mappen (`%USERPROFILE%` for Windows), som er `C:\Documents and Settings\$USER` eller `C:\Users\$User` for de fleste, avhengig av versjon (`$USER` er `%USERNAME%` i Windows). Det ser forsatt etter /etc/gitconfig/, selv om det er relativt til MSys root, som er hvor du la inn Git for Windows systemet når du installerte det.
 
-### Your Identity ###
+### Din Identitet ###
 
-The first thing you should do when you install Git is to set your user name and e-mail address. This is important because every Git commit uses this information, and it’s immutably baked into the commits you pass around:
+Det første du burde gjøre når du installerer Git er å sette brukernavnet og email-addressen din. Dette er viktig fordig alle Git commiter bruker denne informasjonen, og det er uforanderlig integrert inn i commitene du sender rundt.
 
 	$ git config --global user.name "John Doe"
 	$ git config --global user.email johndoe@example.com
 
-Again, you need to do this only once if you pass the `--global` option, because then Git will always use that information for anything you do on that system. If you want to override this with a different name or e-mail address for specific projects, you can run the command without the `--global` option when you’re in that project.
+Igjen, så trenger du bare å gjøre dette en gang om du bruker `--global` valget, siden Git alltid bruker den informasjonen for alt du gjør på det systemet. Hvis du ønsker å overstyre dette med ett annet navn eller email-adresse for bestemte prosjekter, så kan du kjøre kommandoen uten `--global` valget når du er i det prosjektet.
 
-### Your Editor ###
+### Din Editor ###
 
-Now that your identity is set up, you can configure the default text editor that will be used when Git needs you to type in a message. By default, Git uses your system’s default editor, which is generally Vi or Vim. If you want to use a different text editor, such as Emacs, you can do the following:
+Nå som din identiter er satt opp, så kan du konfigurere den forhåndsvalgte tekst editoren som vil bli brukt når Git trenger at du skriver en beskjed. Forhåndsvalget satt i Git bruker systemets forhåndsvalgte editor, som generelt sett er Vi eller Vim. Hvis du ønsker å bruke en annen tekst editor, som Emacs, så kan du gjøre følgende:
 
 	$ git config --global core.editor emacs
 
-### Your Diff Tool ###
+### Ditt Diff Verktøy ###
 
-Another useful option you may want to configure is the default diff tool to use to resolve merge conflicts. Say you want to use vimdiff:
+Et annet nyttig valg du kanskje vil endre på er forhåndsvalgt diff verktøy for å bruke til å håndtere merge konflikter. Så si du ønsker å bruke vimdiff:
 
 	$ git config --global merge.tool vimdiff
 
-Git accepts kdiff3, tkdiff, meld, xxdiff, emerge, vimdiff, gvimdiff, ecmerge, and opendiff as valid merge tools. You can also set up a custom tool; see Chapter 7 for more information about doing that.
+Git godtar kdiff3, tkdiff, meld, xxdif, emerge, vimdiff, gvimdiff, ecmerge, and opendiff som godkjente merge verktøy. Du kan også sette opp et eget verktøy; se Kapitel 7 for mer informasjon om hvordan gjøre det.
 
-### Checking Your Settings ###
+### Sjekke Innstillingene Dine ###
 
-If you want to check your settings, you can use the `git config --list` command to list all the settings Git can find at that point:
+Hvis du ænsker å sjekke innstillingene dine, så kan du bruke `git config --list` kommandoen for å liste alle innstillingene Git kan finne akkurat da:
 
 	$ git config --list
 	user.name=Scott Chacon
@@ -232,28 +234,28 @@ If you want to check your settings, you can use the `git config --list` command 
 	color.diff=auto
 	...
 
-You may see keys more than once, because Git reads the same key from different files (`/etc/gitconfig` and `~/.gitconfig`, for example). In this case, Git uses the last value for each unique key it sees.
+Du kan se nøkler mer enn en gang, siden Git leser den samme nøkkelen fra forskjellige filer (`/etc/gitconfig` og `~/.gitconfig`, for eksempel). I såfall, så bruker Git den siste verdien for hver unike nøkkel den ser.
 
-You can also check what Git thinks a specific key’s value is by typing `git config {key}`:
+Du kan også sjekke hva Git tror en spesifikk nøkkels verdi er ved å skrive `git config {nøkkel}`:
 
 	$ git config user.name
 	Scott Chacon
 
-## Getting Help ##
+## Skaffe Seg Hjelp ##
 
-If you ever need help while using Git, there are three ways to get the manual page (manpage) help for any of the Git commands:
+Hvis du noen gang trenger hjelp mens du bruker Git, så er det tre måter å få manual sidens (manpage) hjelp for en hvilken som helst Git kommando:
 
 	$ git help <verb>
 	$ git <verb> --help
 	$ man git-<verb>
 
-For example, you can get the manpage help for the config command by running
+For eksempel, du kan få manpage hjelp ved for config kommandoen ved å bruke
 
 	$ git help config
 
-These commands are nice because you can access them anywhere, even offline.
-If the manpages and this book aren’t enough and you need in-person help, you can try the `#git` or `#github` channel on the Freenode IRC server (irc.freenode.net). These channels are regularly filled with hundreds of people who are all very knowledgeable about Git and are often willing to help.
+Disse kommandoene er fine fordi du kan få tilgang til dem over alt, tilogmed offline.
+Hvis manpagene og denne boken ikke er nok, og du trenger hjelp fra folk, så kan du prøve `#git` eller `#github` kanalene på Freenode IRC Server (irc.freenode.net). Disse kanalene er til vanlig fylt med hundrevis av folk som alle kan veldig mye om Git og er ofte villige til å hjelpe.
 
-## Summary ##
+## Sammendrag ##
 
-You should have a basic understanding of what Git is and how it’s different from the CVCS you may have been using. You should also now have a working version of Git on your system that’s set up with your personal identity. It’s now time to learn some Git basics.
+Du burde ha grunnleggende forståelse for hva Git er og hvordan det skiller seg fra CVCSene du kan ha brukt. Du burde også nå ha en funksjonell versjon av Git på ditt system som er satt opp med din personlige identitet. Det er nå på tide å lære litt grunnleggende Git.

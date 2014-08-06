@@ -534,6 +534,10 @@ Questo è utile se un ramo nel progetto presenta divergenze o è specializzato, 
 
 	database.xml merge=ours
 
+Definisci quindi una strategia di merge fittizia chiamata `ours`:
+
+    git config --global merge.ours.driver true
+    
 Nel caso si voglia fare un merge nell'altro ramo, invece di avere conflitti di merge con il file database.xml, si noterà qualcosa di simile a:
 
 	$ git merge topic

@@ -231,7 +231,7 @@ L'autenticazione tramite chiavi SSH generalmente richiede una restrizione dei di
  
  	$ chmod -R go= ~/.ssh
  
-Ora, puoi impostare un repository vuoto avviando `git init` con l'opzione `--bare`, che inizializza il repository senza la directory di lavoro:
+Ora, puoi configurargli un repository vuoto eseguendo `git init` con l'opzione `--bare`, che inizializza il repository senza la directory di lavoro:
 
 	$ cd /opt/git
 	$ mkdir project.git

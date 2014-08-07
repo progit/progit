@@ -27,11 +27,11 @@ La pagina del manuale per `git config` elenca tutte le opzioni disponibili aggiu
 
 #### core.editor ####
 
-Di default, Git utilizza qualsiasi programma che tu abbia impostato come text editor, in alternativa sceglie l'editor Vi per creare e modificare commit tag e messaggi. Per cambiare l'impostazione standard, puoi utilizzare l'impostazione `core.editor`:
+Di default, Git utilizza qualsiasi programma tu abbia impostato come text editor o, in mancanza, sceglie l'editor Vi per creare e modificare i messaggi delle commit e dei tag. Per cambiare l'impostazione standard, puoi configurare il `core.editor`:
 
 	$ git config --global core.editor emacs
 
-Ora, non importa quale sia la variabile shell per l'editor, Git utilizzerà Emacs per modificare i messaggi.
+Facendo così non importa quale sia l'editor predefinito configurato per la tua shell, Git lancerà sempre Emacs per modificare i messaggi.
 
 #### commit.template ####
 

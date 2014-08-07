@@ -4,18 +4,18 @@ Finora abbiamo viso le basi di come Git e come usarlo, abbiamo introdotto alcuni
 
 ## Configurazione di Git ##
 
-Come hai visto brevemente nel capitolo 1, si possono specificare delle impostazioni per Git tramite il comando `git config`. Una delle prime cose che hai fatto è stato impostare il tuo nome ed il tuo indirizzo e-mail:
+Come abbiamo visto brevemente nel capitolo 1, è possibile configurare Git con il comando `git config`. Una delle prime cose che abbiamo fatto è stato definire il nostro nome e il nostro indirizzo e-mail:
 
 	$ git config --global user.name "John Doe"
 	$ git config --global user.email johndoe@example.com
 
-Ora imparerai alcune delle opzioni più interessanti che si possono impostare in questa maniera per personalizzare l'utilizzo di Git.
+Ora vedremo alcune delle opzioni più interessanti che puoi configurare allo stesso modo, per personalizzare il modo in cui usi Git.
 
-Hai visto alcuni semplici dettagli di configurazione nel primo capitolo, ora li esamineremo ancora velocemente. Git utilizza una serie di files di configurazione per determinare comportamenti non standard che potresti desiderare. In primo luogo Git cercherà questi valori nel file `/etc/gitconfig`, il quale contiene valori per ogni utente e repository di sua proprietà presenti sul sitema. Se si passa l'opzione `--system` a `git config`, il programma leggerà e scriverà in modo specifico su questo file.
+Nel primo capitolo hai visto alcuni dettagli per delle configurazioni semplici, ora li rivedremo velocemente. Git usa più file di configurazione per decidere cosa fare in situazioni non standard. Il primo di questi, dove Git cercherà, è `/etc/gitconfig`, che contiene la configurazione per tutti gli utenti del sistema e dei loro repository. Git legge e scrive su questo file quando usi l'opzione `--system` con `git config`.
 
-Successivamente Git controlla il file `~/.gitconfig`, che è specifico per ogni utente. Puoi fare in modo che Git legga e scriva su questo file utilizzando l'opzione `--global`.
+Il file successivo dove Git va a cercare è `~/.gitconfig`, che è specifico per ogni utente. Puoi fare in modo che Git legga e scriva su questo file con l'opzione `--global`.
 
-Infine, Git controlla i valori di configurazione nel file di configurazione presente nella directory Git (`.git/config`) di qualsiasi repository che stai utilizzando. Questi valori sono specifici del singolo repository. Ongi livello sovrascrive i valori del livello precedente, per esempio i valori in `.git/config` battono quelli in `/etc/gitconfig`. Si può inoltre impostare questi valori modificando manualmente il file ed inserendo la corretta sintassi, tuttavia solitamente è più semplice eseguire il comando `git config`.
+Infine Git controlla le impostazioni nel file di configurazione presente nella directory Git (`.git/config`) di qualsiasi repository che tu stia utilizzando. Queste impostazioni sono specifiche di quel singolo repository. Ogni livello sovrascrive i valori del livello precedente, quindi i valori in `.git/config` battono quelli in `/etc/gitconfig`. Puoi configurare queste impostazioni anche editando manualmente il file, usando la sintassi corretta, ma solitamente è più semplice eseguire il comando `git config`.
 
 ### Configurazione Base del Client ###
 

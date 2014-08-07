@@ -1,12 +1,12 @@
 # Başlanğıc #
 
-Bu bölmə size git haqqında başlıca məlumatları çattırmağı hədəfləyir.  We will begin at the beginning by explaining some background on version control tools, then move on to how to get Git running on your system and finally how to get it setup to start working with.  At the end of this chapter you should understand why Git is around, why you should use it and you should be all setup to do so.
+Bu bölmə size git haqqında başlıca məlumatları çattırmağı hədəfləyir. İşə başlamazdan əvvəl version nəzarət vasitəsinin bəzi fon məlumatlarını açıqlayaraq başlayacağıq, daha sonra Git quraşdırılmanının necə ediləcəyini, ən son olaraq da vasitənin konfiqurasiya və istifadəsini açıqlayacağıq. Bu hissənin sonunda Git'in varlıq səbəbini və niyə onu istifadə etməniz lazım olduğunu anlayacaq, Git'i istifadə etmeye başlamaq üçün quraşdırma bitirmiş olacaqsınız. 
 
-## About Version Control ##
+## Versiya Nəzarət Haqqında ##
 
-What is version control, and why should you care? Version control is a system that records changes to a file or set of files over time so that you can recall specific versions later. Even though the examples in this book show software source code as the files under version control, in reality any type of file on a computer can be placed under version control.
+Versiya nəzarəti nədir və nə işə yarayar? Versiya nəzarəti, Bir ya da daha çox fayl üzərində edilən dəyişiklikləri yazan və daha sonra müəyyən bir distributivə geri dönə bilmənizi təmin edən bir sistemdir. Bu kitabdakı nümunələrdə proqram qaynaq kod fayllarının versiya idarəsini edəcəksiniz, nə var ki, əslində versiyası idarəsini demək olar ki hər növdən fayl üçün istifadə edə bilərsiniz.
 
-If you are a graphic or web designer and want to keep every version of an image or layout (which you certainly would), it is very wise to use a Version Control System (VCS). A VCS allows you to: revert files back to a previous state, revert the entire project back to a previous state, compare changes over time, see who last modified something that might be causing a problem, who introduced an issue and when, and more. Using a VCS also means that if you screw things up or lose files, you can generally recover easily. In addition, you get all this for very little overhead.
+Bir grafik və ya web dizayn tək və bir vizual və ya dizaynın dəyişik versiyalarını qorumaq istəyirsinizsə (ki ehtimalla bunu etmək istəyərsiniz), bir Versiya Kontrol Sistemi (VKS) istifadə etməniz çox ağıllıca olacaq. VKS, faylların və ya bütün layihənin keçmişdəki müəyyən bir versiyaya daxil olmağa, zaman içində edilən dəyişiklikləri müqayisə etməyinizi, problemə səbəb olan şeydə ən son kimin dəyişiklik etdiyini, müəyyən bir səhvi kimin, nə vaxt sistemə daxil etdiyini və daha başqa bir çox şeyi görə bilməyinizi təmin edər. Digər tərəfdən, VKS istifadə etmək, bir səhv etdikdə və ya bəzi faylları səhvən sildiyiniz də vəziyyəti asanlıqla kompensasiya etmənizə köməkçi olar. Üstəlik, bütün bunlar sizə əhəmiyyətli bir əlavə yük də gətirməz.
 
 ### Local Version Control Systems ###
 

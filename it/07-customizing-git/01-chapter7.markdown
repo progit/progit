@@ -17,9 +17,9 @@ Il file successivo dove Git va a cercare è `~/.gitconfig`, che è specifico per
 
 Infine Git controlla le impostazioni nel file di configurazione presente nella directory Git (`.git/config`) di qualsiasi repository che tu stia utilizzando. Queste impostazioni sono specifiche di quel singolo repository. Ogni livello sovrascrive i valori del livello precedente, quindi i valori in `.git/config` battono quelli in `/etc/gitconfig`. Puoi configurare queste impostazioni anche editando manualmente il file, usando la sintassi corretta, ma solitamente è più semplice eseguire il comando `git config`.
 
-### Configurazione Base del Client ###
+### Configurazione minima del client ###
 
-Le opzioni di configurazione riconosciute da Git si suddividono in due categorie: client-side e server-side. La maggioranza delle opzioni sono client-side—impostando le tue personali preferenze. Sono comunque disponibili molte opzioni, ne copriremo solo alcune che sono solitamente utilizzate o possono personalizzare il tuo ambiente di lavoro in modo significativo. Molte opzioni sono utili solo in casi limite che non esamineremo in questa sede. Nel caso tu voglia vedere una lista di tutte le opzioni che la tua versione di Git riconosce puoi eseguire il comando
+Le opzioni di configurazione riconosciute da Git si suddividono in due categorie: `client-side` e `server-side`. La maggioranza delle opzioni sono client-side perché definiscono le tue preferenze personali. Sebbene siano disponibili moltissime opzioni, vedremo solo le poche che sono utilizzate spesso o che possono influenzare significativamente il tuo ambiente di lavoro. Molte opzioni sono utili solo in casi estremi che quindi non esamineremo in questa sede. Se vuoi vedere l'elenco di tutte le opzioni disponibili in Git, puoi eseguire il comando
 
 	$ git config --help
 

@@ -526,7 +526,7 @@ All'esecuzione di `git archive`, il contenuto del file quando qualcuno aprirà l
 	$ cat LAST_COMMIT
 	Last commit date: $Format:Tue Apr 21 08:38:48 2009 -0700$
 
-### Merge Strategies ###
+### Strategie di merge ###
 
 È possibile inoltre utilizzare attributi Git per comunicare a Git di utilizzare differenti strategie di merge per files specifici nel progetto. Un opzione molto utile è comunicare a Git di non provare ad eseguire merge di files specifici quando sussistono conflitti, ma, invece, di la propria parte di merge sopra quella di qualcun altro.
 
@@ -556,11 +556,11 @@ Gli hooks sono salvati nella sottodirectory `hooks` all'interno della directory 
 
 Per abilitare uno script hook, bisogna inserire il file nella sottodirectory `hooks` della directory Git, il file dovrà essere nominato in modo appropriato ed eseguibile. Da questo punto in poi dovrebbe essere chiamato. Vedremo ora i principali nomi di hook.
 
-### Hooks Lato Client ###
+### Hook sul client ###
 
 Esistono molti hooks lato client. In questa sezione li divideremo in committing-workflow hooks, e-mail-workflow scripts, ed i restanti client-side scripts.
 
-#### Committing-Workflow Hooks ####
+#### Hook per le commit ####
 
 I primi quattro hooks sono correlati con il processo di commit. L'hook `pre-commit` è eseguito per primo, prima che venga richiesto l'inserimento del messaggio di commit. È usato per controllare lo snapshot di cui si vuole eseguire il commit, per vedere se ci si è dimenticati di qualcosa, per assicurarsi che i test funzionino, o per esaminare qualsiasi cosa si voglia nel codice. Se il valore di uscita di questo hook è un non-zero il commit viene annullato, in alternativa può essere bypassato tramite il comando `git commit --no-veriy`. È possibile eseguire operazioni come controllare lo stile del codice (eseguendo lint o qualcosa di simile), cercare whitespace alla fine (l'hook di default fa esattamente questo), cercare documentazione appropriata su nuovi metodi.
 
@@ -572,7 +572,7 @@ Al termine dell'intero processo di commit, viene eseguito l'hook `post-commit`. 
 
 Gli script client-side per il committing-workflow possono essere utilizzati in ogni flusso di lavoro. Sono spesso utilizzati per rafforzare alcune norme, è comunque importante notare che questi scripts non sono trasferiti durante un clone. È possibile rafforzare le norme lato server per rifiutare push di commits che non siano conformi a qualche norma, ma è responsabilità dello sviluppatore utilizzare questi script lato client. Quindi, questi sono scripts che aiutano gli sviluppatori, devono essere impostati e mantenuti da loro, possono essere modificati o sovrascritti da loro in ogni momento.
 
-#### E-mail Workflow Hooks ####
+#### Hook per le e-mail ####
 
 È possibile impostare tre hooks lato client per un flusso di lavoro basato sulle e-mail. Sono tutti invocati dal comando `git am`, quindi se non si utilizza il detto comando, questa sezione può essere tranquillamente saltata. Se si prendono patches via e-mail preparate tramite `git format-patch`, allora alcuni di questi hooks potrebbero risultare utili.
 
@@ -582,7 +582,7 @@ Il prossimo hook che viene eseguito è `pre-applypatch`. Non riceve argomenti e 
 
 L'ultimo hook che viene eseguito è `post-applypatch`. È possibile utilizzarlo per notificare ad un gruppo o all'autore della patch che è stato eseguito il pull nel quale si è lavorato. È possibile fermare il patching tramite questo script.
 
-#### Altri Client Hooks ####
+#### Altri hook sul client ####
 
 L'hook `pre-rebase` viene eseguito prima di un rebase e può fermare il processo ritornando un non-zero. È possibile utilizzare questo hook per negare il rebasing di qualsiasi commit di cui sia stato già effettuato un push. Lo script `pre-rebase` di esempio esegue quanto detto, in alternativa assume che next sia il nome del branch che si vuole pubblicare. Dovresti cambiarlo nel branch stabile.
 
@@ -591,7 +591,7 @@ Dopo aver eseguito con successp `git checkout`, viene eseguito l'hook `post-chec
 
 Infine, l'hook `post-merge` viene eseguito dopo un comando `merge` terminato con successo. È possibile utilizzarlo per ripristinare informazioni dell'albero che Git non riesce a tracciare (come informazioni di permessi). Questo hook può allo stesso modo validare la presenza di files esterni al controllo di Git che potresti voler copiare all'interno quando l'albero di lavoro cambia.
 
-### Hooks Lato Server ###
+### Hook sul server ###
 
 In aggiunta agli hooks lato client, è possibile utilizzare un paio di hooks lato server come amministrazione di sistema per rafforzare praticamente ogni tipo di norma per il progetto. Questi scripts vengono eseguiti prima e dopo i push verso il server. I pre hooks possono ritornare non-zero in ogni momento per rifiutare il push inviando un messaggio di errore al client; è possibile configurare una politica di push che sia complessa quanto si desidera.
 

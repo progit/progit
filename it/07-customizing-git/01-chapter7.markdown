@@ -1,6 +1,6 @@
-	# Customizing Git #
+# Personalizzare Git #
 
-Finora abbiamo quindi coperto le basi di come Git funzioni e come usarlo, abbiamo introdotto un numero di strumenti che Git fornisce per aiutarti ad utilizzarlo al meglio ed in modo efficiente. In questo capitolo spiegherò alcune delle operazioni che possono essere utilizzate per personalizzare il comportamento di Git introducendo molti settaggi ed il Hooks System. Tramite questi strumenti, è semplice fare in modo che Git lavori nel modo che tu, la tua azienda, o il tuo gruppo desiderate.
+Finora abbiamo viso le basi di come Git e come usarlo, abbiamo introdotto alcuni strumenti forniti da Git per aiutarti a usarlo al meglio ed efficientemente. In questo capitolo vedremo alcune operazioni che possono essere utilizzate per personalizzare il comportamento di Git, introducendo molte impostazione e il sistema degli `hook`. Tramite questi strumenti sarà semplice fare in modo che Git lavori come tu, la tua azienda, o il tuo gruppo desideriate.
 
 ## Configurazione di Git ##
 

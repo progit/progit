@@ -79,11 +79,11 @@ Se eseguissi questo comando, Git paginerà l'intero output di qualsiasi comando,
 
 #### user.signingkey ####
 
-Nel caso tu voglia firmare i tags (come discusso nel Capitolo 2), impostare la tua chiave GPG nelle impostazioni rende le cose più semplici. Imposta l'ID della tua chiave in questo modo:
+Nel caso utilizzi tag firmati (come descritto nel capitolo 2), definire la tua chiave GPG nelle impostazioni rende le cose più semplici. Imposta l'ID della tua chiave in questo modo:
 
 	$ git config --global user.signingkey <gpg-key-id>
 
-Ora, puoi firmare i tags senza dover specificare la tua chiave ogni volta con il comando `git tag`:
+Ora, puoi firmare i tags, senza dover specificare ogni volta la tua chiave, con il comando `git tag`:
 
 	$ git tag -s <tag-name>
 

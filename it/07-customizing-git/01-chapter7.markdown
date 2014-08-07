@@ -89,7 +89,7 @@ Ora, puoi firmare i tags, senza dover specificare ogni volta la tua chiave, con 
 
 #### core.excludesfile ####
 
-Puoi inserire patterns nel file `.gitignore` del tuo progetto per fare in modo che Git non li veda come untracked files o provi a farne uno stage all'esecuzione del comando `git add` su di loro, come visto nel Capitolo 2. Comunque, se vuoi che un altro file all'esterno del tuo progetto gestisca questi valori o abbia valori extra, puoi informare Git della posizione del file tramite il parametro `core.excludesfile`. Impostalo semplicemente sul percorso del file che ha un contenuto simile a quello che avrebbe un file `.gitignore`.
+Puoi inserire dei modelli nel file `.gitignore` del tuo progetto per fare in modo che Git non li veda come file non tracciati o provi a metterli nell'area di stage quando esegui `git add`, come visto nel capitolo 2. Se però vuoi che un altro file, all'esterno del tuo progetto, gestisca queste esclusioni o vuoi definire valori addizionali, puoi dire a Git dove si trovi quel file con `core.excludesfile`. Ti basta specificare il percorso del file che abbia un contenuto simile a quello che avrebbe il `.gitignore`.
 
 #### help.autocorrect ####
 

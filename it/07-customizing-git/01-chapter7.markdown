@@ -71,11 +71,11 @@ Nel caso tu abbia una sintassi standard da seguire per i messaggi di commit, con
 
 #### core.pager ####
 
-L'impostazione core.pager determina quale pager venga utilizzato quando Git pagina l'output come `log` e `diff`. Puoi impostarlo a `more` o al tuo pager preferito (di default è `less`), in alternativa puoi disattivarlo impostandolo ad una stringa vuota:
+L'impostazione core.pager determina quale applicazione debba essere usata da Git quando pagina output lunghi come `log` e `diff`. Puoi impostarlo a `more` o alla tua applicazione preferita (predefinito è `less`), o puoi anche disattivarlo impostandolo a una stringa vuota:
 
 	$ git config --global core.pager ''
 
-Nel caso tu lo esegua, Git paginerà l'output di ogni comando, non importa quanto esso sia lungo.
+Se eseguissi questo comando, Git paginerà l'intero output di qualsiasi comando, non importa quanto esso sia lungo.
 
 #### user.signingkey ####
 

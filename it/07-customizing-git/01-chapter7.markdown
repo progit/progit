@@ -1,25 +1,25 @@
-	# Customizing Git #
+# Personalizzare Git #
 
-Finora abbiamo quindi coperto le basi di come Git funzioni e come usarlo, abbiamo introdotto un numero di strumenti che Git fornisce per aiutarti ad utilizzarlo al meglio ed in modo efficiente. In questo capitolo spiegherò alcune delle operazioni che possono essere utilizzate per personalizzare il comportamento di Git introducendo molti settaggi ed il Hooks System. Tramite questi strumenti, è semplice fare in modo che Git lavori nel modo che tu, la tua azienda, o il tuo gruppo desiderate.
+Finora abbiamo viso le basi di come Git e come usarlo, abbiamo introdotto alcuni strumenti forniti da Git per aiutarti a usarlo al meglio ed efficientemente. In questo capitolo vedremo alcune operazioni che possono essere utilizzate per personalizzare il comportamento di Git, introducendo molte impostazione e il sistema degli `hook`. Tramite questi strumenti sarà semplice fare in modo che Git lavori come tu, la tua azienda, o il tuo gruppo desideriate.
 
 ## Configurazione di Git ##
 
-Come hai visto brevemente nel capitolo 1, si possono specificare delle impostazioni per Git tramite il comando `git config`. Una delle prime cose che hai fatto è stato impostare il tuo nome ed il tuo indirizzo e-mail:
+Come abbiamo visto brevemente nel capitolo 1, è possibile configurare Git con il comando `git config`. Una delle prime cose che abbiamo fatto è stato definire il nostro nome e il nostro indirizzo e-mail:
 
 	$ git config --global user.name "John Doe"
 	$ git config --global user.email johndoe@example.com
 
-Ora imparerai alcune delle opzioni più interessanti che si possono impostare in questa maniera per personalizzare l'utilizzo di Git.
+Ora vedremo alcune delle opzioni più interessanti che puoi configurare allo stesso modo, per personalizzare il modo in cui usi Git.
 
-Hai visto alcuni semplici dettagli di configurazione nel primo capitolo, ora li esamineremo ancora velocemente. Git utilizza una serie di files di configurazione per determinare comportamenti non standard che potresti desiderare. In primo luogo Git cercherà questi valori nel file `/etc/gitconfig`, il quale contiene valori per ogni utente e repository di sua proprietà presenti sul sitema. Se si passa l'opzione `--system` a `git config`, il programma leggerà e scriverà in modo specifico su questo file.
+Nel primo capitolo hai visto alcuni dettagli per delle configurazioni semplici, ora li rivedremo velocemente. Git usa più file di configurazione per decidere cosa fare in situazioni non standard. Il primo di questi, dove Git cercherà, è `/etc/gitconfig`, che contiene la configurazione per tutti gli utenti del sistema e dei loro repository. Git legge e scrive su questo file quando usi l'opzione `--system` con `git config`.
 
-Successivamente Git controlla il file `~/.gitconfig`, che è specifico per ogni utente. Puoi fare in modo che Git legga e scriva su questo file utilizzando l'opzione `--global`.
+Il file successivo dove Git va a cercare è `~/.gitconfig`, che è specifico per ogni utente. Puoi fare in modo che Git legga e scriva su questo file con l'opzione `--global`.
 
-Infine, Git controlla i valori di configurazione nel file di configurazione presente nella directory Git (`.git/config`) di qualsiasi repository che stai utilizzando. Questi valori sono specifici del singolo repository. Ongi livello sovrascrive i valori del livello precedente, per esempio i valori in `.git/config` battono quelli in `/etc/gitconfig`. Si può inoltre impostare questi valori modificando manualmente il file ed inserendo la corretta sintassi, tuttavia solitamente è più semplice eseguire il comando `git config`.
+Infine Git controlla le impostazioni nel file di configurazione presente nella directory Git (`.git/config`) di qualsiasi repository che tu stia utilizzando. Queste impostazioni sono specifiche di quel singolo repository. Ogni livello sovrascrive i valori del livello precedente, quindi i valori in `.git/config` battono quelli in `/etc/gitconfig`. Puoi configurare queste impostazioni anche editando manualmente il file, usando la sintassi corretta, ma solitamente è più semplice eseguire il comando `git config`.
 
-### Configurazione Base del Client ###
+### Configurazione minima del client ###
 
-Le opzioni di configurazione riconosciute da Git si suddividono in due categorie: client-side e server-side. La maggioranza delle opzioni sono client-side—impostando le tue personali preferenze. Sono comunque disponibili molte opzioni, ne copriremo solo alcune che sono solitamente utilizzate o possono personalizzare il tuo ambiente di lavoro in modo significativo. Molte opzioni sono utili solo in casi limite che non esamineremo in questa sede. Nel caso tu voglia vedere una lista di tutte le opzioni che la tua versione di Git riconosce puoi eseguire il comando
+Le opzioni di configurazione riconosciute da Git si suddividono in due categorie: `client-side` e `server-side`. La maggioranza delle opzioni sono client-side perché definiscono le tue preferenze personali. Sebbene siano disponibili moltissime opzioni, vedremo solo le poche che sono utilizzate spesso o che possono influenzare significativamente il tuo ambiente di lavoro. Molte opzioni sono utili solo in casi estremi che quindi non esamineremo in questa sede. Se vuoi vedere l'elenco di tutte le opzioni disponibili in Git, puoi eseguire il comando
 
 	$ git config --help
 
@@ -27,32 +27,32 @@ La pagina del manuale per `git config` elenca tutte le opzioni disponibili aggiu
 
 #### core.editor ####
 
-Di default, Git utilizza qualsiasi programma che tu abbia impostato come text editor, in alternativa sceglie l'editor Vi per creare e modificare commit tag e messaggi. Per cambiare l'impostazione standard, puoi utilizzare l'impostazione `core.editor`:
+Di default, Git utilizza qualsiasi programma tu abbia impostato come text editor o, in mancanza, sceglie l'editor Vi per creare e modificare i messaggi delle commit e dei tag. Per cambiare l'impostazione standard, puoi configurare il `core.editor`:
 
 	$ git config --global core.editor emacs
 
-Ora, non importa quale sia la variabile shell per l'editor, Git utilizzerà Emacs per modificare i messaggi.
+Facendo così non importa quale sia l'editor predefinito configurato per la tua shell, Git lancerà sempre Emacs per modificare i messaggi.
 
 #### commit.template ####
 
-Se impostato verso il percorso di un file, Git utilizzerà questo file come messaggio di default per i tuoi commit. Ad esempio, supponiamo che tu abbia creato un file di template in `$HOME/.gitmessage.txt` in questo modo:
+Se come valore per questo parametro definisci il percorso di un file, Git utilizzerà quel file come modello per i tuoi messaggio quando committi. Supponiamo per esempio che tu abbia creato il seguente modello in `$HOME/.gitmessage.txt`:
 
-	subject line
+	oggetto
 
-	what happened
+	cos'è successo: giustifica la tua commit
 
 	[ticket: X]
 
-Per comunicare a Git di utilizzare come messaggio di default il messaggio che compare nell'editor quando viene eseguito `git commit`, imposta il valore `commit.template` in questo modo:
+Per comunicare a Git di usare sempre questo messaggio nel tuo editor quando esegui `git commit`, configura `commit.template` in questo modo:
 
 	$ git config --global commit.template $HOME/.gitmessage.txt
 	$ git commit
 
-Il tuo editor si aprirà quindi in un modo simile a questo per la tua variabile metasintattica del messaggio di commit, ad ogni tuo commit:
+Quando committi, il tuo editor si aprirà con un contenuto simile al seguente, perché tu scriva il tuo messaggio:
 
-	subject line
+	oggetto
 
-	what happened
+	cos'è successo: giustifica la tua commit
 
 	[ticket: X]
 	# Please enter the commit message for your changes. Lines starting
@@ -67,33 +67,33 @@ Il tuo editor si aprirà quindi in un modo simile a questo per la tua variabile 
 	~
 	".git/COMMIT_EDITMSG" 14L, 297C
 
-Nel caso tu abbia una norma per il messaggio di commit, allora inserire un template per quella norma sul tuo sistema e configurare Git per utilizzarla di default può aiutare ad aumentare le possibilità che quella norma venga seguita regolarmente.
+Nel caso tu abbia una sintassi standard da seguire per i messaggi di commit, configurare Git perché usi un modello può aumentare le possibilità che quello standard venga rispettato.
 
 #### core.pager ####
 
-L'impostazione core.pager determina quale pager venga utilizzato quando Git pagina l'output come `log` e `diff`. Puoi impostarlo a `more` o al tuo pager preferito (di default è `less`), in alternativa puoi disattivarlo impostandolo ad una stringa vuota:
+L'impostazione core.pager determina quale applicazione debba essere usata da Git quando pagina output lunghi come `log` e `diff`. Puoi impostarlo a `more` o alla tua applicazione preferita (predefinito è `less`), o puoi anche disattivarlo impostandolo a una stringa vuota:
 
 	$ git config --global core.pager ''
 
-Nel caso tu lo esegua, Git paginerà l'output di ogni comando, non importa quanto esso sia lungo.
+Se eseguissi questo comando, Git paginerà l'intero output di qualsiasi comando, non importa quanto esso sia lungo.
 
 #### user.signingkey ####
 
-Nel caso tu voglia firmare i tags (come discusso nel Capitolo 2), impostare la tua chiave GPG nelle impostazioni rende le cose più semplici. Imposta l'ID della tua chiave in questo modo:
+Nel caso utilizzi tag firmati (come descritto nel capitolo 2), definire la tua chiave GPG nelle impostazioni rende le cose più semplici. Imposta l'ID della tua chiave in questo modo:
 
 	$ git config --global user.signingkey <gpg-key-id>
 
-Ora, puoi firmare i tags senza dover specificare la tua chiave ogni volta con il comando `git tag`:
+Ora, puoi firmare i tags, senza dover specificare ogni volta la tua chiave, con il comando `git tag`:
 
 	$ git tag -s <tag-name>
 
 #### core.excludesfile ####
 
-Puoi inserire patterns nel file `.gitignore` del tuo progetto per fare in modo che Git non li veda come untracked files o provi a farne uno stage all'esecuzione del comando `git add` su di loro, come visto nel Capitolo 2. Comunque, se vuoi che un altro file all'esterno del tuo progetto gestisca questi valori o abbia valori extra, puoi informare Git della posizione del file tramite il parametro `core.excludesfile`. Impostalo semplicemente sul percorso del file che ha un contenuto simile a quello che avrebbe un file `.gitignore`.
+Puoi inserire dei modelli nel file `.gitignore` del tuo progetto per fare in modo che Git non li veda come file non tracciati o provi a metterli nell'area di stage quando esegui `git add`, come visto nel capitolo 2. Se però vuoi che un altro file, all'esterno del tuo progetto, gestisca queste esclusioni o vuoi definire valori addizionali, puoi dire a Git dove si trovi quel file con `core.excludesfile`. Ti basta specificare il percorso del file che abbia un contenuto simile a quello che avrebbe il `.gitignore`.
 
 #### help.autocorrect ####
 
-Questa opzione è disponibile solo in Git 1.6.1 e successivi. Se digiti in modo errato un comando in Git 1.6, ti mostrerà qualcosa del genere:
+Questa opzione è disponibile solo da Git 1.6.1 in poi. Se digiti male un comando in Git, otterrai qualcosa del genere:
 
 	$ git com
 	git: 'com' is not a git-command. See 'git --help'.
@@ -101,7 +101,7 @@ Questa opzione è disponibile solo in Git 1.6.1 e successivi. Se digiti in modo 
 	Did you mean this?
 	     commit
 
-Se imposti `help.autocorrect` a 1, Git automaticamente eseguirà il comando nel caso in cui corrisponda ad un solo match.
+Se imposti `help.autocorrect` a 1, Git eseguirà automaticamente il comando nel caso esista un'unica corrispondenza.
 
 ### Colors in Git ###
 
@@ -526,7 +526,7 @@ All'esecuzione di `git archive`, il contenuto del file quando qualcuno aprirà l
 	$ cat LAST_COMMIT
 	Last commit date: $Format:Tue Apr 21 08:38:48 2009 -0700$
 
-### Merge Strategies ###
+### Strategie di merge ###
 
 È possibile inoltre utilizzare attributi Git per comunicare a Git di utilizzare differenti strategie di merge per files specifici nel progetto. Un opzione molto utile è comunicare a Git di non provare ad eseguire merge di files specifici quando sussistono conflitti, ma, invece, di la propria parte di merge sopra quella di qualcun altro.
 
@@ -556,11 +556,11 @@ Gli hooks sono salvati nella sottodirectory `hooks` all'interno della directory 
 
 Per abilitare uno script hook, bisogna inserire il file nella sottodirectory `hooks` della directory Git, il file dovrà essere nominato in modo appropriato ed eseguibile. Da questo punto in poi dovrebbe essere chiamato. Vedremo ora i principali nomi di hook.
 
-### Hooks Lato Client ###
+### Hook sul client ###
 
 Esistono molti hooks lato client. In questa sezione li divideremo in committing-workflow hooks, e-mail-workflow scripts, ed i restanti client-side scripts.
 
-#### Committing-Workflow Hooks ####
+#### Hook per le commit ####
 
 I primi quattro hooks sono correlati con il processo di commit. L'hook `pre-commit` è eseguito per primo, prima che venga richiesto l'inserimento del messaggio di commit. È usato per controllare lo snapshot di cui si vuole eseguire il commit, per vedere se ci si è dimenticati di qualcosa, per assicurarsi che i test funzionino, o per esaminare qualsiasi cosa si voglia nel codice. Se il valore di uscita di questo hook è un non-zero il commit viene annullato, in alternativa può essere bypassato tramite il comando `git commit --no-veriy`. È possibile eseguire operazioni come controllare lo stile del codice (eseguendo lint o qualcosa di simile), cercare whitespace alla fine (l'hook di default fa esattamente questo), cercare documentazione appropriata su nuovi metodi.
 
@@ -572,7 +572,7 @@ Al termine dell'intero processo di commit, viene eseguito l'hook `post-commit`. 
 
 Gli script client-side per il committing-workflow possono essere utilizzati in ogni flusso di lavoro. Sono spesso utilizzati per rafforzare alcune norme, è comunque importante notare che questi scripts non sono trasferiti durante un clone. È possibile rafforzare le norme lato server per rifiutare push di commits che non siano conformi a qualche norma, ma è responsabilità dello sviluppatore utilizzare questi script lato client. Quindi, questi sono scripts che aiutano gli sviluppatori, devono essere impostati e mantenuti da loro, possono essere modificati o sovrascritti da loro in ogni momento.
 
-#### E-mail Workflow Hooks ####
+#### Hook per le e-mail ####
 
 È possibile impostare tre hooks lato client per un flusso di lavoro basato sulle e-mail. Sono tutti invocati dal comando `git am`, quindi se non si utilizza il detto comando, questa sezione può essere tranquillamente saltata. Se si prendono patches via e-mail preparate tramite `git format-patch`, allora alcuni di questi hooks potrebbero risultare utili.
 
@@ -582,7 +582,7 @@ Il prossimo hook che viene eseguito è `pre-applypatch`. Non riceve argomenti e 
 
 L'ultimo hook che viene eseguito è `post-applypatch`. È possibile utilizzarlo per notificare ad un gruppo o all'autore della patch che è stato eseguito il pull nel quale si è lavorato. È possibile fermare il patching tramite questo script.
 
-#### Altri Client Hooks ####
+#### Altri hook sul client ####
 
 L'hook `pre-rebase` viene eseguito prima di un rebase e può fermare il processo ritornando un non-zero. È possibile utilizzare questo hook per negare il rebasing di qualsiasi commit di cui sia stato già effettuato un push. Lo script `pre-rebase` di esempio esegue quanto detto, in alternativa assume che next sia il nome del branch che si vuole pubblicare. Dovresti cambiarlo nel branch stabile.
 
@@ -591,7 +591,7 @@ Dopo aver eseguito con successp `git checkout`, viene eseguito l'hook `post-chec
 
 Infine, l'hook `post-merge` viene eseguito dopo un comando `merge` terminato con successo. È possibile utilizzarlo per ripristinare informazioni dell'albero che Git non riesce a tracciare (come informazioni di permessi). Questo hook può allo stesso modo validare la presenza di files esterni al controllo di Git che potresti voler copiare all'interno quando l'albero di lavoro cambia.
 
-### Hooks Lato Server ###
+### Hook sul server ###
 
 In aggiunta agli hooks lato client, è possibile utilizzare un paio di hooks lato server come amministrazione di sistema per rafforzare praticamente ogni tipo di norma per il progetto. Questi scripts vengono eseguiti prima e dopo i push verso il server. I pre hooks possono ritornare non-zero in ogni momento per rifiutare il push inviando un messaggio di errore al client; è possibile configurare una politica di push che sia complessa quanto si desidera.
 

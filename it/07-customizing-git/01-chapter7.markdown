@@ -93,7 +93,7 @@ Puoi inserire dei modelli nel file `.gitignore` del tuo progetto per fare in mod
 
 #### help.autocorrect ####
 
-Questa opzione è disponibile solo in Git 1.6.1 e successivi. Se digiti in modo errato un comando in Git 1.6, ti mostrerà qualcosa del genere:
+Questa opzione è disponibile solo da Git 1.6.1 in poi. Se digiti male un comando in Git, otterrai qualcosa del genere:
 
 	$ git com
 	git: 'com' is not a git-command. See 'git --help'.
@@ -101,7 +101,7 @@ Questa opzione è disponibile solo in Git 1.6.1 e successivi. Se digiti in modo 
 	Did you mean this?
 	     commit
 
-Se imposti `help.autocorrect` a 1, Git automaticamente eseguirà il comando nel caso in cui corrisponda ad un solo match.
+Se imposti `help.autocorrect` a 1, Git eseguirà automaticamente il comando nel caso esista un'unica corrispondenza.
 
 ### Colors in Git ###
 

@@ -35,24 +35,24 @@ Facendo così non importa quale sia l'editor predefinito configurato per la tua 
 
 #### commit.template ####
 
-Se impostato verso il percorso di un file, Git utilizzerà questo file come messaggio di default per i tuoi commit. Ad esempio, supponiamo che tu abbia creato un file di template in `$HOME/.gitmessage.txt` in questo modo:
+Se come valore per questo parametro definisci il percorso di un file, Git utilizzerà quel file come modello per i tuoi messaggio quando committi. Supponiamo per esempio che tu abbia creato il seguente modello in `$HOME/.gitmessage.txt`:
 
-	subject line
+	oggetto
 
-	what happened
+	cos'è successo: giustifica la tua commit
 
 	[ticket: X]
 
-Per comunicare a Git di utilizzare come messaggio di default il messaggio che compare nell'editor quando viene eseguito `git commit`, imposta il valore `commit.template` in questo modo:
+Per comunicare a Git di usare sempre questo messaggio nel tuo editor quando esegui `git commit`, configura `commit.template` in questo modo:
 
 	$ git config --global commit.template $HOME/.gitmessage.txt
 	$ git commit
 
-Il tuo editor si aprirà quindi in un modo simile a questo per la tua variabile metasintattica del messaggio di commit, ad ogni tuo commit:
+Quando committi, il tuo editor si aprirà con un contenuto simile al seguente, perché tu scriva il tuo messaggio:
 
-	subject line
+	oggetto
 
-	what happened
+	cos'è successo: giustifica la tua commit
 
 	[ticket: X]
 	# Please enter the commit message for your changes. Lines starting
@@ -67,7 +67,7 @@ Il tuo editor si aprirà quindi in un modo simile a questo per la tua variabile 
 	~
 	".git/COMMIT_EDITMSG" 14L, 297C
 
-Nel caso tu abbia una norma per il messaggio di commit, allora inserire un template per quella norma sul tuo sistema e configurare Git per utilizzarla di default può aiutare ad aumentare le possibilità che quella norma venga seguita regolarmente.
+Nel caso tu abbia una sintassi standard da seguire per i messaggi di commit, configurare Git perché usi un modello può aumentare le possibilità che quello standard venga rispettato.
 
 #### core.pager ####
 

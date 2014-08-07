@@ -227,6 +227,10 @@ Vy nyní klíče vložíte do souboru `authorized_keys`:
 	$ cat /tmp/id_rsa.josie.pub >> ~/.ssh/authorized_keys
 	$ cat /tmp/id_rsa.jessica.pub >> ~/.ssh/authorized_keys
 
+Autentizace vůči SSH, která je založená na klíči, obvykle vynucuje zvýšenou bezpečnost tím, že pro zúčastněné soubory vyžaduje omezená oprávnění. Aby SSH neodmítl pracovat, napište následující:
+
+	$ chmod -R go= ~/.ssh
+
 Nyní pro ně můžete nastavit prázdný repozitář. Spusťte příkaz `git init` s parametrem `--bare`, který inicializuje repozitář bez pracovního adresáře:
 
 	$ cd /opt/git

@@ -1,56 +1,65 @@
-Pro Git 책의 내용
-=====================
+This is a translation of the original [README.md](../README.md) in English with
+some additional information about the Korean translation.
 
-이 저장소는 Pro Git의 source code이고 라이센스는 Creative Commons Attribution-Non Commercial-Share Alike 3.0를 따릅니다. 필자는 여러분이 즐겁게 git을 배웠으면 좋겠습니다. 만약 Amazon에서 책을 구입해주신다면 저와 Apress는 깊은 감사를 드릴 것입니다:
+# Pro Git
 
-http://tinyurl.com/amazonprogit
+이곳에 담긴 내용물은 「Pro Git」 한국어판의 소스 코드로, 원본은 영어판 「Pro Git」입니다. 원작과
+본 번역물은 [크리에이티브 커먼즈 저작자표시-비영리-동일조건변경허락 3.0 (CC BY-NC-SA
+3.0)](https://creativecommons.org/licenses/by-nc-sa/3.0/) 조건에 따라 이용할 수
+있습니다.
 
-Ebook 만드는 법
-=====================
+이 책을 통해 Git을 즐겁게 배우시길 바랍니다. [출판된 책을 Amazon에서 구입](http://tinyurl.com/amazonprogit)하시면
+원저자인 Scott Chacon과 Apress 출판사에게 큰 도움이 됩니다.
+[git-scm.com](http://git-scm.com/book/)에서 영어, 한국어 및 10여개의 다른 언어로 온라인에서
+읽을 수도 있습니다.
 
-페도라에서는 다음과 같이 하면 됩니다:
+# 전자책 만들기
 
-    $ yum install ruby calibre rubygems ruby-devel rubygem-ruby-debug 
-    $ gem install rdiscount
-    $ FORMAT=epub ./makeebooks ko # FORMAT이 없으면 mobi파일이 생성됩니다.
+페도라(16 이상)에서는 아래와 같이 할 수 있습니다.
 
-Mac에서는 먼저 Calibre를 내려받아 설치하고 `ebook-convert` 명령을 실행경로에 넣어 줘야 합니다. 예를 들어 `~/bin/`을 실행경로로 사용하고 있다면 다음과 같이합니다:
+    $ yum install ruby calibre rubygems ruby-devel rubygem-ruby-debug rubygem-rdiscount
+    $ ./makeebooks en  # mobi 파일 생성
 
-    $ ln -s /Applications/calibre.app/Contents/MacOS/ebook-convert ~/bin/ebook-convert
+맥에서는 아래의 설명을 따르세요.
 
-그리고 gem을 설치하고 만들면 됩니다:
+1. ruby와 rubygems을 설치
+2. 터미널에서 `gem install rdiscount` 실행
+3. 맥용 Calibre를 다운로드 및 명령줄 도구 설치. PDF를 만들려면 다음 소프트웨어도 설치해야 합니다:
+    * pandoc: http://johnmacfarlane.net/pandoc/installing.html
+    * xelatex: http://tug.org/mactex/
+4. 터미널에서 `./makeebooks ko` 실행 (mobi 파일 생성)
 
-    $ sudo gem install rdiscount ruby-debug
-    $ ./makeebooks en  # will produce a mobi
+역주: 모든 명령어는 프로젝트의 루트 디렉토리에서 실행되어야 합니다.
 
-Pdf 만드는 법
-=====================
+# 정오표
 
-Mac에서는 먼저 Pandoc과 MacTex 패키지를 설치합니다. pdf를 빌드하려면 xetex가 필요한데 MacTex가 가장 쉽습니다. MacTex(2011 패키지 1.8G)는 용량이 크지만 전부 설치합니다.
+이 책에서 잘못된 점이나 수정되어야 하는 부분을 발견한 경우, GitHub 저장소에 [이슈를
+등록](https://github.com/progit/progit/issues/new)해주세요.
 
-그리고 makepdf명령으로 만들 수 있습니다:
+# 번역
 
-    $ ./makepdfs ko
+이 책을 새로운 언어로 번역하고 싶다면 [ISO 639](http://en.wikipedia.org/wiki/List_of_ISO_639-1_codes)
+코드에 맞는 이름으로 프로젝트의 루트 디렉토리에 새 디렉토리를 만든 뒤 pull request를 보내주세요.
+번역된 책은 git-scm.com 웹사이트에 게시되어 누구나 볼 수 있게 됩니다.
 
-오류
-=====================
+# pull request 보내기
 
-틀린 부분이나 개선해야 할 부분이 있으면 주저 말고 저에게 메일을 보내주세요.
-(schacon at gmail dot com)
+* 모든 파일은 UTF-8 인코딩을 사용해야 합니다.
+* 영어 원본과 번역본의 변경 사항은 각각 다른 pull request로 보내주세요.
+* 번역본을 수정할 때는 commit 메시지와 pull request의 제목을 해당 언어의 ISO 639 코드로
+  시작해주세요. 예를 들어 한국어판의 내용을 수정했을 경우 `[ko] improve wording`처럼 제목을
+  달면 됩니다.
+* 변경 사항이 conflict 없이 자동으로 merge될 수 있어야 합니다.
+* PDF 만들기, 전자책 만들기, git-scm.com 웹사이트 등이 잘 작동하는지 꼭 확인해주세요.
 
-번역
-=====================
+# 한국어판 출판 및 역자 정보
 
-이 책을 번역해서 알려주시면 제가 progit.org에 번역본을 올릴 것입니다. 적당히(이탈리아어로 번역한다면 `it`라는 디렉토리를 만든다) 하위 디렉토리를 만들고 번역을 완성하고 나서 필자에게 pull 요청을 해주세요.
+인사이트를 통해서 [Pro Git
+한국어판](http://www.insightbook.co.kr/books/programming-insight/프로-git)이
+2013년 4월 19일에 출판되었습니다. 출판된 책을 구입하시면 도서출판 인사이트와 역자들에게 도움이 됩니다.
 
-역자 정보
-=====================
+## 역자 소개
 
-번역, 박창우(Changwoo Park), pismute at gmail dot com, https://github.com/pismute
-번역, 이성환(Sean Lee), lethee at gmail dot comt, https://github.com/lethee
-번역, 최용재(Yongjae choi), lnyarl at gmail dot comt, https://github.com/lnyarl
-
-종이책
-=====================
-
-[인사이트](http://www.insightbook.co.kr/)를 통해서 Pro Git 한글 번역판이 종이로도 출간됐습니다. 인사이트와 역자에게 도움을 주시기 바람니다.
+* [박창우(Changwoo Park)](https://github.com/pismute), pismute at gmail dot com
+* [이성환(Sean Lee)](https://github.com/lethee), lethee at gmail dot com
+* [최용재(Yongjae choi)](https://github.com/lnyarl), lnyarl at gmail dot com

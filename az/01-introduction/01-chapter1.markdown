@@ -6,38 +6,38 @@ Bu bölmə size git haqqında başlıca məlumatları çattırmağı hədəfləy
 
 Versiya nəzarəti nədir və nə işə yarayar? Versiya nəzarəti, Bir ya da daha çox fayl üzərində edilən dəyişiklikləri yazan və daha sonra müəyyən bir distributivə geri dönə bilmənizi təmin edən bir sistemdir. Bu kitabdakı nümunələrdə proqram qaynaq kod fayllarının versiya idarəsini edəcəksiniz, nə var ki, əslində versiyası idarəsini demək olar ki hər növdən fayl üçün istifadə edə bilərsiniz.
 
-Bir grafik və ya web dizayn tək və bir vizual və ya dizaynın dəyişik versiyalarını qorumaq istəyirsinizsə (ki ehtimalla bunu etmək istəyərsiniz), bir Versiya Kontrol Sistemi (VKS) istifadə etməniz çox ağıllıca olacaq. VKS, faylların və ya bütün layihənin keçmişdəki müəyyən bir versiyaya daxil olmağa, zaman içində edilən dəyişiklikləri müqayisə etməyinizi, problemə səbəb olan şeydə ən son kimin dəyişiklik etdiyini, müəyyən bir səhvi kimin, nə vaxt sistemə daxil etdiyini və daha başqa bir çox şeyi görə bilməyinizi təmin edər. Digər tərəfdən, VKS istifadə etmək, bir səhv etdikdə və ya bəzi faylları səhvən sildiyiniz də vəziyyəti asanlıqla kompensasiya etmənizə köməkçi olar. Üstəlik, bütün bunlar sizə əhəmiyyətli bir əlavə yük də gətirməz.
+Bir grafik və ya web dizayn tək və bir vizual və ya dizaynın dəyişik versiyalarını qorumaq istəyirsinizsə (ki ehtimalla bunu etmək istəyərsiniz), bir Versiya Nəzarət Sistemi (VNS) istifadə etməniz çox ağıllıca olacaq. VNS, faylların və ya bütün layihənin keçmişdəki müəyyən bir versiyaya daxil olmağa, zaman içində edilən dəyişiklikləri müqayisə etməyinizi, problemə səbəb olan şeydə ən son kimin dəyişiklik etdiyini, müəyyən bir səhvi kimin, nə vaxt sistemə daxil etdiyini və daha başqa bir çox şeyi görə bilməyinizi təmin edər. Digər tərəfdən, VNS istifadə etmək, bir səhv etdikdə və ya bəzi faylları səhvən sildiyiniz də vəziyyəti asanlıqla kompensasiya etmənizə köməkçi olar. Üstəlik, bütün bunlar sizə əhəmiyyətli bir əlavə yük də gətirməz.
 
-### Local Version Control Systems ###
+### Lokal Sürüm Nəzarət Sistemləri ###
 
-Many people’s version-control method of choice is to copy files into another directory (perhaps a time-stamped directory, if they’re clever). This approach is very common because it is so simple, but it is also incredibly error prone. It is easy to forget which directory you’re in and accidentally write to the wrong file or copy over files you don’t mean to.
+Əksəriyyəti faylları bir qovluğa (ağılları başlarındaysa tarix və zaman məlumatını də daxil olmaqla bir qovluğa) kopiyalayaraq versiyas nəzarətini etməyi seçər. Bu yanaşma çox məşhurdur, çünki çox asandır; amma eyni zamanda səhvlərə də ala bildiyinə açıqdır. Hansı qovluqda olduğunuzu unudub səhv fayla yaza ya da istəmədiyiniz faylların üstünə kopiyalama edə bilərsiniz.
 
-To deal with this issue, programmers long ago developed local VCSs that had a simple database that kept all the changes to files under revision control (see Figure 1-1).
+Bu problemlə baş edə bilmək üçün, proqramçılar uzun zaman əvvəl, fayllardakı bütün dəyişiklikləri versiya nəzarətinə alan sadə bir veri bazasına sahib olan lokal VNS'leri inkişaf etdirdilər (bax Göstərici 1-1).
 
 Insert 18333fig0101.png 
-Figure 1-1. Local version control diagram.
+Göstərici 1-1. Lokal Sürüm Nəzarət diaqramı.
 
-One of the more popular VCS tools was a system called rcs, which is still distributed with many computers today. Even the popular Mac OS X operating system includes the  rcs command when you install the Developer Tools. This tool basically works by keeping patch sets (that is, the differences between files) from one change to another in a special format on disk; it can then re-create what any file looked like at any point in time by adding up all the patches.
+Ən məşhur VNS vasitələrindən biri, bu gün hələ çox kompüterə yüklenmiş olaraq yayılan, RCS adında bir sistem idi. Məşhur Mac OS X əməliyyat sistemi belə, Developer Tools'u yüklediğinizde, RCS əmrini qurmaqdadır. Bu vasitə, iki versiyası arasındakı yamaqları (yəni, fayllar arasındakı fərqləri) xüsusi bir şəkildə diskə yazar; daha sonra, bu yamaqları bir-birinə əlavə, bir faylın müəyyən bir distributivdəki görünüşünü yenidən meydana gətirər.
 
-### Centralized Version Control Systems ###
+### Mərkəzi Versiya Nəzarət Sistemləri ###
 
-The next major issue that people encounter is that they need to collaborate with developers on other systems. To deal with this problem, Centralized Version Control Systems (CVCSs) were developed. These systems, such as CVS, Subversion, and Perforce, have a single server that contains all the versioned files, and a number of clients that check out files from that central place. For many years, this has been the standard for version control (see Figure 1-2).
+İnsanların qarşılaşdığı ikinci böyük problem, başqa sistemlərdəki proqramçılar ilə birlikdə iş ehtiyacından irəli gəlir. Bu problemlə başa çıxa bilmək üçün, Mərkəzi Versiya Nəzarət Sistemləri (MVNS) inkişaf etdirilmişdir. Bu sistemlər, məsələn CVS, Subversion və Perforce, versiyası idarəsinə alınan bütün faylları tutan bir server və bu serverdən faylları seçərək alan (check out) alıcını meydana gələr. Bu üsul, illərcə, versiyası idarəsində standart üsul olaraq qəbul gördü (bax Göstərici 1-2).
 
 Insert 18333fig0102.png 
-Figure 1-2. Centralized version control diagram.
+Göstərici 1-2. Mərkəzi Versiya Nəzarət diaqramı.
 
-This setup offers many advantages, especially over local VCSs. For example, everyone knows to a certain degree what everyone else on the project is doing. Administrators have fine-grained control over who can do what; and it’s far easier to administer a CVCS than it is to deal with local databases on every client.
+Bu üsulun, xüsusilə lokal VNS lere görə, çox sayda üstünlüyü vardır. Məsələn, bir projedeki hər kəs, digərlərinin nə etdiyindən müəyyən ölçüdə xəbərdardır. Sistem idarəçiləri kimin hansı səlahiyyətlərə sahib olacağını olduqca detallı şəkildə təşkil; üstəlik bir MVNS'yi idarə, hər alıcını ayrı-ayrı heyəti olan yerli bazalarını idarə görə çox daha asandır.
 
-However, this setup also has some serious downsides. The most obvious is the single point of failure that the centralized server represents. If that server goes down for an hour, then during that hour nobody can collaborate at all or save versioned changes to anything they’re working on. If the hard disk the central database is on becomes corrupted, and proper backups haven’t been kept, you lose absolutely everything—the entire history of the project except whatever single snapshots people happen to have on their local machines. Local VCS systems suffer from this same problem—whenever you have the entire history of the project in a single place, you risk losing everything.
+Nə var ki, bu üsulun də ciddi bəzi çətinlikləri vardır. Ən aşkar çətinlik, mərkəzi serverin işləməməsi vəziyyətində ortaya çıxacaq qırılma nöqtəsi problemidir. Server bir saatlığına çökəcək olsa, o bir saat boyunca istifadəçilərin işlərini sistemə köçürmələri ya da çalışdıqları şeylərin sürümlenmiş surətlərini saxlamaq mümkün olmayacaq. Mərkəzi bazanın sabit diski pozulacaq olsa, ehtiyyat da olması lazım olduğu kimi edilməmişsə, əlinizdəki hər şeyi -projenin, istifadəçilərin kompüterlərində qalan lokal yaddaş kopiyaları (snapshot) xaricindəki bütün tarihçesini- itirərsiniz. Yerli VNS'ler də bu problemdən çəkir -projenin bütün tarixçəsini tək bir yerdə tutduğunuz müddətcə hər şeyi itirmə riskiniz var.
 
-### Distributed Version Control Systems ###
+### Paylanmış Versiya Nəzarət Sistemləri ###
 
-This is where Distributed Version Control Systems (DVCSs) step in. In a DVCS (such as Git, Mercurial, Bazaar or Darcs), clients don’t just check out the latest snapshot of the files: they fully mirror the repository. Thus if any server dies, and these systems were collaborating via it, any of the client repositories can be copied back up to the server to restore it. Every checkout is really a full backup of all the data (see Figure 1-3).
+Bu nöqtədə Paylanmış Versiya Nəzarət Sistemləri (PVNS) dövrəyə girər. Bir PVNS'de (Git, Mercurial, Bazaar ya da Darcs nümunələrində olduğu kimi), müştərilər (istifadəçilər) faylların yalnız ən son yaddaş surətlərini almaqla qalmazlar: proqram hovuzunu (repository) tamamilə yansılalar (kopyalarlar).Beləcə, serverlərdən biri çöksə, və o server üzərindən ortaq iş icra edən sistemlər varsa, alıcını birinin proqram hovuzu serverə geri yüklənərək sistem qurtarıla bilər. Hər seçmə (checkout) əməliyyatı əsasında bütün məlumatın yedeklenmesiyle nəticələnər(bax Göstərici 1-3).
 
 Insert 18333fig0103.png 
-Figure 1-3. Distributed version control diagram.
+Göstərici 1-3. Paylanmış Versiya Nəzarət diaqramı.
 
-Furthermore, many of these systems deal pretty well with having several remote repositories they can work with, so you can collaborate with different groups of people in different ways simultaneously within the same project. This allows you to set up several types of workflows that aren’t possible in centralized systems, such as hierarchical models.
+Dahası, bu sistemlerden çoğu birden çok uzak uçbirimdeki yazılım havuzuyla rahatlıkla çalışır, böylece, aynı proje için aynı anda farklı insan topluluklarıyla farklı biçimlerde ortak çalışmalar yürütebilirsiniz. Bu, birden çok iş akışı ile çalışabilmenizi sağlar, ki bu merkezi sistemlerde (hiyerarşik modeller gibi) mümkün değildir.
 
 ## A Short History of Git ##
 

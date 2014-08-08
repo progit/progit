@@ -324,6 +324,17 @@ Stejné informace, jaké poskytuje příkaz `svn info`, získáte příkazem `gi
 
 Stejně jako v případě příkazů `blame` a `log` pracuje i tento příkaz offline a zobrazuje stav v okamžiku, kdy jste naposledy komunikovali se serverem Subversion.
 
+Tip: Pokud vaše skripty pro sestavení projektu chtějí spouštět `svn info`, pak si často můžete vystačit s obálkou příkazu git.
+Můžete vyzkoušet
+
+    #!/usr/bin/env bash
+
+    if git rev-parse --git-dir > /dev/null 2>&1 && [[ $1 == "info" ]] ; then
+      git svn info
+    else
+      /usr/local/bin/svn "$@"
+    fi
+
 #### Ignorování souborů, které ignoruje Subversion ####
 
 Jestliže naklonujete repozitář Subversion s nastavenými vlastnostmi `svn:ignore`, pravděpodobně budete chtít nastavit také odpovídající soubory `.gitignore`, abyste omylem nezapsali nežádoucí soubory. Nástroj `git svn` vám k řešení tohoto problému nabízí dva příkazy. Tím prvním je `git svn create-ignore`, jenž automaticky vytvoří odpovídající soubory `.gitignore`, podle nichž se bude řídit už vaše příští revize.

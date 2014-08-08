@@ -531,9 +531,13 @@ Spustíte-li příkaz `git archive`, bude po otevření soubor archivu vypadat o
 
 Atributy Git lze použít také k nastavení různých strategií slučování pro různé soubory v projektu. Velmi užitečnou možností je například nastavení, aby se Git nepokoušel sloučit konkrétní soubory, pokud u nich dojde ke konfliktu, a raději použil vaši verzi souboru než jinou.
 
-Tuto možnost využijete, pokud se rozdělila nebo specializovala některá z větví vašeho projektu, avšak vy z ní budete chtít začlenit změny zpět a ignorovat přitom určité soubory. Řekněme, že máte soubor s nastavením databáze database.xml, který se ve dvou větvích liší, a vy sem chcete začlenit jinou svoji větev, aniž byste tento soubor změnili. V tom případě můžete nastavit tento atribut:
+Tuto možnost využijete, pokud se rozdělila nebo specializovala některá z větví vašeho projektu, avšak vy z ní budete chtít začlenit změny zpět a ignorovat přitom určité soubory. Řekněme, že máte soubor s nastavením databáze nazvaný database.xml, který se ve dvou větvích liší, a vy sem chcete začlenit jinou svoji větev, aniž byste tento soubor změnili. V tom případě můžete nastavit tento atribut:
 
 	database.xml merge=ours
+
+A potom nadefinujete prázdnou slučovací strategii `ours` příkazem:
+
+    git config --global merge.ours.driver true
 
 Pokud začleníte druhou větev, místo řešení konfliktů u souboru database.xml se zobrazí následující:
 

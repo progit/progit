@@ -2,7 +2,7 @@
 
 Téměř každý systém pro správu verzí podporuje do určité míry větvení. Větvení znamená, že se můžete odloučit od hlavní linie vývoje a pokračovat v práci, aniž byste hlavní linii zanášeli smetím. V mnoha VCS nástrojích se může jednat o poněkud náročný proces, který často vyžaduje vytvoření nové kopie adresáře se zdrojovým kódem. To může – zvláště u velkých projektů – trvat poměrně dlouho.
 
-Někteří lidé mluví o modelu větvení v systému Git jako o jeho „omračující vlastnosti“. Není sporu o tom, že je Git díky tomu ve skupině systémů pro správu verzí poměrně jedinečný. V čem je jeho větvení tak zvláštní? Větvení je v systému Git neuvěřitelně snadné a operace s ním související probíhají téměř okamžitě. A stejně rychlé je i přepínání mezi jednotlivými větvemi. Na rozdíl od ostatních systémů pro správu verzí vybízí Git ke způsobu práce s bohatým větvením a častým slučováním, a to i několikrát za den. Pokud tuto funkci pochopíte a zvládnete její ovládání, dostanete do ruky výkonný a unikátní nástroj, který doslova změní váš pohled na vývoj.
+Někteří lidé mluví o modelu větvení v systému Git jako o převratné vlastnosti („killer feature“). Není sporu o tom, že je Git díky tomu ve skupině systémů pro správu verzí poměrně jedinečný. V čem je jeho větvení tak zvláštní? Větvení je v systému Git neuvěřitelně snadné a operace s ním související probíhají téměř okamžitě. A stejně rychlé je i přepínání mezi jednotlivými větvemi. Na rozdíl od ostatních systémů pro správu verzí vybízí Git ke způsobu práce s bohatým větvením a častým slučováním, a to i několikrát za den. Pokud tuto funkci pochopíte a zvládnete její ovládání, dostanete do ruky výkonný a unikátní nástroj, který doslova změní váš pohled na vývoj.
 
 ## Co je to větev ##
 

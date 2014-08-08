@@ -765,6 +765,12 @@ Dalším častým případem bývá, že uživatel zapomene spustit příkaz `gi
 
 Příkaz projde a přepíše všechny revize tak, aby obsahovaly novou adresu. Protože revize obsahují hodnoty SHA-1 svých rodičů, změní tento příkaz SHA všech revizí ve vaší historii, ne pouze těch, které mají odpovídající e-mailovou adresu.
 
+### Velmi rychlá a nebezpečná zbraň: Big Friendly Giant Repo Cleaner (BFG) ###
+
+[Roberto Tyley](https://github.com/rtyley) vytvořil nástroj, který se funkčností podobá `filter-branch` a nazval jej BFG. (Celý název lze doslova přeložit jako Velký, přátelský, obří čistič repozitáře --- představte si pod tím, co chcete.) BFG neumí tolik věcí jako `filter-branch`, ale je *velmi* rychlý. Pro velké repozitáře to může být zásadní rozdíl. Pokud lze vámi zamýšlenou změnu pomocí BFG provést a pokud máte problémy s výkonností prostředí, pak byste o použití tohoto nástroje měli uvažovat.
+
+Podrobnosti naleznete na stránkách [BFG](http://rtyley.github.io/bfg-repo-cleaner/).
+
 ## Ladění v systému Git ##
 
 Git také nabízí několik nástrojů, které vám pomohou ladit problémy v projektech. Protože je Git navržen tak, aby pracoval téměř s jakýmkoli typem projektu, jsou tyto nástroje velmi univerzální. Často vám mohou pomoci odhalit vzniklou chybu nebo problém.

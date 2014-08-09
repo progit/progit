@@ -8,7 +8,7 @@ some additional information about the Korean translation.
 3.0)](https://creativecommons.org/licenses/by-nc-sa/3.0/) 조건에 따라 이용할 수
 있습니다.
 
-이 책을 통해 Git을 즐겁게 배우시길 바랍니다. [출판된 책을 Amazon에서 구입](http://tinyurl.com/amazonprogit)하시면
+이 책을 통해 Git을 즐겁게 배울 수 있기를 바랍니다. [출판된 책을 Amazon에서 구입](http://tinyurl.com/amazonprogit)하시면
 원저자인 Scott Chacon과 Apress 출판사에게 큰 도움이 됩니다.
 [git-scm.com](http://git-scm.com/book/)에서 영어, 한국어 및 10여개의 다른 언어로 온라인에서
 읽을 수도 있습니다.
@@ -64,9 +64,9 @@ Pandoc 버전 1.9.1.1에서 확인된 [버그](https://github.com/jgm/pandoc/iss
 
 # 한국어판 출판 및 역자 정보
 
-인사이트를 통해서 [Pro Git
-한국어판](http://www.insightbook.co.kr/books/programming-insight/프로-git)이
-2013년 4월 19일에 출판되었습니다. 출판된 책을 구입하시면 도서출판 인사이트와 역자들에게 도움이 됩니다.
+도서출판 인사이트를 통해서
+[한국어판](http://www.insightbook.co.kr/books/programming-insight/프로-git)이
+2013년 4월 19일에 출판되었습니다. 출판된 책을 구입하시면 인사이트와 역자들에게 도움이 됩니다.
 
 ## 역자 소개
 

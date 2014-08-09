@@ -29,7 +29,17 @@ some additional information about the Korean translation.
     * xelatex: http://tug.org/mactex/
 4. 터미널에서 `./makeebooks ko` 실행 (mobi 파일 생성)
 
-역주: 모든 명령어는 프로젝트의 루트 디렉토리에서 실행되어야 합니다.
+## Pandoc 관련 노트
+
+Pandoc 버전 1.9.1.1에서 확인된 [버그](https://github.com/jgm/pandoc/issues/964)로 인해
+~표 이후의 글자가 사라지는 현상이 있습니다. 버전 1.11.1 이상을 사용해주세요. `pandoc -v` 명령으로
+현재 버전을 알 수 있습니다.
+
+## 역주
+
+* 모든 명령어는 프로젝트의 루트 디렉토리에서 실행되어야 합니다.
+* 한국어판 PDF를 만들려면 [나눔바른고딕](http://hangeul.naver.com),
+  [나눔코딕코딩](http://dev.naver.com/projects/nanumfont/download) 글꼴이 필요합니다.
 
 # 정오표
 

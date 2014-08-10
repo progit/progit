@@ -252,7 +252,7 @@ Například manpage nápovědu pro příkaz `config` vyvoláte zadáním:
 	$ git help config
 
 Tyto příkazy jsou užitečné, neboť je můžete spustit kdykoli, dokonce i offline.
-Pokud nestačí ani manuálová stránka ani tato kniha a uvítali byste osobní pomoc, můžete zkusit kanál `#git` nebo `#github` na serveru Freenode IRC (irc.freenode.net). Na těchto kanálech se většinou pohybují stovky lidí, kteří mají se systémem Git bohaté zkušenosti a často ochotně pomohou.
+Pokud nestačí ani manuálová stránka ani tato kniha a uvítali byste osobní pomoc, můžete zkusit kanál `#git` nebo `#github` na serveru Freenode IRC (irc.freenode.net). Na těchto kanálech se většinou pohybují stovky lidí, kteří mají se systémem Git bohaté zkušenosti a často ochotně pomohou. (Nutno ovšem podotknout, že se na těchto kanálech mluví anglicky – pozn. překl.)
 
 ## Shrnutí ##
 

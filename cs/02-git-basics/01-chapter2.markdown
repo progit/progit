@@ -164,7 +164,7 @@ První řádek říká systému Git, že má ignorovat všechny soubory končíc
 Pravidla pro masky, které můžete použít v souboru `.gitignore`, jsou následující:
 
 *	Prázdné řádky nebo řádky začínající znakem `#` budou ignorovány.
-*	Standardní masky souborů.
+*	Standardní masky souborů (glob patterns).
 *	Chcete-li označit adresář, můžete masku zakončit lomítkem (`/`).
 *	Pokud řádek začíná vykřičníkem (`!`), maska na něm je negována.
 

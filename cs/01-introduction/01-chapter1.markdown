@@ -32,7 +32,7 @@ Avšak i tato koncepce má závažné nedostatky. Tímto nejkřiklavějším je 
 
 ### Distribuované systémy správy verzí ###
 
-V tomto místě přicházejí ke slovu tzv. distribuované systémy správy verzí (DVCS z angl. Distributed Version Control System). V systémech DVCS (např. Git, Mercurial, Bazaar nebo Darcs) uživatelé pouze nestahují nejnovější verzi souborů (tzv. snímek, anglicky snapshot), ale uchovávají kompletní kopii repozitáře (repository). Pokud v takové situaci dojde ke kolapsu serveru, lze jej obnovit zkopírováním repozitáře od libovolného uživatele. Každá lokální kopie (checkout) je plnohodnotnou zálohou všech dat (viz obrázek 1-3).
+V tomto místě přicházejí ke slovu tzv. distribuované systémy správy verzí (DVCS z angl. Distributed Version Control System). V systémech DVCS (např. Git, Mercurial, Bazaar nebo Darcs) uživatelé nestahují pouze nejnovější verzi souborů (tzv. snímek, anglicky snapshot), ale uchovávají kompletní kopii repozitáře (repository). Pokud v takové situaci dojde ke kolapsu serveru, lze jej obnovit zkopírováním repozitáře od libovolného uživatele. Každá lokální kopie (checkout) je plnohodnotnou zálohou všech dat (viz obrázek 1-3).
 
 Insert 18333fig0103.png
 Obrázek 1-3. Diagram distribuované správy verzí
@@ -69,7 +69,7 @@ Git zpracovává data jinak. Chápe je spíše jako sadu snímků (snapshots) vl
 Insert 18333fig0105.png
 Obrázek 1-5. Git ukládá data jako snímky projektu proměnlivé v čase.
 
-Toto je důležitý rozdíl mezi systémem Git a téměř všemi ostatními systémy VCS. Git díky tomu znovu zkoumá skoro každý aspekt správy verzí, které ostatní systémy kopírovaly z předchozí generace. Git se podobá malému systému souborů (spíše než obyčejnému VCS) s řadou skutečně výkonných nástrojů, jež stojí na jeho vrcholu. Některé přednosti, které tato metoda správy dat nabízí, si podrobně ukážeme na systému větvení v kapitole 3.
+Toto je důležitý rozdíl mezi systémem Git a téměř všemi ostatními systémy VCS. Git díky tomu znovu zkoumá skoro každý aspekt správy verzí, které ostatní systémy kopírovaly z předchozí generace. Git se podobá malému systému souborů (spíše než obyčejnému VCS) s řadou skutečně výkonných nástrojů, jež jsou na něm postavené. Některé přednosti, které tato metoda správy dat nabízí, si podrobně ukážeme na systému větvení v kapitole 3.
 
 ### Téměř každá operace je lokální ###
 
@@ -252,7 +252,7 @@ Například manpage nápovědu pro příkaz `config` vyvoláte zadáním:
 	$ git help config
 
 Tyto příkazy jsou užitečné, neboť je můžete spustit kdykoli, dokonce i offline.
-Pokud nestačí ani manuálová stránka ani tato kniha a uvítali byste osobní pomoc, můžete zkusit kanál `#git` nebo `#github` na serveru Freenode IRC (irc.freenode.net). Na těchto kanálech se většinou pohybují stovky lidí, kteří mají se systémem Git bohaté zkušenosti a často ochotně pomohou.
+Pokud nestačí ani manuálová stránka ani tato kniha a uvítali byste osobní pomoc, můžete zkusit kanál `#git` nebo `#github` na serveru Freenode IRC (irc.freenode.net). Na těchto kanálech se většinou pohybují stovky lidí, kteří mají se systémem Git bohaté zkušenosti a často ochotně pomohou. (Nutno ovšem podotknout, že se na těchto kanálech mluví anglicky – pozn. překl.)
 
 ## Shrnutí ##
 

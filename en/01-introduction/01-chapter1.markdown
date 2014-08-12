@@ -153,7 +153,7 @@ After this is done, you can also get Git via Git itself for updates:
 
 If you want to install Git on Linux via a binary installer, you can generally do so through the basic package-management tool that comes with your distribution. If you’re on Fedora, you can use yum:
 
-	$ yum install git-core
+	$ yum install git
 
 Or if you’re on a Debian-based distribution like Ubuntu, try apt-get:
 

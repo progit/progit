@@ -155,7 +155,7 @@ Se vuoi installare Git su Linux, tramite una installazione da binario, generalme
 
 	$ yum install git
 
-O se sei su una distribuzione basata su Debian, come Ubuntu, prova apt-get:
+O, se usi una distribuzione basata su Debian (come Ubuntu) prova apt-get:
 
 	$ apt-get install git
 

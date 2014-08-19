@@ -774,7 +774,7 @@ GitHub jest również spółką handlową, która pobiera opłaty za utrzymanie 
 
 ### Konfigurowanie konta użytkownika ###
 
-Pierwszą rzeczą jaką musisz zrobić jest założenie darmowego konta użytkownika. W tym celu wchodzisz na stronę rejestracji `http://github.com/plans` i klikasz przycisk "Zarejestruj się" na darmowe konto (patrz rysunek 4-2) i jesteś już przeniesiony na stronę rejestracji.
+Pierwszą rzeczą jaką musisz zrobić jest założenie darmowego konta użytkownika. W tym celu wchodzisz na stronę rejestracji `https://github.com/pricing` i klikasz przycisk "Zarejestruj się" na darmowe konto (patrz rysunek 4-2) i jesteś już przeniesiony na stronę rejestracji.
 
 Insert 18333fig0402.png
 Figure 4-2. Strona rejestracji GitHub.

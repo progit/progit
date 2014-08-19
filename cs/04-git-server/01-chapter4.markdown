@@ -744,7 +744,7 @@ GitHub je zároveň komerční společnost, jejíž finanční příjmy plynou z
 
 ### Založení uživatelského účtu ###
 
-První věcí, kterou budete muset udělat, je vytvoření bezplatného uživatelské účtu. Jestliže na stránce „Pricing and Signup“ (`http://github.com/plans`) kliknete u bezplatného účtu (Free) na tlačítko „Sign Up“ (viz obrázek 4-2), přejdete na registrační stránku.
+První věcí, kterou budete muset udělat, je vytvoření bezplatného uživatelské účtu. Jestliže na stránce „Pricing and Signup“ (`https://github.com/pricing`) kliknete u bezplatného účtu (Free) na tlačítko „Sign Up“ (viz obrázek 4-2), přejdete na registrační stránku.
 
 Insert 18333fig0402.png
 Obrázek 4-2. Výběr typu účtu na serveru GitHub

@@ -584,7 +584,7 @@ GitHub es también una compañia comercial, que cobra por las cuentas que tienen
 
 ### Configurando una cuenta de usuario ###
 
-El primer paso es dar de alta una cuenta gratuita. Si visitas la página de Precios e Inicio de Sesión, en 'http://github.com/plans', y clicas sobre el botón "Registro" ("Sign Up") de las cuentas gratuitas, verás una página de registro:
+El primer paso es dar de alta una cuenta gratuita. Si visitas la página de Precios e Inicio de Sesión, en 'https://github.com/pricing', y clicas sobre el botón "Registro" ("Sign Up") de las cuentas gratuitas, verás una página de registro:
 
 Insert 18333fig0402.png
 Figura 4-2. La página de planes GitHub.

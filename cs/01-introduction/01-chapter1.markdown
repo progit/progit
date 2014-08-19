@@ -153,7 +153,7 @@ Po dokončení instalace můžete rovněž vyhledat aktualizace systému Git pro
 
 Chcete-li nainstalovat Git v Linuxu pomocí binárního instalátoru, většinou tak můžete učinit pomocí základního nástroje pro správu balíčků, který je součástí vaší distribuce. Ve Fedoře můžete použít nástroj yum:
 
-	$ yum install git-core
+	$ yum install git
 
 V distribuci založené na Debianu (jako je například Ubuntu) zkuste použít program apt-get:
 

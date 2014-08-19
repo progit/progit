@@ -132,7 +132,7 @@ Figure 3-11. Creating a new branch pointer.
 You work on your web site and do some commits. Doing so moves the `iss53` branch forward, because you have it checked out (that is, your HEAD is pointing to it; see Figure 3-12):
 
 	$ vim index.html
-	$ git commit -a -m 'added a new footer [issue 53]'
+	$ git commit -a -m 'add a new footer [issue 53]'
 
 Insert 18333fig0312.png
 Figure 3-12. The iss53 branch has moved forward with your work.
@@ -151,8 +151,8 @@ Next, you have a hotfix to make. Let’s create a hotfix branch on which to work
 	$ git checkout -b hotfix
 	Switched to a new branch 'hotfix'
 	$ vim index.html
-	$ git commit -a -m 'fixed the broken email address'
-	[hotfix 3a0874c] fixed the broken email address
+	$ git commit -a -m 'fix the broken email address'
+	[hotfix 3a0874c] fix the broken email address
 	 1 files changed, 1 deletion(-)
 
 Insert 18333fig0313.png
@@ -184,8 +184,8 @@ Now you can switch back to your work-in-progress branch on issue #53 and continu
 	$ git checkout iss53
 	Switched to branch 'iss53'
 	$ vim index.html
-	$ git commit -a -m 'finished the new footer [issue 53]'
-	[iss53 ad82d7a] finished the new footer [issue 53]
+	$ git commit -a -m 'finish the new footer [issue 53]'
+	[iss53 ad82d7a] finish the new footer [issue 53]
 	 1 file changed, 1 insertion(+)
 
 Insert 18333fig0315.png

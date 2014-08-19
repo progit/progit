@@ -127,7 +127,7 @@ ko:
   con: "목차"
   fig: "그림"
   tab: "표"
-  thanks: "지금 보시는 문서는 Pro Git 책에 대한 PDF 파일입니다. 본 문서는 Creative Commons 저작자표시-비영리조건-동일조건변경허락 3.0(Creative Commons Attribution-Non Commercial-Share Alike 3.0) 라이센스를 따릅니다. 여러분이 Git을 이해하는데 도움이 되기를 희망합니다. 종이로 출판된 책을 Amazon 웹사이트 \\url{http://tinyurl.com/amazonprogit} 에서 구입하여 저를 비롯한 Apress에도 도움을 주시기를 기대하겠습니다.\\newline한국어 번역판도 인사이트를 통해 종이로 출판됐습니다. 한국어 번역에 대한 자세한 정보는 \\url{https://github.com/progit/progit/tree/master/ko}에서 확인 바람니다."
+  thanks: "지금 보시는 문서는 책 「Pro Git」의 PDF 파일입니다. 본 문서는 크리에이티브 커먼즈 저작자표시-비영리-동일조건변경허락 3.0 (Creative Commons Attribution-Non Commercial-Share Alike 3.0) 조건에 따라 이용할 수 있습니다. 이 책을 통해 Git을 즐겁게 배울 수 있기를 바랍니다. 출판된 책을 Amazon 웹사이트\\url{http://tinyurl.com/amazonprogit}에서 구입하시면 원저자인 Scott Chacon과 Apress 출판사에게 큰 도움이 됩니다.\\newline도서출판 인사이트를 통해서 한국어판이 2013년 4월 19일에 출판되었습니다. 한국어 번역에 대한 자세한 정보는 \\url{https://github.com/progit/progit/tree/master/ko}에서 확인해 주세요."
 be:
   prechap: "Глава "
   presect: "Раздзел "

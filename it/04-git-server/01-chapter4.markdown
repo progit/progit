@@ -741,7 +741,7 @@ GitHub è inoltre una organizzazione commerciale che addebita gli account che ma
 
 ### Configurare un Account Utente ###
 
-La prima cosa di cui hai bisogno è configurare un account utente gratuito. Se visiti la pagina "Pricing and Signup" all'inidirizzo `http://github.com/plans` e fai click sul pulsante "Sign Up" per un account gratuito (vedi figura 4-2), sarai portato alla pagina di iscrizione.
+La prima cosa di cui hai bisogno è configurare un account utente gratuito. Se visiti la pagina "Plans and pricing" all'inidirizzo `http://https://github.com/pricing` e fai click sul pulsante "Sign Up" per un account gratuito (vedi figura 4-2), sarai portato alla pagina di iscrizione.
 
 Insert 18333fig0402.png
 Figura 4-2. La pagina dei piani di GitHub.

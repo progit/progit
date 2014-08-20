@@ -743,7 +743,7 @@ GitHub 同时也是一个向使用私有仓库的用户收取费用的商业公�
 
 ### 建立新账户 ###
 
-首先注册一个免费账户。访问 Pricing and Signup 页面 `http://github.com/plans` 并点击 Free acount 里的 Sign Up 按钮（见图 4-2），进入注册页面。
+首先注册一个免费账户。访问 "Plans and pricing" 页面 `https://github.com/pricing` 并点击 Free acount 里的 Sign Up 按钮（见图 4-2），进入注册页面。
 
 Insert 18333fig0402.png
 图 4-2. GitHub 服务简介页面

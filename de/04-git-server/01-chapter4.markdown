@@ -1121,9 +1121,9 @@ Wenn ein Anwender ein geschützes, nicht öffentliches Repository auf GitHub ver
 <!--### Setting Up a User Account ###-->
 ## Einrichten eines Benutzeraccounts ###
 
-<!--The first thing you need to do is set up a free user account. If you visit the Pricing and Signup page at `http://github.com/plans` and click the "Sign Up" button on the Free account (see Figure 4-2), you’re taken to the signup page.-->
+<!--The first thing you need to do is set up a free user account. If you visit the "Plans and pricing" page at `https://github.com/pricing` and click the "Sign Up" button on the Free account (see Figure 4-2), you’re taken to the signup page.-->
 
-Um loslegen zu können, musst Du Dir einen Benutzeraccount erstellen. Gib dazu die Adresse `http://github.com/plans` in Deinem Browser ein und wähle den Button „Sign Up“ unter dem „Free account“-Bereich aus (siehe Abbildung 4-2). Danach wirst Du auf die Anmeldeseite weitergeleitet.
+Um loslegen zu können, musst Du Dir einen Benutzeraccount erstellen. Gib dazu die Adresse `https://github.com/pricing` in Deinem Browser ein und wähle den Button „Sign Up“ unter dem „Free account“-Bereich aus (siehe Abbildung 4-2). Danach wirst Du auf die Anmeldeseite weitergeleitet.
 
 <!--Figure 4-2. The GitHub plan page.-->
 

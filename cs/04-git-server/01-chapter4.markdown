@@ -91,11 +91,11 @@ Na konec jsme si nechali protokol HTTP. Co je na protokolu HTTP nebo HTTPS sympa
 	$ mv hooks/post-update.sample hooks/post-update
 	$ chmod a+x hooks/post-update
 
-A to je vše. Zásuvný modul `post-update`, který je standardně součástí systému Git, spustí příkaz `git update-server-info`, který zajistí správné vyzvedávání a klonování dat přes protokol HTTP. Tento příkaz se spustí, když do tohoto repozitáře odesíláte data přes protokol SSH. Ostatní mohou klonovat třeba takto:
+A to je vše. Zásuvný modul `post-update`, který je standardně součástí systému Git, spustí příslušný příkaz (`git update-server-info`), který zajistí správné vyzvedávání a klonování dat přes protokol HTTP. Tento příkaz se spustí, když do tohoto repozitáře odesíláte data přes protokol SSH. Poté mohou ostatní klonovat třeba takto:
 
 	$ git clone http://example.com/gitproject.git
 
-V tomto konkrétním případě používáme cestu `/var/www/htdocs`, která je obvyklá u nastavení Apache, ale použít lze v podstatě jakýkoli webový server – stačí uložit holý repozitář do daného umístění. Data repozitáře Git jsou obsluhována jako obyčejné statické soubory (podrobnosti naleznete v kapitole 9).
+V tomto konkrétním případě používáme cestu `/var/www/htdocs`, která je obvyklá u nastavení Apache, ale použít lze v podstatě jakýkoli statický webový server – stačí uložit holý repozitář do dané cesty. Data repozitáře Git jsou obsluhována jako obyčejné statické soubory (podrobnosti o přesném způsobu obsluhy naleznete v kapitole 9).
 
 Odesílat data do repozitáře Git je možné také přes protokol HTTP, avšak tento způsob není příliš rozšířený a vyžaduje nastavení komplexních požadavků protokolu WebDAV. Protože se tato možnost využívá zřídka, nebudeme se jí v této knize věnovat. Pokud vás zajímá používání protokolů HTTP k odesílání dat, více se o přípravě repozitáře k tomuto účelu dočtete na adrese: `http://www.kernel.org/pub/software/scm/git/docs/howto/setup-git-server-over-http.txt` (anglicky). Příjemným faktem na odesílání dat přes protokol HTTP je, že můžete použít jakýkoli server WebDAV i bez speciálních funkcí systému Git. Tuto možnost tak můžete využít, pokud váš poskytovatel webhostingu podporuje WebDAV pro zápis aktualizací na vaše webové stránky.
 
@@ -103,7 +103,7 @@ Odesílat data do repozitáře Git je možné také přes protokol HTTP, avšak 
 
 Pro používání protokolu HTTP mluví zejména jeho snadné nastavení. Vystačíte s několika málo příkazy, ale získáte jednoduchý způsob, jak nastavit oprávnění pro čtení repozitáře Git pro okolní svět. Celý postup nezabere víc než pár minut. Protokol HTTP navíc jen minimálně omezuje zdroje serveru. Vzhledem k tomu, že k obsluze všech dat používá většinou statický HTTP server, obslouží běžný server Apache průměrně několik tisíc souborů za sekundu. Ani malý server proto není snadné přetížit.
 
-Své repozitáře můžete prostřednictvím protokolu HTTPS poskytovat pouze ke čtení a šifrovat přenos dat. Nebo můžete zajít ještě dál a vyžadovat, aby klienti používali konkrétní podepsané SSL certifikáty. Je pravda, že v takovém případě by už bylo jednodušší použít veřejné SSH klíče, ale ve vašem konkrétním případě může být použití podepsaných SSL certifikátů nebo jiné ověření identity na základě protokolu HTTP lepší metodou, jak zajistit přístup přes HTTPS pouze ke čtení.
+Své repozitáře můžete zpřístupnit ke čtení prostřednictvím protokolu HTTPS, což znamená, že se přenášený obsah šifruje. Nebo můžete zajít ještě dál a vyžadovat, aby klienti používali konkrétní podepsané SSL certifikáty. Je pravda, že v takovém případě by už bylo jednodušší použít veřejné SSH klíče, ale ve vašem konkrétním případě může být použití podepsaných SSL certifikátů nebo jiné ověření identity na základě protokolu HTTP lepší metodou, jak zajistit přístup přes HTTPS pouze ke čtení.
 
 Z dalších výhod protokolu HTTP bychom mohli jmenovat i jeho značné rozšíření, díky čemuž jsou firemní firewally často nastaveny tak, že umožňují provoz přes standardní port protokolu HTTP.
 
@@ -114,7 +114,7 @@ Nevýhodou obsluhy repozitáře přes protokol HTTP je poměrně nízká výkonn
 ## Jak umístit Git na server ##
 
 Pro úvodní nastavení serveru Git je třeba exportovat existující repozitář do nového, holého repozitáře (bare repository), tj. do repozitáře, který neobsahuje pracovní adresář. S tím obvykle nebývá problém.
-Chcete-li naklonovat stávající repozitář, a vytvořit tak nový a holý, zadejte příkaz clone s parametrem `--bare`. Je zvykem, že adresáře s holým repozitářem končí na `.git`, například:
+Chcete-li naklonovat stávající repozitář, a vytvořit tak nový a holý, zadejte příkaz pro klonování s parametrem `--bare`. Je zvykem, že adresáře s holým repozitářem končí na `.git`, například:
 
 	$ git clone --bare my_project my_project.git
 	Cloning into bare repository 'my_project.git'...

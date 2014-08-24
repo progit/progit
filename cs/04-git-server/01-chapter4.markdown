@@ -204,7 +204,7 @@ Budete-li potřebovat podrobnější návod k vytvoření SSH klíče v různýc
 
 ## Nastavení serveru ##
 
-Podívejme se nyní na nastavení SSH přístupu na straně serveru. V tomto příkladu použijeme k ověření uživatelů metodu `authorized_keys`. Předpokládáme také, že pracujete se standardní linuxovou distribucí, jako je např. Ubuntu. Nejprve vytvoříte uživatele 'git' a adresář `.ssh` pro tohoto uživatele.
+Podívejme se nyní na nastavení SSH přístupu na straně serveru. V tomto příkladu použijeme k ověření identity uživatelů metodu `authorized_keys`. Předpokládáme také, že pracujete se standardní linuxovou distribucí, jako je např. Ubuntu. Nejprve vytvoříte uživatele 'git' a adresář `.ssh` pro tohoto uživatele.
 
 	$ sudo adduser git
 	$ su git
@@ -221,7 +221,7 @@ V dalším kroku musíte vložit veřejné SSH klíče od svých vývojářů do
 	O7TCUSBdLQlgMVOFq1I2uPWQOkOWQAHukEOmfjy2jctxSDBQ220ymjaNsHT4kgtZg2AYYgPq
 	dAv8JggJICUvax2T9va5 gsg-keypair
 
-Vy nyní klíče vložíte do souboru `authorized_keys`:
+Vy nyní klíče přidáte do souboru `authorized_keys`:
 
 	$ cat /tmp/id_rsa.john.pub >> ~/.ssh/authorized_keys
 	$ cat /tmp/id_rsa.josie.pub >> ~/.ssh/authorized_keys
@@ -278,7 +278,7 @@ Uživatel 'git' nyní může používat SSH připojení k odesílání a stahov�
 
 ## Veřejný přístup ##
 
-A co když chcete u svého projektu nastavit anonymní oprávnění pro čtení? Nehostujete třeba interní soukromý projekt, ale „open source“ projekt. Nebo možná máte několik serverů průběžné integrace, které se neustále mění a vy nechcete stále generovat SSH klíče, rádi byste vždy přidali jen obyčejné anonymní oprávnění pro čtení.
+A co když chcete u svého projektu nastavit anonymní oprávnění pro čtení? Nehostujete třeba interní soukromý projekt, ale „open source“ projekt. Nebo možná máte několik serverů průběžné integrace, které se neustále mění a vy nechcete stále generovat SSH klíče. Rádi byste vždy přidali jen obyčejné anonymní oprávnění pro čtení.
 
 Patrně nejjednodušším způsobem pro menší týmy je spustit statický webový server s kořenovým adresářem dokumentů, v němž budou uloženy vaše Git repozitáře, a zapnout zásuvný modul `post-update`, o kterém jsme se zmínili už v první části této kapitoly. Můžeme pokračovat v našem předchozím příkladu. Řekněme, že máte repozitáře uloženy v adresáři `/opt/git` a na vašem počítači je spuštěn server Apache. Opět, můžete použít jakýkoli webový server. Pro názornost ale ukážeme některá základní nastavení serveru Apache, abyste získali představu, co vás může čekat.
 

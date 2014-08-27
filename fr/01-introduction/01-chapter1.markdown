@@ -239,7 +239,7 @@ Après ceci, vous pouvez obtenir Git par Git lui-même pour les mises à jour :
 Si vous souhaitez installer Git sur Linux via un installateur d'application, vous pouvez généralement le faire via le système de gestion de paquets de base fourni avec votre distribution.
 Si vous êtes sur Fedora, vous pouvez utiliser yum :
 
-	$ yum install git-core
+	$ yum install git
 
 Si vous êtes sur un système basé sur Debian, tel qu'Ubuntu, essayez apt-get :
 
@@ -268,7 +268,7 @@ Installer Git sur Windows est très facile.
 Le projet msysGit fournit une des procédures d'installation les plus simples.
 Téléchargez simplement le fichier exe d'installateur depuis la page GitHub, et lancez-le :
 
-	http://msysgit.github.com/
+	http://msysgit.github.io
 
 Après son installation, vous avez à la fois la version en ligne de commande (avec un client SSH utile pour la suite) et l'interface graphique standard.
 

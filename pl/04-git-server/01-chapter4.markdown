@@ -318,7 +318,7 @@ W ten sposób możesz ustawić oparty na HTTP dostęp odczytu do swoich projekt�
 Teraz, gdy już podstawy odczytu i zapisu są dostępne tylko dla Twojego projektu, możesz założyć prostą internetową wizualizacje. Do tego celu Git wyposażony jest w skrypt CGI o nazwie GitWeb. Jak widać GitWeb stosowany jest w miejscach takich jak:`http://git.kernel.org` (patrz rys. 4-1).
 
 Insert 18333fig0401.png
-Figure 4-1.GitWeb internetowy interfejs użytkownika.
+Rysunek 4-1.GitWeb internetowy interfejs użytkownika.
 
 Jeśli chcesz zobaczyć jak GitWeb będzie wyglądał dla Twojego projektu, Git posiada polecenie do uruchamiania tymczasowej instancji, pod warunkiem, że posiadasz lekki serwer taki jak `lighttpd` lub `webrick`. Na komputerach z zainstalowanym linuxem `lighttpd` jest bardzo często instalowany więc należy go uruchomić wpisując `git instaweb` w katalogu projektu. Jeśli używasz komputera Mac, Leopard jest automatycznie instalowany z Ruby więc `webrick` może być najlepszym rozwiązaniem. Aby rozpocząć `instaweb` bez tymczasowej instancji, należy uruchomić go z opcją `--httpd`.
 
@@ -777,18 +777,18 @@ GitHub jest również spółką handlową, która pobiera opłaty za utrzymanie 
 Pierwszą rzeczą jaką musisz zrobić jest założenie darmowego konta użytkownika. W tym celu wchodzisz na stronę rejestracji `https://github.com/pricing` i klikasz przycisk "Zarejestruj się" na darmowe konto (patrz rysunek 4-2) i jesteś już przeniesiony na stronę rejestracji.
 
 Insert 18333fig0402.png
-Figure 4-2. Strona rejestracji GitHub.
+Rysunek 4-2. Strona rejestracji GitHub.
 
 Tutaj musisz wybrać nazwę użytkownika, taką która nie istnieje jeszcze w systemie, podać adres e-mail, który będzie powiązany z kontem i podać hasło Rysunek 4-3).
 
 Insert 18333fig0403.png 
-Figure 4-3. Rejestracja użytkownika GitHub.
+Rysunek 4-3. Rejestracja użytkownika GitHub.
 
 Jeśli jest to możliwe to jest to dobry moment aby dodać swój publiczny klucz SSH. W rozdziale "Simple Setups" wyjaśniliśmy już jak wygenerować nowy klucz. Skopiuj zawartość klucza i wklej go w polu "SSH Public Key". Kliknięcie "explain ssh keys" przeniesie Cię do szczegółowych informacji jak zrobić to na poszczególnych systemach operacyjnych.
 Kliknięcie "I agree, sign me up" powoduje przeniesienie do nowego panelu użytkownika (patrz rysunek 4-4).
 
 Insert 18333fig0404.png 
-Figure 4-4. Panel użytkownika GitHub.
+Rysunek 4-4. Panel użytkownika GitHub.
 
 Następnie możesz utworzyć nowe repozytorium.
 
@@ -797,17 +797,17 @@ Następnie możesz utworzyć nowe repozytorium.
 Zacznij klikając na link "create a new one" obok Twoich repozytoriów na panelu użytkownika. Jesteś na stronie do tworzenia nowego repozytorium (patrz rysunek 4-5).
 
 Insert 18333fig0405.png 
-Figure 4-5. Tworzenie nowego repozytorium na GitHubie.
+Rysunek 4-5. Tworzenie nowego repozytorium na GitHubie.
 
 Wszystko co tak naprawdę musisz zrobić to podać nazwę projektu. Możesz też podać dodatkowy opis. Kiedy to zrobisz klikasz przycisk "Create Repository". Masz już nowe repozytorium na GitHubie (patrz rysunek 4-6).
 
 Insert 18333fig0406.png 
-Figure 4-6. Główne informacje o projekcie.
+Rysunek 4-6. Główne informacje o projekcie.
 
 Ponieważ nie masz tam jeszcze kodu, GitHub pokaże instrukcje jak stworzyć zupełnie nowy projekt. Wciśnij istniejący już projekt, lub zaimportuj projekt z publicznego repozytorium Subversion (patrz rysunek 4-7).
 
 Insert 18333fig0407.png 
-Figure 4-7. Instrukcja tworzenia nowego repozytorium.
+Rysunek 4-7. Instrukcja tworzenia nowego repozytorium.
 
 Instrukcje te są podobne do tego co już przeszedłeś. Aby zainicjować projekt, jeśli nie jest jeszcze projektem gita, możesz użyć:
 
@@ -823,7 +823,7 @@ Kiedy masz już lokalne repozytorium Gita, dodaj GitHub jako zdalne repozytorium
 Teraz Twój projekt jest już utrzymywany na GitHubie. Możesz każdemu udostępnić swój projekt wysyłając adres URL. W naszym przypadku jest to `http://github.com/testinguser/iphone_project`. Możesz także zobaczyć na nagłówku każdego z projektów, że masz dwa adresy URL (patrz rysunek 4-8).
 
 Insert 18333fig0408.png 
-Figure 4-8. Nagłówek projektu z prywatnym i publicznym adresem URL.
+Rysunek 4-8. Nagłówek projektu z prywatnym i publicznym adresem URL.
 
 Publiczny adres URL służy tylko do pobierania repozytorium projektu. Zachęcamy do umieszczania go na stronach WWW.
 
@@ -834,7 +834,7 @@ Prywatny adres URL służy do pobierania i wysyłania repozytorium na serwer. Ko
 Jeśli masz już projekt publiczny Subversion, który chcesz zaimportować do Gita, GitHub często może zrobić to dla Ciebie. Na dole strony instrukcji jest link służący do importu Subversion. Po kliknięciu na niego pojawi się formularz z informacjami o imporcie projektu i pole gdzie można wkleić adres swojego publicznego projektu Subversion (patrz rysunek 4-9).
 
 Insert 18333fig0409.png 
-Figure 4-9. Interfejs importowanie Subversion.
+Rysunek 4-9. Interfejs importowanie Subversion.
 
 Jeśli Twój projekt jest bardzo duży, niestandardowy lub prywatny to proces ten najprawdopodobniej nie zadziała. W rozdziale 7 dowiesz się jak ręcznie przeprowadzić bardziej skomplikowany import.
 
@@ -845,17 +845,17 @@ Dodajmy więc resztę naszej drużyny. Jeśli John, Josie i Jessica zapiszą si�
 Naciśnij przycisk "edit" na nagłówku projektu lub w zakładce Admina na górze projektu aby uzyskać dostęp do strony Admina projektu GitHub (zobacz Rysunek 4-10).
 
 Insert 18333fig0410.png 
-Figure 4-10. Strona administratora GitHub.
+Rysunek 4-10. Strona administratora GitHub.
 
 Aby dać dostęp do projektu kolejnej osobie, naciśnij link “Add another collaborator”. Pojawia się nowe pole tekstowe gdzie można wpisać nazwę użytkownika. Jak już wpiszesz nazwę użytkownika, wyskakujące okienko podpowie Ci pasujących do nazwy użytkowników. Kiedy znajdziesz prawidłowego użytkownika, naciśnij przycisk "Add" aby dodać użytkownika do współpracowników w Twoim projekcie (zobacz Rysunek 4-11).
 
 Insert 18333fig0411.png 
-Figure 4-11. Dodawanie współpracowników do Twojego projektu.
+Rysunek 4-11. Dodawanie współpracowników do Twojego projektu.
 
 Kiedy skończysz dodawanie współpracowników, powinieneś zobaczyć ich listę w okienku "Repository Collaborators" (zobacz Rysunek 4-12).
 
 Insert 18333fig0412.png 
-Figure 4-12. Lista współpracowników w Twoim projekcie.
+Rysunek 4-12. Lista współpracowników w Twoim projekcie.
 
 Jeśli musisz zablokować dostęp poszczególnym osobom, możesz kliknąć link "revoke", w ten sposób usuniesz możliwość użycia komendy "push". Dla przyszłych projektów, możesz skopiować grupę współpracowników kopiując ich dane dostępowe w istniejącym projekcie.
 
@@ -864,7 +864,7 @@ Jeśli musisz zablokować dostęp poszczególnym osobom, możesz kliknąć link 
 Po tym jak wyślesz swój projekt lub zaimportujesz z Subversion, będziesz miał stronę główną projektu wyglądającą jak na Rysunku 4-13.
 
 Insert 18333fig0413.png 
-Figure 4-13. Strona główna projektu GitHub.
+Rysunek 4-13. Strona główna projektu GitHub.
 
 Kiedy ludzie będą odwiedzali Twój projekt, zobaczą tę stronę. Zawiera ona kilka kart. Karta zatwierdzeń pokazuje zatwierdzenia w odwrotnej kolejności, tak samo jak w przypadku polecenia `git log`. Karta połączeń pokazuje wszystkich którzy zrobili rozwidlenie Twojego projektu i uzupełniają go. Karta ściągnięć pozwala ci załadować pliki binarne do projektu oraz linki do paczek z kodami i spakowane wersje wszystkich zaznaczonych punktów w projekcie. Karta Wiki pozwala na dodawanie dokumentacji oraz informacji do projektu. Karta Grafów pokazuje w graficzny sposób statystyki użytkowania projektu. Głowna karta z plikami źródłowymi, które lądują w projekcie pokazuje listę katalogów w projekcie i automatycznie renderuje plik README poniżej jeśli taki znajduje się w głównym katalogu projektu. Ta karta pokazuje również okno z zatwierdzeniami.
 
@@ -877,12 +877,12 @@ W tego typu projektach nie musimy martwić się o dodawanie współpracowników 
 Aby rozwidlić projekt, odwiedź stronę projektu (w tym przykładzie, mojombo/chronic) i naciśnij przycisk "fork" w nagłówku (zobacz Rysunek 4-14).
 
 Insert 18333fig0414.png 
-Figure 4-14. Pozyskanie zapisywalnej wersji projektu poprzez użycie "fork".
+Rysunek 4-14. Pozyskanie zapisywalnej wersji projektu poprzez użycie "fork".
 
 Po kilku sekundach zostaniesz przeniesiony na swoją stronę projektu, która zawiera informacje, że dany projekt został rozwidlony (zobacz Rysunek 4-15).
 
 Insert 18333fig0415.png 
-Figure 4-15. Twoje rozwidlenie projektu.
+Rysunek 4-15. Twoje rozwidlenie projektu.
 
 ### Podsumowanie GitHub ###
 

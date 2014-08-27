@@ -47,7 +47,7 @@ Pamiętaj, że każdy plik w twoim katalogu roboczym może być w jednym z dwóc
 Kiedy zmieniasz pliki, Git rozpoznaje je jako zmodyfikowane, ponieważ różnią się od ostatniej zatwierdzonej zmiany. Zmodyfikowane pliki umieszczasz w poczekalni, a następnie zatwierdzasz oczekujące tam zmiany i tak powtarza się cały cykl. Przedstawia go Diagram 2-1.
 
 Insert 18333fig0201.png 
-Figure 2-1. Cykl życia stanu twoich plików.
+Rysunek 2-1. Cykl życia stanu twoich plików.
 
 ### Sprawdzanie stanu twoich plików ###
 

@@ -158,9 +158,9 @@ Pokud provádíte nastavení jen pro malý okruh lidí nebo jen zkoušíte Git v
 
 Jestliže už máte server, k němuž mají všichni vaši vývojáři SSH přístup, bude většinou nejjednodušší nastavit první repozitář tam, protože celé nastavení už tím máte v podstatě hotové (jak jsme ukázali v předchozí části). Pokud chcete pro své repozitáře nastavit komplexnější správu oprávnění, můžete je opatřit běžnými oprávněními k systému souborů, které vám nabízí operační systém daného serveru.
 
-Pokud chcete své repozitáře umístit na server, jenž nemá účty pro všechny členy vašeho týmu, kteří by měli mít oprávnění k zápisu, musíte pro ně nastavit SSH přístup. Předpokládáme, že pokud máte server, na němž to lze provést, máte už nainstalován server SSH. Tímto způsobem získáte přístup na server.
+Pokud chcete své repozitáře umístit na server, jenž nemá účty pro všechny členy vašeho týmu, kteří by měli mít oprávnění k zápisu, musíte pro ně nastavit SSH přístup. Předpokládáme, že pokud máte server, na němž to lze provést, máte už nainstalován server SSH a jeho prostřednictvím k serveru přistupujete.
 
-Existuje několik způsobů, jak umožnit přístup všem členům vašeho týmu. Prvním způsobem je nastavit účty pro všechny, což není složité, ale může být poněkud zdlouhavé. Možná nebudete mít chuť spouštět příkaz `adduser` (přidat uživatele) a nastavovat dočasná hesla pro každého uživatele zvlášť.
+Existuje několik způsobů, jak umožnit přístup všem členům vašeho týmu. Prvním způsobem je nastavit účty pro všechny, což je sice přímočaré, ale může to být poněkud zdlouhavé. Možná nebudete mít chuť spouštět příkaz `adduser` (přidat uživatele) a nastavovat pro každého uživatele dočasná hesla.
 
 Druhým způsobem je vytvořit na počítači jediného uživatele 'git', požádat všechny uživatele, kteří mají mít oprávnění k zápisu, aby vám poslali veřejný SSH klíč, a přidat tento klíč do souboru `~/.ssh/authorized_keys` vašeho nového uživatele 'git'. Nyní budou mít všichni přístup k tomuto počítači prostřednictvím uživatele 'git'. Tento postup nemá žádný vliv na data vašich revizí – SSH uživatel, jehož účtem se přihlašujete, neovlivní revize, které jste nahráli.
 
@@ -168,7 +168,7 @@ Dalším možným způsobem je nechat ověřovat SSH přístupy LDAP serveru neb
 
 ## Vygenerování veřejného SSH klíče ##
 
-Mnoho serverů Git provádí ověřování pomocí veřejných SSH klíčů. Aby vám mohli všichni uživatelé ve vašem systému poskytnout veřejný klíč, musí si ho nechat vygenerovat (pokud klíč ještě nemají). Tento proces se napříč operačními systémy téměř neliší.
+Mnoho serverů Git provádí ověřování totožnosti pomocí veřejných SSH klíčů. Aby vám mohli všichni uživatelé ve vašem systému poskytnout veřejný klíč, musí si ho každý z nich nechat vygenerovat (pokud klíč ještě nemá). Tento proces se napříč operačními systémy téměř neliší.
 Nejprve byste se měli ujistit, že ještě žádný klíč nemáte. Uživatelské SSH klíče jsou standardně uloženy v adresáři `~/.ssh` daného uživatele. Nejsnazší způsob kontroly, zda už klíč vlastníte, je přejít do tohoto adresáře a zjistit jeho obsah:
 
 	$ cd ~/.ssh
@@ -188,7 +188,7 @@ Zobrazí se několik souborů s názvem `xxx` a `xxx.pub`, kde `xxx` je většin
 	The key fingerprint is:
 	43:c5:5b:5f:b1:f1:50:43:ad:20:a6:92:6a:1f:9a:3a schacon@agadorlaptop.local
 
-Program nejprve potvrdí, kam chcete klíč uložit (`.ssh/id_rsa`), a poté se dvakrát zeptá na přístupové heslo. Pokud nechcete při používání klíče zadávat heslo, nemusíte ho nyní vyplňovat.
+Program nejprve potvrdí, kam chcete klíč uložit (`.ssh/id_rsa`), a poté se dvakrát zeptá na přístupové heslo. Pokud nechcete při používání klíče zadávat heslo, můžete ho nyní nechat prázdné.
 
 Každý uživatel, který si tímto způsobem nechá vygenerovat veřejný klíč, ho nyní pošle vám nebo jinému správci serveru Git (za předpokladu, že používáte nastavení SSH serveru vyžadující veřejné klíče). Stačí přitom zkopírovat obsah souboru `.pub` a odeslat ho e-mailem. Veřejné klíče mají zhruba tuto podobu:
 
@@ -204,7 +204,7 @@ Budete-li potřebovat podrobnější návod k vytvoření SSH klíče v různýc
 
 ## Nastavení serveru ##
 
-Podívejme se nyní na nastavení SSH přístupu na straně serveru. V tomto příkladu použijeme k ověření identity uživatelů metodu `authorized_keys`. Předpokládáme také, že pracujete se standardní linuxovou distribucí, jako je např. Ubuntu. Nejprve vytvoříte uživatele 'git' a adresář `.ssh` pro tohoto uživatele.
+Projděme si nastavení SSH přístupu na straně serveru. V tomto příkladu použijeme k ověření identity uživatelů metodu `authorized_keys`. Předpokládáme také, že pracujete se standardní linuxovou distribucí, jako je např. Ubuntu. Nejprve vytvoříte uživatele 'git' a adresář `.ssh` pro tohoto uživatele.
 
 	$ sudo adduser git
 	$ su git
@@ -238,7 +238,7 @@ Nyní pro ně můžete nastavit prázdný repozitář. Spusťte příkaz `git in
 	$ cd project.git
 	$ git --bare init
 
-John, Josie a Jessica pak mohou do tohoto repozitáře odeslat první verzi svého projektu: přidají si ho jako vzdálený repozitář a odešlou do něj svou větev. Nezapomeňte, že pokaždé, když chcete přidat projekt, se musí k počítači někdo přihlásit a vytvořit holý repozitář. Pro server, na kterém jste nastavili uživatele 'git' a repozitář, můžeme použít název hostitele `gitserver`. Pokud server provozujete interně a nastavíte DNS pro `gitserver` tak, aby ukazovalo na tento server, můžete používat i takovéto příkazy:
+John, Josie a Jessica pak mohou do tohoto repozitáře odeslat první verzi svého projektu: přidají si ho jako vzdálený repozitář a odešlou do něj svou větev. Nezapomeňte, že pokaždé, když chcete vytvořit projekt, musí se k počítači někdo přihlásit a vytvořit holý repozitář. Pro server, na kterém jste nastavili uživatele 'git' a repozitář, můžeme použít název hostitele `gitserver`. Pokud server provozujete interně a nastavíte DNS pro `gitserver` tak, aby ukazovalo na tento server, můžete používat i takovéto příkazy:
 
 	# on Johns computer
 	$ cd myproject
@@ -258,7 +258,7 @@ Ostatní nyní mohou velmi snadno repozitář naklonovat i do něj odesílat zm�
 
 Tímto způsobem lze rychle vytvořit a spustit server Git ke čtení i zápisu pro menší počet vývojářů.
 
-Pro větší bezpečnost máte možnost využít nástroj `git-shell`, který je distribuován se systémem Git. Pomocí něj lze snadno nastavit, aby uživatel 'git' prováděl pouze operace systému Git. Pokud ho nastavíte jako přihlašovací shell uživatele 'git', pak nebude mít uživatel 'git' normální shellový přístup k vašemu serveru. Chcete-li nástroj použít, zadejte pro přihlašovací shell vašeho uživatele `git-shell` místo bash nebo csh. V takovém případě pravděpodobně budete muset upravit soubor `/etc/passwd`:
+Pro větší bezpečnost máte možnost využít nástroj `git-shell`, který je distribuován se systémem Git. Pomocí něj lze uživatele 'git' snadno omezit tak, aby mohl prováděl pouze operace systému Git. Pokud ho nastavíte jako přihlašovací shell uživatele 'git', pak nebude mít uživatel 'git' normální shellový přístup k vašemu serveru. Chcete-li nástroj použít, zadejte pro přihlašovací shell vašeho uživatele `git-shell` místo bash nebo csh. V takovém případě pravděpodobně budete muset upravit soubor `/etc/passwd`:
 
 	$ sudo vim /etc/passwd
 

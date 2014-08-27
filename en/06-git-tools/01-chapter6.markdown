@@ -750,7 +750,7 @@ This goes through and rewrites every commit to have your new address. Because co
 
 ### The Very Fast Nuclear Option: Big Friendly Giant Repo Cleaner (BFG) ###
 
-[Roberto Tyley](https://github.com/rtyley) has written a similar tool to `filter-branch` called the BFG. BFG cannot do as much as `filter-branch`, but it is _very_ fast and on a large repository this can make a big difference. If the change you want to make is in the scope of BFG capaility, and you have performance issues, then you should consider using it.
+[Roberto Tyley](https://github.com/rtyley) has written a similar tool to `filter-branch` called the BFG. BFG cannot do as much as `filter-branch`, but it is _very_ fast and on a large repository this can make a big difference. If the change you want to make is in the scope of BFG capability, and you have performance issues, then you should consider using it.
 
 See the [BFG](http://rtyley.github.io/bfg-repo-cleaner/) website for details.
 

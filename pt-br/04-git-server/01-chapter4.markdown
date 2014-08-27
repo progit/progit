@@ -766,7 +766,7 @@ GitHub também é uma empresa comercial que cobra para contas que mantêm reposi
 
 ### Criando uma Conta de Usuário ###
 
-A primeira coisa que você precisa fazer é criar uma conta de usuário gratuita. Se você visitar a página de Preços e Inscrição em `http://github.com/plans` e clicar no botão "Sign Up" na conta gratuita (ver figura 4-2), você é levado à página de inscrição.
+A primeira coisa que você precisa fazer é criar uma conta de usuário gratuita. Se você visitar a página de Preços e Inscrição em `https://github.com/pricing` e clicar no botão "Sign Up" na conta gratuita (ver figura 4-2), você é levado à página de inscrição.
 
 Insert 18333fig0402.png
 Figure 4-2. A página de planos do GitHub.

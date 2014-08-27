@@ -743,7 +743,7 @@ GitHub 同時也是一個向使用私有倉庫的用戶收取費用的商業公�
 
 ### 建立新帳戶 ###
 
-首先註冊一個免費帳戶。訪問 Pricing and Signup 頁面 `http://github.com/plans` 並點擊 Free acount 裡的 Sign Up 按鈕（見圖 4-2），進入註冊頁面。
+首先註冊一個免費帳戶。訪問 "Plans and pricing" 頁面 `https://github.com/pricing` 並點擊 Free acount 裡的 Sign Up 按鈕（見圖 4-2），進入註冊頁面。
 
 Insert 18333fig0402.png
 圖 4-2. GitHub 服務簡介頁面

@@ -779,7 +779,7 @@ GitHub is ook een commercieel bedrijf dat geld vraagt voor accounts die privé r
 
 ### Een gebruikersaccount instellen ###
 
-Het eerste dat je moet doen is een gratis gebruikers account aanvragen. Als je de Pricing and Signup pagina op `http://github.com/plans` bezoekt en de "Sign Up" knop aanklikt op het Free account (zie figuur 4-2), dan wordt je naar de inteken pagina gebracht.
+Het eerste dat je moet doen is een gratis gebruikers account aanvragen. Als je de "Plans and pricing" pagina op `https://github.com/pricing` bezoekt en de "Sign Up" knop aanklikt op het Free account (zie figuur 4-2), dan wordt je naar de inteken pagina gebracht.
 
 Insert 18333fig0402.png
 Figuur 4-2. De GitHub plan pagina.

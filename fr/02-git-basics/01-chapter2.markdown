@@ -80,7 +80,7 @@ L'outil principal pour déterminer quels fichiers sont dans quel état est la co
 Si vous lancez cette commande juste après un clonage, vous devriez voir ce qui suit :
 
 	$ git status
-	# On branch master
+	On branch master
 	nothing to commit, working directory clean
 
 Ce message signifie que votre copie de travail est propre, en d'autres mots, aucun fichier suivi n'a été modifié.
@@ -94,11 +94,12 @@ Si ce fichier n'existait pas auparavant, et que vous lancez la commande `git sta
 
 	$ vim LISEZMOI
 	$ git status
-	# On branch master
-	# Untracked files:
-	#   (use "git add <file>..." to include in what will be committed)
-	#
-	#	LISEZMOI
+	On branch master
+	Untracked files:
+	  (use "git add <file>..." to include in what will be committed)
+
+	        LISEZMOI
+
 	nothing added to commit but untracked files present (use "git add" to track)
 
 Vous pouvez constater que votre nouveau fichier `LISEZMOI` n'est pas en suivi de version, car il apparaît dans la section « Untracked files » de l'état de la copie de travail.

@@ -739,19 +739,19 @@ GitHub è leggermente differente nello spazio dei nomi che usa per i progetti ri
 
 GitHub è inoltre una organizzazione commerciale che addebita gli account che mantengono repository privati, ma chiunque può avere un account libero per ospitare qualsiasi progetto open source come preferisce. Vedremo velocemente come ottenere ciò.
 
-### Configurare un Account Utente ###
+### Configurare un account ###
 
-La prima cosa di cui hai bisogno è configurare un account utente gratuito. Se visiti la pagina "Plans and pricing" all'inidirizzo `http://https://github.com/pricing` e fai click sul pulsante "Sign Up" per un account gratuito (vedi figura 4-2), sarai portato alla pagina di iscrizione.
+La prima cosa di cui hai bisogno di un account gratuito. Vai alla pagina "Plans and pricing", che trovi all'inidirizzo `http://https://github.com/pricing`, e clicca sul pulsante "Sign Up" per creare un account gratuito (vedi figura 4-2), sarai portato alla pagina di iscrizione.
 
 Insert 18333fig0402.png
 Figura 4-2. La pagina dei piani di GitHub.
 
-Qui devi scegliere un nome utente che non è già stato scelto nel sistema ed inserire un indirizzo e-mail che verrà associato all'account e una password (vedi Figura 4-3).
+Qui devi scegliere un nome utente che non sia già stato scelto da qualcun altro, indicare un indirizzo e-mail che verrà associato all'account e una password (vedi Figura 4-3).
 
 Insert 18333fig0403.png 
 Figura 4-3. Il form di iscrizione di GitHub.
 
-Se ne hai una, è buona cosa aggiungere la propria chiave pubblica SSH. Abbiamo già visto come generare una nuova chiave, nella sezione "Piccole Configurazioni". Prendi il contenuto della chiave pubblica della tua coppia di chiavi, ed incollala nel box SSH Public Key. Facendo click sul link "explain ssh keys" otterrai le istruzioni dettagliate su come fare questa cosa sui maggiori sistemi operativi.
+Se già ne hai una, è buona cosa aggiungere la propria chiave pubblica SSH. Abbiamo già visto come generare una nuova chiave, nella sezione "Piccole Configurazioni". Prendi il contenuto della chiave pubblica della tua coppia di chiavi, ed incollala nel box SSH Public Key. Facendo click sul link "explain ssh keys" otterrai le istruzioni dettagliate su come fare questa cosa sui maggiori sistemi operativi.
 Cliccare il pulsante "I agree, sign me up" ti porta al tuo nuovo pannello utente (vedi Figura 4-4).
 
 Insert 18333fig0404.png 

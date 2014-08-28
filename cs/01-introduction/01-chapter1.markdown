@@ -170,7 +170,7 @@ Obrázek 1-7. Instalátor Git pro OS X
 
 Jiným obvyklým způsobem je instalace systému Git prostřednictvím systému MacPorts (`http://www.macports.org`). Máte-li systém MacPorts nainstalován, nainstalujte Git příkazem:
 
-	$ sudo port install git-core +svn +doc +bash_completion +gitweb
+	$ sudo port install git +svn +doc +bash_completion +gitweb
 
 Není nutné přidávat všechny doplňky, ale pokud budete někdy používat Git s repozitáři systému Subversion, budete pravděpodobně chtít nainstalovat i doplněk +svn (viz kapitola 8).
 

@@ -161,18 +161,22 @@ O si estás en una distribución basada en Debian como Ubuntu, prueba con apt-ge
 
 ### Instalando en Mac ###
 
-Hay dos maneras fáciles de instalar Git en un Mac. La más sencilla es usar el instalador gráfico de Git, que puedes descargar desde la página de SourceForge (véase Figura 1-7):
+Hay tres maneras fáciles de instalar Git en un Mac. La más sencilla es usar el instalador gráfico de Git, que puedes descargar desde la página de SourceForge (véase Figura 1-7):
 
 	http://sourceforge.net/projects/git-osx-installer/
 
 Insert 18333fig0107.png
 Figura 1-7. Instalador de Git para OS X.
 
-La otra manera es instalar Git a través de MacPorts (`http://www.macports.org`). Si tienes MacPorts instalado, instala Git con:
+Una alternativa es instalar Git a través de MacPorts (`http://www.macports.org`). Si tienes MacPorts instalado, instala Git con:
 
 	$ sudo port install git-core +svn +doc +bash_completion +gitweb
 
 No necesitas añadir todos los extras, pero probablemente quieras incluir +svn en caso de que alguna vez necesites usar Git con repositorios Subversion (véase el Capítulo 8).
+
+La segunda alternativa es Homebrew (`http://brew.sh/`). Si ya tienes instalado Homebrew, instala Git con:
+
+	$ brew install git
 
 ### Instalando en Windows ###
 

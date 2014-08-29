@@ -71,7 +71,7 @@ To znamená, že žádné soubory nejsou připraveny k zapsání a pracovní adr
 
 	nothing added to commit but untracked files present (use "git add" to track)
 
-Vidíte, že nový soubor `README` není sledován, protože je ve výpisu stavů uveden v části „Untracked files“. Není-li soubor sledován, obecně to znamená, že Git ví o souboru, který nebyl v předchozím snímku (v předchozí revizi), a nezařadí ho ani do dalších snímků, dokud mu k tomu nedáte výslovný příkaz. Díky tomu se nemůže stát, že budou do revizí nedopatřením zahrnuty vygenerované binární soubory nebo jiné soubory, které si nepřejete zahrnout. Vy si ale přejete soubor README zahrnout, a proto spusťme jeho sledování.
+Vidíte, že nový soubor `README` není sledován, protože je ve výpisu stavů uveden v části „Untracked files“. Není-li soubor sledován, obecně to znamená, že Git ví o souboru, který nebyl v předchozím snímku (v předchozí revizi), a nezařadí ho ani do dalších snímků, dokud mu k tomu nedáte výslovný příkaz. Díky tomu se nemůže stát, že budou do revizí nedopatřením zahrnuty vygenerované binární soubory nebo jiné soubory, které si nepřejete zahrnout. Vy si ale přejete soubor README zahrnout, a proto ho začněme sledovat.
 
 ### Sledování nových souborů ###
 
@@ -109,7 +109,7 @@ Nyní provedeme změny v souboru, který už byl sledován. Pokud změníte už 
 	        modified:   benchmarks.rb
 
 
-Soubor `benchmarks.rb` je uveden v části „Changes not staged for commit“ (změněny nejsou připraveny k zapsání). Znamená to, že soubor, který je sledován, byl v pracovním adresáři změněn, avšak ještě nebyl připraven k zapsání (staged). Chcete-li ho připravit k zapsání, spusťte příkaz `git add` (jedná se o víceúčelový příkaz – používá se k zahájení sledování nových souborů i k dalším operacím, jako je například označení vyřešených případů kolize souborů při slučování). Spusťme nyní příkaz `git add`, abychom soubor `benchmarks.rb` připravili k zapsání, a potom znovu zadejme příkaz `git status`:
+Soubor `benchmarks.rb` je uveden v části „Changes not staged for commit“ (změny, které nejsou připraveny k zapsání). Znamená to, že soubor, který je sledován, byl v pracovním adresáři změněn, avšak ještě nebyl připraven k zapsání (staged). Chcete-li ho připravit k zapsání, spusťte příkaz `git add` (jedná se o víceúčelový příkaz – používá se k zahájení sledování nových souborů i k dalším operacím, jako je například označení vyřešených případů kolize souborů při slučování). Spusťme nyní příkaz `git add`, abychom soubor `benchmarks.rb` připravili k zapsání, a potom znovu zadejme příkaz `git status`:
 
 	$ git add benchmarks.rb
 	$ git status
@@ -159,12 +159,12 @@ Ve vašem adresáři se často vyskytne skupina souborů, u nichž nebudete cht�
 	*.[oa]
 	*~
 
-První řádek říká systému Git, že má ignorovat všechny soubory končící na `.o` nebo `.a` – *objekty* a *archivní* soubory, které mohou být výsledkem překladu. Druhý řádek systému Git říká, aby ignoroval všechny soubory končící vlnovkou (`~`), kterou mnoho textových editorů (např. Emacs) používá k označení dočasných souborů. Můžete rovněž přidat adresář `log`, `tmp` nebo `pid`, automaticky vygenerovanou dokumentaci a podobné. Vytvoření a naplnění souboru `.gitignore` ještě dříve než se pustíte do práce, bývá většinou dobrý nápad. Alespoň se vám nestane, že byste nedopatřením zapsali také soubory, o které v repozitáři Git nestojíte.
+První řádek říká systému Git, že má ignorovat všechny soubory končící na `.o` nebo `.a` – *objekty* a *archivní* soubory, které mohou být výsledkem překladu. Druhý řádek systému Git říká, aby ignoroval všechny soubory končící vlnovkou (`~`), kterou mnoho textových editorů (např. Emacs) používá k označení dočasných souborů. Můžete rovněž přidat adresář `log`, `tmp` nebo `pid`, automaticky vygenerovanou dokumentaci a podobné. Vytvoření a naplnění souboru `.gitignore` ještě dříve než se pustíte do práce bývá většinou dobrý nápad. Alespoň se vám nestane, že byste nedopatřením zapsali také soubory, o které v repozitáři Git nestojíte.
 
 Pravidla pro masky, které můžete použít v souboru `.gitignore`, jsou následující:
 
 *	Prázdné řádky nebo řádky začínající znakem `#` budou ignorovány.
-*	Standardní masky souborů.
+*	Standardní masky souborů (glob patterns).
 *	Chcete-li označit adresář, můžete masku zakončit lomítkem (`/`).
 *	Pokud řádek začíná vykřičníkem (`!`), maska na něm je negována.
 
@@ -579,8 +579,8 @@ Tabulka 2-1 uvádí některé užitečné parametry, které format akceptuje.
 	%h	Zkrácený otisk revize
 	%T	Otisk stromu
 	%t	Zkrácený otisk stromu
-	%P	Nadřazené otisky
-	%p	Zkrácené nadřazené otisky
+	%P	Otisky rodičovských revizí
+	%p	Zkrácené otisky rodičovských revizí
 	%an	Jméno autora
 	%ae	E-mail autora
 	%ad	Datum autora (formát je možné nastavit parametrem --date)

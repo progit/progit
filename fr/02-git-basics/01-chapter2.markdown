@@ -80,7 +80,7 @@ L'outil principal pour déterminer quels fichiers sont dans quel état est la co
 Si vous lancez cette commande juste après un clonage, vous devriez voir ce qui suit :
 
 	$ git status
-	# On branch master
+	On branch master
 	nothing to commit, working directory clean
 
 Ce message signifie que votre copie de travail est propre, en d'autres mots, aucun fichier suivi n'a été modifié.
@@ -94,11 +94,12 @@ Si ce fichier n'existait pas auparavant, et que vous lancez la commande `git sta
 
 	$ vim LISEZMOI
 	$ git status
-	# On branch master
-	# Untracked files:
-	#   (use "git add <file>..." to include in what will be committed)
-	#
-	#	LISEZMOI
+	On branch master
+	Untracked files:
+	  (use "git add <file>..." to include in what will be committed)
+
+	        LISEZMOI
+
 	nothing added to commit but untracked files present (use "git add" to track)
 
 Vous pouvez constater que votre nouveau fichier `LISEZMOI` n'est pas en suivi de version, car il apparaît dans la section « Untracked files » de l'état de la copie de travail.
@@ -116,12 +117,12 @@ Pour commencer à suivre le fichier `LISEZMOI`, vous pouvez entrer ceci :
 Si vous lancez à nouveau la commande `git status`, vous pouvez constater que votre fichier `LISEZMOI` est maintenant suivi et indexé :
 
 	$ git status
-	# On branch master
-	# Changes to be committed:
-	#   (use "git reset HEAD <file>..." to unstage)
-	#
-	#	new file:   LISEZMOI
-	#
+	On branch master
+	Changes to be committed:
+	  (use "git reset HEAD <file>..." to unstage)
+
+	        new file:   LISEZMOI
+
 
 Vous pouvez affirmer qu'il est indexé car il apparaît dans la section « Changes to be committed » (Modifications à valider).
 Si vous enregistrez à ce moment, la version du fichier à l'instant où vous lancez `git add` est celle qui appartiendra à l'instantané.
@@ -134,17 +135,18 @@ Maintenant, modifions un fichier qui est déjà sous suivi de version.
 Si vous modifiez le fichier sous suivi de version appelé `benchmarks.rb` et que vous lancez à nouveau votre commande `git status`, vous verrez ceci :
 
 	$ git status
-	# On branch master
-	# Changes to be committed:
-	#   (use "git reset HEAD <file>..." to unstage)
-	#
-	#	new file:   LISEZMOI
-	#
-	# Changes not staged for commit:
-	#   (use "git add <file>..." to update what will be committed)
-	#
-	#	modified:   benchmarks.rb
-	#
+	On branch master
+	Changes to be committed:
+	  (use "git reset HEAD <file>..." to unstage)
+
+	        new file:   LISEZMOI
+
+	Changes not staged for commit:
+	  (use "git add <file>..." to update what will be committed)
+	  (use "git checkout -- <file>..." to discard changes in working directory)
+
+	        modified:   benchmarks.rb
+
 
 Le fichier `benchmarks.rb` apparaît sous la section nommée « Changes not staged for commit » ce qui signifie que le fichier sous suivi de version a été modifié dans la copie de travail mais n'est pas encore indexé.
 Pour l'indexer, il faut lancer la commande `git add` (qui est une commande multi-usage — elle peut être utilisée pour placer un fichier sous suivi de version, pour indexer un fichier ou pour d'autres actions telles que marquer comme résolus des conflits de fusion de fichiers).
@@ -152,13 +154,13 @@ Lançons maintenant `git add` pour indexer le fichier `benchmarks.rb`, et relan�
 
 	$ git add benchmarks.rb
 	$ git status
-	# On branch master
-	# Changes to be committed:
-	#   (use "git reset HEAD <file>..." to unstage)
-	#
-	#	new file:   LISEZMOI
-	#	modified:   benchmarks.rb
-	#
+	On branch master
+	Changes to be committed:
+	  (use "git reset HEAD <file>..." to unstage)
+
+	        new file:   LISEZMOI
+	        modified:   benchmarks.rb
+
 
 À présent, les deux fichiers sont indexés et feront partie de la prochaine validation.
 Mais supposons que vous souhaitiez apporter encore une petite modification au fichier `benchmarks.rb` avant de réellement valider la nouvelle version.
@@ -167,18 +169,19 @@ Néanmoins, vous lancez `git status` une dernière fois :
 
 	$ vim benchmarks.rb
 	$ git status
-	# On branch master
-	# Changes to be committed:
-	#   (use "git reset HEAD <file>..." to unstage)
-	#
-	#	new file:   LISEZMOI
-	#	modified:   benchmarks.rb
-	#
-	# Changes not staged for commit:
-	#   (use "git add <file>..." to update what will be committed)
-	#
-	#	modified:   benchmarks.rb
-	#
+	On branch master
+	Changes to be committed:
+	  (use "git reset HEAD <file>..." to unstage)
+
+	        new file:   LISEZMOI
+	        modified:   benchmarks.rb
+
+	Changes not staged for commit:
+	  (use "git add <file>..." to update what will be committed)
+	  (use "git checkout -- <file>..." to discard changes in working directory)
+
+	        modified:   benchmarks.rb
+
 
 Que s'est-il donc passé ? À présent, `benchmarks.rb` apparaît à la fois comme indexé et non indexé.
 En fait, Git indexe un fichier dans son état au moment où la commande `git add` est lancée.
@@ -187,13 +190,13 @@ Si le fichier est modifié après un `git add`, il faut relancer `git add` pour 
 
 	$ git add benchmarks.rb
 	$ git status
-	# On branch master
-	# Changes to be committed:
-	#   (use "git reset HEAD <file>..." to unstage)
-	#
-	#	new file:   LISEZMOI
-	#	modified:   benchmarks.rb
-	#
+	On branch master
+	Changes to be committed:
+	  (use "git reset HEAD <file>..." to unstage)
+
+	        new file:   LISEZMOI
+	        modified:   benchmarks.rb
+
 
 ### Ignorer des fichiers ###
 
@@ -248,17 +251,18 @@ Supposons que vous éditez et indexez le fichier `LISEZMOI` et que vous éditez 
 Si vous lancez la commande `git status`, vous verrez ceci :
 
 	$ git status
-	# On branch master
-	# Changes to be committed:
-	#   (use "git reset HEAD <file>..." to unstage)
-	#
-	#	new file:   LISEZMOI
-	#
-	# Changes not staged for commit:
-	#   (use "git add <file>..." to update what will be committed)
-	#
-	#	modified:   benchmarks.rb
-	#
+	On branch master
+	Changes to be committed:
+	  (use "git reset HEAD <file>..." to unstage)
+
+	        new file:   LISEZMOI
+
+	Changes not staged for commit:
+	  (use "git add <file>..." to update what will be committed)
+	  (use "git checkout -- <file>..." to discard changes in working directory)
+
+	        modified:   benchmarks.rb
+
 
 Pour visualiser ce qui a été modifié mais pas encore indexé, tapez `git diff` sans autre argument :
 

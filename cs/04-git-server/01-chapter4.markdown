@@ -1,20 +1,20 @@
 # Git na serveru #
 
-V této chvíli byste už měli zvládat většinu každodenních úkonů, pro něž se vyplatí Git používat. Abyste však mohli v systému Git spolupracovat s ostatními, budete potřebovat vzdálený repozitář Git. Technicky vzato sice můžete odesílat a stahovat změny z repozitářů jednotlivých spolupracovníků, tento postup ale nedoporučujeme, protože se může při troše neopatrnosti velmi snadno stát, že zapomenete, kdo na čem pracuje. Navíc chcete, aby měli vaši spolupracovníci do repozitáře přístup, i když je váš počítač offline – na společný repozitář bývá často lepší spolehnutí. Jako nejlepší metodu spolupráce s ostatními proto můžeme doporučit nastavení „neutrálního“ repozitáře, do nějž budete mít všichni přístup, budete do něj moci odesílat data a budete z něj moci stahovat. Tomuto repozitáři budeme říkat „server Git“. Jak ale zjistíte, nebývá hostování repozitáře Git nijak zvlášť náročné na zdroje, a tak nejspíš nebudete potřebovat celý server.
+V této chvíli byste už měli zvládat většinu každodenních úkonů, pro něž se vyplatí Git používat. Abyste však mohli v systému Git spolupracovat s ostatními, budete potřebovat vzdálený repozitář Git. Technicky vzato sice můžete odesílat a stahovat změny z repozitářů jednotlivých spolupracovníků, tento postup ale nedoporučujeme, protože se může při troše neopatrnosti velmi snadno stát, že zapomenete, kdo na čem pracuje. Navíc chcete, aby měli vaši spolupracovníci do repozitáře přístup, i když je váš počítač vypnutý nebo odpojený – na společný repozitář bývá často lepší spolehnutí. Jako nejlepší metodu spolupráce s ostatními proto můžeme doporučit nastavení „neutrálního“ repozitáře, do nějž budete mít všichni přístup, budete do něj moci odesílat data a budete z něj moci stahovat. Tomuto repozitáři budeme říkat „gitový server“. Jak ale zjistíte, nebývá hostování gitového repozitáře nijak zvlášť náročné na zdroje, a tak nejspíš nebudete potřebovat celý server.
 
-Spuštění serveru Git je jednoduché. Nejprve určíte, jakými protokoly má váš server komunikovat. První část této kapitoly se bude věnovat možným protokolům, jejich přednostem a nevýhodám. V dalších částech popíšeme některá typická nastavení pro použití těchto protokolů, a jak s nimi uvést server do provozu. Nakonec se podíváme na několik možností hostování pro případ, že nebudete mít chuť podstupovat martyrium s nastavováním a správou vlastního serveru a nevadí vám umístit svůj kód na cizí server.
+Zprovoznění gitového serveru je jednoduché. Nejprve určíte, jakými protokoly má váš server komunikovat. První část této kapitoly se bude věnovat možným protokolům, jejich přednostem a nevýhodám. V dalších částech popíšeme některá typická nastavení pro použití těchto protokolů, a jak s nimi uvést server do provozu. Nakonec se podíváme na několik možností hostování pro případ, že nebudete mít chuť podstupovat martyrium s nastavováním a správou vlastního serveru a nevadí vám umístit svůj kód na cizí server.
 
-Pokud víte, že nebudete chtít spravovat vlastní server, můžete přeskočit rovnou na poslední část této kapitoly a podívat se na možnosti nastavení hostovaného účtu. Pak přejděte na následující kapitolu, v níž se dočtete o různých vstupech a výstupech při práci v prostředí s distribuovanou správou zdrojového kódu.
+Pokud víte, že nebudete chtít spravovat vlastní server, můžete přeskočit rovnou na poslední část této kapitoly a podívat se na možnosti nastavení hostovaného účtu. Pak přejděte na následující kapitolu, v níž se dočtete o detailech a záludnostech při práci v prostředí s distribuovanou správou zdrojového kódu.
 
-Vzdálený repozitář je obvykle *holý repozitář* (bare repository), tj. repozitář Git bez pracovního adresáře. Protože se repozitář používá pouze jako místo pro spolupráci, není žádný důvod, aby byl na disku načten konkrétní snímek. Jsou tu pouze uložena data systému Git. Jednoduše bychom mohli také říct, že holý repozitář je obsah adresáře `.git` vašeho projektu a nic víc.
+Vzdálený repozitář je obvykle *holý repozitář* (bare repository), tj. gitový repozitář bez pracovního adresáře. Protože se repozitář používá pouze jako místo pro spolupráci, není žádný důvod, aby byl na disku načten konkrétní snímek. Jsou tu pouze uložena data systému Git. Jednoduše bychom mohli také říct, že holý repozitář je obsah adresáře `.git` vašeho projektu a nic víc.
 
 ## Protokoly ##
 
 Git může k přenosu dat používat jeden ze čtyř hlavních síťových protokolů: Local, Secure Shell (SSH), Git nebo HTTP. V této části se podíváme na to, co jsou jednotlivé protokoly zač a za jakých okolností je (ne)vhodné je použít.
 
-Neměli bychom zamlčet ani to, že s výjimkou protokolu HTTP všechny vyžadují, aby byl na serveru nainstalován a spuštěn systém Git.
+Neměli bychom zamlčet ani to, že s výjimkou protokolu HTTP všechny vyžadují, aby byl na serveru nainstalován a zprovozněn systém Git.
 
-### Protokol Local ###
+### Lokální protokol ###
 
 Nejzákladnější variantou je *lokální protokol* (Local protocol), v němž je vzdálený repozitář uložen v jiném adresáři na disku. Často se využívá v případech, kdy mají všichni z vašeho týmu přístup k vašim sdíleným souborům, např. přes připojení systému NFS, nebo – v méně pravděpodobném případě – se všichni přihlašují na jednom počítači. Tato druhá varianta není právě ideální, protože všechny instance repozitáře s kódem jsou v takovém případě umístěny v jednom počítači, čímž se zvyšuje riziko nevratné ztráty dat.
 
@@ -26,7 +26,7 @@ Nebo můžete provést následující:
 
 	$ git clone file:///opt/git/project.git
 
-Pokud na začátek URL explicitně zadáte výraz `file://`, pracuje Git trochu jinak. Pokud pouze zadáte cestu, Git se pokusí použít hardlinky nebo rovnou zkopírovat soubory, které potřebuje. Pokud zadáte výraz `file://`, Git spustí procesy, jež běžně používá k přenosu dat prostřednictvím sítě. Síť je většinou výrazně méně výkonnou metodou přenosu dat. Hlavním důvodem, proč zadat předponu `file://` je to, že tak získáte čistou kopii repozitáře bez nepotřebných referencí a objektů, např. po importu z jiného verzovacího systému a podobně (úkony správy jsou popsány v kapitole 9). My budeme používat normální cestu, neboť tato metoda je téměř vždy rychlejší.
+Pokud na začátek URL explicitně zadáte výraz `file://`, pracuje Git trochu jinak. Pokud pouze zadáte cestu a zdroj i cíl se nacházejí ve stejném systému souborů, pokusí se Git použít hardlinky na potřebné objekty. Pokud se nenacházejí ve stejném systému souborů, dojde k okopírování potřebných objektů pomocí standardních prostředků systému pro kopírování. Pokud zadáte výraz `file://`, Git spustí procesy, jež běžně používá k přenosu dat prostřednictvím sítě. Síť je většinou výrazně méně výkonnou metodou přenosu dat. Hlavním důvodem, proč zadat předponu `file://` je to, že tak získáte čistou kopii repozitáře bez nepotřebných referencí a objektů, například po importu z jiného verzovacího systému a podobně (úkony správy jsou popsány v kapitole 9). My budeme používat normální cestu, neboť tato metoda je téměř vždy rychlejší.
 
 K přidání lokálního repozitáře do existujícího projektu Git můžete použít příkaz například v tomto tvaru:
 
@@ -44,17 +44,17 @@ Jedná se také o výbornou možnost, jak rychle získat práci z pracovního re
 
 Nevýhodou této metody je, že nastavit a získat sdílený přístup z více umístění je většinou těžší než obyčejný síťový přístup. Budete-li chtít pracovat doma a odeslat data z notebooku, budete muset připojit vzdálený disk, což může být ve srovnání s přístupem prostřednictvím sítě složité a pomalé.
 
-Zapomenout bychom neměli ani na to, že používáte-li sdílené připojení určitého druhu, nemusí být tato možnost vždy nutně nejrychlejší. Lokální repozitář je rychlý pouze v případě, že máte rychlý přístup k datům. Repozitář na NFS je často pomalejší než repozitář nad SSH na tomtéž serveru, který ve všech systémech umožňuje spustit Git z lokálních disků.
+Zapomenout bychom neměli ani na to, že používáte-li sdílené připojení určitého druhu, nemusí být tato možnost vždy nutně nejrychlejší. Lokální repozitář je rychlý pouze v případě, že máte rychlý přístup k datům. Repozitář na NFS je často pomalejší než stejný repozitář nad SSH na tomtéž serveru, který ve všech systémech umožňuje spustit Git z lokálních disků.
 
 ### Protokol SSH ###
 
-Patrně nejčastějším přenosovým protokolem pro systém Git je SSH. Je to z toho důvodu, že SSH přístup k serverům je na většině míst už nastaven, a pokud ne, není ho těžké nastavit. SSH je navíc jediným síťovým protokolem, z nějž lze snadno číst a do nějž lze snadno zapisovat. Oba zbývající síťové protokoly (HTTP i Git) jsou většinou určeny pouze ke čtení, a proto i když je máte k dispozici, budete potřebovat SSH protokol pro příkazy k zápisu. SSH je také síťovým protokolem s ověřováním, a protože je hojně rozšířen, je jeho nastavení a používání většinou snadné.
+Patrně nejčastějším přenosovým protokolem pro systém Git je SSH. Je to z toho důvodu, že SSH přístup k serverům je na většině míst už nastaven, a pokud ne, není ho těžké nastavit. SSH je navíc jediným síťovým protokolem, z nějž lze snadno číst a do nějž lze snadno zapisovat. Oba zbývající síťové protokoly (HTTP i Git) jsou většinou určeny pouze ke čtení, a proto i když je dáváte k dispozici ostatním, pro sebe budete potřebovat SSH protokol pro příkazy zápisu. SSH je také síťovým protokolem s autentizací, a protože je hojně rozšířen, je jeho nastavení a používání většinou snadné.
 
-Chcete-li naklonovat repozitář Git pomocí protokolu SSH, zadejte „ssh:// URL“, například:
+Chcete-li naklonovat repozitář Git pomocí protokolu SSH, zadejte `ssh://` URL, například:
 
 	$ git clone ssh://user@server/project.git
 
-Protokol ostatně ani nemusíte zadávat – pokud žádný výslovně neurčíte, Git použije SSH jako výchozí možnost:
+Nebo můžete pro SSH protokol použít kratší zápis jako u scp:
 
 	$ git clone user@server:project.git
 
@@ -62,24 +62,24 @@ Stejně tak nemusíte zadávat ani uživatele, Git automaticky použije uživate
 
 #### Výhody ####
 
-Používání protokolu SSH přináší mnoho výhod. Především byste ho měli používat vždy, když chcete v síti ověřovat oprávnění k zápisu do repozitáře. Zadruhé: protokol SSH má snadné nastavení – SSH démoni jsou zcela běžní, správci sítě si s nimi většinou vědí rady a mnoho distribucí OS je má ve výchozí instalaci nebo má nástroje, aby s nimi mohly pracovat. Z dalších výhod bychom měli zmínit také to, že přístup přes protokol SSH je bezpečný, veškerý přenos dat je šifrovaný a ověřený. A stejně jako protokoly Git a Local je i protokol SSH výkonný. Data jsou před přenosem upravena do co nejkompaktnější podoby.
+Používání protokolu SSH přináší mnoho výhod. Především byste ho měli používat vždy, když chcete v síti používat autentizovaný zápis do repozitáře. Zadruhé: protokol SSH se snadno nastavuje – SSH démoni jsou zcela běžní, správci sítě si s nimi většinou vědí rady a mnoho distribucí OS je má ve výchozí instalaci nebo poskytuje nástroje pro jejich správu. Z dalších výhod bychom měli zmínit také to, že přístup přes protokol SSH je bezpečný, veškerý přenos dat je šifrovaný a autentizovaný. A stejně jako protokoly Git a Local je i protokol SSH výkonný, protože data jsou před přenosem upravena do co nejkompaktnější podoby.
 
 #### Nevýhody ####
 
-Nevýhodou protokolu SSH je, že neumožňuje anonymní přístup do repozitáře. Chce-li někdo získat přístup do vašeho repozitáře, byť třeba jen ke čtení, musí mít přístup k vašemu počítači přes SSH. Proto se protokol SSH nehodí pro projekty s otevřeným zdrojovým kódem. Pokud repozitář používáte jen v rámci firemní sítě, bude pro vás protokol SSH zřejmě naprosto ideální. Pokud chcete povolit anonymní přístup pro čtení k vašim projektům, budete muset nastavit protokol SSH k odesílání svých dat, ale přidat jiný protokol, pomocí nějž budou ostatní tato data stahovat.
+Nevýhodou protokolu SSH je, že neumožňuje anonymní přístup do repozitáře. Chce-li někdo získat přístup do vašeho repozitáře, byť třeba jen ke čtení, musí mít přístup k vašemu počítači přes SSH. Proto se protokol SSH nehodí pro projekty s otevřeným zdrojovým kódem. Pokud repozitář používáte jen v rámci firemní sítě, bude pro vás protokol SSH zřejmě naprosto ideální. Pokud chcete povolit anonymní přístup pro čtení k vašim projektům, budete muset nastavit protokol SSH k odesílání svých dat, ale musíte přidat i jiný protokol, který budou ostatní používat pro stahování.
 
 ### Protokol Git ###
 
-Dalším protokolem v pořadí je protokol Git. Je to speciální démon, který je distribuován spolu se systémem Git. Naslouchá na vyhrazeném portu (9418) a poskytuje podobnou službu jako protokol SSH, avšak bez jakéhokoli ověřování. Chcete-li, aby byl repozitář obsluhován protokolem Git, musíte vytvořit soubor `git-daemon-export-ok` – démon nebude repozitář obsluhovat, dokud v něm tento soubor nebude. Žádné jiné zabezpečení k dispozici není. Repozitář Git je buď dostupný pro všechny a všichni z něj mohou klonovat, nebo dostupný není. To znamená, že se přes tento protokol nedají odesílat žádné revize. Možnost odesílání lze aktivovat, ale vzhledem k tomu, že protokol neumožňuje ověřování, aktivované odesílání znamená, že kdokoli na internetu, kdo najde URL vašeho projektu, do něj bude moci odesílat data. Tato možnost se však téměř nepoužívá.
+Dalším protokolem v pořadí je protokol Git. Je to speciální démon, který je distribuován spolu se systémem Git. Naslouchá na vyhrazeném portu (9418) a poskytuje podobnou službu jako protokol SSH, avšak bez jakékoliv autentizace. Chcete-li, aby byl repozitář zpřístupněn protokolem Git, musíte vytvořit soubor `git-daemon-export-ok`. Bez tohoto souboru nebude repozitář démonem zpřístupněn. Žádné jiné zabezpečení ale k dispozici není. Repozitář Git je buď dostupný pro všechny a všichni z něj mohou klonovat, nebo dostupný není. To znamená, že se přes tento protokol nedají odesílat žádné revize. Možnost odesílání lze zapnout, ale vzhledem k tomu, že protokol neumožňuje autentizaci, aktivované odesílání znamená, že kdokoli na internetu, kdo najde URL vašeho projektu, do něj bude moci odesílat data. Je jasné, že to většinou nechcete.
 
 #### Výhody ####
 
-Protokol Git je ze všech dostupných protokolů nejrychlejší. Potřebujete-li, aby protokol obsluhoval frekventovaný provoz u veřejného projektu nebo velmi velký projekt, u nějž není třeba ověřování identity uživatele ohledně oprávnění pro čtení, bude k obsluze nejvhodnější pravděpodobně právě démon Git. Používá stejný mechanismus přenosu dat jako protokol SSH, na rozdíl od něj ale není zpomalován šifrováním a ověřováním.
+Protokol Git je ze všech dostupných protokolů nejrychlejší. Potřebujete-li, aby protokol obsluhoval frekventovaný provoz u veřejného projektu nebo velmi velký projekt, u nějž není třeba ověřování identity uživatele ohledně oprávnění pro čtení, bude k obsluze nejvhodnější pravděpodobně právě démon Git. Používá stejný mechanismus přenosu dat jako protokol SSH, na rozdíl od něj ale není zpomalován šifrováním a ověřováním identity (autentizací).
 
 #### Nevýhody ####
 
-Nevýhodou protokolu Git je, že neprovádí ověřování. Většinou není žádoucí, aby protokol Git tvořil jediný přístup k vašemu projektu. Protokol Git většinou využijete v kombinaci s přístupem přes SSH. Protokol SSH bude nastaven pro několik málo vývojářů s oprávněním k zápisu (odesílání dat) a všichni ostatní budou používat `git://` pro přístup pouze ke čtení.
-Pravděpodobně se také jedná o protokol s nejobtížnějším nastavením. Vyžaduje spuštění vlastního démona – na jeho nastavení se podíváme v části „Gitosis“ této kapitoly – a dále konfiguraci `xinetd` nebo podobnou, která také není právě jednoduchá. Vyžaduje rovněž povolení přístupu k portu 9418 skrz firewall. Tento port nepatří mezi standardní porty, které by firemní firewally vždy povolovaly. Velkými podnikovými firewally je tento málo rozšířený port většinou blokován.
+Nevýhodou protokolu Git je, že neprovádí autentizaci. Většinou není žádoucí, aby protokol Git tvořil jediný přístup k vašemu projektu. Protokol Git většinou využijete v kombinaci s přístupem přes SSH. Protokol SSH bude nastaven pro několik málo vývojářů s oprávněním k zápisu (odesílání dat) a všichni ostatní budou používat `git://` pro přístup pouze ke čtení.
+Pravděpodobně se také jedná o protokol s nejobtížnějším nastavením. Vyžaduje spuštění vlastního démona – na jeho nastavení se podíváme v části „Gitosis“ této kapitoly – a dále konfiguraci `xinetd` nebo podobnou, což není zrovna procházka růžovou zahradou. Vyžaduje rovněž povolení přístupu k portu 9418 skrz firewall. Tento port nepatří mezi standardní porty, které by firemní firewally vždy povolovaly. Velkými podnikovými firewally je tento málo rozšířený port většinou blokován.
 
 ### Protokol HTTP/S ###
 
@@ -91,11 +91,11 @@ Na konec jsme si nechali protokol HTTP. Co je na protokolu HTTP nebo HTTPS sympa
 	$ mv hooks/post-update.sample hooks/post-update
 	$ chmod a+x hooks/post-update
 
-A to je vše. Zásuvný modul `post-update`, který je standardně součástí systému Git, spustí příkaz `git update-server-info`, který zajistí správné vyzvedávání a klonování dat přes protokol HTTP. Tento příkaz se spustí, když do tohoto repozitáře odesíláte data přes protokol SSH. Ostatní mohou klonovat třeba takto:
+A to je vše. Zásuvný modul `post-update`, který je standardně součástí systému Git, spustí příslušný příkaz (`git update-server-info`), který zajistí správné vyzvedávání a klonování dat přes protokol HTTP. Tento příkaz se spustí, když do tohoto repozitáře odesíláte data přes protokol SSH. Poté mohou ostatní klonovat třeba takto:
 
 	$ git clone http://example.com/gitproject.git
 
-V tomto konkrétním případě používáme cestu `/var/www/htdocs`, která je obvyklá u nastavení Apache, ale použít lze v podstatě jakýkoli webový server – stačí uložit holý repozitář do daného umístění. Data repozitáře Git jsou obsluhována jako obyčejné statické soubory (podrobnosti naleznete v kapitole 9).
+V tomto konkrétním případě používáme cestu `/var/www/htdocs`, která je obvyklá u nastavení Apache, ale použít lze v podstatě jakýkoli statický webový server – stačí uložit holý repozitář do dané cesty. Data repozitáře Git jsou obsluhována jako obyčejné statické soubory (podrobnosti o přesném způsobu obsluhy naleznete v kapitole 9).
 
 Odesílat data do repozitáře Git je možné také přes protokol HTTP, avšak tento způsob není příliš rozšířený a vyžaduje nastavení komplexních požadavků protokolu WebDAV. Protože se tato možnost využívá zřídka, nebudeme se jí v této knize věnovat. Pokud vás zajímá používání protokolů HTTP k odesílání dat, více se o přípravě repozitáře k tomuto účelu dočtete na adrese: `http://www.kernel.org/pub/software/scm/git/docs/howto/setup-git-server-over-http.txt` (anglicky). Příjemným faktem na odesílání dat přes protokol HTTP je, že můžete použít jakýkoli server WebDAV i bez speciálních funkcí systému Git. Tuto možnost tak můžete využít, pokud váš poskytovatel webhostingu podporuje WebDAV pro zápis aktualizací na vaše webové stránky.
 
@@ -103,7 +103,7 @@ Odesílat data do repozitáře Git je možné také přes protokol HTTP, avšak 
 
 Pro používání protokolu HTTP mluví zejména jeho snadné nastavení. Vystačíte s několika málo příkazy, ale získáte jednoduchý způsob, jak nastavit oprávnění pro čtení repozitáře Git pro okolní svět. Celý postup nezabere víc než pár minut. Protokol HTTP navíc jen minimálně omezuje zdroje serveru. Vzhledem k tomu, že k obsluze všech dat používá většinou statický HTTP server, obslouží běžný server Apache průměrně několik tisíc souborů za sekundu. Ani malý server proto není snadné přetížit.
 
-Své repozitáře můžete prostřednictvím protokolu HTTPS poskytovat pouze ke čtení a šifrovat přenos dat. Nebo můžete zajít ještě dál a vyžadovat, aby klienti používali konkrétní podepsané SSL certifikáty. Je pravda, že v takovém případě by už bylo jednodušší použít veřejné SSH klíče, ale ve vašem konkrétním případě může být použití podepsaných SSL certifikátů nebo jiné ověření identity na základě protokolu HTTP lepší metodou, jak zajistit přístup přes HTTPS pouze ke čtení.
+Své repozitáře můžete zpřístupnit ke čtení prostřednictvím protokolu HTTPS, což znamená, že se přenášený obsah šifruje. Nebo můžete zajít ještě dál a vyžadovat, aby klienti používali konkrétní podepsané SSL certifikáty. Je pravda, že v takovém případě by už bylo jednodušší použít veřejné SSH klíče, ale ve vašem konkrétním případě může být použití podepsaných SSL certifikátů nebo jiné ověření identity na základě protokolu HTTP lepší metodou, jak zajistit přístup přes HTTPS pouze ke čtení.
 
 Z dalších výhod protokolu HTTP bychom mohli jmenovat i jeho značné rozšíření, díky čemuž jsou firemní firewally často nastaveny tak, že umožňují provoz přes standardní port protokolu HTTP.
 
@@ -114,7 +114,7 @@ Nevýhodou obsluhy repozitáře přes protokol HTTP je poměrně nízká výkonn
 ## Jak umístit Git na server ##
 
 Pro úvodní nastavení serveru Git je třeba exportovat existující repozitář do nového, holého repozitáře (bare repository), tj. do repozitáře, který neobsahuje pracovní adresář. S tím obvykle nebývá problém.
-Chcete-li naklonovat stávající repozitář, a vytvořit tak nový a holý, zadejte příkaz clone s parametrem `--bare`. Je zvykem, že adresáře s holým repozitářem končí na `.git`, například:
+Chcete-li naklonovat stávající repozitář, a vytvořit tak nový a holý, zadejte příkaz pro klonování s parametrem `--bare`. Je zvykem, že adresáře s holým repozitářem končí na `.git`, například:
 
 	$ git clone --bare my_project my_project.git
 	Cloning into bare repository 'my_project.git'...
@@ -158,9 +158,9 @@ Pokud provádíte nastavení jen pro malý okruh lidí nebo jen zkoušíte Git v
 
 Jestliže už máte server, k němuž mají všichni vaši vývojáři SSH přístup, bude většinou nejjednodušší nastavit první repozitář tam, protože celé nastavení už tím máte v podstatě hotové (jak jsme ukázali v předchozí části). Pokud chcete pro své repozitáře nastavit komplexnější správu oprávnění, můžete je opatřit běžnými oprávněními k systému souborů, které vám nabízí operační systém daného serveru.
 
-Pokud chcete své repozitáře umístit na server, jenž nemá účty pro všechny členy vašeho týmu, kteří by měli mít oprávnění k zápisu, musíte pro ně nastavit SSH přístup. Předpokládáme, že pokud máte server, na němž to lze provést, máte už nainstalován server SSH. Tímto způsobem získáte přístup na server.
+Pokud chcete své repozitáře umístit na server, jenž nemá účty pro všechny členy vašeho týmu, kteří by měli mít oprávnění k zápisu, musíte pro ně nastavit SSH přístup. Předpokládáme, že pokud máte server, na němž to lze provést, máte už nainstalován server SSH a jeho prostřednictvím k serveru přistupujete.
 
-Existuje několik způsobů, jak umožnit přístup všem členům vašeho týmu. Prvním způsobem je nastavit účty pro všechny, což není složité, ale může být poněkud zdlouhavé. Možná nebudete mít chuť spouštět příkaz `adduser` (přidat uživatele) a nastavovat dočasná hesla pro každého uživatele zvlášť.
+Existuje několik způsobů, jak umožnit přístup všem členům vašeho týmu. Prvním způsobem je nastavit účty pro všechny, což je sice přímočaré, ale může to být poněkud zdlouhavé. Možná nebudete mít chuť spouštět příkaz `adduser` (přidat uživatele) a nastavovat pro každého uživatele dočasná hesla.
 
 Druhým způsobem je vytvořit na počítači jediného uživatele 'git', požádat všechny uživatele, kteří mají mít oprávnění k zápisu, aby vám poslali veřejný SSH klíč, a přidat tento klíč do souboru `~/.ssh/authorized_keys` vašeho nového uživatele 'git'. Nyní budou mít všichni přístup k tomuto počítači prostřednictvím uživatele 'git'. Tento postup nemá žádný vliv na data vašich revizí – SSH uživatel, jehož účtem se přihlašujete, neovlivní revize, které jste nahráli.
 
@@ -168,7 +168,7 @@ Dalším možným způsobem je nechat ověřovat SSH přístupy LDAP serveru neb
 
 ## Vygenerování veřejného SSH klíče ##
 
-Mnoho serverů Git provádí ověřování pomocí veřejných SSH klíčů. Aby vám mohli všichni uživatelé ve vašem systému poskytnout veřejný klíč, musí si ho nechat vygenerovat (pokud klíč ještě nemají). Tento proces se napříč operačními systémy téměř neliší.
+Mnoho serverů Git provádí ověřování totožnosti pomocí veřejných SSH klíčů. Aby vám mohli všichni uživatelé ve vašem systému poskytnout veřejný klíč, musí si ho každý z nich nechat vygenerovat (pokud klíč ještě nemá). Tento proces se napříč operačními systémy téměř neliší.
 Nejprve byste se měli ujistit, že ještě žádný klíč nemáte. Uživatelské SSH klíče jsou standardně uloženy v adresáři `~/.ssh` daného uživatele. Nejsnazší způsob kontroly, zda už klíč vlastníte, je přejít do tohoto adresáře a zjistit jeho obsah:
 
 	$ cd ~/.ssh
@@ -188,7 +188,7 @@ Zobrazí se několik souborů s názvem `xxx` a `xxx.pub`, kde `xxx` je většin
 	The key fingerprint is:
 	43:c5:5b:5f:b1:f1:50:43:ad:20:a6:92:6a:1f:9a:3a schacon@agadorlaptop.local
 
-Program nejprve potvrdí, kam chcete klíč uložit (`.ssh/id_rsa`), a poté se dvakrát zeptá na přístupové heslo. Pokud nechcete při používání klíče zadávat heslo, nemusíte ho nyní vyplňovat.
+Program nejprve potvrdí, kam chcete klíč uložit (`.ssh/id_rsa`), a poté se dvakrát zeptá na přístupové heslo. Pokud nechcete při používání klíče zadávat heslo, můžete ho nyní nechat prázdné.
 
 Každý uživatel, který si tímto způsobem nechá vygenerovat veřejný klíč, ho nyní pošle vám nebo jinému správci serveru Git (za předpokladu, že používáte nastavení SSH serveru vyžadující veřejné klíče). Stačí přitom zkopírovat obsah souboru `.pub` a odeslat ho e-mailem. Veřejné klíče mají zhruba tuto podobu:
 
@@ -204,7 +204,7 @@ Budete-li potřebovat podrobnější návod k vytvoření SSH klíče v různýc
 
 ## Nastavení serveru ##
 
-Podívejme se nyní na nastavení SSH přístupu na straně serveru. V tomto příkladu použijeme k ověření uživatelů metodu `authorized_keys`. Předpokládáme také, že pracujete se standardní linuxovou distribucí, jako je např. Ubuntu. Nejprve vytvoříte uživatele 'git' a adresář `.ssh` pro tohoto uživatele.
+Projděme si nastavení SSH přístupu na straně serveru. V tomto příkladu použijeme k ověření identity uživatelů metodu `authorized_keys`. Předpokládáme také, že pracujete se standardní linuxovou distribucí, jako je např. Ubuntu. Nejprve vytvoříte uživatele 'git' a adresář `.ssh` pro tohoto uživatele.
 
 	$ sudo adduser git
 	$ su git
@@ -221,11 +221,15 @@ V dalším kroku musíte vložit veřejné SSH klíče od svých vývojářů do
 	O7TCUSBdLQlgMVOFq1I2uPWQOkOWQAHukEOmfjy2jctxSDBQ220ymjaNsHT4kgtZg2AYYgPq
 	dAv8JggJICUvax2T9va5 gsg-keypair
 
-Vy nyní klíče vložíte do souboru `authorized_keys`:
+Vy nyní klíče přidáte do souboru `authorized_keys`:
 
 	$ cat /tmp/id_rsa.john.pub >> ~/.ssh/authorized_keys
 	$ cat /tmp/id_rsa.josie.pub >> ~/.ssh/authorized_keys
 	$ cat /tmp/id_rsa.jessica.pub >> ~/.ssh/authorized_keys
+
+Autentizace vůči SSH, která je založená na klíči, obvykle vynucuje zvýšenou bezpečnost tím, že pro zúčastněné soubory vyžaduje omezená oprávnění. Aby SSH neodmítl pracovat, napište následující:
+
+	$ chmod -R go= ~/.ssh
 
 Nyní pro ně můžete nastavit prázdný repozitář. Spusťte příkaz `git init` s parametrem `--bare`, který inicializuje repozitář bez pracovního adresáře:
 
@@ -234,7 +238,7 @@ Nyní pro ně můžete nastavit prázdný repozitář. Spusťte příkaz `git in
 	$ cd project.git
 	$ git --bare init
 
-John, Josie a Jessica pak mohou do tohoto repozitáře odeslat první verzi svého projektu: přidají si ho jako vzdálený repozitář a odešlou do něj svou větev. Nezapomeňte, že pokaždé, když chcete přidat projekt, se musí k počítači někdo přihlásit a vytvořit holý repozitář. Pro server, na kterém jste nastavili uživatele 'git' a repozitář, můžeme použít název hostitele `gitserver`. Pokud server provozujete interně a nastavíte DNS pro `gitserver` tak, aby ukazovalo na tento server, můžete používat i takovéto příkazy:
+John, Josie a Jessica pak mohou do tohoto repozitáře odeslat první verzi svého projektu: přidají si ho jako vzdálený repozitář a odešlou do něj svou větev. Nezapomeňte, že pokaždé, když chcete vytvořit projekt, musí se k počítači někdo přihlásit a vytvořit holý repozitář. Pro server, na kterém jste nastavili uživatele 'git' a repozitář, můžeme použít název hostitele `gitserver`. Pokud server provozujete interně a nastavíte DNS pro `gitserver` tak, aby ukazovalo na tento server, můžete používat i takovéto příkazy:
 
 	# on Johns computer
 	$ cd myproject
@@ -254,7 +258,7 @@ Ostatní nyní mohou velmi snadno repozitář naklonovat i do něj odesílat zm�
 
 Tímto způsobem lze rychle vytvořit a spustit server Git ke čtení i zápisu pro menší počet vývojářů.
 
-Pro větší bezpečnost máte možnost využít nástroj `git-shell`, který je distribuován se systémem Git. Pomocí něj lze snadno nastavit, aby uživatel 'git' prováděl pouze operace systému Git. Pokud ho nastavíte jako přihlašovací shell uživatele 'git', pak nebude mít uživatel 'git' normální shellový přístup k vašemu serveru. Chcete-li nástroj použít, zadejte pro přihlašovací shell vašeho uživatele `git-shell` místo bash nebo csh. V takovém případě pravděpodobně budete muset upravit soubor `/etc/passwd`:
+Pro větší bezpečnost máte možnost využít nástroj `git-shell`, který je distribuován se systémem Git. Pomocí něj lze uživatele 'git' snadno omezit tak, aby mohl prováděl pouze operace systému Git. Pokud ho nastavíte jako přihlašovací shell uživatele 'git', pak nebude mít uživatel 'git' normální shellový přístup k vašemu serveru. Chcete-li nástroj použít, zadejte pro přihlašovací shell vašeho uživatele `git-shell` místo bash nebo csh. V takovém případě pravděpodobně budete muset upravit soubor `/etc/passwd`:
 
 	$ sudo vim /etc/passwd
 
@@ -274,7 +278,7 @@ Uživatel 'git' nyní může používat SSH připojení k odesílání a stahov�
 
 ## Veřejný přístup ##
 
-A co když chcete u svého projektu nastavit anonymní oprávnění pro čtení? Nehostujete třeba interní soukromý projekt, ale „open source“ projekt. Nebo možná máte několik serverů průběžné integrace, které se neustále mění a vy nechcete stále generovat SSH klíče, rádi byste vždy přidali jen obyčejné anonymní oprávnění pro čtení.
+A co když chcete u svého projektu nastavit anonymní oprávnění pro čtení? Nehostujete třeba interní soukromý projekt, ale „open source“ projekt. Nebo možná máte několik serverů průběžné integrace, které se neustále mění a vy nechcete stále generovat SSH klíče. Rádi byste vždy přidali jen obyčejné anonymní oprávnění pro čtení.
 
 Patrně nejjednodušším způsobem pro menší týmy je spustit statický webový server s kořenovým adresářem dokumentů, v němž budou uloženy vaše Git repozitáře, a zapnout zásuvný modul `post-update`, o kterém jsme se zmínili už v první části této kapitoly. Můžeme pokračovat v našem předchozím příkladu. Řekněme, že máte repozitáře uloženy v adresáři `/opt/git` a na vašem počítači je spuštěn server Apache. Opět, můžete použít jakýkoli webový server. Pro názornost ale ukážeme některá základní nastavení serveru Apache, abyste získali představu, co vás může čekat.
 
@@ -322,7 +326,7 @@ Tímto způsobem můžete během pár minut nastavit oprávnění pro čtení za
 
 ## GitWeb ##
 
-Nyní, když máte ke svému projektu nastavena základní oprávnění pro čtení/zápis a pouze pro čtení, možná budete chtít nastavit jednoduchou online vizualizaci. Git vám nabízí CGI skript s názvem GitWeb, který slouží k tomuto účelu. Jak GitWeb funguje, na to se můžete podívat např. na stránkách `http://git.kernel.org` (viz obrázek 4-1).
+Nyní, když máte ke svému projektu nastavena základní oprávnění pro čtení/zápis a pouze pro čtení, možná budete chtít nastavit jednoduchou online vizualizaci. Git vám nabízí CGI skript s názvem GitWeb, který se k tomuto účelu běžně používá. V činnosti můžete GitWeb pozorovat například na stránkách `http://git.kernel.org` (viz obrázek 4-1).
 
 Insert 18333fig0401.png
 Obrázek 4-1. Online uživatelské rozhraní GitWeb
@@ -360,7 +364,7 @@ Všimněte si, že musíte příkazu pomocí proměnné `GITWEB_PROJECTROOT` sd�
 	    </Directory>
 	</VirtualHost>
 
-Také GitWeb může být obsluhován jakýmkoli webovým serverem umožňujícím CGI. Chcete-li používat jakýkoli jiný server, nemělo by být nastavení obtížné. V tomto okamžiku byste měli být schopni prohlížet své repozitáře online na adrese `http://gitserver/` a používat `http://git.gitserver` ke klonování a vyzvedávání repozitářů prostřednictvím protokolu HTTP.
+Znovu připomeňme, že GitWeb může být obsluhován jakýmkoli webovým serverem podporujícím CGI. Chcete-li používat jakýkoli jiný server, nemělo by být nastavení obtížné. V tomto okamžiku byste měli být schopni prohlížet své repozitáře online na adrese `http://gitserver/` a používat `http://git.gitserver` ke klonování a vyzvedávání repozitářů prostřednictvím protokolu HTTP.
 
 ## Gitosis ##
 
@@ -370,7 +374,7 @@ Proto možná rádi přejdete na rozšířený softwarový projekt „Gitosis“
 
 Instalace nástroje Gitosis sice nepatří mezi nejsnazší, ale není ani příliš složitá. Nejjednodušší je k ní použít linuxový server – tyto příklady používají běžný Ubuntu server 8.10.
 
-Gitosis vyžaduje některé nástroje v jazyce Python, a proto první, co musíte udělat, je nainstalovat balíček nástrojů nastavení Python, který je v Ubuntu dostupný jako python-setuptools:
+Gitosis vyžaduje některé nástroje v jazyce Python, a proto první, co musíte udělat, je nainstalovat pythonovský balíček setuptools, který je v Ubuntu dostupný jako python-setuptools:
 
 	$ apt-get install python-setuptools
 
@@ -388,7 +392,7 @@ Gitosis teď bude spravovat klíče za vás. Proto je třeba, abyste odstranili 
 
 	$ mv /home/git/.ssh/authorized_keys /home/git/.ssh/ak.bak
 
-Dále musíte znovu zapnout shell na uživatele 'git', jestliže jste ho změnili na příkaz `git-shell`. Uživatelé se stále ještě nebudou moci přihlásit, ale Gitosis za vás bude provádět správu. V souboru `/etc/passwd` tak nyní změníme řádek:
+Dále musíte znovu zapnout shell na uživatele 'git', jestliže jste ho změnili na příkaz `git-shell`. Uživatelé se stále ještě nebudou moci přihlásit, ale Gitosis za vás bude provádět správu. Takže v souboru `/etc/passwd` změňte následující řádek
 
 	git:x:1000:1000::/home/git:/usr/bin/git-shell
 
@@ -396,17 +400,17 @@ zpět na
 
 	git:x:1000:1000::/home/git:/bin/sh
 
-V tomto okamžiku můžeme inicializovat nástroj Gitosis. Učiníte tak spuštěním příkazu `gitosis-init` se svým osobním veřejným klíčem. Není-li váš veřejný klíč na serveru, bude ho tam nutné zkopírovat:
+V tomto okamžiku můžeme inicializovat nástroj Gitosis. Učiníte tak spuštěním příkazu `gitosis-init` se svým osobním veřejným klíčem. Není-li váš veřejný klíč na serveru, musíte ho tam nakopírovat:
 
 	$ sudo -H -u git gitosis-init < /tmp/id_dsa.pub
 	Initialized empty Git repository in /opt/git/gitosis-admin.git/
 	Reinitialized existing Git repository in /opt/git/gitosis-admin.git/
 
-Uživatel s tímto klíčem poté bude moci měnit hlavní repozitář Git, který kontroluje nastavení nástroje Gitosis. Dále je třeba ručně nastavit právo spuštění na skriptu `post-update` pro nový řídicí repozitář.
+Uživatel s tímto klíčem poté bude moci měnit hlavní repozitář Git, kterým se ovládá nastavení nástroje Gitosis. Dále je třeba ručně nastavit právo spuštění na skriptu `post-update` pro nový řídicí repozitář.
 
 	$ sudo chmod 755 /opt/git/gitosis-admin.git/hooks/post-update
 
-Nyní máte vše hotovo. Pokud jste nastavení provedli správně, můžete vyzkoušet SSH přístup na server jako uživatel, pro kterého jste přidali veřejný klíč při inicializaci nástroje Gitosis. Mělo by se zobrazit asi následující:
+Teď to můžete rozjet. Pokud jste nastavení provedli správně, můžete vyzkoušet SSH přístup na server jako uživatel, pro kterého jste přidali veřejný klíč při inicializaci nástroje Gitosis. Mělo by se zobrazit asi následující:
 
 	$ ssh git@gitserver
 	PTY allocation request failed on channel 0
@@ -512,20 +516,20 @@ Máte-li jakékoli problémy, může vám pomoci zadání `loglevel=DEBUG` do č
 
 ## Gitolite ##
 
-Git se stal hodně populárním v korporátním prostředí, které obvykle mívá další doplňující požadavky na kontrolu přístupu. Nástroj Gitolite byl vytvořen právě na řešení těchto požadavků.
+Tato podkapitola slouží k rychlému seznámení s Gitolite a uvádí základní pokyny pro instalaci a nastavení. Nemůže ale nahradit ohromný objem [dokumentace][gltoc], která se s Gitolite dodává. Tato podkapitola se může občas změnit, takže se možná chcete podívat na její [poslední verzi][gldpg].
 
 [gldpg]: http://sitaramc.github.com/gitolite/progit.html
 [gltoc]: http://sitaramc.github.com/gitolite/master-toc.html
 
 Gitolite je autorizační vrstva nad gitem, která při autentizaci spoléhá na `sshd` nebo `httpd`. (Připomeňme si: autentizace spočívá v rozpoznání uživatele, autorizací rozumíme rozhodování, zda má povolení k provádění toho, co se provést pokouší.)
 
-Gitolite umožňuje nastavit přístupová práva nejen na repozitáře (podobně jako Gitosis), ale také na větve a značky v každém repozitáři. To znamená, že lze nastavit, aby určití lidé mohli odesílat jen do určité reference (větve nebo značky) a do jiné ne.
+Gitolite umožňuje nastavit přístupová práva nejen na repozitáře (podobně jako Gitosis), ale také na větve a značky v každém repozitáři. To znamená, že lze nastavit, aby určití lidé mohli odesílat jen do určité větve (nebo určité značky; obecně „refs“), ale do jiné ne.
 
 ### Instalace ###
 
-Instalace Gitolite je velmi jednoduchá a to i když nebudete číst obsáhlou dokumentaci, která je k dispozici. Budete potřebovat účet na nějakém unixovém serveru (bylo testováno na různých distribucích Linuxu a na Solarisu 10), kde musí být nainstalovány git, Perl a SSH server kompatibilní s OpenSSH. V příkladech uvedených níže budeme používat účet `git` na serveru `gitserver`.
+Instalace Gitolite je velmi jednoduchá a to i když si nepřečtete obsáhlou dokumentaci, která je k dispozici. Budete potřebovat účet na nějakém unixovém serveru. Pokud už jsou nainstalovány nástroje Git, Perl a SSH server kompatibilní s OpenSSH, nebudete potřebovat ani přístup root. V příkladech uvedených níže budeme používat účet `git` na serveru `gitserver`.
 
-Nástroj Gitolite je ve smyslu „serverového“ softwaru poněkud neobvyklý. Přístup se realizuje přes ssh, takže každá serverová userid je potenciálně „hostitelem gitolite“ (gitolite host). Teď si popíšeme nejjednodušší způsob instalace. V dokumentaci naleznete další metody.
+Nástroj Gitolite je ve smyslu „serverového“ softwaru poněkud neobvyklý. Přístup se realizuje přes SSH, takže každá serverová userid je potenciálně „hostitelem gitolite“ (gitolite host). Teď si popíšeme nejjednodušší způsob instalace. V dokumentaci naleznete další metody.
 
 Začněte tím, že na serveru vytvoříte uživatele nazvaného `git` a přihlásíte se na něj. Z vaší pracovní stanice nakopírujte svůj veřejný SSH klíč (pokud jste spustili `ssh-keygen` s implicitními hodnotami, jde o soubor `~/.ssh/id_rsa.pub`) a přejmenujte jej na `<vasejmeno>.pub` (v příkladech budeme používat `scott.pub`). Potom proveďte následující příkazy:
 
@@ -544,7 +548,7 @@ Základní rychlá metoda instalace bude většině lidí vyhovovoat. V případ
 
 ### Konfigurační soubor a pravidla přístupu ###
 
-Přepněte se do repozitáře `gitolite-admin` (je umístěn ve vašem domácím adresáři), jakmile je instalace dokončena, a podívejte se co tam je:
+Jakmile je instalace dokončena, přepněte se do repozitáře `gitolite-admin`, který jste naklonovali na váš počítač, a podívejte se co tam je:
 
 	$ cd ~/gitolite-admin/
 	$ ls
@@ -564,9 +568,9 @@ Všimněte si, že „scott“ (jméno veřejného klíče v dříve použitém 
 
 Přidávání dalších uživatelů je snadné. Pokud chceme přidat uživatele „alice“, získáme její veřejný klíč, pojmenujeme jej `alice.pub` a umístíme jej do adresáře `keydir`. Je součástí klonu repozitáře `gitolite-admin`, který jsme právě vytvořili na pracovní stanici. Přidáme, potvrdíme a odešleme změny (add, commit, push). Tím jsme dosáhli přidání uživatele.
 
-Syntaxe konfiguračního souboru pro Gitolite je dobře dokumentovaná, takže zde uvedu jen pár zajímavých věcí.
+Syntaxe konfiguračního souboru pro Gitolite je dobře dokumentovaná, takže zde zdůrazníme jen pár věcí.
 
-Pro usnadnění můžete dávat uživatele i repozitáře do skupin. Jména skupin jsou podobná jako makra; když je definujete, je úplně jedno jestli jde o projekty nebo uživatele; rozdíl to je až v momentu, kdy „makro“ *použijete*.
+Pro usnadnění můžete uživatele i repozitáře sdružovat do skupin. Jména skupin se chovají jako makra; když je definujete, je úplně jedno jestli jde o projekty nebo uživatele; rozdíl se pozná až v momentu, kdy „makro“ *použijete*.
 
 	@oss_repos      = linux perl rakudo git gitolite
 	@secret_repos   = fenestra pear
@@ -584,7 +588,7 @@ Můžete nastavovat přístupová práva na úrovni referencí. Skupina interns 
 	    RW  refs/tags/rc[0-9]   = @engineers
 	    RW+                     = @admins
 
-Výraz za `RW` nebo `RW+` je regulární výraz (regex), se kterým se porovnává jméno odesílané reference. Nazvěme jej tedy „refex“! Refex může mít samozřejmě mnohem více použití než je tady ukázáno, takže si dejte pozor ať to nepřeženete, zvláště pokud se necítíte experty na regulární výrazy.
+Výraz za `RW` nebo `RW+` je regulární výraz (regex), se kterým se porovnává jméno odesílané reference (ref). Nazvěme jej tedy „refex“! Refex může mít samozřejmě mnohem více použití než je tady ukázáno, takže si dejte pozor ať to nepřeženete, zvláště pokud nejste kovaní v perlovských regulárních výrazech.
 
 Gitolite přidává prefix `refs/heads/` jako usnadnění syntaxe, pokud refex nezačíná na `refs/`, jak jste mohli odhadnout z příkladu.
 
@@ -593,17 +597,17 @@ Důležitou vlastností syntaxe konfiguračního souboru je to, že všechna pra
 	repo gitolite
 	    RW+                     = sitaram
 
-Toto pravidlo se pak přidá do skupiny pravidel `gitolite` repozitáře.
+Toto pravidlo se pak přidá do skupiny pravidel repozitáře `gitolite`.
 
 Teď by vás mohlo zajímat, jak jsou vlastně pravidla pro přístup aplikována, pojďme se na to tedy krátce podívat.
 
-V gitolite jsou dvě úrovně kontroly přístupů. První je úroveň repozitářů; jestliže máte práva na čtení (nebo zápis) *k jakékoliv* referenci v repozitáři, máte tím práva na čtení (nebo zápis) k tomuto repozitáři. Tohle je jediná možnost jakou měl nástroj Gitosis.
+V Gitolite jsou dvě úrovně kontroly přístupů. První je úroveň repozitářů; jestliže máte práva na čtení (nebo zápis) *k jakékoliv* referenci v repozitáři, máte tím práva na čtení (nebo zápis) k tomuto repozitáři. Tohle je jediná možnost jakou měl nástroj Gitosis.
 
-Druhá úroveň je pouze pro práva pro „zápis“ a je podle větve nebo značky v repozitáři. Uživatelské jméno uživatele snažícího se o přístup (`W` nebo `+`) a jméno reference, kterou uživatel chce aktualizovat, jsou dané. Pravidla pro přístup jsou procházena postupně v pořadí, tak jak jsou uvedena v konfiguračním souboru a hledají se záznamy odpovídající této kombinaci uživatelského jména a reference (nezapomeňte ale, že refname se porovnává jako regulární výraz nikoliv jako pouhý řetězec). Jestliže je nalezen odpovídající záznam, odesílání je povoleno. Pokud není nalezeno nic, je přístup zamítnut.
+Druhá úroveň se dá použít jen pro práva pro „zápis“ a vázána na větve nebo značky v repozitáři. Uživatelské jméno uživatele snažícího se o přístup (`W` nebo `+`) a jméno reference, kterou uživatel chce aktualizovat, jsou dané. Pravidla pro přístup jsou procházena postupně v pořadí, tak jak jsou uvedena v konfiguračním souboru a hledají se záznamy odpovídající této kombinaci uživatelského jména a reference (nezapomeňte ale, že refname se porovnává jako regulární výraz nikoliv jako pouhý řetězec). Jestliže je nalezen odpovídající záznam, odesílání je povoleno. Pokud není nalezeno nic, je přístup zamítnut.
 
 ### Rozšířené řízení přístupu pravidly typu „odmítnutí“ ###
 
-Prozatím jsme si ukázali jen oprávnění nastavená na jednu z hodnot `R`, `RW` nebo `RW+`. Ale Gitolite dovoluje nastavení dalšího oprávnění: `-` s významem „odmítnutí“. To vám dává mnohem více možností, ale za cenu zvýšení složitosti. Popadnutí sítem pravidel už totiž není *jedinou* možností vedoucí k zamítnutí přístupu. *Nyní už záleží na pořadí pravidel!*
+Prozatím jsme si ukázali jen oprávnění nastavená na jednu z hodnot `R`, `RW` nebo `RW+`. Ale Gitolite dovoluje nastavení dalšího oprávnění: `-` s významem „odmítnutí“. To vám dává mnohem více možností, ale za cenu zvýšení složitosti. Popadnutí sítem pravidel už totiž není *jedinou* možností vedoucí k zamítnutí přístupu. *Záleží na pořadí pravidel!*
 
 Řekněme, že ve výše uvedené situaci budeme chtít, aby skupina engineers mohla vracet změny v jakékoliv větvi *s výjimkou* větví `master` a `integ`. Udělá se to následovně:
 
@@ -615,28 +619,28 @@ Pravidla se  budou opět procházet shora dolů až do momentu, kdy narazíte na
 
 ### Omezení odesílání změn vázané na soubory ###
 
-K omezení odesílání do určitých větví a určitými uživateli můžete přidat také omezení určující, které soubory mohou uživatelé měnit. Například  soubor Makefile (a možná některé programy) by asi neměl kdokoliv měnit, protože je na něm závislá řada dalších věcí. Pokud se neupraví *správným způsobem*, něco by se pokazilo. Nástroji gitolite můžeme říct:
+K omezení odesílání do určitých větví a určitými uživateli můžete přidat také omezení určující, které soubory mohou uživatelé měnit. Například  soubor Makefile (a možná některé programy) by asi neměl kdokoliv měnit, protože je na něm závislá řada dalších věcí. Pokud se neupraví *správným způsobem*, něco by se pokazilo. Nástroji Gitolite můžeme říct:
 
     repo foo
         RW                      =   @junior_devs @senior_devs
 
         -   VREF/NAME/Makefile  =   @junior_devs
 
-Uživatelé, kteří přecházejí ze starší verze gitolite by si měli dát pozor na to, že v souvislosti s uvedeným rysem došlo k výrazné změně chování. Věnujte prosím pozornost detailům, které jsou uvedeny v příručce pro přechod k nové verzi.
+Uživatelé, kteří přecházejí ze starší verze Gitolite by si měli dát pozor na to, že v souvislosti s uvedeným rysem došlo k výrazné změně chování. Věnujte prosím pozornost detailům, které jsou uvedeny v příručce pro přechod k nové verzi.
 
 ### Osobní větve ###
 
 Konečně Gitolite má také funkci, která se nazývá „osobní větve“ (nebo raději „jmenný prostor osobních větví“) a může být velmi užitečná v korporátním prostředí.
 
-Hodně výměny kódu probíhá v otevřeném git světě metodou „prosím stáhněte si“. V korporátním prostředí ovšem nebývá jakýkoliv neautorizovaný přístup vítán a pracovní stanice vývojáře nemůže provádět autentizaci, takže můžete na centrální server odesílat, ale musíte požádat někoho jiného, když odtud chcete stahovat.
+Hodně výměny kódu probíhá v otevřeném gitovém světě metodou „prosím stáhněte si“. V korporátním prostředí ovšem nebývá jakýkoliv přístup bez prokázání totožnosti vítán a pracovní stanice vývojáře nemůže provádět autentizaci, takže můžete na centrální server odesílat, ale musíte požádat někoho jiného, když odtud chcete stahovat.
 
-To by za normálních okolností způsobilo stejný zmatek ve jménech větví jako v centralizovaných systémech správy verzí a navíc nastavování přístupových práv by se stalo noční můrou pro administrátory.
+To by za normálních okolností způsobilo stejný zmatek ve jménech větví jako v centralizovaných systémech správy verzí a navíc nastavování přístupových práv by administrátorovi přidalo práci.
 
 Gitolite vám umožní nadefinovat pro každého vývojáře jmenné prostory s prefixy „personal“ nebo „scratch“ (např. `refs/personal/<devname>/*`). Podrobnosti hledejte v dokumentaci.
 
 ### „Wildcard“ repozitáře ###
 
-Gitolite vám umožní určit repozitáře zástupnými znaky (wildcards; ve skutečnosti jde o perlovské regulární výrazy) -- například k náhodnému výběru zadání příkladu můžeme použít `assignments/s[0-9][0-9]/a[0-9][0-9]`. Umožní nám též přidělit nový režim oprávnění (`C`), který uživatelům povoluje vytvářet repozitáře popsané zástupnými znaky, automaticky přidělí vlastnictví konkrétnímu uživateli, který jej vytvořil, umožní mu přidělit oprávnění `R` a `RW` dalším spolupracovníkům atd. Podrobnosti opět hledejte v dokumentaci.
+Gitolite vám umožní určit repozitáře zástupnými znaky (wildcards; ve skutečnosti jde o perlovské regulární výrazy) -- jako například u náhodně vybraného příkladu `assignments/s[0-9][0-9]/a[0-9][0-9]`. Umožní nám též přidělit nový režim oprávnění (`C`), který uživatelům povoluje vytvářet repozitáře popsané zástupnými znaky, automaticky přidělí vlastnictví konkrétnímu uživateli, který jej vytvořil, umožní mu přidělit oprávnění `R` a `RW` dalším spolupracovníkům atd. Podrobnosti opět hledejte v dokumentaci.
 
 ### Další vlastnosti ###
 
@@ -644,7 +648,7 @@ Vysvětlení Gitolite završíme přehledem několika vlastností, které jsou d
 
 **Logování:** Gitolite loguje všechny úspěšné přístupy. Jestliže máte volná pravidla pro přidělování oprávnění vracet změny (práva `RW+`) a stane se, že někdo takto „zkazí“ větev `master`, je tu ještě log soubor, který vám zachrání život, protože v něm můžete postižené SHA najít.
 
-**Přehledy uživatelských oprávnění:** Další příjemnou vlastností je to, co se stane, pokud se pouze pokusíte připojit pomocí SSH na server. Gitolite vám ukáže, ke kterým repozitářům máte přístup a s jakoými oprávněními. Příklad:
+**Přehledy uživatelských oprávnění:** Další příjemnou vlastností je to, co se stane, pokud se pouze pokusíte připojit pomocí SSH na server. Gitolite vám ukáže, ke kterým repozitářům máte přístup a s jakými oprávněními. Příklad:
 
         hello scott, this is git@git running gitolite3 v3.01-18-g9609868 on git 1.7.4.4
 
@@ -656,15 +660,15 @@ Vysvětlení Gitolite završíme přehledem několika vlastností, které jsou d
              R     indic_web_input
              R     shreelipi_converter
 
-**Delegace:** Pro opravdu velké instalace můžete delegovat zodpovědnost za skupiny a repozitáře dalším lidem a nechat je samotné spravovat jednotlivé části. To snižuje vytížení hlavního administrátora, který tím přestává být úským místem správy.
+**Delegace:** Pro opravdu velké instalace můžete delegovat zodpovědnost za skupiny a repozitáře dalším lidem a nechat je spravovat jednotlivé části nezávisle. To snižuje vytížení hlavního administrátora, který tím přestává být úzkým místem správy.
 
 **Zrcadlení:** Gitolite vám pomůže se správou více zrcadel a při výpadku hlavního serveru můžete snadno přepnout na jiný.
 
 ## Démon Git ##
 
-Jestliže potřebujete ke svým projektům veřejný, neověřovaný přístup pro čtení, budete muset překročit hranice vymezené protokolem HTTP a začít používat protokol Git. Mluví pro něj především rychlost. Protokol Git je daleko výkonnější, a proto také rychlejší než protokol HTTP a svým uživatelů tím ušetří spoustu času.
+Jestliže potřebujete ke svým projektům přístup pro čtení bez ověřování totožnosti, budete muset obejít protokol HTTP a začít používat protokol Git. Mluví pro něj především rychlost. Protokol Git je daleko výkonnější, a proto také rychlejší než protokol HTTP, takže uživatelům ušetří nějaký čas.
 
-I v tomto případě se jedná o neověřený přístup pouze pro čtení. Pokud protokol používáte na serveru mimo firewall, mělo by to být pouze u projektů, které jsou veřejně viditelné okolnímu světu. Pokud je server, na kterém protokol spouštíte, uvnitř firewallu, můžete ho používat u projektů, k nimž má přístup pro čtení velký počet lidí nebo počítačů (servery průběžné integrace nebo servery sestavení), jimž nechcete jednotlivě přiřazovat SSH klíče.
+I v tomto případě se jedná o přístup pouze pro čtení bez ověřování totožnosti. Pokud protokol používáte na serveru mimo firewall, mělo by to být pouze u projektů, které jsou veřejně viditelné okolnímu světu. Pokud je server, na kterém protokol spouštíte, uvnitř firewallu, můžete ho používat u projektů, k nimž má přístup pro čtení velký počet lidí nebo počítačů (servery průběžné integrace nebo servery sestavení), jimž nechcete jednotlivě přiřazovat SSH klíče.
 
 Ať tak či tak, na protokolu Git jistě oceníte jeho snadné nastavení. V podstatě je třeba spustit tento příkaz:
 
@@ -695,7 +699,7 @@ Při restartování počítače se démon Git spustí automaticky. V případě 
 
 V jiných systémech možná budete chtít použít `xinetd`, skript systému `sysvinit`, nebo podobný skript – můžete-li spouštět příkaz démonizovaný a sledovaný.
 
-Dále budete muset svému serveru Gitosis sdělit, k jakým repozitářům si přejete povolit neověřený serverový přístup Git. Pokud přidáte jednu část pro každý repozitář, můžete určit repozitáře, z nichž si přejete dovolit démonovi Git načítat data. Chcete-li povolit přístup přes protokol Git k projektu `iphone_project`, přidejte ho na konec souboru `gitosis.conf`:
+Dále budete muset svému serveru Gitosis sdělit, k jakým repozitářům si přejete povolit neautentizovaný serverový přístup Git. Pokud pro každý repozitář přidáte sekci, můžete určit repozitáře, z nichž si přejete dovolit démonovi Git načítat data. Chcete-li povolit přístup přes protokol Git k projektu `iphone_project`, přidejte ho na konec souboru `gitosis.conf`:
 
 	[repo iphone_project]
 	daemon = yes
@@ -707,7 +711,7 @@ Pokud nechcete používat Gitosis, ale chcete nastavit démona Git, budete muset
 	$ cd /path/to/project.git
 	$ touch git-daemon-export-ok
 
-Přítomnost tohoto souboru systému Git sděluje, že si přejete obsluhovat tento projekt bez ověřování.
+Přítomnost tohoto souboru systému Git sděluje, že si přejete obsluhovat tento projekt bez ověřování totožnosti.
 
 Gitosis může také určovat, jaké projekty bude zobrazovat GitWeb. Nejprve budete muset do souboru `/etc/gitweb.conf` vložit následující:
 
@@ -726,15 +730,15 @@ Pokud teď zapíšete a odešlete projekt, GitWeb začne automaticky zobrazovat 
 
 ## Hostování projektů Git ##
 
-Pokud nemáte chuť absolvovat celý proces nastavování vlastního serveru Git, existuje několik možností hostování vašich projektů Git na externím specializovaném hostingovém místě. Toto řešení vám nabízí celou řadu výhod. Hostingové místo má většinou velmi rychlé nastavení, snadno se na něm spouštějí projekty a nevyžaduje od vás správu ani monitoring serveru. Dokonce i když budete nastavovat a spouštět interně svůj vlastní server, budete možná přesto chtít použít veřejné hostingové místo pro otevřený zdrojový kód – komunita open source vývojářů si vás tak snáze najde a pomůže vám.
+Pokud nemáte chuť absolvovat celý proces nastavování vlastního serveru Git, existuje několik možností hostování vašich projektů Git na externím specializovaném hostingovém místě. Toto řešení vám nabízí celou řadu výhod. Hostingové místo má většinou velmi rychlé nastavení, snadno se na něm zakládají projekty a nevyžaduje od vás správu ani monitoring serveru. Dokonce i když budete nastavovat a spouštět interně svůj vlastní server, budete možná přesto chtít použít veřejné hostingové místo pro otevřený zdrojový kód – komunita open source vývojářů si vás tak snáze najde a pomůže vám.
 
-V dnešní době můžete vybírat z velkého počtu možností hostingu. Každá má jiné klady a zápory. Aktuální seznam těchto míst najdete na stránce GitHosting, dostupné z hlavní stránky GitWiki:
+V dnešní době můžete vybírat z velkého počtu možností hostingu. Každá má jiné klady a zápory. Aktuální seznam těchto míst najdete na následující stránce:
 
 	https://git.wiki.kernel.org/index.php/GitHosting
 
 Protože se tu nemůžeme věnovat všem možnostem a protože shodou okolností na jednom hostingovém místě pracuji, využijeme tuto část k tomu, abychom ukázali nastavení účtu a vytvoření nového projektu na serveru GitHub. Získáte tak představu, co všechno vás čeká.
 
-GitHub je zdaleka největším hostingovým místem pro projekty Git s otevřeným zdrojovým kódem a je zároveň jedním z velmi mála těch, která nabízejí možnosti jak veřejného, tak soukromého hostingu. Na jednom místě tak můžete mít uložen jak otevřený zdrojový kód, tak soukromý komerční kód. GitHub se ostatně soukromě podílel i na vzniku této knihy.
+GitHub je zdaleka největším hostingovým místem pro projekty Git s otevřeným zdrojovým kódem a je zároveň jedním z velmi mála těch, která nabízejí možnosti jak veřejného, tak soukromého hostingu. Na jednom místě tak můžete mít uložen jak otevřený zdrojový kód, tak soukromý komerční kód. Možnost soukromého použití GitHub jsme ostatně používali pro spolupráci při vzniku této knihy.
 
 ### GitHub ###
 
@@ -769,7 +773,7 @@ Začněte kliknutím na odkaz „create a new one“ (vytvořit nový) vedle nad
 Insert 18333fig0405.png
 Obrázek 4-5. Vytvoření nového repozitáře na serveru GitHub
 
-Vše, co tu bezpodmínečně musíte udělat, je zadat název projektu. Kromě toho můžete přidat i jeho popis. Poté klikněte na tlačítko „Create Repository“ (Vytvořit repozitář). Nyní máte na serveru GitHub vytvořen nový repozitář (viz obrázek 4-6).
+Vše, co tu opravdu musíte udělat, je zadat název projektu. Kromě toho můžete přidat i jeho popis. Poté klikněte na tlačítko „Create Repository“ (Vytvořit repozitář). Nyní máte na serveru GitHub vytvořen nový repozitář (viz obrázek 4-6).
 
 Insert 18333fig0406.png
 Obrázek 4-6. Záhlaví s informacemi o projektu na serveru GitHub
@@ -801,7 +805,7 @@ Obrázek 4-8. Záhlaví projektu s veřejnou a soukromou adresou URL
 
 ### Import ze systému Subversion ###
 
-Máte-li existující veřejný projekt Subversion, který byste rádi importovali do systému Git, GitHub vám s tím často ochotně pomůže. Dole na stránce s instrukcemi najdete odkaz na import ze systému Subversion. Pokud na něj kliknete, zobrazí se formulář s informacemi o importu a textové pole, kam můžete vložit adresu URL svého veřejného projektu Subversion (viz obrázek 4-9).
+Máte-li existující veřejný projekt Subversion, který byste rádi importovali do systému Git, GitHub vám s tím obvykle pomůže. Dole na stránce s instrukcemi najdete odkaz na import ze systému Subversion. Pokud na něj kliknete, zobrazí se formulář s informacemi o importu a textové pole, kam můžete vložit adresu URL svého veřejného projektu Subversion (viz obrázek 4-9).
 
 Insert 18333fig0409.png
 Obrázek 4-9. Rozhraní importu ze systému Subversion
@@ -836,20 +840,20 @@ Po odeslání projektu nebo jeho naimportování ze systému Subversion budete m
 Insert 18333fig0413.png
 Obrázek 4-13. Hlavní stránka projektu na serveru GitHub
 
-Navštíví-li váš projekt ostatní uživatelé, tuto stránku uvidí. Obsahuje několik záložek k různým aspektům vašich projektů. Záložka „Commits“ zobrazuje seznam revizí v obráceném chronologickém pořadí, podobně jako výstup příkazu `git log`. Záložka „Network“ zobrazuje všechny uživatele, kteří rozštěpili váš projekt a přispěli do něj. Záložka „Downloads“ umožňuje nahrávat binární soubory k projektu a přidávat odkazy na tarbally a komprimované verze všech míst ve vašem projektu, které jsou označeny značkou (tagem). Záložka „Wiki“ vám nabízí stránku wiki, kam můžete napsat dokumentaci nebo jiné informace ke svému projektu. Záložka „Graphs“ graficky zobrazuje některé příspěvky a statistiky k vašemu projektu. Hlavní záložka „Source“, na níž se stránka otvírá, zobrazuje hlavní adresář vašeho projektu, a máte-li soubor README, automaticky ho zařadí na konec seznamu. Tato záložka obsahuje rovněž pole s informacemi o poslední zapsané revizi.
+Navštíví-li váš projekt ostatní uživatelé, tuto stránku uvidí. Obsahuje několik záložek k různým aspektům vašich projektů. Záložka „Commits“ zobrazuje seznam revizí v obráceném chronologickém pořadí, podobně jako výstup příkazu `git log`. Záložka „Network“ zobrazuje všechny uživatele, kteří se odštěpili od vašeho projektu a zase do něj přispěli. Záložka „Downloads“ umožňuje nahrávat binární soubory k projektu a přidávat odkazy na tarbally a komprimované verze všech míst ve vašem projektu, které jsou označeny značkou (tagem). Záložka „Wiki“ vám nabízí stránku wiki, kam můžete napsat dokumentaci nebo jiné informace ke svému projektu. Záložka „Graphs“ graficky zobrazuje některé příspěvky a statistiky k vašemu projektu. Hlavní záložka „Source“, na níž se stránka otvírá, zobrazuje hlavní adresář vašeho projektu, a máte-li soubor README, automaticky pod adresářem projektu zobrazí jeho obsah. Tato záložka obsahuje rovněž pole s informacemi o poslední zapsané revizi.
 
 ### Štěpení projektů ###
 
-Chcete-li přispět do existujícího projektu, k němuž nemáte oprávnění pro odesílání, umožňuje GitHub rozštěpení projektu. Pokud se dostanete na zajímavou stránku projektu a chtěli byste se do projektu zapojit, můžete kliknout na tlačítko „fork“ (rozštěpit) v záhlaví projektu a GitHub vytvoří kopii projektu pro vašeho uživatele. Do ní pak můžete odesílat revize.
+Chcete-li přispět do existujícího projektu, k němuž nemáte oprávnění pro odesílání, umožňuje GitHub rozštěpení projektu. Pokud se dostanete na zajímavou stránku projektu a chtěli byste se do projektu zapojit, můžete kliknout na tlačítko „fork“ (rozštěpit -- doslova vidlička) v záhlaví projektu a GitHub vytvoří kopii projektu pro vašeho uživatele. Do ní pak můžete odesílat revize.
 
-Díky tomu se projekty nemusí starat o přidávání uživatelů do role spolupracovníků, aby mohli odesílat své příspěvky. Uživatelé mohou projekt rozštěpit a odesílat do něj revize. Hlavní správce projektu tyto změny natáhne tím, že je přidá jako vzdálené repozitáře a začlení jejich data.
+Díky tomu se projekty nemusí starat o přidávání uživatelů do role spolupracovníků, kteří by měli právo zápisu. Uživatelé mohou projekt rozštěpit a odesílat do něj revize. Hlavní správce projektu tyto změny natáhne tím, že je přidá jako vzdálené repozitáře a začlení jejich data.
 
 Chcete-li projekt rozštěpit, přejděte na stránku projektu (v tomto případě mojombo/chronic) a klikněte na tlačítko „fork“ v záhlaví (viz obrázek 4-14).
 
 Insert 18333fig0414.png
 Obrázek 4-14. Zapisovatelnou kopii jakéhokoli repozitáře získáte kliknutím na tlačítko „fork“.
 
-Po několika sekundách přejdete na novou stránku svého projektu, která oznamuje, že je tento projekt rozštěpením (fork) jiného projektu (viz obrázek 4-15).
+Po několika sekundách přejdete na novou stránku svého projektu, která oznamuje, že je tento projekt odštěpen (fork) z jiného projektu (viz obrázek 4-15).
 
 Insert 18333fig0415.png
 Obrázek 4-15. Vaše rozštěpení projektu
@@ -864,4 +868,4 @@ Existuje několik možností, jak vytvořit a zprovoznit vzdálený repozitář 
 
 Provoz vlastního serveru vám dává celou řadu možností kontroly a umožňuje provozovat server za vaším firewallem. Nastavení a správa takového serveru však obvykle bývají časově náročné. Umístíte-li data na hostovaný server, je jejich nastavení a správa jednoduchá. Svůj zdrojový kód však v takovém případě ukládáte na cizím serveru, což některé organizace nedovolují.
 
-Mělo by být jasně dáno, které řešení nebo jaká kombinace řešení je vhodná pro vás a pro vaši organizaci.
+Teď už byste se měli umět rozhodnout, které řešení nebo jaká kombinace řešení se pro vás a pro vaši organizaci hodí.

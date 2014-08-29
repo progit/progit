@@ -2,7 +2,7 @@
 
 Téměř každý systém pro správu verzí podporuje do určité míry větvení. Větvení znamená, že se můžete odloučit od hlavní linie vývoje a pokračovat v práci, aniž byste hlavní linii zanášeli smetím. V mnoha VCS nástrojích se může jednat o poněkud náročný proces, který často vyžaduje vytvoření nové kopie adresáře se zdrojovým kódem. To může – zvláště u velkých projektů – trvat poměrně dlouho.
 
-Někteří lidé mluví o modelu větvení v systému Git jako o jeho „vražedné vlastnosti“. Není sporu o tom, že je Git díky tomu ve skupině systémů pro správu verzí poměrně jedinečný. V čem je jeho větvení tak zvláštní? Větvení je v systému Git neuvěřitelně snadné a operace s ním související probíhají téměř okamžitě. A stejně rychlé je i přepínání mezi jednotlivými větvemi. Na rozdíl od ostatních systémů pro správu verzí vybízí Git ke způsobu práce s bohatým větvením a častým slučováním, a to i několikrát za den. Pokud tuto funkci pochopíte a zvládnete její ovládání, dostanete do ruky výkonný a unikátní nástroj, který doslova změní váš pohled na vývoj.
+Někteří lidé mluví o modelu větvení v systému Git jako o převratné vlastnosti. Není sporu o tom, že je Git díky tomu ve skupině systémů pro správu verzí poměrně jedinečný. V čem je jeho větvení tak zvláštní? Větvení je v systému Git neuvěřitelně snadné a operace s ním související probíhají téměř okamžitě. A stejně rychlé je i přepínání mezi jednotlivými větvemi. Na rozdíl od ostatních systémů pro správu verzí vybízí Git ke způsobu práce s bohatým větvením a častým slučováním, a to i několikrát za den. Pokud tuto funkci pochopíte a zvládnete její ovládání, dostanete do ruky výkonný a unikátní nástroj, který doslova změní váš pohled na vývoj.
 
 ## Co je to větev ##
 
@@ -132,7 +132,7 @@ Obrázek 3-11. Vytvoření nového ukazatele na větev
 Pracujete na webových stránkách a zapíšete několik revizí. S každou novou revizí se větev `iss53` posune vpřed, protože jste provedli její checkout (to znamená, že na ni přepnuli ukazuje HEAD – viz obrázek 3-12):
 
 	$ vim index.html
-	$ git commit -a -m 'added a new footer [issue 53]'
+	$ git commit -a -m 'add a new footer [issue 53]'
 
 Insert 18333fig0312.png
 Obrázek 3-12. Větev iss53 se s vaší prací posouvá vpřed.
@@ -151,8 +151,8 @@ Nyní přichází na řadu hotfix. Vytvořme větev s hotfixem, v níž budeme p
 	$ git checkout -b hotfix
 	Switched to a new branch 'hotfix'
 	$ vim index.html
-	$ git commit -a -m 'fixed the broken email address'
-	[hotfix 3a0874c] fixed the broken email address
+	$ git commit -a -m 'fix the broken email address'
+	[hotfix 3a0874c] fix the broken email address
 	 1 files changed, 1 deletion(-)
 
 Insert 18333fig0313.png
@@ -184,8 +184,8 @@ Nyní můžete přepnout zpět na větev s rozdělanou prací a pokračovat na c
 	$ git checkout iss53
 	Switched to branch 'iss53'
 	$ vim index.html
-	$ git commit -a -m 'finished the new footer [issue 53]'
-	[iss53 ad82d7a] finished the new footer [issue 53]
+	$ git commit -a -m 'finish the new footer [issue 53]'
+	[iss53 ad82d7a] finish the new footer [issue 53]
 	 1 file changed, 1 insertion(+)
 
 Insert 18333fig0315.png

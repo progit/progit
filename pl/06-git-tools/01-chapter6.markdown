@@ -269,7 +269,7 @@ Najczęściej używaną składnią wskazywania zakresu zmian jest podwójna krop
 <!-- The most common range specification is the double-dot syntax. This basically asks Git to resolve a range of commits that are reachable from one commit but aren’t reachable from another. For example, say you have a commit history that looks like Figure 6-1. -->
 
 Insert 18333fig0601.png
-Figure 6-1. Przykładowa historia dla wskazania zakresu zmian.
+Rysunek 6-1. Przykładowa historia dla wskazania zakresu zmian.
 
 <!-- Figure 6-1. Example history for range selection. -->
 

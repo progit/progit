@@ -15,7 +15,7 @@ Dla wielu ludzi preferowaną metodą kontroli wersji jest kopiowanie plików do 
 Aby poradzić sobie z takimi problemami, programiści już dość dawno temu stworzyli lokalne systemy kontroli wersji, które składały się z prostej bazy danych w której przechowywane były wszystkie zmiany dokonane na śledzonych plikach (por. Rysunek 1-1).
 
 Insert 18333fig0101.png 
-Figure 1-1. Diagram lokalnego systemu kontroli wersji.
+Rysunek 1-1. Diagram lokalnego systemu kontroli wersji.
 
 Jednym z najbardziej popularnych narzędzi VCS był system rcs, który wciąż jest obecny na wielu dzisiejszych komputerach. Nawet w popularnym systemie operacyjnym Mac OS X rcs jest dostępny po zainstalowaniu Narzędzi Programistycznych (Developer Tools). Program ten działa zapisując, w specjalnym formacie na dysku, dane różnicowe (to jest zawierające jedynie różnice pomiędzy plikami) z każdej dokonanej modyfikacji. Używając tych danych jest w stanie przywołać stan pliku z dowolnego momentu.
 
@@ -24,7 +24,7 @@ Jednym z najbardziej popularnych narzędzi VCS był system rcs, który wciąż j
 Kolejnym poważnym problemem z którym można się spotkać jest potrzeba współpracy w rozwoju projektu z odrębnych systemów. Aby poradzić sobie z tym problemem stworzono scentralizowane systemy kontroli wersji (CVCS - Centralized Version Control System). Systemy takie jak CVS, Subversion czy Perforce składają się z jednego serwera, który zawiera wszystkie pliki poddane kontroli wersji, oraz klientów którzy mogą się z nim łączyć i uzyskać dostęp do najnowszych wersji plików. Przez wiele lat był to standardowy model kontroli wersji (por. Rysunek 1-2).
 
 Insert 18333fig0102.png 
-Figure 1-2. Diagram scentralizowanego systemu kontroli wersji.
+Rysunek 1-2. Diagram scentralizowanego systemu kontroli wersji.
 
 Taki schemat posiada wiele zalet, szczególnie w porównaniu z VCS. Dla przykładu każdy może się zorientować co robią inni uczestnicy projektu. Administratorzy mają dokładną kontrolę nad uprawnieniami poszczególnych użytkowników. Co więcej systemy CVCS są także dużo łatwiejsze w zarządzaniu niż lokalne bazy danych u każdego z klientów.
 
@@ -35,7 +35,7 @@ Niemniej systemy te mają także poważne wady. Najbardziej oczywistą jest prob
 W ten sposób dochodzimy do rozproszonych systemów kontroli wersji (DVCS - Distributed Version Control System). W systemach DVCS (takich jak Git, Mercurial, Bazaar lub Darcs) klienci nie dostają dostępu jedynie do najnowszych wersji plików ale w pełni kopiują całe repozytorium. Gdy jeden z serwerów, używanych przez te systemy do współpracy, ulegnie awarii, repozytorium każdego klienta może zostać po prostu skopiowane na ten serwer w celu przywrócenia go do pracy (por. Rysunek 1-3).
 
 Insert 18333fig0103.png 
-Figure 1-3. Diagram rozproszonego systemu kontroli wersji.
+Rysunek 1-3. Diagram rozproszonego systemu kontroli wersji.
 
 Co więcej, wiele z tych systemów dość dobrze radzi sobie z kilkoma zdalnymi repozytoriami, więc możliwa jest jednoczesna współpraca z różnymi grupami ludzi nad tym samym projektem. Daje to swobodę wykorzystania różnych schematów pracy, nawet takich które nie są możliwe w scentralizowanych systemach, na przykład modeli hierarchicznych.
 
@@ -62,12 +62,12 @@ Czym jest w skrócie Git? To jest bardzo istotna sekcja tej książki, ponieważ
 Podstawową różnicą pomiędzy Git a każdym innym systemem VCS (włączając w to Subversion) jest podejście Git do przechowywanych danych. Większość pozostałych systemów przechowuje informacje jako listę zmian na plikach. Systemy te (CVS, Subversion, Perforce, Bazaar i inne) traktują przechowywane informacje jako zbiór plików i zmian dokonanych na każdym z nich w okresie czasu. Obrazuje to Rysunek 1-4.
 
 Insert 18333fig0104.png 
-Figure 1-4. Inne system przechowują dane w postaci zmian do podstawowej wersji każdego z plików.
+Rysunek 1-4. Inne system przechowują dane w postaci zmian do podstawowej wersji każdego z plików.
 
 Git podchodzi do przechowywania danych w odmienny sposób. Traktuje on dane podobnie jak zestaw migawek (ang. snapshots) małego systemu plików. Za każdym razem jak tworzysz commit lub zapisujesz stan projektu, Git tworzy obraz przedstawiający to jak wyglądają wszystkie pliki w danym momencie i przechowuje referencję do tej migawki. W celu uzyskania dobrej wydajności, jeśli dany plik nie został zmieniony, Git nie zapisuje ponownie tego pliku, a tylko referencję do jego poprzedniej, identycznej wersji, która jest już zapisana. Git myśli o danych w sposób podobny do przedstawionego na Rysunku 1-5.
 
 Insert 18333fig0105.png 
-Figure 1-5. Git przechowuje dane jako migawki projektu w okresie czasu.
+Rysunek 1-5. Git przechowuje dane jako migawki projektu w okresie czasu.
 
 To jest istotna różnica pomiędzy Git i prawie wszystkimi innymi systemami VCS. Jej konsekwencją jest to, że Git rewiduje prawie wszystkie aspekty kontroli wersji, które pozostałe systemy po prostu kopiowały z poprzednich generacji. Powoduje także, że Git jest bardziej podobny do mini systemu plików ze zbudowanymi na nim potężnymi narzędziami, niż do zwykłego systemu VCS. Odkryjemy niektóre z zalet które zyskuje się poprzez myślenie o danych w ten sposób, gdy w trzecim rozdziale będziemy omawiać tworzenie gałęzi w Git.
 
@@ -102,7 +102,7 @@ Teraz uwaga. To jedna z najważniejszych spraw do zapamiętania jeśli chodzi o 
 Z powyższego wynikają trzy główne sekcje projektu Git: katalog Git, katalog roboczy i przechowalnia (ang. staging area).
 
 Insert 18333fig0106.png 
-Figure 1-6. Katalog roboczy, przechowalnia, katalog git.
+Rysunek 1-6. Katalog roboczy, przechowalnia, katalog git.
 
 Katalog Git jest miejscem, w którym Git przechowuje własne metadane oraz obiektową bazę danych Twojego projektu. To najważniejsza część Git i to właśnie ten katalog jest kopiowany podczas klonowania repozytorium z innego komputera.
 
@@ -166,7 +166,7 @@ Istnieją dwa proste sposoby instalacji Git na komputerze Mac. Najprostszym z ni
 	http://sourceforge.net/projects/git-osx-installer/
 
 Insert 18333fig0107.png 
-Figure 1-7. Instalator Git dla OS X.
+Rysunek 1-7. Instalator Git dla OS X.
 
 Innym prostym sposobem jest instalacja Git z wykorzystaniem MacPorts (`http://www.macports.org`). Jeśli masz zainstalowane MacPorts, zainstaluj Git za pomocą
 

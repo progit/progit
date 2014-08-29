@@ -6,7 +6,7 @@ V této kapitole se dozvíte, jak pracovat se systémem Git v distribuovaném pr
 
 ## Distribuované pracovní postupy ##
 
-Na rozdíl od centralizovaných systémů správy verzí (CVCS) umožňuje distribuovaný charakter systému Git mnohem větší flexibilitu při spolupráci vývojářů na projektech. V centralizovaných systémech představuje každý vývojář samostatný uzel, pracující více či méně na stejné úrovni vůči centrálnímu úložišti. Naproti tomu je v systému Git každý vývojář potenciálním uzlem i úložištěm, každý vývojář může přispívat kódem do jiných repozitářů i spravovat veřejný repozitář, na němž mohou ostatní založit svou práci a do nějž mohou přispívat. Tím se otvírá široké spektrum možností organizace práce pro váš projekt a/nebo váš tým. Zkusíme se tedy podívat na pár častých postupů, které tato flexibilita umožňuje. Uvedeme přednosti i eventuální slabiny všech těchto postupů. Budete si moci vybrat některý z postupů nebo je navzájem kombinovat a spojovat jejich funkce.
+Na rozdíl od centralizovaných systémů správy verzí (CVCS) umožňuje distribuovaný charakter systému Git mnohem větší flexibilitu při spolupráci vývojářů na projektech. V centralizovaných systémech představuje každý vývojář samostatný uzel, pracující více či méně na stejné úrovni vůči centrálnímu úložišti. Naproti tomu je v systému Git každý vývojář potenciálním uzlem i úložištěm, každý vývojář může přispívat kódem do jiných repozitářů i spravovat veřejný repozitář, na němž mohou ostatní založit svou práci a do nějž mohou přispívat. Tím se pro váš projekt a váš tým otvírá široké spektrum pracovních postupů. Zkusíme se tedy podívat na pár častých přístupů, které tato flexibilita umožňuje. Uvedeme jejich přednosti i eventuální slabiny. Budete si moci vybrat některý z postupů nebo je navzájem kombinovat a spojovat jejich vlastnosti.
 
 ### Centralizovaný pracovní postup ###
 
@@ -17,12 +17,12 @@ Obrázek 5-1. Centralizovaný pracovní postup
 
 To znamená, že pokud dva vývojáři klonují z centrálního úložiště a oba provedou změny, jen první z nich, který odešle své změny, to může provést bez komplikací. Druhý vývojář musí před odesláním svých změn začlenit práci prvního vývojáře do své, aby nepřepsal jeho změny. Tento koncept platí jak pro Git, tak pro Subversion (popř. jakýkoli CVCS). I v systému Git funguje bez problémů.
 
-Pokud pracujete v malém týmu nebo už jste ve své společnosti nebo ve svém týmu zvyklí na centralizovaný pracovní postup, můžete v něm beze všeho pokračovat. Jednoduše vytvořte repozitář a přidělte všem ze svého týmu oprávnění k odesílání dat. Git neumožní uživatelům, aby se navzájem přepisovali. Pokud některý z vývojářů naklonuje data, provede změny a poté se je pokusí odeslat, a jiný vývojář mezitím odeslal svoje revize, server tyto změny odmítne. Git vývojáři při odmítnutí sdělí, že se pokouší odeslat změny, které nesměřují „rychle vpřed“, což není možné provést, dokud nevyzvedne a nezačlení stávající data z repozitáře.
+Pokud pracujete v malém týmu nebo už jste ve své společnosti nebo ve svém týmu zvyklí na centralizovaný pracovní postup, můžete v něm beze všeho pokračovat. Jednoduše vytvořte repozitář a přidělte všem ze svého týmu oprávnění k odesílání dat. Git neumožní uživatelům, aby se navzájem přepisovali. Pokud některý z vývojářů naklonuje data, provede změny a poté se je pokusí odeslat, a jiný vývojář mezitím odeslal svoje revize, server tyto změny odmítne. Git vývojáři při odmítnutí sdělí, že se pokouší odeslat změny, které nesměřují „rychle vpřed“, což není možné provést, dokud nevyzvedne a nezačlení (fetch and merge) stávající data z repozitáře.
 Tento pracovní postup může být pro mnoho lidí zajímavý, protože je to schéma, které jsou zvyklí používat a jsou s ním spokojeni.
 
 ### Pracovní postup s integračním manažerem ###
 
-Protože Git umožňuje, abyste měli několik vzdálených repozitářů, lze použít pracovní postup, kdy má každý vývojář oprávnění k zápisu do vlastního veřejného repozitáře a oprávnění pro čtení k repozitářům všech ostatních. Tento scénář často zahrnuje jeden standardní repozitář, který reprezentuje „oficiální“ projekt. Chcete-li do tohoto projektu přispívat, vytvořte vlastní veřejný klon projektu a odešlete do něj změny, které jste provedli. Poté odešlete správci hlavního projektu žádost, aby do projektu natáhl vaše změny. Váš repozitář může přidat jako vzdálený repozitář, lokálně otestovat vaše změny, začlenit je do své větve a odeslat zpět do svého repozitáře. Postup práce je následující (viz obrázek 5-2):
+Protože Git umožňuje, abyste měli několik vzdálených repozitářů, lze použít pracovní postup, kdy má každý vývojář oprávnění k zápisu do vlastního veřejného repozitáře a oprávnění pro čtení k repozitářům všech ostatních. Tento scénář často zahrnuje jeden standardní repozitář, který reprezentuje „oficiální“ projekt. Chcete-li do tohoto projektu přispívat, vytvořte vlastní veřejný klon projektu a odešlete do něj změny, které jste provedli. Poté odešlete správci hlavního projektu žádost, aby do projektu natáhl vaše změny. Správce může váš repozitář přidat jako vzdálený repozitář, lokálně otestovat vaše změny, začlenit je do své větve a odeslat zpět do svého repozitáře. Postup práce je následující (viz obrázek 5-2):
 
 1. Správce projektu odešle data do svého veřejného repozitáře.
 2. Přispěvatel naklonuje tento repozitář a provede změny.
@@ -34,7 +34,7 @@ Protože Git umožňuje, abyste měli několik vzdálených repozitářů, lze p
 Insert 18333fig0502.png
 Obrázek 5-2. Pracovní postup s integračním manažerem
 
-Tento pracovní postup je velmi rozšířený na stránkách jako GitHub, kde je snadné rozštěpit projekt a odeslat změny do své odštěpené části, kde jsou pro každého k nahlédnutí. Jednou z hlavních předností tohoto postupu je, že můžete pracovat bez přerušení a správce hlavního repozitáře může natáhnout vaše změny do projektu, kdykoli uzná za vhodné. Přispěvatelé nemusí čekat, až budou jejich změny začleněny do projektu – každá strana může pracovat svým tempem.
+Tento pracovní postup je velmi rozšířený na serverech jako je GitHub, kde je snadné rozštěpit projekt a odeslat změny do své odštěpené části, kde jsou pro každého k nahlédnutí. Jednou z hlavních předností tohoto postupu je, že můžete pracovat bez přerušení a správce hlavního repozitáře může natáhnout vaše změny do projektu, kdykoli uzná za vhodné. Přispěvatelé nemusí čekat, až budou jejich změny začleněny do projektu – každá strana může pracovat svým tempem.
 
 ### Pracovní postup s diktátorem a poručíky ###
 

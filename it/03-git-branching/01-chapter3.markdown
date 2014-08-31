@@ -71,7 +71,7 @@ Questo è interessante, perché ora il tuo ramo testing è stato spostato in ava
 
 La Figura 3-8 mostra il risultato.
 
-insert 18333fig0308.png 
+Insert 18333fig0308.png 
 Figura 3-8. HEAD si è spostato ad un altro ramo con un checkout.
 
 Questo comando ha fatto due cose. Ha spostato il puntatore HEAD indietro per puntare al ramo master e ha riportato i file nella tua directory di lavoro allo stato in cui si trovavano in quel momento. Questo significa anche che i cambiamenti che farai da questo punto in poi saranno separati da una versione più vecchia del progetto. Essenzialmente riavvolge temporaneamente il lavoro che hai fatto nel tuo ramo testing così puoi muoverti in una direzione differente.

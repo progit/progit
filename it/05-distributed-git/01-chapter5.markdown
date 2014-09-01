@@ -285,7 +285,7 @@ A questo punto lei deve condividere il suo lavoro con John, così fa la push sul
 
 Jessica manda una e-mail a John dicendogli che fatto la push del suo lavoro su un branch chiamato `funzioanlitaA` chiedendogli se lui può dargli un'occhiata. Mentre aspetta una risposta da John, Jessica decide di iniziare a lavorare su `funzionalitaB` con Josie. Per iniziare, crea un nuovo branch basandosi sul branch `master` del server:
 
-  # Computer di Jessica
+	# Computer di Jessica
 	$ git fetch origin
 	$ git checkout -b featureB origin/master
 	Switched to a new branch "featureB"

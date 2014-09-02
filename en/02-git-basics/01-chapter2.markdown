@@ -1176,8 +1176,11 @@ In this case, typing `git co` and then pressing the Tab key twice suggests commi
 
 This also works with options, which is probably more useful. For instance, if you’re running a `git log` command and can’t remember one of the options, you can start typing it and press Tab to see what matches:
 
-	$ git log --s<tab>
-	--shortstat  --since=  --src-prefix=  --stat   --summary
+	$ git log --s<tab><tab>
+	--shortstat               --sparse
+	--simplify-by-decoration  --src-prefix=
+	--simplify-merges         --stat
+	--since=                  --summary
 
 That’s a pretty nice trick and may save you some time and documentation reading.
 

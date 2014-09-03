@@ -221,7 +221,7 @@ Wenn eine bestimmte Version einer Datei im Git Verzeichnis liegt, gilt sie als �
 <!--## Installing Git ##-->
 ## Git installieren ##
 
-<!--Let’s get into using some Git. First things first—you have to install it. You can get it a number of ways; the two major ones are to install it from source or to install an existing package for your platform.-->
+<!--Let’s get into using some Git. First things first—you have to install it. You can get it a number of ways; the three major ones are to install it from source or to install an existing package for your platform.-->
 
 Lass uns damit anfangen, Git tatsächlich zu verwenden. Der erste Schritt besteht natürlich darin, Git zu installieren und das kann, wie üblich, auf unterschiedliche Weisen geschehen. Die beiden wichtigsten bestehen darin, entweder den Quellcode herunterzuladen und selbst zu kompilieren oder ein fertiges Paket für Dein Betriebssystem zu installieren.
 
@@ -301,6 +301,16 @@ Die andere Möglichkeit ist, Git via MacPorts (http://www.macports.org) zu insta
 <!--You don’t have to add all the extras, but you’ll probably want to include +svn in case you ever have to use Git with Subversion repositories (see Chapter 8).-->
 
 Du brauchst die optionalen Features natürlich nicht mit zu installieren, aber es macht Sinn `+svn` zu verwenden, falls Du jemals Git mit einem Subversion Repository verwenden willst.
+
+<!--Homebrew (`http://brew.sh/`) is another alternative to install Git. If you have Homebrew installed, install Git via
+
+	$ brew install git
+
+-->
+
+Alternativ kann man Git auch über Homebrew (`http://brew.sh/`) installieren. Hast Du Homebrew bereits, kannst Du Git einfach über den folgenden Befehl installieren:
+
+	$ brew install git
 
 <!--### Installing on Windows ###-->
 ### Installation unter Windows ###

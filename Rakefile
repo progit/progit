@@ -197,8 +197,13 @@ def test_lang(lang, out)
           error_code = true
         end
       end
-      if line.match /^\s*Insert\s(.*)/
-        figure_count = figure_count + 1
+      if line.match /^\s*Insert\s(.*)/i
+	if line.match /^\s*Insert\s(.*)/
+	  figure_count = figure_count + 1
+	else
+	  out << "\n#{lang}: Badly cased Insert directive: #{line}\n"
+	  error_code = true
+	end
       end
     end
     # This extraction is a bit contorted, because the pl translation renamed

@@ -331,6 +331,12 @@ Figure 9-4. Git directory objects with branch head references included.
 
 When you run commands like `git branch (branchname)`, Git basically runs that `update-ref` command to add the SHA-1 of the last commit of the branch you’re on into whatever new reference you want to create.
 
+If a reference is not found under the `refs` directory, Git then searches for it in the `.git/packed-refs` file, which contains space separated SHA-1 path pairs, for example:
+
+    52d771167707552d8e2a50f602c669e2ad135722 refs/tags/v1.0.1
+
+This file exists for performance reasons, as it is more efficient to have a single file rather than many small ones for references that don't change very often. You can tell Git to pack references into that file by using the `git pack-refs` command.
+
 ### The HEAD ###
 
 The question now is, when you run `git branch (branchname)`, how does Git know the SHA-1 of the last commit? The answer is the HEAD file. The HEAD file is a symbolic reference to the branch you’re currently on. By symbolic reference, I mean that unlike a normal reference, it doesn’t generally contain a SHA-1 value but rather a pointer to another reference. If you look at the file, you’ll normally see something like this:

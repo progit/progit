@@ -1,4 +1,4 @@
-# مبادئ Git #
+﻿# مبادئ Git #
 
 إذا كان هناك فصل واحد عليك قراءته لكي تبدأ بإستخدام Git، فعليك بهذا الفصل! يغطي هذا الفصل جميع الأوامر الأساسية التي عليك معرفتها لكي تتمكن من القيام بأغلب الأمور أثناء استخدامك لـ Git. في نهاية هذا الفصل يجب أن تكون قادراً على انشاء واعداد الـ repository لمشروعك وعلى تحديد الملفات التي ستتم متابعتها والتي ستترك، وعلى تهييئ التغييرات لعمل commit عليها. ستتعلم أيضاً كيف تعد Git لكي تتجاهل بعض أنواع الملفات، كيف تقوم بالتراجع عن الأخطاء التي سترتكبها بسرعة وبسهولة، كيف تتصفح تاريخ مشروعك وكيف تعرض التغيرات بين الـ commits، وكيف تنشر وتسحب (push & pull) التغيرات من الـ repositories البعيدة عنك.
 
@@ -40,27 +40,26 @@
 هناك عدد من البروتوكولات المختلفة التي يمكنك اسستعمالها لنقل المعلومات في git. المثال السابق يستعمل بروتوكول 'git://'، ولكن من الممكن أن تجد أيضاً استخداماً لـ 'http(s)://' أو 'user@server:/path.git'، والتي تستعمل بروتوكول SSH في النقل. في الفصل الرابع من الكتاب ستتعرف على الخيارات المتوفرة للتواصل مع الـ repository الخاصة بك وميزات ومساوئ كل منها.
 
 ## تسجيل التعديلات في الـ repository ##
+لديك repository أصلي ونسخة لتعمل عليها من ملفات المشروع. عليك أن تقوم ببعض التعديلات ثم تعمل commit لهذه التعديلات في repository الخاص بك في كل مرة يصل فيها المشروع إلى نقطة تود تسجيلها.
 
-You have a bona fide Git repository and a checkout or working copy of the files for that project. You need to make some changes and commit snapshots of those changes into your repository each time the project reaches a state you want to record.
+تذكر أنه كل ملف في مجلد العمل يمكن أن يكون في إحدى الحالتين فقط: مٌتَتَبّع tracked أو غير مٌتَتَبّع untracked. الملفات المٌتتبّعة هي ملفات كانت في أخر snapshot ويمكن إلغاء التعديلات عليها أو التعديل عليها أو وضعه في حالة staged (جاهز من أجل commit). الملفات غير المُتتبّعة هي كل الملفات الآخرى - أي ملف في مجلد العمل لم يكن موجوداً في آخر snapshot وليس معلماً بأنه staged. عندما تقوم باستنساخ repository جميع ملفاتك تكون بحالة متتبّعة tracked و غير معدلة unmodified لأنك قمت للتو بعمل check out ولم تقم بأي تعديل.
 
-Remember that each file in your working directory can be in one of two states: tracked or untracked. Tracked files are files that were in the last snapshot; they can be unmodified, modified, or staged. Untracked files are everything else - any files in your working directory that were not in your last snapshot and are not in your staging area.  When you first clone a repository, all of your files will be tracked and unmodified because you just checked them out and haven’t edited anything. 
-
-As you edit files, Git sees them as modified, because you’ve changed them since your last commit. You stage these modified files and then commit all your staged changes, and the cycle repeats. This lifecycle is illustrated in Figure 2-1.
+عندما تعدل الملفات، سيقوم git بتأشيرهم على أنهم modified، لأنك قمت بتغيرهم عن آخر commit. تقوم بعمل stage لهذه الملفات المعدلة ثم تقوم بعمل commit لجميع التغيرات في منطقة stage، وتتكرر العملية. يوضع الشكل 2-1 دورة العملية.
 
 Insert 18333fig0201.png 
-Figure 2-1. The lifecycle of the status of your files.
+الشكل 2-1. دورة حالة الملفات.
 
-### Checking the Status of Your Files ###
+### تفقد حالة ملفاتك ###
 
-The main tool you use to determine which files are in which state is the git status command. If you run this command directly after a clone, you should see something like this:
+باستخدام الأمر git status يمكننا معرفة حالة الملفات لدينا. إذا قمت بتشغيل هذا الأمر مباشرة بعد قيامك بعمل clone يجب أن ترى شيئاً يشبه التالي:
 
 	$ git status
 	# On branch master
 	nothing to commit, working directory clean
 
-This means you have a clean working directory—in other words, there are no tracked and modified files. Git also doesn’t see any untracked files, or they would be listed here. Finally, the command tells you which branch you’re on. For now, that is always master, which is the default; you won’t worry about it here. The next chapter will go over branches and references in detail.
+وهذا يعني أنه لديك مجلد عمل نظيف - بمعنى آخر، لايوجد أي ملفات معدلة أو ملفات غير مُتتبّعة. كما أنّ هذا الأمر يخبرك بأي فرع branch أنت تعمل. حالياً، دائماً هو master، وهو الافتراضي؛ في الفصل المقبل سنمر على الأفرع و المرجعيات references بالتفصيل.
 
-Let’s say you add a new file to your project, a simple README file. If the file didn’t exist before, and you run `git status`, you see your untracked file like so:
+لنقل بأنك قمت بإضافة ملف جديد على مشروعك، وليكن ملف README بسيط. إذا لم يكن الملف موجوداً مسبقاً، وقمت بتنفيذ الأمر `git status` سترى الملف غير مُتتبّعاً كما يلي:
 
 	$ vim README
 	$ git status
@@ -71,15 +70,15 @@ Let’s say you add a new file to your project, a simple README file. If the fil
 	#	README
 	nothing added to commit but untracked files present (use "git add" to track)
 
-You can see that your new README file is untracked, because it’s under the “Untracked files” heading in your status output. Untracked basically means that Git sees a file you didn’t have in the previous snapshot (commit); Git won’t start including it in your commit snapshots until you explicitly tell it to do so. It does this so you don’t accidentally begin including generated binary files or other files that you did not mean to include. You do want to start including README, so let’s start tracking the file.
+يمكنك ملاحظة أنّ ملفك الجديد README غير مُتتبّع، فهو تحت تبويب "untracked files" في خرج الأمر. ويعني ذلك أنّ git يرى ملفاً جديداً على commit السابقة؛ علماً أنّ git لن يقوم بإضافة هذا الملف إلى الملفات المتتبعة إلا إذا قمت بطلب ذلك بشكل مباشر، والهدف من ذلك من أجل حماية المشروع من الضم الخاطئ لملفات binary أو أي ملفات لا تود بإضافتها. إلاّ أنّك ترغب في إضافة README إلى الملفات المتتبّعة. وسنقوم بذلك حالاً.
 
-### Tracking New Files ###
+### تتبع الملفات الجديدة ###
 
-In order to begin tracking a new file, you use the command `git add`. To begin tracking the README file, you can run this:
+للقيام بتتبع ملف جديد عليه استخدام الأمر `git add` . مثلاً لنقم بتتبع الملف الجديد README:
 
 	$ git add README
 
-If you run your status command again, you can see that your README file is now tracked and staged:
+إذا قمنا بتنفيذ الأمر `git status` مرة أخرى سنلاحظ أن الملف README أصبح متتبعاً وجاهزاً staged للقيام بعملية commit:
 
 	$ git status
 	# On branch master
@@ -89,11 +88,11 @@ If you run your status command again, you can see that your README file is now t
 	#	new file:   README
 	#
 
-You can tell that it’s staged because it’s under the “Changes to be committed” heading. If you commit at this point, the version of the file at the time you ran git add is what will be in the historical snapshot. You may recall that when you ran git init earlier, you then ran git add (files) — that was to begin tracking files in your directory. The git add command takes a path name for either a file or a directory; if it’s a directory, the command adds all the files in that directory recursively.
+نستطيع معرفة بأن الملف staged من خلال ملاحظته تحت بند "changes to be comitted". إذا قمت بعمل commit في هذه اللحظة، سيقوم git بإضافة النسخة الحالية من الملف إلى snapshot. تذكر عندما قمنا بعمل git init سابقاً، ثم قمنا بإضافة الملفات عن طريق git add، كان ذلك للقيام ببدء تتبع الملفات في مجلد المشروع. يقبل الأمر git add مسار لملف أو لمجلد؛ فإذا كان المسار لمجلد سيقوم git بإضافة جميع الملفات والمجلدات ضمنه بشكل تعاودي recursively.
 
-### Staging Modified Files ###
+### تجهيز الملفات المعدلة ###
 
-Let’s change a file that was already tracked. If you change a previously tracked file called `benchmarks.rb` and then run your `status` command again, you get something that looks like this:
+لنقم بالتعديل على ملف قمنا بإضافته سابقاً. إذا قمنا مثلاً بالتعديل على ملف متتبع مسبقاً يدعى `benchmarks.rb`  وقمنا بتنفيذ الأمر git status، سيكون الخرج مشابهاً للخرج التالي:
 
 	$ git status
 	# On branch master
@@ -108,7 +107,7 @@ Let’s change a file that was already tracked. If you change a previously track
 	#	modified:   benchmarks.rb
 	#
 
-The benchmarks.rb file appears under a section named “Changes not staged for commit” — which means that a file that is tracked has been modified in the working directory but not yet staged. To stage it, you run the `git add` command (it’s a multipurpose command — you use it to begin tracking new files, to stage files, and to do other things like marking merge-conflicted files as resolved). Let’s run `git add` now to stage the benchmarks.rb file, and then run `git status` again:
+يظهر الملف benchmarks.rb تحت بند "changes not staged for commit" وهذا يعني أن الملف المُتتبّع قد خضع لعملية تعديل لكنه لم يخضع للتجهيز من أجل commit. للقيام بتجهيزه (أو تأشيره للإضافة إلى commit الجديد) يجب علينا تنفيذ الأمر `git add` (لاحظ بأنّه أمر متعدد الوظائف - نستطيع استخدامه لتتبع الملفات الجديدة، تجهيز الملفات من أجل commit، والقيام بأمور أخرى مثل حل الاعتراضات في حال القيام بدمج merge). لنقم بتنفيذ git add الآن لوضع benchmarks.rb بحالة staged، ومن ثم لنقم بتنفيذ الأمر git status لنرى ما الذي قد تغيّر:
 
 	$ git add benchmarks.rb
 	$ git status
@@ -120,7 +119,7 @@ The benchmarks.rb file appears under a section named “Changes not staged for c
 	#	modified:   benchmarks.rb
 	#
 
-Both files are staged and will go into your next commit. At this point, suppose you remember one little change that you want to make in benchmarks.rb before you commit it. You open it again and make that change, and you’re ready to commit. However, let’s run `git status` one more time:
+كلا الملفين الآن جاهز للإدخال بعملية commit المقبلة. في هذه النقطة، لنفرض أنك تود القيام بتعديل على ملف benchmarks.rb قبل القيام بعملية commit، ستقوم بفتح الملف والتعديل عليه وأنك جاهز للقيام بعملية commit. لكن قبل ذلك، دعنا نقوم بتنفيذ الأمر git status مرة إضافية:
 
 	$ vim benchmarks.rb 
 	$ git status
@@ -137,7 +136,7 @@ Both files are staged and will go into your next commit. At this point, suppose 
 	#	modified:   benchmarks.rb
 	#
 
-What the heck? Now benchmarks.rb is listed as both staged and unstaged. How is that possible? It turns out that Git stages a file exactly as it is when you run the git add command. If you commit now, the version of benchmarks.rb as it was when you last ran the git add command is how it will go into the commit, not the version of the file as it looks in your working directory when you run git commit. If you modify a file after you run `git add`, you have to run `git add` again to stage the latest version of the file:
+ما الذي يحصل؟ كيف أصبح benchmarks.rb موجوداً تحت التبويبين staged و unstaged؟ لقد اتضح لنا أنّ git يقوم بتجهيز الملف على حالته عند قيامك بتنفيذ الأمر git add. إذا قمت بعمل commit الآن، ستكون نسخة benchmarks.rb كما كانت عند قيامك بتنفيذ الأمر git add وليس النسخة الجديدة التي حصلنا عليها بعد قيامنا بتعديل الملف. لذا إذا قمنا بتعديل ملف قبل قيامنا بتنفيذ git add، وقبل القيام بعملية commit، علينا تجهيز الملف مرة أخرى لعملية commit، وذلك بتنفيذ الأمر git add مرة جديدة:
 
 	$ git add benchmarks.rb
 	$ git status
@@ -149,26 +148,26 @@ What the heck? Now benchmarks.rb is listed as both staged and unstaged. How is t
 	#	modified:   benchmarks.rb
 	#
 
-### Ignoring Files ###
+### تجاهل الملفات ###
 
-Often, you’ll have a class of files that you don’t want Git to automatically add or even show you as being untracked. These are generally automatically generated files such as log files or files produced by your build system. In such cases, you can create a file listing patterns to match them named .gitignore.  Here is an example .gitignore file:
+غالباً ما تود من git تجاهل صنف من الملفات بحث لا يقوم بإضافتها تلقائياً أو لا يظهرها بأنّها غير متتبعة. تكون هذه الملفات عادة ملفات مولدة بشكل تلقائي مثل ملفات log و الملفات الوسيطة التي تولدها أدوات التطوير لديك. في مثل هذه الحالات/ يمكن إنشاء ملف .gitignore يحوي على أنماط لأسماء الملفات التي نرغب بتجاهلها. هذا مثال عمّا قد يحتويه ملف .gitignore:
 
 	$ cat .gitignore
 	*.[oa]
 	*~
 
-The first line tells Git to ignore any files ending in .o or .a — object and archive files that may be the product of building your code. The second line tells Git to ignore all files that end with a tilde (`~`), which is used by many text editors such as Emacs to mark temporary files. You may also include a log, tmp, or pid directory; automatically generated documentation; and so on. Setting up a .gitignore file before you get going is generally a good idea so you don’t accidentally commit files that you really don’t want in your Git repository.
+أول سطر يقوم بتوجيه git إلى تجاهل أي ملفات ذات لواحق من النوع o أو a - ملفات الكائنات وملفات الأرشيف وهي ملفات وسيطة تولدها أدوات بناء الكود عادة. السطر الثاني يوجه git إلى تجاهل أي ملفات تنتهي بالرمز (~) والتي تكون ملفات مؤقتة عادةً تستخدمها بعض برامج تحرير الكود. قد ترغب أيضاً بإضافة مجلدات log و tmp أو pid؛ أو حتى ملفات التوثيق تلقائية التوليد (من الكود عادة)، وغيرها. ينصح بإضافة ملف .gitignore في بداية إنشاء repository حتى نتجنب إضافة بعض الملفات عن طريق الخطأ وتلويث respository.
 
-The rules for the patterns you can put in the .gitignore file are as follows:
+قواعد الأنماط التي يمكن وضعها ضمن ملف .gitignore هي كالتالي:
 
-*	Blank lines or lines starting with # are ignored.
-*	Standard glob patterns work.
-*	You can end patterns with a forward slash (`/`) to specify a directory.
-*	You can negate a pattern by starting it with an exclamation point (`!`).
+*	الأسطر التي تبدأ بالرمز (#) يتم تجاهلها.
+*	أنماط glob القياسية تعمل.
+*	يمكن إنهاء النمط برمز (/) للدلالة على أنه يستهدف مجلداً.
+*	يمكن نفي نمط ما عن طريق وضع علامة التعجب (!) في بداية السطر قبل النمط.
 
-Glob patterns are like simplified regular expressions that shells use. An asterisk (`*`) matches zero or more characters; `[abc]` matches any character inside the brackets (in this case a, b, or c); a question mark (`?`) matches a single character; and brackets enclosing characters separated by a hyphen(`[0-9]`) matches any character between them (in this case 0 through 9) . 
+أنماط Glob عبارة عن نسخة مبسطة من Regular Expressions يتم استخدامها ضمن واجهة الأوامر shell. رمز النجمة (*) يطابق صفر-محرفاً أو أكثر. `[abc]` تطابق أي محارف ضمن الأقواس المربعة في هذه الحالة تكون a b c؛ علامة الاستفهام (?) تطابق محرفاً واحداً فقط؛ بينما تطابق الأقواس المربعة التي تحوي على محارف مفصولة بإشارة hyphen أي محرفاً يقع في المجال بين محرف البداية والنهاية - مثلا [0-9] يطابق محارف الأرقام بين 0 و 9 ضمناً.
 
-Here is another example .gitignore file:
+مثال عن ملف .gitignore:
 
 	# a comment – this is ignored
 	# no .a files
@@ -182,7 +181,7 @@ Here is another example .gitignore file:
 	# ignore doc/notes.txt, but not doc/server/arch.txt
 	doc/*.txt
 
-### Viewing Your Staged and Unstaged Changes ###
+### مشاهدة التغيّرات المجهّزة والتغيّرات غير المجهّزة ###
 
 If the `git status` command is too vague for you — you want to know exactly what you changed, not just which files were changed — you can use the `git diff` command. We’ll cover `git diff` in more detail later; but you’ll probably use it most often to answer these two questions: What have you changed but not yet staged? And what have you staged that you are about to commit? Although `git status` answers those questions very generally, `git diff` shows you the exact lines added and removed — the patch, as it were. 
 

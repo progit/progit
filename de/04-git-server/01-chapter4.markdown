@@ -887,9 +887,9 @@ Diese Regel gehört dann zum Regelsatz des `gitolite` Repository.
 
 An dieser Stelle fragst Du Dich vielleicht, wie die Zugriffsregeln eigentlich angewandt werden. Lass uns das kurz anschauen.
 
-<!--There are two levels of access control in Gitolite.  The first is at the repository level; if you have read (or write) access to *any* ref in the repository, then you have read (or write) access to the repository.  This is the only access control that Gitosis had.-->
+<!--There are two levels of access control in Gitolite.  The first is at the repository level; if you have read (or write) access to *any* ref in the repository, then you have read (or write) access to the repository.-->
 
-Es gibt zwei Ebenen für die Zugriffsberechtigung in Gitolite. Die erste befindet sich auf Repository Ebene. Wenn Du Lese- oder Schreifzugriff auf jede Ref in einem Repository hast, dann kannst Du damit das ganze Repository sowohl lesen, als auch schreiben. Gitosis kennt nur diese Art der Zugriffsberechtigung.
+Es gibt zwei Ebenen für die Zugriffsberechtigung in Gitolite. Die erste befindet sich auf Repository Ebene. Wenn Du Lese- oder Schreifzugriff auf jede Ref in einem Repository hast, dann kannst Du damit das ganze Repository sowohl lesen, als auch schreiben.
 
 <!--The second level, applicable only to "write" access, is by branch or tag within a repository.  The username, the access being attempted (`W` or `+`), and the refname being updated are known.  The access rules are checked in order of appearance in the config file, looking for a match for this combination (but remember that the refname is regex-matched, not merely string-matched).  If a match is found, the push succeeds.  A fallthrough results in access being denied.-->
 

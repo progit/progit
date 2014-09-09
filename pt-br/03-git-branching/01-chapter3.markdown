@@ -151,8 +151,8 @@ Em seguida, você tem uma correção para fazer. Vamos criar um branch para a co
     $ git checkout -b 'hotfix'
     Switched to a new branch "hotfix"
     $ vim index.html
-    $ git commit -a -m 'concertei o endereço de email'
-    [hotfix]: created 3a0874c: "concertei o endereço de email"
+    $ git commit -a -m 'consertei o endereço de email'
+    [hotfix]: created 3a0874c: "consertei o endereço de email"
      1 files changed, 0 insertions(+), 1 deletions(-)
 
 Insert 18333fig0313.png
@@ -310,7 +310,7 @@ O comando `git branch` faz mais do que criar e apagar branches. Se você execut�
 Note o caractere `*` que vem antes do branch `master`: ele indica o branch que você está atualmente (fez o checkout). Isso significa que se você fizer um commit nesse momento, o branch `master` irá se mover adiante com seu novo trabalho. Para ver o último commit em cada branch, você pode executar o comando `git branch -v`:
 
     $ git branch -v
-      iss53   93b412c concertar problema em javascript
+      iss53   93b412c consertar problema em javascript
     * master  7a98805 Merge branch 'iss53'
       testing 782fd34 adicionar scott para a lista de autores nos readmes
 

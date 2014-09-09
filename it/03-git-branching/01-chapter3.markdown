@@ -388,7 +388,7 @@ Questo può un po' confondere, quindi vediamo un esempio. Diciamo che hai un ser
 Insert 18333fig0322.png 
 Figura 3-22. Un clone con Git fornisce un proprio ramo principale e un puntatore origin/master al ramo principale di origine.
 
-Se fai del lavoro sul tuo ramo principale locale, e, allo stesso temo, qualcuno ha inviato degli aggiornamenti al ramo principale di `git.ourcompany.com`, allora la tua storia si muoverà in avanti in modo differente. Inoltre, mentre non hai contatti con il tuo server di partenza, il tuo puntatore `origin/master` non si sposterà (vedi Figura 3-23).
+Se fai del lavoro sul tuo ramo principale locale, e, allo stesso tempo, qualcuno ha inviato degli aggiornamenti al ramo principale di `git.ourcompany.com`, allora la tua storia si muoverà in avanti in modo differente. Inoltre, mentre non hai contatti con il tuo server di partenza, il tuo puntatore `origin/master` non si sposterà (vedi Figura 3-23).
 
 Insert 18333fig0323.png 
 Figura 3-23. Lavorando in locale ed avendo qualcuno che ha inviato al server remoto qualcosa rende l'avanzamento delle storie differente.

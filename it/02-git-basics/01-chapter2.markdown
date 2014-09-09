@@ -1175,8 +1175,11 @@ In questo caso, scrivendo `git co` e premendo poi due volte il tasto Tab, compai
 
 Questo funziona anche con le opzioni, che probabilmente è molto più utile. Se per esempio stai eseguendo `git log` e non ricordi un'opzione, puoi premere il tasto Tab per vedere quelle disponibili:
 
-	$ git log --s<tab>
-	--shortstat  --since=  --src-prefix=  --stat   --summary
+	$ git log --s<tab><tab>
+	--shortstat               --sparse
+	--simplify-by-decoration  --src-prefix=
+	--simplify-merges         --stat
+	--since=                  --summary
 
 Questo è un trucco davvero utile e permette di risparmiare molto tempo e evitarti la lettura della documentazione.
 

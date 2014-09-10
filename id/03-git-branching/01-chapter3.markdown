@@ -92,50 +92,50 @@ Hal ini kontras dengan cara yang dilakukan banyak VCS dalam branch, yang butuh m
 
 Mari kita lihat mengapa anda harus melakukannya.
 
-## Basic Branching and Merging ##
+## Dasar Pencabangan (Branching) dan Penggabungan (Merging) ##
 
-Let’s go through a simple example of branching and merging with a workflow that you might use in the real world. You’ll follow these steps:
+Mari kita lihat contoh sederhana dari Pencabangan dan Penggabungan dengan diagram alir yang biasa kita gunakan secara nyata. Anda akan mengikut tahapan berikut :
 
-1. Do work on a web site.
-2. Create a branch for a new story you’re working on.
-3. Do some work in that branch.
+1. Bekerja di jejaring (website).
+2. Buat pencabangan untuk hal baru yang sedang dikerjakan.
+3. Bekerja di pencabangan tersebut.
 
-At this stage, you’ll receive a call that another issue is critical and you need a hotfix. You’ll do the following:
+Pada tahap ini, anda akan menerima pesan bahwa ada masalah yang kritis dan anda perlu memperbaikinya. Anda akan melakukan tahapan berikut :
 
-1. Revert back to your production branch.
-2. Create a branch to add the hotfix.
-3. After it’s tested, merge the hotfix branch, and push to production.
-4. Switch back to your original story and continue working.
+1. Kembali ke pencabangan saat produksi.
+2. Membuat pencabangan untuk memperbaiki masalah.
+3. Setelah diuji, gabungkan pencabangan perbaikan tadi, dan tempatkan di bagian produksi.
+4. Kembali ke kasus sebelumnya dan kembali bekerja.
 
-### Basic Branching ###
+### Dasar Pencabangan ###
 
-First, let’s say you’re working on your project and have a couple of commits already (see Figure 3-10).
+Pertama, katakan anda sedang mengerjakan sebuah proyek dan telah melakukan *commits* (lihat Gambar 3-10).
 
 Insert 18333fig0310.png 
-Figure 3-10. A short and simple commit history.
+Gambar 3-10. Sejarah *commit* yang pendek dan sederhana.
 
-You’ve decided that you’re going to work on issue #53 in whatever issue-tracking system your company uses. To be clear, Git isn’t tied into any particular issue-tracking system; but because issue #53 is a focused topic that you want to work on, you’ll create a new branch in which to work. To create a branch and switch to it at the same time, you can run the `git checkout` command with the `-b` switch:
+Anda memutuskan untuk mengerjakan masalah #53 pada apapun jenis sistem pelacak-masalah yang digunakan perusahaan. Untuk memperjelas, Git tidak terikat dengan sistem pelacak-masalah apapun; tapi karena masalah #53 adalah inti topik yang akan dikerjakan, anda akan membuat pencabangan dimana anda bekerja. Untuk membuat pencabangan dan berpindah kesana dalam satu waktu, anda dapat menjalankan perintah `git checkout` dengan tanda `-b` :
 
 	$ git checkout -b iss53
 	Switched to a new branch "iss53"
 
-This is shorthand for:
+Ini adalah bentuk singkat untuk :
 
 	$ git branch iss53
 	$ git checkout iss53
 
-Figure 3-11 illustrates the result.
+Gambar 3-11 menjelaskan hasilnya.
 
 Insert 18333fig0311.png 
-Figure 3-11. Creating a new branch pointer.
+Gambar 3-11. Membuat penunjuk baru pencabangan.
 
-You work on your web site and do some commits. Doing so moves the `iss53` branch forward, because you have it checked out (that is, your HEAD is pointing to it; see Figure 3-12):
+Anda bekerja di jejaring *website* dan melakukan beberapa *commits*. Dengan melakukannya, menggeser cabang `iss53` kedepan, karena anda menyelesaikannya (demikianlah, HEAD anda penunjuk ke sana; lihat Gambar 3-12) :
 
 	$ vim index.html
 	$ git commit -a -m 'added a new footer [issue 53]'
 
 Insert 18333fig0312.png 
-Figure 3-12. The iss53 branch has moved forward with your work.
+Gambar 3-12. Cabang iss53 telah bergerak kedepan sesuai pekerjaan anda.
 
 Now you get the call that there is an issue with the web site, and you need to fix it immediately. With Git, you don’t have to deploy your fix along with the `iss53` changes you’ve made, and you don’t have to put a lot of effort into reverting those changes before you can work on applying your fix to what is in production. All you have to do is switch back to your master branch.
 

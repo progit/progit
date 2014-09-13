@@ -97,26 +97,26 @@ Tämä tekee Gitin käyttämisestä hauskaa, koska me tiedämme, että voimme ko
 
 ### Kolme tilaa ###
 
-Lue nyt huolellisesti. Tämä on pääasia muistaa Gitistä, jos sinä haluat lopun opiskeluprosessistasi menevän sulavasti. Gitillä on kolme pääasiallista tilaa, joissa tiedostosi voivat olla: pysyvästi muutettu (commited), muutettu (modified), ja lavastettu (staged). Pysyvästi muutettu tarkoittaa, että data on turvallisesti varastoitu sinun paikalliseen tietokantaasi. Muutettu tarkoittaa, että olet muuttanut tiedostoa, mutta et ole tehnyt vielä pysyvää muutosta tietokantaasi. Lavastettu tarkoittaa, että olet merkannut muutetun tiedoston nykyisessä versiossaan menemään seuraavaan pysyvään tilannekuvaan.
+Lue nyt huolellisesti. Tämä on pääasia muistaa Gitistä, jos sinä haluat lopun opiskeluprosessistasi menevän sulavasti. Gitillä on kolme pääasiallista tilaa, joissa tiedostosi voivat olla: pysyvästi muutettu (commited), muutettu (modified), ja valmisteltu (staged). Pysyvästi muutettu tarkoittaa, että data on turvallisesti varastoitu sinun paikalliseen tietokantaasi. Muutettu tarkoittaa, että olet muuttanut tiedostoa, mutta et ole tehnyt vielä pysyvää muutosta tietokantaasi. Valmisteltu tarkoittaa, että olet merkannut muutetun tiedoston nykyisessä versiossaan menemään seuraavaan pysyvään tilannekuvaan.
 
-Tämä johdattaa meidät kolmeen seuraavaan osaan Git-projektia: Git-hakemisto, työskentelyhakemisto, ja lavastusalue.
+Tämä johdattaa meidät kolmeen seuraavaan osaan Git-projektia: Git-hakemisto, työskentelyhakemisto, ja valmistelualue.
 
 Insert 18333fig0106.png
-Kuva 1-6. Työskentelyhakemisto, lavastusalue, ja Git-hakemisto.
+Kuva 1-6. Työskentelyhakemisto, valmistelualue, ja Git-hakemisto.
 
 Git-hakemisto on paikka, johon Git varastoi metadatan ja oliotietokannan projektillesi. Tämä on kaikkein tärkein osa Gitiä, ja se sisältää sen, mitä kopioidaan, kun kloonaat tietovaraston toiselta tietokoneelta.
 
 Työskentelyhakemisto on yksittäinen tiedonhaku yhdestä projektin versiosta. Nämä tiedostot vedetään ulos pakatusta tietokannasta Git-hakemistosta ja sijoitetaan levylle sinun käytettäväksesi tai muokattavaksesi.
 
-Lavastusalue on yksinkertainen tiedosto, yleensä se sisältyy Git-hakemistoosi, joka varastoi informaatiota siitä, mitä menee seuraavaan pysyvään muutokseen. Sitä viitataan joskus indeksiksi, mutta on tulossa standardiksi viitata sitä lavastusalueeksi.
+Valmistelualue on yksinkertainen tiedosto, yleensä se sisältyy Git-hakemistoosi, joka varastoi informaatiota siitä, mitä menee seuraavaan pysyvään muutokseen. Sitä viitataan joskus indeksiksi, mutta on tulossa standardiksi viitata sitä valmistelualueeksi.
 
 Normaali Git-työnkulku menee jokseenkin näin:
 
 1. Muokkaat tiedostoja työskentelyhakemistossasi.
-2. Lavastat tiedostosi, lisäten niistä tilannekuvia lavastusalueellesi.
-3. Teet pysyvän muutoksen, joka ottaa tiedostot sellaisina, kuin ne ovat lavastusalueella, ja varastoi tämän tilannekuvan pysyvästi sinun Git-tietolähteeseesi.
+2. Valmistelet tiedostosi, lisäten niistä tilannekuvia valmistelualueellesi.
+3. Teet pysyvän muutoksen, joka ottaa tiedostot sellaisina, kuin ne ovat valmistelualueella, ja varastoi tämän tilannekuvan pysyvästi sinun Git-tietolähteeseesi.
 
-Jos tietty versio tiedostosta on Git-hakemistossa, se on yhtä kuin pysyvä muutos. Jos sitä on muokattu, mutta se on lisätty lavastusalueelle, se on lavastettu. Ja jos se on muuttunut siitä, kun se on haettu, mutta sitä ei ole lavastettu, se on muutettu. Luvussa 2 opit enemmän näistä tiloista ja kuinka voit hyödyntää niitä tai ohittaa lavastusosan kokonaan.
+Jos tietty versio tiedostosta on Git-hakemistossa, se on yhtä kuin pysyvä muutos. Jos sitä on muokattu, mutta se on lisätty valmistelualueelle, se on valmisteltu. Ja jos se on muuttunut siitä, kun se on haettu, mutta sitä ei ole valmisteltu, se on muutettu. Luvussa 2 opit enemmän näistä tiloista ja kuinka voit hyödyntää niitä tai ohittaa valmisteluvaiheen kokonaan.
 
 ## Gitin asennus ##
 

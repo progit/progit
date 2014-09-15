@@ -1,4 +1,5 @@
 Chapter 1 - Line 56: 		What is a proper finnish translation for the word "snapshot" in this case? Translated now as 'tilannekuvat'.
 						Multiline: 	What is a proper finnish translation for the word "commit" in this case? Or do we need it, is permanen change (like it is now) enought to tell what it is about?
-						Chapter "The Three Stages" ("Kolme tilaa") has mentioned the "staged" word, what is correct translation for this in finnish? Now translated as "lavastettu".
+						Chapter "The Three Stages" ("Kolme tilaa") has mentioned the "staged" word, what is correct translation for this in finnish? Was translated as "lavastettu".
+                        -> "lavastettu" is an obvious but bad choice, because it's based on another meaning of "stage", not the one that Git uses. Now translated as "valmisteltu".
 						Line 230:		Translation for a word "Backports"

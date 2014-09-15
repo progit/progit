@@ -137,7 +137,7 @@ Anda bekerja di jejaring *website* dan melakukan beberapa *commits*. Dengan mela
 Insert 18333fig0312.png 
 Gambar 3-12. Cabang iss53 telah bergerak kedepan sesuai pekerjaan anda.
 
-Now you get the call that there is an issue with the web site, and you need to fix it immediately. With Git, you don’t have to deploy your fix along with the `iss53` changes you’ve made, and you don’t have to put a lot of effort into reverting those changes before you can work on applying your fix to what is in production. All you have to do is switch back to your master branch.
+Lalu kemudian, saat kita melihat ada permasalahan dalam situs jejaring, dan kita perlu untuk memperbaikinya segera. Dengan Git, anda tidak perlu memasang pembetulannya bersama dengan perubahan di `iss53`, dan anda tidak perlu melakukan cara yang sulit untuk kembali ke pekerjaan anda sebelumnya di tahap produksi. Yang anda perlukan hanya kembali ke pencabangan *master*.
 
 However, before you do that, note that if your working directory or staging area has uncommitted changes that conflict with the branch you’re checking out, Git won’t let you switch branches. It’s best to have a clean working state when you switch branches. There are ways to get around this (namely, stashing and commit amending) that we’ll cover later. For now, you’ve committed all your changes, so you can switch back to your master branch:
 

@@ -139,7 +139,7 @@ Gambar 3-12. Cabang iss53 telah bergerak kedepan sesuai pekerjaan anda.
 
 Lalu kemudian, saat kita melihat ada permasalahan dalam situs jejaring, dan kita perlu untuk memperbaikinya segera. Dengan Git, anda tidak perlu memasang pembetulannya bersama dengan perubahan di `iss53`, dan anda tidak perlu melakukan cara yang sulit untuk kembali ke pekerjaan anda sebelumnya di tahap produksi. Yang anda perlukan hanya kembali ke pencabangan *master*.
 
-However, before you do that, note that if your working directory or staging area has uncommitted changes that conflict with the branch you’re checking out, Git won’t let you switch branches. It’s best to have a clean working state when you switch branches. There are ways to get around this (namely, stashing and commit amending) that we’ll cover later. For now, you’ve committed all your changes, so you can switch back to your master branch:
+Bagaimanapun, sebelum anda melakukannya, perhatikan bahwa jika dalam kandar kerja anda atau kondisi *staging* memiliki perubahan yang bertentangan dengan pencabangan yang akan anda tinggalkan, Git tidak akan memperbolehkan anda berpindah. Ini adalah cara terbaik untuk meninggalkan pekerjaan dalam keadaan bersih ketika anda akan berpindah pencabangan. Ada beberapa cara untuk melakukan ini (*namely*, *stashing*, dan merubah *commit*) yang akan kita bahas berikutnya. Untuk saat ini, anda telah *commit* seluruh perubahan, sehingga anda dapat kembali ke pencabangan *master*:
 
 	$ git checkout master
 	Switched to branch "master"

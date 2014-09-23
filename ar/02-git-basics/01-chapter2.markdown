@@ -183,9 +183,10 @@ Insert 18333fig0201.png
 
 ### مشاهدة التغيّرات المجهّزة والتغيّرات غير المجهّزة ###
 
-If the `git status` command is too vague for you — you want to know exactly what you changed, not just which files were changed — you can use the `git diff` command. We’ll cover `git diff` in more detail later; but you’ll probably use it most often to answer these two questions: What have you changed but not yet staged? And what have you staged that you are about to commit? Although `git status` answers those questions very generally, `git diff` shows you the exact lines added and removed — the patch, as it were. 
+إذا لم تكتف بالمعلومات التي يقدمها لك أمر `git status` يمكنك استخدام أمر `git diff`  للحصول على معلومات تفصيلية حول التغيرات التي طرأت على الملفات. سنقوم لاحقاً بالتعمق في هذا الأمر، لكن الآن سنكتفي بالإشارة إلى الاستخدامات الغالبة له؛ حيث أنك ستستخدمه غالباً للحصول على أجوبة على هذين السؤالين: ما الذي قمنا بالتعديل عليه ولم نجهزه بعد لعملية commit؟ ما الملفات التي أصبحت جاهزة للدخول في عملية commit المقبلة؟
+بالرغم من أنه يمكننا أن نحصل على هذه المعلومات باستخدام أمر `git status` إلا أنّ أمر `git diff` يوضح لنا التغيرات التي جرت على مستوى السطر والحرف - ما الذي قمنا بإضافته وما الذي أزلناه!
 
-Let’s say you edit and stage the README file again and then edit the benchmarks.rb file without staging it. If you run your `status` command, you once again see something like this:
+لنقل أنك قمت بالتعديل على ملف README مرة أخرى وأشرته للإضافة إلى عملية commit وقمت بالتعديل على ملف benchmarks.rb ولم تضفه إلى قائمة الملفات الجاهزة لعملية commit؛ إذا قمت بتنفيذ الأمر `status` ستشاهد مرة أخرى شيئاً من الشكل:
 
 	$ git status
 	# On branch master
@@ -200,7 +201,7 @@ Let’s say you edit and stage the README file again and then edit the benchmark
 	#	modified:   benchmarks.rb
 	#
 
-To see what you’ve changed but not yet staged, type `git diff` with no other arguments:
+لترى ما قمت بالتعديل عليه ولم تجهزه للإضافة نفذ الأمر `git diff` بدون إضافات:
 
 	$ git diff
 	diff --git a/benchmarks.rb b/benchmarks.rb
@@ -219,9 +220,9 @@ To see what you’ve changed but not yet staged, type `git diff` with no other a
 	           log = git.commits('master', 15)
 	           log.size
 
-That command compares what is in your working directory with what is in your staging area. The result tells you the changes you’ve made that you haven’t yet staged.
+يقوم هذا الأمر بعمل مقارنة بين الملفات ضمن مجلد العمل والملفات الموجودة في منطقة التعديلات المجهزة للإضافة staging area. وتخبرنا نتيجته بالتعديلات التي أجريناها ولم نقم بتجهيزها للإضافة إلى عملية commit المقبلة.
 
-If you want to see what you’ve staged that will go into your next commit, you can use `git diff –-cached`. (In Git versions 1.6.1 and later, you can also use `git diff –-staged`, which may be easier to remember.) This command compares your staged changes to your last commit:
+لمشاهدة الملفات ذات الحالة staged والتي ستدخل في عملية commit المقبلة، يمكن استخدام الأمر `git diff --cached` (بالنسبة للإصدارات 1.6.1 وما بعد من git يمكنك أيضاً استخدام الأمر `git diff --staged` )، كالتالي:
 
 	$ git diff --cached
 	diff --git a/README b/README
@@ -236,9 +237,9 @@ If you want to see what you’ve staged that will go into your next commit, you 
 	+
 	+Grit is a Ruby library for extracting information from a Git repository
 
-It’s important to note that `git diff` by itself doesn’t show all changes made since your last commit — only changes that are still unstaged. This can be confusing, because if you’ve staged all of your changes, `git diff` will give you no output.
+من الجدير بالذكر أن أمر `git diff` لوحده لا يقوم بعرض جميع التعديلات التي تمت من آخر commit - فهو يقوم بعرض فقط التعديلات التي لم تؤشر على أنها staged. ويمكن أن يسبب ذلك بعض الإرباك، حيث أنك إذا قمت بإضافة جميع التعديلات إلى قائمة staged فلن يقوم بعرض أي شي في خرج تنفيذه.
 
-For another example, if you stage the benchmarks.rb file and then edit it, you can use `git diff` to see the changes in the file that are staged and the changes that are unstaged:
+كمثال أيضاً، إذا قمنا بإضافة benchmarks.rb إلى قائمة staged ومن ثم قمنا بالتعديل عليه من جديد، يمكننا استخدام أمر `git diff` للحصول على لائحة بالتغييرات التي حصلت ولم تضف إلى قائمة staged كالتالي:
 
 	$ git add benchmarks.rb
 	$ echo '# test line' >> benchmarks.rb
@@ -254,7 +255,6 @@ For another example, if you stage the benchmarks.rb file and then edit it, you c
 	#	modified:   benchmarks.rb
 	#
 
-Now you can use `git diff` to see what is still unstaged
 
 	$ git diff 
 	diff --git a/benchmarks.rb b/benchmarks.rb
@@ -267,7 +267,7 @@ Now you can use `git diff` to see what is still unstaged
 	 ##pp Grit::GitRuby.cache_client.stats 
 	+# test line
 
-and `git diff --cached` to see what you’ve staged so far:
+وباستخدام `git diff --cached` نتمكن من رؤية ما تم تجهيزه للإضافة إلى عملية commit القادمة:
 
 	$ git diff --cached
 	diff --git a/benchmarks.rb b/benchmarks.rb
@@ -286,16 +286,15 @@ and `git diff --cached` to see what you’ve staged so far:
 	          log = git.commits('master', 15)
 	          log.size
 
-### Committing Your Changes ###
+### القيام بعملية (اعتماد) commit للتغيّرات ###
 
-Now that your staging area is set up the way you want it, you can commit your changes. Remember that anything that is still unstaged — any files you have created or modified that you haven’t run `git add` on since you edited them — won’t go into this commit. They will stay as modified files on your disk.
-In this case, the last time you ran `git status`, you saw that everything was staged, so you’re ready to commit your changes. The simplest way to commit is to type `git commit`:
+بعد اكمال تجهيز الملفات التي ترغب بإضافتها إلى النسخة snapshot الجديدة، يمكنك تنفيذ أمر commit ليتم اعتماد التعديلات التي أجريتها في سجل git. تذكر أنّ أي ملف لم يتم تجهيزه - سواء لم تقم بإضافته باستخدام الأمر git add بعد إنشاءه أو التعديل عليه - لن يدخل في هذه الإعتمادية، وستبقى على أنها ملفات تم تعديلها في مجلد العمل. أبسط طريقة لاعتماد التعديلات هي القيام بأمر `git commit` كالتالي:
 
 	$ git commit
 
-Doing so launches your editor of choice. (This is set by your shell’s `$EDITOR` environment variable — usually vim or emacs, although you can configure it with whatever you want using the `git config --global core.editor` command as you saw in Chapter 1). 
+تنفيذ هذا الأمر سيطلب منا إدخال رسالة عملية commit - عادة ما يتم فتح محرر النصوص المشار إليه بمتغير البيئة `$EDITOR`. يمكنك تهيئته عن طريق الأمر `git config --global core.editor` كما شاهدنا في الفصل الأول.
 
-The editor displays the following text (this example is a Vim screen):
+يقوم محرر النصوص بعرض هذه الشاشة (مثالنا باستخدام VIM):
 
 	# Please enter the commit message for your changes. Lines starting
 	# with '#' will be ignored, and an empty message aborts the commit.
@@ -310,20 +309,20 @@ The editor displays the following text (this example is a Vim screen):
 	~
 	".git/COMMIT_EDITMSG" 10L, 283C
 
-You can see that the default commit message contains the latest output of the `git status` command commented out and one empty line on top. You can remove these comments and type your commit message, or you can leave them there to help you remember what you’re committing. (For an even more explicit reminder of what you’ve modified, you can pass the `-v` option to `git commit`. Doing so also puts the diff of your change in the editor so you can see exactly what you did.) When you exit the editor, Git creates your commit with that commit message (with the comments and diff stripped out).
+يمكنك ملاحظة أن رسالة عملية commit تحوي على خرج آخر عملية `git status` على شكل تعليقات بالإضافة إلى سطر فارغ في بداية الملف. يمكنك إزالة هذه التعليقات، أو يمكنك تركها لمساعدتك بتذكر ما قمت باعتماد تعديلاته. يمكنك الحصول على معلومات أكثر تفصلياً إذا قمت بتمرير الخيار `-v` إلى الأمر `git commit`. حيث يقوم ذلك بإضافة خرج أمر `git diff` إلى رسالة commit على شكل تعليقات أيضاً. عند إغلاق المحرر يقوم git بإنشاء commit ويتجاهل التعليقات.
 
-Alternatively, you can type your commit message inline with the `commit` command by specifying it after a -m flag, like this:
+علماً أنّه يمكنك كتابة رسالة الاعتمادية مباشرة من خلال تمرير الخيار `-m` إلى الأمر `git commit` على الشكل التالي:
 
 	$ git commit -m "Story 182: Fix benchmarks for speed"
 	[master]: created 463dc4f: "Fix benchmarks for speed"
 	 2 files changed, 3 insertions(+), 0 deletions(-)
 	 create mode 100644 README
 
-Now you’ve created your first commit! You can see that the commit has given you some output about itself: which branch you committed to (master), what SHA-1 checksum the commit has (`463dc4f`), how many files were changed, and statistics about lines added and removed in the commit.
+مبروك، لقد قمت بعمل أول commit لك! يعطيك خرج العملية معلومات عنها: في أي فرع branch تم الإعتماد (هنا master)، ما قيمة هاش SHA-1 الخاصة بالعملية ( هنا `463dc4f`)، عدد الملفات التي تغيّرت، بالإضافة إلى إحصاءات حول الأسطر التي أضيفت وأزيلت في هذه العملية.
 
-Remember that the commit records the snapshot you set up in your staging area. Anything you didn’t stage is still sitting there modified; you can do another commit to add it to your history. Every time you perform a commit, you’re recording a snapshot of your project that you can revert to or compare to later.
+تذكر أنّ عملية commit تأخذ صورة عن الملفات في قائمة staged. أي شيء لم تقم بإضافته إلى هذه القائمة ما زال في مجلد العمل بحالة "معدل" modified؛ يمكنك القيام بإضافتهم من خلال عملية commit جديدة إلى التأريخ في git. نستنتج أنّه في كل عملية commit يقوم git بأخذ "صورة" snapshot عن المشروع يمكننا العودة لها لاحقاً أو مقارنتها أو غير ذلك..
 
-### Skipping the Staging Area ###
+### تجاوز منطقة التجهيز Staging Area ###
 
 Although it can be amazingly useful for crafting commits exactly how you want them, the staging area is sometimes a bit more complex than you need in your workflow. If you want to skip the staging area, Git provides a simple shortcut. Providing the `-a` option to the `git commit` command makes Git automatically stage every file that is already tracked before doing the commit, letting you skip the `git add` part:
 

@@ -584,7 +584,7 @@ Cette commande vous fournit une branche locale modifiable basée sur l'état act
 L'extraction d'une branche locale à partir d'une branche distante crée automatiquement ce qu'on appelle une _branche de suivi_.
 Les branches de suivi sont des branches locales qui sont en relation directe avec une branche distante.
 Si vous vous trouvez sur une branche de suivi et que vous tapez `git push`, Git sélectionne automatiquement le serveur vers lequel pousser vos modifications.
-De même, `git pull` sur une de ces branches récupère toutes les références distantes et les fusionne automatiquement dans la branche distante correspondante.
+De même, `git pull` sur une de ces branches récupère toutes les références distantes et fusionne automatiquement la branche distante correspondante dans la branche actuelle.
 
 Lorsque vous clonez un dépôt, il crée généralement automatiquement une branche `master` qui suit `origin/master`.
 C'est pourquoi les commandes `git push` et `git pull` fonctionnent directement sans plus de paramétrage.

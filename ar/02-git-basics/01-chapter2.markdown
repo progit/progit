@@ -165,7 +165,7 @@ Insert 18333fig0201.png
 *	يمكن إنهاء النمط برمز (/) للدلالة على أنه يستهدف مجلداً.
 *	يمكن نفي نمط ما عن طريق وضع علامة التعجب (!) في بداية السطر قبل النمط.
 
-أنماط Glob عبارة عن نسخة مبسطة من Regular Expressions يتم استخدامها ضمن واجهة الأوامر shell. رمز النجمة (*) يطابق صفر-محرفاً أو أكثر. `[abc]` تطابق أي محارف ضمن الأقواس المربعة في هذه الحالة تكون a b c؛ علامة الاستفهام (?) تطابق محرفاً واحداً فقط؛ بينما تطابق الأقواس المربعة التي تحوي على محارف مفصولة بإشارة hyphen أي محرفاً يقع في المجال بين محرف البداية والنهاية - مثلا [0-9] يطابق محارف الأرقام بين 0 و 9 ضمناً.
+أنماط Glob عبارة عن نسخة مبسطة من Regular Expressions يتم استخدامها ضمن واجهة الأوامر shell. رمز النجمة (`*`) يطابق صفر-محرفاً أو أكثر. `[abc]` تطابق أي محارف ضمن الأقواس المربعة في هذه الحالة تكون a b c؛ علامة الاستفهام (?) تطابق محرفاً واحداً فقط؛ بينما تطابق الأقواس المربعة التي تحوي على محارف مفصولة بإشارة hyphen أي محرفاً يقع في المجال بين محرف البداية والنهاية - مثلا [0-9] يطابق محارف الأرقام بين 0 و 9 ضمناً.
 
 مثال عن ملف .gitignore:
 
@@ -324,7 +324,7 @@ Insert 18333fig0201.png
 
 ### تجاوز منطقة التجهيز Staging Area ###
 
-Although it can be amazingly useful for crafting commits exactly how you want them, the staging area is sometimes a bit more complex than you need in your workflow. If you want to skip the staging area, Git provides a simple shortcut. Providing the `-a` option to the `git commit` command makes Git automatically stage every file that is already tracked before doing the commit, letting you skip the `git add` part:
+منطقة التجهيز تكون أحياناً معقدة أكثر مما تحتاج في عملك إلا أنّها مفيدة لعمل commits تماماً كما تودهم أن يكونوا. إذا أردت تجاوز منطقة التجهيز، يوفر git اختصاراً بسيطاً لذلك. باستخدام الأمر `git commit -a` يقوم git بإضافة الملفات المتتبعة إلى منطقة التجهيز بشكل تلقائي، كأنك قمت بعمل `git add`:
 
 	$ git status
 	# On branch master
@@ -337,13 +337,13 @@ Although it can be amazingly useful for crafting commits exactly how you want th
 	[master 83e38c7] added new benchmarks
 	 1 files changed, 5 insertions(+), 0 deletions(-)
 
-Notice how you don’t have to run `git add` on the benchmarks.rb file in this case before you commit.
+لاحظ بأنك لاتحتاج إلى تنفيذ الأمر `git add` على ملف benchmark.rb قبل القيام بعملية commit.
 
-### Removing Files ###
+### إزالة الملفات ###
 
-To remove a file from Git, you have to remove it from your tracked files (more accurately, remove it from your staging area) and then commit. The `git rm` command does that and also removes the file from your working directory so you don’t see it as an untracked file next time around.
+لحذف ملف من git، يجب عليك إزالته من قائمة الملفات المتتبعة (وبشكل أدق، إزالته من منطقة التجهيز) ومن ثم القيام بعملية commit. الأمر `git rm` يقوم بعمل ذلك كما يقوم بحذف الملف من مجلد العمل الخاص بك لذا لن تراه بعد الآن في قائمة الملفات غير المتتبعة في المرة المقبلة.
 
-If you simply remove the file from your working directory, it shows up under the “Changes not staged for commit” (that is, _unstaged_) area of your `git status` output:
+إذا قمت بإزالة الملف من مجلد العمل، يظهر تحت بند "تعديلات غير مجهزة للاعتماد" (أي _unstaged_) من خرج الأمر `git status`:
 
 	$ rm grit.gemspec
 	$ git status
@@ -355,7 +355,7 @@ If you simply remove the file from your working directory, it shows up under the
 	#       deleted:    grit.gemspec
 	#
 
-Then, if you run `git rm`, it stages the file’s removal:
+فإذا قمت بتنفيذ أمر `git rm` يقوم بتجهيز عملية الحذف ليتم اعتمادها:
 
 	$ git rm grit.gemspec
 	rm 'grit.gemspec'
@@ -368,31 +368,31 @@ Then, if you run `git rm`, it stages the file’s removal:
 	#       deleted:    grit.gemspec
 	#
 
-The next time you commit, the file will be gone and no longer tracked. If you modified the file and added it to the index already, you must force the removal with the `-f` option. This is a safety feature to prevent accidental removal of data that hasn’t yet been recorded in a snapshot and that can’t be recovered from Git.
+وفي المرة المقبلة التي ستقوم فيها بعمل commit، سيتم إزالة الملف من قائمة التتبع. إذا قمت مسبقاً بتعديل الملف وإضفته إلى الفهرس، يجب عليه تنفيذ عملية الحذف قسرياً وذلك بإضافة الخيار `-f`. يتم اتباع هذه الطريقة بغية حماية البيانات من أية عمليات حذف "عرضية" لملفات لم يتم تسجيلها ضمن git ولايمكن استعادتها بعد ذلك.
 
-Another useful thing you may want to do is to keep the file in your working tree but remove it from your staging area. In other words, you may want to keep the file on your hard drive but not have Git track it anymore. This is particularly useful if you forgot to add something to your `.gitignore` file and accidentally added it, like a large log file or a bunch of `.a` compiled files. To do this, use the `--cached` option:
+أما إذا أردت إزالة الملف من منطقة التجهيز مع الحفاظ عليه في مجلد العمل (أي إزالته من تتبع git مع بقاءه على وسيطة التخزين) - وهو شيء مفيد إذا قمت بنسيان إضافة شيء ما إلى ملف `.gitignore` وأضفته عن طريق الخطأ ؛ كملف log كبير مثلاً - استخدم الخيار `--cached` مع الأمر `git rm` كالتالي:
 
 	$ git rm --cached readme.txt
 
-You can pass files, directories, and file-glob patterns to the `git rm` command. That means you can do things such as
+يمكنك تمرير أسماء ملفات، مجلدات، وأنماط glob للأمر `git rm`. وهذا يعني بأنه يمكننا عمل أشياء كالتالي:
 
 	$ git rm log/\*.log
 
-Note the backslash (`\`) in front of the `*`. This is necessary because Git does its own filename expansion in addition to your shell’s filename expansion. This command removes all files that have the `.log` extension in the `log/` directory. Or, you can do something like this:
+لاحظ الشرطة العكسية (`\`) قبل رمز النجمة `*`. إنّها ضرورية لأن git يقوم بعمل توسعة الأسماء الخاصة به بالإضافة إلى التوسعة الخاصة بسطر الأوامر. هذا الأمر يقوم بحذف كافة الملفات التي تملك اللاحقة `.log` في مجلد `/log`. أو يمكنك عمل شيء كالتالي:
 
 	$ git rm \*~
 
-This command removes all files that end with `~`.
+وهذا الأمر يقوم بحذف كافة الملفات المنتهية بالمحرف `~`.
 
-### Moving Files ###
+### نقل الملفات ###
 
-Unlike many other VCS systems, Git doesn’t explicitly track file movement. If you rename a file in Git, no metadata is stored in Git that tells it you renamed the file. However, Git is pretty smart about figuring that out after the fact — we’ll deal with detecting file movement a bit later.
+على خلاف أغلب أنظمة إدارة الإصدارات VCS الأخرى، لا يقوم git بتعقب حركة الملفات بشكل صريح. إذا قمت بإعادة تسمية ملف ضمن git، لايتم تسجيل أي بيانات وصفية metadata في git تقوم بأنك قمت بإعادة تسمية الملف. لكن، git ذكي جداً في استعياب ذلك - وسنقوم بمناقشة الأمر بعد قليل.
 
-Thus it’s a bit confusing that Git has a `mv` command. If you want to rename a file in Git, you can run something like
+إذا أردت القيام بإعادة تسمية ملف يمكنك استخدام أمر `mv` في git كالتالي:
 
 	$ git mv file_from file_to
 
-and it works fine. In fact, if you run something like this and look at the status, you’ll see that Git considers it a renamed file:
+إذا قمنا بتنفيذ الأمر والنظر إلى خرج أمر `git status`:
 
 	$ git mv README.txt README
 	$ git status
@@ -405,23 +405,23 @@ and it works fine. In fact, if you run something like this and look at the statu
 	#       renamed:    README.txt -> README
 	#
 
-However, this is equivalent to running something like this:
+وهو مكافئ للقيام بتنفيذ الأوامر التالي على التسلسل:
 
 	$ mv README.txt README
 	$ git rm README.txt
 	$ git add README
 
-Git figures out that it’s a rename implicitly, so it doesn’t matter if you rename a file that way or with the `mv` command. The only real difference is that `mv` is one command instead of three — it’s a convenience function. More important, you can use any tool you like to rename a file, and address the add/rm later, before you commit.
+يدرك git بأنك قمت بعملية إعادة تسمية، لذا فالإختلاف الوحيد بين الطريقتين هو أنّ `git mv` عبارة عن أمر واحد، وليس ثلاثة أوامر. يمكن الاستفادة من هذه الخاصة باستخدام أية أدوات للقيام بعمليات إعادة التسمية، واستخدام add/rm قبل القيام بعملية commit.
 
-## Viewing the Commit History ##
+## مراجعة تأريخ عمليات commit ##
 
-After you have created several commits, or if you have cloned a repository with an existing commit history, you’ll probably want to look back to see what has happened. The most basic and powerful tool to do this is the `git log` command.
+بعد قيامك بعدد من عمليات الاعتماد commit، أو استنساخ repository بسجل تأريخ، ربما ستود إلقاء نظرة على ما جرى. أبسط وأقوى أداة لعمل ذلك هي الأمر `git log`.
 
-These examples use a very simple project called simplegit that I often use for demonstrations. To get the project, run 
+هذه الأمثلة تستخدم مشروع بسيط جداً يدعى simplegit أقوم باستخدامه في عمليات العرض بأغلب الأحيان. للحصول على المشروع قم باستنساخه عن موقع github كالتالي:
 
 	git clone git://github.com/schacon/simplegit-progit.git
 
-When you run `git log` in this project, you should get output that looks something like this:
+عندما تقوم بعمل `git log` ضمن المشروع، سيظهر لديك خرج مشابه للتالي:
 
 	$ git log
 	commit ca82a6dff817ec66f44342007202690a93763949
@@ -442,11 +442,11 @@ When you run `git log` in this project, you should get output that looks somethi
 
 	    first commit
 
-By default, with no arguments, `git log` lists the commits made in that repository in reverse chronological order. That is, the most recent commits show up first. As you can see, this command lists each commit with its SHA-1 checksum, the author’s name and e-mail, the date written, and the commit message.
+بتنفيذ الأمر بدون بارمترات، يقوم git بعرض عمليات commit في repository بترتيب زمني معكوس - من الأحدث إلى الأقدم. كما يقوم بعرض بجانب كل commit هاش SHA-1 checksum الخاص بها، اسم وبريد الكاتب الإلكتروني، تاريخ الاعتماد، ورسالة الاعتماد.
 
-A huge number and variety of options to the `git log` command are available to show you exactly what you’re looking for. Here, we’ll show you some of the most-used options.
+يمكن إرفاق الأمر `git log` بعدد كبير من الخيارات للحصول على المعلومات التي نريدها بالضبط.. تجد في الأسفل مثالاً عن أكثر الخيارات استخداماً.
 
-One of the more helpful options is `-p`, which shows the diff introduced in each commit. You can also use `-2`, which limits the output to only the last two entries:
+أحد أهم الخيارات هو `-p`، والذي يقوم بإظهار الفوارق المستحدثة بين عمليات commit المختلفة. يمكن أيضاً استخدام الخيار `-2` ليحد خرج النتيجة إلى آخر عمليتين:
 
 	$ git log –p -2
 	commit ca82a6dff817ec66f44342007202690a93763949
@@ -486,8 +486,7 @@ One of the more helpful options is `-p`, which shows the diff introduced in each
 	-end
 	\ No newline at end of file
 
-This option displays the same information but with a diff directly following each entry. This is very helpful for code review or to quickly browse what happened during a series of commits that a collaborator has added.
-You can also use a series of summarizing options with `git log`. For example, if you want to see some abbreviated stats for each commit, you can use the `--stat` option:
+هذا الخيار يعرض نفس المعلومات بالإضافة خرج diff بعده مباشرة. فهو مهم جداً من أجل مراجعة الكود واستعراض ما الذي تغير بشكل سريع ضمن سلسلة من عمليات commit. يمكنك أيضاً استخدام خيارات للتلخيص مع أمر `git log`. على سبيل المثال، إذا أردت رؤية بعض الإحصاءات المختصرة لكل commit، يمكنك استخدام الخيار `stat`:
 
 	$ git log --stat 
 	commit ca82a6dff817ec66f44342007202690a93763949
@@ -519,43 +518,43 @@ You can also use a series of summarizing options with `git log`. For example, if
 	 lib/simplegit.rb |   25 +++++++++++++++++++++++++
 	 3 files changed, 54 insertions(+), 0 deletions(-)
 
-As you can see, the `--stat` option prints below each commit entry a list of modified files, how many files were changed, and how many lines in those files were added and removed. It also puts a summary of the information at the end.
-Another really useful option is `--pretty`. This option changes the log output to formats other than the default. A few prebuilt options are available for you to use. The oneline option prints each commit on a single line, which is useful if you’re looking at a lot of commits. In addition, the `short`, `full`, and `fuller` options show the output in roughly the same format but with less or more information, respectively:
+كما ترى باستخدام الخيار `--stat` يتم عرض قائمة من الملفات المعدلة، عدد الملفات التي تغيرت، وعدد الأسطر التي أضيفت أو أزيلت. كما يضع ملخصاً للمعلومات في النهاية.
+يوجد خيار مفيد آخر وهو `--pretty`. هذا الخيار يغير خرج السل إلى صيغ غير الافتراضية. يوجد بعضها مركب مسبقاً. مثلاً `oneline` يقوم بطباعة كل commit على سطر لوحدها، وهذا أمر مفيد في حال كنت تنظر إلى العديد من عمليات commit. بالإضافة إلى `short`، `full` و `fuller` والتي تعرض خرجاً تقريباً بنفس الصيغة مع معلومات أكثر أو أقل:
 
 	$ git log --pretty=oneline
 	ca82a6dff817ec66f44342007202690a93763949 changed the version number
 	085bb3bcb608e1e8451d4b2432f8ecbe6306e7e7 removed unnecessary test code
 	a11bef06a3f659402fe7563abf99ad00de2209e6 first commit
 
-The most interesting option is `format`, which allows you to specify your own log output format. This is especially useful when you’re generating output for machine parsing — because you specify the format explicitly, you know it won’t change with updates to Git:
+أكثر الخيارات أهمية هو `format`، والذي يسمح لك بتحديد صيغة الخرج بشكل صريح بما يتناسب مع إعرابها آلياً - حيث أنك تعرف أنّه لن يتغير عند التحديث إلى git:
 
 	$ git log --pretty=format:"%h - %an, %ar : %s"
 	ca82a6d - Scott Chacon, 11 months ago : changed the version number
 	085bb3b - Scott Chacon, 11 months ago : removed unnecessary test code
 	a11bef0 - Scott Chacon, 11 months ago : first commit
 
-Table 2-1 lists some of the more useful options that format takes.
+الجدول 2-1 يعرض بعض الخيارات المفيدة التي يمكن إضافتها إلى الصيغة.
 
-	Option	Description of Output
-	%H	Commit hash
-	%h	Abbreviated commit hash
-	%T	Tree hash
-	%t	Abbreviated tree hash
-	%P	Parent hashes
-	%p	Abbreviated parent hashes
-	%an	Author name
-	%ae	Author e-mail
-	%ad	Author date (format respects the –date= option)
-	%ar	Author date, relative
-	%cn	Committer name
-	%ce	Committer email
-	%cd	Committer date
-	%cr	Committer date, relative
-	%s	Subject
+	الخيار	وصف الخرج
+	%H	Commit هاش
+	%h	الهاش الاعتمادي المختصر
+	%T	هاش الشجرة
+	%t	هاش الشجرة المختصر
+	%P	هاشات الوالد
+	%p	هاشات الوالد المختصرة
+	%an	اسم الكاتب
+	%ae	بريد الكاتب الإلكتروني
+	%ad	تاريخ الكاتب (يراعي الصيغة –date= option)
+	%ar	تاريخ الكاتب - نسبياً
+	%cn	اسم منفذ الاعتماد
+	%ce	بريد منفذ الاعتماد الإلكتروني
+	%cd	تاريخ منفذ الاعتماد
+	%cr	تاريخ منفذ الاعتماد - نسبياً
+	%s	العنوان
 
-You may be wondering what the difference is between _author_ and _committer_. The author is the person who originally wrote the work, whereas the committer is the person who last applied the work. So, if you send in a patch to a project and one of the core members applies the patch, both of you get credit — you as the author and the core member as the committer. We’ll cover this distinction a bit more in Chapter 5.
+قد تتسائل عن الاختلاف بين _الكاتب_ AUTHOR و _منفذ الاعتماد_ COMMITTER. الكاتب هو الشخص الذي كتب العمل بداية، بينما منفذ الاعتماد هو آخر شخص طبق العمل. لذا، إذا أرسلت باتشاً إلى مشروع وأحد المطورين الرئيسين قام بتطبيق الباتش، تأخذان كلاكما الاعتمادية - أنت ككاتب وهو كمنفذ اعتماد.
 
-The oneline and format options are particularly useful with another `log` option called `--graph`. This option adds a nice little ASCII graph showing your branch and merge history, which we can see our copy of the Grit project repository:
+وتكون هذه الخيارات مفيدة أكثر بالترافق مع الخيار `--graph`. حيث يضيف هذا الأمر غراف ASCII بسيط يوضح تأريخ الأفرع و الدمج، لاحظ التالي:
 
 	$ git log --pretty=format:"%h %s" --graph
 	* 2d3acf9 ignore errors from SIGCHLD on trap
@@ -569,17 +568,17 @@ The oneline and format options are particularly useful with another `log` option
 	* d6016bc require time for xmlschema
 	*  11d191e Merge branch 'defunkt' into local
 
-Those are only some simple output-formatting options to `git log` — there are many more. Table 2-2 lists the options we’ve covered so far and some other common formatting options that may be useful, along with how they change the output of the log command.
+يوجد مجموعة من الخيارات البسيطة مع أمر `git log`. يوضح الجدول 2-2 قائمة من الخيارات التي قمنا بتغطيتها حتى الآن وبعض صيغ التنسيق الشائعة والتي قد تكون مفيدة، وبجانبها شرح مبسط عن التغيير الذي تجريه على الخرج.
 
-	Option	Description
-	-p	Show the patch introduced with each commit.
-	--stat	Show statistics for files modified in each commit.
+	الخيار	الوصف
+	-p	يظهر الباتش المدخل مع كل عملية commit.
+	--stat	يظهر إحصاءات حول التعديلات التي حصلت على الملفات مع كل عملية commit.
 	--shortstat	Display only the changed/insertions/deletions line from the --stat command.
-	--name-only	Show the list of files modified after the commit information.
-	--name-status	Show the list of files affected with added/modified/deleted information as well.
-	--abbrev-commit	Show only the first few characters of the SHA-1 checksum instead of all 40.
+	--name-only	يظهر قائمة الملفات المعدلة.
+	--name-status	يظهر قائمة الملفات المعدلة عن طريق الإضافة والحذف وغير ذلك.
+	--abbrev-commit	يظهر أول مجموعة من هاش SHA-1 بدلاً عن كامل الأحرف 40.
 	--relative-date	Display the date in a relative format (for example, “2 weeks ago”) instead of using the full date format.
-	--graph	Display an ASCII graph of the branch and merge history beside the log output.
+	--graph	عرض غراف ASCII مع الخرج يظهر عمليات التفريع و الدمج.
 	--pretty	Show commits in an alternate format. Options include oneline, short, full, fuller, and format (where you specify your own format).
 
 ### Limiting Log Output ###

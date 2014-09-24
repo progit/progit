@@ -144,7 +144,7 @@ Bagaimanapun, sebelum anda melakukannya, perhatikan bahwa jika dalam kandar kerj
 	$ git checkout master
 	Switched to branch "master"
 
-At this point, your project working directory is exactly the way it was before you started working on issue #53, and you can concentrate on your hotfix. This is an important point to remember: Git resets your working directory to look like the snapshot of the commit that the branch you check out points to. It adds, removes, and modifies files automatically to make sure your working copy is what the branch looked like on your last commit to it.
+Saat ini, anda berada dalam kandar kerja dalam kondisi tepat seperti anda belum mengerjakan masalah #53, dan anda dapat konsentrasi mengerjakan perbaikannya. Hal yang perlu diingat adalah: Git mengkondisikan kandar kerja anda agar terlihat sebagaimana anda kembali ke titik pencabangan yang anda tuju. Git menambahkan, menghapus, dan mengubah berkas secara otomatis untuk memastikan bahwa anda bekerja pada pencabangan terakhir yang anda *commit*.
 
 Next, you have a hotfix to make. Let’s create a hotfix branch on which to work until it’s completed (see Figure 3-13):
 

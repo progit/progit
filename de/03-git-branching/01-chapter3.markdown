@@ -724,7 +724,7 @@ Wenn Du ein Repository klonst, wird automatisch ein `master`-Branch erzeugt, wel
 
 <!--To set up a local branch with a different name than the remote branch, you can easily use the first version with a different local branch name:-->
 
-Um einen lokalen Branch mit einem anderem Namen als der Remote-Branch, kannst Du einfach die erste Varianten mit einem neuen lokalen Branch-Namen:
+Um einen lokalen Branch mit einem anderen Namen zu versehen als jenem im Remote-Branch, kannst Du einfach die erste Variante mit einem neuen lokalen Branch-Namen verwenden:
 
 	$ git checkout -b sf origin/serverfix
 	Branch sf set up to track remote branch serverfix from origin.

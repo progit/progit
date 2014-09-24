@@ -581,30 +581,30 @@ Insert 18333fig0201.png
 	--graph	عرض غراف ASCII مع الخرج يظهر عمليات التفريع و الدمج.
 	--pretty	Show commits in an alternate format. Options include oneline, short, full, fuller, and format (where you specify your own format).
 
-### Limiting Log Output ###
+### تحديد خرج السجل ###
 
-In addition to output-formatting options, git log takes a number of useful limiting options — that is, options that let you show only a subset of commits. You’ve seen one such option already — the `-2` option, which show only the last two commits. In fact, you can do `-<n>`, where `n` is any integer to show the last `n` commits. In reality, you’re unlikely to use that often, because Git by default pipes all output through a pager so you see only one page of log output at a time.
+بالإضافة تحديد شكل الخرج، يسمح git بأخذ مجموعة جزئية فقط من الخرج. وقد قمت بمشاهدة ذلك مسبقاً - الخيار `-2` المستخدم لعرض آخر عمليتي commit. في الواقع يمكنك استخدام `-<n>` حيث `n` هي عدد صحيح لعرض آخر `n` عملية commit. في الحقيقة، لن تستخدمها على الغالب، لأن git يقوم بتمرير كامل الخرج لبرنامج تصفح لتتمكن من تصفح عمليات commit صفحة صفحة.
 
-However, the time-limiting options such as `--since` and `--until` are very useful. For example, this command gets the list of commits made in the last two weeks:
+من الخيارات الهامة جداً، المحددات الزمنية مثل `--since` و `--until`. على سبيل المثال، هذا الأمر يعطيك قائمة بعمليات commit التي حصلت في آخر أسبوعين:
 
 	$ git log --since=2.weeks
 
-This command works with lots of formats — you can specify a specific date (“2008-01-15”) or a relative date such as “2 years 1 day 3 minutes ago”.
+ويعمل هذا الأمر مع أنواع كثيرة من الصيغ - يمكنك تحديد تاريخ محدد ("2008-01-15") أو تاريخ نسبي مثل "2 years 1 day 3 minutes ago".
 
-You can also filter the list to commits that match some search criteria. The `--author` option allows you to filter on a specific author, and the `--grep` option lets you search for keywords in the commit messages. (Note that if you want to specify both author and grep options, you have to add `--all-match` or the command will match commits with either.)
+يكطمط أيضاً تصفية قائمة عمليات commit من خلال محددات البحث. مثلاً خيار `--author` يقوم بتصفية النتائج وفق كاتب محدد، و `--grep` يقوم بالفلترة عن طريق كلمة مفتاحية. (لاحظ أنّه إذا قمت بإضافة  خياراي author و grep، يجب عليك إضافة الخيار `--all-match` أو سيقوم git بعمل مطابقة مع أحدهما فقط).
 
-The last really useful option to pass to `git log` as a filter is a path. If you specify a directory or file name, you can limit the log output to commits that introduced a change to those files. This is always the last option and is generally preceded by double dashes (`--`) to separate the paths from the options.
+آخر الخيارات الهامة التي يمكن تمريرها إلى الأمر `git log` كمصناف هي المسار. إذا قمت بتحديد مجلد أو اسم ملف، يمكنك تحديد الخرج إلى عمليات commit التي آثرت في هذا المسار. ودائماً ما يكون آخر خيار  يوضع في `log` ويسبق بداشين double dashes (`--`) ليفصل المسارات عن الخيارات.
 
-In Table 2-3 we’ll list these and a few other common options for your reference.
+في الجدول 2-3 - نعرض الخيارات التي يمكن إضافتها مع log.
 
-	Option	Description
-	-(n)	Show only the last n commits
-	--since, --after	Limit the commits to those made after the specified date.
-	--until, --before	Limit the commits to those made before the specified date.
-	--author	Only show commits in which the author entry matches the specified string.
-	--committer	Only show commits in which the committer entry matches the specified string.
+	خيار	وصف
+	-(n)	يظهر آن n عملية commit.
+	--since, --after	تحديد عمليات commit بعد التاريخ الذي يتلوها.
+	--until, --before	تحديد عمليات commit حتى التاريخ الذي يتلوها.
+	--author	فقط أظهر عمليات commit التابعة لهذا الكاتب.
+	--committer	فقط أظهر عمليات commit التابعة لهذا المعتمد.
 
-For example, if you want to see which commits modifying test files in the Git source code history were committed by Junio Hamano and were not merges in the month of October 2008, you can run something like this:
+على سبيل المثال، إذا أردت رؤية أي عمليات commit عدلت ملفات الاختبار في تأريخ الكود المصدري والتي قام Junio Hamano بعملها ولم يتم دمجها في شهر أوكتوبر 2008، يمكن كتابة هذا الأمر:
 
 	$ git log --pretty="%h - %s" --author=gitster --since="2008-10-01" \
 	   --before="2008-11-01" --no-merges -- t/
@@ -615,7 +615,7 @@ For example, if you want to see which commits modifying test files in the Git so
 	51a94af - Fix "checkout --track -b newbranch" on detac
 	b0ad11e - pull: allow "git pull origin $something:$cur
 
-Of the nearly 20,000 commits in the Git source code history, this command shows the 6 that match those criteria.
+من بين 20 ألف عملية commit تقريباً في تأريخ git الخاص بهذا الكود المصدري، أظهر الأمر فقط عمليات الاعتماد الستة المطابقة لمحددات البحث.
 
 ### Using a GUI to Visualize History ###
 

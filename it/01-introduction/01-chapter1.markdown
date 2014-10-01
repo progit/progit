@@ -41,7 +41,7 @@ Inoltre, molti di questi sistemi trattano bene l'avere più repository remoti su
 
 ## Una Breve Storia di Git ##
 
-Come per molte grandi cose della vita, Git è nato con un po' di distruzione creativa e polemiche infuocate. Il kernel di Linux è un progetto software open source di grande portata abbastanza. Per buona parte del tempo (1991-2002) della manutenzione del kernel Linux le modifiche al software venivano passate sotto forma di patch e file compressi. Nel 2002, il progetto del kernel Linux iniziò ad utilizzare un sistema DVCS proprietario chiamato BitKeeper.
+Come per molte grandi cose della vita, Git è nato con un po' di distruzione creativa e polemiche infuocate. Il kernel di Linux è un progetto software open source di grande portata. Per buona parte del tempo (1991-2002) della manutenzione del kernel Linux le modifiche al software venivano passate sotto forma di patch e file compressi. Nel 2002, il progetto del kernel Linux iniziò ad utilizzare un sistema DVCS proprietario chiamato BitKeeper.
 
 Nel 2005 il rapporto tra la comunità che sviluppa il kernel Linux e la società commerciale che aveva sviluppato BitKeeper si ruppe, e fu revocato l'uso gratuito di BitKeeper. Ciò indusse la comunità di sviluppo di Linux (e in particolare Linus Torvalds, il creatore di Linux) a sviluppare uno strumento proprio, basandosi su alcune delle lezioni apprese durante l'utilizzo di BitKeeper. Alcuni degli obiettivi del nuovo sistema erano i seguenti:
 
@@ -69,7 +69,7 @@ Git non considera i dati né li registra in questo modo. Git considera i propri 
 Insert 18333fig0105.png 
 Figura 1-5.  Git immagazzina i dati come snapshot del progetto nel tempo.
 
-Questa è una distinzione importante tra Git e pressocché tutti gli altri VCS. Git riconsidera quasi tutti gli aspetti del controllo di versione che la maggior parte degli altri sistemi ha copiato dalle generazioni precedenti. Questo rende Git più simile a un mini filesystem con a dispoizione strumenti incredibilmente potenti che un semplice VCS. Esploreremo alcuni benefici che ottieni pensando in questo modo ai tuoi dati vedremo le ramificazioni (i _branch_) in Git nel Capitolo 3.
+Questa è una distinzione importante tra Git e pressocché tutti gli altri VCS. Git riconsidera quasi tutti gli aspetti del controllo di versione che la maggior parte degli altri sistemi ha copiato dalle generazioni precedenti. Questo rende Git più simile a un mini filesystem con a disposizione strumenti incredibilmente potenti che un semplice VCS. Esploreremo alcuni benefici che ottieni pensando in questo modo ai tuoi dati e vedremo le ramificazioni (i _branch_) in Git nel Capitolo 3.
 
 ### Quasi Tutte le Operazioni Sono Locali ###
 
@@ -81,13 +81,13 @@ Questo significa anche che sono pochissime le cose che non puoi fare se sei offl
 
 ### Git Ha Integrità ###
 
-Qualsiasi cosa in Git è controllata, tramite checksum, prima di essere salvata ed è referenziata da un checksum. Questo significa che è impossibile cambiare il contenuto di qualsiasi file o directory senza che Git lo sappia. Questa è una funzionalità interna di basso livello di Git ed è intrinseco della sua filosofia. Non può capira che delle informazioni in transito si perdano o che un file si corrompa senza che Git non sia in grado di accorgersene.
+Qualsiasi cosa in Git è controllata, tramite checksum, prima di essere salvata ed è referenziata da un checksum. Questo significa che è impossibile cambiare il contenuto di qualsiasi file o directory senza che Git lo sappia. Questa è una funzionalità interna di basso livello di Git ed è intrinseco della sua filosofia. Non può capitare che delle informazioni in transito si perdano o che un file si corrompa senza che Git non sia in grado di accorgersene.
 
 Il meccanismo che Git usa per fare questo checksum è un hash chiamato SHA-1. Si tratta di una stringa di 40-caratteri, composta da caratteri esadecimali (0–9 ed a–f) e calcolata in base al contenuto di file o della struttura della directory in Git. Un hash SHA-1 assomiglia a qualcosa come:
 
 	24b9da6552252987aa493b52f8696cd6d3b00373
 
-Vedrai questi hash dappertutto in Git perché li usa tantissimo. Infatti Git salva qualsiasi cosa non in base al nome del file, ma nel suo database indirizzabile per l'hash del suo contenuto.
+Vedrai questi hash dappertutto in Git perché li usa tantissimo. Infatti Git salva qualsiasi cosa nel suo database, e il riferimento ad un file non è basato sul nome del file, ma sull'hash del suo contenuto.
 
 ### Git Generalmente Aggiunge Solo Dati ###
 
@@ -97,7 +97,7 @@ Questo rende piaceole l'uso di Git perché sappiamo che possiamo sperimentare se
 
 ### I Tre Stati ###
 
-Ora, presta attenzione. La prima cosa da ricordare sempre di Git se vuoi affrontare al meglio il processo di apprendimento. I tuoi file in Git possono essere in tre stati: _committed_ (committati), _modified_ (modificati) e _staged_ (in stage). Committato significa che il file è al sicuro nel database locale. Modificato significa che il file è stato modificato, ma non è ancora stato committato nel database. In stage significa che hai contrassegnato un file, modificato nella versione corrente, perché venga inserito nello snapshot alla prossima commit.
+Ora, presta attenzione. La prima cosa da ricordare sempre di Git se vuoi affrontare al meglio il processo di apprendimento è che i tuoi file in Git possono essere in tre stati: _committed_ (committati), _modified_ (modificati) e _staged_ (in stage). Committato significa che il file è al sicuro nel database locale. Modificato significa che il file è stato modificato, ma non è ancora stato committato nel database. In stage significa che hai contrassegnato un file, modificato nella versione corrente, perché venga inserito nello snapshot alla prossima commit.
 
 Questo ci porta alle tre sezioni principali di un progetto Git: la directory di Git, la directory di lavoro e l'area di stage.
 
@@ -113,8 +113,8 @@ L'area di stage è un file, contenuto generalmente nella directory di Git, con t
 Il flusso di lavoro (_workflow_) di base in Git funziona così:
 
 1. Modifica i file nella tua directory di lavoro
-2. Fanno lo stage, aggiungendone le istantanee all'area di stage
-3. Committa, che salva i file nell'area di stage in un'istantanea (_snapshot_) permanente nella tua directory di Git.
+2. Fanne lo stage, aggiungendone le istantanee all'area di stage
+3. Committa, ovvero salva i file nell'area di stage in un'istantanea (_snapshot_) permanente nella tua directory di Git.
 
 Se una particolare versione di un file è nella directory git, viene considerata già committata. Se il file è stato modificato, ma è stato aggiunto all'area di staging, è _in stage_. E se è stato modificato da quando è stata estratto, ma non è _in stage_, è modificato.  Nel Capitolo 2, imparerai di più su questi stati e come trarne vantaggio o saltare la parte di staging.
 

@@ -79,7 +79,7 @@ Per iniziare a tracciare un nuovo file, si usa il comando `git add`. Per traccia
 
 	$ git add README
 
-Se lanci nuovamente il comando per lo stato, puoi vedere il tuo file `README` ora è tracciato e nell'area si `stage`:
+Se lanci nuovamente il comando per lo stato, puoi vedere che il tuo file `README` ora è tracciato e nell'area di `stage`:
 
 	$ git status
 	On branch master
@@ -109,7 +109,7 @@ Modifichiamo un file che è già tracciato. Se modifichi un file tracciato chiam
 	        modified:   benchmarks.rb
 	
 
-Il file benchmarks.rb appare nella sezione chiamata "Changes not staged for commit" — che significa che un file tracciato è stato modificato nella directory di lavoro ma non è ancora nello stage. Per farlo, esegui il comando `git add` (è un comando multifunzione — lo usi per iniziare a tracciare nuovi file, per fare lo stage dei file e per fare altre cose segnare come risolti i conflitti causati da un `merge`). Esegui `git add` per mettere in `stage` il file benchmarks.rb, e riesegui `git status`:
+Il file benchmarks.rb appare nella sezione chiamata "Changes not staged for commit" — che significa che un file tracciato è stato modificato nella directory di lavoro ma non è ancora nello stage. Per farlo, esegui il comando `git add` (è un comando multifunzione — lo usi per iniziare a tracciare nuovi file, per fare lo stage dei file e per fare altre cose, ad esempio per segnare come risolti i conflitti causati da un `merge`). Esegui `git add` per mettere in `stage` il file benchmarks.rb, e riesegui `git status`:
 
 	$ git add benchmarks.rb
 	$ git status
@@ -139,7 +139,7 @@ Entrambi i file sono nello `stage` e staranno nella prossima commit. A questo pu
 	        modified:   benchmarks.rb
 	
 
-Cos'è successo? Ora `benchmarks.rb` è elencato sia dentro che fuori lo `stage`. Come è possibile? È saltato fuori che Git ha messo in `stage` il file esattamente com'era quando hai eseguito `git add`. Se committi ora, la versione di `benchmarks.rb` che verrà committata sarà quella che avevi quando hai eseguito il `git add`, non la versione del file che trovi nella directory di lavoro quando esegui `git commit`. Se modifichi un file dopo che hai eseguito `git add`, ridevi eseguire `git add` per mettere nello `stage` l'ultima versione del file:
+Cos'è successo? Ora `benchmarks.rb` è elencato sia dentro che fuori lo `stage`. Come è possibile? È saltato fuori che Git ha messo in `stage` il file esattamente com'era quando hai eseguito `git add`. Se committi ora, la versione di `benchmarks.rb` che verrà committata sarà quella che avevi quando hai eseguito il `git add`, non la versione del file che trovi nella directory di lavoro quando esegui `git commit`. Se modifichi un file dopo che hai eseguito `git add`, devi rieseguire `git add` per mettere nello `stage` l'ultima versione del file:
 
 	$ git add benchmarks.rb
 	$ git status
@@ -153,7 +153,7 @@ Cos'è successo? Ora `benchmarks.rb` è elencato sia dentro che fuori lo `stage`
 
 ### Ignorare File ###
 
-Spesso hai un tipo di file che non vuoi che Git li aggiunga automaticamente e nemmeno te li mostri come tracciati. Generalmente si tratta di file generati automaticamente, come i log o quelli prodotti dal tuoi sistema di `build`. In questi casi puoi creare un file chiamato `.gitignore` con la lista di pattern dei file che vuoi ignorare. Questo è un `.gitignore` d'esempio:
+Spesso hai dei file che non vuoi che Git aggiunga automaticamente e nemmeno che te li mostri come tracciati. Generalmente si tratta di file generati automaticamente, come i log o quelli prodotti dal tuoi sistema di `build`. In questi casi puoi creare un file chiamato `.gitignore` con la lista di pattern dei file che vuoi ignorare. Questo è un `.gitignore` d'esempio:
 
 	$ cat .gitignore
 	*.[oa]
@@ -170,7 +170,7 @@ Queste sono le regole per i pattern che puoi usare in `.gitignore`:
 
 I `glob pattern` sono come espressioni regolari semplificate, usate dalla shell. L'asterisco (`*`) corrisponde a zero o più caratteri; `[abc]` corrisponde a ogni carattere all'interno delle parentesi (in questo caso `a`, `b`, o `c`); il punto interrogativo (`?`) corrisponden ad un carattere singolo; e i caratteri all'interno delle parentesi quadre separati dal segno meno (`[0-9]`) corrispondono ad ogni carattere all'interno dell'intervallo (in questo caso da 0 a 9).
 
-Questo è un altro esempio di file .gitignore:
+Questo è un altro esempio di file `.gitignore`:
 
 	# un commento - questo è ignorato
 	# escludi i file .a

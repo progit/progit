@@ -192,7 +192,7 @@ Il pattern `**/` è disponibile in Git dalla version 1.8.2.
 
 Se `git status` è troppo vago per te - vuoi sapere cos'è stato effettivamente modificato e non solo quali file — puoi usare il comando `git diff`. Tratteremo più avanti `git diff` con maggior dettaglio, ma probabilmente lo userai molto spesso per rispondere a queste due domande: Cos'è che hai modificato ma non è ancora in `stage`? E cos'hai nello `stage` che non hai ancora committato? Sebbene `git status` risponda a queste domande in modo generico, `git diff` mostra le righe effettivamente aggiunte e rimosse — la patch così com'è.
 
-Supponiamo che tu habbia modificato nuovamente `README` e `benchmarks.rb` ma messo nello `stage` solo il primo. Se esegui il comando `status`, vedrai qualcosa come questo:
+Supponiamo che tu abbia modificato nuovamente `README` e `benchmarks.rb` ma messo nello `stage` solo il primo. Se esegui il comando `status`, vedrai qualcosa come questo:
 
 	$ git status
 	On branch master
@@ -611,7 +611,7 @@ Queste sono solo alcune opzioni semplici per la formattazione dell'output di `gi
 
 <!-- Messaggio per i traduttori: questa è una tabella dichiarativa.
 Le righe devono essere formattate come segue:
-<TAB><Prima colonna di testo><TAB><Seconda colunna di testo>
+<TAB><Prima colonna di testo><TAB><Seconda colonna di testo>
 -->
 
 	Opzione	Descrizione
@@ -717,7 +717,7 @@ Ci sono circa 20,000 commit nella cronologia dei sorgenti di git, questo comando
 
 ### Usare una GUI per visualizzare la cronologia ###
 
-Se vuoi usare uno strumento più grafico per visualizzare la cronologia delle tuoe commit, puoi provare un programma in Tck/Tk chiamato `gitk` che viene distribuito con Git. Gitk è fondamentalmente uno strumento grafico come `git log`, e accetta quasi tutte le opzioni di filtro supportate da `git log`. Se digiti `gitk` dalla riga di comando nel tuo progetto, dovresti vedere qualcosa di simile alla Figura 2-2.
+Se vuoi usare uno strumento più grafico per visualizzare la cronologia delle tue commit, puoi provare un programma in Tck/Tk chiamato `gitk` che viene distribuito con Git. Gitk è fondamentalmente uno strumento grafico come `git log`, e accetta quasi tutte le opzioni di filtro supportate da `git log`. Se digiti `gitk` dalla riga di comando nel tuo progetto, dovresti vedere qualcosa di simile alla Figura 2-2.
 
 Insert 18333fig0202.png
 Figura 2-2. Il grafico della cronologia con gitk.
@@ -983,7 +983,7 @@ Creare un'etichetta annotate in Git è semplice. Il modo più facile è specific
 	v1.3
 	v1.4
 
-`-m` specifica il messaggio per l'etichetta, che viene salvato con l'a stessa. Se non specifichi un messaggio per un'etichetta annotata, Git lancerà il tuo editor così da scriverla.
+`-m` specifica il messaggio per l'etichetta, che viene salvato con la stessa. Se non specifichi un messaggio per un'etichetta annotata, Git lancerà il tuo editor così da scriverla.
 
 Puoi vedere i dati dell'etichetta assieme alla commit etichettata con il comando `git show`:
 
@@ -1059,7 +1059,7 @@ Se ora lanci `git show` per questa etichetta, non vedrai altre informazioni aggi
 
 ### Verificare le etichette ###
 
-Per verificarele un'etichetta firmata, usa `git tag -v [nome-tag]`. Questo comando usa GPG per verificare la verifica. Affinché funzioni hai bisogno che la chiave pubblica del firmatario sia nel tuo portachiavi:
+Per verificare un'etichetta firmata, usa `git tag -v [nome-tag]`. Questo comando usa GPG per verificare la verifica. Affinché funzioni hai bisogno che la chiave pubblica del firmatario sia nel tuo portachiavi:
 
 	$ git tag -v v1.4.2.1
 	object 883653babd8ee7ea23e6a5c392bb739348b1eb61
@@ -1162,7 +1162,7 @@ Se usi una shell Bash, Git fornisce uno script carino per il completamento autom
 
 	source ~/.git-completion.bash
 
-Se vuoi che Git usi il comletamento automatico in Bash per tutti gli utenti, copia lo script nella directory `/opt/local/etc/bash_completion.d` sui sistemi Mac o in `/etc/bash_completion.d/` sui sistemi Linux. Questa è una directory di script che Bash carica automaticamente, per fornire il completamento automatico nella shell.
+Se vuoi che Git usi il completamento automatico in Bash per tutti gli utenti, copia lo script nella directory `/opt/local/etc/bash_completion.d` sui sistemi Mac o in `/etc/bash_completion.d/` sui sistemi Linux. Questa è una directory di script che Bash carica automaticamente, per fornire il completamento automatico nella shell.
 
 Se stai usando Windows con Git Bash, che è il predefinito quando installi Git su Windows con msysGit, il completamento automatico dovrebbe essere preconfigurato.
 

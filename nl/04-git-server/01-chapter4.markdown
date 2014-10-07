@@ -450,7 +450,7 @@ Je bent nu klaar voor de start. Als je alles juist hebt ingesteld, kun je nu met
 
 Dat betekent dat Gitosis je herkend heeft, maar je buitensluit omdat je geen Git commando's aan het doen bent. Dus, laten we een echt Git commando doen; je gaat de Gitosis beheer repository clonen:
 
-	# op je locale computer
+	# op je lokale computer
 	$ git clone git@gitserver:gitosis-admin.git
 
 Nu heb je een directory genaamd `gitosis-admin`, die twee hoofd gedeeltes heeft:
@@ -493,7 +493,7 @@ Wanneer je wijzigingen aan het `gitosis-admin` project maakt, moet je de verande
 	To git@gitserver:gitosis-admin.git
 	   fb27aec..8962da8  master -> master
 
-Je kunt je eerste push naar het nieuwe `iphone_project` doen door je server als een remote aan je locale versie van je project toe te voegen en te pushen. Je hoeft geen bare repositories handmatig meer te maken voor nieuwe projecten op de server — Gitosis maakt ze automatisch als het de eerste push ziet:
+Je kunt je eerste push naar het nieuwe `iphone_project` doen door je server als een remote aan je lokale versie van je project toe te voegen en te pushen. Je hoeft geen bare repositories handmatig meer te maken voor nieuwe projecten op de server — Gitosis maakt ze automatisch als het de eerste push ziet:
 
 	$ git remote add origin git@gitserver:iphone_project.git
 	$ git push origin master

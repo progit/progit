@@ -48,7 +48,7 @@ Eğer siz paylaşılan bir disk kullanıyorsanız hızlı olmasından söz edeme
 
 ### SSH Protokolü ###
 
-Git için en yaygın transfer protokolü SSH'dır. Çünkü SSH erişimi zaten bir çok yerde kuruludur, eğer kurulu değilse de kurulumu gayet kolaydır. SSH yalnızca ağ tabanlı bir protokoldür  kolayca okuyabilir ve yazabilirsiniz. Diğer iki ağ protokolü (HTTP ve Git) genellikle sadece okunur, bundan dolayı bunlar dışarıya açık olsa bile, kendi komutlarını yazmak için hala SSH'a ihtiyacı vardır. SSH doğrulanmış bir ağ protokolüdür. Çünkü her yerde bulunur ayrıca kurulumu ve kullanımı kolaydır.
+Git için en yaygın transfer protokolü SSH'dır. Çünkü SSH erişimi zaten bir çok yerde kuruludur, eğer kurulu değilse de kurulumu gayet kolaydır. SSH yalnızca ağ tabanlı bir protokoldür kolayca okuyabilir ve yazabilirsiniz. Diğer iki ağ protokolü (HTTP ve Git) genellikle sadece okunur, bundan dolayı bunlar dışarıya açık olsa bile, kendi komutlarını yazmak için hala SSH'a ihtiyacı vardır. SSH doğrulanmış bir ağ protokolüdür. Çünkü her yerde bulunur ayrıca kurulumu ve kullanımı kolaydır.
 
 Git reposunu SSH üzerinden clonelarken, URL'i ssh:// şeklinde belirtmelisiniz. Örnek:
 
@@ -62,11 +62,11 @@ Siz bir kullanıcı belirlemezseniz, Git geçerli oturum açmış olan kullanıc
 
 #### Artıları ####
 
-SSH kullanmanızın çok fazla artıları vardır. İlk olarak, temelde kullandığınız bir ağ üzerinden doğrulanmış bir kimlik ile dosyalara yazma erişiminiz olur. İkincisi, SSH kurmak kolaydır, birçok ağ yöneticileri SHH ile ilgili deneyime sahiptir ve birçok işletim sistemi dağıtımlarının SSH kurmak ve yönetmek için araçları vardır. Bir diğre SSH üzerinden tüm veri transferi şifrelenir ve doğrulanır. Last, like the Git and Local protocols, SSH is efficient, making the data as compact as possible before transferring it.
+SSH kullanmanızın çok fazla artıları vardır. İlk olarak, temelde kullandığınız bir ağ üzerinden doğrulanmış bir kimlik ile dosyalara yazma erişiminiz olur. İkincisi, SSH kurmak kolaydır, birçok ağ yöneticileri SHH ile ilgili deneyime sahiptir ve birçok işletim sistemi dağıtımlarının SSH kurmak ve yönetmek için araçları vardır. Bir diğeri SSH üzerinden tüm veri transferi şifrelenir ve doğrulanır. Son olarak SSH'ın bir artısı da verileri akatarmadan önce mümkün olduğunca kompakt hale getiriyor.
 
 #### Eksileri ####
 
-Negatif yönlerinden bir tanesi reponuza anonim erişim sağlanamaz. İnsanların sizin open source projenize erişebilmesi için SSH üzerinden erişimleri olması gerekmektedir. If you’re using it only within your corporate network, SSH may be the only protocol you need to deal with. Eğer bir projeye anonim erişimi vermek istiyorsanız push ve pull işlerimleri için SSH kurmanız gerekecektir.
+Negatif yönlerinden bir tanesi reponuza anonim erişim sağlanamaz. İnsanların sizin open source projenize erişebilmesi için SSH üzerinden erişimleri olması gerekmektedir.Yalnızca kurumsal ağ içerisinde bunu kullanıyorsanız SSH kullanmanız gereken protokollerden belki de tekidir. Eğer bir projeye anonim erişimi vermek istiyorsanız push ve pull işlerimleri için SSH kurmanız gerekecektir.
 
 ### Git Protokolü ###
 

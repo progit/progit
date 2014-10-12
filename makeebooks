@@ -96,6 +96,22 @@ ARGV.each do |lang|
       puts "processing #{input}"
       content = File.read(input)
       content.gsub!(/Insert\s18333fig\d+\.png\s*\n.*?(\d{1,2})-(\d{1,2})\. (.*)/, '![\1.\2 \3](figures/\1.\2.png "\1.\2 \3")')
+      # Match table in markdown and change them to RDiscount's markdown tables
+      content.gsub! /(\n(\n\t([^\t\n]+)\t([^\t\n]+))+\n\n)/ do
+        first_col=20
+        t = $1.gsub /(\n?)\n\t([^\t\n]+)\t([^\t\n]+)/ do
+          if $1=="\n"
+            # This is the header, need to add the dash line
+            $1 << "\n " << $2 << " "*(first_col-$2.length) + "| " << $3 <<
+              "\n " << "-"*18 << " | " << "-"*$3.length
+          else
+            # Table row : format the first column as typewriter and align
+            $1 << "\n `" << $2 << "`" + " "*(first_col-$2.length-2) + "| " << $3
+          end
+        end
+        t << "\n"
+      end
+
       book_content << RDiscount.new(content).to_html
     end
     book_content << "</body></html>"

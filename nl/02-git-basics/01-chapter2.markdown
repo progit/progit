@@ -655,7 +655,7 @@ The lines must be formatted as follows
 	--name-status	Toon ook de lijst van bestanden die beïnvloed zijn door de toegevoegde/gewijzigde/verwijderde informatie.
 	--abbrev-commit	Toon alleen de eerste paar karakters van de SHA-1 checksum in plaats van alle 40.
 	--relative-date	Toon de datum in een relatief formaat (bijvoorbeeld, "2 weken geleden"), in plaats van het volledige datum formaat.
-	--graph		Toon een ASCII grafiek van de branch- en merge-geschiedenis naast de log output.
+	--graph	Toon een ASCII grafiek van de branch- en merge-geschiedenis naast de log output.
 	--pretty	Toon commits in een alternatief formaat. De opties bevatten oneline, short, full, fuller, en format (waarbij je je eigen formaat specificeert).
 	--oneline	Een gemaks-optie, staat voor `--pretty=oneline --abbrev-commit`.
 

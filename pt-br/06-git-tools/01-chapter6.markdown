@@ -497,7 +497,7 @@ Novamente, se você não especificar um stash, Git assume que é o stash mais re
 Você pode querer criar um alias e adicionar explicitamente um comando `stash-unapply` no seu git. Por exemplo:
 
     $ git config --global alias.stash-unapply '!git stash show -p | git apply -R'
-    $ git stash
+    $ git stash apply
     $ #... work work work
     $ git stash-unapply
 

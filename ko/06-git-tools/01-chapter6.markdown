@@ -497,7 +497,7 @@ Stash를 명시하지 않으면 Git은 가장 최근의 Stash를 사용한다:
 `stash-unapply`라는 alias를 만들고 편리하게 할 수도 있다:
 
 	$ git config --global alias.stash-unapply '!git stash show -p | git apply -R'
-	$ git stash
+	$ git stash apply
 	$ #... work work work
 	$ git stash-unapply
 

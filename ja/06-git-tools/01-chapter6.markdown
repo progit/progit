@@ -496,7 +496,7 @@ apply オプションは、スタックに隠した作業を再度適用する�
 次の例のようにエイリアスを作れば、Git に `stash-unapply` コマンドを追加したのと事実上同じことになります。
 
     $ git config --global alias.stash-unapply '!git stash show -p | git apply -R'
-    $ git stash
+    $ git stash apply
     $ #... 何か作業をして ...
     $ git stash-unapply
 

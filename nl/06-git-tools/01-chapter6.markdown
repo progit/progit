@@ -538,7 +538,7 @@ Nogmaals: als je geen stash specificeert gaat Git van de meest recente stash uit
 Wellicht wil je een alias maken en effectief een `stash-unapply` commando aan je Git toevoegen. Bijvoorbeeld:
 
     $ git config --global alias.stash-unapply '!git stash show -p | git apply -R'
-    $ git stash
+    $ git stash apply
     $ #... work work work
     $ git stash-unapply
 

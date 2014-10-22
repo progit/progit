@@ -501,7 +501,7 @@ Insert 18333fig0601.png
 Если хотите, сделайте псевдоним и добавьте в свой Git команду `stash-unapply`. Например, так:
 
     $ git config --global alias.stash-unapply '!git stash show -p | git apply -R'
-    $ git stash
+    $ git stash apply
     $ #... work work work
     $ git stash-unapply
 

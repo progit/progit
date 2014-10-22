@@ -501,7 +501,7 @@ Di nuovo, se non specifichi un accantonamento, Git assume che sia l'ultimo:
 Puoi voler creare un alias per avere un comando `stash-unapply` nel tuo Git. Per esempio:
 
     $ git config --global alias.stash-unapply '!git stash show -p | git apply -R'
-    $ git stash
+    $ git stash apply
     $ #... work work work
     $ git stash-unapply
 

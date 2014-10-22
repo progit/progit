@@ -577,7 +577,7 @@ La création d'un alias permettra d'ajouter effectivement la commande `stash-una
 Par exemple :
 
     $ git config --global alias.stash-unapply '!git stash show -p | git apply -R'
-    $ git stash
+    $ git stash apply
     $ #... work work work
     $ git stash-unapply
 

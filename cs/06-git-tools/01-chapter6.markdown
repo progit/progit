@@ -518,7 +518,7 @@ Jestliže nespecifikujete konkrétní odklad, Git předpokládá odklad posledn�
 Můžete si také vytvořit alias a do svého gitu přidat například příkaz `stash-unapply`:
 
     $ git config --global alias.stash-unapply '!git stash show -p | git apply -R'
-    $ git stash
+    $ git stash apply
     $ #... work work work
     $ git stash-unapply
 

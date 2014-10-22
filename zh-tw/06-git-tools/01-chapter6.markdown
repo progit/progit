@@ -500,7 +500,7 @@ apply 選項只嘗試應用儲藏的工作——儲藏的內容仍然在堆疊�
 你可能會想要新建一個別名，在你的 git 增加一個 `stash-unapply` 命令，這樣更有效率。例如：
 
     $ git config --global alias.stash-unapply '!git stash show -p | git apply -R'
-    $ git stash
+    $ git stash apply
     $ #... work work work
     $ git stash-unapply
 

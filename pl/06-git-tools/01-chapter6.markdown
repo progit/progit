@@ -1502,7 +1502,7 @@ Masz teraz zawartość projektu Rack w gałęzi `rack_branch`, a swój projekt w
 	$ ls
 	README
 
-Chcesz jednak, pobrać projekt Rack do swojej gałęzi `master` jako podkatalog. Możesz to zrobić, za pomocą komendy Gita `git read-tree`. Dowiesz się więcej na temat komendy `read-tree` i jej podobnych w rozdziale 9, ale na teraz wiedz, że odczytuje ona drzewo projektu w jednej gałęzi i włącza je do obecnego katalogu i przechowalni. Ponownie zmieniasz gałąź na `master` i pobierasz gałąź `rack` do podkatalogu `rack` w gałęzi `master` w projekcie:
+Chcesz jednak, pobrać projekt Rack do swojej gałęzi `master` jako podkatalog. Możesz to zrobić, za pomocą komendy Gita `git read-tree`. Dowiesz się więcej na temat komendy `read-tree` i jej podobnych w rozdziale 9, ale na teraz wiedz, że odczytuje ona drzewo projektu w jednej gałęzi i włącza je do obecnego katalogu i przechowalni. Ponownie zmieniasz gałąź na `master` i pobierasz gałąź `rack_branch` do podkatalogu `rack` w gałęzi `master` w projekcie:
 
 <!-- You want to pull the Rack project into your `master` project as a subdirectory. You can do that in Git with `git read-tree`. You’ll learn more about `read-tree` and its friends in Chapter 9, but for now know that it reads the root tree of one branch into your current staging area and working directory. You just switched back to your `master` branch, and you pull the `rack` branch into the `rack` subdirectory of your `master` branch of your main project: -->
 

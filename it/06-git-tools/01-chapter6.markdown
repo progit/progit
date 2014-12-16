@@ -1120,7 +1120,7 @@ Ora hai la root del progetto Rack nel tuo branch `rack_branch` e il tuo progetto
 	$ ls
 	README
 
-Ora vuoi inviare il progetto Rack nel tuo progetto `master` come una sottodirectory e in Git puoi farlo con `git read-tree`. Conoscerai meglio `read-tree` e i suoi amici nel Capitolo 9, ma per ora sappi che legge la radice di un branch nella tua area di staging della tua directory di lavoro. Sei appena ritornato nel tuo branch `master` e hai scaricato il branch `rack` nella directory `rack` del branch `master` del tuo progetto principale:
+Ora vuoi inviare il progetto Rack nel tuo progetto `master` come una sottodirectory e in Git puoi farlo con `git read-tree`. Conoscerai meglio `read-tree` e i suoi amici nel Capitolo 9, ma per ora sappi che legge la radice di un branch nella tua area di staging della tua directory di lavoro. Sei appena ritornato nel tuo branch `master` e hai scaricato il branch `rack_branch` nella directory `rack` del branch `master` del tuo progetto principale:
 
 	$ git read-tree --prefix=rack/ -u rack_branch
 

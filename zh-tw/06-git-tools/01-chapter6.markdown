@@ -1108,7 +1108,7 @@ Git 通過子模組處理這個問題。子模組允許你將一個 Git 倉庫�
 	$ ls
 	README
 
-要將 Rack 專案當作子目錄拉取到你的 `master` 專案中。你可以在 Git 中用 `git read-tree` 來實現。你會在第9章學到更多與 `read-tree` 和它的朋友相關的東西，目前你會知道它讀取一個分支的根目錄樹到當前的暫存區和工作目錄。你只要切換回你的 `master` 分支，然後拉取 `rack` 分支到你主專案的 `master` 分支的 `rack` 子目錄： 
+要將 Rack 專案當作子目錄拉取到你的 `master` 專案中。你可以在 Git 中用 `git read-tree` 來實現。你會在第9章學到更多與 `read-tree` 和它的朋友相關的東西，目前你會知道它讀取一個分支的根目錄樹到當前的暫存區和工作目錄。你只要切換回你的 `master` 分支，然後拉取 `rack_branch` 分支到你主專案的 `master` 分支的 `rack` 子目錄： 
 
 	$ git read-tree --prefix=rack/ -u rack_branch
 

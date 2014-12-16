@@ -1316,7 +1316,7 @@ Si vous récupérez l'une puis l'autre branche, vous pouvez voir que vous avez d
 
 Pour tirer le projet Rack dans votre projet `master` comme un sous-répertoire, vous pouvez utiliser la commande `git read-tree`.
 Vous apprendrez davantage sur `read-tree` et compagnie dans le chapitre 9, mais pour le moment, sachez qu'il lit la racine d'une de vos branches et l'inscrit dans votre index et votre répertoire de travail.
-Vous venez juste de commuter vers votre branche `master` et vous tirez la branche `rack` vers le sous-répertoire `rack` de votre branche `master` de votre projet principal :
+Vous venez juste de commuter vers votre branche `master` et vous tirez la branche `rack_branch` vers le sous-répertoire `rack` de votre branche `master` de votre projet principal :
 
 	$ git read-tree --prefix=rack/ -u rack_branch
 

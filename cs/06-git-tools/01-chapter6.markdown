@@ -1136,7 +1136,7 @@ Nyní máte kořenový adresář s projektem Rack ve větvi `rack_branch` a vlas
 	$ ls
 	README
 
-Projekt Rack chcete do projektu `master` natáhnout jako podadresář. V systému Git k tomu slouží příkaz `git read-tree`. O příkazu `read-tree` a jeho příbuzných se více dočtete v kapitole 9, nyní však vězte, že načte kořenový strom jedné větve do vaší aktuální oblasti připravených změn a do pracovního adresáře. Přepnuli jste zpět na větev `master` a větev `rack` natáhnete do podadresáře `rack` své větve `master` hlavního projektu:
+Projekt Rack chcete do projektu `master` natáhnout jako podadresář. V systému Git k tomu slouží příkaz `git read-tree`. O příkazu `read-tree` a jeho příbuzných se více dočtete v kapitole 9, nyní však vězte, že načte kořenový strom jedné větve do vaší aktuální oblasti připravených změn a do pracovního adresáře. Přepnuli jste zpět na větev `master` a větev `rack_branch` natáhnete do podadresáře `rack` své větve `master` hlavního projektu:
 
 	$ git read-tree --prefix=rack/ -u rack_branch
 

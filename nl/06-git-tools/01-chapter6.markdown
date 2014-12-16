@@ -1146,7 +1146,7 @@ Nu heb je de root van het Rack project in je `rack_branch` branch en je eigen pr
 	$ ls
 	README
 
-Je gaat nu het Rack project in je `master` project pullen als een subdirectory. Je kunt dat in Git doen met `git read-tree`. Je zult meer over `read-tree` en zijn vriendjes leren in Hoofdstuk 9, maar weet voor nu dat het de roottree van een branch in je huidige staging area en werkdirectory leest. Je hebt zojuist teruggewisseld naar je `master` branch, en je pulled de `rack` branch in de `rack` subdirectory van de `master` branch van je hoofdproject:
+Je gaat nu het Rack project in je `master` project pullen als een subdirectory. Je kunt dat in Git doen met `git read-tree`. Je zult meer over `read-tree` en zijn vriendjes leren in Hoofdstuk 9, maar weet voor nu dat het de roottree van een branch in je huidige staging area en werkdirectory leest. Je hebt zojuist teruggewisseld naar je `master` branch, en je pulled de `rack_branch` branch in de `rack` subdirectory van de `master` branch van je hoofdproject:
 
 	$ git read-tree --prefix=rack/ -u rack_branch
 

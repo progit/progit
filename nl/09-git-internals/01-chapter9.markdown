@@ -896,7 +896,7 @@ Vervolgens, stel dat je verloren commit om een of andere reden niet in de reflog
 	$ git branch –D recover-branch
 	$ rm -Rf .git/logs/
 
-Omdat de reflog gegevens bewaard worden in de `.git/logs/` directory, heb je nu effectief geen reflog meer. Hoe kun je die commit nu herstellen? Één manier is om gebruik te maken van het `git fsck` tool, wat de integriteit van je gegevensbank controleert. Als je het met de `--full` optie uitvoert, dan toont het je alle objecten waarnaar niet gewezen wordt door een ander object:
+Omdat de reflog gegevens bewaard worden in de `.git/logs/` directory, heb je nu effectief geen reflog meer. Hoe kun je die commit nu herstellen? Één manier is om gebruik te maken van de `git fsck` tool, wat de integriteit van je gegevensbank controleert. Als je het met de `--full` optie uitvoert, dan toont het je alle objecten waarnaar niet gewezen wordt door een ander object:
 
 	$ git fsck --full
 	dangling blob d670460b4b4aece5915caf5c68d12f560a9fe3e4
@@ -1010,4 +1010,4 @@ De grootte van je ingepakte repository is omlaag gegaan naar 7 K, wat veel beter
 
 Je moet een redelijk goed begrip hebben van wat Git op de achtergrond doet en, tot een bepaalde hoogte, hoe het geimplementeerd is. Dit hoofdstuk heeft een aantal plumbing commando's besproken – commando's die op een lager niveau zitten en eenvoudige zijn dan de porcelain commando's waarover je in de rest van het boek gelezen hebt. Begrijpen hoe Git op een lager niveau werkt zou het makkelijker moeten maken om te begrijpen waarom het doet wat het doet en ook om je eigen applicaties te schrijven en hulp scripts om jouw specifieke workflow voor je te laten werken.
 
-Git is als een inhouds-toegankelijk bestandssysteem een zeer krachtig tool dat je eenvoudig als meer dan alleen een VCS kunt gebruiken. Ik hoop dat je deze nieuwe kennis van de werking van Git kunt gebruiken om je eigen coole applicatie te bouwen met deze technologie en dat je je prettig voelt bij het gebruik van Git op meer geavanceerde manieren.
+Git is als een inhouds-toegankelijk bestandssysteem een zeer krachtige tool dat je eenvoudig als meer dan alleen een VCS kunt gebruiken. Ik hoop dat je deze nieuwe kennis van de werking van Git kunt gebruiken om je eigen coole applicatie te bouwen met deze technologie en dat je je prettig voelt bij het gebruik van Git op meer geavanceerde manieren.

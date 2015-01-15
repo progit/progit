@@ -36,7 +36,7 @@ Veel succes en plezier bij het vertalen...
 <!-- SHA-1 of last checked en-version: 4cefec -->
 # Git en andere systemen #
 
-Het is geen perfecte wereld. Meestal kan je niet meteen elk project waar je mee in aanraking komt omzetten naar Git. Soms zit je vast op een project dat een ander VCS gebruikt, en vaak is dat systeem Subversion. In het eerste gedeelte van dit hoofdstuk zal je leren over `git svn`, het bidirectionele Subversion uitwissel tool van Git.
+Het is geen perfecte wereld. Meestal kan je niet meteen elk project waar je mee in aanraking komt omzetten naar Git. Soms zit je vast op een project dat een ander VCS gebruikt, en vaak is dat systeem Subversion. In het eerste gedeelte van dit hoofdstuk zal je leren over `git svn`, de bidirectionele Subversion uitwissel tool van Git.
 
 Op een gegeven moment zal je een bestaande project willen omzetten naar Git. Het tweede gedeelte van dit hoofdstuk beschrijft hoe je projecten naar Git kunt migreren: eerst uit Subversion, dan vanuit Perforce, en als laatste via een eigen import script voor een niet standaard import geval.
 
@@ -44,7 +44,7 @@ Op een gegeven moment zal je een bestaande project willen omzetten naar Git. Het
 
 Op dit moment maakt het merendeel van open source ontwikkelprojecten en een groot aantal bedrijfsprojecten gebruik van Subversion om hun broncode te beheren. Het is het populairste open source VCS en bestaat al bijna tien jaar. Het lijkt ook in veel aspecten op CVS, wat daarvoor de grootste speler was in de code-beheer wereld.
 
-Een van de beste features van Git is een bidirectionele brug naar Subversion genaamd `git svn`. Dit tool staat je toe om Git als een volwaardige client van een Subversion server te gebruiken, zodat je alle lokale eigenschappen van Git kunt gebruiken en daarna naar een Subversion server kunt pushen alsof je Subversion lokaal gebruikt. Dit houdt in dat je lokaal kunt branchen en mergen, het staging gebied gebruiken, kunt rebasen en cherry-picken enzovoorts, terwijl je medewerkers verder werken met de spreekwoordelijke griffel en leisteen. Het is een goede manier om Git in de bedrijfsomgeving binnen te smokkelen en je mede-ontwikkelaars te helpen efficiënter te worden terwijl jij lobbiet om de infrastructuur dusdanig te veranderen dat Git volledig gesupport kan worden. De Subversion brug is het uitwisselings-medicijn naar de DCVS wereld.
+Een van de beste features van Git is een bidirectionele brug naar Subversion genaamd `git svn`. Deze tool staat je toe om Git als een volwaardige client van een Subversion server te gebruiken, zodat je alle lokale eigenschappen van Git kunt gebruiken en daarna naar een Subversion server kunt pushen alsof je Subversion lokaal gebruikt. Dit houdt in dat je lokaal kunt branchen en mergen, het staging gebied gebruiken, kunt rebasen en cherry-picken enzovoorts, terwijl je medewerkers verder werken met de spreekwoordelijke griffel en leisteen. Het is een goede manier om Git in de bedrijfsomgeving binnen te smokkelen en je mede-ontwikkelaars te helpen efficiënter te worden terwijl jij lobbiet om de infrastructuur dusdanig te veranderen dat Git volledig gesupport kan worden. De Subversion brug is het uitwisselings-medicijn naar de DCVS wereld.
 
 ### git svn ###
 
@@ -123,7 +123,7 @@ Nu zou je een geldig Git repository moeten hebben, waar de branches en tags in g
 	  tags/release-2.0.2rc1
 	  trunk
 
-Het is belangrijk om op te merken dat dit tool je remote references een andere namespace heeft toebedeeld. Als je normaal een Git repository cloned, krijg je alle branches op die remote server lokaal beschikbaar in de vorm van `origin/[branch]` - waarbij in de namespace de naam van de remote wordt gebruikt. Echter, `git svn` gaat er vanuit dat je niet meerdere remotes hebt en bewaart alle referentie naar punten op de remote server zonder gebruik te maken van namespaces. Je kunt het Git plumbing commando `show-ref` gebruiken om al je volledige referentie namen te zien:
+Het is belangrijk om op te merken dat deze tool je remote references een andere namespace heeft toebedeeld. Als je normaal een Git repository cloned, krijg je alle branches op die remote server lokaal beschikbaar in de vorm van `origin/[branch]` - waarbij in de namespace de naam van de remote wordt gebruikt. Echter, `git svn` gaat er vanuit dat je niet meerdere remotes hebt en bewaart alle referentie naar punten op de remote server zonder gebruik te maken van namespaces. Je kunt het Git plumbing commando `show-ref` gebruiken om al je volledige referentie namen te zien:
 
 	$ git show-ref
 	1cbd4904d9982f386d87f88fce1c24ad7c0f0471 refs/heads/master
@@ -458,7 +458,7 @@ Het volgende systeem waar je naar gaat kijken om vanuit te importeren is Perforc
 	$ git clone git://git.kernel.org/pub/scm/git/git.git
 	$ cd git/contrib/fast-import
 
-In deze `fast-import` directory, zou je een uitvoerbaar Python script genaamd `git-p4` moeten vinden. Je moet Python en het `p4` tool geïnstalleerd hebben op je machine om deze import te laten werken. Als voorbeeld ga je het Jam project van de Perforce Public Depot importeren. Om je client in te stellen, moet je de P4PORT omgevingsvariabele laten wijzen naar het Perforce depot:
+In deze `fast-import` directory, zou je een uitvoerbaar Python script genaamd `git-p4` moeten vinden. Je moet Python en de `p4` tool geïnstalleerd hebben op je machine om deze import te laten werken. Als voorbeeld ga je het Jam project van de Perforce Public Depot importeren. Om je client in te stellen, moet je de P4PORT omgevingsvariabele laten wijzen naar het Perforce depot:
 
 	$ export P4PORT=public.perforce.com:1666
 
@@ -718,7 +718,7 @@ Hier heb je 't, een mooie, schone Git repository. Het is belangrijk om te op te 
 	$ ls
 	file.rb  lib
 
-Je kunt nog veel meer doen met het `fast-import` tool: verschillende bestandsmodi verwerken, binaire gegevens, meerdere branches en mergen, tags, voortgangsindicatoren, enzovoorts. Een aantal voorbeelden voor complexe scenario's zijn voorhanden in de `contrib/fast-import` directory van de Git broncode, een van de betere is het `git-p4` script dat ik zojuist behandeld heb.
+Je kunt nog veel meer doen met de `fast-import` tool: verschillende bestandsmodi verwerken, binaire gegevens, meerdere branches en mergen, tags, voortgangsindicatoren, enzovoorts. Een aantal voorbeelden voor complexe scenario's zijn voorhanden in de `contrib/fast-import` directory van de Git broncode, een van de betere is het `git-p4` script dat ik zojuist behandeld heb.
 
 ## Samenvatting ##
 

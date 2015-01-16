@@ -129,7 +129,7 @@ If you can, it’s generally useful to install Git from source, because you’ll
 To install Git, you need to have the following libraries that Git depends on: curl, zlib, openssl, expat, and libiconv. For example, if you’re on a system that has yum (such as Fedora) or apt-get (such as a Debian based system), you can use one of these commands to install all of the dependencies:
 
 	$ yum install curl-devel expat-devel gettext-devel \
-	  openssl-devel zlib-devel
+	  openssl-devel zlib-devel perl-devel asciidoc xmlto
 
 	$ apt-get install libcurl4-gnutls-dev libexpat1-dev gettext \
 	  libz-dev libssl-dev

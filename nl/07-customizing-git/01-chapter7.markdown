@@ -172,7 +172,7 @@ Zie de manpage van `git config` voor alle sub-instellingen die je kunt instellen
 
 ### Externe merge en diff tools ###
 
-Alhoewel Git een interne implementatie van diff heeft, deze heb je tot nu toe gebruikt, kan je in plaats daarvan een extern tool instellen. Je kunt ook een grafisch merge conflict-oplossings tool instellen, in plaats van handmatig de conflicten op te moeten lossen. Ik zal nu demonstreren hoe je het Perforce Visuele Merge Tool (P4Merge) in moet stellen, om je diff en merge oplossingen te doen, omdat het een fijn grafisch tool is en omdat het gratis is.
+Alhoewel Git een interne implementatie van diff heeft, deze heb je tot nu toe gebruikt, kan je in plaats daarvan een externe tool instellen. Je kunt ook een grafisch merge conflict-oplossings tool instellen, in plaats van handmatig de conflicten op te moeten lossen. Ik zal nu demonstreren hoe je het Perforce Visuele Merge Tool (P4Merge) in moet stellen, om je diff en merge oplossingen te doen, omdat het een fijne grafische tool is en omdat het gratis is.
 
 Als je dit wilt proberen, P4Merge werkt op alle grote platformen, dus je zou het moeten kunnen doen. Ik zal in de voorbeelden paden gebruiken die op Mac en Linux systemen werken; voor Windows moet je `/usr/local/bin` veranderen in een pad naar een uitvoerbaar bestand op jouw machine.
 
@@ -228,15 +228,15 @@ in plaats van de uitvoer van diff op de commando regel, wordt een instantie van 
 Insert 18333fig0701.png
 Figuur 7-1. P4Merge.
 
-Als je twee branches probeert te mergen en je krijgt vervolgens merge conflicten, kan je het `git mergetool` commando uitvoeren. P4Merge wordt dan opgestart om je het conflict op te laten lossen met behulp van dat GUI tool.
+Als je twee branches probeert te mergen en je krijgt vervolgens merge conflicten, kan je het `git mergetool` commando uitvoeren. P4Merge wordt dan opgestart om je het conflict op te laten lossen met behulp van de GUI tool.
 
-Het aardige van deze wrapper opstelling is dat je de diff en merge tools eenvoudig aan kunt passen. Bijvoorbeeld, om je `extDiff` en `extMerge` tools in te stellen zodat ze bijvoorbeeld het KDiff3 tool uitvoeren, is het enige dat je moet doen het `extMerge` bestand aanpassen:
+Het aardige van deze wrapper opstelling is dat je de diff en merge tools eenvoudig aan kunt passen. Bijvoorbeeld, om je `extDiff` en `extMerge` tools in te stellen zodat ze bijvoorbeeld de KDiff3 tool uitvoeren, is het enige dat je moet doen het `extMerge` bestand aanpassen:
 
 	$ cat /usr/local/bin/extMerge
 	#!/bin/sh
 	/Applications/kdiff3.app/Contents/MacOS/kdiff3 $*
 
-Nu zal Git het KDiff3 tool gebruiken voor het tonen van diff en het oplossen van merge conflicten.
+Nu zal Git de KDiff3 tool gebruiken voor het tonen van diff en het oplossen van merge conflicten.
 
 Git is 'af fabriek' al ingesteld om een aantal andere mergeconflict-oplossings tools te gebruiken zonder dat je de cmd configuratie op hoeft te zetten. Je kunt je merge tool op kdiff3 instellen, opendiff, tkdiff, meld, xxdiff, emerge, vimdiff of gvimdiff. Als je niet geïnteresseerd bent in het gebruik van KDiff3 als diff, maar het liever alleen wilt gebruiken voor merge conflict oplossing, en het kdiff3 commando zit in je pad, dan kun je dit uitvoeren
 

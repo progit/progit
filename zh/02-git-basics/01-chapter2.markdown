@@ -183,10 +183,10 @@ Insert 18333fig0201.png
 	build/
 	# 会忽略 doc/notes.txt 但不包括 doc/server/arch.txt
 	doc/*.txt
-	# ignore all .txt files in the doc/ directory
+	# 忽略 doc/ 目录下所有扩展名为 txt 的文件
 	doc/**/*.txt
 
-A `**/` pattern is available in Git since version 1.8.2.
+`**\`通配符从 Git 版本 1.8.2 以上已经可以使用。
 
 ### 查看已暂存和未暂存的更新 ###
 

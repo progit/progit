@@ -1121,7 +1121,7 @@ Możesz dzięki niemu łatwo zobaczyć ostatnią rewizję:
 
 Jak można zauważyć, Git zastępuje nowe polecenie czymkolwiek co do niego przypiszesz. Jednakże, możesz chcieć także uruchomić zewnętrzne polecenie zamiast polecenia Gita. Rozpocznij je wówczas znakiem wykrzyknika `!`. Przydaje się to podczas tworzenia własnego narzędzia, które współpracuje z repozytorium Gita. Możemy pokazać to na przykładzie aliasu `git visual` uruchamiającego `gitk`:
 
-	$ git config --global alias.visual "!gitzk"
+	$ git config --global alias.visual "!gitk"
 
 ## Podsumowanie ##
 

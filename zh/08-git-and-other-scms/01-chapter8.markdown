@@ -129,7 +129,7 @@ Git 中所有 Subversion 桥接命令的基础是 `git svn` 。所有的命令�
 	No changes between current HEAD and refs/remotes/trunk
 	Resetting to the latest refs/remotes/trunk
 
-所有在原 Subversion 数据基础上提交的 commit 会一一提交到 Subversion，然后你本地 Git 的 commit 将被重写，加入一个特别标识。这一步很重要，因为它意味着所有 commit 的 SHA-1 指都会发生变化。这也是同时使用 Git 和 Subversion 两种服务作为远程服务不是个好主意的原因之一。检视以下最后一个 commit，你会找到新添加的 `git-svn-id` （译注：即本段开头所说的特别标识）：
+所有在原 Subversion 数据基础上提交的 commit 会一一提交到 Subversion，然后你本地 Git 的 commit 将被重写，加入一个特别标识。这一步很重要，因为它意味着所有 commit 的 SHA-1 值都会发生变化。这也是同时使用 Git 和 Subversion 两种服务作为远程服务不是个好主意的原因之一。检视以下最后一个 commit，你会找到新添加的 `git-svn-id` （译注：即本段开头所说的特别标识）：
 
 	$ git log -1
 	commit 938b1a547c2cc92033b74d32030e86468294a5c8
@@ -152,7 +152,7 @@ Git 中所有 Subversion 桥接命令的基础是 `git svn` 。所有的命令�
 	out-of-date: resource out of date; try updating at /Users/schacon/libexec/git-\
 	core/git-svn line 482
 
-为了解决该问题，可以运行 `git svn rebase` ，它会拉取服务器上所有最新的改变，再次基础上衍合你的修改：
+为了解决该问题，可以运行 `git svn rebase` ，它会拉取服务器上所有最新的改变，在此基础上衍合你的修改：
 
 	$ git svn rebase
 	       M      README.txt
@@ -160,7 +160,7 @@ Git 中所有 Subversion 桥接命令的基础是 `git svn` 。所有的命令�
 	First, rewinding head to replay your work on top of it...
 	Applying: first user change
 
-现在，你做出的修改都发生在服务器内容之后，所以可以顺利的运行 `dcommit` ：
+现在，你做出的修改都发生在服务器最新内容之后，所以可以顺利的运行 `dcommit` ：
 
 	$ git svn dcommit
 	Committing to file:///tmp/test-svn/trunk ...
@@ -339,7 +339,7 @@ Git 通过搜寻提交历史中 Subversion 分支的头部来决定 dcommit 的�
 `git svn` 工具集在当前不得不使用 Subversion 服务器或者开发环境要求使用 Subversion 服务器的时候格外有用。不妨把它看成一个跛脚的 Git，然而，你还是有可能在转换过程中碰到一些困惑你和合作者们的迷题。为了避免麻烦，试着遵守如下守则：
 
 * 保持一个不包含由 `git merge` 生成的 commit 的线性提交历史。将在主线分支外进行的开发通通衍合回主线；避免直接合并。
-* 不要单独建立和使用一个 Git 服务来搞合作。可以为了加速新开发者的克隆进程建立一个，但是不要向它提供任何不包含 `git-svn-id` 条目的内容。甚至可以添加一个 `pre-receive` 挂钩来在每一个提交信息中查找 `git-svn-id` 并拒绝提交那些不包含它的 commit。
+* 不要单独建立和使用一个 Git 服务器来搞合作。可以为了加速新开发者的克隆进程建立一个，但是不要向它提供任何不包含 `git-svn-id` 条目的内容。甚至可以添加一个 `pre-receive` 挂钩来在每一个提交信息中查找 `git-svn-id` 并拒绝提交那些不包含它的 commit。
 
 如果遵循这些守则，在 Subversion 上工作还可以接受。然而，如果能迁徙到真正的 Git 服务器，则能为团队带来更多好处。
 
@@ -367,7 +367,7 @@ Git 通过搜寻提交历史中 Subversion 分支的头部来决定 dcommit 的�
 
 它将输出 XML 格式的日志——你可以找到作者，建立一个单独的列表，然后从 XML 中抽取出需要的信息。（显而易见，本方法要求主机上安装了`grep`，`sort` 和 `perl`.）然后把输出重定向到 user.txt 文件，然后就可以在每一项的后面添加相应的 Git 用户数据。
 
-为 `git svn` 提供该文件可以然它更精确的映射作者数据。你还可以在 `clone` 或者 `init`后面添加 `--no-metadata` 来阻止 `git svn` 包含那些 Subversion 的附加信息。这样 `import` 命令就变成了：
+为 `git svn` 提供该文件可以让它更精确的映射作者数据。你还可以在 `clone` 或者 `init`后面添加 `--no-metadata` 来阻止 `git svn` 包含那些 Subversion 的附加信息。这样 `import` 命令就变成了：
 
 	$ git svn clone http://my-project.googlecode.com/svn/ \
 	      --authors-file=users.txt --no-metadata -s my_project
@@ -579,7 +579,7 @@ Git 通过搜寻提交历史中 Subversion 分支的头部来决定 dcommit 的�
 	  inline_data(file)
 	end
 
-注意：由于很多系统把每次修订看作一个 commit 到另一个 commit 的变化量，fast-import 也可以依据每次提交获取一个命令来指出哪些文件被添加，删除或者修改过，以及修改的内容。我们将需要计算快照之间的差别并且仅仅给出这项数据，不过该做法要复杂很多——还如不直接把所有数据丢给 Git 然它自己搞清楚。假如前面这个方法更适用于你的数据，参考 `fast-import` 的 man 帮助页面来了解如何以这种方式提供数据。
+注意：由于很多系统把每次修订看作一个 commit 到另一个 commit 的变化量，fast-import 也可以依据每次提交获取一个命令来指出哪些文件被添加，删除或者修改过，以及修改的内容。我们将需要计算快照之间的差别并且仅仅给出这项数据，不过该做法要复杂很多——还不如直接把所有数据丢给 Git 让它自己搞清楚。假如前面这个方法更适用于你的数据，参考 `fast-import` 的 man 帮助页面来了解如何以这种方式提供数据。
 
 列举新文件内容或者指明带有新内容的已修改文件的格式如下：
 
@@ -686,4 +686,4 @@ Git 通过搜寻提交历史中 Subversion 分支的头部来决定 dcommit 的�
 
 ## 总结 ##
 
-现在的你应该掌握了在 Subversion 上使用 Git 以及把几乎任何先存仓库无损失的导入为 Git 仓库。下一章将介绍 Git 内部的原始数据格式，从而是使你能亲手锻造其中的每一个字节，如果必要的话。
+现在的你应该掌握了在 Subversion 上使用 Git 以及把几乎任何现存仓库无损失的导入为 Git 仓库。下一章将介绍 Git 内部的原始数据格式，从而是使你能亲手锻造其中的每一个字节，如果必要的话。

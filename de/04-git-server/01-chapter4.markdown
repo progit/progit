@@ -300,7 +300,7 @@ Als erstes solltest Du überprüfen, ob Du nicht schon einen Schlüssel hast. St
 
 <!--You’re looking for a pair of files named something and something.pub, where the something is usually `id_dsa` or `id_rsa`. The `.pub` file is your public key, and the other file is your private key. If you don’t have these files (or you don’t even have a `.ssh` directory), you can create them by running a program called `ssh-keygen`, which is provided with the SSH package on Linux/Mac systems and comes with the MSysGit package on Windows:-->
 
-Du suchst nach Paar Dateien namens `irgendetwas` und `irgendetwas.pub`, die Datei `irgendetwas` heißt normalerweise `id_dsa` oder `id_rsa`. Die `.pub`-Datei ist Dein öffentlicher Schlüssel und die andere Datei ist Dein privater Schlüssel. Wenn Du diese Dateien nicht hast (oder gar kein `.ssh`-Verzeichnis hast), kannst Du sie mit dem Ausführen des Programms `ssh-keygen` erzeugen. Das Programm wird mit dem SSH-Paket auf Linux/Mac-Systemen mitgeliefert und kommt mit dem MSysGit-Paket unter Windows:
+Du suchst nach einem Dateienpaar namens `irgendetwas` und `irgendetwas.pub`, die Datei `irgendetwas` heißt normalerweise `id_dsa` oder `id_rsa`. Die `.pub`-Datei ist Dein öffentlicher Schlüssel, und die andere Datei ist Dein privater Schlüssel. Wenn Du diese Dateien nicht hast (oder gar kein `.ssh`-Verzeichnis hast), kannst Du sie mit dem Ausführen des Programms `ssh-keygen` erzeugen. Das Programm wird mit dem SSH-Paket auf Linux/Mac-Systemen mitgeliefert und kommt mit dem MSysGit-Paket unter Windows:
 
 	$ ssh-keygen
 	Generating public/private rsa key pair.

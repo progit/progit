@@ -146,7 +146,7 @@ Bagaimanapun, sebelum anda melakukannya, perhatikan bahwa jika dalam kandar kerj
 
 Saat ini, anda berada dalam kandar kerja dalam kondisi tepat seperti anda belum mengerjakan masalah #53, dan anda dapat konsentrasi mengerjakan perbaikannya. Hal yang perlu diingat adalah: Git mengkondisikan kandar kerja anda agar terlihat sebagaimana anda kembali ke titik pencabangan yang anda tuju. Git menambahkan, menghapus, dan mengubah berkas secara otomatis untuk memastikan bahwa anda bekerja pada pencabangan terakhir yang anda *commit*.
 
-Next, you have a hotfix to make. Let’s create a hotfix branch on which to work until it’s completed (see Figure 3-13):
+Selanjutnya, ada dapat membuat cabang *hotfix*. Mari kita buat cabang *hotfix* tempat kita bekerja sampai kondisinya selesai (lihat Gambar 3-13):
 
 	$ git checkout -b 'hotfix'
 	Switched to a new branch "hotfix"

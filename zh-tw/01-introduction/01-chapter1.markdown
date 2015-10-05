@@ -126,7 +126,7 @@ Git目錄是Git用來儲存讀者的專案的metadata及物件資料庫。 這�
 
 若讀者有能力的話，從原始碼安裝是非常有用的。 因為讀者能取得最新版本。 每一版Git通常都會包含有用的UI改善。 因此取得最新版本通常是最好的，只要讀者覺得編譯軟體的原始碼是很容易的。 許多Linux發行套件通常都是附上非常舊的套件。 除非讀者使用的發行套件非常新或者使用向後相容的移植版本。 從原始碼安裝通常是最好的選擇。
 
-要安裝Git，讀者需要先安裝它需要的程式庫：curl、zlib、openssl、expat及libiconv。 例如：若讀者的系統有yum（如：Fedpra）或apt-get（如：以Debian為基礎的系統），讀者可使用下列任一命令安裝所有需要的程式庫：
+要安裝Git，讀者需要先安裝它需要的程式庫：curl、zlib、openssl、expat及libiconv。 例如：若讀者的系統有yum（如：Fedora）或apt-get（如：以Debian為基礎的系統），讀者可使用下列任一命令安裝所有需要的程式庫：
 
 	$ yum install curl-devel expat-devel gettext-devel \
 	  openssl-devel zlib-devel

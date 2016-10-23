@@ -88,11 +88,11 @@ Se você rodar o comando status novamente, você pode ver que o seu arquivo `REA
     #    new file:   README
     #
 
-Você pode dizer que ele está selecionado pois está sob o cabeçalho “Changes to be committed”. Se você commitar neste ponto, a versão do arquivo no momento em que você rodou o comando `git add` é a que estará na captura (snapshot) do histórico. Você deve se lembrar que quando rodou o comando `git init` anteriormente, logo em seguida rodou o comando `git add (arquivos)` — fez isso para passar a monitorar os arquivos em seu diretório. O comando `git add` recebe um caminho de um arquivo ou diretório; se é de um diretório, o comando adiciona todos os arquivos do diretório recursivamente.
+Você pode dizer que ele está selecionado pois está sob o cabeçalho “Changes to be committed”. Se você comitar neste ponto, a versão do arquivo no momento em que você rodou o comando `git add` é a que estará na captura (snapshot) do histórico. Você deve se lembrar que quando rodou o comando `git init` anteriormente, logo em seguida rodou o comando `git add (arquivos)` — fez isso para passar a monitorar os arquivos em seu diretório. O comando `git add` recebe um caminho de um arquivo ou diretório; se é de um diretório, o comando adiciona todos os arquivos do diretório recursivamente.
 
 ### Selecionando Arquivos Modificados ###
 
-Vamos alterar um arquivo que já está sendo monitorado. Se você alterar um aquivo previamente monitorado chamado `benchmarks.rb` e então rodar o comando `status` novamente, você terá algo semelhante a:
+Vamos alterar um arquivo que já está sendo monitorado. Se você alterar um arquivo previamente monitorado chamado `benchmarks.rb` e então rodar o comando `status` novamente, você terá algo semelhante a:
 
     $ git status
     # On branch master
@@ -107,7 +107,7 @@ Vamos alterar um arquivo que já está sendo monitorado. Se você alterar um aqu
     #    modified:   benchmarks.rb
     #
 
-O arquivo `benchmarks.rb` aparece sob a seção chamada “Changes not staged for commit” — que significa que um arquivo monitorado foi modificado no diretório de trabalho, mas ainda não foi selecionado (staged). Para selecioná-lo, utilize o comando `git add` (é um comando com várias funções — você o utiliza para monitorar novos arquivos, selecionar arquivos, e para fazer outras coisas como marcar como resolvido aquivos com conflito). Agora vamos rodar o comando `git add` para selecionar o arquivo `benchmarks.rb`, e então rodar `git status` novamente:
+O arquivo `benchmarks.rb` aparece sob a seção chamada “Changes not staged for commit” — que significa que um arquivo monitorado foi modificado no diretório de trabalho, mas ainda não foi selecionado (staged). Para selecioná-lo, utilize o comando `git add` (é um comando com várias funções — você o utiliza para monitorar novos arquivos, selecionar arquivos, e para fazer outras coisas como marcar como resolvido arquivos com conflito). Agora vamos rodar o comando `git add` para selecionar o arquivo `benchmarks.rb`, e então rodar `git status` novamente:
 
     $ git add benchmarks.rb
     $ git status
@@ -119,7 +119,7 @@ O arquivo `benchmarks.rb` aparece sob a seção chamada “Changes not staged fo
     #    modified:   benchmarks.rb
     #
 
-Ambos os arquivos estão selecionados e serão consolidados no seu próximo commit. Neste momento, vamos supor que você lembrou de uma mudança que queria fazer no arquivo `benchmarks.rb` antes de commitá-lo. Você o abre novamente e faz a mudança, e então está pronto para commitar. No entanto, vamos rodar `git status` mais uma vez:
+Ambos os arquivos estão selecionados e serão consolidados no seu próximo commit. Neste momento, vamos supor que você lembrou de uma mudança que queria fazer no arquivo `benchmarks.rb` antes de commitá-lo. Você o abre novamente e faz a mudança, e então está pronto para comitar. No entanto, vamos rodar `git status` mais uma vez:
 
     $ vim benchmarks.rb
     $ git status
@@ -156,7 +156,7 @@ Muitas vezes, você terá uma classe de arquivos que não quer que o Git automat
     *.[oa]
     *~
 
-A primeira linha fala para o Git ignorar qualquer arquivo finalizado em `.o` ou `.a` — arquivos *objetos* e *archive* (compactados) que devem ter produto da construção (build) de seu código. A segunda linha fala para o Git ignorar todos os arquivos que terminam com um til (`~`), os quais são utilizados por muitos editores de texto como o Emacs para marcar arquivos temporários. Você também pode incluir um diretório `log`, `tmp` ou `pid`; documentação gerada automaticamente; e assim por diante. Configurar um arquivo `.gitignore` antes de começar a trabalhar, normalmente é uma boa ideia, pois evita que você commite acidentalmente arquivos que não deveriam ir para o seu repositório Git.
+A primeira linha fala para o Git ignorar qualquer arquivo finalizado em `.o` ou `.a` — arquivos *objetos* e *archive* (compactados) que devem ter produto da construção (build) de seu código. A segunda linha fala para o Git ignorar todos os arquivos que terminam com um til (`~`), os quais são utilizados por muitos editores de texto como o Emacs para marcar arquivos temporários. Você também pode incluir um diretório `log`, `tmp` ou `pid`; documentação gerada automaticamente; e assim por diante. Configurar um arquivo `.gitignore` antes de começar a trabalhar, normalmente é uma boa ideia, pois evita que você comitar acidentalmente arquivos que não deveriam ir para o seu repositório Git.
 
 As regras para os padrões que você pode pôr no arquivo `.gitignore` são as seguintes:
 
@@ -165,7 +165,7 @@ As regras para os padrões que você pode pôr no arquivo `.gitignore` são as s
 * Você pode terminar os padrões com uma barra (`/`) para especificar diretórios.
 * Você pode negar um padrão ao iniciá-lo com um ponto de exclamação (`!`).
 
-Padrões glob são como expressões regulares simples que os shells usam. Um asterísco (`*`) significa zero ou mais caracteres; `[abc]` condiz com qualquer um dos caracteres de dentro dos colchetes (nesse caso, a, b, ou c); um ponto de interrogação (`?`) condiz com um único caractere; e os caracteres separados por hífen dentro de colchetes (`[0-9]`) condizem à qualquer um dos caracteres entre eles (neste caso, de 0 à 9).
+Padrões glob são como expressões regulares simples que os shells usam. Um asterisco (`*`) significa zero ou mais caracteres; `[abc]` condiz com qualquer um dos caracteres de dentro dos colchetes (nesse caso, a, b, ou c); um ponto de interrogação (`?`) condiz com um único caractere; e os caracteres separados por hífen dentro de colchetes (`[0-9]`) condizem à qualquer um dos caracteres entre eles (neste caso, de 0 à 9).
 
 Segue um outro exemplo de arquivo `.gitignore`:
 
@@ -183,7 +183,7 @@ Segue um outro exemplo de arquivo `.gitignore`:
 
 ### Visualizando Suas Mudanças Selecionadas e Não Selecionadas ###
 
-Se o comando `git status` for muito vago — você quer saber exatamente o que você alterou, não apenas quais arquivos foram alterados — você pode utilizar o comando `git diff`. Nós trataremos o comando `git diff` em mais detalhes posteriormente; mas provavelmente você vai utilizá-lo com frequência para responder estas duas perguntas: O que você alterou, mas ainda não selecionou (stage)? E o que você selecionou, que está para ser commitado? Apesar do comando `git status` responder essas duas perguntas de maneira geral, o `git diff` mostra as linhas exatas que foram adicionadas e removidas — o patch, por assim dizer.
+Se o comando `git status` for muito vago — você quer saber exatamente o que você alterou, não apenas quais arquivos foram alterados — você pode utilizar o comando `git diff`. Nós trataremos o comando `git diff` em mais detalhes posteriormente; mas provavelmente você vai utilizá-lo com frequência para responder estas duas perguntas: O que você alterou, mas ainda não selecionou (stage)? E o que você selecionou, que está para ser comitado? Apesar do comando `git status` responder essas duas perguntas de maneira geral, o `git diff` mostra as linhas exatas que foram adicionadas e removidas — o patch, por assim dizer.
 
 Vamos dizer que você edite e selecione o arquivo `README` de novo e então edite o arquivo `benchmarks.rb` sem selecioná-lo. Se você rodar o comando `status`, você novamente verá algo assim:
 
@@ -312,7 +312,7 @@ O editor mostra o seguinte texto (este é um exemplo da tela do Vim):
 
 Você pode ver que a mensagem default do commit contém a última saída do comando `git status` comentada e uma linha vazia no início. Você pode remover estes comentários e digitar sua mensagem de commit, ou pode deixá-los ai para ajudar a lembrar o que está commitando. (Para um lembrete ainda mais explícito do que foi modificado, você pode passar a opção `-v` para o `git commit`. Ao fazer isso, aparecerá a diferença (diff) da sua mudança no editor para que possa ver exatamente o que foi feito.) Quando você sair do editor, o Git criará o seu commit com a mensagem (com os comentários e o diff retirados).
 
-Alternativamente, você pode digitar sua mensagem de commit junto ao comanto `commit` ao especificá-la após a flag `-m`, assim:
+Alternativamente, você pode digitar sua mensagem de commit junto ao comando `commit` ao especificá-la após a flag `-m`, assim:
 
     $ git commit -m "Story 182: Fix benchmarks for speed"
     [master]: created 463dc4f: "Fix benchmarks for speed"
@@ -344,7 +344,7 @@ Note que, neste caso, você não precisa rodar o `git add` no arquivo `benchmark
 
 Para remover um arquivo do Git, você tem que removê-lo dos arquivos que estão sendo monitorados (mais precisamente, removê-lo da sua área de seleção) e então fazer o commit. O comando `git rm` faz isso e também remove o arquivo do seu diretório para você não ver ele como arquivo não monitorado (untracked file) na próxima vez.
 
-Se você simplesmente remover o arquivo do seu diretório, ele aparecerá em “Changes not staged for commit” (isto é, fora da sua área de seleção ou _unstaged_) na saida do seu `git status`:
+Se você simplesmente remover o arquivo do seu diretório, ele aparecerá em “Changes not staged for commit” (isto é, fora da sua área de seleção ou _unstaged_) na saída do seu `git status`:
 
     $ rm grit.gemspec
     $ git status
@@ -416,7 +416,7 @@ O Git descobre que o arquivo foi renomeado implicitamente, então ele não se im
 
 ## Visualizando o Histórico de Commits ##
 
-Depois que você tiver criado vários commits, ou se clonou um repositório com um histórico de commits existente, você provavelmente vai querer ver o que aconteceu. A ferramente mais básica e poderosa para fazer isso é o comando `git log`.
+Depois que você tiver criado vários commits, ou se clonou um repositório com um histórico de commits existente, você provavelmente vai querer ver o que aconteceu. A ferramenta mais básica e poderosa para fazer isso é o comando `git log`.
 
 Estes exemplos usam um projeto muito simples chamado `simplegit`, que eu frequentemente uso para demonstrações. Para pegar o projeto, execute:
 
@@ -593,7 +593,7 @@ No entanto, as opções de limites de tempo como `--since` e `--until` são muit
 
 Este comando funciona com vários formatos — você pode especificar uma data específica(“2008-01-15”) ou uma data relativa como “2 years 1 day 3 minutes ago”.
 
-Você pode ainda filtrar a lista de commits que casam com alguns critérios de busca. A opção `--author` permite que você filtre por algum autor específico, e a opção `--grep` deixa você buscar por palavras chave nas mensagens dos commits. (Note que se você quiser especificar ambas as opções author e grep simultâneamente, você deve adicionar `--all-match`, ou o comando considerará commits que casam com qualquer um.)
+Você pode ainda filtrar a lista de commits que casam com alguns critérios de busca. A opção `--author` permite que você filtre por algum autor específico, e a opção `--grep` deixa você buscar por palavras chave nas mensagens dos commits. (Note que se você quiser especificar ambas as opções author e grep simultaneamente, você deve adicionar `--all-match`, ou o comando considerará commits que casam com qualquer um.)
 
 A última opção realmente útil para passar para `git log` como um filtro, é o caminho. Se você especificar um diretório ou um nome de arquivo, você pode limitar a saída a commits que modificaram aqueles arquivos. Essa é sempre a última opção, e geralmente é precedida por dois traços (`--`) para separar caminhos das opções.
 
@@ -606,7 +606,7 @@ Na Tabela 2-3 nós listamos estas e outras opções comuns para sua referência.
 	--author	Somente mostra commits que o autor casa com a string especificada.
 	--committer	Somente mostra os commits em que a entrada do commiter bate com a string especificada.
 
-Por exemplo, se você quer ver quais commits modificaram arquivos de teste no histórico do código fonte do Git que foram commitados por Julio Hamano em Outubro de 2008, e não foram merges, você pode executar algo como:
+Por exemplo, se você quer ver quais commits modificaram arquivos de teste no histórico do código fonte do Git que foram comitados por Julio Hamano em Outubro de 2008, e não foram merges, você pode executar algo como:
 
     $ git log --pretty="%h - %s" --author=gitster --since="2008-10-01" \
        --before="2008-11-01" --no-merges -- t/
@@ -708,7 +708,7 @@ Ele diz explicitamente como descartar as modificações que você fez (pelo meno
 
 Você pode ver que as alterações foram revertidas. Perceba também que esse comando é perigoso: qualquer alteração que você fez nesse arquivo foi desfeita — você acabou de copiar outro arquivo sobre ele. Nunca use esse comando a menos que você tenha certeza absoluta que não quer o arquivo. Se você só precisa tirá-lo do caminho, vamos falar sobre stash e branch no próximo capítulo; geralmente essas são maneiras melhores de agir.
 
-Lembre-se, qualquer coisa que foi incluída com um commit no Git quase sempre pode ser recuperada. Até mesmo commits que estavam em branches que foram apagados ou commits que foram sobrescritos com um commit `--amend` podem ser recuperados (consulte o *Capítulo 9* para recuperação de dados). No entanto, qualquer coisa que você perder que nunca foi commitada, provavelmente nunca mais será vista novamente.
+Lembre-se, qualquer coisa que foi incluída com um commit no Git quase sempre pode ser recuperada. Até mesmo commits que estavam em branches que foram apagados ou commits que foram sobrescritos com um commit `--amend` podem ser recuperados (consulte o *Capítulo 9* para recuperação de dados). No entanto, qualquer coisa que você perder que nunca foi comitada, provavelmente nunca mais será vista novamente.
 
 ## Trabalhando com Remotos ##
 
@@ -786,7 +786,7 @@ Se você tem um branch configurado para acompanhar um branch remoto (veja a pró
 
 ### Pushing Para Seus Remotos ###
 
-Quando o seu projeto estiver pronto para ser compartilhado, você tem que enviá-lo para a fonte. O comando para isso é simples: `git push [nome-remoto] [branch]`. Se você quer enviar o seu branch master para o servidor `origin` (novamente, clonando normalmente define estes dois nomes para você automaticamente), então você pode rodar o comando abaixo para enviar o seu trabalho para o sevidor:
+Quando o seu projeto estiver pronto para ser compartilhado, você tem que enviá-lo para a fonte. O comando para isso é simples: `git push [nome-remoto] [branch]`. Se você quer enviar o seu branch master para o servidor `origin` (novamente, clonando normalmente define estes dois nomes para você automaticamente), então você pode rodar o comando abaixo para enviar o seu trabalho para o servidor:
 
     $ git push origin master
 
@@ -888,7 +888,7 @@ Criando uma tag anotada em Git é simples. O jeito mais fácil é especificar `-
 
 O parâmetro `-m` define uma mensagem, que é armazenada com a tag. Se você não especificar uma mensagem para uma tag anotada, o Git vai rodar seu editor de texto para você digitar alguma coisa.
 
-Você pode ver os dados da tag junto com o commit que foi taggeado usando o comando `git show`:
+Você pode ver os dados da tag junto com o commit que foi tagueado usando o comando `git show`:
 
     $ git show v1.4
     tag v1.4
@@ -903,7 +903,7 @@ Você pode ver os dados da tag junto com o commit que foi taggeado usando o coma
 
         Merge branch 'experiment'
 
-O comando mostra a informação da pessoa que criou a tag, a data de quando o commit foi taggeado, e a mensagem antes de mostrar a informação do commit.
+O comando mostra a informação da pessoa que criou a tag, a data de quando o commit foi tagueado, e a mensagem antes de mostrar a informação do commit.
 
 ### Tags Assinadas ###
 
@@ -940,7 +940,7 @@ Um pouco mais pra frente você aprenderá como verificar tags assinadas.
 
 ### Tags Leves ###
 
-Outro jeito para taggear commits é com a tag leve. Esta é basicamente a chave de verificação armazenada num arquivo — nenhuma outra informação é armazenada. Para criar uma tag leve, não informe os parâmetros `-a`, `-s`, ou `-m`:
+Outro jeito para taguear commits é com a tag leve. Esta é basicamente a chave de verificação armazenada num arquivo — nenhuma outra informação é armazenada. Para criar uma tag leve, não informe os parâmetros `-a`, `-s`, ou `-m`:
 
     $ git tag v1.4-lw
     $ git tag
@@ -984,9 +984,9 @@ Se você não tiver a chave pública, você receberá algo parecido com a respos
     gpg: Can't check signature: public key not found
     error: could not verify the tag 'v1.4.2.1'
 
-### Taggeando Mais Tarde ###
+### Tagueando Mais Tarde ###
 
-Você também pode taggear commits mais tarde. Vamos assumir que o seu histórico de commits seja assim:
+Você também pode taguear commits mais tarde. Vamos assumir que o seu histórico de commits seja assim:
 
     $ git log --pretty=oneline
     15027957951b64cf874c3557a0f3547bd83b3ff6 Merge branch 'experiment'
